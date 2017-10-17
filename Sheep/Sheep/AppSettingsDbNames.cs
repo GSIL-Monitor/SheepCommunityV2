@@ -11,6 +11,15 @@
         // 数据库连接字符串。
         public const string DbConnectionString = "db.ConnectionString";
 
+        // RethinkDB 主机名。
+        public const string RethinkDbHostName = "rethinkdb.HostName";
+        // RethinkDB 端口。
+        public const string RethinkDbPort = "rethinkdb.Port";
+        // RethinkDB 超时。
+        public const string RethinkDbTimeout = "rethinkdb.Timeout";
+        // RethinkDB 连接数据库。
+        public const string RethinkDbDatabase = "rethinkdb.Database";
+
         // Redis连接字符串。
         public const string RedisConnectionString = "redis.ConnectionString";
     }

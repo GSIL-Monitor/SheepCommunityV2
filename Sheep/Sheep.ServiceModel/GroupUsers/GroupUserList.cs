@@ -10,7 +10,7 @@ namespace Sheep.ServiceModel.GroupUsers
     /// <summary>
     ///     列举一组群组用户的请求。
     /// </summary>
-    [Route("/groups/{GroupId}/users/query", HttpMethods.Get)]
+    [Route("/groups/{GroupId}/users/list", HttpMethods.Get)]
     [DataContract]
     public class GroupUserList : IReturn<GroupUserListResponse>
     {

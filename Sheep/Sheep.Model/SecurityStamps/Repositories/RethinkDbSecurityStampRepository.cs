@@ -36,7 +36,7 @@ namespace Sheep.Model.SecurityStamps.Repositories
 
         #region 属性
 
-        private readonly Connection _conn;
+        private readonly IConnection _conn;
         private readonly int _shards;
         private readonly int _replicas;
 
@@ -51,7 +51,7 @@ namespace Sheep.Model.SecurityStamps.Repositories
         /// <param name="shards">数据库分片数。</param>
         /// <param name="replicas">复制份数。</param>
         /// <param name="createMissingTables">是否创建数据表。</param>
-        public RethinkDbSecurityStampRepository(Connection conn, int shards, int replicas, bool createMissingTables)
+        public RethinkDbSecurityStampRepository(IConnection conn, int shards, int replicas, bool createMissingTables)
         {
             _conn = conn;
             _shards = shards;
@@ -77,7 +77,6 @@ namespace Sheep.Model.SecurityStamps.Repositories
         /// </summary>
         public void DropAndReCreateTables()
         {
-            _conn.CheckOpen();
             if (R.TableList().Contains(s_SecurityStampTable).RunResult<bool>(_conn))
             {
                 R.TableDrop(s_SecurityStampTable).RunResult(_conn).AssertNoErrors().AssertTablesDropped(1);
@@ -90,7 +89,6 @@ namespace Sheep.Model.SecurityStamps.Repositories
         /// </summary>
         public void CreateTables()
         {
-            _conn.CheckOpen();
             if (!R.TableList().Contains(s_SecurityStampTable).RunResult<bool>(_conn))
             {
                 R.TableCreate(s_SecurityStampTable).OptArg("primaryKey", "Identifier").OptArg("durability", Durability.Soft).OptArg("shards", _shards).OptArg("replicas", _replicas).RunResult(_conn).AssertNoErrors().AssertTablesCreated(1);
@@ -102,7 +100,6 @@ namespace Sheep.Model.SecurityStamps.Repositories
         /// </summary>
         public bool TablesExists()
         {
-            _conn.CheckOpen();
             return R.TableList().Contains(s_SecurityStampTable).RunResult<bool>(_conn);
         }
 

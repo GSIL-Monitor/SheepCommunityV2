@@ -63,15 +63,6 @@
     <Reference Include="ServiceStack.Interfaces, Version=4.0.0.0, Culture=neutral, PublicKeyToken=e06fbc6124f57c43, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ServiceStack.Interfaces.4.5.14\lib\portable-wp80+sl5+net45+win8+wpa81+monotouch+monoandroid+xamarin.ios10\ServiceStack.Interfaces.dll</HintPath>
     </Reference>
-    <Reference Include="ServiceStack.OrmLite, Version=4.5.14.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\ServiceStack.OrmLite.4.5.14\lib\net45\ServiceStack.OrmLite.dll</HintPath>
-    </Reference>
-    <Reference Include="ServiceStack.Redis, Version=4.5.14.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\ServiceStack.Redis.4.5.14\lib\net45\ServiceStack.Redis.dll</HintPath>
-    </Reference>
-    <Reference Include="ServiceStack.Server, Version=4.5.14.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\ServiceStack.Server.4.5.14\lib\net45\ServiceStack.Server.dll</HintPath>
-    </Reference>
     <Reference Include="ServiceStack.Text, Version=4.5.14.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ServiceStack.Text.4.5.14\lib\net45\ServiceStack.Text.dll</HintPath>
     </Reference>
@@ -86,6 +77,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Achievements\Entities\AchievementDto.cs" />
+    <Compile Include="Achievements\AchievementShow.cs" />
+    <Compile Include="Achievements\AchievementList.cs" />
+    <Compile Include="Achievements\AchievementCreate.cs" />
+    <Compile Include="Achievements\AchievementDelete.cs" />
+    <Compile Include="Achievements\AchievementUpdate.cs" />
     <Compile Include="Applications\Entities\ApplicationDto.cs" />
     <Compile Include="Bookmarks\Entities\BookmarkDto.cs" />
     <Compile Include="Comments\Entities\CommentDto.cs" />
@@ -108,20 +105,30 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Ratings\Entities\RatedItemDto.cs" />
     <Compile Include="Ratings\Entities\RatingDto.cs" />
+    <Compile Include="UserAchievements\Entities\UserAchievementDto.cs" />
     <Compile Include="Users\Entities\OnlineUserDto.cs" />
     <Compile Include="Users\Entities\BasicUserDto.cs" />
     <Compile Include="Users\Entities\UserDto.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Achievements\Mappers\" />
+    <Folder Include="Achievements\Validators\" />
     <Folder Include="Roles\Entities\" />
+    <Folder Include="UserAchievements\Mappers\" />
+    <Folder Include="UserAchievements\Validators\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sheep.Common\Sheep.Common.csproj">
       <Project>{80d3d2c4-3171-4ff9-8c62-0483b1c97cd1}</Project>
       <Name>Sheep.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sheep.Model\Sheep.Model.csproj">
+      <Project>{327d767e-65e8-408f-a902-f39859b27ebd}</Project>
+      <Name>Sheep.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

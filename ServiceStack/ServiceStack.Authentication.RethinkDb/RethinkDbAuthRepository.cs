@@ -64,7 +64,7 @@ namespace ServiceStack.Authentication.RethinkDb
 
         #region 属性
 
-        private readonly Connection _conn;
+        private readonly IConnection _conn;
         private readonly int _shards;
         private readonly int _replicas;
 
@@ -79,7 +79,7 @@ namespace ServiceStack.Authentication.RethinkDb
         /// <param name="shards">数据库分片数。</param>
         /// <param name="replicas">复制份数。</param>
         /// <param name="createMissingTables">是否创建数据表。</param>
-        public RethinkDbAuthRepository(Connection conn, int shards, int replicas, bool createMissingTables)
+        public RethinkDbAuthRepository(IConnection conn, int shards, int replicas, bool createMissingTables)
         {
             _conn = conn;
             _shards = shards;
@@ -105,7 +105,6 @@ namespace ServiceStack.Authentication.RethinkDb
         /// </summary>
         public void DropAndReCreateTables()
         {
-            _conn.CheckOpen();
             var tables = R.TableList().RunResult<List<string>>(_conn);
             if (tables.Contains(s_UserAuthTable))
             {
@@ -127,7 +126,6 @@ namespace ServiceStack.Authentication.RethinkDb
         /// </summary>
         public void CreateTables()
         {
-            _conn.CheckOpen();
             var tables = R.TableList().RunResult<List<string>>(_conn);
             if (!tables.Contains(s_UserAuthTable))
             {
@@ -141,7 +139,7 @@ namespace ServiceStack.Authentication.RethinkDb
             {
                 R.TableCreate(s_UserAuthDetailsTable).OptArg("primaryKey", "Id").OptArg("durability", Durability.Soft).OptArg("shards", _shards).OptArg("replicas", _replicas).RunResult(_conn).AssertNoErrors().AssertTablesCreated(1);
                 R.Table(s_UserAuthDetailsTable).IndexCreate("UserAuthId").RunResult(_conn).AssertNoErrors();
-                R.Table(s_UserAuthDetailsTable).IndexCreate("Provider_UserId", row => row.G("Provider").G("UserId")).RunResult(_conn).AssertNoErrors();
+                R.Table(s_UserAuthDetailsTable).IndexCreate("Provider_UserId", row => R.Array(row.G("Provider"), row.G("UserId"))).RunResult(_conn).AssertNoErrors();
                 R.Table(s_UserAuthDetailsTable).IndexWait().RunResult(_conn).AssertNoErrors();
             }
             if (!tables.Contains(s_UserAuthCountersTable))
@@ -162,7 +160,6 @@ namespace ServiceStack.Authentication.RethinkDb
         /// </summary>
         public bool TablesExists()
         {
-            _conn.CheckOpen();
             var tableNames = new List<string>
                              {
                                  s_UserAuthTable,
@@ -177,24 +174,47 @@ namespace ServiceStack.Authentication.RethinkDb
 
         #region 加载与保存用户身份
 
-        private void LoadUserAuthInternal(IAuthSession session, IUserAuth userAuth)
+        private void InternalLoadUserAuth(IAuthSession session, IUserAuth userAuth)
         {
             session.PopulateSession(userAuth, GetUserAuthDetails(session.UserAuthId).ConvertAll(x => (IAuthTokens) x));
         }
 
-        private void SaveUserAuthInternal(IUserAuth userAuth)
+        private void InternalSaveUserAuth(IUserAuth userAuth)
         {
             if (userAuth.Id == default(int))
             {
                 userAuth.Id = IncrementUserAuthCounter();
-                R.Table(s_UserAuthTable).Insert((UserAuth) userAuth).OptArg("conflict", "error").RunResult(_conn).AssertNoErrors().AssertInserted(1);
             }
-            R.Table(s_UserAuthTable).Get(userAuth.Id).Update((UserAuth) userAuth).RunResult(_conn).AssertNoErrors().AssertReplaced(1);
+            R.Table(s_UserAuthTable).Get(userAuth.Id).Replace((UserAuth) userAuth).RunResult(_conn).AssertNoErrors();
         }
 
         #endregion
 
-        #region 增加计数器
+        #region 检测用户是否存在
+
+        private void AssertNoExistingUser(IUserAuth newUser, IUserAuth exceptForExistingUser = null)
+        {
+            if (newUser.UserName != null)
+            {
+                var existingUser = GetUserAuthByUserName(newUser.UserName);
+                if (existingUser != null && (exceptForExistingUser == null || existingUser.Id != exceptForExistingUser.Id))
+                {
+                    throw new ArgumentException(string.Format(ErrorMessages.UserAlreadyExistsTemplate1, newUser.UserName.SafeInput()));
+                }
+            }
+            if (newUser.Email != null)
+            {
+                var existingUser = GetUserAuthByUserName(newUser.Email);
+                if (existingUser != null && (exceptForExistingUser == null || existingUser.Id != exceptForExistingUser.Id))
+                {
+                    throw new ArgumentException(string.Format(ErrorMessages.EmailAlreadyExistsTemplate1, newUser.Email.SafeInput()));
+                }
+            }
+        }
+
+        #endregion
+
+        #region 递增计数器
 
         private int IncrementUserAuthCounter()
         {
@@ -223,7 +243,7 @@ namespace ServiceStack.Authentication.RethinkDb
                 throw new ArgumentNullException(nameof(session));
             }
             var userAuth = GetUserAuth(session, tokens);
-            LoadUserAuthInternal(session, userAuth);
+            InternalLoadUserAuth(session, userAuth);
         }
 
         public void SaveUserAuth(IAuthSession authSession)
@@ -238,7 +258,7 @@ namespace ServiceStack.Authentication.RethinkDb
             {
                 userAuth.CreatedDate = userAuth.ModifiedDate;
             }
-            SaveUserAuthInternal(userAuth);
+            InternalSaveUserAuth(userAuth);
         }
 
         public List<IUserAuthDetails> GetUserAuthDetails(string userAuthId)
@@ -249,7 +269,33 @@ namespace ServiceStack.Authentication.RethinkDb
 
         public IUserAuthDetails CreateOrMergeAuthSession(IAuthSession authSession, IAuthTokens tokens)
         {
-            throw new NotImplementedException();
+            var userAuth = GetUserAuth(authSession, tokens) ?? new UserAuth();
+            var userAuthDetails = R.Table(s_UserAuthDetailsTable).GetAll(R.Array(tokens.Provider, tokens.UserId)).OptArg("index", "Provider_UserId").Nth(0).Default_(default(UserAuthDetails)).RunResult<UserAuthDetails>(_conn) ??
+                                  new UserAuthDetails
+                                  {
+                                      Provider = tokens.Provider,
+                                      UserId = tokens.UserId
+                                  };
+            userAuthDetails.PopulateMissing(tokens);
+            userAuth.PopulateMissingExtended(userAuthDetails);
+            userAuth.ModifiedDate = DateTime.UtcNow;
+            if (userAuth.CreatedDate == default(DateTime))
+            {
+                userAuth.CreatedDate = userAuth.ModifiedDate;
+            }
+            InternalSaveUserAuth(userAuth);
+            if (userAuthDetails.Id == default(int))
+            {
+                userAuthDetails.Id = IncrementUserAuthDetailsCounter();
+            }
+            userAuthDetails.UserAuthId = userAuth.Id;
+            if (userAuthDetails.CreatedDate == default(DateTime))
+            {
+                userAuthDetails.CreatedDate = userAuth.ModifiedDate;
+            }
+            userAuthDetails.ModifiedDate = userAuth.ModifiedDate;
+            var result = R.Table(s_UserAuthDetailsTable).Get(userAuthDetails.Id).Replace(userAuthDetails).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
+            return result.ChangesAs<UserAuthDetails>()[0].NewValue;
         }
 
         public IUserAuth GetUserAuth(IAuthSession authSession, IAuthTokens tokens)
@@ -274,11 +320,10 @@ namespace ServiceStack.Authentication.RethinkDb
             {
                 return null;
             }
-            var oAuthProviderList = R.Table(s_UserAuthDetailsTable).GetAll(R.Array(tokens.Provider, tokens.UserId)).OptArg("index", "Provider_UserId").RunResult<List<UserAuthDetails>>(_conn);
-            var oAuthProvider = oAuthProviderList.FirstOrDefault();
-            if (oAuthProvider != null)
+            var userAuthDetails = R.Table(s_UserAuthDetailsTable).GetAll(R.Array(tokens.Provider, tokens.UserId)).OptArg("index", "Provider_UserId").Nth(0).Default_(default(UserAuthDetails)).RunResult<UserAuthDetails>(_conn);
+            if (userAuthDetails != null)
             {
-                return R.Table(s_UserAuthTable).Get(oAuthProvider.UserAuthId).RunResult<UserAuth>(_conn);
+                return R.Table(s_UserAuthTable).Get(userAuthDetails.UserAuthId).RunResult<UserAuth>(_conn);
             }
             return null;
         }
@@ -291,8 +336,7 @@ namespace ServiceStack.Authentication.RethinkDb
             }
             var isEmail = userNameOrEmail.Contains("@");
             var query = isEmail ? R.Table(s_UserAuthTable).GetAll(userNameOrEmail).OptArg("index", "Email") : R.Table(s_UserAuthTable).GetAll(userNameOrEmail).OptArg("index", "UserName");
-            var userAuthList = query.RunResult<List<UserAuth>>(_conn);
-            return userAuthList.FirstOrDefault();
+            return query.Nth(0).Default_(default(UserAuth)).RunResult<UserAuth>(_conn);
         }
 
         public void SaveUserAuth(IUserAuth userAuth)
@@ -302,17 +346,43 @@ namespace ServiceStack.Authentication.RethinkDb
             {
                 userAuth.CreatedDate = userAuth.ModifiedDate;
             }
-            SaveUserAuthInternal(userAuth);
+            InternalSaveUserAuth(userAuth);
         }
 
         public bool TryAuthenticate(string userName, string password, out IUserAuth userAuth)
         {
-            throw new NotImplementedException();
+            userAuth = GetUserAuthByUserName(userName);
+            if (userAuth == null)
+            {
+                return false;
+            }
+            var saltedHash = HostContext.Resolve<IHashProvider>();
+            if (saltedHash.VerifyHashString(password, userAuth.PasswordHash, userAuth.Salt))
+            {
+                this.RecordSuccessfulLogin(userAuth);
+                return true;
+            }
+            this.RecordInvalidLoginAttempt(userAuth);
+            userAuth = null;
+            return false;
         }
 
         public bool TryAuthenticate(Dictionary<string, string> digestHeaders, string privateKey, int nonceTimeOut, string sequence, out IUserAuth userAuth)
         {
-            throw new NotImplementedException();
+            userAuth = GetUserAuthByUserName(digestHeaders["username"]);
+            if (userAuth == null)
+            {
+                return false;
+            }
+            var digestHelper = new DigestAuthFunctions();
+            if (digestHelper.ValidateResponse(digestHeaders, privateKey, nonceTimeOut, userAuth.DigestHa1Hash, sequence))
+            {
+                this.RecordSuccessfulLogin(userAuth);
+                return true;
+            }
+            this.RecordInvalidLoginAttempt(userAuth);
+            userAuth = null;
+            return false;
         }
 
         #endregion
@@ -321,27 +391,71 @@ namespace ServiceStack.Authentication.RethinkDb
 
         public IUserAuth CreateUserAuth(IUserAuth newUser, string password)
         {
-            throw new NotImplementedException();
+            newUser.ValidateNewUser(password);
+            AssertNoExistingUser(newUser);
+            var saltedHash = HostContext.Resolve<IHashProvider>();
+            saltedHash.GetHashAndSaltString(password, out var hash, out var salt);
+            var digestHelper = new DigestAuthFunctions();
+            newUser.DigestHa1Hash = digestHelper.CreateHa1(newUser.UserName, DigestAuthProvider.Realm, password);
+            newUser.PasswordHash = hash;
+            newUser.Salt = salt;
+            newUser.CreatedDate = DateTime.UtcNow;
+            newUser.ModifiedDate = newUser.CreatedDate;
+            InternalSaveUserAuth(newUser);
+            return newUser;
         }
 
         public IUserAuth UpdateUserAuth(IUserAuth existingUser, IUserAuth newUser)
         {
-            throw new NotImplementedException();
+            newUser.ValidateNewUser();
+            AssertNoExistingUser(newUser);
+            newUser.Id = existingUser.Id;
+            newUser.PasswordHash = existingUser.PasswordHash;
+            newUser.Salt = existingUser.Salt;
+            newUser.DigestHa1Hash = existingUser.DigestHa1Hash;
+            newUser.CreatedDate = existingUser.CreatedDate;
+            newUser.ModifiedDate = DateTime.UtcNow;
+            InternalSaveUserAuth(newUser);
+            return newUser;
         }
 
         public IUserAuth UpdateUserAuth(IUserAuth existingUser, IUserAuth newUser, string password)
         {
-            throw new NotImplementedException();
+            newUser.ValidateNewUser(password);
+            AssertNoExistingUser(newUser, existingUser);
+            var hash = existingUser.PasswordHash;
+            var salt = existingUser.Salt;
+            if (password != null)
+            {
+                var saltedHash = HostContext.Resolve<IHashProvider>();
+                saltedHash.GetHashAndSaltString(password, out hash, out salt);
+            }
+            // If either one changes the digest hash has to be recalculated
+            var digestHash = existingUser.DigestHa1Hash;
+            if (password != null || existingUser.UserName != newUser.UserName)
+            {
+                var digestHelper = new DigestAuthFunctions();
+                digestHash = digestHelper.CreateHa1(newUser.UserName, DigestAuthProvider.Realm, password);
+            }
+            newUser.Id = existingUser.Id;
+            newUser.PasswordHash = hash;
+            newUser.Salt = salt;
+            newUser.DigestHa1Hash = digestHash;
+            newUser.CreatedDate = existingUser.CreatedDate;
+            newUser.ModifiedDate = DateTime.UtcNow;
+            InternalSaveUserAuth(newUser);
+            return newUser;
         }
 
         public IUserAuth GetUserAuth(string userAuthId)
         {
-            throw new NotImplementedException();
+            return R.Table(s_UserAuthTable).Get(int.Parse(userAuthId)).RunResult<UserAuth>(_conn);
         }
 
         public void DeleteUserAuth(string userAuthId)
         {
-            throw new NotImplementedException();
+            R.Table(s_UserAuthTable).Get(int.Parse(userAuthId)).Delete().RunResult(_conn).AssertNoErrors();
+            R.Table(s_UserAuthDetailsTable).GetAll(int.Parse(userAuthId)).OptArg("index", "UserAuthId").Delete().RunResult(_conn).AssertNoErrors();
         }
 
         #endregion
@@ -350,7 +464,7 @@ namespace ServiceStack.Authentication.RethinkDb
 
         public void Clear()
         {
-            throw new NotImplementedException();
+            DropAndReCreateTables();
         }
 
         #endregion
@@ -359,27 +473,49 @@ namespace ServiceStack.Authentication.RethinkDb
 
         public void InitApiKeySchema()
         {
-            throw new NotImplementedException();
+            var tables = R.TableList().RunResult<List<string>>(_conn);
+            if (!tables.Contains(s_ApiKeyTable))
+            {
+                R.TableCreate(s_ApiKeyTable).OptArg("primaryKey", "Id").OptArg("durability", Durability.Soft).OptArg("shards", _shards).OptArg("replicas", _replicas).RunResult(_conn).AssertNoErrors().AssertTablesCreated(1);
+                R.Table(s_ApiKeyTable).IndexCreate("UserAuthId ").RunResult(_conn).AssertNoErrors();
+                R.Table(s_ApiKeyTable).IndexWait().RunResult(_conn).AssertNoErrors();
+            }
         }
 
         public bool ApiKeyExists(string apiKey)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(apiKey))
+            {
+                return false;
+            }
+            return R.Branch(R.Table(s_ApiKeyTable).Get(apiKey) != null, true, false).RunResult<bool>(_conn);
         }
 
         public ApiKey GetApiKey(string apiKey)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(apiKey))
+            {
+                return null;
+            }
+            return R.Table(s_ApiKeyTable).Get(apiKey).RunResult<ApiKey>(_conn);
         }
 
         public List<ApiKey> GetUserApiKeys(string userId)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(userId))
+            {
+                return null;
+            }
+            return R.Table(s_ApiKeyTable).GetAll(userId).OptArg("index", "UserAuthId").Filter(row => row.G("CancelledDate").Eq(null).Default_(true).And(row.G("ExpiryDate").Eq(null).Default_(true).Or(row.G("ExpiryDate").Ge(R.Now())))).RunResult<List<ApiKey>>(_conn);
         }
 
         public void StoreAll(IEnumerable<ApiKey> apiKeys)
         {
-            throw new NotImplementedException();
+            if (apiKeys == null)
+            {
+                return;
+            }
+            R.Table(s_ApiKeyTable).Insert(R.Array(apiKeys.ToObjects().ToArray())).OptArg("conflict", "replace").RunResult(_conn).AssertNoErrors();
         }
 
         #endregion

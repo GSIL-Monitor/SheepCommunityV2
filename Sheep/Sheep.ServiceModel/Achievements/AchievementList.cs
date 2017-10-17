@@ -2,83 +2,59 @@
 using System.Runtime.Serialization;
 using ServiceStack;
 using Sheep.Common.Infrastructure;
-using Sheep.ServiceModel.Groups.Entities;
+using Sheep.ServiceModel.Achievements.Entities;
 
-namespace Sheep.ServiceModel.Groups
+namespace Sheep.ServiceModel.Achievements
 {
     /// <summary>
-    ///     列举一组群组的请求。
+    ///     列举一组成就的请求。
     /// </summary>
-    [Route("/groups/list", HttpMethods.Get)]
+    [Route("/achievements/list", HttpMethods.Get)]
     [DataContract]
-    public class GroupList : IReturn<GroupListResponse>
+    public class AchievementList : IReturn<AchievementListResponse>
     {
         /// <summary>
-        ///     上级群组的编号。
+        ///     是否已开启。
         /// </summary>
         [DataMember(Order = 1)]
-        public string ParentGroupId { get; set; }
+        public bool? IsEnabled { get; set; }
 
         /// <summary>
-        ///     过滤群组名称。
+        ///     排序的字段。（可选值：Title, CreatedDate, 默认为 Title）
         /// </summary>
         [DataMember(Order = 2)]
-        public string NameFilter { get; set; }
-
-        /// <summary>
-        ///     容器的编号列表。
-        /// </summary>
-        [DataMember(Order = 3)]
-        public string[] ContainerIds { get; set; }
-
-        /// <summary>
-        ///     群组的类型列表。（可选值：Joinless, PublicOpen, PublicClosed, PrivateUnlisted, PrivateListed 和 All）
-        /// </summary>
-        [DataMember(Order = 4)]
-        public string[] GroupTypes { get; set; }
-
-        /// <summary>
-        ///     是否包含所有子群组。
-        /// </summary>
-        [DataMember(Order = 5)]
-        public bool? IncludeAllSubGroups { get; set; }
-
-        /// <summary>
-        ///     排序的字段。（可选值：Name, SortOrder, ModifiedDate, 默认为 Name）
-        /// </summary>
-        [DataMember(Order = 6)]
         public string OrderBy { get; set; }
 
         /// <summary>
         ///     是否按降序排序。
         /// </summary>
-        [DataMember(Order = 7)]
+        [DataMember(Order = 3)]
         public bool? OrderDescending { get; set; }
 
         /// <summary>
         ///     忽略的行数。
         /// </summary>
-        [DataMember(Order = 8)]
+        [DataMember(Order = 4)]
         public int? Skip { get; set; }
 
         /// <summary>
         ///     获取的行数。
         /// </summary>
-        [DataMember(Order = 9)]
+        [DataMember(Order = 5)]
         public int? Take { get; set; }
     }
 
     /// <summary>
-    ///     列举一组群组的响应。
+    ///     列举一组成就的响应。
     /// </summary>
     [DataContract]
-    public class GroupListResponse : IHasResponseStatus, IPaged
+    public class AchievementListResponse : IHasResponseStatus, IPaged
     {
         /// <summary>
-        ///     群组信息列表。
+        ///     成就信息列表。
         /// </summary>
         [DataMember(Order = 1)]
-        public List<GroupDto> Groups { get; set; }
+        public List<AchievementDto> Achievements { get; set; }
 
         /// <summary>
         ///     当前分页号。
