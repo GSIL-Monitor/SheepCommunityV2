@@ -69,7 +69,7 @@ namespace Sheep.ServiceInterface.SecurityTokens
             var verifySuccess = await SecurityTokenProvider.VerifyTokenAsync(request.PhoneNumber, request.Purpose, request.Token);
             if (!verifySuccess)
             {
-                throw new HttpError(HttpStatusCode.OK, "VerifyTokenFailed", Resources.VerifyTokenFailed);
+                throw new HttpError(HttpStatusCode.BadRequest, "InvalidSecurityToken", Resources.InvalidSecurityToken);
             }
             return new SecurityTokenVerifyResponse();
         }

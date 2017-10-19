@@ -129,7 +129,7 @@ namespace ServiceStack.Authentication.RethinkDb
             var tables = R.TableList().RunResult<List<string>>(_conn);
             if (!tables.Contains(s_UserAuthTable))
             {
-                R.TableCreate(s_UserAuthTable).OptArg("primaryKey", "Id").OptArg("durability", Durability.Soft).OptArg("shards", _shards).OptArg("replicas", _replicas).RunResult(_conn).AssertNoErrors().AssertTablesCreated(1);
+                R.TableCreate(s_UserAuthTable).OptArg("primary_key", "Id").OptArg("durability", Durability.Soft).OptArg("shards", _shards).OptArg("replicas", _replicas).RunResult(_conn).AssertNoErrors().AssertTablesCreated(1);
                 R.Table(s_UserAuthTable).IndexCreate("UserName").RunResult(_conn).AssertNoErrors();
                 R.Table(s_UserAuthTable).IndexCreate("Email").RunResult(_conn).AssertNoErrors();
                 R.Table(s_UserAuthTable).IndexCreate("DisplayName").RunResult(_conn).AssertNoErrors();
@@ -137,14 +137,14 @@ namespace ServiceStack.Authentication.RethinkDb
             }
             if (!tables.Contains(s_UserAuthDetailsTable))
             {
-                R.TableCreate(s_UserAuthDetailsTable).OptArg("primaryKey", "Id").OptArg("durability", Durability.Soft).OptArg("shards", _shards).OptArg("replicas", _replicas).RunResult(_conn).AssertNoErrors().AssertTablesCreated(1);
+                R.TableCreate(s_UserAuthDetailsTable).OptArg("primary_key", "Id").OptArg("durability", Durability.Soft).OptArg("shards", _shards).OptArg("replicas", _replicas).RunResult(_conn).AssertNoErrors().AssertTablesCreated(1);
                 R.Table(s_UserAuthDetailsTable).IndexCreate("UserAuthId").RunResult(_conn).AssertNoErrors();
                 R.Table(s_UserAuthDetailsTable).IndexCreate("Provider_UserId", row => R.Array(row.G("Provider"), row.G("UserId"))).RunResult(_conn).AssertNoErrors();
                 R.Table(s_UserAuthDetailsTable).IndexWait().RunResult(_conn).AssertNoErrors();
             }
             if (!tables.Contains(s_UserAuthCountersTable))
             {
-                R.TableCreate(s_UserAuthCountersTable).OptArg("primaryKey", "Id").OptArg("durability", Durability.Soft).OptArg("shards", _shards).OptArg("replicas", _replicas).RunResult(_conn).AssertNoErrors().AssertTablesCreated(1);
+                R.TableCreate(s_UserAuthCountersTable).OptArg("primary_key", "Id").OptArg("durability", Durability.Soft).OptArg("shards", _shards).OptArg("replicas", _replicas).RunResult(_conn).AssertNoErrors().AssertTablesCreated(1);
                 var userAuthCounters = new UserAuthCounters
                                        {
                                            Id = 0,
@@ -476,7 +476,7 @@ namespace ServiceStack.Authentication.RethinkDb
             var tables = R.TableList().RunResult<List<string>>(_conn);
             if (!tables.Contains(s_ApiKeyTable))
             {
-                R.TableCreate(s_ApiKeyTable).OptArg("primaryKey", "Id").OptArg("durability", Durability.Soft).OptArg("shards", _shards).OptArg("replicas", _replicas).RunResult(_conn).AssertNoErrors().AssertTablesCreated(1);
+                R.TableCreate(s_ApiKeyTable).OptArg("primary_key", "Id").OptArg("durability", Durability.Soft).OptArg("shards", _shards).OptArg("replicas", _replicas).RunResult(_conn).AssertNoErrors().AssertTablesCreated(1);
                 R.Table(s_ApiKeyTable).IndexCreate("UserAuthId ").RunResult(_conn).AssertNoErrors();
                 R.Table(s_ApiKeyTable).IndexWait().RunResult(_conn).AssertNoErrors();
             }

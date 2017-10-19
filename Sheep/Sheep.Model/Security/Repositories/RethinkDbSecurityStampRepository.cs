@@ -91,7 +91,7 @@ namespace Sheep.Model.Security.Repositories
         {
             if (!R.TableList().Contains(s_SecurityStampTable).RunResult<bool>(_conn))
             {
-                R.TableCreate(s_SecurityStampTable).OptArg("primaryKey", "Identifier").OptArg("durability", Durability.Soft).OptArg("shards", _shards).OptArg("replicas", _replicas).RunResult(_conn).AssertNoErrors().AssertTablesCreated(1);
+                R.TableCreate(s_SecurityStampTable).OptArg("primary_key", "Identifier").OptArg("durability", Durability.Soft).OptArg("shards", _shards).OptArg("replicas", _replicas).RunResult(_conn).AssertNoErrors().AssertTablesCreated(1);
             }
         }
 

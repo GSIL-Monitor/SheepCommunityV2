@@ -120,10 +120,10 @@
   <data name="GenerateTokenError" xml:space="preserve">
     <value>生成验证码时产生了错误。</value>
   </data>
+  <data name="InvalidSecurityToken" xml:space="preserve">
+    <value>错误验证码。</value>
+  </data>
   <data name="SendTokenError" xml:space="preserve">
     <value>发送验证码时产生了错误。</value>
-  </data>
-  <data name="VerifyTokenFailed" xml:space="preserve">
-    <value>验证码校验失败。</value>
   </data>
 </root>

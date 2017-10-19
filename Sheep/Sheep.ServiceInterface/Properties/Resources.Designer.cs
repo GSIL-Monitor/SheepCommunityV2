@@ -70,20 +70,20 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
+        ///   查找类似 错误验证码。 的本地化字符串。
+        /// </summary>
+        internal static string InvalidSecurityToken {
+            get {
+                return ResourceManager.GetString("InvalidSecurityToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 发送验证码时产生了错误。 的本地化字符串。
         /// </summary>
         internal static string SendTokenError {
             get {
                 return ResourceManager.GetString("SendTokenError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 验证码校验失败。 的本地化字符串。
-        /// </summary>
-        internal static string VerifyTokenFailed {
-            get {
-                return ResourceManager.GetString("VerifyTokenFailed", resourceCulture);
             }
         }
     }

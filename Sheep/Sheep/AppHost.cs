@@ -13,13 +13,13 @@ using ServiceStack.OrmLite;
 using ServiceStack.ProtoBuf;
 using ServiceStack.Redis;
 using ServiceStack.Validation;
-using Sheep.Model;
 using Sheep.Model.Auth.Events;
 using Sheep.Model.Auth.Providers;
 using Sheep.Model.Security;
 using Sheep.Model.Security.Providers;
 using Sheep.Model.Security.Repositories;
 using Sheep.ServiceInterface;
+using Sheep.ServiceModel;
 using Top.Api;
 using CredentialsAuthProvider = Sheep.Model.Auth.Providers.CredentialsAuthProvider;
 
@@ -84,6 +84,8 @@ namespace Sheep
             ConfigAuth(container);
             // 配置校验器。
             ConfigValidation(container);
+            // 配置 Swagger 功能。
+            ConfigSwagger(container);
         }
 
         #endregion
@@ -99,7 +101,7 @@ namespace Sheep
                   .WaitAndRetryForever(retryAttempts => TimeSpan.FromSeconds(Math.Min(retryAttempts, 10)), (exception, span) => Log.WarnFormat("Error occurs when trying to connect to RethinkDB: {0} Retrying...", exception.Message))
                   .Execute(() =>
                            {
-                               var conn = R.Connection().Hostname(AppSettings.GetString(AppSettingsDbNames.RethinkDbHostName)).Port(AppSettingsDbNames.RethinkDbPort.ToInt()).Timeout(AppSettingsDbNames.RethinkDbTimeout.ToInt()).Db(AppSettingsDbNames.RethinkDbDatabase).Connect();
+                               var conn = R.Connection().Hostname(AppSettings.GetString(AppSettingsDbNames.RethinkDbHostName)).Port(AppSettings.GetString(AppSettingsDbNames.RethinkDbPort).ToInt()).Timeout(AppSettings.GetString(AppSettingsDbNames.RethinkDbTimeout).ToInt()).Db(AppSettings.GetString(AppSettingsDbNames.RethinkDbDatabase)).Connect();
                                conn.ConnectionError += (sender, ex) =>
                                                        {
                                                            Log.WarnFormat("Lost connection to RethinkDB: {0} Reconnecting...", ex.Message);
@@ -154,7 +156,7 @@ namespace Sheep
         /// </summary>
         private void ConfigSecurityTokenProviders(Container container)
         {
-            container.Register<ISecurityStampRepository>(c => new RethinkDbSecurityStampRepository(c.Resolve<IConnection>(), AppSettingsDbNames.RethinkDbShards.ToInt(), AppSettingsDbNames.RethinkDbReplicas.ToInt(), true));
+            container.Register<ISecurityStampRepository>(c => new RethinkDbSecurityStampRepository(c.Resolve<IConnection>(), AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true));
             container.Register<ISecurityTokenProvider>(c => new Rfc6238CodeMobileSecurityTokenProvider(c.Resolve<ITopClient>(), c.Resolve<ISecurityStampRepository>()));
         }
 
@@ -163,28 +165,28 @@ namespace Sheep
         /// </summary>
         private void ConfigAuth(Container container)
         {
-            container.Register<IUserAuthRepository>(c => new RethinkDbAuthRepository(c.Resolve<IConnection>(), AppSettingsDbNames.RethinkDbShards.ToInt(), AppSettingsDbNames.RethinkDbReplicas.ToInt(), true));
+            container.Register<IUserAuthRepository>(c => new RethinkDbAuthRepository(c.Resolve<IConnection>(), AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true));
             container.Register<IAuthEvents>(c => new NeteaseImAuthEvents());
             var authProviders = new IAuthProvider[]
                                 {
                                     new CredentialsAuthProvider(AppSettings),
                                     new MobileAuthProvider(AppSettings, container.Resolve<ISecurityTokenProvider>())
                                 };
-            var authFeature = new AuthFeature(() => new AuthUserSession(), authProviders)
-                              {
-                                  IncludeAssignRoleServices = true,
-                                  IncludeAuthMetadataProvider = true,
-                                  IncludeRegistrationService = false,
-                                  ValidateUniqueUserNames = true,
-                                  ValidateUniqueEmails = true,
-                                  MaxLoginAttempts = 10,
-                                  SessionExpiry = TimeSpan.FromDays(7),
-                                  PermanentSessionExpiry = TimeSpan.FromDays(365),
-                                  DeleteSessionCookiesOnLogout = true,
-                                  GenerateNewSessionCookiesOnAuthentication = false,
-                                  SaveUserNamesInLowerCase = true
-                              };
-            Plugins.Add(authFeature);
+            var feature = new AuthFeature(() => new AuthUserSession(), authProviders)
+                          {
+                              IncludeAssignRoleServices = true,
+                              IncludeAuthMetadataProvider = true,
+                              IncludeRegistrationService = false,
+                              ValidateUniqueUserNames = true,
+                              ValidateUniqueEmails = true,
+                              MaxLoginAttempts = 10,
+                              SessionExpiry = TimeSpan.FromDays(7),
+                              PermanentSessionExpiry = TimeSpan.FromDays(365),
+                              DeleteSessionCookiesOnLogout = true,
+                              GenerateNewSessionCookiesOnAuthentication = false,
+                              SaveUserNamesInLowerCase = false
+                          };
+            Plugins.Add(feature);
         }
 
         private void ConfigureMembership(Container container)
@@ -212,25 +214,37 @@ namespace Sheep
         /// </summary>
         private void ConfigValidation(Container container)
         {
-            container.RegisterValidators(ReuseScope.Default, typeof(ModelAssembly).Assembly);
-            var validationFeature = new ValidationFeature
-                                    {
-                                        ScanAppHostAssemblies = false
-                                    };
-            Plugins.Add(validationFeature);
+            container.RegisterValidators(ReuseScope.Default, typeof(ServiceModelAssembly).Assembly);
+            var feature = new ValidationFeature
+                          {
+                              ScanAppHostAssemblies = false
+                          };
+            Plugins.Add(feature);
         }
 
         private void ConfigurePlugin(Container container)
         {
             //Plugins.Add(new CorsFeature("*", "GET,POST", "Content-Type", true));
             Plugins.Add(new ProtoBufFormat());
-            Plugins.Add(new SwaggerFeature());
             Plugins.Add(new PostmanFeature());
             Plugins.Add(new RequestLogsFeature
                         {
                             EnableErrorTracking = false,
                             EnableResponseTracking = false
                         });
+        }
+
+        /// <summary>
+        ///     配置 Swagger 功能。
+        /// </summary>
+        private void ConfigSwagger(Container container)
+        {
+            var feature = new SwaggerFeature
+                          {
+                              UseBootstrapTheme = false,
+                              UseLowercaseUnderscoreModelPropertyNames = false
+                          };
+            Plugins.Add(feature);
         }
 
         #endregion
