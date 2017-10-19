@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using ServiceStack.DataAnnotations;
 
-namespace Sheep.Model.SecurityStamps.Entities
+namespace Sheep.Model.Security.Entities
 {
     /// <summary>
     ///     安全戳。

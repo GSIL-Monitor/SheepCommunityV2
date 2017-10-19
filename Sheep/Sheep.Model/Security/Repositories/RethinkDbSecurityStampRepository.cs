@@ -5,10 +5,10 @@ using RethinkDb.Driver.Model;
 using RethinkDb.Driver.Net;
 using ServiceStack;
 using ServiceStack.Logging;
-using Sheep.Model.SecurityStamps.Entities;
+using Sheep.Model.Security.Entities;
 using AsyncContext = Nito.AsyncEx.AsyncContext;
 
-namespace Sheep.Model.SecurityStamps.Repositories
+namespace Sheep.Model.Security.Repositories
 {
     /// <summary>
     ///     基于RethinkDb的安全戳存储库。

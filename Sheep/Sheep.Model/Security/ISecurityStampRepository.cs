@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using Sheep.Model.SecurityStamps.Entities;
+using Sheep.Model.Security.Entities;
 
-namespace Sheep.Model.SecurityStamps
+namespace Sheep.Model.Security
 {
     /// <summary>
     ///     安全戳存储库的接口定义。

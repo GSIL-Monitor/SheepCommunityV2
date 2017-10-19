@@ -138,6 +138,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ServiceStack\ServiceStack.Authentication.RethinkDb\ServiceStack.Authentication.RethinkDb.csproj">
+      <Project>{4af1afad-607d-40bb-8812-efc59983b27e}</Project>
+      <Name>ServiceStack.Authentication.RethinkDb</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sheep.Interface\Sheep.Interface.csproj">
       <Project>{c2e40e51-72da-4a73-aee7-acacb3f0157d}</Project>
       <Name>Sheep.Interface</Name>

@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using ServiceStack;
 
-namespace Sheep.Model.SecurityTokens.Providers
+namespace Sheep.Model.Security.Providers
 {
     /// <summary>
     ///     基于时间的一次性代码生成与验证服务。

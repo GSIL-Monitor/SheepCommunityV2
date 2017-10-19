@@ -4,10 +4,10 @@ using ServiceStack;
 using ServiceStack.Data;
 using ServiceStack.Logging;
 using ServiceStack.OrmLite;
-using Sheep.Model.SecurityStamps.Entities;
+using Sheep.Model.Security.Entities;
 using AsyncContext = Nito.AsyncEx.AsyncContext;
 
-namespace Sheep.Model.SecurityStamps.Repositories
+namespace Sheep.Model.Security.Repositories
 {
     /// <summary>
     ///     基于OrmLite的安全戳存储库。

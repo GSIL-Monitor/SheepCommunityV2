@@ -101,14 +101,26 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Auth\Events\NeteaseImAuthEvents.cs" />
+    <Compile Include="Auth\Providers\AuthContext.cs" />
+    <Compile Include="Auth\Providers\AuthProvider.cs" />
+    <Compile Include="Auth\Providers\CredentialsAuthProvider.cs" />
+    <Compile Include="Auth\Providers\MobileAuthProvider.cs" />
+    <Compile Include="Auth\Providers\OAuthProvider.cs" />
+    <Compile Include="ModelAssembly.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SecurityStamps\ISecurityStampRepository.cs" />
-    <Compile Include="SecurityStamps\Repositories\RethinkDbSecurityStampRepository.cs" />
-    <Compile Include="SecurityTokens\ISecurityTokenProvider.cs" />
-    <Compile Include="SecurityTokens\Providers\Rfc6238CodeMobileSecurityTokenProvider.cs" />
-    <Compile Include="SecurityStamps\Repositories\OrmLiteSecurityStampRepository.cs" />
-    <Compile Include="SecurityTokens\Providers\Rfc6238CodeService.cs" />
-    <Compile Include="SecurityStamps\Entities\SecurityStamp.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Security\Entities\SecurityStamp.cs" />
+    <Compile Include="Security\ISecurityStampRepository.cs" />
+    <Compile Include="Security\ISecurityTokenProvider.cs" />
+    <Compile Include="Security\Providers\Rfc6238CodeMobileSecurityTokenProvider.cs" />
+    <Compile Include="Security\Providers\Rfc6238CodeService.cs" />
+    <Compile Include="Security\Repositories\OrmLiteSecurityStampRepository.cs" />
+    <Compile Include="Security\Repositories\RethinkDbSecurityStampRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -119,6 +131,12 @@
       <Project>{ab8b5cf2-45a4-4172-ab4b-827c421a494b}</Project>
       <Name>ServiceStack.Extensions</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

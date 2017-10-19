@@ -5,14 +5,23 @@ using RethinkDb.Driver;
 using RethinkDb.Driver.Net;
 using ServiceStack;
 using ServiceStack.Api.Swagger;
+using ServiceStack.Auth;
+using ServiceStack.Authentication.RethinkDb;
 using ServiceStack.Data;
 using ServiceStack.Logging;
 using ServiceStack.OrmLite;
 using ServiceStack.ProtoBuf;
 using ServiceStack.Redis;
 using ServiceStack.Validation;
-using Sheep.ServiceInterface.Groups;
+using Sheep.Model;
+using Sheep.Model.Auth.Events;
+using Sheep.Model.Auth.Providers;
+using Sheep.Model.Security;
+using Sheep.Model.Security.Providers;
+using Sheep.Model.Security.Repositories;
+using Sheep.ServiceInterface;
 using Top.Api;
+using CredentialsAuthProvider = Sheep.Model.Auth.Providers.CredentialsAuthProvider;
 
 namespace Sheep
 {
@@ -39,7 +48,7 @@ namespace Sheep
         ///     需要传入名称和Web服务实现所在的程序集。
         /// </summary>
         public AppHost()
-            : base("Sheep", typeof(CreateGroupService).Assembly)
+            : base("Sheep", typeof(ServiceInterfaceAssembly).Assembly)
         {
         }
 
@@ -69,6 +78,12 @@ namespace Sheep
             ConfigRedis(container);
             // 配置阿里大于客户端。
             ConfigAlibabaTopClient(container);
+            // 配置安全验证码提供程序。
+            ConfigSecurityTokenProviders(container);
+            // 配置身份验证功能。
+            ConfigAuth(container);
+            // 配置校验器。
+            ConfigValidation(container);
         }
 
         #endregion
@@ -126,19 +141,6 @@ namespace Sheep
             container.Register<IRedisClientsManager>(c => new PooledRedisClientManager(AppSettings.GetString(AppSettingsDbNames.RedisConnectionString)));
         }
 
-        private void ConfigureMqService(Container container)
-        {
-            //var mqService = new RedisMqServer(container.Resolve<IRedisClientsManager>(), 2);
-            //container.Register<IMessageService>(mqService);
-            //container.Register<IMessageFactory>(mqService.MessageFactory);
-
-            //mqService.RegisterHandler<CheckClassRoom>(ServiceController.ExecuteMessage);
-            //mqService.RegisterHandler<StartCheckClassRoom>(ServiceController.ExecuteMessage);
-            //mqService.RegisterHandler<StopCheckClassRoom>(ServiceController.ExecuteMessage);
-
-            //mqService.Start();
-        }
-
         /// <summary>
         ///     配置阿里大于客户端。
         /// </summary>
@@ -147,15 +149,45 @@ namespace Sheep
             container.Register<ITopClient>(c => new DefaultTopClient(AppSettings.GetString(AppSettingsTopNames.TopUrl), AppSettings.GetString(AppSettingsTopNames.TopAppKey), AppSettings.GetString(AppSettingsTopNames.TopAppKeySecret)));
         }
 
-        private void ConfigSecurity(Container container)
+        /// <summary>
+        ///     配置安全验证码提供程序。
+        /// </summary>
+        private void ConfigSecurityTokenProviders(Container container)
         {
+            container.Register<ISecurityStampRepository>(c => new RethinkDbSecurityStampRepository(c.Resolve<IConnection>(), AppSettingsDbNames.RethinkDbShards.ToInt(), AppSettingsDbNames.RethinkDbReplicas.ToInt(), true));
+            container.Register<ISecurityTokenProvider>(c => new Rfc6238CodeMobileSecurityTokenProvider(c.Resolve<ITopClient>(), c.Resolve<ISecurityStampRepository>()));
+        }
+
+        /// <summary>
+        ///     配置身份验证功能。
+        /// </summary>
+        private void ConfigAuth(Container container)
+        {
+            container.Register<IUserAuthRepository>(c => new RethinkDbAuthRepository(c.Resolve<IConnection>(), AppSettingsDbNames.RethinkDbShards.ToInt(), AppSettingsDbNames.RethinkDbReplicas.ToInt(), true));
+            container.Register<IAuthEvents>(c => new NeteaseImAuthEvents());
+            var authProviders = new IAuthProvider[]
+                                {
+                                    new CredentialsAuthProvider(AppSettings),
+                                    new MobileAuthProvider(AppSettings, container.Resolve<ISecurityTokenProvider>())
+                                };
+            var authFeature = new AuthFeature(() => new AuthUserSession(), authProviders)
+                              {
+                                  IncludeAssignRoleServices = true,
+                                  IncludeAuthMetadataProvider = true,
+                                  IncludeRegistrationService = false,
+                                  ValidateUniqueUserNames = true,
+                                  ValidateUniqueEmails = true,
+                                  MaxLoginAttempts = 10,
+                                  SessionExpiry = TimeSpan.FromDays(7),
+                                  PermanentSessionExpiry = TimeSpan.FromDays(365),
+                                  DeleteSessionCookiesOnLogout = true,
+                                  GenerateNewSessionCookiesOnAuthentication = false,
+                                  SaveUserNamesInLowerCase = true
+                              };
+            Plugins.Add(authFeature);
         }
 
         private void ConfigureMembership(Container container)
-        {
-        }
-
-        private void ConfigureAuth(Container container)
         {
         }
 
@@ -175,6 +207,19 @@ namespace Sheep
         {
         }
 
+        /// <summary>
+        ///     配置校验器及校验功能。
+        /// </summary>
+        private void ConfigValidation(Container container)
+        {
+            container.RegisterValidators(ReuseScope.Default, typeof(ModelAssembly).Assembly);
+            var validationFeature = new ValidationFeature
+                                    {
+                                        ScanAppHostAssemblies = false
+                                    };
+            Plugins.Add(validationFeature);
+        }
+
         private void ConfigurePlugin(Container container)
         {
             //Plugins.Add(new CorsFeature("*", "GET,POST", "Content-Type", true));
@@ -186,7 +231,6 @@ namespace Sheep
                             EnableErrorTracking = false,
                             EnableResponseTracking = false
                         });
-            Plugins.Add(new ValidationFeature());
         }
 
         #endregion
