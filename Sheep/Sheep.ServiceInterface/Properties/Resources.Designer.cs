@@ -79,6 +79,15 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
+        ///   查找类似 在已登录的状态下不允许进行重复登录，请先退出登录。 的本地化字符串。
+        /// </summary>
+        internal static string ReLoginNotAllowed {
+            get {
+                return ResourceManager.GetString("ReLoginNotAllowed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 发送验证码时产生了错误。 的本地化字符串。
         /// </summary>
         internal static string SendTokenError {

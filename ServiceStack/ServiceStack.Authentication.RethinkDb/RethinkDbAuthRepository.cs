@@ -246,12 +246,12 @@ namespace ServiceStack.Authentication.RethinkDb
             InternalLoadUserAuth(session, userAuth);
         }
 
-        public void SaveUserAuth(IAuthSession authSession)
+        public void SaveUserAuth(IAuthSession session)
         {
-            var userAuth = !authSession.UserAuthId.IsNullOrEmpty() ? (UserAuth) GetUserAuth(authSession.UserAuthId) : authSession.ConvertTo<UserAuth>();
-            if (userAuth.Id == default(int) && !authSession.UserAuthId.IsNullOrEmpty())
+            var userAuth = !session.UserAuthId.IsNullOrEmpty() ? (UserAuth) GetUserAuth(session.UserAuthId) : session.ConvertTo<UserAuth>();
+            if (userAuth.Id == default(int) && !session.UserAuthId.IsNullOrEmpty())
             {
-                userAuth.Id = int.Parse(authSession.UserAuthId);
+                userAuth.Id = int.Parse(session.UserAuthId);
             }
             userAuth.ModifiedDate = DateTime.UtcNow;
             if (userAuth.CreatedDate == default(DateTime))
@@ -267,9 +267,9 @@ namespace ServiceStack.Authentication.RethinkDb
             return userAuthDetailsList.Cast<IUserAuthDetails>().ToList();
         }
 
-        public IUserAuthDetails CreateOrMergeAuthSession(IAuthSession authSession, IAuthTokens tokens)
+        public IUserAuthDetails CreateOrMergeAuthSession(IAuthSession session, IAuthTokens tokens)
         {
-            var userAuth = GetUserAuth(authSession, tokens) ?? new UserAuth();
+            var userAuth = GetUserAuth(session, tokens) ?? new UserAuth();
             var userAuthDetails = R.Table(s_UserAuthDetailsTable).GetAll(R.Array(tokens.Provider, tokens.UserId)).OptArg("index", "Provider_UserId").Nth(0).Default_(default(UserAuthDetails)).RunResult<UserAuthDetails>(_conn) ??
                                   new UserAuthDetails
                                   {
@@ -298,19 +298,19 @@ namespace ServiceStack.Authentication.RethinkDb
             return result.ChangesAs<UserAuthDetails>()[0].NewValue;
         }
 
-        public IUserAuth GetUserAuth(IAuthSession authSession, IAuthTokens tokens)
+        public IUserAuth GetUserAuth(IAuthSession session, IAuthTokens tokens)
         {
-            if (!authSession.UserAuthId.IsNullOrEmpty())
+            if (!session.UserAuthId.IsNullOrEmpty())
             {
-                var userAuth = GetUserAuth(authSession.UserAuthId);
+                var userAuth = GetUserAuth(session.UserAuthId);
                 if (userAuth != null)
                 {
                     return userAuth;
                 }
             }
-            if (!authSession.UserAuthName.IsNullOrEmpty())
+            if (!session.UserAuthName.IsNullOrEmpty())
             {
-                var userAuth = GetUserAuthByUserName(authSession.UserAuthName);
+                var userAuth = GetUserAuthByUserName(session.UserAuthName);
                 if (userAuth != null)
                 {
                     return userAuth;
@@ -349,9 +349,9 @@ namespace ServiceStack.Authentication.RethinkDb
             InternalSaveUserAuth(userAuth);
         }
 
-        public bool TryAuthenticate(string userName, string password, out IUserAuth userAuth)
+        public bool TryAuthenticate(string userNameOrEmail, string password, out IUserAuth userAuth)
         {
-            userAuth = GetUserAuthByUserName(userName);
+            userAuth = GetUserAuthByUserName(userNameOrEmail);
             if (userAuth == null)
             {
                 return false;

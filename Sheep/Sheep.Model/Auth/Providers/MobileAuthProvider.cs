@@ -114,8 +114,8 @@ namespace Sheep.Model.Auth.Providers
                    {
                        UserId = session.UserAuthId,
                        UserName = session.UserName,
-                       SessionId = session.Id,
-                       DisplayName = session.DisplayName
+                       DisplayName = session.DisplayName,
+                       SessionId = session.Id
                    };
         }
 
@@ -149,7 +149,7 @@ namespace Sheep.Model.Auth.Providers
         {
             if (session is AuthUserSession userSession)
             {
-                userSession.PhoneNumber = tokens.UserId ?? userSession.PhoneNumber;
+                userSession.PhoneNumber = tokens.PhoneNumber ?? userSession.PhoneNumber;
             }
         }
 

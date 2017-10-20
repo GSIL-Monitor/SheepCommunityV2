@@ -61,6 +61,33 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
+        ///   查找类似 授权码必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string AccessTokenRequired {
+            get {
+                return ResourceManager.GetString("AccessTokenRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 登录密码的长度至少为{0}位。 的本地化字符串。
+        /// </summary>
+        internal static string PasswordLengthMismatch {
+            get {
+                return ResourceManager.GetString("PasswordLengthMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 登录密码必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string PasswordRequired {
+            get {
+                return ResourceManager.GetString("PasswordRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 手机号码必须为11位中国地区手机号。 的本地化字符串。
         /// </summary>
         internal static string PhoneNumberFormatMismatch {
@@ -102,6 +129,24 @@ namespace Sheep.ServiceModel.Properties {
         internal static string SecurityTokenRequired {
             get {
                 return ResourceManager.GetString("SecurityTokenRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 用户编号必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string UserIdRequired {
+            get {
+                return ResourceManager.GetString("UserIdRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 用户名称或电子邮件地址必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string UserNameOrEmailRequired {
+            get {
+                return ResourceManager.GetString("UserNameOrEmailRequired", resourceCulture);
             }
         }
     }

@@ -255,6 +255,7 @@ namespace Sheep.Model.Auth.Providers
                        {
                            UserId = session.UserAuthId,
                            UserName = userNameOrEmail,
+                           DisplayName = session.DisplayName,
                            SessionId = session.Id
                        };
             }
@@ -287,8 +288,8 @@ namespace Sheep.Model.Auth.Providers
                        {
                            UserId = session.UserAuthId,
                            UserName = session.UserName,
-                           SessionId = session.Id,
-                           DisplayName = session.DisplayName
+                           DisplayName = session.DisplayName,
+                           SessionId = session.Id
                        };
             }
             throw HttpError.Unauthorized(Resources.InvalidUserNameOrEmailOrPassword);
