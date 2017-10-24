@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DDD5104A-5285-45B0-AA49-201E5FBED379}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Netease</RootNamespace>
+    <AssemblyName>NeteaseSDK</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop, Version=1.0.168.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.AsyncEx, Version=4.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Nito.AsyncEx.4.0.1\lib\net45\Nito.AsyncEx.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.AsyncEx.Concurrent, Version=4.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Nito.AsyncEx.4.0.1\lib\net45\Nito.AsyncEx.Concurrent.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.AsyncEx.Enlightenment, Version=4.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Nito.AsyncEx.4.0.1\lib\net45\Nito.AsyncEx.Enlightenment.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack, Version=4.5.14.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ServiceStack.4.5.14\lib\net45\ServiceStack.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Client, Version=4.5.14.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ServiceStack.Client.4.5.14\lib\net45\ServiceStack.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Common, Version=4.5.14.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ServiceStack.Common.4.5.14\lib\net45\ServiceStack.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Interfaces, Version=4.0.0.0, Culture=neutral, PublicKeyToken=e06fbc6124f57c43, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ServiceStack.Interfaces.4.5.14\lib\portable-wp80+sl5+net45+win8+wpa81+monotouch+monoandroid+xamarin.ios10\ServiceStack.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Text, Version=4.5.14.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ServiceStack.Text.4.5.14\lib\net45\ServiceStack.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http, Version=4.1.1.2, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Net.Http.4.3.3\lib\net46\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Security.Cryptography.X509Certificates.4.3.1\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Nim\ErrorCodeExtensions.cs" />
+    <Compile Include="Nim\ErrorResponse.cs" />
+    <Compile Include="Nim\FriendDeleteRequest.cs" />
+    <Compile Include="Nim\FriendDeleteResponse.cs" />
+    <Compile Include="Nim\FriendUpdateRequest.cs" />
+    <Compile Include="Nim\FriendAddRequest.cs" />
+    <Compile Include="Nim\FriendUpdateResponse.cs" />
+    <Compile Include="Nim\FriendAddResponse.cs" />
+    <Compile Include="Nim\MessageAntiSpamCustom.cs" />
+    <Compile Include="Nim\MessageSendAttachOption.cs" />
+    <Compile Include="Nim\MessageSendBatchAttachRequest.cs" />
+    <Compile Include="Nim\MessageSendBatchAttachResponse.cs" />
+    <Compile Include="Nim\MessageSendOption.cs" />
+    <Compile Include="Nim\MessageBody.cs" />
+    <Compile Include="Nim\MessageSendBatchRequest.cs" />
+    <Compile Include="Nim\MessageSendAttachRequest.cs" />
+    <Compile Include="Nim\MessageRecallRequest.cs" />
+    <Compile Include="Nim\MessageRecallResponse.cs" />
+    <Compile Include="Nim\MessageFileUploadRequest.cs" />
+    <Compile Include="Nim\MessageSendRequest.cs" />
+    <Compile Include="Nim\MessageSendBatchResponse.cs" />
+    <Compile Include="Nim\MessageSendAttachResponse.cs" />
+    <Compile Include="Nim\MessageFileUploadResponse.cs" />
+    <Compile Include="Nim\MessageSendResponse.cs" />
+    <Compile Include="Nim\TeamGetJoinedRequest.cs" />
+    <Compile Include="Nim\TeamGetJoinedResponse.cs" />
+    <Compile Include="Nim\TeamMemberInfo.cs" />
+    <Compile Include="Nim\TeamLeaveMemberRequest.cs" />
+    <Compile Include="Nim\TeamLeaveMemberResponse.cs" />
+    <Compile Include="Nim\TeamGetMutedMembersRequest.cs" />
+    <Compile Include="Nim\TeamMuteRequest.cs" />
+    <Compile Include="Nim\TeamGetMutedMembersResponse.cs" />
+    <Compile Include="Nim\TeamMuteResponse.cs" />
+    <Compile Include="Nim\TeamRemoveManagerRequest.cs" />
+    <Compile Include="Nim\TeamAddManagerRequest.cs" />
+    <Compile Include="Nim\TeamRemoveManagerResponse.cs" />
+    <Compile Include="Nim\TeamAddManagerResponse.cs" />
+    <Compile Include="Nim\TeamQueryRequest.cs" />
+    <Compile Include="Nim\TeamQueryResponse.cs" />
+    <Compile Include="Nim\TeamChangeOwnerRequest.cs" />
+    <Compile Include="Nim\TeamUpdateMemberMuteRequest.cs" />
+    <Compile Include="Nim\TeamMuteMemberRequest.cs" />
+    <Compile Include="Nim\TeamUpdateMemberNickRequest.cs" />
+    <Compile Include="Nim\TeamUpdateMemberMuteResponse.cs" />
+    <Compile Include="Nim\TeamMuteMemberResponse.cs" />
+    <Compile Include="Nim\TeamUpdateRequest.cs" />
+    <Compile Include="Nim\TeamChangeOwnerResponse.cs" />
+    <Compile Include="Nim\TeamUpdateMemberNickResponse.cs" />
+    <Compile Include="Nim\TeamUpdateResponse.cs" />
+    <Compile Include="Nim\TeamRemoveRequest.cs" />
+    <Compile Include="Nim\TeamKickMemberRequest.cs" />
+    <Compile Include="Nim\TeamAddMemberRequest.cs" />
+    <Compile Include="Nim\TeamRemoveResponse.cs" />
+    <Compile Include="Nim\TeamKickMemberResponse.cs" />
+    <Compile Include="Nim\TeamCreateRequest.cs" />
+    <Compile Include="Nim\TeamAddMemberResponse.cs" />
+    <Compile Include="Nim\TeamCreateResponse.cs" />
+    <Compile Include="Nim\TeamInfo.cs" />
+    <Compile Include="Nim\UserSetSpecialRelationRequest.cs" />
+    <Compile Include="Nim\UserSetSpecialRelationResponse.cs" />
+    <Compile Include="Nim\UserGetInfosRequest.cs" />
+    <Compile Include="Nim\UserGetInfosResponse.cs" />
+    <Compile Include="Nim\UserInfo.cs" />
+    <Compile Include="Nim\UserUpdateInfoRequest.cs" />
+    <Compile Include="Nim\UserUpdateInfoResponse.cs" />
+    <Compile Include="Nim\UserUnBlockRequest.cs" />
+    <Compile Include="Nim\UserBlockRequest.cs" />
+    <Compile Include="Nim\UserUnBlockResponse.cs" />
+    <Compile Include="Nim\UserBlockResponse.cs" />
+    <Compile Include="Nim\UserUpdateRequest.cs" />
+    <Compile Include="Nim\UserCreateRequest.cs" />
+    <Compile Include="Nim\UserUpdateResponse.cs" />
+    <Compile Include="Nim\UserCreateResponse.cs" />
+    <Compile Include="Nim\INimClient.cs" />
+    <Compile Include="Nim\NimClient.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ServiceStack\ServiceStack.Extensions\ServiceStack.Extensions.csproj">
+      <Project>{7e3fa8ce-3c0a-4b78-a39d-742b24832cfe}</Project>
+      <Name>ServiceStack.Extensions</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>此项目引用这台计算机上缺少的 NuGet 程序包。使用 NuGet 程序包还原可下载这些程序包。有关详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+  </Target>
+</Project>

@@ -237,14 +237,10 @@ namespace ServiceStack.Extensions
         /// </summary>
         /// <param name="url">要请求的网址。</param>
         /// <returns>Web服务器响应后获取的文本。</returns>
-        public static Task<string> HttpDeleteAsync(this string url)
+        public static async Task<string> HttpDeleteAsync(this string url)
         {
-            return s_HttpClient.DeleteAsync(url)
-                               .ContinueWith(task =>
-                                             {
-                                                 var response = task.Result;
-                                                 return response.Content == null ? string.Empty : response.Content.ReadAsStringAsync().Result;
-                                             });
+            var response = await s_HttpClient.DeleteAsync(url);
+            return response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
         }
 
         /// <summary>
@@ -253,14 +249,10 @@ namespace ServiceStack.Extensions
         /// <param name="url">要请求的网址。</param>
         /// <param name="json">请求的JSON内容。</param>
         /// <returns>Web服务器响应后获取的文本。</returns>
-        public static Task<string> HttpPostJsonAsync(this string url, string json)
+        public static async Task<string> HttpPostJsonAsync(this string url, string json)
         {
-            return s_HttpClient.PostAsync(url, new StringContent(json, Encoding.UTF8, "application/json"))
-                               .ContinueWith(task =>
-                                             {
-                                                 var response = task.Result;
-                                                 return response.Content == null ? string.Empty : response.Content.ReadAsStringAsync().Result;
-                                             });
+            var response = await s_HttpClient.PostAsync(url, new StringContent(json, Encoding.UTF8, "application/json"));
+            return response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
         }
 
         /// <summary>
@@ -270,19 +262,15 @@ namespace ServiceStack.Extensions
         /// <param name="json">请求的JSON内容。</param>
         /// <param name="headers">请求的HTTP头。</param>
         /// <returns>Web服务器响应后获取的文本。</returns>
-        public static Task<string> HttpPostJsonAsync(this string url, string json, Dictionary<string, string> headers)
+        public static async Task<string> HttpPostJsonAsync(this string url, string json, Dictionary<string, string> headers)
         {
-            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
             foreach (var header in headers)
             {
-                httpContent.Headers.TryAddWithoutValidation(header.Key, header.Value);
+                content.Headers.TryAddWithoutValidation(header.Key, header.Value);
             }
-            return s_HttpClient.PostAsync(url, httpContent)
-                               .ContinueWith(task =>
-                                             {
-                                                 var response = task.Result;
-                                                 return response.Content == null ? string.Empty : response.Content.ReadAsStringAsync().Result;
-                                             });
+            var response = await s_HttpClient.PostAsync(url, content);
+            return response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
         }
 
         /// <summary>
@@ -292,14 +280,10 @@ namespace ServiceStack.Extensions
         /// <param name="text">请求的文本内容。</param>
         /// <param name="contentType">内容的MIME类型。</param>
         /// <returns>Web服务器响应后获取的文本。</returns>
-        public static Task<string> HttpPostStringAsync(this string url, string text, string contentType = "text/plain")
+        public static async Task<string> HttpPostStringAsync(this string url, string text, string contentType = "text/plain")
         {
-            return s_HttpClient.PostAsync(url, new StringContent(text, Encoding.UTF8, contentType))
-                               .ContinueWith(task =>
-                                             {
-                                                 var response = task.Result;
-                                                 return response.Content == null ? string.Empty : response.Content.ReadAsStringAsync().Result;
-                                             });
+            var response = await s_HttpClient.PostAsync(url, new StringContent(text, Encoding.UTF8, contentType));
+            return response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
         }
 
         /// <summary>
@@ -310,19 +294,15 @@ namespace ServiceStack.Extensions
         /// <param name="contentType">内容的MIME类型。</param>
         /// <param name="headers">请求的HTTP头。</param>
         /// <returns>Web服务器响应后获取的文本。</returns>
-        public static Task<string> HttpPostStringAsync(this string url, string text, string contentType, Dictionary<string, string> headers)
+        public static async Task<string> HttpPostStringAsync(this string url, string text, string contentType, Dictionary<string, string> headers)
         {
-            var httpContent = new StringContent(text, Encoding.UTF8, contentType);
+            var content = new StringContent(text, Encoding.UTF8, contentType);
             foreach (var header in headers)
             {
-                httpContent.Headers.TryAddWithoutValidation(header.Key, header.Value);
+                content.Headers.TryAddWithoutValidation(header.Key, header.Value);
             }
-            return s_HttpClient.PostAsync(url, httpContent)
-                               .ContinueWith(task =>
-                                             {
-                                                 var response = task.Result;
-                                                 return response.Content == null ? string.Empty : response.Content.ReadAsStringAsync().Result;
-                                             });
+            var response = await s_HttpClient.PostAsync(url, content);
+            return response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
         }
 
         /// <summary>
@@ -331,14 +311,10 @@ namespace ServiceStack.Extensions
         /// <param name="url">要请求的网址。</param>
         /// <param name="json">请求的JSON内容。</param>
         /// <returns>Web服务器响应后获取的文本。</returns>
-        public static Task<string> HttpPutJsonAsync(this string url, string json)
+        public static async Task<string> HttpPutJsonAsync(this string url, string json)
         {
-            return s_HttpClient.PutAsync(url, new StringContent(json, Encoding.UTF8, "application/json"))
-                               .ContinueWith(task =>
-                                             {
-                                                 var response = task.Result;
-                                                 return response.Content == null ? string.Empty : response.Content.ReadAsStringAsync().Result;
-                                             });
+            var response = await s_HttpClient.PutAsync(url, new StringContent(json, Encoding.UTF8, "application/json"));
+            return response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
         }
 
         /// <summary>
@@ -348,19 +324,15 @@ namespace ServiceStack.Extensions
         /// <param name="json">请求的JSON内容。</param>
         /// <param name="headers">请求的HTTP头。</param>
         /// <returns>Web服务器响应后获取的文本。</returns>
-        public static Task<string> HttpPutJsonAsync(this string url, string json, Dictionary<string, string> headers)
+        public static async Task<string> HttpPutJsonAsync(this string url, string json, Dictionary<string, string> headers)
         {
-            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
             foreach (var header in headers)
             {
-                httpContent.Headers.TryAddWithoutValidation(header.Key, header.Value);
+                content.Headers.TryAddWithoutValidation(header.Key, header.Value);
             }
-            return s_HttpClient.PutAsync(url, httpContent)
-                               .ContinueWith(task =>
-                                             {
-                                                 var response = task.Result;
-                                                 return response.Content == null ? string.Empty : response.Content.ReadAsStringAsync().Result;
-                                             });
+            var response = await s_HttpClient.PutAsync(url, content);
+            return response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
         }
 
         /// <summary>
@@ -370,14 +342,10 @@ namespace ServiceStack.Extensions
         /// <param name="text">请求的文本内容。</param>
         /// <param name="contentType">内容的MIME类型。</param>
         /// <returns>Web服务器响应后获取的文本。</returns>
-        public static Task<string> HttpPutStringAsync(this string url, string text, string contentType)
+        public static async Task<string> HttpPutStringAsync(this string url, string text, string contentType)
         {
-            return s_HttpClient.PutAsync(url, new StringContent(text, Encoding.UTF8, contentType))
-                               .ContinueWith(task =>
-                                             {
-                                                 var response = task.Result;
-                                                 return response.Content == null ? string.Empty : response.Content.ReadAsStringAsync().Result;
-                                             });
+            var response = await s_HttpClient.PutAsync(url, new StringContent(text, Encoding.UTF8, contentType));
+            return response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
         }
 
         /// <summary>
@@ -388,19 +356,15 @@ namespace ServiceStack.Extensions
         /// <param name="contentType">内容的MIME类型。</param>
         /// <param name="headers">请求的HTTP头。</param>
         /// <returns>Web服务器响应后获取的文本。</returns>
-        public static Task<string> HttpPutStringAsync(this string url, string text, string contentType, Dictionary<string, string> headers)
+        public static async Task<string> HttpPutStringAsync(this string url, string text, string contentType, Dictionary<string, string> headers)
         {
-            var httpContent = new StringContent(text, Encoding.UTF8, contentType);
+            var content = new StringContent(text, Encoding.UTF8, contentType);
             foreach (var header in headers)
             {
-                httpContent.Headers.TryAddWithoutValidation(header.Key, header.Value);
+                content.Headers.TryAddWithoutValidation(header.Key, header.Value);
             }
-            return s_HttpClient.PutAsync(url, httpContent)
-                               .ContinueWith(task =>
-                                             {
-                                                 var response = task.Result;
-                                                 return response.Content == null ? string.Empty : response.Content.ReadAsStringAsync().Result;
-                                             });
+            var response = await s_HttpClient.PutAsync(url, content);
+            return response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
         }
 
         #endregion

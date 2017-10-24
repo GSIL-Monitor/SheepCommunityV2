@@ -118,12 +118,34 @@
     <Reference Include="ServiceStack.Text, Version=4.5.14.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ServiceStack.Text.4.5.14\lib\net45\ServiceStack.Text.dll</HintPath>
     </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http, Version=4.1.1.2, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Net.Http.4.3.3\lib\net46\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Security.Cryptography.X509Certificates.4.3.1\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.DynamicData" />
@@ -141,6 +163,22 @@
     <ProjectReference Include="..\..\ServiceStack\ServiceStack.Authentication.RethinkDb\ServiceStack.Authentication.RethinkDb.csproj">
       <Project>{4af1afad-607d-40bb-8812-efc59983b27e}</Project>
       <Name>ServiceStack.Authentication.RethinkDb</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ServiceStack\ServiceStack.Extensions\ServiceStack.Extensions.csproj">
+      <Project>{ab8b5cf2-45a4-4172-ab4b-827c421a494b}</Project>
+      <Name>ServiceStack.Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Social\NeteaseSDK\NeteaseSDK.csproj">
+      <Project>{ddd5104a-5285-45b0-aa49-201e5fbed379}</Project>
+      <Name>NeteaseSDK</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Social\SinaSdk\SinaSdk.csproj">
+      <Project>{44d3c7bd-ba38-49c3-a29c-79135448af3d}</Project>
+      <Name>SinaSdk</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Social\TencentSdk\TencentSdk.csproj">
+      <Project>{b8d07b49-fdd2-49bb-bcef-ca41ae415a5b}</Project>
+      <Name>TencentSdk</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sheep.Common\Sheep.Common.csproj">
       <Project>{80D3D2C4-3171-4FF9-8C62-0483B1C97CD1}</Project>
@@ -180,7 +218,7 @@
     <Compile Include="AppHost.cs" />
     <Compile Include="AppSettingsDbNames.cs" />
     <Compile Include="AppSettingsHostNames.cs" />
-    <Compile Include="AppSettingsNeteaseImNames.cs" />
+    <Compile Include="AppSettingsNeteaseNimNames.cs" />
     <Compile Include="AppSettingsTopNames.cs" />
     <Compile Include="AppSettingsWeiboNames.cs" />
     <Compile Include="AppSettingsWeixinNames.cs" />

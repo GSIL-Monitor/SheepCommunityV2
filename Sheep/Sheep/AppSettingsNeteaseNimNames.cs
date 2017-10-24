@@ -3,7 +3,7 @@
     /// <summary>
     ///     网易云通信配置的名称。
     /// </summary>
-    public static class AppSettingsNeteaseImNames
+    public static class AppSettingsNeteaseNimNames
     {
         // 申请应用时分配的应用程序唯一标识。
         public const string AppKey = "im.netease.AppKey";
