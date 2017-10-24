@@ -4,7 +4,7 @@ using ServiceStack;
 namespace Sheep.ServiceModel.Identities
 {
     /// <summary>
-    ///     退出登录身份系统的请求。
+    ///     退出登录身份的请求。
     /// </summary>
     [Route("/identities/logout", HttpMethods.Post)]
     [DataContract]
@@ -13,7 +13,7 @@ namespace Sheep.ServiceModel.Identities
     }
 
     /// <summary>
-    ///     退出登录身份系统的响应。
+    ///     退出登录身份的响应。
     /// </summary>
     [DataContract]
     public class IdentityLogoutResponse : IHasResponseStatus

@@ -126,6 +126,9 @@
   <data name="ReLoginNotAllowed" xml:space="preserve">
     <value>在已登录的状态下不允许进行重复登录，请先退出登录。</value>
   </data>
+  <data name="ReRegisterNotAllowed" xml:space="preserve">
+    <value>在已登录的状态下不允许进行注册，请先退出登录。</value>
+  </data>
   <data name="SendTokenError" xml:space="preserve">
     <value>发送验证码时产生了错误。</value>
   </data>

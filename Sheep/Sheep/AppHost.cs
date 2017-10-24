@@ -140,7 +140,7 @@ namespace Sheep
         /// </summary>
         private void ConfigRedis(Container container)
         {
-            container.Register<IRedisClientsManager>(c => new PooledRedisClientManager(AppSettings.GetString(AppSettingsDbNames.RedisConnectionString)));
+            container.Register<IRedisClientsManager>(c => new PooledRedisClientManager(1, AppSettings.GetString(AppSettingsDbNames.RedisConnectionString)));
         }
 
         /// <summary>

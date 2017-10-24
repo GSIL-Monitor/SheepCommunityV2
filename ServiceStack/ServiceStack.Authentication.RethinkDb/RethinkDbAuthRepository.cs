@@ -133,14 +133,14 @@ namespace ServiceStack.Authentication.RethinkDb
                 R.Table(s_UserAuthTable).IndexCreate("UserName").RunResult(_conn).AssertNoErrors();
                 R.Table(s_UserAuthTable).IndexCreate("Email").RunResult(_conn).AssertNoErrors();
                 R.Table(s_UserAuthTable).IndexCreate("DisplayName").RunResult(_conn).AssertNoErrors();
-                R.Table(s_UserAuthTable).IndexWait().RunResult(_conn).AssertNoErrors();
+                //R.Table(s_UserAuthTable).IndexWait().RunResult(_conn).AssertNoErrors();
             }
             if (!tables.Contains(s_UserAuthDetailsTable))
             {
                 R.TableCreate(s_UserAuthDetailsTable).OptArg("primary_key", "Id").OptArg("durability", Durability.Soft).OptArg("shards", _shards).OptArg("replicas", _replicas).RunResult(_conn).AssertNoErrors().AssertTablesCreated(1);
                 R.Table(s_UserAuthDetailsTable).IndexCreate("UserAuthId").RunResult(_conn).AssertNoErrors();
                 R.Table(s_UserAuthDetailsTable).IndexCreate("Provider_UserId", row => R.Array(row.G("Provider"), row.G("UserId"))).RunResult(_conn).AssertNoErrors();
-                R.Table(s_UserAuthDetailsTable).IndexWait().RunResult(_conn).AssertNoErrors();
+                //R.Table(s_UserAuthDetailsTable).IndexWait().RunResult(_conn).AssertNoErrors();
             }
             if (!tables.Contains(s_UserAuthCountersTable))
             {

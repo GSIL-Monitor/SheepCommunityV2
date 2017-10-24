@@ -120,6 +120,15 @@
   <data name="AccessTokenRequired" xml:space="preserve">
     <value>授权码必须输入。</value>
   </data>
+  <data name="EmailAlreadyExists" xml:space="preserve">
+    <value>电子邮件地址已经存在。</value>
+  </data>
+  <data name="EmailFormatMismatch" xml:space="preserve">
+    <value>电子邮件地址格式错误。</value>
+  </data>
+  <data name="EmailLengthMismatch" xml:space="preserve">
+    <value>电子邮件地址的长度至少为{0}位。</value>
+  </data>
   <data name="PasswordLengthMismatch" xml:space="preserve">
     <value>登录密码的长度至少为{0}位。</value>
   </data>
@@ -143,6 +152,12 @@
   </data>
   <data name="UserIdRequired" xml:space="preserve">
     <value>用户编号必须输入。</value>
+  </data>
+  <data name="UserNameAlreadyExists" xml:space="preserve">
+    <value>用户名称已经存在。</value>
+  </data>
+  <data name="UserNameLengthMismatch" xml:space="preserve">
+    <value>用户名称的长度至少为{0}位。</value>
   </data>
   <data name="UserNameOrEmailRequired" xml:space="preserve">
     <value>用户名称或电子邮件地址必须输入。</value>

@@ -5,7 +5,7 @@ using Sheep.ServiceModel.Properties;
 namespace Sheep.ServiceModel.Identities.Validators
 {
     /// <summary>
-    ///     使用用户名称或电子邮件地址及密码登录身份系统的校验器。
+    ///     使用用户名称或电子邮件地址及密码登录身份的校验器。
     /// </summary>
     public class IdentityLoginByCredentialsValidator : AbstractValidator<IdentityLoginByCredentials>
     {
@@ -18,13 +18,13 @@ namespace Sheep.ServiceModel.Identities.Validators
             RuleSet(ApplyTo.Post, () =>
                                   {
                                       RuleFor(x => x.UserNameOrEmail).NotEmpty().WithMessage(Resources.UserNameOrEmailRequired);
-                                      RuleFor(x => x.Password).NotEmpty().WithMessage(Resources.PasswordRequired).Length(4, 1024).WithMessage(Resources.PasswordLengthMismatch, 4);
+                                      RuleFor(x => x.Password).NotEmpty().WithMessage(Resources.PasswordRequired).Length(4, 256).WithMessage(Resources.PasswordLengthMismatch, 4);
                                   });
         }
     }
 
     /// <summary>
-    ///     使用手机号码及验证码登录身份系统的校验器。
+    ///     使用手机号码及验证码登录身份的校验器。
     /// </summary>
     public class IdentityLoginByMobileValidator : AbstractValidator<IdentityLoginByMobile>
     {
@@ -43,7 +43,7 @@ namespace Sheep.ServiceModel.Identities.Validators
     }
 
     /// <summary>
-    ///     使用微博帐号登录身份系统的校验器。
+    ///     使用微博帐号登录身份的校验器。
     /// </summary>
     public class IdentityLoginByWeiboValidator : AbstractValidator<IdentityLoginByWeibo>
     {
@@ -62,7 +62,7 @@ namespace Sheep.ServiceModel.Identities.Validators
     }
 
     /// <summary>
-    ///     使用微信帐号登录身份系统的校验器。
+    ///     使用微信帐号登录身份的校验器。
     /// </summary>
     public class IdentityLoginByWeixinValidator : AbstractValidator<IdentityLoginByWeixin>
     {
@@ -81,7 +81,7 @@ namespace Sheep.ServiceModel.Identities.Validators
     }
 
     /// <summary>
-    ///     使用QQ帐号登录身份系统的校验器。
+    ///     使用QQ帐号登录身份的校验器。
     /// </summary>
     public class IdentityLoginByQQValidator : AbstractValidator<IdentityLoginByQQ>
     {

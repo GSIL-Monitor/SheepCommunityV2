@@ -70,6 +70,33 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
+        ///   查找类似 电子邮件地址已经存在。 的本地化字符串。
+        /// </summary>
+        internal static string EmailAlreadyExists {
+            get {
+                return ResourceManager.GetString("EmailAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 电子邮件地址格式错误。 的本地化字符串。
+        /// </summary>
+        internal static string EmailFormatMismatch {
+            get {
+                return ResourceManager.GetString("EmailFormatMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 电子邮件地址的长度至少为{0}位。 的本地化字符串。
+        /// </summary>
+        internal static string EmailLengthMismatch {
+            get {
+                return ResourceManager.GetString("EmailLengthMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 登录密码的长度至少为{0}位。 的本地化字符串。
         /// </summary>
         internal static string PasswordLengthMismatch {
@@ -138,6 +165,24 @@ namespace Sheep.ServiceModel.Properties {
         internal static string UserIdRequired {
             get {
                 return ResourceManager.GetString("UserIdRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 用户名称已经存在。 的本地化字符串。
+        /// </summary>
+        internal static string UserNameAlreadyExists {
+            get {
+                return ResourceManager.GetString("UserNameAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 用户名称的长度至少为{0}位。 的本地化字符串。
+        /// </summary>
+        internal static string UserNameLengthMismatch {
+            get {
+                return ResourceManager.GetString("UserNameLengthMismatch", resourceCulture);
             }
         }
         

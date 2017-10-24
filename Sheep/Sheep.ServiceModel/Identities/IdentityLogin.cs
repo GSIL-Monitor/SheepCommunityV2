@@ -4,7 +4,7 @@ using ServiceStack;
 namespace Sheep.ServiceModel.Identities
 {
     /// <summary>
-    ///     使用用户名称或电子邮件地址及密码登录身份系统的请求。
+    ///     使用用户名称或电子邮件地址及密码登录身份的请求。
     /// </summary>
     [Route("/identities/login/credentials", HttpMethods.Post)]
     [DataContract]
@@ -24,7 +24,7 @@ namespace Sheep.ServiceModel.Identities
     }
 
     /// <summary>
-    ///     使用手机号码及验证码登录身份系统的请求。
+    ///     使用手机号码及验证码登录身份的请求。
     /// </summary>
     [Route("/identities/login/mobile", HttpMethods.Post)]
     [DataContract]
@@ -44,7 +44,7 @@ namespace Sheep.ServiceModel.Identities
     }
 
     /// <summary>
-    ///     使用微博帐号登录身份系统的请求。
+    ///     使用微博帐号登录身份的请求。
     /// </summary>
     [Route("/identities/login/weibo", HttpMethods.Post)]
     [DataContract]
@@ -64,7 +64,7 @@ namespace Sheep.ServiceModel.Identities
     }
 
     /// <summary>
-    ///     使用微信帐号登录身份系统的请求。
+    ///     使用微信帐号登录身份的请求。
     /// </summary>
     [Route("/identities/login/weixin", HttpMethods.Post)]
     [DataContract]
@@ -84,7 +84,7 @@ namespace Sheep.ServiceModel.Identities
     }
 
     /// <summary>
-    ///     使用QQ帐号登录身份系统的请求。
+    ///     使用QQ帐号登录身份的请求。
     /// </summary>
     [Route("/identities/login/qq", HttpMethods.Post)]
     [DataContract]
@@ -104,7 +104,7 @@ namespace Sheep.ServiceModel.Identities
     }
 
     /// <summary>
-    ///     登录身份系统的响应。
+    ///     登录身份的响应。
     /// </summary>
     [DataContract]
     public class IdentityLoginResponse : IHasResponseStatus

@@ -88,6 +88,15 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
+        ///   查找类似 在已登录的状态下不允许进行注册，请先退出登录。 的本地化字符串。
+        /// </summary>
+        internal static string ReRegisterNotAllowed {
+            get {
+                return ResourceManager.GetString("ReRegisterNotAllowed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 发送验证码时产生了错误。 的本地化字符串。
         /// </summary>
         internal static string SendTokenError {

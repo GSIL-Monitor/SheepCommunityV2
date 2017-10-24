@@ -6,7 +6,7 @@ namespace Sheep.ServiceModel.SecurityTokens
     /// <summary>
     ///     校验验证码的请求。
     /// </summary>
-    [Route("/securitytokens/verify", HttpMethods.Post)]
+    [Route("/tokens/verify", HttpMethods.Post)]
     [DataContract]
     public class SecurityTokenVerify : IReturn<SecurityTokenVerifyResponse>
     {
