@@ -8,10 +8,10 @@ using ServiceStack.Logging;
 using ServiceStack.Validation;
 using ServiceStack.Web;
 using Sheep.ServiceInterface.Properties;
-using Sheep.ServiceModel.Identities;
+using Sheep.ServiceModel.Accounts;
 using CredentialsAuthProvider = Sheep.Model.Auth.Providers.CredentialsAuthProvider;
 
-namespace Sheep.ServiceInterface.Identities
+namespace Sheep.ServiceInterface.Accounts
 {
     /// <summary>
     ///     使用用户名称或电子邮件地址及密码注册服务接口。
@@ -47,7 +47,7 @@ namespace Sheep.ServiceInterface.Identities
         /// <summary>
         ///     获取及设置使用用户名称或电子邮件地址及密码注册的校验器。
         /// </summary>
-        public IValidator<IdentityRegister> IdentityRegisterValidator { get; set; }
+        public IValidator<AccountRegister> AccountRegisterValidator { get; set; }
 
         #endregion
 
@@ -56,7 +56,7 @@ namespace Sheep.ServiceInterface.Identities
         /// <summary>
         ///     使用用户名称或电子邮件地址及密码注册。
         /// </summary>
-        public object Post(IdentityRegister request)
+        public object Post(AccountRegister request)
         {
             if (IsAuthenticated)
             {
@@ -75,7 +75,7 @@ namespace Sheep.ServiceInterface.Identities
             }
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
-                IdentityRegisterValidator.ValidateAndThrow(request, ApplyTo.Post);
+                AccountRegisterValidator.ValidateAndThrow(request, ApplyTo.Post);
             }
             var validateResponse = ValidateFn?.Invoke(this, HttpMethods.Post, request);
             if (validateResponse != null)
@@ -88,7 +88,7 @@ namespace Sheep.ServiceInterface.Identities
             {
                 userAuth = authRepo.CreateUserAuth(MapToUserAuth(authRepo, request), request.Password);
             }
-            IdentityRegisterResponse response = null;
+            AccountRegisterResponse response = null;
             if (request.AutoLogin.GetValueOrDefault())
             {
                 using (var authService = ResolveService<AuthenticateService>())
@@ -106,7 +106,7 @@ namespace Sheep.ServiceInterface.Identities
                     }
                     if (authResult is AuthenticateResponse authResponse)
                     {
-                        response = new IdentityRegisterResponse
+                        response = new AccountRegisterResponse
                                    {
                                        SessionId = authResponse.SessionId,
                                        UserId = authResponse.UserId.ToInt()
@@ -119,7 +119,7 @@ namespace Sheep.ServiceInterface.Identities
             session.OnRegistered(Request, session, this);
             AuthEvents?.OnRegistered(Request, session, this);
             return response ??
-                   new IdentityRegisterResponse
+                   new AccountRegisterResponse
                    {
                        UserId = userAuth.Id
                    };
@@ -132,7 +132,7 @@ namespace Sheep.ServiceInterface.Identities
         /// <summary>
         ///     将注册身份的请求转换成用户身份。
         /// </summary>
-        public IUserAuth MapToUserAuth(IAuthRepository authRepo, IdentityRegister request)
+        public IUserAuth MapToUserAuth(IAuthRepository authRepo, AccountRegister request)
         {
             var newUserAuth = authRepo is ICustomUserAuth customUserAuth ? customUserAuth.CreateUserAuth() : new UserAuth();
             newUserAuth.UserName = request.UserName;

@@ -1,14 +1,14 @@
 ﻿using System.Runtime.Serialization;
 using ServiceStack;
 
-namespace Sheep.ServiceModel.Identities
+namespace Sheep.ServiceModel.Accounts
 {
     /// <summary>
     ///     退出登录身份的请求。
     /// </summary>
-    [Route("/identities/logout", HttpMethods.Post)]
+    [Route("/accounts/logout", HttpMethods.Post)]
     [DataContract]
-    public class IdentityLogout : IReturn<IdentityLogoutResponse>
+    public class AccountLogout : IReturn<AccountLogoutResponse>
     {
     }
 
@@ -16,7 +16,7 @@ namespace Sheep.ServiceModel.Identities
     ///     退出登录身份的响应。
     /// </summary>
     [DataContract]
-    public class IdentityLogoutResponse : IHasResponseStatus
+    public class AccountLogoutResponse : IHasResponseStatus
     {
         /// <summary>
         ///     处理响应的状态。

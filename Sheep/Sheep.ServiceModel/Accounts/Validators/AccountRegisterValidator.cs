@@ -3,18 +3,18 @@ using ServiceStack;
 using ServiceStack.FluentValidation;
 using Sheep.ServiceModel.Properties;
 
-namespace Sheep.ServiceModel.Identities.Validators
+namespace Sheep.ServiceModel.Accounts.Validators
 {
     /// <summary>
-    ///     使用用户名称或电子邮件地址及密码注册身份的校验器。
+    ///     使用用户名称或电子邮件地址及密码注册帐户的校验器。
     /// </summary>
-    public class IdentityRegisterValidator : AbstractValidator<IdentityRegister>
+    public class AccountRegisterValidator : AbstractValidator<AccountRegister>
     {
         /// <summary>
-        ///     初始化一个新的<see cref="IdentityRegisterValidator" />对象。
+        ///     初始化一个新的<see cref="AccountRegisterValidator" />对象。
         ///     创建规则集合。
         /// </summary>
-        public IdentityRegisterValidator()
+        public AccountRegisterValidator()
         {
             RuleSet(ApplyTo.Post, () =>
                                   {

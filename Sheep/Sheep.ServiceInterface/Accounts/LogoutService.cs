@@ -3,9 +3,9 @@ using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Logging;
 using ServiceStack.Web;
-using Sheep.ServiceModel.Identities;
+using Sheep.ServiceModel.Accounts;
 
-namespace Sheep.ServiceInterface.Identities
+namespace Sheep.ServiceInterface.Accounts
 {
     /// <summary>
     ///     退出登录服务接口。
@@ -26,7 +26,7 @@ namespace Sheep.ServiceInterface.Identities
         /// <summary>
         ///     退出登录。
         /// </summary>
-        public object Post(IdentityLogout request)
+        public object Delete(AccountLogout request)
         {
             using (var authService = ResolveService<AuthenticateService>())
             {
@@ -40,7 +40,7 @@ namespace Sheep.ServiceInterface.Identities
                 }
                 if (authResult is AuthenticateResponse)
                 {
-                    return new IdentityLogoutResponse();
+                    return new AccountLogoutResponse();
                 }
                 return authResult;
             }

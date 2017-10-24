@@ -1,14 +1,14 @@
 ﻿using System.Runtime.Serialization;
 using ServiceStack;
 
-namespace Sheep.ServiceModel.Identities
+namespace Sheep.ServiceModel.Accounts
 {
     /// <summary>
     ///     使用用户名称或电子邮件地址及密码注册身份的请求。
     /// </summary>
-    [Route("/identities/register", HttpMethods.Post)]
+    [Route("/accounts/register", HttpMethods.Post)]
     [DataContract]
-    public class IdentityRegister : IReturn<IdentityRegisterResponse>
+    public class AccountRegister : IReturn<AccountRegisterResponse>
     {
         /// <summary>
         ///     用户名称。
@@ -39,7 +39,7 @@ namespace Sheep.ServiceModel.Identities
     ///     注册身份的响应。
     /// </summary>
     [DataContract]
-    public class IdentityRegisterResponse : IHasResponseStatus
+    public class AccountRegisterResponse : IHasResponseStatus
     {
         /// <summary>
         ///     登录会话编号。

@@ -6,13 +6,14 @@ using RethinkDb.Driver.Model;
 using RethinkDb.Driver.Net;
 using ServiceStack.Auth;
 using ServiceStack.Logging;
+using Sheep.Common.Auth;
 
 namespace ServiceStack.Authentication.RethinkDb
 {
     /// <summary>
     ///     基于RethinkDb的用户身份验证的存储库。
     /// </summary>
-    public class RethinkDbAuthRepository : IUserAuthRepository, IClearable, IManageApiKeys
+    public class RethinkDbAuthRepository : IUserAuthRepositoryExtended, IClearable, IManageApiKeys
     {
         #region 内置计数表
 
@@ -46,7 +47,7 @@ namespace ServiceStack.Authentication.RethinkDb
         private static readonly string s_UserAuthTable = typeof(UserAuth).Name;
 
         /// <summary>
-        ///     用户身份第三方提供者的数据表名。
+        ///     用户身份第三方提供者明细的数据表名。
         /// </summary>
         private static readonly string s_UserAuthDetailsTable = typeof(UserAuthDetails).Name;
 
@@ -330,7 +331,7 @@ namespace ServiceStack.Authentication.RethinkDb
 
         public IUserAuth GetUserAuthByUserName(string userNameOrEmail)
         {
-            if (userNameOrEmail == null)
+            if (userNameOrEmail.IsNullOrEmpty())
             {
                 return null;
             }
@@ -456,6 +457,39 @@ namespace ServiceStack.Authentication.RethinkDb
         {
             R.Table(s_UserAuthTable).Get(int.Parse(userAuthId)).Delete().RunResult(_conn).AssertNoErrors();
             R.Table(s_UserAuthDetailsTable).GetAll(int.Parse(userAuthId)).OptArg("index", "UserAuthId").Delete().RunResult(_conn).AssertNoErrors();
+        }
+
+        #endregion
+
+        #region IUserAuthRepositoryExtended 接口实现
+
+        /// <summary>
+        ///     根据名称获取用户身份。
+        /// </summary>
+        /// <param name="displayName">显示名称。</param>
+        /// <returns>用户身份。</returns>
+        public IUserAuth GetUserAuthByDisplayName(string displayName)
+        {
+            if (displayName.IsNullOrEmpty())
+            {
+                return null;
+            }
+            return R.Table(s_UserAuthTable).GetAll(displayName).OptArg("index", "DisplayName").Nth(0).Default_(default(UserAuth)).RunResult<UserAuth>(_conn);
+        }
+
+        /// <summary>
+        ///     根据第三方提供者名称及第三方用户编号获取用户身份提供者明细。
+        /// </summary>
+        /// <param name="provider">第三方提供者名称。</param>
+        /// <param name="userId">第三方用户编号。</param>
+        /// <returns>用户身份提供者明细。</returns>
+        public IUserAuthDetails GetUserAuthDetailsByProvider(string provider, string userId)
+        {
+            if (provider.IsNullOrEmpty() || userId.IsNullOrEmpty())
+            {
+                return null;
+            }
+            return R.Table(s_UserAuthDetailsTable).GetAll(R.Array(provider, userId)).OptArg("index", "Provider_UserId").Nth(0).Default_(default(UserAuthDetails)).RunResult<UserAuthDetails>(_conn);
         }
 
         #endregion

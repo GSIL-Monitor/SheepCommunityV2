@@ -97,6 +97,15 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
+        ///   查找类似 第三方平台用户编号必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string OpenIdRequired {
+            get {
+                return ResourceManager.GetString("OpenIdRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 登录密码的长度至少为{0}位。 的本地化字符串。
         /// </summary>
         internal static string PasswordLengthMismatch {
@@ -111,6 +120,15 @@ namespace Sheep.ServiceModel.Properties {
         internal static string PasswordRequired {
             get {
                 return ResourceManager.GetString("PasswordRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 手机号码已经存在。 的本地化字符串。
+        /// </summary>
+        internal static string PhoneNumberAlreadyExists {
+            get {
+                return ResourceManager.GetString("PhoneNumberAlreadyExists", resourceCulture);
             }
         }
         

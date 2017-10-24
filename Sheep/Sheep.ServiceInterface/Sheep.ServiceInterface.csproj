@@ -87,10 +87,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Groups\CreateGroupService.cs" />
-    <Compile Include="Identities\RegisterService.cs" />
-    <Compile Include="Identities\LogoutService.cs" />
-    <Compile Include="Identities\LoginByMobileService.cs" />
-    <Compile Include="Identities\LoginByCredentialsService.cs" />
+    <Compile Include="Accounts\RegisterService.cs" />
+    <Compile Include="Accounts\LogoutService.cs" />
+    <Compile Include="Accounts\LoginByMobileService.cs" />
+    <Compile Include="Accounts\LoginByCredentialsService.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -2,18 +2,18 @@
 using ServiceStack.FluentValidation;
 using Sheep.ServiceModel.Properties;
 
-namespace Sheep.ServiceModel.Identities.Validators
+namespace Sheep.ServiceModel.Accounts.Validators
 {
     /// <summary>
-    ///     使用用户名称或电子邮件地址及密码登录身份的校验器。
+    ///     使用用户名称或电子邮件地址及密码登录帐户的校验器。
     /// </summary>
-    public class IdentityLoginByCredentialsValidator : AbstractValidator<IdentityLoginByCredentials>
+    public class AccountLoginByCredentialsValidator : AbstractValidator<AccountLoginByCredentials>
     {
         /// <summary>
-        ///     初始化一个新的<see cref="IdentityLoginByCredentialsValidator" />对象。
+        ///     初始化一个新的<see cref="AccountLoginByCredentialsValidator" />对象。
         ///     创建规则集合。
         /// </summary>
-        public IdentityLoginByCredentialsValidator()
+        public AccountLoginByCredentialsValidator()
         {
             RuleSet(ApplyTo.Post, () =>
                                   {
@@ -24,15 +24,15 @@ namespace Sheep.ServiceModel.Identities.Validators
     }
 
     /// <summary>
-    ///     使用手机号码及验证码登录身份的校验器。
+    ///     使用手机号码及验证码登录帐户的校验器。
     /// </summary>
-    public class IdentityLoginByMobileValidator : AbstractValidator<IdentityLoginByMobile>
+    public class AccountLoginByMobileValidator : AbstractValidator<AccountLoginByMobile>
     {
         /// <summary>
-        ///     初始化一个新的<see cref="IdentityLoginByMobileValidator" />对象。
+        ///     初始化一个新的<see cref="AccountLoginByMobileValidator" />对象。
         ///     创建规则集合。
         /// </summary>
-        public IdentityLoginByMobileValidator()
+        public AccountLoginByMobileValidator()
         {
             RuleSet(ApplyTo.Post, () =>
                                   {
@@ -43,57 +43,57 @@ namespace Sheep.ServiceModel.Identities.Validators
     }
 
     /// <summary>
-    ///     使用微博帐号登录身份的校验器。
+    ///     使用微博帐号登录帐户的校验器。
     /// </summary>
-    public class IdentityLoginByWeiboValidator : AbstractValidator<IdentityLoginByWeibo>
+    public class AccountLoginByWeiboValidator : AbstractValidator<AccountLoginByWeibo>
     {
         /// <summary>
-        ///     初始化一个新的<see cref="IdentityLoginByWeiboValidator" />对象。
+        ///     初始化一个新的<see cref="AccountLoginByWeiboValidator" />对象。
         ///     创建规则集合。
         /// </summary>
-        public IdentityLoginByWeiboValidator()
+        public AccountLoginByWeiboValidator()
         {
             RuleSet(ApplyTo.Post, () =>
                                   {
-                                      RuleFor(x => x.UserId).NotEmpty().WithMessage(Resources.UserIdRequired);
+                                      RuleFor(x => x.OpenId).NotEmpty().WithMessage(Resources.OpenIdRequired);
                                       RuleFor(x => x.AccessToken).NotEmpty().WithMessage(Resources.AccessTokenRequired);
                                   });
         }
     }
 
     /// <summary>
-    ///     使用微信帐号登录身份的校验器。
+    ///     使用微信帐号登录帐户的校验器。
     /// </summary>
-    public class IdentityLoginByWeixinValidator : AbstractValidator<IdentityLoginByWeixin>
+    public class AccountLoginByWeixinValidator : AbstractValidator<AccountLoginByWeixin>
     {
         /// <summary>
-        ///     初始化一个新的<see cref="IdentityLoginByWeixinValidator" />对象。
+        ///     初始化一个新的<see cref="AccountLoginByWeixinValidator" />对象。
         ///     创建规则集合。
         /// </summary>
-        public IdentityLoginByWeixinValidator()
+        public AccountLoginByWeixinValidator()
         {
             RuleSet(ApplyTo.Post, () =>
                                   {
-                                      RuleFor(x => x.UserId).NotEmpty().WithMessage(Resources.UserIdRequired);
+                                      RuleFor(x => x.OpenId).NotEmpty().WithMessage(Resources.OpenIdRequired);
                                       RuleFor(x => x.AccessToken).NotEmpty().WithMessage(Resources.AccessTokenRequired);
                                   });
         }
     }
 
     /// <summary>
-    ///     使用QQ帐号登录身份的校验器。
+    ///     使用QQ帐号登录帐户的校验器。
     /// </summary>
-    public class IdentityLoginByQQValidator : AbstractValidator<IdentityLoginByQQ>
+    public class AccountLoginByQQValidator : AbstractValidator<AccountLoginByQQ>
     {
         /// <summary>
-        ///     初始化一个新的<see cref="IdentityLoginByQQValidator" />对象。
+        ///     初始化一个新的<see cref="AccountLoginByQQValidator" />对象。
         ///     创建规则集合。
         /// </summary>
-        public IdentityLoginByQQValidator()
+        public AccountLoginByQQValidator()
         {
             RuleSet(ApplyTo.Post, () =>
                                   {
-                                      RuleFor(x => x.UserId).NotEmpty().WithMessage(Resources.UserIdRequired);
+                                      RuleFor(x => x.OpenId).NotEmpty().WithMessage(Resources.OpenIdRequired);
                                       RuleFor(x => x.AccessToken).NotEmpty().WithMessage(Resources.AccessTokenRequired);
                                   });
         }

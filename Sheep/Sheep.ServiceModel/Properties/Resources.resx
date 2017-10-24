@@ -129,11 +129,17 @@
   <data name="EmailLengthMismatch" xml:space="preserve">
     <value>电子邮件地址的长度至少为{0}位。</value>
   </data>
+  <data name="OpenIdRequired" xml:space="preserve">
+    <value>第三方平台用户编号必须输入。</value>
+  </data>
   <data name="PasswordLengthMismatch" xml:space="preserve">
     <value>登录密码的长度至少为{0}位。</value>
   </data>
   <data name="PasswordRequired" xml:space="preserve">
     <value>登录密码必须输入。</value>
+  </data>
+  <data name="PhoneNumberAlreadyExists" xml:space="preserve">
+    <value>手机号码已经存在。</value>
   </data>
   <data name="PhoneNumberFormatMismatch" xml:space="preserve">
     <value>手机号码必须为11位中国地区手机号。</value>

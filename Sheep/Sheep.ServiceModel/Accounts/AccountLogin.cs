@@ -1,14 +1,14 @@
 ﻿using System.Runtime.Serialization;
 using ServiceStack;
 
-namespace Sheep.ServiceModel.Identities
+namespace Sheep.ServiceModel.Accounts
 {
     /// <summary>
     ///     使用用户名称或电子邮件地址及密码登录身份的请求。
     /// </summary>
-    [Route("/identities/login/credentials", HttpMethods.Post)]
+    [Route("/accounts/login", HttpMethods.Post)]
     [DataContract]
-    public class IdentityLoginByCredentials : IReturn<IdentityLoginResponse>
+    public class AccountLoginByCredentials : IReturn<AccountLoginResponse>
     {
         /// <summary>
         ///     用户名称或电子邮件地址。
@@ -26,9 +26,9 @@ namespace Sheep.ServiceModel.Identities
     /// <summary>
     ///     使用手机号码及验证码登录身份的请求。
     /// </summary>
-    [Route("/identities/login/mobile", HttpMethods.Post)]
+    [Route("/accounts/login/mobile", HttpMethods.Post)]
     [DataContract]
-    public class IdentityLoginByMobile : IReturn<IdentityLoginResponse>
+    public class AccountLoginByMobile : IReturn<AccountLoginResponse>
     {
         /// <summary>
         ///     手机号码。
@@ -46,15 +46,15 @@ namespace Sheep.ServiceModel.Identities
     /// <summary>
     ///     使用微博帐号登录身份的请求。
     /// </summary>
-    [Route("/identities/login/weibo", HttpMethods.Post)]
+    [Route("/accounts/login/weibo", HttpMethods.Post)]
     [DataContract]
-    public class IdentityLoginByWeibo : IReturn<IdentityLoginResponse>
+    public class AccountLoginByWeibo : IReturn<AccountLoginResponse>
     {
         /// <summary>
         ///     微博的用户编号。
         /// </summary>
         [DataMember(Order = 1, IsRequired = true)]
-        public string UserId { get; set; }
+        public string OpenId { get; set; }
 
         /// <summary>
         ///     微博的授权码。
@@ -66,15 +66,15 @@ namespace Sheep.ServiceModel.Identities
     /// <summary>
     ///     使用微信帐号登录身份的请求。
     /// </summary>
-    [Route("/identities/login/weixin", HttpMethods.Post)]
+    [Route("/accounts/login/weixin", HttpMethods.Post)]
     [DataContract]
-    public class IdentityLoginByWeixin : IReturn<IdentityLoginResponse>
+    public class AccountLoginByWeixin : IReturn<AccountLoginResponse>
     {
         /// <summary>
         ///     微信的用户编号。
         /// </summary>
         [DataMember(Order = 1, IsRequired = true)]
-        public string UserId { get; set; }
+        public string OpenId { get; set; }
 
         /// <summary>
         ///     微信的授权码。
@@ -86,15 +86,15 @@ namespace Sheep.ServiceModel.Identities
     /// <summary>
     ///     使用QQ帐号登录身份的请求。
     /// </summary>
-    [Route("/identities/login/qq", HttpMethods.Post)]
+    [Route("/accounts/login/qq", HttpMethods.Post)]
     [DataContract]
-    public class IdentityLoginByQQ : IReturn<IdentityLoginResponse>
+    public class AccountLoginByQQ : IReturn<AccountLoginResponse>
     {
         /// <summary>
         ///     QQ的用户编号。
         /// </summary>
         [DataMember(Order = 1, IsRequired = true)]
-        public string UserId { get; set; }
+        public string OpenId { get; set; }
 
         /// <summary>
         ///     QQ的授权码。
@@ -107,7 +107,7 @@ namespace Sheep.ServiceModel.Identities
     ///     登录身份的响应。
     /// </summary>
     [DataContract]
-    public class IdentityLoginResponse : IHasResponseStatus
+    public class AccountLoginResponse : IHasResponseStatus
     {
         /// <summary>
         ///     登录会话编号。

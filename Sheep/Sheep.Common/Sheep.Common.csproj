@@ -86,6 +86,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Auth\IUserAuthRepositoryExtended.cs" />
     <Compile Include="Infrastructure\IPaged.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

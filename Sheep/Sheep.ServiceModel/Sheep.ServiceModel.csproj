@@ -77,6 +77,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Accounts\AccountUnbind.cs" />
+    <Compile Include="Accounts\Validators\AccountBindValidator.cs" />
     <Compile Include="Achievements\Entities\AchievementDto.cs" />
     <Compile Include="Achievements\AchievementShow.cs" />
     <Compile Include="Achievements\AchievementList.cs" />
@@ -100,8 +102,9 @@
     <Compile Include="GroupUsers\GroupUserShow.cs" />
     <Compile Include="GroupUsers\GroupUserDelete.cs" />
     <Compile Include="GroupUsers\GroupUserCreate.cs" />
-    <Compile Include="Identities\IdentityRegister.cs" />
-    <Compile Include="Identities\Validators\IdentityRegisterValidator.cs" />
+    <Compile Include="Accounts\AccountBind.cs" />
+    <Compile Include="Accounts\AccountRegister.cs" />
+    <Compile Include="Accounts\Validators\AccountRegisterValidator.cs" />
     <Compile Include="Likes\Entities\LikedItemDto.cs" />
     <Compile Include="Likes\Entities\LikeDto.cs" />
     <Compile Include="ServiceModelAssembly.cs" />
@@ -121,9 +124,9 @@
     <Compile Include="Users\Entities\OnlineUserDto.cs" />
     <Compile Include="Users\Entities\BasicUserDto.cs" />
     <Compile Include="Users\Entities\UserDto.cs" />
-    <Compile Include="Identities\IdentityLogout.cs" />
-    <Compile Include="Identities\IdentityLogin.cs" />
-    <Compile Include="Identities\Validators\IdentityLoginValidator.cs" />
+    <Compile Include="Accounts\AccountLogout.cs" />
+    <Compile Include="Accounts\AccountLogin.cs" />
+    <Compile Include="Accounts\Validators\AccountLoginValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Achievements\Mappers\" />
