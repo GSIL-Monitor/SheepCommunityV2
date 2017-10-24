@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Groups\CreateGroupService.cs" />
+    <Compile Include="Identities\LoginByMobileService.cs" />
     <Compile Include="Identities\LoginByCredentialsService.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
