@@ -141,6 +141,9 @@
   <data name="PhoneNumberFormatMismatch" xml:space="preserve">
     <value>手机号码必须为11位中国地区手机号。</value>
   </data>
+  <data name="PhoneNumberNotExists" xml:space="preserve">
+    <value>手机号码不存在。</value>
+  </data>
   <data name="PhoneNumberRequired" xml:space="preserve">
     <value>手机号码必须输入。</value>
   </data>
@@ -149,6 +152,9 @@
   </data>
   <data name="QQUserIdAlreadyExists" xml:space="preserve">
     <value>QQ用户编号已经存在。</value>
+  </data>
+  <data name="QQUserIdNotExists" xml:space="preserve">
+    <value>QQ用户编号不存在。</value>
   </data>
   <data name="QQUserIdRequired" xml:space="preserve">
     <value>QQ用户编号必须输入。</value>
@@ -174,11 +180,17 @@
   <data name="WeiboUserIdAlreadyExists" xml:space="preserve">
     <value>微博用户编号已经存在。</value>
   </data>
+  <data name="WeiboUserIdNotExists" xml:space="preserve">
+    <value>微博用户编号不存在。</value>
+  </data>
   <data name="WeiboUserIdRequired" xml:space="preserve">
     <value>微博用户编号必须输入。</value>
   </data>
   <data name="WeixinUserIdAlreadyExists" xml:space="preserve">
     <value>微信用户编号已经存在。</value>
+  </data>
+  <data name="WeixinUserIdNotExists" xml:space="preserve">
+    <value>微信用户编号不存在。</value>
   </data>
   <data name="WeixinUserIdRequired" xml:space="preserve">
     <value>微信用户编号必须输入。</value>

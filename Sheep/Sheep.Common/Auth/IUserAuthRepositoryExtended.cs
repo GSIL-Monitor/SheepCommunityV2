@@ -21,5 +21,12 @@ namespace Sheep.Common.Auth
         /// <param name="userId">第三方用户编号。</param>
         /// <returns>用户身份提供者明细。</returns>
         IUserAuthDetails GetUserAuthDetailsByProvider(string provider, string userId);
+
+        /// <summary>
+        ///     根据第三方提供者名称及第三方用户编号删除用户身份提供者明细。
+        /// </summary>
+        /// <param name="provider">第三方提供者名称。</param>
+        /// <param name="userId">第三方用户编号。</param>
+        void DeleteUserAuthDetailsByProvider(string provider, string userId);
     }
 }

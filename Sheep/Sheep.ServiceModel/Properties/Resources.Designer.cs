@@ -133,6 +133,15 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
+        ///   查找类似 手机号码不存在。 的本地化字符串。
+        /// </summary>
+        internal static string PhoneNumberNotExists {
+            get {
+                return ResourceManager.GetString("PhoneNumberNotExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 手机号码必须输入。 的本地化字符串。
         /// </summary>
         internal static string PhoneNumberRequired {
@@ -156,6 +165,15 @@ namespace Sheep.ServiceModel.Properties {
         internal static string QQUserIdAlreadyExists {
             get {
                 return ResourceManager.GetString("QQUserIdAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 QQ用户编号不存在。 的本地化字符串。
+        /// </summary>
+        internal static string QQUserIdNotExists {
+            get {
+                return ResourceManager.GetString("QQUserIdNotExists", resourceCulture);
             }
         }
         
@@ -232,6 +250,15 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
+        ///   查找类似 微博用户编号不存在。 的本地化字符串。
+        /// </summary>
+        internal static string WeiboUserIdNotExists {
+            get {
+                return ResourceManager.GetString("WeiboUserIdNotExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 微博用户编号必须输入。 的本地化字符串。
         /// </summary>
         internal static string WeiboUserIdRequired {
@@ -246,6 +273,15 @@ namespace Sheep.ServiceModel.Properties {
         internal static string WeixinUserIdAlreadyExists {
             get {
                 return ResourceManager.GetString("WeixinUserIdAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 微信用户编号不存在。 的本地化字符串。
+        /// </summary>
+        internal static string WeixinUserIdNotExists {
+            get {
+                return ResourceManager.GetString("WeixinUserIdNotExists", resourceCulture);
             }
         }
         

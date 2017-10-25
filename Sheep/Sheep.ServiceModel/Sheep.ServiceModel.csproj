@@ -101,6 +101,7 @@
   <ItemGroup>
     <Compile Include="Accounts\AccountChangePassword.cs" />
     <Compile Include="Accounts\AccountUnbind.cs" />
+    <Compile Include="Accounts\Validators\AccountUnbindValidator.cs" />
     <Compile Include="Accounts\Validators\AccountBindValidator.cs" />
     <Compile Include="Accounts\Validators\AccountChangePasswordValidator.cs" />
     <Compile Include="Achievements\Entities\AchievementDto.cs" />

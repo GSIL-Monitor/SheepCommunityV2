@@ -10,6 +10,11 @@ namespace Sheep.ServiceModel.Accounts
     [DataContract]
     public class AccountUnbindMobile : IReturn<AccountUnbindResponse>
     {
+        /// <summary>
+        ///     手机号码。
+        /// </summary>
+        [DataMember(Order = 1, IsRequired = true)]
+        public string PhoneNumber { get; set; }
     }
 
     /// <summary>
@@ -19,6 +24,11 @@ namespace Sheep.ServiceModel.Accounts
     [DataContract]
     public class AccountUnbindWeibo : IReturn<AccountUnbindResponse>
     {
+        /// <summary>
+        ///     微博的用户编号。
+        /// </summary>
+        [DataMember(Order = 1, IsRequired = true)]
+        public string WeiboUserId { get; set; }
     }
 
     /// <summary>
@@ -28,6 +38,11 @@ namespace Sheep.ServiceModel.Accounts
     [DataContract]
     public class AccountUnbindWeixin : IReturn<AccountUnbindResponse>
     {
+        /// <summary>
+        ///     微信的用户编号。
+        /// </summary>
+        [DataMember(Order = 1, IsRequired = true)]
+        public string WeixinUserId { get; set; }
     }
 
     /// <summary>
@@ -37,6 +52,11 @@ namespace Sheep.ServiceModel.Accounts
     [DataContract]
     public class AccountUnbindQQ : IReturn<AccountUnbindResponse>
     {
+        /// <summary>
+        ///     QQ的用户编号。
+        /// </summary>
+        [DataMember(Order = 1, IsRequired = true)]
+        public string QQUserId { get; set; }
     }
 
     /// <summary>

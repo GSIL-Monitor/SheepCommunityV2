@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Configuration;
@@ -75,20 +74,15 @@ namespace Sheep.ServiceInterface.Accounts
             {
                 AccountBindCredentialsValidator.ValidateAndThrow(request, ApplyTo.Post);
             }
-            IUserAuth userAuth;
-            List<IUserAuthDetails> userAuthDetailsList;
+            var session = GetSession();
             var authRepo = HostContext.AppHost.GetAuthRepository(Request);
             using (authRepo as IDisposable)
             {
-                var userAuthId = GetSession().UserAuthId;
-                var existingUserAuth = authRepo.GetUserAuth(userAuthId);
+                var existingUserAuth = authRepo.GetUserAuth(session, null);
                 var newUserAuth = MapToUserAuth(authRepo, request);
                 newUserAuth.PopulateMissingExtended(existingUserAuth);
-                userAuth = authRepo.UpdateUserAuth(existingUserAuth, newUserAuth, request.Password);
-                userAuthDetailsList = authRepo.GetUserAuthDetails(userAuthId);
+                authRepo.UpdateUserAuth(existingUserAuth, newUserAuth, request.Password);
             }
-            var session = GetSession();
-            session.PopulateSession(userAuth, userAuthDetailsList.ConvertAll(x => (IAuthTokens) x));
             return new AccountBindResponse();
         }
 

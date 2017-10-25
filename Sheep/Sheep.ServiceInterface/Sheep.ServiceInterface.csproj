@@ -109,6 +109,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Accounts\ChangePasswordService.cs" />
+    <Compile Include="Accounts\UnbindWeiboService.cs" />
     <Compile Include="Accounts\UnbindMobileService.cs" />
     <Compile Include="Accounts\BindWeiboService.cs" />
     <Compile Include="Accounts\BindMobileService.cs" />
@@ -134,6 +135,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Sheep.Common\Sheep.Common.csproj">
+      <Project>{80d3d2c4-3171-4ff9-8c62-0483b1c97cd1}</Project>
+      <Name>Sheep.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sheep.Interface\Sheep.Interface.csproj">
       <Project>{c2e40e51-72da-4a73-aee7-acacb3f0157d}</Project>
       <Name>Sheep.Interface</Name>

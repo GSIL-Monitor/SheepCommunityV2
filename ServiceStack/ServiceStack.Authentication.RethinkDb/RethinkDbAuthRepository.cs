@@ -492,6 +492,20 @@ namespace ServiceStack.Authentication.RethinkDb
             return R.Table(s_UserAuthDetailsTable).GetAll(R.Array(provider, userId)).OptArg("index", "Provider_UserId").Nth(0).Default_(default(UserAuthDetails)).RunResult<UserAuthDetails>(_conn);
         }
 
+        /// <summary>
+        ///     根据第三方提供者名称及第三方用户编号删除用户身份提供者明细。
+        /// </summary>
+        /// <param name="provider">第三方提供者名称。</param>
+        /// <param name="userId">第三方用户编号。</param>
+        public void DeleteUserAuthDetailsByProvider(string provider, string userId)
+        {
+            if (provider.IsNullOrEmpty() || userId.IsNullOrEmpty())
+            {
+                return;
+            }
+            R.Table(s_UserAuthDetailsTable).GetAll(R.Array(provider, userId)).OptArg("index", "Provider_UserId").Delete().RunResult(_conn).AssertNoErrors();
+        }
+
         #endregion
 
         #region IClearable 接口实现
