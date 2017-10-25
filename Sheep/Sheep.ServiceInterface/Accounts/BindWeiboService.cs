@@ -13,16 +13,16 @@ using Sheep.ServiceModel.Accounts;
 namespace Sheep.ServiceInterface.Accounts
 {
     /// <summary>
-    ///     使用手机号码登录服务接口。
+    ///     绑定微博帐号服务接口。
     /// </summary>
-    public class LoginByMobileService : Service
+    public class BindWeiboService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(LoginByMobileService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(BindWeiboService));
 
         /// <summary>
         ///     自定义校验函数。
@@ -39,22 +39,22 @@ namespace Sheep.ServiceInterface.Accounts
         public IAppSettings AppSettings { get; set; }
 
         /// <summary>
-        ///     获取及设置使用手机号码登录的校验器。
+        ///     获取及设置绑定微博帐号的校验器。
         /// </summary>
-        public IValidator<AccountLoginByMobile> AccountLoginByMobileValidator { get; set; }
+        public IValidator<AccountBindWeibo> AccountBindWeiboValidator { get; set; }
 
         #endregion
 
-        #region 使用手机号码登录
+        #region 绑定微博帐号
 
         /// <summary>
-        ///     使用手机号码登录。
+        ///     绑定微博帐号。
         /// </summary>
-        public object Post(AccountLoginByMobile request)
+        public object Post(AccountBindWeibo request)
         {
-            if (IsAuthenticated)
+            if (!IsAuthenticated)
             {
-                throw HttpError.Unauthorized(Resources.ReLoginNotAllowed);
+                throw HttpError.Unauthorized(Resources.LoginRequired);
             }
             var validateResponse = ValidateFn?.Invoke(this, HttpMethods.Post, request);
             if (validateResponse != null)
@@ -63,40 +63,24 @@ namespace Sheep.ServiceInterface.Accounts
             }
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
-                AccountLoginByMobileValidator.ValidateAndThrow(request, ApplyTo.Post);
+                AccountBindWeiboValidator.ValidateAndThrow(request, ApplyTo.Post);
             }
             using (var authService = ResolveService<AuthenticateService>())
             {
                 var authResult = authService.Post(new Authenticate
                                                   {
-                                                      provider = MobileAuthProvider.Name,
-                                                      UserName = request.PhoneNumber,
-                                                      Password = request.Token,
-                                                      State = "Login",
+                                                      provider = WeiboAuthProvider.Name,
+                                                      UserName = request.WeiboUserId,
+                                                      AccessToken = request.AccessToken,
                                                       RememberMe = true
                                                   });
                 if (authResult is IHttpError)
                 {
                     throw (Exception) authResult;
                 }
-                if (authResult is AuthenticateResponse authResponse)
+                if (authResult is AuthenticateResponse)
                 {
-                    var newlyCreated = false;
-                    var authRepo = HostContext.AppHost.GetAuthRepository(Request);
-                    using (authRepo as IDisposable)
-                    {
-                        var userAuth = authRepo.GetUserAuth(authResponse.UserId);
-                        if (userAuth.CreatedDate == userAuth.ModifiedDate)
-                        {
-                            newlyCreated = true;
-                        }
-                    }
-                    return new AccountLoginResponse
-                           {
-                               SessionId = authResponse.SessionId,
-                               UserId = authResponse.UserId.ToInt(),
-                               NewlyCreated = newlyCreated
-                           };
+                    return new AccountBindResponse();
                 }
                 return authResult;
             }

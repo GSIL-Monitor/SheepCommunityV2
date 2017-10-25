@@ -1,5 +1,6 @@
 ﻿using System;
 using Funq;
+using Netease.Nim;
 using Polly;
 using RethinkDb.Driver;
 using RethinkDb.Driver.Net;
@@ -20,6 +21,8 @@ using Sheep.Model.Security.Providers;
 using Sheep.Model.Security.Repositories;
 using Sheep.ServiceInterface;
 using Sheep.ServiceModel;
+using Sina.Weibo;
+using Tencent.Weixin;
 using Top.Api;
 using CredentialsAuthProvider = Sheep.Model.Auth.Providers.CredentialsAuthProvider;
 
@@ -78,6 +81,12 @@ namespace Sheep
             ConfigRedis(container);
             // 配置阿里大于客户端。
             ConfigAlibabaTopClient(container);
+            // 配置新浪微博客户端。
+            ConfigSinaWeiboClient(container);
+            // 配置腾讯微信客户端。
+            ConfigTencentWeixinClient(container);
+            // 配置网易云通讯客户端。
+            ConfigNetneaseNimClient(container);
             // 配置安全验证码提供程序。
             ConfigSecurityTokenProviders(container);
             // 配置身份验证功能。
@@ -152,6 +161,82 @@ namespace Sheep
         }
 
         /// <summary>
+        ///     配置新浪微博客户端。
+        /// </summary>
+        private void ConfigSinaWeiboClient(Container container)
+        {
+            container.Register<IWeiboClient>(c => new WeiboClient
+                                                  {
+                                                      AppKey = AppSettings.GetString(AppSettingsWeiboNames.AppKey),
+                                                      AppSecret = AppSettings.GetString(AppSettingsWeiboNames.AppSecret),
+                                                      AccessTokenUrl = AppSettings.GetString(AppSettingsWeiboNames.AccessTokenUrl),
+                                                      GetTokenUrl = AppSettings.GetString(AppSettingsWeiboNames.GetTokenUrl),
+                                                      ShowUserUrl = AppSettings.GetString(AppSettingsWeiboNames.ShowUserUrl),
+                                                      RedirectUrl = AppSettings.GetString(AppSettingsWeiboNames.RedirectUrl)
+                                                  });
+        }
+
+        /// <summary>
+        ///     配置腾讯微信客户端。
+        /// </summary>
+        private void ConfigTencentWeixinClient(Container container)
+        {
+            container.Register<IWeixinClient>(c => new WeixinClient
+                                                   {
+                                                       AppId = AppSettings.GetString(AppSettingsWeixinNames.AppId),
+                                                       AppSecret = AppSettings.GetString(AppSettingsWeixinNames.AppSecret),
+                                                       AccessTokenUrl = AppSettings.GetString(AppSettingsWeixinNames.AccessTokenUrl),
+                                                       RefreshTokenUrl = AppSettings.GetString(AppSettingsWeixinNames.RefreshTokenUrl),
+                                                       AuthenticateTokenUrl = AppSettings.GetString(AppSettingsWeixinNames.AuthenticateTokenUrl),
+                                                       UserInfoUrl = AppSettings.GetString(AppSettingsWeixinNames.UserInfoUrl)
+                                                   });
+        }
+
+        /// <summary>
+        ///     配置网易云通讯客户端。
+        /// </summary>
+        private void ConfigNetneaseNimClient(Container container)
+        {
+            container.Register<INimClient>(c => new NimClient
+                                                {
+                                                    AppKey = AppSettings.GetString(AppSettingsNeteaseNimNames.AppKey),
+                                                    AppSecret = AppSettings.GetString(AppSettingsNeteaseNimNames.AppSecret),
+                                                    UserCreateUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.UserCreateUrl),
+                                                    UserUpdateUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.UserUpdateUrl),
+                                                    UserBlockUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.UserBlockUrl),
+                                                    UserUnBlockUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.UserUnBlockUrl),
+                                                    UserUpdateInfoUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.UserUpdateInfoUrl),
+                                                    UserGetInfosUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.UserGetInfosUrl),
+                                                    UserSetSpecialRelationUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.UserSetSpecialRelationUrl),
+                                                    FriendAddUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.FriendAddUrl),
+                                                    FriendUpdateUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.FriendUpdateUrl),
+                                                    FriendDeleteUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.FriendDeleteUrl),
+                                                    MessageSendUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.MessageSendUrl),
+                                                    MessageSendBatchUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.MessageSendBatchUrl),
+                                                    MessageSendAttachUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.MessageSendAttachUrl),
+                                                    MessageSendBatchAttachUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.MessageSendBatchAttachUrl),
+                                                    MessageFileUploadUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.MessageFileUploadUrl),
+                                                    MessageRecallUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.MessageRecallUrl),
+                                                    TeamCreateUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamCreateUrl),
+                                                    TeamAddMemberUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamAddMemberUrl),
+                                                    TeamKickMemberUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamKickMemberUrl),
+                                                    TeamRemoveUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamRemoveUrl),
+                                                    TeamUpdateUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamUpdateUrl),
+                                                    TeamQueryUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamQueryUrl),
+                                                    TeamChangeOwnerUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamChangeOwnerUrl),
+                                                    TeamAddManagerUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamAddManagerUrl),
+                                                    TeamRemoveManagerUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamRemoveManagerUrl),
+                                                    TeamGetJoinedUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamGetJoinedUrl),
+                                                    TeamUpdateMemberNickUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamUpdateMemberNickUrl),
+                                                    TeamUpdateMemberMuteUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamUpdateMemberMuteUrl),
+                                                    TeamMuteMemberUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamMuteMemberUrl),
+                                                    TeamLeaveMemberUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamLeaveMemberUrl),
+                                                    TeamMuteUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamMuteUrl),
+                                                    TeamGetMutedMembersUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamGetMutedMembersUrl)
+                                                });
+        }
+
+        /// <summary>
         ///     配置安全验证码提供程序。
         /// </summary>
         private void ConfigSecurityTokenProviders(Container container)
@@ -171,6 +256,7 @@ namespace Sheep
                                 {
                                     new CredentialsAuthProvider(AppSettings),
                                     new MobileAuthProvider(AppSettings, container.Resolve<ISecurityTokenProvider>()),
+                                    new WeiboAuthProvider(AppSettings, container.Resolve<IWeiboClient>())
                                 };
             var feature = new AuthFeature(() => new AuthUserSession(), authProviders)
                           {

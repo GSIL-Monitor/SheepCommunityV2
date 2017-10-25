@@ -127,7 +127,7 @@
     <value>错误的平台用户编号。</value>
   </data>
   <data name="InvalidSecurityToken" xml:space="preserve">
-    <value>错误验证码。</value>
+    <value>错误的验证码。</value>
   </data>
   <data name="InvalidUserNameOrEmailOrPassword" xml:space="preserve">
     <value>错误的用户名称或电子邮件地址及登录密码。</value>

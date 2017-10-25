@@ -56,14 +56,14 @@ namespace Sheep.ServiceInterface.Accounts
             {
                 throw HttpError.Unauthorized(Resources.ReLoginNotAllowed);
             }
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                AccountLoginByCredentialsValidator.ValidateAndThrow(request, ApplyTo.Post);
-            }
             var validateResponse = ValidateFn?.Invoke(this, HttpMethods.Post, request);
             if (validateResponse != null)
             {
                 return validateResponse;
+            }
+            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            {
+                AccountLoginByCredentialsValidator.ValidateAndThrow(request, ApplyTo.Post);
             }
             using (var authService = ResolveService<AuthenticateService>())
             {

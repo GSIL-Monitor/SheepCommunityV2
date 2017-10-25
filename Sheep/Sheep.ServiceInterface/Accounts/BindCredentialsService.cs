@@ -12,7 +12,7 @@ using Sheep.ServiceModel.Accounts;
 namespace Sheep.ServiceInterface.Accounts
 {
     /// <summary>
-    ///     绑定用户名称或电子邮件地址及密码服务接口。
+    ///     绑定用户名称或电子邮件地址及密码帐户服务接口。
     /// </summary>
     public class BindCredentialsService : Service
     {
@@ -38,16 +38,16 @@ namespace Sheep.ServiceInterface.Accounts
         public IAppSettings AppSettings { get; set; }
 
         /// <summary>
-        ///     获取及设置绑定用户名称或电子邮件地址及密码的校验器。
+        ///     获取及设置绑定用户名称或电子邮件地址及密码帐户的校验器。
         /// </summary>
         public IValidator<AccountBindCredentials> AccountBindCredentialsValidator { get; set; }
 
         #endregion
 
-        #region 绑定用户名称或电子邮件地址及密码
+        #region 绑定用户名称或电子邮件地址及密码帐户
 
         /// <summary>
-        ///     绑定用户名称或电子邮件地址及密码。
+        ///     绑定用户名称或电子邮件地址及密码帐户。
         /// </summary>
         public object Post(AccountBindCredentials request)
         {

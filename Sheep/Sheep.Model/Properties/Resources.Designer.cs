@@ -88,7 +88,7 @@ namespace Sheep.Model.Properties {
         }
         
         /// <summary>
-        ///   查找类似 错误验证码。 的本地化字符串。
+        ///   查找类似 错误的验证码。 的本地化字符串。
         /// </summary>
         internal static string InvalidSecurityToken {
             get {

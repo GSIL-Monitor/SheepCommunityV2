@@ -6,7 +6,7 @@ namespace Sheep.ServiceModel.Accounts
     /// <summary>
     ///     绑定用户名称或电子邮件地址及密码帐户的请求。
     /// </summary>
-    [Route("/accounts/binding", HttpMethods.Post)]
+    [Route("/accounts/binding/credentials", HttpMethods.Post)]
     [DataContract]
     public class AccountBindCredentials : IReturn<AccountBindResponse>
     {
@@ -30,7 +30,7 @@ namespace Sheep.ServiceModel.Accounts
     }
 
     /// <summary>
-    ///     绑定手机号码及验证码帐户的请求。
+    ///     绑定手机号码的请求。
     /// </summary>
     [Route("/accounts/binding/mobile", HttpMethods.Post)]
     [DataContract]
@@ -50,7 +50,7 @@ namespace Sheep.ServiceModel.Accounts
     }
 
     /// <summary>
-    ///     绑定微博帐号帐户的请求。
+    ///     绑定微博帐号的请求。
     /// </summary>
     [Route("/accounts/binding/weibo", HttpMethods.Post)]
     [DataContract]
@@ -90,7 +90,7 @@ namespace Sheep.ServiceModel.Accounts
     }
 
     /// <summary>
-    ///     绑定QQ帐号帐户的请求。
+    ///     绑定QQ帐号的请求。
     /// </summary>
     [Route("/accounts/binding/qq", HttpMethods.Post)]
     [DataContract]
@@ -110,7 +110,7 @@ namespace Sheep.ServiceModel.Accounts
     }
 
     /// <summary>
-    ///     帐户的响应。
+    ///     绑定帐户的响应。
     /// </summary>
     [DataContract]
     public class AccountBindResponse : IHasResponseStatus
