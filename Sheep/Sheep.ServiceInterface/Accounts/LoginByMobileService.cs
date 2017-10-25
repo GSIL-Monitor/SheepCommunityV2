@@ -54,7 +54,7 @@ namespace Sheep.ServiceInterface.Accounts
         {
             if (IsAuthenticated)
             {
-                throw HttpError.Forbidden(Resources.ReLoginNotAllowed);
+                throw HttpError.Unauthorized(Resources.ReLoginNotAllowed);
             }
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {

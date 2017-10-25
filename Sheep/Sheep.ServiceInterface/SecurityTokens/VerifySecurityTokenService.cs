@@ -57,14 +57,14 @@ namespace Sheep.ServiceInterface.SecurityTokens
         /// </summary>
         public async Task<object> Post(SecurityTokenVerify request)
         {
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                SecurityTokenVerifyValidator.ValidateAndThrow(request, ApplyTo.Post);
-            }
             var validateResponse = ValidateFn?.Invoke(this, HttpMethods.Post, request);
             if (validateResponse != null)
             {
                 return validateResponse;
+            }
+            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            {
+                SecurityTokenVerifyValidator.ValidateAndThrow(request, ApplyTo.Post);
             }
             var verifySuccess = await SecurityTokenProvider.VerifyTokenAsync(request.PhoneNumber, request.Purpose, request.Token);
             if (!verifySuccess)

@@ -170,7 +170,7 @@ namespace Sheep
             var authProviders = new IAuthProvider[]
                                 {
                                     new CredentialsAuthProvider(AppSettings),
-                                    new MobileAuthProvider(AppSettings, container.Resolve<ISecurityTokenProvider>())
+                                    new MobileAuthProvider(AppSettings, container.Resolve<ISecurityTokenProvider>()),
                                 };
             var feature = new AuthFeature(() => new AuthUserSession(), authProviders)
                           {

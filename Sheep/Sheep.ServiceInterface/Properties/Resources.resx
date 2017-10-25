@@ -121,7 +121,13 @@
     <value>生成验证码时产生了错误。</value>
   </data>
   <data name="InvalidSecurityToken" xml:space="preserve">
-    <value>错误验证码。</value>
+    <value>错误的验证码。</value>
+  </data>
+  <data name="InvalidUserId" xml:space="preserve">
+    <value>错误的用户编号{0}。</value>
+  </data>
+  <data name="LoginRequired" xml:space="preserve">
+    <value>必须先登录系统。</value>
   </data>
   <data name="ReLoginNotAllowed" xml:space="preserve">
     <value>在已登录的状态下不允许进行重复登录，请先退出登录。</value>

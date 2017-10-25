@@ -84,7 +84,7 @@ namespace Sheep.Model.Auth.Providers
                     return false;
                 }
             }
-            return session != null && session.IsAuthenticated && !string.IsNullOrEmpty(tokens?.AccessTokenSecret);
+            return session != null && session.IsAuthenticated && !string.IsNullOrEmpty(tokens?.AccessToken);
         }
 
         #endregion

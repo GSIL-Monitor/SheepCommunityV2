@@ -129,9 +129,6 @@
   <data name="EmailLengthMismatch" xml:space="preserve">
     <value>电子邮件地址的长度至少为{0}位。</value>
   </data>
-  <data name="OpenIdRequired" xml:space="preserve">
-    <value>第三方平台用户编号必须输入。</value>
-  </data>
   <data name="PasswordLengthMismatch" xml:space="preserve">
     <value>登录密码的长度至少为{0}位。</value>
   </data>
@@ -150,6 +147,12 @@
   <data name="PurposeRequired" xml:space="preserve">
     <value>用途必须输入。</value>
   </data>
+  <data name="QQUserIdAlreadyExists" xml:space="preserve">
+    <value>QQ用户编号已经存在。</value>
+  </data>
+  <data name="QQUserIdRequired" xml:space="preserve">
+    <value>QQ用户编号必须输入。</value>
+  </data>
   <data name="SecurityTokenLengthMismatch" xml:space="preserve">
     <value>验证码有效长度必须为{0}位。</value>
   </data>
@@ -167,5 +170,17 @@
   </data>
   <data name="UserNameOrEmailRequired" xml:space="preserve">
     <value>用户名称或电子邮件地址必须输入。</value>
+  </data>
+  <data name="WeiboUserIdAlreadyExists" xml:space="preserve">
+    <value>微博用户编号已经存在。</value>
+  </data>
+  <data name="WeiboUserIdRequired" xml:space="preserve">
+    <value>微博用户编号必须输入。</value>
+  </data>
+  <data name="WeixinUserIdAlreadyExists" xml:space="preserve">
+    <value>微信用户编号已经存在。</value>
+  </data>
+  <data name="WeixinUserIdRequired" xml:space="preserve">
+    <value>微信用户编号必须输入。</value>
   </data>
 </root>

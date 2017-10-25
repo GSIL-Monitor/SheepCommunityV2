@@ -60,7 +60,7 @@ namespace Sheep.ServiceModel.Accounts
         ///     微博的用户编号。
         /// </summary>
         [DataMember(Order = 1, IsRequired = true)]
-        public string OpenId { get; set; }
+        public string WeiboUserId { get; set; }
 
         /// <summary>
         ///     微博的授权码。
@@ -80,7 +80,7 @@ namespace Sheep.ServiceModel.Accounts
         ///     微信的用户编号。
         /// </summary>
         [DataMember(Order = 1, IsRequired = true)]
-        public string OpenId { get; set; }
+        public string WeixinUserId { get; set; }
 
         /// <summary>
         ///     微信的授权码。
@@ -100,7 +100,7 @@ namespace Sheep.ServiceModel.Accounts
         ///     QQ的用户编号。
         /// </summary>
         [DataMember(Order = 1, IsRequired = true)]
-        public string OpenId { get; set; }
+        public string QQUserId { get; set; }
 
         /// <summary>
         ///     QQ的授权码。

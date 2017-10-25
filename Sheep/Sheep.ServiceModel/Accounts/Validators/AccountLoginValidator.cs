@@ -55,7 +55,7 @@ namespace Sheep.ServiceModel.Accounts.Validators
         {
             RuleSet(ApplyTo.Post, () =>
                                   {
-                                      RuleFor(x => x.OpenId).NotEmpty().WithMessage(Resources.OpenIdRequired);
+                                      RuleFor(x => x.WeiboUserId).NotEmpty().WithMessage(Resources.WeiboUserIdRequired);
                                       RuleFor(x => x.AccessToken).NotEmpty().WithMessage(Resources.AccessTokenRequired);
                                   });
         }
@@ -74,7 +74,7 @@ namespace Sheep.ServiceModel.Accounts.Validators
         {
             RuleSet(ApplyTo.Post, () =>
                                   {
-                                      RuleFor(x => x.OpenId).NotEmpty().WithMessage(Resources.OpenIdRequired);
+                                      RuleFor(x => x.WeixinUserId).NotEmpty().WithMessage(Resources.WeixinUserIdRequired);
                                       RuleFor(x => x.AccessToken).NotEmpty().WithMessage(Resources.AccessTokenRequired);
                                   });
         }
@@ -93,7 +93,7 @@ namespace Sheep.ServiceModel.Accounts.Validators
         {
             RuleSet(ApplyTo.Post, () =>
                                   {
-                                      RuleFor(x => x.OpenId).NotEmpty().WithMessage(Resources.OpenIdRequired);
+                                      RuleFor(x => x.QQUserId).NotEmpty().WithMessage(Resources.QQUserIdRequired);
                                       RuleFor(x => x.AccessToken).NotEmpty().WithMessage(Resources.AccessTokenRequired);
                                   });
         }

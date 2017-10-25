@@ -129,7 +129,7 @@ namespace Sheep.Model.Auth.Providers
         {
             try
             {
-                tokens.UserId = authInfo.Get("UserId");
+                tokens.UserId = authInfo.Get("PhoneNumber");
                 tokens.UserName = authInfo.Get("UserName");
                 tokens.Country = authInfo.Get("Country");
             }
@@ -187,9 +187,9 @@ namespace Sheep.Model.Auth.Providers
             }
             var authInfo = new Dictionary<string, string>
                            {
-                               ["UserId"] = phoneNumber,
+                               ["PhoneNumber"] = phoneNumber,
                                ["UserName"] = $"Mobile{phoneNumber}",
-                               ["Country"] = "China"
+                               ["Country"] = "中国"
                            };
             session.IsAuthenticated = true;
             return OnAuthenticated(authService, session, tokens, authInfo);

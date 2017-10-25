@@ -108,6 +108,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Accounts\BindCredentialsService.cs" />
     <Compile Include="Groups\CreateGroupService.cs" />
     <Compile Include="Accounts\RegisterService.cs" />
     <Compile Include="Accounts\LogoutService.cs" />

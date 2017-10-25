@@ -61,11 +61,29 @@ namespace Sheep.Model.Properties {
         }
         
         /// <summary>
+        ///   查找类似 授权码必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string AccessTokenRequired {
+            get {
+                return ResourceManager.GetString("AccessTokenRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 电子邮件地址已存在。 的本地化字符串。
         /// </summary>
         internal static string EmailAlreadyExists {
             get {
                 return ResourceManager.GetString("EmailAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 错误的平台用户编号。 的本地化字符串。
+        /// </summary>
+        internal static string InvalidOpenUserId {
+            get {
+                return ResourceManager.GetString("InvalidOpenUserId", resourceCulture);
             }
         }
         
@@ -84,6 +102,15 @@ namespace Sheep.Model.Properties {
         internal static string InvalidUserNameOrEmailOrPassword {
             get {
                 return ResourceManager.GetString("InvalidUserNameOrEmailOrPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 平台用户编号必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string OpenUserIdRequired {
+            get {
+                return ResourceManager.GetString("OpenUserIdRequired", resourceCulture);
             }
         }
         

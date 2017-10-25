@@ -70,11 +70,29 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
-        ///   查找类似 错误验证码。 的本地化字符串。
+        ///   查找类似 错误的验证码。 的本地化字符串。
         /// </summary>
         internal static string InvalidSecurityToken {
             get {
                 return ResourceManager.GetString("InvalidSecurityToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 错误的用户编号{0}。 的本地化字符串。
+        /// </summary>
+        internal static string InvalidUserId {
+            get {
+                return ResourceManager.GetString("InvalidUserId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 必须先登录系统。 的本地化字符串。
+        /// </summary>
+        internal static string LoginRequired {
+            get {
+                return ResourceManager.GetString("LoginRequired", resourceCulture);
             }
         }
         

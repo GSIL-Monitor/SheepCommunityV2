@@ -1,5 +1,4 @@
-﻿using System;
-using ServiceStack;
+﻿using ServiceStack;
 using ServiceStack.Logging;
 using Sheep.ServiceModel.Groups;
 
@@ -21,17 +20,7 @@ namespace Sheep.ServiceInterface.Groups
 
         public object Post(GroupCreate request)
         {
-            var response = new GroupCreateResponse();
-            try
-            {
-                return response;
-            }
-            catch (Exception ex)
-            {
-                Log.ErrorFormat("{0}", ex.GetInnerMostException().Message);
-                response.ResponseStatus = ex.ToResponseStatus();
-                return response;
-            }
+            return new GroupCreateResponse();
         }
     }
 }

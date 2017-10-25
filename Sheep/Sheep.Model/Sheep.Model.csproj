@@ -127,6 +127,7 @@
     <Compile Include="Auth\Providers\AuthContext.cs" />
     <Compile Include="Auth\Providers\AuthProvider.cs" />
     <Compile Include="Auth\Providers\CredentialsAuthProvider.cs" />
+    <Compile Include="Auth\Providers\WeiboAuthProvider.cs" />
     <Compile Include="Auth\Providers\MobileAuthProvider.cs" />
     <Compile Include="Auth\Providers\OAuthProvider.cs" />
     <Compile Include="ModelAssembly.cs" />

@@ -117,14 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AccessTokenRequired" xml:space="preserve">
+    <value>授权码必须输入。</value>
+  </data>
   <data name="EmailAlreadyExists" xml:space="preserve">
     <value>电子邮件地址已存在。</value>
+  </data>
+  <data name="InvalidOpenUserId" xml:space="preserve">
+    <value>错误的平台用户编号。</value>
   </data>
   <data name="InvalidSecurityToken" xml:space="preserve">
     <value>错误验证码。</value>
   </data>
   <data name="InvalidUserNameOrEmailOrPassword" xml:space="preserve">
     <value>错误的用户名称或电子邮件地址及登录密码。</value>
+  </data>
+  <data name="OpenUserIdRequired" xml:space="preserve">
+    <value>平台用户编号必须输入。</value>
   </data>
   <data name="PasswordRequired" xml:space="preserve">
     <value>登录密码必须输入。</value>

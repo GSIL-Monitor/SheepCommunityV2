@@ -97,15 +97,6 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
-        ///   查找类似 第三方平台用户编号必须输入。 的本地化字符串。
-        /// </summary>
-        internal static string OpenIdRequired {
-            get {
-                return ResourceManager.GetString("OpenIdRequired", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 登录密码的长度至少为{0}位。 的本地化字符串。
         /// </summary>
         internal static string PasswordLengthMismatch {
@@ -160,6 +151,24 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
+        ///   查找类似 QQ用户编号已经存在。 的本地化字符串。
+        /// </summary>
+        internal static string QQUserIdAlreadyExists {
+            get {
+                return ResourceManager.GetString("QQUserIdAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 QQ用户编号必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string QQUserIdRequired {
+            get {
+                return ResourceManager.GetString("QQUserIdRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 验证码有效长度必须为{0}位。 的本地化字符串。
         /// </summary>
         internal static string SecurityTokenLengthMismatch {
@@ -210,6 +219,42 @@ namespace Sheep.ServiceModel.Properties {
         internal static string UserNameOrEmailRequired {
             get {
                 return ResourceManager.GetString("UserNameOrEmailRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 微博用户编号已经存在。 的本地化字符串。
+        /// </summary>
+        internal static string WeiboUserIdAlreadyExists {
+            get {
+                return ResourceManager.GetString("WeiboUserIdAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 微博用户编号必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string WeiboUserIdRequired {
+            get {
+                return ResourceManager.GetString("WeiboUserIdRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 微信用户编号已经存在。 的本地化字符串。
+        /// </summary>
+        internal static string WeixinUserIdAlreadyExists {
+            get {
+                return ResourceManager.GetString("WeixinUserIdAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 微信用户编号必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string WeixinUserIdRequired {
+            get {
+                return ResourceManager.GetString("WeixinUserIdRequired", resourceCulture);
             }
         }
     }

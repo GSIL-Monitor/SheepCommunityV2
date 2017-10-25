@@ -51,7 +51,7 @@ namespace Sheep.ServiceModel.Accounts
         ///     用户编号。
         /// </summary>
         [DataMember(Order = 2)]
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
 
         /// <summary>
         ///     处理响应的状态。

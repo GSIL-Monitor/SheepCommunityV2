@@ -60,7 +60,7 @@ namespace Sheep.ServiceInterface.Accounts
         {
             if (IsAuthenticated)
             {
-                throw HttpError.Forbidden(Resources.ReRegisterNotAllowed);
+                throw HttpError.Unauthorized(Resources.ReRegisterNotAllowed);
             }
             if (HostContext.GetPlugin<AuthFeature>()?.SaveUserNamesInLowerCase == true)
             {
@@ -73,14 +73,14 @@ namespace Sheep.ServiceInterface.Accounts
                     request.Email = request.Email.ToLower();
                 }
             }
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                AccountRegisterValidator.ValidateAndThrow(request, ApplyTo.Post);
-            }
             var validateResponse = ValidateFn?.Invoke(this, HttpMethods.Post, request);
             if (validateResponse != null)
             {
                 return validateResponse;
+            }
+            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            {
+                AccountRegisterValidator.ValidateAndThrow(request, ApplyTo.Post);
             }
             IUserAuth userAuth;
             var authRepo = HostContext.AppHost.GetAuthRepository(Request);
