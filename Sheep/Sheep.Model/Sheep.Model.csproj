@@ -122,7 +122,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Auth\Events\InternalAuthEvents.cs" />
+    <Compile Include="Auth\Events\SystemAuthEvents.cs" />
     <Compile Include="Auth\Events\NeteaseImAuthEvents.cs" />
     <Compile Include="Auth\Providers\AuthContext.cs" />
     <Compile Include="Auth\Providers\AuthProvider.cs" />

@@ -11,16 +11,16 @@ using Sheep.ServiceModel.Accounts;
 namespace Sheep.ServiceInterface.Accounts
 {
     /// <summary>
-    ///     更换密码服务接口。
+    ///     更改显示名称服务接口。
     /// </summary>
-    public class ChangePasswordService : Service
+    public class ChangeDisplayNameService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(ChangePasswordService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(ChangeDisplayNameService));
 
         #endregion
 
@@ -32,18 +32,18 @@ namespace Sheep.ServiceInterface.Accounts
         public IAppSettings AppSettings { get; set; }
 
         /// <summary>
-        ///     获取及设置更换密码的校验器。
+        ///     获取及设置更改显示名称的校验器。
         /// </summary>
-        public IValidator<AccountChangePassword> AccountChangePasswordValidator { get; set; }
+        public IValidator<AccountChangeDisplayName> AccountChangeDisplayNameValidator { get; set; }
 
         #endregion
 
-        #region 更换密码
+        #region 更改显示名称
 
         /// <summary>
-        ///     更换密码。
+        ///     更改显示名称。
         /// </summary>
-        public object Put(AccountChangePassword request)
+        public object Put(AccountChangeDisplayName request)
         {
             if (!IsAuthenticated)
             {
@@ -51,7 +51,7 @@ namespace Sheep.ServiceInterface.Accounts
             }
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
-                AccountChangePasswordValidator.ValidateAndThrow(request, ApplyTo.Put);
+                AccountChangeDisplayNameValidator.ValidateAndThrow(request, ApplyTo.Put);
             }
             var session = GetSession();
             var authRepo = HostContext.AppHost.GetAuthRepository(Request);
@@ -64,8 +64,9 @@ namespace Sheep.ServiceInterface.Accounts
                 }
                 var newUserAuth = authRepo is ICustomUserAuth customUserAuth ? customUserAuth.CreateUserAuth() : new UserAuth();
                 newUserAuth.PopulateMissingExtended(existingUserAuth);
-                authRepo.UpdateUserAuth(existingUserAuth, newUserAuth, request.Password);
-                return new AccountChangePasswordResponse();
+                newUserAuth.DisplayName = request.DisplayName;
+                ((IUserAuthRepository) authRepo).UpdateUserAuth(existingUserAuth, newUserAuth);
+                return new AccountChangeDisplayNameResponse();
             }
         }
 

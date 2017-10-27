@@ -120,6 +120,12 @@
   <data name="AccessTokenRequired" xml:space="preserve">
     <value>授权码必须输入。</value>
   </data>
+  <data name="DisplayNameAlreadyExists" xml:space="preserve">
+    <value>显示名称已经存在。</value>
+  </data>
+  <data name="DisplayNameRequired" xml:space="preserve">
+    <value>显示名称必须输入。</value>
+  </data>
   <data name="EmailAlreadyExists" xml:space="preserve">
     <value>电子邮件地址已经存在。</value>
   </data>
@@ -176,6 +182,9 @@
   </data>
   <data name="UserNameOrEmailRequired" xml:space="preserve">
     <value>用户名称或电子邮件地址必须输入。</value>
+  </data>
+  <data name="UserNameRequired" xml:space="preserve">
+    <value>用户名称必须输入。</value>
   </data>
   <data name="WeiboUserIdAlreadyExists" xml:space="preserve">
     <value>微博用户编号已经存在。</value>

@@ -5,6 +5,7 @@ using RethinkDb.Driver;
 using RethinkDb.Driver.Model;
 using RethinkDb.Driver.Net;
 using ServiceStack.Auth;
+using ServiceStack.Authentication.RethinkDb.Properties;
 using ServiceStack.Logging;
 using Sheep.Common.Auth;
 
@@ -193,22 +194,30 @@ namespace ServiceStack.Authentication.RethinkDb
 
         #region 检测用户是否存在
 
-        private void AssertNoExistingUser(IUserAuth newUser, IUserAuth exceptForExistingUser = null)
+        private void AssertNoExistingUser(IUserAuth newUserAuth, IUserAuth exceptForExistingUser = null)
         {
-            if (newUser.UserName != null)
+            if (newUserAuth.UserName != null)
             {
-                var existingUser = GetUserAuthByUserName(newUser.UserName);
-                if (existingUser != null && (exceptForExistingUser == null || existingUser.Id != exceptForExistingUser.Id))
+                var existingUserAuth = GetUserAuthByUserName(newUserAuth.UserName);
+                if (existingUserAuth != null && (exceptForExistingUser == null || existingUserAuth.Id != exceptForExistingUser.Id))
                 {
-                    throw new ArgumentException(string.Format(ErrorMessages.UserAlreadyExistsTemplate1, newUser.UserName.SafeInput()));
+                    throw new ArgumentException(string.Format(Resources.UserNameAlreadyExists, newUserAuth.UserName.SafeInput()));
                 }
             }
-            if (newUser.Email != null)
+            if (newUserAuth.Email != null)
             {
-                var existingUser = GetUserAuthByUserName(newUser.Email);
-                if (existingUser != null && (exceptForExistingUser == null || existingUser.Id != exceptForExistingUser.Id))
+                var existingUserAuth = GetUserAuthByUserName(newUserAuth.Email);
+                if (existingUserAuth != null && (exceptForExistingUser == null || existingUserAuth.Id != exceptForExistingUser.Id))
                 {
-                    throw new ArgumentException(string.Format(ErrorMessages.EmailAlreadyExistsTemplate1, newUser.Email.SafeInput()));
+                    throw new ArgumentException(string.Format(Resources.EmailAlreadyExists, newUserAuth.Email.SafeInput()));
+                }
+            }
+            if (newUserAuth.DisplayName != null)
+            {
+                var existingUserAuth = GetUserAuthByDisplayName(newUserAuth.DisplayName);
+                if (existingUserAuth != null && (exceptForExistingUser == null || existingUserAuth.Id != exceptForExistingUser.Id))
+                {
+                    throw new ArgumentException(string.Format(Resources.DisplayNameAlreadyExists, newUserAuth.DisplayName.SafeInput()));
                 }
             }
         }
@@ -390,62 +399,62 @@ namespace ServiceStack.Authentication.RethinkDb
 
         #region IUserAuthRepository 接口实现
 
-        public IUserAuth CreateUserAuth(IUserAuth newUser, string password)
+        public IUserAuth CreateUserAuth(IUserAuth newUserAuth, string password)
         {
-            newUser.ValidateNewUser(password);
-            AssertNoExistingUser(newUser);
+            newUserAuth.ValidateNewUser(password);
+            AssertNoExistingUser(newUserAuth);
             var saltedHash = HostContext.Resolve<IHashProvider>();
             saltedHash.GetHashAndSaltString(password, out var hash, out var salt);
             var digestHelper = new DigestAuthFunctions();
-            newUser.DigestHa1Hash = digestHelper.CreateHa1(newUser.UserName, DigestAuthProvider.Realm, password);
-            newUser.PasswordHash = hash;
-            newUser.Salt = salt;
-            newUser.CreatedDate = DateTime.UtcNow;
-            newUser.ModifiedDate = newUser.CreatedDate;
-            InternalSaveUserAuth(newUser);
-            return newUser;
+            newUserAuth.DigestHa1Hash = digestHelper.CreateHa1(newUserAuth.UserName, DigestAuthProvider.Realm, password);
+            newUserAuth.PasswordHash = hash;
+            newUserAuth.Salt = salt;
+            newUserAuth.CreatedDate = DateTime.UtcNow;
+            newUserAuth.ModifiedDate = newUserAuth.CreatedDate;
+            InternalSaveUserAuth(newUserAuth);
+            return newUserAuth;
         }
 
-        public IUserAuth UpdateUserAuth(IUserAuth existingUser, IUserAuth newUser)
+        public IUserAuth UpdateUserAuth(IUserAuth existingUserAuth, IUserAuth newUserAuth)
         {
-            newUser.ValidateNewUser();
-            AssertNoExistingUser(newUser);
-            newUser.Id = existingUser.Id;
-            newUser.PasswordHash = existingUser.PasswordHash;
-            newUser.Salt = existingUser.Salt;
-            newUser.DigestHa1Hash = existingUser.DigestHa1Hash;
-            newUser.CreatedDate = existingUser.CreatedDate;
-            newUser.ModifiedDate = DateTime.UtcNow;
-            InternalSaveUserAuth(newUser);
-            return newUser;
+            newUserAuth.ValidateNewUser();
+            AssertNoExistingUser(newUserAuth);
+            newUserAuth.Id = existingUserAuth.Id;
+            newUserAuth.PasswordHash = existingUserAuth.PasswordHash;
+            newUserAuth.Salt = existingUserAuth.Salt;
+            newUserAuth.DigestHa1Hash = existingUserAuth.DigestHa1Hash;
+            newUserAuth.CreatedDate = existingUserAuth.CreatedDate;
+            newUserAuth.ModifiedDate = DateTime.UtcNow;
+            InternalSaveUserAuth(newUserAuth);
+            return newUserAuth;
         }
 
-        public IUserAuth UpdateUserAuth(IUserAuth existingUser, IUserAuth newUser, string password)
+        public IUserAuth UpdateUserAuth(IUserAuth existingUserAuth, IUserAuth newUserAuth, string password)
         {
-            newUser.ValidateNewUser(password);
-            AssertNoExistingUser(newUser, existingUser);
-            var hash = existingUser.PasswordHash;
-            var salt = existingUser.Salt;
+            newUserAuth.ValidateNewUser(password);
+            AssertNoExistingUser(newUserAuth, existingUserAuth);
+            var hash = existingUserAuth.PasswordHash;
+            var salt = existingUserAuth.Salt;
             if (password != null)
             {
                 var saltedHash = HostContext.Resolve<IHashProvider>();
                 saltedHash.GetHashAndSaltString(password, out hash, out salt);
             }
             // If either one changes the digest hash has to be recalculated
-            var digestHash = existingUser.DigestHa1Hash;
-            if (password != null || existingUser.UserName != newUser.UserName)
+            var digestHash = existingUserAuth.DigestHa1Hash;
+            if (password != null || existingUserAuth.UserName != newUserAuth.UserName)
             {
                 var digestHelper = new DigestAuthFunctions();
-                digestHash = digestHelper.CreateHa1(newUser.UserName, DigestAuthProvider.Realm, password);
+                digestHash = digestHelper.CreateHa1(newUserAuth.UserName, DigestAuthProvider.Realm, password);
             }
-            newUser.Id = existingUser.Id;
-            newUser.PasswordHash = hash;
-            newUser.Salt = salt;
-            newUser.DigestHa1Hash = digestHash;
-            newUser.CreatedDate = existingUser.CreatedDate;
-            newUser.ModifiedDate = DateTime.UtcNow;
-            InternalSaveUserAuth(newUser);
-            return newUser;
+            newUserAuth.Id = existingUserAuth.Id;
+            newUserAuth.PasswordHash = hash;
+            newUserAuth.Salt = salt;
+            newUserAuth.DigestHa1Hash = digestHash;
+            newUserAuth.CreatedDate = existingUserAuth.CreatedDate;
+            newUserAuth.ModifiedDate = DateTime.UtcNow;
+            InternalSaveUserAuth(newUserAuth);
+            return newUserAuth;
         }
 
         public IUserAuth GetUserAuth(string userAuthId)
@@ -463,11 +472,6 @@ namespace ServiceStack.Authentication.RethinkDb
 
         #region IUserAuthRepositoryExtended 接口实现
 
-        /// <summary>
-        ///     根据名称获取用户身份。
-        /// </summary>
-        /// <param name="displayName">显示名称。</param>
-        /// <returns>用户身份。</returns>
         public IUserAuth GetUserAuthByDisplayName(string displayName)
         {
             if (displayName.IsNullOrEmpty())
@@ -477,12 +481,6 @@ namespace ServiceStack.Authentication.RethinkDb
             return R.Table(s_UserAuthTable).GetAll(displayName).OptArg("index", "DisplayName").Nth(0).Default_(default(UserAuth)).RunResult<UserAuth>(_conn);
         }
 
-        /// <summary>
-        ///     根据第三方提供者名称及第三方用户编号获取用户身份提供者明细。
-        /// </summary>
-        /// <param name="provider">第三方提供者名称。</param>
-        /// <param name="userId">第三方用户编号。</param>
-        /// <returns>用户身份提供者明细。</returns>
         public IUserAuthDetails GetUserAuthDetailsByProvider(string provider, string userId)
         {
             if (provider.IsNullOrEmpty() || userId.IsNullOrEmpty())
@@ -492,11 +490,6 @@ namespace ServiceStack.Authentication.RethinkDb
             return R.Table(s_UserAuthDetailsTable).GetAll(R.Array(provider, userId)).OptArg("index", "Provider_UserId").Nth(0).Default_(default(UserAuthDetails)).RunResult<UserAuthDetails>(_conn);
         }
 
-        /// <summary>
-        ///     根据第三方提供者名称及第三方用户编号删除用户身份提供者明细。
-        /// </summary>
-        /// <param name="provider">第三方提供者名称。</param>
-        /// <param name="userId">第三方用户编号。</param>
         public void DeleteUserAuthDetailsByProvider(string provider, string userId)
         {
             if (provider.IsNullOrEmpty() || userId.IsNullOrEmpty())

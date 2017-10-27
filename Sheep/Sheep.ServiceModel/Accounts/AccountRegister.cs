@@ -6,7 +6,7 @@ namespace Sheep.ServiceModel.Accounts
     /// <summary>
     ///     使用用户名称或电子邮件地址及密码注册身份的请求。
     /// </summary>
-    [Route("/accounts/register", HttpMethods.Post)]
+    [Route("/account", HttpMethods.Post)]
     [DataContract]
     public class AccountRegister : IReturn<AccountRegisterResponse>
     {

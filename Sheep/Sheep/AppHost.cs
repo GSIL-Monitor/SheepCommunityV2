@@ -251,7 +251,12 @@ namespace Sheep
         private void ConfigAuth(Container container)
         {
             container.Register<IUserAuthRepository>(c => new RethinkDbAuthRepository(c.Resolve<IConnection>(), AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true));
-            container.Register<IAuthEvents>(c => new NeteaseImAuthEvents());
+            var authEvents = new IAuthEvents[]
+                             {
+                                 new SystemAuthEvents(),
+                                 new NeteaseImAuthEvents()
+                             };
+            container.Register<IAuthEvents>(c => new MultiAuthEvents(authEvents));
             var authProviders = new IAuthProvider[]
                                 {
                                     new CredentialsAuthProvider(AppSettings),

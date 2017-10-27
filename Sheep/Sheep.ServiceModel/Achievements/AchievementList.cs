@@ -9,7 +9,7 @@ namespace Sheep.ServiceModel.Achievements
     /// <summary>
     ///     列举一组成就的请求。
     /// </summary>
-    [Route("/achievements/list", HttpMethods.Get)]
+    [Route("/achievements/query", HttpMethods.Get)]
     [DataContract]
     public class AchievementList : IReturn<AchievementListResponse>
     {

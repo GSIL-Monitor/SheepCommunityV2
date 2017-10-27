@@ -122,5 +122,32 @@ namespace Sheep.ServiceInterface.Properties {
                 return ResourceManager.GetString("SendTokenError", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似 无法更新指定用户{0}的显示名称。 的本地化字符串。
+        /// </summary>
+        internal static string UserDisplayNameNotUpdated {
+            get {
+                return ResourceManager.GetString("UserDisplayNameNotUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定用户{0}。 的本地化字符串。
+        /// </summary>
+        internal static string UserNotFound {
+            get {
+                return ResourceManager.GetString("UserNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无法更新指定用户{0}。 的本地化字符串。
+        /// </summary>
+        internal static string UserNotUpdated {
+            get {
+                return ResourceManager.GetString("UserNotUpdated", resourceCulture);
+            }
+        }
     }
 }

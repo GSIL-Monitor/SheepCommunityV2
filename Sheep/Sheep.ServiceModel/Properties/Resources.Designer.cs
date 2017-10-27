@@ -70,6 +70,24 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
+        ///   查找类似 显示名称已经存在。 的本地化字符串。
+        /// </summary>
+        internal static string DisplayNameAlreadyExists {
+            get {
+                return ResourceManager.GetString("DisplayNameAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 显示名称必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string DisplayNameRequired {
+            get {
+                return ResourceManager.GetString("DisplayNameRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 电子邮件地址已经存在。 的本地化字符串。
         /// </summary>
         internal static string EmailAlreadyExists {
@@ -237,6 +255,15 @@ namespace Sheep.ServiceModel.Properties {
         internal static string UserNameOrEmailRequired {
             get {
                 return ResourceManager.GetString("UserNameOrEmailRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 用户名称必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string UserNameRequired {
+            get {
+                return ResourceManager.GetString("UserNameRequired", resourceCulture);
             }
         }
         

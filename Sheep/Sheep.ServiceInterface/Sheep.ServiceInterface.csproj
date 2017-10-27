@@ -108,6 +108,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Accounts\ChangeDisplayNameService.cs" />
     <Compile Include="Accounts\ChangePasswordService.cs" />
     <Compile Include="Accounts\UnbindWeiboService.cs" />
     <Compile Include="Accounts\UnbindMobileService.cs" />
@@ -129,6 +130,7 @@
     <Compile Include="SecurityTokens\RequestSecurityTokenService.cs" />
     <Compile Include="ServiceInterfaceAssembly.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Users\UpdateUserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

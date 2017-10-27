@@ -282,9 +282,20 @@ namespace Sheep.Model.Auth.Providers
         /// <param name="userAuth">用户身份。</param>
         /// <param name="tokens">身份验证凭据。</param>
         /// <returns>true 表示已通过锁定，否则为 false。</returns>
-        internal virtual bool IsAccountLocked(IAuthRepository authRepo, IUserAuth userAuth, IAuthTokens tokens = null)
+        protected virtual bool IsAccountLocked(IAuthRepository authRepo, IUserAuth userAuth, IAuthTokens tokens = null)
         {
-            return userAuth?.LockedDate != null;
+            if (userAuth != null)
+            {
+                if (userAuth.LockedDate != null)
+                {
+                    return true;
+                }
+                if (userAuth.Meta != null && userAuth.Meta.TryGetValue("AccountStatus", out var accountStatus) && accountStatus != null && accountStatus != "Approved")
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         #endregion

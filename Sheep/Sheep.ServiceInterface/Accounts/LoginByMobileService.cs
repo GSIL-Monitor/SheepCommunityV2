@@ -86,6 +86,10 @@ namespace Sheep.ServiceInterface.Accounts
                     using (authRepo as IDisposable)
                     {
                         var userAuth = authRepo.GetUserAuth(authResponse.UserId);
+                        if (userAuth == null)
+                        {
+                            throw HttpError.NotFound(string.Format(Resources.UserNotFound, authResponse.UserId));
+                        }
                         if (userAuth.CreatedDate == userAuth.ModifiedDate)
                         {
                             newlyCreated = true;

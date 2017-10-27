@@ -117,34 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="GenerateTokenError" xml:space="preserve">
-    <value>生成验证码时产生了错误。</value>
+  <data name="DisplayNameAlreadyExists" xml:space="preserve">
+    <value>显示名称已经存在。</value>
   </data>
-  <data name="InvalidSecurityToken" xml:space="preserve">
-    <value>错误的验证码。</value>
+  <data name="EmailAlreadyExists" xml:space="preserve">
+    <value>电子邮件地址已经存在。</value>
   </data>
-  <data name="InvalidUserId" xml:space="preserve">
-    <value>错误的用户编号{0}。</value>
-  </data>
-  <data name="LoginRequired" xml:space="preserve">
-    <value>必须先登录系统。</value>
-  </data>
-  <data name="ReLoginNotAllowed" xml:space="preserve">
-    <value>在已登录的状态下不允许进行重复登录，请先退出登录。</value>
-  </data>
-  <data name="ReRegisterNotAllowed" xml:space="preserve">
-    <value>在已登录的状态下不允许进行注册，请先退出登录。</value>
-  </data>
-  <data name="SendTokenError" xml:space="preserve">
-    <value>发送验证码时产生了错误。</value>
-  </data>
-  <data name="UserDisplayNameNotUpdated" xml:space="preserve">
-    <value>无法更新指定用户{0}的显示名称。</value>
-  </data>
-  <data name="UserNotFound" xml:space="preserve">
-    <value>无法找到指定用户{0}。</value>
-  </data>
-  <data name="UserNotUpdated" xml:space="preserve">
-    <value>无法更新指定用户{0}。</value>
+  <data name="UserNameAlreadyExists" xml:space="preserve">
+    <value>用户名称已经存在。</value>
   </data>
 </root>

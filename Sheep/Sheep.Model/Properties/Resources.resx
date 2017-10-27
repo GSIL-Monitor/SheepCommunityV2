@@ -154,7 +154,7 @@
     <value>验证码必须输入。</value>
   </data>
   <data name="UserAccountLocked" xml:space="preserve">
-    <value>用户的帐号已锁定。</value>
+    <value>用户的帐号已锁定或未通过审核。</value>
   </data>
   <data name="UserNameAlreadyExists" xml:space="preserve">
     <value>用户名称已经存在。</value>

@@ -134,11 +134,11 @@ namespace Sheep.ServiceInterface.Accounts
         /// </summary>
         public IUserAuth MapToUserAuth(IAuthRepository authRepo, AccountRegister request)
         {
-            var newUserAuth = authRepo is ICustomUserAuth customUserAuth ? customUserAuth.CreateUserAuth() : new UserAuth();
-            newUserAuth.UserName = request.UserName;
-            newUserAuth.Email = request.Email;
-            newUserAuth.PrimaryEmail = request.Email;
-            return newUserAuth;
+            var existingUserAuth = authRepo is ICustomUserAuth customUserAuth ? customUserAuth.CreateUserAuth() : new UserAuth();
+            existingUserAuth.UserName = request.UserName;
+            existingUserAuth.Email = request.Email;
+            existingUserAuth.PrimaryEmail = request.Email;
+            return existingUserAuth;
         }
 
         #endregion

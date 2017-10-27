@@ -99,8 +99,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Accounts\AccountChangeDisplayName.cs" />
     <Compile Include="Accounts\AccountChangePassword.cs" />
     <Compile Include="Accounts\AccountUnbind.cs" />
+    <Compile Include="Accounts\Validators\AccountChangeDisplayNameValidator.cs" />
     <Compile Include="Accounts\Validators\AccountUnbindValidator.cs" />
     <Compile Include="Accounts\Validators\AccountBindValidator.cs" />
     <Compile Include="Accounts\Validators\AccountChangePasswordValidator.cs" />
@@ -152,6 +154,11 @@
     <Compile Include="Accounts\AccountLogout.cs" />
     <Compile Include="Accounts\AccountLogin.cs" />
     <Compile Include="Accounts\Validators\AccountLoginValidator.cs" />
+    <Compile Include="Users\UserUpdate.cs" />
+    <Compile Include="Users\UserDelete.cs" />
+    <Compile Include="Users\UserList.cs" />
+    <Compile Include="Users\UserShow.cs" />
+    <Compile Include="Users\Validators\UserUpdateValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Achievements\Mappers\" />

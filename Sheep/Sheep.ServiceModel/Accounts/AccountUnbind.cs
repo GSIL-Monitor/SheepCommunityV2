@@ -6,7 +6,7 @@ namespace Sheep.ServiceModel.Accounts
     /// <summary>
     ///     解除手机号码及验证码绑定帐户的请求。
     /// </summary>
-    [Route("/accounts/binding/mobile", HttpMethods.Delete)]
+    [Route("/account/bindings/mobile", HttpMethods.Delete)]
     [DataContract]
     public class AccountUnbindMobile : IReturn<AccountUnbindResponse>
     {
@@ -20,7 +20,7 @@ namespace Sheep.ServiceModel.Accounts
     /// <summary>
     ///     解除微博帐号绑定帐户的请求。
     /// </summary>
-    [Route("/accounts/binding/weibo", HttpMethods.Delete)]
+    [Route("/account/bindings/weibo", HttpMethods.Delete)]
     [DataContract]
     public class AccountUnbindWeibo : IReturn<AccountUnbindResponse>
     {
@@ -34,7 +34,7 @@ namespace Sheep.ServiceModel.Accounts
     /// <summary>
     ///     解除微信帐号绑定帐户的请求。
     /// </summary>
-    [Route("/accounts/binding/weixin", HttpMethods.Delete)]
+    [Route("/account/bindings/weixin", HttpMethods.Delete)]
     [DataContract]
     public class AccountUnbindWeixin : IReturn<AccountUnbindResponse>
     {
@@ -48,7 +48,7 @@ namespace Sheep.ServiceModel.Accounts
     /// <summary>
     ///     解除QQ帐号绑定帐户的请求。
     /// </summary>
-    [Route("/accounts/binding/qq", HttpMethods.Delete)]
+    [Route("/account/bindings/qq", HttpMethods.Delete)]
     [DataContract]
     public class AccountUnbindQQ : IReturn<AccountUnbindResponse>
     {

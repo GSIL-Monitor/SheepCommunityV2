@@ -7,16 +7,16 @@ using ServiceStack.Web;
 namespace Sheep.Model.Auth.Events
 {
     /// <summary>
-    ///     内部的注册登录注销的身份验证事件。
+    ///     内部系统的注册登录注销的身份验证事件。
     /// </summary>
-    public class InternalAuthEvents : AuthEvents
+    public class SystemAuthEvents : AuthEvents
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(InternalAuthEvents));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(SystemAuthEvents));
 
         #endregion
 

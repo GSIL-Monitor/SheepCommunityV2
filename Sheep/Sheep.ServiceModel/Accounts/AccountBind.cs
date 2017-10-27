@@ -6,7 +6,7 @@ namespace Sheep.ServiceModel.Accounts
     /// <summary>
     ///     绑定用户名称或电子邮件地址及密码帐户的请求。
     /// </summary>
-    [Route("/accounts/binding/credentials", HttpMethods.Post)]
+    [Route("/account/bindings/credentials", HttpMethods.Post)]
     [DataContract]
     public class AccountBindCredentials : IReturn<AccountBindResponse>
     {
@@ -32,7 +32,7 @@ namespace Sheep.ServiceModel.Accounts
     /// <summary>
     ///     绑定手机号码的请求。
     /// </summary>
-    [Route("/accounts/binding/mobile", HttpMethods.Post)]
+    [Route("/account/bindings/mobile", HttpMethods.Post)]
     [DataContract]
     public class AccountBindMobile : IReturn<AccountBindResponse>
     {
@@ -52,7 +52,7 @@ namespace Sheep.ServiceModel.Accounts
     /// <summary>
     ///     绑定微博帐号的请求。
     /// </summary>
-    [Route("/accounts/binding/weibo", HttpMethods.Post)]
+    [Route("/account/bindings/weibo", HttpMethods.Post)]
     [DataContract]
     public class AccountBindWeibo : IReturn<AccountBindResponse>
     {
@@ -72,7 +72,7 @@ namespace Sheep.ServiceModel.Accounts
     /// <summary>
     ///     绑定微信帐号帐户的请求。
     /// </summary>
-    [Route("/accounts/binding/weixin", HttpMethods.Post)]
+    [Route("/account/bindings/weixin", HttpMethods.Post)]
     [DataContract]
     public class AccountBindWeixin : IReturn<AccountBindResponse>
     {
@@ -92,7 +92,7 @@ namespace Sheep.ServiceModel.Accounts
     /// <summary>
     ///     绑定QQ帐号的请求。
     /// </summary>
-    [Route("/accounts/binding/qq", HttpMethods.Post)]
+    [Route("/account/bindings/qq", HttpMethods.Post)]
     [DataContract]
     public class AccountBindQQ : IReturn<AccountBindResponse>
     {

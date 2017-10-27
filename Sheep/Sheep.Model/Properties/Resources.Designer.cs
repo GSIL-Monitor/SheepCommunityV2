@@ -169,7 +169,7 @@ namespace Sheep.Model.Properties {
         }
         
         /// <summary>
-        ///   查找类似 用户的帐号已锁定。 的本地化字符串。
+        ///   查找类似 用户的帐号已锁定或未通过审核。 的本地化字符串。
         /// </summary>
         internal static string UserAccountLocked {
             get {

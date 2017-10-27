@@ -79,8 +79,11 @@ namespace Sheep.ServiceInterface.Accounts
             using (authRepo as IDisposable)
             {
                 var existingUserAuth = authRepo.GetUserAuth(session, null);
-                var newUserAuth = MapToUserAuth(authRepo, request);
-                newUserAuth.PopulateMissingExtended(existingUserAuth);
+                if (existingUserAuth == null)
+                {
+                    throw HttpError.NotFound(string.Format(Resources.UserNotFound, session.UserAuthId));
+                }
+                var newUserAuth = MapToUserAuth(authRepo, existingUserAuth, request);
                 authRepo.UpdateUserAuth(existingUserAuth, newUserAuth, request.Password);
             }
             return new AccountBindResponse();
@@ -93,9 +96,10 @@ namespace Sheep.ServiceInterface.Accounts
         /// <summary>
         ///     将绑定的请求转换成用户身份。
         /// </summary>
-        public IUserAuth MapToUserAuth(IAuthRepository authRepo, AccountBindCredentials request)
+        public IUserAuth MapToUserAuth(IAuthRepository authRepo, IUserAuth existingUserAuth, AccountBindCredentials request)
         {
             var newUserAuth = authRepo is ICustomUserAuth customUserAuth ? customUserAuth.CreateUserAuth() : new UserAuth();
+            newUserAuth.PopulateMissingExtended(existingUserAuth);
             newUserAuth.UserName = request.UserName;
             newUserAuth.Email = request.Email;
             newUserAuth.PrimaryEmail = request.Email;
