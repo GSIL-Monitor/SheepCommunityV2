@@ -20,21 +20,7 @@ namespace Sheep.ServiceModel.Accounts.Validators
             RuleSet(ApplyTo.Put, () =>
                                  {
                                      RuleFor(x => x.DisplayName).NotEmpty().WithMessage(Resources.DisplayNameRequired);
-                                     RuleFor(x => x.DisplayName).Must(DisplayNameNotExists).WithMessage(Resources.DisplayNameAlreadyExists).When(x => !x.DisplayName.IsNullOrEmpty());
                                  });
-        }
-
-        private bool DisplayNameNotExists(string displayName)
-        {
-            var authRepo = HostContext.AppHost.GetAuthRepository(Request);
-            using (authRepo as IDisposable)
-            {
-                if (authRepo is IUserAuthRepositoryExtended authRepoExtended)
-                {
-                    return authRepoExtended.GetUserAuthByDisplayName(displayName) == null;
-                }
-                return false;
-            }
         }
     }
 }

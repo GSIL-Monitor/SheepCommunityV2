@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Configuration;
@@ -100,6 +101,7 @@ namespace Sheep.ServiceInterface.Accounts
         {
             var newUserAuth = authRepo is ICustomUserAuth customUserAuth ? customUserAuth.CreateUserAuth() : new UserAuth();
             newUserAuth.PopulateMissingExtended(existingUserAuth);
+            newUserAuth.Meta = existingUserAuth.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingUserAuth.Meta);
             newUserAuth.UserName = request.UserName;
             newUserAuth.Email = request.Email;
             newUserAuth.PrimaryEmail = request.Email;

@@ -418,7 +418,7 @@ namespace ServiceStack.Authentication.RethinkDb
         public IUserAuth UpdateUserAuth(IUserAuth existingUserAuth, IUserAuth newUserAuth)
         {
             newUserAuth.ValidateNewUser();
-            AssertNoExistingUser(newUserAuth);
+            AssertNoExistingUser(newUserAuth, existingUserAuth);
             newUserAuth.Id = existingUserAuth.Id;
             newUserAuth.PasswordHash = existingUserAuth.PasswordHash;
             newUserAuth.Salt = existingUserAuth.Salt;

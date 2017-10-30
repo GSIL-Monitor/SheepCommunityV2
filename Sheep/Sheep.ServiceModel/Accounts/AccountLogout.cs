@@ -6,7 +6,7 @@ namespace Sheep.ServiceModel.Accounts
     /// <summary>
     ///     退出登录身份的请求。
     /// </summary>
-    [Route("/account/logins", HttpMethods.Delete)]
+    [Route("/account/login", HttpMethods.Delete)]
     [DataContract]
     public class AccountLogout : IReturn<AccountLogoutResponse>
     {

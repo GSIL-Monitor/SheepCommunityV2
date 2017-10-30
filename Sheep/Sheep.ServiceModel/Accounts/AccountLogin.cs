@@ -6,7 +6,7 @@ namespace Sheep.ServiceModel.Accounts
     /// <summary>
     ///     使用用户名称或电子邮件地址及密码登录的请求。
     /// </summary>
-    [Route("/account/logins/credentials", HttpMethods.Post)]
+    [Route("/account/login/credentials", HttpMethods.Post)]
     [DataContract]
     public class AccountLoginByCredentials : IReturn<AccountLoginResponse>
     {
@@ -26,7 +26,7 @@ namespace Sheep.ServiceModel.Accounts
     /// <summary>
     ///     使用手机号码及验证码登录的请求。
     /// </summary>
-    [Route("/account/logins/mobile", HttpMethods.Post)]
+    [Route("/account/login/mobile", HttpMethods.Post)]
     [DataContract]
     public class AccountLoginByMobile : IReturn<AccountLoginResponse>
     {
@@ -46,7 +46,7 @@ namespace Sheep.ServiceModel.Accounts
     /// <summary>
     ///     使用微博帐号登录的请求。
     /// </summary>
-    [Route("/account/logins/weibo", HttpMethods.Post)]
+    [Route("/account/login/weibo", HttpMethods.Post)]
     [DataContract]
     public class AccountLoginByWeibo : IReturn<AccountLoginResponse>
     {
@@ -66,7 +66,7 @@ namespace Sheep.ServiceModel.Accounts
     /// <summary>
     ///     使用微信帐号登录的请求。
     /// </summary>
-    [Route("/account/logins/weixin", HttpMethods.Post)]
+    [Route("/account/login/weixin", HttpMethods.Post)]
     [DataContract]
     public class AccountLoginByWeixin : IReturn<AccountLoginResponse>
     {
@@ -86,7 +86,7 @@ namespace Sheep.ServiceModel.Accounts
     /// <summary>
     ///     使用QQ帐号登录的请求。
     /// </summary>
-    [Route("/account/logins/qq", HttpMethods.Post)]
+    [Route("/account/login/qq", HttpMethods.Post)]
     [DataContract]
     public class AccountLoginByQQ : IReturn<AccountLoginResponse>
     {

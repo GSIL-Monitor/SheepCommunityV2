@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DisplayNameAlreadyExists" xml:space="preserve">
+    <value>显示名称已经存在。</value>
+  </data>
   <data name="GenerateTokenError" xml:space="preserve">
     <value>生成验证码时产生了错误。</value>
   </data>

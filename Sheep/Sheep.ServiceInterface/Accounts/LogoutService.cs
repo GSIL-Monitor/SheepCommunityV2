@@ -26,7 +26,7 @@ namespace Sheep.ServiceInterface.Accounts
         /// <summary>
         ///     退出登录。
         /// </summary>
-        public object Post(AccountLogout request)
+        public object Delete(AccountLogout request)
         {
             using (var authService = ResolveService<AuthenticateService>())
             {

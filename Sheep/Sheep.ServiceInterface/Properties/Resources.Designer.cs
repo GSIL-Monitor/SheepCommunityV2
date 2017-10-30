@@ -61,6 +61,15 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
+        ///   查找类似 显示名称已经存在。 的本地化字符串。
+        /// </summary>
+        internal static string DisplayNameAlreadyExists {
+            get {
+                return ResourceManager.GetString("DisplayNameAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 生成验证码时产生了错误。 的本地化字符串。
         /// </summary>
         internal static string GenerateTokenError {
