@@ -12,16 +12,16 @@ using Sheep.ServiceModel.Accounts;
 namespace Sheep.ServiceInterface.Accounts
 {
     /// <summary>
-    ///     更改性别服务接口。
+    ///     更改显示语言服务接口。
     /// </summary>
-    public class ChangeGenderService : Service
+    public class ChangeLanguageService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(ChangeGenderService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(ChangeLanguageService));
 
         #endregion
 
@@ -33,18 +33,18 @@ namespace Sheep.ServiceInterface.Accounts
         public IAppSettings AppSettings { get; set; }
 
         /// <summary>
-        ///     获取及设置更改性别的校验器。
+        ///     获取及设置更改显示语言的校验器。
         /// </summary>
-        public IValidator<AccountChangeGender> AccountChangeGenderValidator { get; set; }
+        public IValidator<AccountChangeLanguage> AccountChangeLanguageValidator { get; set; }
 
         #endregion
 
-        #region 更改性别
+        #region 更改显示语言
 
         /// <summary>
-        ///     更改性别。
+        ///     更改显示语言。
         /// </summary>
-        public object Put(AccountChangeGender request)
+        public object Put(AccountChangeLanguage request)
         {
             if (!IsAuthenticated)
             {
@@ -52,7 +52,7 @@ namespace Sheep.ServiceInterface.Accounts
             }
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
-                AccountChangeGenderValidator.ValidateAndThrow(request, ApplyTo.Put);
+                AccountChangeLanguageValidator.ValidateAndThrow(request, ApplyTo.Put);
             }
             var session = GetSession();
             var authRepo = HostContext.AppHost.GetAuthRepository(Request);
@@ -66,9 +66,9 @@ namespace Sheep.ServiceInterface.Accounts
                 var newUserAuth = authRepo is ICustomUserAuth customUserAuth ? customUserAuth.CreateUserAuth() : new UserAuth();
                 newUserAuth.PopulateMissingExtended(existingUserAuth);
                 newUserAuth.Meta = existingUserAuth.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingUserAuth.Meta);
-                newUserAuth.Gender = request.Gender;
+                newUserAuth.Language = request.Language;
                 ((IUserAuthRepository) authRepo).UpdateUserAuth(existingUserAuth, newUserAuth);
-                return new AccountChangeGenderResponse();
+                return new AccountChangeLanguageResponse();
             }
         }
 

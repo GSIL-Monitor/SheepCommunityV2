@@ -49,6 +49,21 @@ namespace Sina.Weibo
         public string ShowUserUrl { get; set; }
 
         /// <summary>
+        ///     获取国家列表的地址。
+        /// </summary>
+        public string GetCountryUrl { get; set; }
+
+        /// <summary>
+        ///     获取省份列表的地址。
+        /// </summary>
+        public string GetProvinceUrl { get; set; }
+
+        /// <summary>
+        ///     获取城市列表的地址。
+        /// </summary>
+        public string GetCityUrl { get; set; }
+
+        /// <summary>
         ///     重定向返回的地址。
         /// </summary>
         public string RedirectUrl { get; set; }
@@ -157,6 +172,114 @@ namespace Sina.Weibo
                 var errorMessage = ex.GetInnerMostException().Message;
                 Log.ErrorFormat("{0} {1} Error: {2}", GetType().Name, request.GetType().Name, errorMessage);
                 return new ShowUserResponse
+                       {
+                           Error = ex.GetType().Name,
+                           ErrorCode = -1,
+                           ErrorDescription = errorMessage
+                       };
+            }
+        }
+
+        /// <summary>
+        ///     获取国家列表。
+        /// </summary>
+        public GetCountryResponse Get(GetCountryRequest request)
+        {
+            return AsyncContext.Run(() => GetAsync(request));
+        }
+
+        /// <summary>
+        ///     异步获取国家列表。
+        /// </summary>
+        public async Task<GetCountryResponse> GetAsync(GetCountryRequest request)
+        {
+            try
+            {
+                var responseJson = await "{0}?access_token={1}&capital={2}&language={3}".Fmt(GetCountryUrl, request.AccessToken, request.Capital, request.Language).HttpGetAsync();
+                var response = responseJson.FromJson<GetCountryResponse>();
+                if (response != null && response.ErrorCode != 0)
+                {
+                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Error, response.ErrorCode, response.ErrorDescription);
+                }
+                return response;
+            }
+            catch (Exception ex)
+            {
+                var errorMessage = ex.GetInnerMostException().Message;
+                Log.ErrorFormat("{0} {1} Error: {2}", GetType().Name, request.GetType().Name, errorMessage);
+                return new GetCountryResponse
+                       {
+                           Error = ex.GetType().Name,
+                           ErrorCode = -1,
+                           ErrorDescription = errorMessage
+                       };
+            }
+        }
+
+        /// <summary>
+        ///     获取省份列表。
+        /// </summary>
+        public GetProvinceResponse Get(GetProvinceRequest request)
+        {
+            return AsyncContext.Run(() => GetAsync(request));
+        }
+
+        /// <summary>
+        ///     异步获取省份列表。
+        /// </summary>
+        public async Task<GetProvinceResponse> GetAsync(GetProvinceRequest request)
+        {
+            try
+            {
+                var responseJson = await "{0}?access_token={1}&country={2}&capital={3}&language={4}".Fmt(GetProvinceUrl, request.AccessToken, request.Country, request.Capital, request.Language).HttpGetAsync();
+                var response = responseJson.FromJson<GetProvinceResponse>();
+                if (response != null && response.ErrorCode != 0)
+                {
+                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Error, response.ErrorCode, response.ErrorDescription);
+                }
+                return response;
+            }
+            catch (Exception ex)
+            {
+                var errorMessage = ex.GetInnerMostException().Message;
+                Log.ErrorFormat("{0} {1} Error: {2}", GetType().Name, request.GetType().Name, errorMessage);
+                return new GetProvinceResponse
+                       {
+                           Error = ex.GetType().Name,
+                           ErrorCode = -1,
+                           ErrorDescription = errorMessage
+                       };
+            }
+        }
+
+        /// <summary>
+        ///     获取城市列表。
+        /// </summary>
+        public GetCityResponse Get(GetCityRequest request)
+        {
+            return AsyncContext.Run(() => GetAsync(request));
+        }
+
+        /// <summary>
+        ///     异步获取城市列表。
+        /// </summary>
+        public async Task<GetCityResponse> GetAsync(GetCityRequest request)
+        {
+            try
+            {
+                var responseJson = await "{0}?access_token={1}&province={2}&capital={3}&language={4}".Fmt(GetCityUrl, request.AccessToken, request.Province, request.Capital, request.Language).HttpGetAsync();
+                var response = responseJson.FromJson<GetCityResponse>();
+                if (response != null && response.ErrorCode != 0)
+                {
+                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Error, response.ErrorCode, response.ErrorDescription);
+                }
+                return response;
+            }
+            catch (Exception ex)
+            {
+                var errorMessage = ex.GetInnerMostException().Message;
+                Log.ErrorFormat("{0} {1} Error: {2}", GetType().Name, request.GetType().Name, errorMessage);
+                return new GetCityResponse
                        {
                            Error = ex.GetType().Name,
                            ErrorCode = -1,

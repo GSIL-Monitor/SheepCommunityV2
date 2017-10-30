@@ -101,7 +101,7 @@ namespace Sheep.ServiceInterface.Users
             newUserAuth.MailAddress = request.MailAddress;
             newUserAuth.PostalCode = request.PostalCode;
             newUserAuth.TimeZone = request.TimeZone;
-            newUserAuth.Culture = request.Culture;
+            newUserAuth.Language = request.Language;
             newUserAuth.Meta["PrivateMessagesSource"] = request.PrivateMessagesSource;
             newUserAuth.Meta["ReceiveEmails"] = request.ReceiveEmails?.ToString();
             newUserAuth.Meta["ReceiveSms"] = request.ReceiveSms?.ToString();
@@ -146,7 +146,7 @@ namespace Sheep.ServiceInterface.Users
                            MailAddress = userAuth.MailAddress,
                            PostalCode = userAuth.PostalCode,
                            TimeZone = userAuth.TimeZone,
-                           Culture = userAuth.Culture,
+                           Language = userAuth.Language,
                            PrivateMessagesSource = userAuth.Meta.GetValueOrDefault("PrivateMessagesSource"),
                            ReceiveEmails = userAuth.Meta.GetValueOrDefault("ReceiveEmails").To<bool?>(),
                            ReceiveSms = userAuth.Meta.GetValueOrDefault("ReceiveSms").To<bool?>(),

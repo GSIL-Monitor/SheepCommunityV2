@@ -108,12 +108,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Accounts\ChangeBirthDateService.cs" />
+    <Compile Include="Accounts\ChangeLanguageService.cs" />
+    <Compile Include="Accounts\ChangeGuildService.cs" />
+    <Compile Include="Accounts\ChangeLocationService.cs" />
     <Compile Include="Accounts\ChangeGenderService.cs" />
     <Compile Include="Accounts\ChangeFullNameService.cs" />
     <Compile Include="Accounts\ChangeDescriptionService.cs" />
     <Compile Include="Accounts\ChangeSignatureService.cs" />
     <Compile Include="Accounts\ChangeDisplayNameService.cs" />
     <Compile Include="Accounts\ChangePasswordService.cs" />
+    <Compile Include="Accounts\AccessTokenForWeiboService.cs" />
     <Compile Include="Accounts\UnbindWeiboService.cs" />
     <Compile Include="Accounts\UnbindMobileService.cs" />
     <Compile Include="Accounts\BindWeiboService.cs" />
@@ -141,6 +146,18 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Social\NeteaseSDK\NeteaseSDK.csproj">
+      <Project>{ddd5104a-5285-45b0-aa49-201e5fbed379}</Project>
+      <Name>NeteaseSDK</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Social\SinaSdk\SinaSdk.csproj">
+      <Project>{44d3c7bd-ba38-49c3-a29c-79135448af3d}</Project>
+      <Name>SinaSdk</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Social\TencentSdk\TencentSdk.csproj">
+      <Project>{b8d07b49-fdd2-49bb-bcef-ca41ae415a5b}</Project>
+      <Name>TencentSdk</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sheep.Common\Sheep.Common.csproj">
       <Project>{80d3d2c4-3171-4ff9-8c62-0483b1c97cd1}</Project>
       <Name>Sheep.Common</Name>
@@ -162,6 +179,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

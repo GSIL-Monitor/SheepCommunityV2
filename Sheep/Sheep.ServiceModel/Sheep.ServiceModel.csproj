@@ -99,18 +99,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Accounts\AccountChangeBirthDate.cs" />
+    <Compile Include="Accounts\AccountChangeLanguage.cs" />
+    <Compile Include="Accounts\AccountChangeGuild.cs" />
+    <Compile Include="Accounts\AccountChangeLocation.cs" />
     <Compile Include="Accounts\AccountChangeGender.cs" />
     <Compile Include="Accounts\AccountChangeFullName.cs" />
     <Compile Include="Accounts\AccountChangeDescription.cs" />
     <Compile Include="Accounts\AccountChangeSignature.cs" />
     <Compile Include="Accounts\AccountChangeDisplayName.cs" />
     <Compile Include="Accounts\AccountChangePassword.cs" />
+    <Compile Include="Accounts\AccountAccessToken.cs" />
     <Compile Include="Accounts\AccountUnbind.cs" />
+    <Compile Include="Accounts\Validators\AccountChangeBirthDateValidator.cs" />
+    <Compile Include="Accounts\Validators\AccountChangeLanguageValidator.cs" />
+    <Compile Include="Accounts\Validators\AccountChangeGuildValidator.cs" />
+    <Compile Include="Accounts\Validators\AccountChangeLocationValidator.cs" />
     <Compile Include="Accounts\Validators\AccountChangeGenderValidator.cs" />
     <Compile Include="Accounts\Validators\AccountChangeFullNameValidator.cs" />
     <Compile Include="Accounts\Validators\AccountChangeDescriptionValidator.cs" />
     <Compile Include="Accounts\Validators\AccountChangeSignatureValidator.cs" />
     <Compile Include="Accounts\Validators\AccountChangeDisplayNameValidator.cs" />
+    <Compile Include="Accounts\Validators\AccountAccessTokenValidator.cs" />
     <Compile Include="Accounts\Validators\AccountUnbindValidator.cs" />
     <Compile Include="Accounts\Validators\AccountBindValidator.cs" />
     <Compile Include="Accounts\Validators\AccountChangePasswordValidator.cs" />

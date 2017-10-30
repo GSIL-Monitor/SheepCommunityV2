@@ -1,27 +1,28 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 using ServiceStack;
 
 namespace Sheep.ServiceModel.Accounts
 {
     /// <summary>
-    ///     更改性别的请求。
+    ///     更改出生日期的请求。
     /// </summary>
-    [Route("/account/gender", HttpMethods.Put)]
+    [Route("/account/birthdate", HttpMethods.Put)]
     [DataContract]
-    public class AccountChangeGender : IReturn<AccountChangeGenderResponse>
+    public class AccountChangeBirthDate : IReturn<AccountChangeBirthDateResponse>
     {
         /// <summary>
-        ///     更改的性别。（可选的值："男", "女"）
+        ///     更改的出生日期。
         /// </summary>
         [DataMember(Order = 1)]
-        public string Gender { get; set; }
+        public DateTime? BirthDate { get; set; }
     }
 
     /// <summary>
-    ///     更改性别的响应。
+    ///     更改出生日期的响应。
     /// </summary>
     [DataContract]
-    public class AccountChangeGenderResponse : IHasResponseStatus
+    public class AccountChangeBirthDateResponse : IHasResponseStatus
     {
         /// <summary>
         ///     处理响应的状态。

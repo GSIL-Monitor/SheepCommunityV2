@@ -22,5 +22,14 @@
 
         // 根据用户编号获取用户信息的地址。
         public const string ShowUserUrl = "oauth.weibo.ShowUserUrl";
+
+        // 获取国家列表的地址。
+        public const string GetCountryUrl = "oauth.weibo.GetCountryUrl";
+
+        // 获取省份列表的地址。
+        public const string GetProvinceUrl = "oauth.weibo.GetProvinceUrl";
+
+        // 获取城市列表的地址。
+        public const string GetCityUrl = "oauth.weibo.GetCityUrl";
     }
 }

@@ -34,14 +34,48 @@ namespace Sina.Weibo
         Task<GetTokenResponse> PostAsync(GetTokenRequest request);
 
         /// <summary>
-        ///     根据用户编号获取用户信息。
+        ///     获取国家列表。
         /// </summary>
         ShowUserResponse Get(ShowUserRequest request);
 
         /// <summary>
-        ///     异步根据用户编号获取用户信息。
+        ///     异步获取国家列表。
         /// </summary>
         Task<ShowUserResponse> GetAsync(ShowUserRequest request);
+
+        #endregion
+
+        #region 地址服务
+
+        /// <summary>
+        ///     获取国家列表。
+        /// </summary>
+        GetCountryResponse Get(GetCountryRequest request);
+
+        /// <summary>
+        ///     异步获取国家列表。
+        /// </summary>
+        Task<GetCountryResponse> GetAsync(GetCountryRequest request);
+
+        /// <summary>
+        ///     获取省份列表。
+        /// </summary>
+        GetProvinceResponse Get(GetProvinceRequest request);
+
+        /// <summary>
+        ///     异步获取省份列表。
+        /// </summary>
+        Task<GetProvinceResponse> GetAsync(GetProvinceRequest request);
+
+        /// <summary>
+        ///     获取城市列表。
+        /// </summary>
+        GetCityResponse Get(GetCityRequest request);
+
+        /// <summary>
+        ///     异步获取城市列表。
+        /// </summary>
+        Task<GetCityResponse> GetAsync(GetCityRequest request);
 
         #endregion
     }

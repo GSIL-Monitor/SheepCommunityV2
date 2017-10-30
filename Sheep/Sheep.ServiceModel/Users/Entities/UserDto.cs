@@ -164,7 +164,7 @@ namespace Sheep.ServiceModel.Users.Entities
         ///     显示语言。
         /// </summary>
         [DataMember(Order = 26)]
-        public string Culture { get; set; }
+        public string Language { get; set; }
 
         /// <summary>
         ///     私信消息的来源。（可选值：None, Friends, Everyone）

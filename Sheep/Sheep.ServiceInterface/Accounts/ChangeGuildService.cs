@@ -12,16 +12,16 @@ using Sheep.ServiceModel.Accounts;
 namespace Sheep.ServiceInterface.Accounts
 {
     /// <summary>
-    ///     更改性别服务接口。
+    ///     更改所属教会服务接口。
     /// </summary>
-    public class ChangeGenderService : Service
+    public class ChangeGuildService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(ChangeGenderService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(ChangeGuildService));
 
         #endregion
 
@@ -33,18 +33,18 @@ namespace Sheep.ServiceInterface.Accounts
         public IAppSettings AppSettings { get; set; }
 
         /// <summary>
-        ///     获取及设置更改性别的校验器。
+        ///     获取及设置更改所属教会的校验器。
         /// </summary>
-        public IValidator<AccountChangeGender> AccountChangeGenderValidator { get; set; }
+        public IValidator<AccountChangeGuild> AccountChangeGuildValidator { get; set; }
 
         #endregion
 
-        #region 更改性别
+        #region 更改所属教会
 
         /// <summary>
-        ///     更改性别。
+        ///     更改所属教会。
         /// </summary>
-        public object Put(AccountChangeGender request)
+        public object Put(AccountChangeGuild request)
         {
             if (!IsAuthenticated)
             {
@@ -52,7 +52,7 @@ namespace Sheep.ServiceInterface.Accounts
             }
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
-                AccountChangeGenderValidator.ValidateAndThrow(request, ApplyTo.Put);
+                AccountChangeGuildValidator.ValidateAndThrow(request, ApplyTo.Put);
             }
             var session = GetSession();
             var authRepo = HostContext.AppHost.GetAuthRepository(Request);
@@ -66,9 +66,9 @@ namespace Sheep.ServiceInterface.Accounts
                 var newUserAuth = authRepo is ICustomUserAuth customUserAuth ? customUserAuth.CreateUserAuth() : new UserAuth();
                 newUserAuth.PopulateMissingExtended(existingUserAuth);
                 newUserAuth.Meta = existingUserAuth.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingUserAuth.Meta);
-                newUserAuth.Gender = request.Gender;
+                newUserAuth.Meta["Guild"] = request.Guild;
                 ((IUserAuthRepository) authRepo).UpdateUserAuth(existingUserAuth, newUserAuth);
-                return new AccountChangeGenderResponse();
+                return new AccountChangeGuildResponse();
             }
         }
 

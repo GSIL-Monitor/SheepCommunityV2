@@ -114,6 +114,18 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Social\NeteaseSDK\NeteaseSDK.csproj">
+      <Project>{ddd5104a-5285-45b0-aa49-201e5fbed379}</Project>
+      <Name>NeteaseSDK</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Social\SinaSdk\SinaSdk.csproj">
+      <Project>{44d3c7bd-ba38-49c3-a29c-79135448af3d}</Project>
+      <Name>SinaSdk</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Social\TencentSdk\TencentSdk.csproj">
+      <Project>{b8d07b49-fdd2-49bb-bcef-ca41ae415a5b}</Project>
+      <Name>TencentSdk</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sheep.ServiceInterface\Sheep.ServiceInterface.csproj">
       <Project>{801a0f89-d5f6-49a6-bcea-6624388c98a4}</Project>
       <Name>Sheep.ServiceInterface</Name>

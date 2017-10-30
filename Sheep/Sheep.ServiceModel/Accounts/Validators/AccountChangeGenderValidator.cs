@@ -1,4 +1,5 @@
-﻿using ServiceStack;
+﻿using System.Collections.Generic;
+using ServiceStack;
 using ServiceStack.FluentValidation;
 using Sheep.ServiceModel.Properties;
 
@@ -9,6 +10,12 @@ namespace Sheep.ServiceModel.Accounts.Validators
     /// </summary>
     public class AccountChangeGenderValidator : AbstractValidator<AccountChangeGender>
     {
+        public static readonly HashSet<string> Genders = new HashSet<string>
+                                                         {
+                                                             "男",
+                                                             "女"
+                                                         };
+
         /// <summary>
         ///     初始化一个新的<see cref="AccountChangeGenderValidator" />对象。
         ///     创建规则集合。
@@ -17,7 +24,7 @@ namespace Sheep.ServiceModel.Accounts.Validators
         {
             RuleSet(ApplyTo.Put, () =>
                                  {
-                                     RuleFor(x => x.Gender).InclusiveBetween(0, 1).WithMessage(Resources.GenderRangeMismatch, 0, 1).When(x => x.Gender.HasValue);
+                                     RuleFor(x => x.Gender).Must(gender => Genders.Contains(gender)).WithMessage(Resources.GenderRangeMismatch, Genders.Join(",")).When(x => !x.Gender.IsNullOrEmpty());
                                  });
         }
     }

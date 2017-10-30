@@ -99,11 +99,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Weibo\AccessTokenRequest.cs" />
     <Compile Include="Weibo\AccessTokenResponse.cs" />
+    <Compile Include="Weibo\GetCityRequest.cs" />
+    <Compile Include="Weibo\GetProvinceRequest.cs" />
+    <Compile Include="Weibo\GetCityResponse.cs" />
+    <Compile Include="Weibo\GetProvinceResponse.cs" />
     <Compile Include="Weibo\GetTokenRequest.cs" />
     <Compile Include="Weibo\GetTokenResponse.cs" />
     <Compile Include="Weibo\ErrorResponse.cs" />
     <Compile Include="Weibo\IWeiboClient.cs" />
+    <Compile Include="Weibo\GetCountryRequest.cs" />
     <Compile Include="Weibo\ShowUserRequest.cs" />
+    <Compile Include="Weibo\GetCountryResponse.cs" />
     <Compile Include="Weibo\ShowUserResponse.cs" />
     <Compile Include="Weibo\WeiboClient.cs" />
   </ItemGroup>

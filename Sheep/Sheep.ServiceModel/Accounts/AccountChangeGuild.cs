@@ -4,24 +4,24 @@ using ServiceStack;
 namespace Sheep.ServiceModel.Accounts
 {
     /// <summary>
-    ///     更改性别的请求。
+    ///     更改所属教会的请求。
     /// </summary>
-    [Route("/account/gender", HttpMethods.Put)]
+    [Route("/account/guild", HttpMethods.Put)]
     [DataContract]
-    public class AccountChangeGender : IReturn<AccountChangeGenderResponse>
+    public class AccountChangeGuild : IReturn<AccountChangeGuildResponse>
     {
         /// <summary>
-        ///     更改的性别。（可选的值："男", "女"）
+        ///     更改的所属教会。
         /// </summary>
         [DataMember(Order = 1)]
-        public string Gender { get; set; }
+        public string Guild { get; set; }
     }
 
     /// <summary>
-    ///     更改性别的响应。
+    ///     更改所属教会的响应。
     /// </summary>
     [DataContract]
-    public class AccountChangeGenderResponse : IHasResponseStatus
+    public class AccountChangeGuildResponse : IHasResponseStatus
     {
         /// <summary>
         ///     处理响应的状态。

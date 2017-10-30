@@ -172,6 +172,9 @@ namespace Sheep
                                                       AccessTokenUrl = AppSettings.GetString(AppSettingsWeiboNames.AccessTokenUrl),
                                                       GetTokenUrl = AppSettings.GetString(AppSettingsWeiboNames.GetTokenUrl),
                                                       ShowUserUrl = AppSettings.GetString(AppSettingsWeiboNames.ShowUserUrl),
+                                                      GetCountryUrl = AppSettings.GetString(AppSettingsWeiboNames.GetCountryUrl),
+                                                      GetProvinceUrl = AppSettings.GetString(AppSettingsWeiboNames.GetProvinceUrl),
+                                                      GetCityUrl = AppSettings.GetString(AppSettingsWeiboNames.GetCityUrl),
                                                       RedirectUrl = AppSettings.GetString(AppSettingsWeiboNames.RedirectUrl)
                                                   });
         }

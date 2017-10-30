@@ -70,6 +70,42 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
+        ///   查找类似 出生日期的有效范围为{0}至{1}。 的本地化字符串。
+        /// </summary>
+        internal static string BirthDateRangeMismatch {
+            get {
+                return ResourceManager.GetString("BirthDateRangeMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 城市/区域的有效范围为:{0}。 的本地化字符串。
+        /// </summary>
+        internal static string CityRangeMismatch {
+            get {
+                return ResourceManager.GetString("CityRangeMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 代码必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string CodeRequired {
+            get {
+                return ResourceManager.GetString("CodeRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 国家/地区的有效范围为:{0}。 的本地化字符串。
+        /// </summary>
+        internal static string CountryRangeMismatch {
+            get {
+                return ResourceManager.GetString("CountryRangeMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 简介的长度至少为{0}位并且最多为为{1}位。 的本地化字符串。
         /// </summary>
         internal static string DescriptionLengthMismatch {
@@ -133,11 +169,29 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
-        ///   查找类似 性别的范围为{0}至{1}。 的本地化字符串。
+        ///   查找类似 性别的有效范围为:{0}。 的本地化字符串。
         /// </summary>
         internal static string GenderRangeMismatch {
             get {
                 return ResourceManager.GetString("GenderRangeMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 所属教会的长度至少为{0}位并且最多为为{1}位。 的本地化字符串。
+        /// </summary>
+        internal static string GuildLengthMismatch {
+            get {
+                return ResourceManager.GetString("GuildLengthMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 语言的有效范围为:{0}。 的本地化字符串。
+        /// </summary>
+        internal static string LanguageRangeMismatch {
+            get {
+                return ResourceManager.GetString("LanguageRangeMismatch", resourceCulture);
             }
         }
         
@@ -255,6 +309,15 @@ namespace Sheep.ServiceModel.Properties {
         internal static string SignatureLengthMismatch {
             get {
                 return ResourceManager.GetString("SignatureLengthMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 省份/直辖市/州的有效范围为:{0}。 的本地化字符串。
+        /// </summary>
+        internal static string StateRangeMismatch {
+            get {
+                return ResourceManager.GetString("StateRangeMismatch", resourceCulture);
             }
         }
         
