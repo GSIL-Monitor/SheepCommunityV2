@@ -108,6 +108,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Accounts\ChangeGenderService.cs" />
+    <Compile Include="Accounts\ChangeFullNameService.cs" />
+    <Compile Include="Accounts\ChangeDescriptionService.cs" />
+    <Compile Include="Accounts\ChangeSignatureService.cs" />
     <Compile Include="Accounts\ChangeDisplayNameService.cs" />
     <Compile Include="Accounts\ChangePasswordService.cs" />
     <Compile Include="Accounts\UnbindWeiboService.cs" />

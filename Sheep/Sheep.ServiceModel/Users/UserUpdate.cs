@@ -31,13 +31,13 @@ namespace Sheep.ServiceModel.Users
         public string FullName { get; set; }
 
         /// <summary>
-        ///     个人签名。
+        ///     签名。
         /// </summary>
         [DataMember(Order = 4)]
         public string Signature { get; set; }
 
         /// <summary>
-        ///     个人简介。
+        ///     简介。
         /// </summary>
         [DataMember(Order = 5)]
         public string Description { get; set; }

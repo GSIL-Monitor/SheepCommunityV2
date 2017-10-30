@@ -70,6 +70,15 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
+        ///   查找类似 简介的长度至少为{0}位并且最多为为{1}位。 的本地化字符串。
+        /// </summary>
+        internal static string DescriptionLengthMismatch {
+            get {
+                return ResourceManager.GetString("DescriptionLengthMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 显示名称已经存在。 的本地化字符串。
         /// </summary>
         internal static string DisplayNameAlreadyExists {
@@ -106,7 +115,7 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
-        ///   查找类似 电子邮件地址的长度至少为{0}位。 的本地化字符串。
+        ///   查找类似 电子邮件地址的长度至少为{0}位并且最多为为{1}位。 的本地化字符串。
         /// </summary>
         internal static string EmailLengthMismatch {
             get {
@@ -115,7 +124,25 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
-        ///   查找类似 登录密码的长度至少为{0}位。 的本地化字符串。
+        ///   查找类似 真实姓名的长度至少为{0}位并且最多为为{1}位。 的本地化字符串。
+        /// </summary>
+        internal static string FullNameLengthMismatch {
+            get {
+                return ResourceManager.GetString("FullNameLengthMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 性别的范围为{0}至{1}。 的本地化字符串。
+        /// </summary>
+        internal static string GenderRangeMismatch {
+            get {
+                return ResourceManager.GetString("GenderRangeMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 登录密码的长度至少为{0}位并且最多为为{1}位。 的本地化字符串。
         /// </summary>
         internal static string PasswordLengthMismatch {
             get {
@@ -223,6 +250,15 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
+        ///   查找类似 签名的长度至少为{0}位并且最多为为{1}位。 的本地化字符串。
+        /// </summary>
+        internal static string SignatureLengthMismatch {
+            get {
+                return ResourceManager.GetString("SignatureLengthMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 用户编号必须输入。 的本地化字符串。
         /// </summary>
         internal static string UserIdRequired {
@@ -241,7 +277,7 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
-        ///   查找类似 用户名称的长度至少为{0}位。 的本地化字符串。
+        ///   查找类似 用户名称的长度至少为{0}位并且最多为为{1}位。 的本地化字符串。
         /// </summary>
         internal static string UserNameLengthMismatch {
             get {

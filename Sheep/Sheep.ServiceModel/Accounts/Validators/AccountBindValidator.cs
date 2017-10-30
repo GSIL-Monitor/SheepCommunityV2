@@ -20,11 +20,11 @@ namespace Sheep.ServiceModel.Accounts.Validators
         {
             RuleSet(ApplyTo.Post, () =>
                                   {
-                                      RuleFor(x => x.UserName).NotEmpty().WithMessage(Resources.UserNameOrEmailRequired).Length(4, 256).WithMessage(Resources.UserNameLengthMismatch, 4).When(x => x.Email.IsNullOrEmpty());
-                                      RuleFor(x => x.Email).NotEmpty().WithMessage(Resources.UserNameOrEmailRequired).Length(4, 256).WithMessage(Resources.EmailLengthMismatch, 4).EmailAddress().WithMessage(Resources.EmailFormatMismatch).When(x => x.UserName.IsNullOrEmpty());
+                                      RuleFor(x => x.UserName).NotEmpty().WithMessage(Resources.UserNameOrEmailRequired).Length(4, 256).WithMessage(Resources.UserNameLengthMismatch, 4, 256).When(x => x.Email.IsNullOrEmpty());
+                                      RuleFor(x => x.Email).NotEmpty().WithMessage(Resources.UserNameOrEmailRequired).Length(4, 256).WithMessage(Resources.EmailLengthMismatch, 4, 256).EmailAddress().WithMessage(Resources.EmailFormatMismatch).When(x => x.UserName.IsNullOrEmpty());
                                       RuleFor(x => x.UserName).Must(UserNameOrEmailNotExists).WithMessage(Resources.UserNameAlreadyExists).When(x => !x.UserName.IsNullOrEmpty());
                                       RuleFor(x => x.Email).Must(UserNameOrEmailNotExists).WithMessage(Resources.EmailAlreadyExists).When(x => !x.Email.IsNullOrEmpty());
-                                      RuleFor(x => x.Password).NotEmpty().WithMessage(Resources.PasswordRequired).Length(4, 256).WithMessage(Resources.PasswordLengthMismatch, 4);
+                                      RuleFor(x => x.Password).NotEmpty().WithMessage(Resources.PasswordRequired).Length(4, 256).WithMessage(Resources.PasswordLengthMismatch, 4, 256);
                                   });
         }
 
