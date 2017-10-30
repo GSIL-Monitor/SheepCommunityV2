@@ -1,4 +1,4 @@
-﻿namespace Sheep
+﻿namespace Sheep.Common.Settings
 {
     /// <summary>
     ///     腾讯微信配置的名称。

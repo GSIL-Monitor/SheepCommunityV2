@@ -181,6 +181,7 @@
   <ItemGroup>
     <Folder Include="Achievements\Mappers\" />
     <Folder Include="Achievements\Validators\" />
+    <Folder Include="Countries\" />
     <Folder Include="Roles\Entities\" />
     <Folder Include="UserAchievements\Validators\" />
   </ItemGroup>

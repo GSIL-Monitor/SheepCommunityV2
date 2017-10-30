@@ -13,14 +13,10 @@ namespace Sina.Weibo
     [DataContract]
     public class GetTokenRequest
     {
-        #region 属性
-
         /// <summary>
         ///     授权时生成的接口调用凭证。
         /// </summary>
         [DataMember(Order = 1, Name = "access_token")]
         public string AccessToken { get; set; }
-
-        #endregion
     }
 }

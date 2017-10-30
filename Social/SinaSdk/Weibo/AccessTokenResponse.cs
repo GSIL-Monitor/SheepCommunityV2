@@ -8,8 +8,6 @@ namespace Sina.Weibo
     [DataContract]
     public class AccessTokenResponse : ErrorResponse
     {
-        #region 属性
-
         /// <summary>
         ///     授权时生成的接口调用凭证。
         /// </summary>
@@ -27,7 +25,5 @@ namespace Sina.Weibo
         /// </summary>
         [DataMember(Order = 103, Name = "uid")]
         public string UserId { get; set; }
-
-        #endregion
     }
 }

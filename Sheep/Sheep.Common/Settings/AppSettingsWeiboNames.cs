@@ -1,4 +1,4 @@
-﻿namespace Sheep
+﻿namespace Sheep.Common.Settings
 {
     /// <summary>
     ///     新浪微博配置的名称。

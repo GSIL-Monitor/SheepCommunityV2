@@ -1,4 +1,6 @@
 ﻿using System.Runtime.Serialization;
+using ServiceStack;
+using ServiceStack.Text;
 
 namespace Sina.Weibo
 {
@@ -13,8 +15,6 @@ namespace Sina.Weibo
     [DataContract]
     public class GetProvinceRequest
     {
-        #region 属性
-
         /// <summary>
         ///     授权时生成的接口调用凭证。
         /// </summary>
@@ -39,19 +39,24 @@ namespace Sina.Weibo
         [DataMember(Order = 4, Name = "language")]
         public string Language { get; set; }
 
-        #endregion
-
-        #region 转换
-
-        /// <summary>
-        ///     转换成查询字符串格式的文本。
-        /// </summary>
-        /// <returns>查询字符串格式的文本。</returns>
         public string ToQueryString()
         {
-            return string.Format("access_token={0}&country={1}&capital={2}&language={3}", AccessToken, Country, Capital, Language);
+            var builder = StringBuilderCache.Allocate();
+            builder.Append("access_token=");
+            builder.Append(AccessToken);
+            builder.Append("&country=");
+            builder.Append(Country);
+            if (!Capital.IsNullOrEmpty())
+            {
+                builder.Append("&capital=");
+                builder.Append(Capital);
+            }
+            if (!Language.IsNullOrEmpty())
+            {
+                builder.Append("&language=");
+                builder.Append(Language);
+            }
+            return StringBuilderCache.ReturnAndFree(builder);
         }
-
-        #endregion
     }
 }

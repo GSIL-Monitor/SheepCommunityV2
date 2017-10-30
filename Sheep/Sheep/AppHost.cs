@@ -14,6 +14,7 @@ using ServiceStack.OrmLite;
 using ServiceStack.ProtoBuf;
 using ServiceStack.Redis;
 using ServiceStack.Validation;
+using Sheep.Common.Settings;
 using Sheep.Model.Auth.Events;
 using Sheep.Model.Auth.Providers;
 using Sheep.Model.Security;

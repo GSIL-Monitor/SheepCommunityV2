@@ -1,4 +1,4 @@
-﻿namespace Sheep
+﻿namespace Sheep.Common.Settings
 {
     /// <summary>
     ///     网易云通信配置的名称。

@@ -1,4 +1,4 @@
-﻿namespace Sheep
+﻿namespace Sheep.Common.Settings
 {
     /// <summary>
     ///     数据库配置的名称。

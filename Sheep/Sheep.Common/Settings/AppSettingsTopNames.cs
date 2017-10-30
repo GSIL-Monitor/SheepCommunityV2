@@ -1,4 +1,4 @@
-﻿namespace Sheep
+﻿namespace Sheep.Common.Settings
 {
     /// <summary>
     ///     阿里大于配置的名称。

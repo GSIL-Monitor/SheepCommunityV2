@@ -8,8 +8,6 @@ namespace Sina.Weibo
     [DataContract]
     public class GetTokenResponse : ErrorResponse
     {
-        #region 属性
-
         /// <summary>
         ///     授权用户唯一标识。
         /// </summary>
@@ -39,7 +37,5 @@ namespace Sina.Weibo
         /// </summary>
         [DataMember(Order = 105, Name = "expire_in")]
         public long ExpireIn { get; set; }
-
-        #endregion
     }
 }

@@ -216,12 +216,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppHost.cs" />
-    <Compile Include="AppSettingsDbNames.cs" />
-    <Compile Include="AppSettingsHostNames.cs" />
-    <Compile Include="AppSettingsNeteaseNimNames.cs" />
-    <Compile Include="AppSettingsTopNames.cs" />
-    <Compile Include="AppSettingsWeiboNames.cs" />
-    <Compile Include="AppSettingsWeixinNames.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

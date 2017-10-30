@@ -8,8 +8,6 @@ namespace Sina.Weibo
     [DataContract]
     public class ShowUserResponse : ErrorResponse
     {
-        #region 属性
-
         /// <summary>
         ///     用户编号。
         /// </summary>
@@ -225,7 +223,5 @@ namespace Sina.Weibo
         /// </summary>
         [DataMember(Order = 136, Name = "lang")]
         public string Language { get; set; }
-
-        #endregion
     }
 }

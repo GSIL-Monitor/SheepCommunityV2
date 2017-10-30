@@ -195,7 +195,7 @@ namespace Sina.Weibo
         {
             try
             {
-                var responseJson = await "{0}?access_token={1}&capital={2}&language={3}".Fmt(GetCountryUrl, request.AccessToken, request.Capital, request.Language).HttpGetAsync();
+                var responseJson = await "{0}?{1}".Fmt(GetCountryUrl, request.ToQueryString()).HttpGetAsync();
                 var response = responseJson.FromJson<GetCountryResponse>();
                 if (response != null && response.ErrorCode != 0)
                 {
@@ -231,7 +231,7 @@ namespace Sina.Weibo
         {
             try
             {
-                var responseJson = await "{0}?access_token={1}&country={2}&capital={3}&language={4}".Fmt(GetProvinceUrl, request.AccessToken, request.Country, request.Capital, request.Language).HttpGetAsync();
+                var responseJson = await "{0}?{1}".Fmt(GetProvinceUrl, request.ToQueryString()).HttpGetAsync();
                 var response = responseJson.FromJson<GetProvinceResponse>();
                 if (response != null && response.ErrorCode != 0)
                 {
@@ -267,7 +267,7 @@ namespace Sina.Weibo
         {
             try
             {
-                var responseJson = await "{0}?access_token={1}&province={2}&capital={3}&language={4}".Fmt(GetCityUrl, request.AccessToken, request.Province, request.Capital, request.Language).HttpGetAsync();
+                var responseJson = await "{0}?{1}".Fmt(GetCityUrl, request.ToQueryString()).HttpGetAsync();
                 var response = responseJson.FromJson<GetCityResponse>();
                 if (response != null && response.ErrorCode != 0)
                 {

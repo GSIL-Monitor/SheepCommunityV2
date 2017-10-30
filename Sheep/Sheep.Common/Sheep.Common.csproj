@@ -110,6 +110,12 @@
     <Compile Include="Auth\IUserAuthRepositoryExtended.cs" />
     <Compile Include="Infrastructure\IPaged.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings\AppSettingsDbNames.cs" />
+    <Compile Include="Settings\AppSettingsHostNames.cs" />
+    <Compile Include="Settings\AppSettingsNeteaseNimNames.cs" />
+    <Compile Include="Settings\AppSettingsTopNames.cs" />
+    <Compile Include="Settings\AppSettingsWeiboNames.cs" />
+    <Compile Include="Settings\AppSettingsWeixinNames.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
