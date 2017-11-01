@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using RethinkDb.Driver;
+using RethinkDb.Driver.Ast;
 using RethinkDb.Driver.Model;
 using RethinkDb.Driver.Net;
 using ServiceStack.Auth;
@@ -273,6 +274,10 @@ namespace ServiceStack.Authentication.RethinkDb
 
         public List<IUserAuthDetails> GetUserAuthDetails(string userAuthId)
         {
+            if (userAuthId.IsNullOrEmpty())
+            {
+                return new List<IUserAuthDetails>();
+            }
             var userAuthDetailsList = R.Table(s_UserAuthDetailsTable).GetAll(int.Parse(userAuthId)).OptArg("index", "UserAuthId").RunResult<List<UserAuthDetails>>(_conn);
             return userAuthDetailsList.Cast<IUserAuthDetails>().ToList();
         }
@@ -487,6 +492,46 @@ namespace ServiceStack.Authentication.RethinkDb
                 return null;
             }
             return R.Table(s_UserAuthTable).GetAll(displayName).OptArg("index", "DisplayName").Nth(0).Default_(default(UserAuth)).RunResult<UserAuth>(_conn);
+        }
+
+        public List<IUserAuth> FindUserAuths(string userNameFilter, string nameFilter, DateTime? createdSince, DateTime? modifiedSince, DateTime? lockedSince, string accountStatus, string orderBy, bool? descending, int? skip, int? limit)
+        {
+            var query = R.Table(s_UserAuthTable).Filter(true);
+            if (!userNameFilter.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("UserName").Match(userNameFilter).Or(row.G("Email").Match(userNameFilter)));
+            }
+            if (!nameFilter.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("DisplayName").Match(nameFilter).Or(row.G("FullName").Match(nameFilter)));
+            }
+            if (createdSince.HasValue)
+            {
+                query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
+            }
+            if (modifiedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("ModifiedDate").Ge(modifiedSince.Value));
+            }
+            if (lockedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("LockedDate").Ge(lockedSince.Value));
+            }
+            if (!accountStatus.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("Meta").G("AccountStatus").Eq(accountStatus));
+            }
+            OrderBy queryOrder;
+            if (!orderBy.IsNullOrEmpty())
+            {
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc(orderBy)) : query.OrderBy(orderBy);
+            }
+            else
+            {
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("UserName")) : query.OrderBy("UserName");
+            }
+            var userAuthList = queryOrder.Skip(skip ?? 0).Limit(limit ?? 100).RunResult<List<UserAuth>>(_conn);
+            return userAuthList.Cast<IUserAuth>().ToList();
         }
 
         public IUserAuthDetails GetUserAuthDetailsByProvider(string provider, string userId)

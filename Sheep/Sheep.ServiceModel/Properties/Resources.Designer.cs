@@ -70,6 +70,15 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
+        ///   查找类似 帐户状态的有效范围为:{0}。 的本地化字符串。
+        /// </summary>
+        internal static string AccountStatusRangeMismatch {
+            get {
+                return ResourceManager.GetString("AccountStatusRangeMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 出生日期的有效范围为{0}至{1}。 的本地化字符串。
         /// </summary>
         internal static string BirthDateRangeMismatch {

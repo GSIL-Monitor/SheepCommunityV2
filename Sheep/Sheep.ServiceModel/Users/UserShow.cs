@@ -21,7 +21,7 @@ namespace Sheep.ServiceModel.Users
     /// <summary>
     ///     根据用户名称或电子邮件地址显示一个用户的请求。
     /// </summary>
-    [Route("/users/show", HttpMethods.Get)]
+    [Route("/users/show/{UserNameOrEmail}", HttpMethods.Get)]
     [DataContract]
     public class UserShowByUserNameOrEmail : IReturn<UserShowResponse>
     {

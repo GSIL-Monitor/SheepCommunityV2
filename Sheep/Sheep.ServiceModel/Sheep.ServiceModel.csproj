@@ -190,6 +190,8 @@
     <Compile Include="Users\UserDelete.cs" />
     <Compile Include="Users\UserList.cs" />
     <Compile Include="Users\UserShow.cs" />
+    <Compile Include="Users\Validators\UserListValidator.cs" />
+    <Compile Include="Users\Validators\UserShowValidator.cs" />
     <Compile Include="Users\Validators\UserUpdateValidator.cs" />
   </ItemGroup>
   <ItemGroup>

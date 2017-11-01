@@ -168,4 +168,7 @@
   <data name="UserNotUpdated" xml:space="preserve">
     <value>无法更新指定的用户{0}。</value>
   </data>
+  <data name="UsersNotFound" xml:space="preserve">
+    <value>无法找到指定条件的用户列表。</value>
+  </data>
 </root>

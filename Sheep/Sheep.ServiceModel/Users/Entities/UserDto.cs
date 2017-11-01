@@ -80,7 +80,7 @@ namespace Sheep.ServiceModel.Users.Entities
         ///     出生日期。
         /// </summary>
         [DataMember(Order = 12)]
-        public DateTime? BirthDate { get; set; }
+        public string BirthDate { get; set; }
 
         /// <summary>
         ///     性别。
@@ -225,7 +225,7 @@ namespace Sheep.ServiceModel.Users.Entities
         ///     帐户禁止的取消日期。
         /// </summary>
         [DataMember(Order = 36)]
-        public DateTime? BannedUntil { get; set; }
+        public string BannedUntil { get; set; }
 
         /// <summary>
         ///     撰写的内容是否需要管理员审核。
@@ -237,19 +237,19 @@ namespace Sheep.ServiceModel.Users.Entities
         ///     创建日期。
         /// </summary>
         [DataMember(Order = 38)]
-        public DateTime CreatedDate { get; set; }
+        public string CreatedDate { get; set; }
 
         /// <summary>
         ///     更新日期。
         /// </summary>
         [DataMember(Order = 39)]
-        public DateTime ModifiedDate { get; set; }
+        public string ModifiedDate { get; set; }
 
         /// <summary>
         ///     锁定日期。
         /// </summary>
         [DataMember(Order = 40)]
-        public DateTime? LockedDate { get; set; }
+        public string LockedDate { get; set; }
 
         /// <summary>
         ///     积分。

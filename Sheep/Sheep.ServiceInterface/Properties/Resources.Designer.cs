@@ -212,5 +212,14 @@ namespace Sheep.ServiceInterface.Properties {
                 return ResourceManager.GetString("UserNotUpdated", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定条件的用户列表。 的本地化字符串。
+        /// </summary>
+        internal static string UsersNotFound {
+            get {
+                return ResourceManager.GetString("UsersNotFound", resourceCulture);
+            }
+        }
     }
 }

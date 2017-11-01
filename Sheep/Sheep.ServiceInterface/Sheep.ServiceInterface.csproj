@@ -148,6 +148,9 @@
     <Compile Include="States\ListStateService.cs" />
     <Compile Include="States\ShowStateService.cs" />
     <Compile Include="States\ShowStateByNameService.cs" />
+    <Compile Include="Users\ListUserService.cs" />
+    <Compile Include="Users\ShowUserByUserNameOrEmailService.cs" />
+    <Compile Include="Users\ShowUserService.cs" />
     <Compile Include="Users\UpdateUserService.cs" />
   </ItemGroup>
   <ItemGroup>

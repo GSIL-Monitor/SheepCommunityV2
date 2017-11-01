@@ -29,7 +29,7 @@ namespace Sheep.ServiceModel.Achievements
         ///     是否按降序排序。
         /// </summary>
         [DataMember(Order = 3)]
-        public bool? OrderDescending { get; set; }
+        public bool? Descending { get; set; }
 
         /// <summary>
         ///     忽略的行数。

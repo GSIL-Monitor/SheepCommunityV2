@@ -120,6 +120,9 @@
   <data name="AccessTokenRequired" xml:space="preserve">
     <value>授权码必须输入。</value>
   </data>
+  <data name="AccountStatusRangeMismatch" xml:space="preserve">
+    <value>帐户状态的有效范围为:{0}。</value>
+  </data>
   <data name="BirthDateRangeMismatch" xml:space="preserve">
     <value>出生日期的有效范围为{0}至{1}。</value>
   </data>
