@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
 using ServiceStack;
-using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
@@ -34,11 +33,6 @@ namespace Sheep.ServiceInterface.SecurityTokens
         /// </summary>
         protected static readonly ILog Log = LogManager.GetLogger(typeof(RequestSecurityTokenService));
 
-        /// <summary>
-        ///     自定义校验函数。
-        /// </summary>
-        public static ValidateFn ValidateFn { get; set; }
-
         #endregion
 
         #region 属性 
@@ -54,7 +48,7 @@ namespace Sheep.ServiceInterface.SecurityTokens
         public IValidator<SecurityTokenRequest> SecurityTokenRequestValidator { get; set; }
 
         /// <summary>
-        ///     安全验证码提供程序。
+        ///     获取及设置安全验证码提供程序。
         /// </summary>
         public ISecurityTokenProvider SecurityTokenProvider { get; set; }
 
@@ -67,11 +61,6 @@ namespace Sheep.ServiceInterface.SecurityTokens
         /// </summary>
         public async Task<object> Post(SecurityTokenRequest request)
         {
-            var validateResponse = ValidateFn?.Invoke(this, HttpMethods.Post, request);
-            if (validateResponse != null)
-            {
-                return validateResponse;
-            }
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
                 SecurityTokenRequestValidator.ValidateAndThrow(request, ApplyTo.Post);

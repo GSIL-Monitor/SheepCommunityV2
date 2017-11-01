@@ -125,6 +125,12 @@
     <Compile Include="Accounts\BindMobileService.cs" />
     <Compile Include="Accounts\BindCredentialsService.cs" />
     <Compile Include="Accounts\LoginByWeiboService.cs" />
+    <Compile Include="Cities\ListCityService.cs" />
+    <Compile Include="Cities\ShowCityByNameService.cs" />
+    <Compile Include="Cities\ShowCityService.cs" />
+    <Compile Include="Countries\ShowCountryByNameService.cs" />
+    <Compile Include="Countries\ListCountryService.cs" />
+    <Compile Include="Countries\ShowCountryService.cs" />
     <Compile Include="Groups\CreateGroupService.cs" />
     <Compile Include="Accounts\RegisterService.cs" />
     <Compile Include="Accounts\LogoutService.cs" />
@@ -139,6 +145,9 @@
     <Compile Include="SecurityTokens\RequestSecurityTokenService.cs" />
     <Compile Include="ServiceInterfaceAssembly.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="States\ListStateService.cs" />
+    <Compile Include="States\ShowStateService.cs" />
+    <Compile Include="States\ShowStateByNameService.cs" />
     <Compile Include="Users\UpdateUserService.cs" />
   </ItemGroup>
   <ItemGroup>

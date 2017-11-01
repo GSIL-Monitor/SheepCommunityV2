@@ -61,6 +61,42 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
+        ///   查找类似 无法找到指定条件的城市/区域列表。 的本地化字符串。
+        /// </summary>
+        internal static string CitiesNotFound {
+            get {
+                return ResourceManager.GetString("CitiesNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定的城市/区域{0}。 的本地化字符串。
+        /// </summary>
+        internal static string CityNotFound {
+            get {
+                return ResourceManager.GetString("CityNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定条件的国家/地区列表。 的本地化字符串。
+        /// </summary>
+        internal static string CountriesNotFound {
+            get {
+                return ResourceManager.GetString("CountriesNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定的国家/地区{0}。 的本地化字符串。
+        /// </summary>
+        internal static string CountryNotFound {
+            get {
+                return ResourceManager.GetString("CountryNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 显示名称已经存在。 的本地化字符串。
         /// </summary>
         internal static string DisplayNameAlreadyExists {
@@ -133,6 +169,24 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
+        ///   查找类似 无法找到指定的省份/直辖市/州{0}。 的本地化字符串。
+        /// </summary>
+        internal static string StateNotFound {
+            get {
+                return ResourceManager.GetString("StateNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定条件的省份/直辖市/州列表。 的本地化字符串。
+        /// </summary>
+        internal static string StatesNotFound {
+            get {
+                return ResourceManager.GetString("StatesNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 无法更新指定用户{0}的显示名称。 的本地化字符串。
         /// </summary>
         internal static string UserDisplayNameNotUpdated {
@@ -142,7 +196,7 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
-        ///   查找类似 无法找到指定用户{0}。 的本地化字符串。
+        ///   查找类似 无法找到指定的用户{0}。 的本地化字符串。
         /// </summary>
         internal static string UserNotFound {
             get {
@@ -151,7 +205,7 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
-        ///   查找类似 无法更新指定用户{0}。 的本地化字符串。
+        ///   查找类似 无法更新指定的用户{0}。 的本地化字符串。
         /// </summary>
         internal static string UserNotUpdated {
             get {

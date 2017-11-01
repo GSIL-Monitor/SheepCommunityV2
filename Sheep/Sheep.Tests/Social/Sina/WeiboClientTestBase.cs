@@ -1,4 +1,7 @@
 ﻿using NUnit.Framework;
+using RethinkDb.Driver;
+using RethinkDb.Driver.Net;
+using ServiceStack;
 using ServiceStack.Configuration;
 using Sheep.Common.Settings;
 using Sina.Weibo;
@@ -9,8 +12,13 @@ namespace Sheep.Tests.Social.Sina
     {
         #region 变量
 
-        public IWeiboClient WeiboClient;
+        /// <summary>
+        ///     RethinkDB 查询器.
+        /// </summary>
+        public static readonly RethinkDB R = RethinkDB.R;
 
+        public IConnection Conn;
+        public IWeiboClient WeiboClient;
         public IAppSettings AppSettings;
 
         #endregion
@@ -20,17 +28,8 @@ namespace Sheep.Tests.Social.Sina
         [OneTimeSetUp]
         public virtual void OnBeforeTest()
         {
-        }
-
-        [OneTimeTearDown]
-        public virtual void OnAfterTest()
-        {
-        }
-
-        [SetUp]
-        public virtual void OnBeforeEachTest()
-        {
             AppSettings = new AppSettings();
+            Conn = R.Connection().Hostname(AppSettings.GetString(AppSettingsDbNames.RethinkDbHostName)).Port(AppSettings.GetString(AppSettingsDbNames.RethinkDbPort).ToInt()).Timeout(AppSettings.GetString(AppSettingsDbNames.RethinkDbTimeout).ToInt()).Db(AppSettings.GetString(AppSettingsDbNames.RethinkDbDatabase)).Connect();
             WeiboClient = new WeiboClient
                           {
                               AppKey = AppSettings.GetString(AppSettingsWeiboNames.AppKey),
@@ -45,12 +44,21 @@ namespace Sheep.Tests.Social.Sina
                           };
         }
 
+        [OneTimeTearDown]
+        public virtual void OnAfterTest()
+        {
+        }
+
+        [SetUp]
+        public virtual void OnBeforeEachTest()
+        {
+        }
+
         [TearDown]
         public virtual void OnAfterEachTest()
         {
         }
 
         #endregion
-
     }
 }

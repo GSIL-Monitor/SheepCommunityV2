@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Sina.Weibo
 {
@@ -8,5 +9,10 @@ namespace Sina.Weibo
     [DataContract]
     public class GetCountryResponse : ErrorResponse
     {
+        /// <summary>
+        ///     国家列表。
+        /// </summary>
+        [DataMember(Order = 101, Name = "countries")]
+        public Dictionary<string, string> Countries { get; set; }
     }
 }

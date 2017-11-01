@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using ServiceStack;
 using ServiceStack.FluentValidation;
+using Sheep.Model.Geo;
 using Sheep.ServiceModel.Properties;
 
 namespace Sheep.ServiceModel.Accounts.Validators
@@ -10,11 +11,6 @@ namespace Sheep.ServiceModel.Accounts.Validators
     /// </summary>
     public class AccountChangeLocationValidator : AbstractValidator<AccountChangeLocation>
     {
-        public static readonly HashSet<string> Countries = new HashSet<string>
-                                                         {
-                                                             "中国",
-                                                         };
-
         /// <summary>
         ///     初始化一个新的<see cref="AccountChangeLocationValidator" />对象。
         ///     创建规则集合。
@@ -23,8 +19,17 @@ namespace Sheep.ServiceModel.Accounts.Validators
         {
             RuleSet(ApplyTo.Put, () =>
                                  {
-                                     RuleFor(x => x.Country).Must(country => Countries.Contains(country)).WithMessage(Resources.CountryRangeMismatch, Countries.Join(",")).When(x => !x.Country.IsNullOrEmpty());
+                                     RuleFor(x => x.Country).Must(CountriesContains).WithMessage(Resources.CountryRangeMismatch).When(x => !x.Country.IsNullOrEmpty());
                                  });
+        }
+
+        private bool CountriesContains(string country)
+        {
+            var countryRepo = HostContext.AppHost.Resolve<IGeoCountryRepository>();
+            using (countryRepo as IDisposable)
+            {
+                return countryRepo.GetCountryByName(country) != null;
+            }
         }
     }
 }

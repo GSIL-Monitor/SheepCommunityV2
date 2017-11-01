@@ -459,11 +459,19 @@ namespace ServiceStack.Authentication.RethinkDb
 
         public IUserAuth GetUserAuth(string userAuthId)
         {
+            if (userAuthId.IsNullOrEmpty())
+            {
+                return null;
+            }
             return R.Table(s_UserAuthTable).Get(int.Parse(userAuthId)).RunResult<UserAuth>(_conn);
         }
 
         public void DeleteUserAuth(string userAuthId)
         {
+            if (userAuthId.IsNullOrEmpty())
+            {
+                return;
+            }
             R.Table(s_UserAuthTable).Get(int.Parse(userAuthId)).Delete().RunResult(_conn).AssertNoErrors();
             R.Table(s_UserAuthDetailsTable).GetAll(int.Parse(userAuthId)).OptArg("index", "UserAuthId").Delete().RunResult(_conn).AssertNoErrors();
         }

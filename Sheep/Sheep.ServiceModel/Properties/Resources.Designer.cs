@@ -79,11 +79,11 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
-        ///   查找类似 城市/区域的有效范围为:{0}。 的本地化字符串。
+        ///   查找类似 城市编号必须输入。 的本地化字符串。
         /// </summary>
-        internal static string CityRangeMismatch {
+        internal static string CityIdRequired {
             get {
-                return ResourceManager.GetString("CityRangeMismatch", resourceCulture);
+                return ResourceManager.GetString("CityIdRequired", resourceCulture);
             }
         }
         
@@ -97,7 +97,16 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
-        ///   查找类似 国家/地区的有效范围为:{0}。 的本地化字符串。
+        ///   查找类似 国家编号必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string CountryIdRequired {
+            get {
+                return ResourceManager.GetString("CountryIdRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 输入的国家/地区不在列表中。 的本地化字符串。
         /// </summary>
         internal static string CountryRangeMismatch {
             get {
@@ -192,6 +201,15 @@ namespace Sheep.ServiceModel.Properties {
         internal static string LanguageRangeMismatch {
             get {
                 return ResourceManager.GetString("LanguageRangeMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 名称必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string NameRequired {
+            get {
+                return ResourceManager.GetString("NameRequired", resourceCulture);
             }
         }
         
@@ -313,11 +331,11 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
-        ///   查找类似 省份/直辖市/州的有效范围为:{0}。 的本地化字符串。
+        ///   查找类似 省份编号必须输入。 的本地化字符串。
         /// </summary>
-        internal static string StateRangeMismatch {
+        internal static string StateIdRequired {
             get {
-                return ResourceManager.GetString("StateRangeMismatch", resourceCulture);
+                return ResourceManager.GetString("StateIdRequired", resourceCulture);
             }
         }
         

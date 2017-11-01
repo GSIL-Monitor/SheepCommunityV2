@@ -17,6 +17,8 @@ using ServiceStack.Validation;
 using Sheep.Common.Settings;
 using Sheep.Model.Auth.Events;
 using Sheep.Model.Auth.Providers;
+using Sheep.Model.Geo;
+using Sheep.Model.Geo.Repositories;
 using Sheep.Model.Security;
 using Sheep.Model.Security.Providers;
 using Sheep.Model.Security.Repositories;
@@ -92,6 +94,8 @@ namespace Sheep
             ConfigSecurityTokenProviders(container);
             // 配置身份验证功能。
             ConfigAuth(container);
+            // 配置地理位置功能。
+            ConfigureGeo(container);
             // 配置校验器。
             ConfigValidation(container);
             // 配置 Swagger 功能。
@@ -151,6 +155,7 @@ namespace Sheep
         private void ConfigRedis(Container container)
         {
             container.Register<IRedisClientsManager>(c => new PooledRedisClientManager(1, AppSettings.GetString(AppSettingsDbNames.RedisConnectionString)));
+            container.Register(c => c.Resolve<IRedisClientsManager>().GetCacheClient());
         }
 
         /// <summary>
@@ -284,15 +289,21 @@ namespace Sheep
             Plugins.Add(feature);
         }
 
+        /// <summary>
+        ///     配置地理位置功能。
+        /// </summary>
+        private void ConfigureGeo(Container container)
+        {
+            container.Register<IGeoCountryRepository>(c => new RethinkDbGeoCountryRepository(c.Resolve<IConnection>(), AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true));
+            container.Register<IGeoStateRepository>(c => new RethinkDbGeoStateRepository(c.Resolve<IConnection>(), AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true));
+            container.Register<IGeoCityRepository>(c => new RethinkDbGeoCityRepository(c.Resolve<IConnection>(), AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true));
+        }
+
         private void ConfigureMembership(Container container)
         {
         }
 
         private void ConfigureFriendship(Container container)
-        {
-        }
-
-        private void ConfigureShop(Container container)
         {
         }
 

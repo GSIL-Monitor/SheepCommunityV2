@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
+using Newtonsoft.Json.Linq;
 
 namespace Sina.Weibo
 {
@@ -7,7 +7,7 @@ namespace Sina.Weibo
     ///     错误信息响应。
     /// </summary>
     [DataContract]
-    public class ErrorResponse : Dictionary<string, string>
+    public class ErrorResponse
     {
         /// <summary>
         ///     请求处理的结果，空表示处理成功，其他表示错误码。

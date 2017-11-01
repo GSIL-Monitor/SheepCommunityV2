@@ -123,14 +123,17 @@
   <data name="BirthDateRangeMismatch" xml:space="preserve">
     <value>出生日期的有效范围为{0}至{1}。</value>
   </data>
-  <data name="CityRangeMismatch" xml:space="preserve">
-    <value>城市/区域的有效范围为:{0}。</value>
+  <data name="CityIdRequired" xml:space="preserve">
+    <value>城市编号必须输入。</value>
   </data>
   <data name="CodeRequired" xml:space="preserve">
     <value>代码必须输入。</value>
   </data>
+  <data name="CountryIdRequired" xml:space="preserve">
+    <value>国家编号必须输入。</value>
+  </data>
   <data name="CountryRangeMismatch" xml:space="preserve">
-    <value>国家/地区的有效范围为:{0}。</value>
+    <value>输入的国家/地区不在列表中。</value>
   </data>
   <data name="DescriptionLengthMismatch" xml:space="preserve">
     <value>简介的长度至少为{0}位并且最多为为{1}位。</value>
@@ -161,6 +164,9 @@
   </data>
   <data name="LanguageRangeMismatch" xml:space="preserve">
     <value>语言的有效范围为:{0}。</value>
+  </data>
+  <data name="NameRequired" xml:space="preserve">
+    <value>名称必须输入。</value>
   </data>
   <data name="PasswordLengthMismatch" xml:space="preserve">
     <value>登录密码的长度至少为{0}位并且最多为为{1}位。</value>
@@ -201,8 +207,8 @@
   <data name="SignatureLengthMismatch" xml:space="preserve">
     <value>签名的长度至少为{0}位并且最多为为{1}位。</value>
   </data>
-  <data name="StateRangeMismatch" xml:space="preserve">
-    <value>省份/直辖市/州的有效范围为:{0}。</value>
+  <data name="StateIdRequired" xml:space="preserve">
+    <value>省份编号必须输入。</value>
   </data>
   <data name="UserIdRequired" xml:space="preserve">
     <value>用户编号必须输入。</value>

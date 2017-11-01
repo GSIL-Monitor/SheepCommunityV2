@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using ServiceStack;
 using ServiceStack.Extensions;
 using ServiceStack.Logging;
@@ -196,10 +199,15 @@ namespace Sina.Weibo
             try
             {
                 var responseJson = await "{0}?{1}".Fmt(GetCountryUrl, request.ToQueryString()).HttpGetAsync();
-                var response = responseJson.FromJson<GetCountryResponse>();
-                if (response != null && response.ErrorCode != 0)
+                var responseArray = JsonConvert.DeserializeObject<JArray>(responseJson);
+                var response = new GetCountryResponse
+                               {
+                                   Countries = new Dictionary<string, string>()
+                               };
+                foreach (var responseToken in responseArray)
                 {
-                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Error, response.ErrorCode, response.ErrorDescription);
+                    var pair = responseToken.ToString(Formatting.None).Replace("{", string.Empty).Replace("}", string.Empty).Replace("\"", string.Empty).Split(':');
+                    response.Countries[pair[0]] = pair[1];
                 }
                 return response;
             }
@@ -232,10 +240,15 @@ namespace Sina.Weibo
             try
             {
                 var responseJson = await "{0}?{1}".Fmt(GetProvinceUrl, request.ToQueryString()).HttpGetAsync();
-                var response = responseJson.FromJson<GetProvinceResponse>();
-                if (response != null && response.ErrorCode != 0)
+                var responseArray = JsonConvert.DeserializeObject<JArray>(responseJson);
+                var response = new GetProvinceResponse
+                               {
+                                   Provinces = new Dictionary<string, string>()
+                               };
+                foreach (var responseToken in responseArray)
                 {
-                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Error, response.ErrorCode, response.ErrorDescription);
+                    var pair = responseToken.ToString(Formatting.None).Replace("{", string.Empty).Replace("}", string.Empty).Replace("\"", string.Empty).Split(':');
+                    response.Provinces[pair[0]] = pair[1];
                 }
                 return response;
             }
@@ -268,10 +281,15 @@ namespace Sina.Weibo
             try
             {
                 var responseJson = await "{0}?{1}".Fmt(GetCityUrl, request.ToQueryString()).HttpGetAsync();
-                var response = responseJson.FromJson<GetCityResponse>();
-                if (response != null && response.ErrorCode != 0)
+                var responseArray = JsonConvert.DeserializeObject<JArray>(responseJson);
+                var response = new GetCityResponse
+                               {
+                                   Cities = new Dictionary<string, string>()
+                               };
+                foreach (var responseToken in responseArray)
                 {
-                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Error, response.ErrorCode, response.ErrorDescription);
+                    var pair = responseToken.ToString(Formatting.None).Replace("{", string.Empty).Replace("}", string.Empty).Replace("\"", string.Empty).Split(':');
+                    response.Cities[pair[0]] = pair[1];
                 }
                 return response;
             }

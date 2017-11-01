@@ -38,6 +38,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Common.Logging, Version=3.4.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Common.Logging.3.4.1\lib\net40\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging.Core, Version=3.4.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Common.Logging.Core.3.4.1\lib\net40\Common.Logging.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
@@ -47,6 +53,9 @@
     </Reference>
     <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop, Version=1.0.168.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Nito.AsyncEx, Version=4.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Nito.AsyncEx.4.0.1\lib\net45\Nito.AsyncEx.dll</HintPath>
@@ -59,6 +68,12 @@
     </Reference>
     <Reference Include="nunit.framework, Version=3.8.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NUnit.3.8.1\lib\net45\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Polly, Version=5.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Polly.5.3.1\lib\net45\Polly.dll</HintPath>
+    </Reference>
+    <Reference Include="RethinkDb.Driver, Version=2.3.20.0, Culture=neutral, PublicKeyToken=289e75d5145ae4e6, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\RethinkDb.Driver.2.3.20\lib\net45\RethinkDb.Driver.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack, Version=4.5.14.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ServiceStack.4.5.14\lib\net45\ServiceStack.dll</HintPath>
@@ -116,6 +131,14 @@
     <Compile Include="Social\Sina\WeiboClientTestBase.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ServiceStack\ServiceStack.Authentication.RethinkDb\ServiceStack.Authentication.RethinkDb.csproj">
+      <Project>{4af1afad-607d-40bb-8812-efc59983b27e}</Project>
+      <Name>ServiceStack.Authentication.RethinkDb</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ServiceStack\ServiceStack.Extensions\ServiceStack.Extensions.csproj">
+      <Project>{ab8b5cf2-45a4-4172-ab4b-827c421a494b}</Project>
+      <Name>ServiceStack.Extensions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Social\NeteaseSDK\NeteaseSDK.csproj">
       <Project>{ddd5104a-5285-45b0-aa49-201e5fbed379}</Project>
       <Name>NeteaseSDK</Name>
@@ -131,6 +154,14 @@
     <ProjectReference Include="..\Sheep.Common\Sheep.Common.csproj">
       <Project>{80d3d2c4-3171-4ff9-8c62-0483b1c97cd1}</Project>
       <Name>Sheep.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sheep.Interface\Sheep.Interface.csproj">
+      <Project>{c2e40e51-72da-4a73-aee7-acacb3f0157d}</Project>
+      <Name>Sheep.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sheep.Model\Sheep.Model.csproj">
+      <Project>{327d767e-65e8-408f-a902-f39859b27ebd}</Project>
+      <Name>Sheep.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sheep.ServiceInterface\Sheep.ServiceInterface.csproj">
       <Project>{801a0f89-d5f6-49a6-bcea-6624388c98a4}</Project>

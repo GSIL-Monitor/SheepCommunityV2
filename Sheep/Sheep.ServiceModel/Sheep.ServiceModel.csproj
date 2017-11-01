@@ -132,10 +132,19 @@
     <Compile Include="Achievements\AchievementUpdate.cs" />
     <Compile Include="Applications\Entities\ApplicationDto.cs" />
     <Compile Include="Bookmarks\Entities\BookmarkDto.cs" />
+    <Compile Include="Cities\Entities\CityDto.cs" />
+    <Compile Include="Cities\CityList.cs" />
+    <Compile Include="Cities\CityShow.cs" />
+    <Compile Include="Cities\Validators\CityListValidator.cs" />
+    <Compile Include="Cities\Validators\CityShowValidator.cs" />
     <Compile Include="Comments\Entities\CommentDto.cs" />
     <Compile Include="Comments\Entities\CommentVoteDto.cs" />
     <Compile Include="Containers\Entities\ContainerDto.cs" />
     <Compile Include="Contents\Entities\ContentDto.cs" />
+    <Compile Include="Countries\Entities\CountryDto.cs" />
+    <Compile Include="Countries\CountryList.cs" />
+    <Compile Include="Countries\CountryShow.cs" />
+    <Compile Include="Countries\Validators\CountryShowValidator.cs" />
     <Compile Include="Groups\GroupUpdate.cs" />
     <Compile Include="Groups\GroupDelete.cs" />
     <Compile Include="Groups\GroupShow.cs" />
@@ -165,6 +174,11 @@
     <Compile Include="SecurityTokens\SecurityTokenRequest.cs" />
     <Compile Include="SecurityTokens\Validators\SecurityTokenVerifyValidator.cs" />
     <Compile Include="SecurityTokens\Validators\SecurityTokenRequestValidator.cs" />
+    <Compile Include="States\StateList.cs" />
+    <Compile Include="States\StateShow.cs" />
+    <Compile Include="States\Entities\StateDto.cs" />
+    <Compile Include="States\Validators\StateListValidator.cs" />
+    <Compile Include="States\Validators\StateShowValidator.cs" />
     <Compile Include="UserAchievements\Entities\UserAchievementDto.cs" />
     <Compile Include="Users\Entities\OnlineUserDto.cs" />
     <Compile Include="Users\Entities\BasicUserDto.cs" />
@@ -181,7 +195,6 @@
   <ItemGroup>
     <Folder Include="Achievements\Mappers\" />
     <Folder Include="Achievements\Validators\" />
-    <Folder Include="Countries\" />
     <Folder Include="Roles\Entities\" />
     <Folder Include="UserAchievements\Validators\" />
   </ItemGroup>
