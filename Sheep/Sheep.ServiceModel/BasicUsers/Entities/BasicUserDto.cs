@@ -1,7 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using ServiceStack.Model;
 
-namespace Sheep.ServiceModel.Users.Entities
+namespace Sheep.ServiceModel.BasicUsers.Entities
 {
     /// <summary>
     ///     基本用户信息。

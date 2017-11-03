@@ -2,6 +2,7 @@
 using System.Runtime.Serialization;
 using ServiceStack.Model;
 using Sheep.ServiceModel.Applications.Entities;
+using Sheep.ServiceModel.BasicUsers.Entities;
 using Sheep.ServiceModel.Users.Entities;
 
 namespace Sheep.ServiceModel.Contents.Entities

@@ -109,6 +109,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Accounts\ChangeBirthDateService.cs" />
+    <Compile Include="Accounts\ChangeAvartarService.cs" />
     <Compile Include="Accounts\ChangeLanguageService.cs" />
     <Compile Include="Accounts\ChangeGuildService.cs" />
     <Compile Include="Accounts\ChangeLocationService.cs" />
@@ -149,7 +150,9 @@
     <Compile Include="States\ShowStateService.cs" />
     <Compile Include="States\ShowStateByNameService.cs" />
     <Compile Include="Users\ListUserService.cs" />
+    <Compile Include="Users\ShowBasicUserByUserNameOrEmailService.cs" />
     <Compile Include="Users\ShowUserByUserNameOrEmailService.cs" />
+    <Compile Include="Users\ShowBasicUserService.cs" />
     <Compile Include="Users\ShowUserService.cs" />
     <Compile Include="Users\UpdateUserService.cs" />
   </ItemGroup>
@@ -158,6 +161,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ServiceStack\ServiceStack.Extensions\ServiceStack.Extensions.csproj">
+      <Project>{ab8b5cf2-45a4-4172-ab4b-827c421a494b}</Project>
+      <Name>ServiceStack.Extensions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Social\NeteaseSDK\NeteaseSDK.csproj">
       <Project>{ddd5104a-5285-45b0-aa49-201e5fbed379}</Project>
       <Name>NeteaseSDK</Name>

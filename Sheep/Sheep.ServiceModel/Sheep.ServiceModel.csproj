@@ -100,6 +100,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Accounts\AccountChangeBirthDate.cs" />
+    <Compile Include="Accounts\AccountChangeAvartar.cs" />
     <Compile Include="Accounts\AccountChangeLanguage.cs" />
     <Compile Include="Accounts\AccountChangeGuild.cs" />
     <Compile Include="Accounts\AccountChangeLocation.cs" />
@@ -131,6 +132,8 @@
     <Compile Include="Achievements\AchievementDelete.cs" />
     <Compile Include="Achievements\AchievementUpdate.cs" />
     <Compile Include="Applications\Entities\ApplicationDto.cs" />
+    <Compile Include="BasicUsers\BasicUserShow.cs" />
+    <Compile Include="BasicUsers\Validators\BasicUserShowValidator.cs" />
     <Compile Include="Bookmarks\Entities\BookmarkDto.cs" />
     <Compile Include="Cities\Entities\CityDto.cs" />
     <Compile Include="Cities\CityList.cs" />
@@ -180,8 +183,7 @@
     <Compile Include="States\Validators\StateListValidator.cs" />
     <Compile Include="States\Validators\StateShowValidator.cs" />
     <Compile Include="UserAchievements\Entities\UserAchievementDto.cs" />
-    <Compile Include="Users\Entities\OnlineUserDto.cs" />
-    <Compile Include="Users\Entities\BasicUserDto.cs" />
+    <Compile Include="BasicUsers\Entities\BasicUserDto.cs" />
     <Compile Include="Users\Entities\UserDto.cs" />
     <Compile Include="Accounts\AccountLogout.cs" />
     <Compile Include="Accounts\AccountLogin.cs" />
@@ -191,6 +193,7 @@
     <Compile Include="Users\UserList.cs" />
     <Compile Include="Users\UserShow.cs" />
     <Compile Include="Users\Validators\UserListValidator.cs" />
+    <Compile Include="Users\Validators\UserDeleteValidator.cs" />
     <Compile Include="Users\Validators\UserShowValidator.cs" />
     <Compile Include="Users\Validators\UserUpdateValidator.cs" />
   </ItemGroup>

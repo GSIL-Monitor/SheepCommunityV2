@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using ServiceStack;
 using ServiceStack.Model;
+using Sheep.ServiceModel.BasicUsers.Entities;
 using Sheep.ServiceModel.Contents.Entities;
 using Sheep.ServiceModel.Users.Entities;
 

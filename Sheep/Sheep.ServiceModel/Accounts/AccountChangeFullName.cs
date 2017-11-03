@@ -4,24 +4,24 @@ using ServiceStack;
 namespace Sheep.ServiceModel.Accounts
 {
     /// <summary>
-    ///     更改显示名称的请求。
+    ///     更改真实姓名的请求。
     /// </summary>
-    [Route("/account/displayname", HttpMethods.Put)]
+    [Route("/account/fullname", HttpMethods.Put)]
     [DataContract]
-    public class AccountChangeDisplayName : IReturn<AccountChangeDisplayNameResponse>
+    public class AccountChangeFullName : IReturn<AccountChangeFullNameResponse>
     {
         /// <summary>
-        ///     更改的显示名称。
+        ///     更改的真实姓名。
         /// </summary>
         [DataMember(Order = 1, IsRequired = true)]
-        public string DisplayName { get; set; }
+        public string FullName { get; set; }
     }
 
     /// <summary>
-    ///     更改显示名称的响应。
+    ///     更改真实姓名的响应。
     /// </summary>
     [DataContract]
-    public class AccountChangeDisplayNameResponse : IHasResponseStatus
+    public class AccountChangeFullNameResponse : IHasResponseStatus
     {
         /// <summary>
         ///     处理响应的状态。

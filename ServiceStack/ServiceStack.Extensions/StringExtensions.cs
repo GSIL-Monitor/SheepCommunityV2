@@ -37,8 +37,7 @@ namespace ServiceStack.Extensions
             {
                 return Guid.Empty;
             }
-            Guid result;
-            if (!Guid.TryParseExact(guidText, "N", out result))
+            if (!Guid.TryParseExact(guidText, "N", out var result))
             {
                 return Guid.Empty;
             }
@@ -52,8 +51,7 @@ namespace ServiceStack.Extensions
         /// <returns>日期时间。</returns>
         public static DateTime FromRfc3339DateTime(this string dateTimeText)
         {
-            DateTime finalDateTime;
-            return DateTime.TryParseExact(dateTimeText.Replace(" Etc/GMT", string.Empty).Replace("\"", string.Empty).Trim(), "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out finalDateTime) ? finalDateTime : DateTime.MinValue;
+            return DateTime.TryParseExact(dateTimeText.Replace(" Etc/GMT", string.Empty).Replace("\"", string.Empty).Trim(), "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out var finalDateTime) ? finalDateTime : DateTime.MinValue;
         }
 
         #endregion
