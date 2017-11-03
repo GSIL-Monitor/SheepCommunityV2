@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web;
 using ServiceStack.Extensions.Properties;
 
 namespace ServiceStack.Extensions
@@ -212,6 +213,39 @@ namespace ServiceStack.Extensions
                 return "{0}...".Fmt(text.SafeSubstring(0, remainLength - 1));
             }
             return string.Empty;
+        }
+
+        #endregion
+
+        #region 路径
+
+        /// <summary>
+        ///     远程路径编码处理，会保证开头是/，结尾也是/
+        /// </summary>
+        /// <param name="remotePath">远程路径。</param>
+        /// <returns></returns>
+        public static string EncodeRemotePath(this string remotePath)
+        {
+            if (remotePath == "/")
+            {
+                return remotePath;
+            }
+            var endWith = remotePath.EndsWith("/");
+            var parts = remotePath.Split('/');
+            remotePath = string.Empty;
+            foreach (var part in parts)
+            {
+                if (part != string.Empty)
+                {
+                    if (remotePath != string.Empty)
+                    {
+                        remotePath += "/";
+                    }
+                    remotePath += HttpUtility.UrlEncode(part)?.Replace("+", "%20");
+                }
+            }
+            remotePath = string.Format("{0}{1}{2}", remotePath.StartsWith("/") ? string.Empty : "/", remotePath, endWith ? "/" : string.Empty);
+            return remotePath;
         }
 
         #endregion
