@@ -13,13 +13,13 @@ namespace Tencent.Weixin
         /// <summary>
         ///     错误内部编号，0为成功，其他为失败。
         /// </summary>
-        [DataMember(Order = 0, Name = "errcode")]
+        [DataMember(Order = 1, Name = "errcode")]
         public int ErrorCode { get; set; }
 
         /// <summary>
         ///     错误的描述信息 。
         /// </summary>
-        [DataMember(Order = 1, Name = "errmsg")]
+        [DataMember(Order = 2, Name = "errmsg")]
         public string ErrorMessage { get; set; }
 
         #endregion

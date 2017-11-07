@@ -8,8 +8,5 @@ namespace Tencent.Weixin
     [DataContract]
     public class AuthenticateTokenResponse : ErrorResponse
     {
-        #region 属性
-
-        #endregion
     }
 }

@@ -9,8 +9,6 @@ namespace Tencent.Weixin
     [DataContract]
     public class UserInfoResponse : ErrorResponse
     {
-        #region 属性
-
         /// <summary>
         ///     授权用户唯一标识，对该公众帐号唯一。
         /// </summary>
@@ -64,7 +62,5 @@ namespace Tencent.Weixin
         /// </summary>
         [DataMember(Order = 109, Name = "unionid")]
         public string UnionId { get; set; }
-
-        #endregion
     }
 }

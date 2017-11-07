@@ -8,8 +8,6 @@ namespace Tencent.Weixin
     [DataContract]
     public class RefreshTokenResponse : ErrorResponse
     {
-        #region 属性
-
         /// <summary>
         ///     授权时生成的接口调用凭证。
         /// </summary>
@@ -39,7 +37,5 @@ namespace Tencent.Weixin
         /// </summary>
         [DataMember(Order = 105, Name = "scope")]
         public string Scope { get; set; }
-
-        #endregion
     }
 }

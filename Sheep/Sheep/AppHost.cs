@@ -25,6 +25,7 @@ using Sheep.Model.Security.Repositories;
 using Sheep.ServiceInterface;
 using Sheep.ServiceModel;
 using Sina.Weibo;
+using Tencent.Cos;
 using Tencent.Weixin;
 using Top.Api;
 using CredentialsAuthProvider = Sheep.Model.Auth.Providers.CredentialsAuthProvider;
@@ -88,6 +89,8 @@ namespace Sheep
             ConfigSinaWeiboClient(container);
             // 配置腾讯微信客户端。
             ConfigTencentWeixinClient(container);
+            // 配置腾讯云对象存储客户端。
+            ConfigTencentCosClient(container);
             // 配置网易云通讯客户端。
             ConfigNetneaseNimClient(container);
             // 配置安全验证码提供程序。
@@ -199,6 +202,21 @@ namespace Sheep
                                                        AuthenticateTokenUrl = AppSettings.GetString(AppSettingsWeixinNames.AuthenticateTokenUrl),
                                                        UserInfoUrl = AppSettings.GetString(AppSettingsWeixinNames.UserInfoUrl)
                                                    });
+        }
+
+        /// <summary>
+        ///     配置腾讯云对象存储客户端。
+        /// </summary>
+        private void ConfigTencentCosClient(Container container)
+        {
+            container.Register<ICosClient>(c => new CosClient
+                                                {
+                                                    AppId = AppSettings.Get<int>(AppSettingsCosNames.AppId),
+                                                    SecretId = AppSettings.GetString(AppSettingsCosNames.SecretId),
+                                                    SecretKey = AppSettings.GetString(AppSettingsCosNames.SecretKey),
+                                                    ApiUrl = AppSettings.GetString(AppSettingsCosNames.ApiUrl),
+                                                    Bucket = AppSettings.GetString(AppSettingsCosNames.Bucket)
+                                                });
         }
 
         /// <summary>

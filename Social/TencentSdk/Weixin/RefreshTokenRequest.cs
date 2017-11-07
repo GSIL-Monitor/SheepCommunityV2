@@ -19,17 +19,11 @@ namespace Tencent.Weixin
     [DataContract]
     public class RefreshTokenRequest
     {
-        #region 属性
-
         /// <summary>
         ///     用户刷新接口调用凭证时生成的刷新凭证。
         /// </summary>
-        [DataMember(Order = 1, Name = "refresh_token")]
+        [DataMember(Order = 1, Name = "refresh_token", IsRequired = true)]
         public string RefreshToken { get; set; }
-
-        #endregion
-
-        #region 转换操作
 
         /// <summary>
         ///     转换成查询字符串格式的文本。
@@ -39,7 +33,5 @@ namespace Tencent.Weixin
         {
             return string.Format("refresh_token={0}", RefreshToken);
         }
-
-        #endregion
     }
 }

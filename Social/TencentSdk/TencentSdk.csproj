@@ -90,7 +90,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cos\SignManager.cs" />
+    <Compile Include="Cos\DeleteFolderRequest.cs" />
+    <Compile Include="Cos\DeleteFolderResponse.cs" />
+    <Compile Include="Cos\GetFolderStatData.cs" />
+    <Compile Include="Cos\GetFolderStatRequest.cs" />
+    <Compile Include="Cos\CreateFolderRequest.cs" />
+    <Compile Include="Cos\GetFolderStatResponse.cs" />
+    <Compile Include="Cos\CreateFolderResponse.cs" />
+    <Compile Include="Cos\CreateFolderData.cs" />
+    <Compile Include="Cos\Response.cs" />
+    <Compile Include="Cos\ICosClient.cs" />
+    <Compile Include="Cos\Signer.cs" />
+    <Compile Include="Cos\CosClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Weixin\AccessTokenRequest.cs" />
     <Compile Include="Weixin\AccessTokenResponse.cs" />
@@ -114,9 +125,7 @@
       <Name>ServiceStack.Extensions</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Cos\Common\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

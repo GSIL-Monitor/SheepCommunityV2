@@ -18,29 +18,23 @@ namespace Tencent.Weixin
     [DataContract]
     public class UserInfoRequest
     {
-        #region 属性
-
         /// <summary>
         ///     授权时生成的接口调用凭证。
         /// </summary>
-        [DataMember(Order = 1, Name = "access_token")]
+        [DataMember(Order = 1, Name = "access_token", IsRequired = true)]
         public string AccessToken { get; set; }
 
         /// <summary>
         ///     授权用户唯一标识，对该公众帐号唯一。
         /// </summary>
-        [DataMember(Order = 2, Name = "openid")]
+        [DataMember(Order = 2, Name = "openid", IsRequired = true)]
         public string OpenId { get; set; }
 
         /// <summary>
         ///     国家地区语言版本，zh_CN 简体，zh_TW 繁体，en 英语，默认为zh-CN。
         /// </summary>
-        [DataMember(Order = 3, Name = "lang")]
+        [DataMember(Order = 3, Name = "lang", IsRequired = true)]
         public string Language { get; set; }
-
-        #endregion
-
-        #region 转换
 
         /// <summary>
         ///     转换成查询字符串格式的文本。
@@ -50,7 +44,5 @@ namespace Tencent.Weixin
         {
             return string.Format("access_token={0}&openid={1}&lang={2}", AccessToken, OpenId, Language);
         }
-
-        #endregion
     }
 }

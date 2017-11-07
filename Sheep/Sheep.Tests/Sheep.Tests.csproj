@@ -129,6 +129,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Social\Sina\WeiboClientTest.cs" />
     <Compile Include="Social\Sina\WeiboClientTestBase.cs" />
+    <Compile Include="Social\Tencent\CosClientTestBase.cs" />
+    <Compile Include="Social\Tencent\CosClientTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ServiceStack\ServiceStack.Authentication.RethinkDb\ServiceStack.Authentication.RethinkDb.csproj">

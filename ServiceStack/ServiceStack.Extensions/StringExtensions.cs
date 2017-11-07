@@ -220,17 +220,17 @@ namespace ServiceStack.Extensions
         #region 路径
 
         /// <summary>
-        ///     远程路径编码处理，会保证开头是/，结尾也是/
+        ///     远程路径Url编码处理，会保证开头是/，结尾也是/
         /// </summary>
         /// <param name="remotePath">远程路径。</param>
-        /// <returns></returns>
+        /// <returns>编码后的远程路径</returns>
         public static string EncodeRemotePath(this string remotePath)
         {
             if (remotePath == "/")
             {
                 return remotePath;
             }
-            var endWith = remotePath.EndsWith("/");
+            var endWithSlash = remotePath.EndsWith("/");
             var parts = remotePath.Split('/');
             remotePath = string.Empty;
             foreach (var part in parts)
@@ -244,7 +244,57 @@ namespace ServiceStack.Extensions
                     remotePath += HttpUtility.UrlEncode(part)?.Replace("+", "%20");
                 }
             }
-            remotePath = string.Format("{0}{1}{2}", remotePath.StartsWith("/") ? string.Empty : "/", remotePath, endWith ? "/" : string.Empty);
+            remotePath = string.Format("{0}{1}{2}", remotePath.StartsWith("/") ? string.Empty : "/", remotePath, endWithSlash ? "/" : string.Empty);
+            return remotePath;
+        }
+
+        private static readonly char[] s_ReserveChar =
+        {
+            '/',
+            '?',
+            '*',
+            ':',
+            '|',
+            '\\',
+            '<',
+            '>',
+            '\"'
+        };
+
+        /// <summary>
+        ///     标准化远程目录路径，会保证开头是/，结尾也是/，如果命名不规范，存在保留字符，会返回空字符。
+        /// </summary>
+        /// <param name="remotePath">远程路径。</param>
+        /// <returns>标准化后的远程路径。</returns>
+        public static string StandardizeRemotePath(this string remotePath)
+        {
+            if (string.IsNullOrEmpty(remotePath))
+            {
+                return string.Empty;
+            }
+            if (!remotePath.StartsWith("/"))
+            {
+                remotePath = $"/{remotePath}";
+            }
+            if (!remotePath.EndsWith("/"))
+            {
+                remotePath = $"{remotePath}/";
+            }
+            var index1 = 1;
+            while (index1 < remotePath.Length)
+            {
+                var index2 = remotePath.IndexOf('/', index1);
+                if (index2 == index1)
+                {
+                    return string.Empty;
+                }
+                var folderName = remotePath.Substring(index1, index2 - index1);
+                if (folderName.IndexOfAny(s_ReserveChar) != -1)
+                {
+                    return string.Empty;
+                }
+                index1 = index2 + 1;
+            }
             return remotePath;
         }
 
@@ -252,16 +302,35 @@ namespace ServiceStack.Extensions
 
         #region 网址请求
 
-        private static readonly HttpClient s_HttpClient = new HttpClient();
-
         /// <summary>
         ///     使用GET方式发送请求并获取文本。
         /// </summary>
         /// <param name="url">要请求的网址。</param>
         /// <returns>Web服务器响应后获取的文本。</returns>
-        public static Task<string> HttpGetAsync(this string url)
+        public static async Task<string> HttpGetAsync(this string url)
         {
-            return s_HttpClient.GetStringAsync(url);
+            using (var httpClient = new HttpClient())
+            {
+                return await httpClient.GetStringAsync(url);
+            }
+        }
+
+        /// <summary>
+        ///     使用GET方式发送请求并获取文本。
+        /// </summary>
+        /// <param name="url">要请求的网址。</param>
+        /// <param name="headers">请求的HTTP头。</param>
+        /// <returns>Web服务器响应后获取的文本。</returns>
+        public static async Task<string> HttpGetAsync(this string url, Dictionary<string, string> headers)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                foreach (var header in headers)
+                {
+                    httpClient.DefaultRequestHeaders.TryAddWithoutValidation(header.Key, header.Value);
+                }
+                return await httpClient.GetStringAsync(url);
+            }
         }
 
         /// <summary>
@@ -271,8 +340,11 @@ namespace ServiceStack.Extensions
         /// <returns>Web服务器响应后获取的文本。</returns>
         public static async Task<string> HttpDeleteAsync(this string url)
         {
-            var response = await s_HttpClient.DeleteAsync(url);
-            return response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
+            using (var httpClient = new HttpClient())
+            {
+                var response = await httpClient.DeleteAsync(url);
+                return response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
+            }
         }
 
         /// <summary>
@@ -283,8 +355,11 @@ namespace ServiceStack.Extensions
         /// <returns>Web服务器响应后获取的文本。</returns>
         public static async Task<string> HttpPostJsonAsync(this string url, string json)
         {
-            var response = await s_HttpClient.PostAsync(url, new StringContent(json, Encoding.UTF8, "application/json"));
-            return response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
+            using (var httpClient = new HttpClient())
+            {
+                var response = await httpClient.PostAsync(url, new StringContent(json, Encoding.UTF8, "application/json"));
+                return response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
+            }
         }
 
         /// <summary>
@@ -296,13 +371,16 @@ namespace ServiceStack.Extensions
         /// <returns>Web服务器响应后获取的文本。</returns>
         public static async Task<string> HttpPostJsonAsync(this string url, string json, Dictionary<string, string> headers)
         {
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            foreach (var header in headers)
+            using (var httpClient = new HttpClient())
             {
-                content.Headers.TryAddWithoutValidation(header.Key, header.Value);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                foreach (var header in headers)
+                {
+                    httpClient.DefaultRequestHeaders.TryAddWithoutValidation(header.Key, header.Value);
+                }
+                var response = await httpClient.PostAsync(url, content);
+                return response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
             }
-            var response = await s_HttpClient.PostAsync(url, content);
-            return response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
         }
 
         /// <summary>
@@ -314,8 +392,11 @@ namespace ServiceStack.Extensions
         /// <returns>Web服务器响应后获取的文本。</returns>
         public static async Task<string> HttpPostStringAsync(this string url, string text, string contentType = "text/plain")
         {
-            var response = await s_HttpClient.PostAsync(url, new StringContent(text, Encoding.UTF8, contentType));
-            return response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
+            using (var httpClient = new HttpClient())
+            {
+                var response = await httpClient.PostAsync(url, new StringContent(text, Encoding.UTF8, contentType));
+                return response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
+            }
         }
 
         /// <summary>
@@ -328,13 +409,16 @@ namespace ServiceStack.Extensions
         /// <returns>Web服务器响应后获取的文本。</returns>
         public static async Task<string> HttpPostStringAsync(this string url, string text, string contentType, Dictionary<string, string> headers)
         {
-            var content = new StringContent(text, Encoding.UTF8, contentType);
-            foreach (var header in headers)
+            using (var httpClient = new HttpClient())
             {
-                content.Headers.TryAddWithoutValidation(header.Key, header.Value);
+                var content = new StringContent(text, Encoding.UTF8, contentType);
+                foreach (var header in headers)
+                {
+                    httpClient.DefaultRequestHeaders.TryAddWithoutValidation(header.Key, header.Value);
+                }
+                var response = await httpClient.PostAsync(url, content);
+                return response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
             }
-            var response = await s_HttpClient.PostAsync(url, content);
-            return response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
         }
 
         /// <summary>
@@ -345,8 +429,11 @@ namespace ServiceStack.Extensions
         /// <returns>Web服务器响应后获取的文本。</returns>
         public static async Task<string> HttpPutJsonAsync(this string url, string json)
         {
-            var response = await s_HttpClient.PutAsync(url, new StringContent(json, Encoding.UTF8, "application/json"));
-            return response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
+            using (var httpClient = new HttpClient())
+            {
+                var response = await httpClient.PutAsync(url, new StringContent(json, Encoding.UTF8, "application/json"));
+                return response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
+            }
         }
 
         /// <summary>
@@ -358,13 +445,16 @@ namespace ServiceStack.Extensions
         /// <returns>Web服务器响应后获取的文本。</returns>
         public static async Task<string> HttpPutJsonAsync(this string url, string json, Dictionary<string, string> headers)
         {
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            foreach (var header in headers)
+            using (var httpClient = new HttpClient())
             {
-                content.Headers.TryAddWithoutValidation(header.Key, header.Value);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                foreach (var header in headers)
+                {
+                    httpClient.DefaultRequestHeaders.TryAddWithoutValidation(header.Key, header.Value);
+                }
+                var response = await httpClient.PutAsync(url, content);
+                return response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
             }
-            var response = await s_HttpClient.PutAsync(url, content);
-            return response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
         }
 
         /// <summary>
@@ -376,8 +466,11 @@ namespace ServiceStack.Extensions
         /// <returns>Web服务器响应后获取的文本。</returns>
         public static async Task<string> HttpPutStringAsync(this string url, string text, string contentType)
         {
-            var response = await s_HttpClient.PutAsync(url, new StringContent(text, Encoding.UTF8, contentType));
-            return response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
+            using (var httpClient = new HttpClient())
+            {
+                var response = await httpClient.PutAsync(url, new StringContent(text, Encoding.UTF8, contentType));
+                return response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
+            }
         }
 
         /// <summary>
@@ -390,13 +483,16 @@ namespace ServiceStack.Extensions
         /// <returns>Web服务器响应后获取的文本。</returns>
         public static async Task<string> HttpPutStringAsync(this string url, string text, string contentType, Dictionary<string, string> headers)
         {
-            var content = new StringContent(text, Encoding.UTF8, contentType);
-            foreach (var header in headers)
+            using (var httpClient = new HttpClient())
             {
-                content.Headers.TryAddWithoutValidation(header.Key, header.Value);
+                var content = new StringContent(text, Encoding.UTF8, contentType);
+                foreach (var header in headers)
+                {
+                    httpClient.DefaultRequestHeaders.TryAddWithoutValidation(header.Key, header.Value);
+                }
+                var response = await httpClient.PutAsync(url, content);
+                return response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
             }
-            var response = await s_HttpClient.PutAsync(url, content);
-            return response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
         }
 
         #endregion
