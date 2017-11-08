@@ -17,7 +17,7 @@ namespace Tencent.Cos
         ///     操作类型，填"stat"。
         /// </summary>
         [DataMember(Order = 1, Name = "op", IsRequired = true)]
-        public string Operation { get; set; }
+        public string Operation { get; set; } = "stat";
 
         /// <summary>
         ///     转换成查询字符串格式的文本。

@@ -17,6 +17,6 @@ namespace Tencent.Cos
         ///     操作类型，填"delete"。
         /// </summary>
         [DataMember(Order = 1, Name = "op", IsRequired = true)]
-        public string Operation { get; set; }
+        public string Operation { get; set; } = "delete";
     }
 }

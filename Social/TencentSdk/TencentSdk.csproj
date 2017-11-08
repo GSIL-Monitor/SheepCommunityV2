@@ -90,6 +90,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cos\UploadFileData.cs" />
+    <Compile Include="Cos\UploadFileRequest.cs" />
+    <Compile Include="Cos\UploadFileResponse.cs" />
     <Compile Include="Cos\DeleteFolderRequest.cs" />
     <Compile Include="Cos\DeleteFolderResponse.cs" />
     <Compile Include="Cos\GetFolderStatData.cs" />

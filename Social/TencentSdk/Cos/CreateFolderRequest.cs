@@ -18,7 +18,7 @@ namespace Tencent.Cos
         ///     操作类型，填"create"。
         /// </summary>
         [DataMember(Order = 1, Name = "op", IsRequired = true)]
-        public string Operation { get; set; }
+        public string Operation { get; set; } = "create";
 
         /// <summary>
         ///     COS 服务调用方自定义属性，可通过 查询文件夹属性 获取该属性值。

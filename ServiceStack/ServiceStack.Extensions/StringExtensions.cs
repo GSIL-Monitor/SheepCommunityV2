@@ -298,6 +298,29 @@ namespace ServiceStack.Extensions
             return remotePath;
         }
 
+        /// <summary>
+        ///     从远程文件路径获取文件名称。
+        /// </summary>
+        /// <param name="remoteFilePath">远程文件路径。</param>
+        /// <returns></returns>
+        public static string GetFileName(this string remoteFilePath)
+        {
+            if (string.IsNullOrEmpty(remoteFilePath))
+            {
+                return string.Empty;
+            }
+            if (remoteFilePath.EndsWith("/"))
+            {
+                return string.Empty;
+            }
+            if (!remoteFilePath.StartsWith("/"))
+            {
+                remoteFilePath = $"/{remoteFilePath}";
+            }
+            var parts = remoteFilePath.Split('/');
+            return parts.Length > 1 ? parts[parts.Length - 1] : string.Empty;
+        }
+
         #endregion
 
         #region 网址请求
@@ -390,7 +413,7 @@ namespace ServiceStack.Extensions
         /// <param name="text">请求的文本内容。</param>
         /// <param name="contentType">内容的MIME类型。</param>
         /// <returns>Web服务器响应后获取的文本。</returns>
-        public static async Task<string> HttpPostStringAsync(this string url, string text, string contentType = "text/plain")
+        public static async Task<string> HttpPostStringAsync(this string url, string text, string contentType)
         {
             using (var httpClient = new HttpClient())
             {
@@ -418,6 +441,75 @@ namespace ServiceStack.Extensions
                 }
                 var response = await httpClient.PostAsync(url, content);
                 return response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
+            }
+        }
+
+        /// <summary>
+        ///     使用POST方式发送上传图片请求并获取文本。
+        /// </summary>
+        /// <param name="url">要请求的网址。</param>
+        /// <param name="data">请求的数据。</param>
+        /// <param name="fileContent">上传的文件内容。</param>
+        /// <param name="fileName">上传的文件名称。</param>
+        /// <returns>Web服务器响应后获取的文本。</returns>
+        public static async Task<string> HttpPostFileAsync(this string url, Dictionary<string, object> data, byte[] fileContent, string fileName)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                using (var content = new MultipartFormDataContent($"---------------{DateTime.Now.Ticks:x}"))
+                {
+                    foreach (var key in data.Keys)
+                    {
+                        var stringContent = new StringContent(data[key].ToString(), Encoding.UTF8);
+                        stringContent.Headers.Remove("Content-Type");
+                        stringContent.Headers.Add("Content-Disposition", $"form-data; name=\"{key}\"");
+                        content.Add(stringContent, key);
+                    }
+                    var bytesContent = new ByteArrayContent(fileContent);
+                    bytesContent.Headers.Add("Content-Disposition", $"form-data; name=\"filecontent\"; filename=\"{fileName}\"");
+                    bytesContent.Headers.Add("Content-Type", "application/octet-stream");
+                    content.Add(bytesContent, "filecontent", fileName);
+                    httpClient.DefaultRequestHeaders.ExpectContinue = false;
+                    var response = await httpClient.PostAsync(url, content);
+                    return response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
+                }
+            }
+        }
+
+        /// <summary>
+        ///     使用POST方式发送上传图片请求并获取文本。
+        /// </summary>
+        /// <param name="url">要请求的网址。</param>
+        /// <param name="data">请求的数据。</param>
+        /// <param name="fileContent">上传的文件内容。</param>
+        /// <param name="fileName">上传的文件名称。</param>
+        /// <param name="headers">请求的HTTP头。</param>
+        /// <returns>Web服务器响应后获取的文本。</returns>
+        public static async Task<string> HttpPostFileAsync(this string url, Dictionary<string, object> data, byte[] fileContent, string fileName, Dictionary<string, string> headers)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                using (var content = new MultipartFormDataContent($"---------------{DateTime.Now.Ticks:x}"))
+                {
+                    foreach (var key in data.Keys)
+                    {
+                        var stringContent = new StringContent(data[key].ToString(), Encoding.UTF8);
+                        stringContent.Headers.Remove("Content-Type");
+                        stringContent.Headers.Add("Content-Disposition", $"form-data; name=\"{key}\"");
+                        content.Add(stringContent, key);
+                    }
+                    var bytesContent = new ByteArrayContent(fileContent);
+                    bytesContent.Headers.Add("Content-Disposition", $"form-data; name=\"fileContent\"; filename=\"{fileName}\"");
+                    bytesContent.Headers.Add("Content-Type", "application/octet-stream");
+                    content.Add(bytesContent, "fileContent", fileName);
+                    httpClient.DefaultRequestHeaders.ExpectContinue = false;
+                    foreach (var header in headers)
+                    {
+                        httpClient.DefaultRequestHeaders.TryAddWithoutValidation(header.Key, header.Value);
+                    }
+                    var response = await httpClient.PostAsync(url, content);
+                    return response.Content == null ? string.Empty : await response.Content.ReadAsStringAsync();
+                }
             }
         }
 

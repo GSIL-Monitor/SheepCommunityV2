@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System;
+using System.Security.Cryptography;
 using ServiceStack.Text;
 
 namespace ServiceStack.Extensions
@@ -21,6 +22,16 @@ namespace ServiceStack.Extensions
                 }
             }
             return StringBuilderCache.ReturnAndFree(builder);
+        }
+
+        public static string ToSha1HashString(this byte[] bytes)
+        {
+            using (var sha1 = SHA1.Create())
+            {
+                var hashBytes = sha1.ComputeHash(bytes);
+                var hashData = BitConverter.ToString(hashBytes);
+                return hashData.Replace("-", String.Empty).ToLower();
+            }
         }
 
         public static byte[] ToSha1HashBytes(this byte[] bytes)

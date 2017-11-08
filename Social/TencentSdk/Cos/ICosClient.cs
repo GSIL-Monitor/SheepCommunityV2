@@ -43,6 +43,16 @@ namespace Tencent.Cos
 
         #region 文件
 
+        /// <summary>
+        ///     上传文件。
+        /// </summary>
+        UploadFileResponse Post(string remoteFilePath, UploadFileRequest request);
+
+        /// <summary>
+        ///     异步上传文件。
+        /// </summary>
+        Task<UploadFileResponse> PostAsync(string remoteFilePath, UploadFileRequest request);
+
         #endregion
     }
 }

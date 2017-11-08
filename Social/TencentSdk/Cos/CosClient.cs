@@ -79,7 +79,7 @@ namespace Tencent.Cos
                     return new CreateFolderResponse
                            {
                                Code = -3,
-                               Message = "RemotePath illegal."
+                               Message = "Remote path illegal."
                            };
                 }
                 var headers = new Dictionary<string, string>
@@ -129,7 +129,7 @@ namespace Tencent.Cos
                     return new GetFolderStatResponse
                            {
                                Code = -3,
-                               Message = "RemotePath illegal."
+                               Message = "Remote path illegal."
                            };
                 }
                 var headers = new Dictionary<string, string>
@@ -179,7 +179,7 @@ namespace Tencent.Cos
                     return new DeleteFolderResponse
                            {
                                Code = -3,
-                               Message = "RemotePath illegal."
+                               Message = "Remote path illegal."
                            };
                 }
                 var headers = new Dictionary<string, string>
@@ -201,6 +201,55 @@ namespace Tencent.Cos
                 var errorMessage = ex.GetInnerMostException().Message;
                 Log.ErrorFormat("{0} {1} Error: {2}", GetType().Name, request.GetType().Name, errorMessage);
                 return new DeleteFolderResponse
+                       {
+                           Code = -4,
+                           Message = errorMessage
+                       };
+            }
+        }
+
+        /// <summary>
+        ///     上传文件。
+        /// </summary>
+        public UploadFileResponse Post(string remoteFilePath, UploadFileRequest request)
+        {
+            return AsyncContext.Run(() => PostAsync(remoteFilePath, request));
+        }
+
+        /// <summary>
+        ///     异步上传文件。
+        /// </summary>
+        public async Task<UploadFileResponse> PostAsync(string remoteFilePath, UploadFileRequest request)
+        {
+            try
+            {
+                if (remoteFilePath.EndsWith("/"))
+                {
+                    return new UploadFileResponse
+                           {
+                               Code = -3,
+                               Message = "Remote file path cannot end with '/'."
+                           };
+                }
+                var headers = new Dictionary<string, string>
+                              {
+                                  {
+                                      "Authorization", Signer.Signature(AppId, SecretId, SecretKey, DateTime.Now.AddSeconds(300).ToUnixTime(), Bucket)
+                                  }
+                              };
+                var responseJson = await string.Format("{0}/{1}/{2}{3}", ApiUrl, AppId, Bucket, remoteFilePath.EncodeRemotePath()).HttpPostFileAsync(request.ToDictionary(), request.FileContent, remoteFilePath.GetFileName(), headers);
+                var response = responseJson.FromJson<UploadFileResponse>();
+                if (response != null && response.Code != 0)
+                {
+                    Log.ErrorFormat("{0} {1} Error: {2}-{3}", GetType().Name, request.GetType().Name, response.Code, response.Message);
+                }
+                return response;
+            }
+            catch (Exception ex)
+            {
+                var errorMessage = ex.GetInnerMostException().Message;
+                Log.ErrorFormat("{0} {1} Error: {2}", GetType().Name, request.GetType().Name, errorMessage);
+                return new UploadFileResponse
                        {
                            Code = -4,
                            Message = errorMessage

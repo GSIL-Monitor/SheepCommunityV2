@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System.IO;
+using NUnit.Framework;
+using ServiceStack.Extensions;
 using ServiceStack.Text;
 using Tencent.Cos;
 
@@ -12,7 +14,6 @@ namespace Sheep.Tests.Social.Tencent
         {
             var response = CosClient.Post("TestCustom", new CreateFolderRequest
                                                         {
-                                                            Operation = "create",
                                                             BizAttribute = "Fuck"
                                                         });
             response.PrintDump();
@@ -21,20 +22,28 @@ namespace Sheep.Tests.Social.Tencent
         [Test]
         public void GetTestFolderStat()
         {
-            var response = CosClient.Get("TestCustom", new GetFolderStatRequest
-                                                       {
-                                                           Operation = "stat"
-                                                       });
+            var response = CosClient.Get("TestCustom", new GetFolderStatRequest());
             response.PrintDump();
         }
 
         [Test]
-        public void GetCities()
+        public void DeleteTestFolder()
         {
-            var response = CosClient.Post("TestCustom", new DeleteFolderRequest
-                                                        {
-                                                            Operation = "delete"
-                                                        });
+            var response = CosClient.Post("TestCustom", new DeleteFolderRequest());
+            response.PrintDump();
+        }
+
+        [Test]
+        public void UploadFileToTestFolder()
+        {
+            var fileContent = File.ReadAllBytes(@"G:\头像—男\1130.jpg");
+            var response = CosClient.Post("/test/ok.jpg", new UploadFileRequest
+                                                          {
+                                                              BizAttribute = "",
+                                                              FileContent = fileContent,
+                                                              Sha = fileContent.ToSha1HashString(),
+                                                              InsertOnly = 0
+                                                          });
             response.PrintDump();
         }
     }
