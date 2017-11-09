@@ -113,6 +113,7 @@
     <Compile Include="Settings\AppSettingsDbNames.cs" />
     <Compile Include="Settings\AppSettingsHostNames.cs" />
     <Compile Include="Settings\AppSettingsNeteaseNimNames.cs" />
+    <Compile Include="Settings\AppSettingsOssNames.cs" />
     <Compile Include="Settings\AppSettingsTopNames.cs" />
     <Compile Include="Settings\AppSettingsWeiboNames.cs" />
     <Compile Include="Settings\AppSettingsCosNames.cs" />

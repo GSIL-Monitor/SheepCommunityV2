@@ -1,4 +1,5 @@
 ﻿using System;
+using Aliyun.OSS;
 using Funq;
 using Netease.Nim;
 using Polly;
@@ -71,12 +72,7 @@ namespace Sheep
         public override void Configure(Container container)
         {
             // 设置服务器主机的通用配置。
-            var hostConfig = new HostConfig
-                             {
-                                 DebugMode = AppSettings.Get(AppSettingsHostNames.DebugMode, false),
-                                 AdminAuthSecret = AppSettings.Get(AppSettingsHostNames.AdminAuthSecret, "Bosshong2012"),
-                                 ApiVersion = "2.0.0"
-                             };
+            var hostConfig = new HostConfig { DebugMode = AppSettings.Get(AppSettingsHostNames.DebugMode, false), AdminAuthSecret = AppSettings.Get(AppSettingsHostNames.AdminAuthSecret, "Bosshong2012"), ApiVersion = "2.0.0" };
             SetConfig(hostConfig);
 
             // 配置 RethinkDB 数据库。
@@ -84,7 +80,9 @@ namespace Sheep
             //配置 Redis 客户端管理器。
             ConfigRedis(container);
             // 配置阿里大于客户端。
-            ConfigAlibabaTopClient(container);
+            ConfigAliyunTopClient(container);
+            // 配置阿里云对象存储客户端。
+            ConfigAliyunOssClient(container);
             // 配置新浪微博客户端。
             ConfigSinaWeiboClient(container);
             // 配置腾讯微信客户端。
@@ -164,9 +162,17 @@ namespace Sheep
         /// <summary>
         ///     配置阿里大于客户端。
         /// </summary>
-        private void ConfigAlibabaTopClient(Container container)
+        private void ConfigAliyunTopClient(Container container)
         {
             container.Register<ITopClient>(c => new DefaultTopClient(AppSettings.GetString(AppSettingsTopNames.TopUrl), AppSettings.GetString(AppSettingsTopNames.TopAppKey), AppSettings.GetString(AppSettingsTopNames.TopAppKeySecret)));
+        }
+
+        /// <summary>
+        ///     配置阿里云对象存储客户端。
+        /// </summary>
+        private void ConfigAliyunOssClient(Container container)
+        {
+            container.Register<IOss>(c => new OssClient(AppSettings.GetString(AppSettingsOssNames.OssEndpoint), AppSettings.GetString(AppSettingsOssNames.OssAccessKeyId), AppSettings.GetString(AppSettingsOssNames.OssAccessKeySecret)));
         }
 
         /// <summary>
@@ -174,18 +180,7 @@ namespace Sheep
         /// </summary>
         private void ConfigSinaWeiboClient(Container container)
         {
-            container.Register<IWeiboClient>(c => new WeiboClient
-                                                  {
-                                                      AppKey = AppSettings.GetString(AppSettingsWeiboNames.AppKey),
-                                                      AppSecret = AppSettings.GetString(AppSettingsWeiboNames.AppSecret),
-                                                      AccessTokenUrl = AppSettings.GetString(AppSettingsWeiboNames.AccessTokenUrl),
-                                                      GetTokenUrl = AppSettings.GetString(AppSettingsWeiboNames.GetTokenUrl),
-                                                      ShowUserUrl = AppSettings.GetString(AppSettingsWeiboNames.ShowUserUrl),
-                                                      GetCountryUrl = AppSettings.GetString(AppSettingsWeiboNames.GetCountryUrl),
-                                                      GetProvinceUrl = AppSettings.GetString(AppSettingsWeiboNames.GetProvinceUrl),
-                                                      GetCityUrl = AppSettings.GetString(AppSettingsWeiboNames.GetCityUrl),
-                                                      RedirectUrl = AppSettings.GetString(AppSettingsWeiboNames.RedirectUrl)
-                                                  });
+            container.Register<IWeiboClient>(c => new WeiboClient { AppKey = AppSettings.GetString(AppSettingsWeiboNames.AppKey), AppSecret = AppSettings.GetString(AppSettingsWeiboNames.AppSecret), AccessTokenUrl = AppSettings.GetString(AppSettingsWeiboNames.AccessTokenUrl), GetTokenUrl = AppSettings.GetString(AppSettingsWeiboNames.GetTokenUrl), ShowUserUrl = AppSettings.GetString(AppSettingsWeiboNames.ShowUserUrl), GetCountryUrl = AppSettings.GetString(AppSettingsWeiboNames.GetCountryUrl), GetProvinceUrl = AppSettings.GetString(AppSettingsWeiboNames.GetProvinceUrl), GetCityUrl = AppSettings.GetString(AppSettingsWeiboNames.GetCityUrl), RedirectUrl = AppSettings.GetString(AppSettingsWeiboNames.RedirectUrl) });
         }
 
         /// <summary>
@@ -193,15 +188,7 @@ namespace Sheep
         /// </summary>
         private void ConfigTencentWeixinClient(Container container)
         {
-            container.Register<IWeixinClient>(c => new WeixinClient
-                                                   {
-                                                       AppId = AppSettings.GetString(AppSettingsWeixinNames.AppId),
-                                                       AppSecret = AppSettings.GetString(AppSettingsWeixinNames.AppSecret),
-                                                       AccessTokenUrl = AppSettings.GetString(AppSettingsWeixinNames.AccessTokenUrl),
-                                                       RefreshTokenUrl = AppSettings.GetString(AppSettingsWeixinNames.RefreshTokenUrl),
-                                                       AuthenticateTokenUrl = AppSettings.GetString(AppSettingsWeixinNames.AuthenticateTokenUrl),
-                                                       UserInfoUrl = AppSettings.GetString(AppSettingsWeixinNames.UserInfoUrl)
-                                                   });
+            container.Register<IWeixinClient>(c => new WeixinClient { AppId = AppSettings.GetString(AppSettingsWeixinNames.AppId), AppSecret = AppSettings.GetString(AppSettingsWeixinNames.AppSecret), AccessTokenUrl = AppSettings.GetString(AppSettingsWeixinNames.AccessTokenUrl), RefreshTokenUrl = AppSettings.GetString(AppSettingsWeixinNames.RefreshTokenUrl), AuthenticateTokenUrl = AppSettings.GetString(AppSettingsWeixinNames.AuthenticateTokenUrl), UserInfoUrl = AppSettings.GetString(AppSettingsWeixinNames.UserInfoUrl) });
         }
 
         /// <summary>
@@ -209,14 +196,7 @@ namespace Sheep
         /// </summary>
         private void ConfigTencentCosClient(Container container)
         {
-            container.Register<ICosClient>(c => new CosClient
-                                                {
-                                                    AppId = AppSettings.Get<int>(AppSettingsCosNames.AppId),
-                                                    SecretId = AppSettings.GetString(AppSettingsCosNames.SecretId),
-                                                    SecretKey = AppSettings.GetString(AppSettingsCosNames.SecretKey),
-                                                    ApiUrl = AppSettings.GetString(AppSettingsCosNames.ApiUrl),
-                                                    Bucket = AppSettings.GetString(AppSettingsCosNames.Bucket)
-                                                });
+            container.Register<ICosClient>(c => new CosClient { AppId = AppSettings.Get<int>(AppSettingsCosNames.AppId), SecretId = AppSettings.GetString(AppSettingsCosNames.SecretId), SecretKey = AppSettings.GetString(AppSettingsCosNames.SecretKey), ApiUrl = AppSettings.GetString(AppSettingsCosNames.ApiUrl), Bucket = AppSettings.GetString(AppSettingsCosNames.Bucket) });
         }
 
         /// <summary>
@@ -224,43 +204,7 @@ namespace Sheep
         /// </summary>
         private void ConfigNetneaseNimClient(Container container)
         {
-            container.Register<INimClient>(c => new NimClient
-                                                {
-                                                    AppKey = AppSettings.GetString(AppSettingsNeteaseNimNames.AppKey),
-                                                    AppSecret = AppSettings.GetString(AppSettingsNeteaseNimNames.AppSecret),
-                                                    UserCreateUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.UserCreateUrl),
-                                                    UserUpdateUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.UserUpdateUrl),
-                                                    UserBlockUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.UserBlockUrl),
-                                                    UserUnBlockUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.UserUnBlockUrl),
-                                                    UserUpdateInfoUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.UserUpdateInfoUrl),
-                                                    UserGetInfosUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.UserGetInfosUrl),
-                                                    UserSetSpecialRelationUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.UserSetSpecialRelationUrl),
-                                                    FriendAddUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.FriendAddUrl),
-                                                    FriendUpdateUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.FriendUpdateUrl),
-                                                    FriendDeleteUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.FriendDeleteUrl),
-                                                    MessageSendUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.MessageSendUrl),
-                                                    MessageSendBatchUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.MessageSendBatchUrl),
-                                                    MessageSendAttachUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.MessageSendAttachUrl),
-                                                    MessageSendBatchAttachUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.MessageSendBatchAttachUrl),
-                                                    MessageFileUploadUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.MessageFileUploadUrl),
-                                                    MessageRecallUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.MessageRecallUrl),
-                                                    TeamCreateUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamCreateUrl),
-                                                    TeamAddMemberUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamAddMemberUrl),
-                                                    TeamKickMemberUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamKickMemberUrl),
-                                                    TeamRemoveUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamRemoveUrl),
-                                                    TeamUpdateUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamUpdateUrl),
-                                                    TeamQueryUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamQueryUrl),
-                                                    TeamChangeOwnerUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamChangeOwnerUrl),
-                                                    TeamAddManagerUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamAddManagerUrl),
-                                                    TeamRemoveManagerUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamRemoveManagerUrl),
-                                                    TeamGetJoinedUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamGetJoinedUrl),
-                                                    TeamUpdateMemberNickUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamUpdateMemberNickUrl),
-                                                    TeamUpdateMemberMuteUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamUpdateMemberMuteUrl),
-                                                    TeamMuteMemberUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamMuteMemberUrl),
-                                                    TeamLeaveMemberUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamLeaveMemberUrl),
-                                                    TeamMuteUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamMuteUrl),
-                                                    TeamGetMutedMembersUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamGetMutedMembersUrl)
-                                                });
+            container.Register<INimClient>(c => new NimClient { AppKey = AppSettings.GetString(AppSettingsNeteaseNimNames.AppKey), AppSecret = AppSettings.GetString(AppSettingsNeteaseNimNames.AppSecret), UserCreateUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.UserCreateUrl), UserUpdateUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.UserUpdateUrl), UserBlockUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.UserBlockUrl), UserUnBlockUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.UserUnBlockUrl), UserUpdateInfoUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.UserUpdateInfoUrl), UserGetInfosUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.UserGetInfosUrl), UserSetSpecialRelationUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.UserSetSpecialRelationUrl), FriendAddUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.FriendAddUrl), FriendUpdateUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.FriendUpdateUrl), FriendDeleteUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.FriendDeleteUrl), MessageSendUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.MessageSendUrl), MessageSendBatchUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.MessageSendBatchUrl), MessageSendAttachUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.MessageSendAttachUrl), MessageSendBatchAttachUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.MessageSendBatchAttachUrl), MessageFileUploadUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.MessageFileUploadUrl), MessageRecallUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.MessageRecallUrl), TeamCreateUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamCreateUrl), TeamAddMemberUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamAddMemberUrl), TeamKickMemberUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamKickMemberUrl), TeamRemoveUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamRemoveUrl), TeamUpdateUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamUpdateUrl), TeamQueryUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamQueryUrl), TeamChangeOwnerUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamChangeOwnerUrl), TeamAddManagerUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamAddManagerUrl), TeamRemoveManagerUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamRemoveManagerUrl), TeamGetJoinedUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamGetJoinedUrl), TeamUpdateMemberNickUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamUpdateMemberNickUrl), TeamUpdateMemberMuteUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamUpdateMemberMuteUrl), TeamMuteMemberUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamMuteMemberUrl), TeamLeaveMemberUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamLeaveMemberUrl), TeamMuteUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamMuteUrl), TeamGetMutedMembersUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamGetMutedMembersUrl) });
         }
 
         /// <summary>
@@ -278,32 +222,10 @@ namespace Sheep
         private void ConfigAuth(Container container)
         {
             container.Register<IUserAuthRepository>(c => new RethinkDbAuthRepository(c.Resolve<IConnection>(), AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true));
-            var authEvents = new IAuthEvents[]
-                             {
-                                 new SystemAuthEvents(),
-                                 new NeteaseImAuthEvents()
-                             };
+            var authEvents = new IAuthEvents[] { new SystemAuthEvents(), new NeteaseImAuthEvents() };
             container.Register<IAuthEvents>(c => new MultiAuthEvents(authEvents));
-            var authProviders = new IAuthProvider[]
-                                {
-                                    new CredentialsAuthProvider(AppSettings),
-                                    new MobileAuthProvider(AppSettings, container.Resolve<ISecurityTokenProvider>()),
-                                    new WeiboAuthProvider(AppSettings, container.Resolve<IWeiboClient>())
-                                };
-            var feature = new AuthFeature(() => new AuthUserSession(), authProviders)
-                          {
-                              IncludeAssignRoleServices = true,
-                              IncludeAuthMetadataProvider = true,
-                              IncludeRegistrationService = false,
-                              ValidateUniqueUserNames = true,
-                              ValidateUniqueEmails = true,
-                              MaxLoginAttempts = 10,
-                              SessionExpiry = TimeSpan.FromDays(7),
-                              PermanentSessionExpiry = TimeSpan.FromDays(365),
-                              DeleteSessionCookiesOnLogout = true,
-                              GenerateNewSessionCookiesOnAuthentication = false,
-                              SaveUserNamesInLowerCase = false
-                          };
+            var authProviders = new IAuthProvider[] { new CredentialsAuthProvider(AppSettings), new MobileAuthProvider(AppSettings, container.Resolve<ISecurityTokenProvider>()), new WeiboAuthProvider(AppSettings, container.Resolve<IWeiboClient>()) };
+            var feature = new AuthFeature(() => new AuthUserSession(), authProviders) { IncludeAssignRoleServices = true, IncludeAuthMetadataProvider = true, IncludeRegistrationService = false, ValidateUniqueUserNames = true, ValidateUniqueEmails = true, MaxLoginAttempts = 10, SessionExpiry = TimeSpan.FromDays(7), PermanentSessionExpiry = TimeSpan.FromDays(365), DeleteSessionCookiesOnLogout = true, GenerateNewSessionCookiesOnAuthentication = false, SaveUserNamesInLowerCase = false };
             Plugins.Add(feature);
         }
 
@@ -339,10 +261,7 @@ namespace Sheep
         private void ConfigValidation(Container container)
         {
             container.RegisterValidators(ReuseScope.Default, typeof(ServiceModelAssembly).Assembly);
-            var feature = new ValidationFeature
-                          {
-                              ScanAppHostAssemblies = false
-                          };
+            var feature = new ValidationFeature { ScanAppHostAssemblies = false };
             Plugins.Add(feature);
         }
 
@@ -351,11 +270,7 @@ namespace Sheep
             //Plugins.Add(new CorsFeature("*", "GET,POST", "Content-Type", true));
             Plugins.Add(new ProtoBufFormat());
             Plugins.Add(new PostmanFeature());
-            Plugins.Add(new RequestLogsFeature
-                        {
-                            EnableErrorTracking = false,
-                            EnableResponseTracking = false
-                        });
+            Plugins.Add(new RequestLogsFeature { EnableErrorTracking = false, EnableResponseTracking = false });
         }
 
         /// <summary>
@@ -363,11 +278,7 @@ namespace Sheep
         /// </summary>
         private void ConfigSwagger(Container container)
         {
-            var feature = new SwaggerFeature
-                          {
-                              UseBootstrapTheme = false,
-                              UseLowercaseUnderscoreModelPropertyNames = false
-                          };
+            var feature = new SwaggerFeature { UseBootstrapTheme = false, UseLowercaseUnderscoreModelPropertyNames = false };
             Plugins.Add(feature);
         }
 

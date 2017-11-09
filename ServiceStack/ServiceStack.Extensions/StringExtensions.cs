@@ -165,17 +165,27 @@ namespace ServiceStack.Extensions
 
         #region 后缀
 
-        public static string ImageFileSuffix(this string fileName)
+        /// <summary>
+        ///     获取指定图像文件的后缀名。
+        /// </summary>
+        /// <param name="fileName">图像文件名。</param>
+        /// <returns>图像文件的后缀名。</returns>
+        public static string GetImageFileExtension(this string fileName)
         {
             if (fileName.IsNullOrEmpty())
             {
                 return string.Empty;
             }
-            var splittedFileNames = fileName.Split('.');
-            return splittedFileNames.Length > 1 ? splittedFileNames[splittedFileNames.Length - 1] : "jpg";
+            var parts = fileName.Split('.');
+            return parts.Length > 1 ? parts[parts.Length - 1] : string.Empty;
         }
 
-        public static string ImageUrlSuffix(this string fileUrl)
+        /// <summary>
+        ///     获取指定图像文件地址的后缀名。
+        /// </summary>
+        /// <param name="fileUrl">图像文件地址。</param>
+        /// <returns>图像文件地址的后缀名。</returns>
+        public static string GetImageUrlExtension(this string fileUrl)
         {
             if (fileUrl.IsNullOrEmpty())
             {
@@ -193,8 +203,64 @@ namespace ServiceStack.Extensions
             {
                 fileUrl = fileUrl.SafeSubstring(6);
             }
-            var splittedFileUrls = fileUrl.Split('/');
-            return splittedFileUrls.Length > 1 ? splittedFileUrls[splittedFileUrls.Length - 1].ImageFileSuffix() : "jpg";
+            var parts = fileUrl.Split('/');
+            return parts.Length > 1 ? parts[parts.Length - 1].GetImageFileExtension() : string.Empty;
+        }
+
+        /// <summary>
+        ///     根据后缀名获取图像的内容类型。
+        /// </summary>
+        /// <param name="extension">后缀名。</param>
+        /// <returns>图像的内容类型。</returns>
+        public static string GetImageContentType(this string extension)
+        {
+            switch (extension)
+            {
+                case "jpe":
+                case "jpg":
+                case "jpeg":
+                    return "image/jpeg";
+                case "png":
+                case "pnz":
+                    return "image/png";
+                case "tif":
+                case "tiff":
+                    return "image/tiff";
+                case "bmp":
+                case "dib":
+                    return "image/bmp";
+                case "wbmp":
+                    return "image/vnd.wap.wbmp";
+            }
+            return "application/octet-stream";
+        }
+
+        /// <summary>
+        ///     指定的文件后缀名是否为图像文件后缀名。
+        /// </summary>
+        /// <param name="extension">文件后缀名。</param>
+        /// <returns>为图像文件后缀名则返回True，否则为False。</returns>
+        public static bool IsImageExtension(this string extension)
+        {
+            switch (extension)
+            {
+                case "jpe":
+                case "jpg":
+                case "jpeg":
+                    return true;
+                case "png":
+                case "pnz":
+                    return true;
+                case "tif":
+                case "tiff":
+                    return true;
+                case "bmp":
+                case "dib":
+                    return true;
+                case "wbmp":
+                    return true;
+            }
+            return false;
         }
 
         public static string TrimWithEllipse(this string text, int totalLength, int cutLength)
