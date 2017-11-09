@@ -111,6 +111,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Accounts\ChangeCoverPhotoService.cs" />
     <Compile Include="Accounts\ChangeBirthDateService.cs" />
     <Compile Include="Accounts\ChangeAvatarService.cs" />
     <Compile Include="Accounts\ChangeLanguageService.cs" />

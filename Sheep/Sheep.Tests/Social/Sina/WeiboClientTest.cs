@@ -59,9 +59,9 @@ namespace Sheep.Tests.Social.Sina
         [Test]
         public void PopulateGeo()
         {
-            var countryRepository = new RethinkDbGeoCountryRepository(Conn, AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true);
-            var stateRepository = new RethinkDbGeoStateRepository(Conn, AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true);
-            var cityRepository = new RethinkDbGeoCityRepository(Conn, AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true);
+            var countryRepository = new RethinkDbCountryRepository(Conn, AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true);
+            var stateRepository = new RethinkDbStateRepository(Conn, AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true);
+            var cityRepository = new RethinkDbCityRepository(Conn, AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true);
             countryRepository.Clear();
             stateRepository.Clear();
             cityRepository.Clear();
@@ -71,7 +71,7 @@ namespace Sheep.Tests.Social.Sina
                                                   });
             foreach (var countryPair in countryResponse.Countries)
             {
-                countryRepository.CreateCountry(new GeoCountry
+                countryRepository.CreateCountry(new Country
                                                 {
                                                     Id = countryPair.Key,
                                                     Name = countryPair.Value
@@ -83,7 +83,7 @@ namespace Sheep.Tests.Social.Sina
                                                        });
                 foreach (var provincePair in provinceResponse.Provinces)
                 {
-                    stateRepository.CreateState(new GeoState
+                    stateRepository.CreateState(new State
                                                 {
                                                     Id = provincePair.Key,
                                                     CountryId = countryPair.Key,
@@ -96,7 +96,7 @@ namespace Sheep.Tests.Social.Sina
                                                        });
                     foreach (var cityPair in cityResponse.Cities)
                     {
-                        cityRepository.CreateCity(new GeoCity
+                        cityRepository.CreateCity(new City
                                                   {
                                                       Id = cityPair.Key,
                                                       StateId = provincePair.Key,

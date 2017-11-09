@@ -5,7 +5,7 @@ namespace Sheep.Model.Geo.Entities
     /// <summary>
     ///     城市/区域。
     /// </summary>
-    public class GeoCity
+    public class City
     {
         /// <summary>
         ///     编号。

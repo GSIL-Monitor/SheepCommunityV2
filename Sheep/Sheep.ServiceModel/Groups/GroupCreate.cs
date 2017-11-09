@@ -12,46 +12,34 @@ namespace Sheep.ServiceModel.Groups
     public class GroupCreate : IReturn<GroupCreateResponse>
     {
         /// <summary>
-        ///     群组的类型。（可选值：Joinless, PublicOpen, PublicClosed, PrivateUnlisted, PrivateListed）
+        ///     显示名称。
         /// </summary>
         [DataMember(Order = 1, IsRequired = true)]
-        public string GroupType { get; set; }
+        public string DisplayName { get; set; }
 
         /// <summary>
-        ///     名称。
+        ///     简介。
         /// </summary>
-        [DataMember(Order = 2, IsRequired = true)]
-        public string Name { get; set; }
+        [DataMember(Order = 2)]
+        public string Description { get; set; }
 
         /// <summary>
-        ///     上级群组的编号。
+        ///     群组加入的方式。（可选值：Direct, RequireVerification, Joinless）
         /// </summary>
-        [DataMember(Order = 3)]
-        public string ParentGroupId { get; set; }
+        [DataMember(Order = 3, IsRequired = true)]
+        public string JoinMode { get; set; }
 
         /// <summary>
-        ///     代号。（如果没有指定将自动生成）
+        ///     非群组成员是否可以访问群组内容。
         /// </summary>
         [DataMember(Order = 4)]
-        public string Code { get; set; }
-
-        /// <summary>
-        ///     说明。
-        /// </summary>
-        [DataMember(Order = 5)]
-        public string Description { get; set; }
+        public bool? IsPublic { get; set; }
 
         /// <summary>
         ///     是否开启群组消息。
         /// </summary>
-        [DataMember(Order = 6)]
-        public bool? EnableGroupMessages { get; set; }
-
-        /// <summary>
-        ///     是否自动创建应用程序。
-        /// </summary>
-        [DataMember(Order = 7)]
-        public bool? CreateApplications { get; set; }
+        [DataMember(Order = 5)]
+        public bool? EnableMessages { get; set; }
     }
 
     /// <summary>

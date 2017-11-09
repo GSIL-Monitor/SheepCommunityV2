@@ -21,16 +21,16 @@ using Sheep.ServiceModel.Accounts;
 namespace Sheep.ServiceInterface.Accounts
 {
     /// <summary>
-    ///     更改头像服务接口。
+    ///     更改封面图片服务接口。
     /// </summary>
-    public class ChangeAvatarService : Service
+    public class ChangeCoverPhotoService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(ChangeAvatarService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(ChangeCoverPhotoService));
 
         #endregion
 
@@ -47,18 +47,18 @@ namespace Sheep.ServiceInterface.Accounts
         public IOss OssClient { get; set; }
 
         /// <summary>
-        ///     获取及设置更改头像的校验器。
+        ///     获取及设置更改封面图片的校验器。
         /// </summary>
-        public IValidator<AccountChangeAvatar> AccountChangeAvatarValidator { get; set; }
+        public IValidator<AccountChangeCoverPhoto> AccountChangeCoverPhotoValidator { get; set; }
 
         #endregion
 
-        #region 更改头像
+        #region 更改封面图片
 
         /// <summary>
-        ///     更改头像。
+        ///     更改封面图片。
         /// </summary>
-        public async Task<object> Put(AccountChangeAvatar request)
+        public async Task<object> Put(AccountChangeCoverPhoto request)
         {
             if (!IsAuthenticated)
             {
@@ -66,10 +66,10 @@ namespace Sheep.ServiceInterface.Accounts
             }
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
-                AccountChangeAvatarValidator.ValidateAndThrow(request, ApplyTo.Put);
+                AccountChangeCoverPhotoValidator.ValidateAndThrow(request, ApplyTo.Put);
             }
             var session = GetSession();
-            string avatarUrl = null;
+            string coverphotoUrl = null;
             if (!request.SourceUrl.IsNullOrEmpty())
             {
                 var imageBuffer = await request.SourceUrl.GetBytesFromUrlAsync();
@@ -78,7 +78,7 @@ namespace Sheep.ServiceInterface.Accounts
                     using (var imageStream = new MemoryStream(imageBuffer))
                     {
                         var md5Hash = OssUtils.ComputeContentMd5(imageStream, imageStream.Length);
-                        var path = $"users/{session.UserAuthId}/avatars/{Guid.NewGuid():N}.{request.SourceUrl.GetImageUrlExtension()}";
+                        var path = $"users/{session.UserAuthId}/coverphotos/{Guid.NewGuid():N}.{request.SourceUrl.GetImageUrlExtension()}";
                         var objectMetadata = new ObjectMetadata
                                              {
                                                  ContentMd5 = md5Hash,
@@ -89,7 +89,7 @@ namespace Sheep.ServiceInterface.Accounts
                         try
                         {
                             await OssClient.PutObjectAsync(AppSettings.GetString(AppSettingsOssNames.OssBucket), path, imageStream, objectMetadata);
-                            avatarUrl = $"{AppSettings.GetString(AppSettingsOssNames.OssUrl)}/{path}";
+                            coverphotoUrl = $"{AppSettings.GetString(AppSettingsOssNames.OssUrl)}/{path}";
                         }
                         catch (OssException ex)
                         {
@@ -112,7 +112,7 @@ namespace Sheep.ServiceInterface.Accounts
                     using (var imageStream = imageFile.InputStream)
                     {
                         var md5Hash = OssUtils.ComputeContentMd5(imageStream, imageStream.Length);
-                        var path = $"users/{session.UserAuthId}/avatars/{Guid.NewGuid():N}.{imageFile.FileName.GetImageFileExtension()}";
+                        var path = $"users/{session.UserAuthId}/coverphotos/{Guid.NewGuid():N}.{imageFile.FileName.GetImageFileExtension()}";
                         var objectMetadata = new ObjectMetadata
                                              {
                                                  ContentMd5 = md5Hash,
@@ -123,7 +123,7 @@ namespace Sheep.ServiceInterface.Accounts
                         try
                         {
                             await OssClient.PutObjectAsync(AppSettings.GetString(AppSettingsOssNames.OssBucket), path, imageStream, objectMetadata);
-                            avatarUrl = $"{AppSettings.GetString(AppSettingsOssNames.OssUrl)}/{path}";
+                            coverphotoUrl = $"{AppSettings.GetString(AppSettingsOssNames.OssUrl)}/{path}";
                         }
                         catch (OssException ex)
                         {
@@ -149,11 +149,11 @@ namespace Sheep.ServiceInterface.Accounts
                 var newUserAuth = authRepo is ICustomUserAuth customUserAuth ? customUserAuth.CreateUserAuth() : new UserAuth();
                 newUserAuth.PopulateMissingExtended(existingUserAuth);
                 newUserAuth.Meta = existingUserAuth.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingUserAuth.Meta);
-                newUserAuth.Meta["AvatarUrl"] = avatarUrl;
+                newUserAuth.Meta["CoverPhotoUrl"] = coverphotoUrl;
                 ((IUserAuthRepository) authRepo).UpdateUserAuth(existingUserAuth, newUserAuth);
-                return new AccountChangeAvatarResponse
+                return new AccountChangeCoverPhotoResponse
                        {
-                           AvatarUrl = avatarUrl
+                           CoverPhotoUrl = coverphotoUrl
                        };
             }
         }

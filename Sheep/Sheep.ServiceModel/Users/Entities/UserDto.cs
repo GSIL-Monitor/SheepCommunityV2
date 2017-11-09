@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 using ServiceStack.Model;
 
 namespace Sheep.ServiceModel.Users.Entities
@@ -47,7 +46,7 @@ namespace Sheep.ServiceModel.Users.Entities
         public string FullName { get; set; }
 
         /// <summary>
-        ///     真实全称姓名。
+        ///     真实全称姓名是否已通过认证。
         /// </summary>
         [DataMember(Order = 7)]
         public bool FullNameVerified { get; set; }

@@ -5,7 +5,7 @@ namespace Sheep.Model.Geo.Entities
     /// <summary>
     ///     国家/地区。
     /// </summary>
-    public class GeoCountry
+    public class Country
     {
         /// <summary>
         ///     编号。

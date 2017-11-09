@@ -43,7 +43,7 @@ namespace Sheep.ServiceInterface.States
         /// <summary>
         ///     获取及设置省份的存储库。
         /// </summary>
-        public IGeoStateRepository StateRepo { get; set; }
+        public IStateRepository StateRepo { get; set; }
 
         #endregion
 
@@ -59,7 +59,7 @@ namespace Sheep.ServiceInterface.States
             {
                 StateListValidator.ValidateAndThrow(request, ApplyTo.Get);
             }
-            List<GeoState> existingStates;
+            List<State> existingStates;
             if (request.NameFilter.IsNullOrEmpty())
             {
                 existingStates = await StateRepo.GetStatesInCountryAsync(request.CountryId);
@@ -83,7 +83,7 @@ namespace Sheep.ServiceInterface.States
 
         #region 转换
 
-        private StateDto MapToStateDto(GeoState state)
+        private StateDto MapToStateDto(State state)
         {
             var stateDto = new StateDto
                            {

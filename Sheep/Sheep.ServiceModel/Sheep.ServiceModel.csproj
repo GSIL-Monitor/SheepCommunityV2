@@ -99,6 +99,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Accounts\AccountChangeCoverPhoto.cs" />
     <Compile Include="Accounts\AccountChangeBirthDate.cs" />
     <Compile Include="Accounts\AccountChangeAvartar.cs" />
     <Compile Include="Accounts\AccountChangeLanguage.cs" />
@@ -112,6 +113,8 @@
     <Compile Include="Accounts\AccountChangePassword.cs" />
     <Compile Include="Accounts\AccountAccessToken.cs" />
     <Compile Include="Accounts\AccountUnbind.cs" />
+    <Compile Include="Accounts\Validators\AccountChangeCoverPhotoValidator.cs" />
+    <Compile Include="Accounts\Validators\AccountChangeAvatarValidator.cs" />
     <Compile Include="Accounts\Validators\AccountChangeBirthDateValidator.cs" />
     <Compile Include="Accounts\Validators\AccountChangeLanguageValidator.cs" />
     <Compile Include="Accounts\Validators\AccountChangeGuildValidator.cs" />
@@ -208,6 +211,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ServiceStack\ServiceStack.Extensions\ServiceStack.Extensions.csproj">
+      <Project>{ab8b5cf2-45a4-4172-ab4b-827c421a494b}</Project>
+      <Name>ServiceStack.Extensions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sheep.Common\Sheep.Common.csproj">
       <Project>{80d3d2c4-3171-4ff9-8c62-0483b1c97cd1}</Project>
       <Name>Sheep.Common</Name>

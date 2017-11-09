@@ -41,7 +41,7 @@ namespace Sheep.ServiceInterface.Cities
         /// <summary>
         ///     获取及设置城市的存储库。
         /// </summary>
-        public IGeoCityRepository CityRepo { get; set; }
+        public ICityRepository CityRepo { get; set; }
 
         #endregion
 
@@ -73,7 +73,7 @@ namespace Sheep.ServiceInterface.Cities
 
         #region 转换
 
-        private CityDto MapToCityDto(GeoCity city)
+        private CityDto MapToCityDto(City city)
         {
             var cityDto = new CityDto
                           {

@@ -41,7 +41,7 @@ namespace Sheep.ServiceInterface.Countries
         /// <summary>
         ///     获取及设置国家的存储库。
         /// </summary>
-        public IGeoCountryRepository CountryRepo { get; set; }
+        public ICountryRepository CountryRepo { get; set; }
 
         #endregion
 
@@ -73,7 +73,7 @@ namespace Sheep.ServiceInterface.Countries
 
         #region 转换
 
-        private CountryDto MapToCountryDto(GeoCountry country)
+        private CountryDto MapToCountryDto(Country country)
         {
             var countryDto = new CountryDto
                              {

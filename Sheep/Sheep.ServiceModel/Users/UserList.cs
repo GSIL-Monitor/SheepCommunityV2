@@ -44,7 +44,7 @@ namespace Sheep.ServiceModel.Users
         public DateTime? LockedSince { get; set; }
 
         /// <summary>
-        ///     过滤帐户状态。（可选值：等待审核, 审核通过, 已查封, 审核失败, 等待删除）
+        ///     过滤帐户状态。（可选值：Approved, Banned, Disapproved, PendingDeletion）
         /// </summary>
         [DataMember(Order = 6, Name = "accountstatus")]
         public string AccountStatus { get; set; }

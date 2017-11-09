@@ -5,7 +5,7 @@ namespace Sheep.Model.Geo.Entities
     /// <summary>
     ///     省份/直辖市/州。
     /// </summary>
-    public class GeoState
+    public class State
     {
         /// <summary>
         ///     编号。

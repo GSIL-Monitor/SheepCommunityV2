@@ -47,7 +47,7 @@ namespace Sheep.ServiceInterface.Users
         /// <summary>
         ///     列举一组用户。
         /// </summary>
-        [CacheResponse(Duration = 120, MaxAge = 60)]
+        [CacheResponse(Duration = 600, MaxAge = 300)]
         public object Get(UserList request)
         {
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))

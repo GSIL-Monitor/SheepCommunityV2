@@ -7,7 +7,7 @@ namespace Sheep.Model.Geo
     /// <summary>
     ///     国家的存储库的接口定义。
     /// </summary>
-    public interface IGeoCountryRepository
+    public interface ICountryRepository
     {
         #region 获取
 
@@ -16,54 +16,54 @@ namespace Sheep.Model.Geo
         /// </summary>
         /// <param name="countryId">国家编号。</param>
         /// <returns>国家。</returns>
-        GeoCountry GetCountry(string countryId);
+        Country GetCountry(string countryId);
 
         /// <summary>
         ///     异步获取国家。
         /// </summary>
         /// <param name="countryId">国家编号。</param>
         /// <returns>国家。</returns>
-        Task<GeoCountry> GetCountryAsync(string countryId);
+        Task<Country> GetCountryAsync(string countryId);
 
         /// <summary>
         ///     根据名称获取国家。
         /// </summary>
         /// <param name="name">名称。</param>
         /// <returns>国家。</returns>
-        GeoCountry GetCountryByName(string name);
+        Country GetCountryByName(string name);
 
         /// <summary>
         ///     异步根据名称获取国家。
         /// </summary>
         /// <param name="name">名称。</param>
         /// <returns>国家。</returns>
-        Task<GeoCountry> GetCountryByNameAsync(string name);
+        Task<Country> GetCountryByNameAsync(string name);
 
         /// <summary>
         ///     获取所有国家。
         /// </summary>
         /// <returns>国家列表。</returns>
-        List<GeoCountry> GetCountries();
+        List<Country> GetCountries();
 
         /// <summary>
         ///     异步获取所有国家。
         /// </summary>
         /// <returns>国家列表。</returns>
-        Task<List<GeoCountry>> GetCountriesAsync();
+        Task<List<Country>> GetCountriesAsync();
 
         /// <summary>
         ///     根据名称查找国家。
         /// </summary>
         /// <param name="nameFilter">名称过滤表达式。</param>
         /// <returns>国家列表。</returns>
-        List<GeoCountry> FindCountriesByName(string nameFilter);
+        List<Country> FindCountriesByName(string nameFilter);
 
         /// <summary>
         ///     异步根据名称查找国家。
         /// </summary>
         /// <param name="nameFilter">名称过滤表达式。</param>
         /// <returns>国家列表。</returns>
-        Task<List<GeoCountry>> FindCountriesByNameAsync(string nameFilter);
+        Task<List<Country>> FindCountriesByNameAsync(string nameFilter);
 
         #endregion
 
@@ -74,14 +74,14 @@ namespace Sheep.Model.Geo
         /// </summary>
         /// <param name="newCountry">新的国家。</param>
         /// <returns>创建后的国家。</returns>
-        GeoCountry CreateCountry(GeoCountry newCountry);
+        Country CreateCountry(Country newCountry);
 
         /// <summary>
         ///     异步创建一个新的国家。
         /// </summary>
         /// <param name="newCountry">新的国家。</param>
         /// <returns>创建后的国家。</returns>
-        Task<GeoCountry> CreateCountryAsync(GeoCountry newCountry);
+        Task<Country> CreateCountryAsync(Country newCountry);
 
         /// <summary>
         ///     删除一个国家。

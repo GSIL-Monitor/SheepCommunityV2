@@ -15,14 +15,14 @@ namespace Sheep.Model.Geo.Repositories
     /// <summary>
     ///     基于RethinkDb的国家的存储库。
     /// </summary>
-    public class RethinkDbGeoCountryRepository : IGeoCountryRepository, IClearable
+    public class RethinkDbCountryRepository : ICountryRepository, IClearable
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(RethinkDbGeoCountryRepository));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(RethinkDbCountryRepository));
 
         /// <summary>
         ///     RethinkDB 查询器.
@@ -32,7 +32,7 @@ namespace Sheep.Model.Geo.Repositories
         /// <summary>
         ///     国家的数据表名。
         /// </summary>
-        private static readonly string s_GeoCountryTable = typeof(GeoCountry).Name;
+        private static readonly string s_CountryTable = typeof(Country).Name;
 
         #endregion
 
@@ -47,13 +47,13 @@ namespace Sheep.Model.Geo.Repositories
         #region 构造器
 
         /// <summary>
-        ///     初始化一个新的<see cref="RethinkDbGeoCountryRepository" />对象。
+        ///     初始化一个新的<see cref="RethinkDbCountryRepository" />对象。
         /// </summary>
         /// <param name="conn">数据库连接。</param>
         /// <param name="shards">数据库分片数。</param>
         /// <param name="replicas">复制份数。</param>
         /// <param name="createMissingTables">是否创建数据表。</param>
-        public RethinkDbGeoCountryRepository(IConnection conn, int shards, int replicas, bool createMissingTables)
+        public RethinkDbCountryRepository(IConnection conn, int shards, int replicas, bool createMissingTables)
         {
             _conn = conn;
             _shards = shards;
@@ -66,7 +66,7 @@ namespace Sheep.Model.Geo.Repositories
             // 检测指定的数据表是否存在。
             if (!TablesExists())
             {
-                throw new InvalidOperationException(string.Format("One of the tables needed by {0} is missing. You can call {0} constructor with the parameter CreateMissingTables set to 'true'  to create the needed tables.", typeof(RethinkDbGeoCountryRepository).Name));
+                throw new InvalidOperationException(string.Format("One of the tables needed by {0} is missing. You can call {0} constructor with the parameter CreateMissingTables set to 'true'  to create the needed tables.", typeof(RethinkDbCountryRepository).Name));
             }
         }
 
@@ -80,9 +80,9 @@ namespace Sheep.Model.Geo.Repositories
         public void DropAndReCreateTables()
         {
             var tables = R.TableList().RunResult<List<string>>(_conn);
-            if (tables.Contains(s_GeoCountryTable))
+            if (tables.Contains(s_CountryTable))
             {
-                R.TableDrop(s_GeoCountryTable).RunResult(_conn).AssertNoErrors().AssertTablesDropped(1);
+                R.TableDrop(s_CountryTable).RunResult(_conn).AssertNoErrors().AssertTablesDropped(1);
             }
             CreateTables();
         }
@@ -93,11 +93,11 @@ namespace Sheep.Model.Geo.Repositories
         public void CreateTables()
         {
             var tables = R.TableList().RunResult<List<string>>(_conn);
-            if (!tables.Contains(s_GeoCountryTable))
+            if (!tables.Contains(s_CountryTable))
             {
-                R.TableCreate(s_GeoCountryTable).OptArg("primary_key", "Id").OptArg("durability", Durability.Soft).OptArg("shards", _shards).OptArg("replicas", _replicas).RunResult(_conn).AssertNoErrors().AssertTablesCreated(1);
-                R.Table(s_GeoCountryTable).IndexCreate("Name").RunResult(_conn).AssertNoErrors();
-                //R.Table(s_GeoCountryTable).IndexWait().RunResult(_conn).AssertNoErrors();
+                R.TableCreate(s_CountryTable).OptArg("primary_key", "Id").OptArg("durability", Durability.Soft).OptArg("shards", _shards).OptArg("replicas", _replicas).RunResult(_conn).AssertNoErrors().AssertTablesCreated(1);
+                R.Table(s_CountryTable).IndexCreate("Name").RunResult(_conn).AssertNoErrors();
+                //R.Table(s_CountryTable).IndexWait().RunResult(_conn).AssertNoErrors();
             }
         }
 
@@ -108,7 +108,7 @@ namespace Sheep.Model.Geo.Repositories
         {
             var tableNames = new List<string>
                              {
-                                 s_GeoCountryTable
+                                 s_CountryTable
                              };
             var tables = R.TableList().RunResult<List<string>>(_conn);
             return tables.Any(table => tableNames.Contains(table));
@@ -116,96 +116,96 @@ namespace Sheep.Model.Geo.Repositories
 
         #endregion
 
-        #region IGeoCountryRepository 接口实现
+        #region ICountryRepository 接口实现
 
         /// <inheritdoc />
-        public GeoCountry GetCountry(string countryId)
+        public Country GetCountry(string countryId)
         {
             if (countryId.IsNullOrEmpty())
             {
                 return null;
             }
-            return R.Table(s_GeoCountryTable).Get(countryId).RunResult<GeoCountry>(_conn);
+            return R.Table(s_CountryTable).Get(countryId).RunResult<Country>(_conn);
         }
 
         /// <inheritdoc />
-        public Task<GeoCountry> GetCountryAsync(string countryId)
+        public Task<Country> GetCountryAsync(string countryId)
         {
             if (countryId.IsNullOrEmpty())
             {
-                return Task.FromResult<GeoCountry>(null);
+                return Task.FromResult<Country>(null);
             }
-            return R.Table(s_GeoCountryTable).Get(countryId).RunResultAsync<GeoCountry>(_conn);
+            return R.Table(s_CountryTable).Get(countryId).RunResultAsync<Country>(_conn);
         }
 
         /// <inheritdoc />
-        public GeoCountry GetCountryByName(string name)
+        public Country GetCountryByName(string name)
         {
             if (name.IsNullOrEmpty())
             {
                 return null;
             }
-            return R.Table(s_GeoCountryTable).GetAll(name).OptArg("index", "Name").Nth(0).Default_(default(GeoCountry)).RunResult<GeoCountry>(_conn);
+            return R.Table(s_CountryTable).GetAll(name).OptArg("index", "Name").Nth(0).Default_(default(Country)).RunResult<Country>(_conn);
         }
 
         /// <inheritdoc />
-        public Task<GeoCountry> GetCountryByNameAsync(string name)
+        public Task<Country> GetCountryByNameAsync(string name)
         {
             if (name.IsNullOrEmpty())
             {
-                return Task.FromResult<GeoCountry>(null);
+                return Task.FromResult<Country>(null);
             }
-            return R.Table(s_GeoCountryTable).GetAll(name).OptArg("index", "Name").Nth(0).Default_(default(GeoCountry)).RunResultAsync<GeoCountry>(_conn);
+            return R.Table(s_CountryTable).GetAll(name).OptArg("index", "Name").Nth(0).Default_(default(Country)).RunResultAsync<Country>(_conn);
         }
 
         /// <inheritdoc />
-        public List<GeoCountry> GetCountries()
+        public List<Country> GetCountries()
         {
-            return R.Table(s_GeoCountryTable).OrderBy().OptArg("index", "Id").RunResult<List<GeoCountry>>(_conn);
+            return R.Table(s_CountryTable).OrderBy().OptArg("index", "Id").RunResult<List<Country>>(_conn);
         }
 
         /// <inheritdoc />
-        public Task<List<GeoCountry>> GetCountriesAsync()
+        public Task<List<Country>> GetCountriesAsync()
         {
-            return R.Table(s_GeoCountryTable).OrderBy().OptArg("index", "Id").RunResultAsync<List<GeoCountry>>(_conn);
+            return R.Table(s_CountryTable).OrderBy().OptArg("index", "Id").RunResultAsync<List<Country>>(_conn);
         }
 
         /// <inheritdoc />
-        public List<GeoCountry> FindCountriesByName(string nameFilter)
+        public List<Country> FindCountriesByName(string nameFilter)
         {
             if (nameFilter.IsNullOrEmpty())
             {
-                return new List<GeoCountry>();
+                return new List<Country>();
             }
-            return R.Table(s_GeoCountryTable).OrderBy().OptArg("index", "Id").Filter(row => row.G("Name").Match(nameFilter)).RunResult<List<GeoCountry>>(_conn);
+            return R.Table(s_CountryTable).OrderBy().OptArg("index", "Id").Filter(row => row.G("Name").Match(nameFilter)).RunResult<List<Country>>(_conn);
         }
 
         /// <inheritdoc />
-        public Task<List<GeoCountry>> FindCountriesByNameAsync(string nameFilter)
+        public Task<List<Country>> FindCountriesByNameAsync(string nameFilter)
         {
             if (nameFilter.IsNullOrEmpty())
             {
-                return Task.FromResult(new List<GeoCountry>());
+                return Task.FromResult(new List<Country>());
             }
-            return R.Table(s_GeoCountryTable).OrderBy().OptArg("index", "Id").Filter(row => row.G("Name").Match(nameFilter)).RunResultAsync<List<GeoCountry>>(_conn);
+            return R.Table(s_CountryTable).OrderBy().OptArg("index", "Id").Filter(row => row.G("Name").Match(nameFilter)).RunResultAsync<List<Country>>(_conn);
         }
 
         /// <inheritdoc />
-        public GeoCountry CreateCountry(GeoCountry newCountry)
+        public Country CreateCountry(Country newCountry)
         {
             newCountry.Id.ThrowIfNullOrEmpty(nameof(newCountry.Id));
             newCountry.Name.ThrowIfNullOrEmpty(nameof(newCountry.Name));
-            var result = R.Table(s_GeoCountryTable).Get(newCountry.Id).Replace(newCountry).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<GeoCountry>()[0].NewValue;
+            var result = R.Table(s_CountryTable).Get(newCountry.Id).Replace(newCountry).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
+            return result.ChangesAs<Country>()[0].NewValue;
         }
 
         /// <inheritdoc />
-        public async Task<GeoCountry> CreateCountryAsync(GeoCountry newCountry)
+        public async Task<Country> CreateCountryAsync(Country newCountry)
         {
             newCountry.Id.ThrowIfNullOrEmpty(nameof(newCountry.Id));
             newCountry.Name.ThrowIfNullOrEmpty(nameof(newCountry.Name));
-            var result = (await R.Table(s_GeoCountryTable).Get(newCountry.Id).Replace(newCountry).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<GeoCountry>()[0].NewValue;
+            var result = (await R.Table(s_CountryTable).Get(newCountry.Id).Replace(newCountry).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
+            return result.ChangesAs<Country>()[0].NewValue;
         }
 
         /// <inheritdoc />
@@ -215,7 +215,7 @@ namespace Sheep.Model.Geo.Repositories
             {
                 return;
             }
-            R.Table(s_GeoCountryTable).Get(countryId).Delete().RunResult(_conn).AssertNoErrors();
+            R.Table(s_CountryTable).Get(countryId).Delete().RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
@@ -225,7 +225,7 @@ namespace Sheep.Model.Geo.Repositories
             {
                 return;
             }
-            (await R.Table(s_GeoCountryTable).Get(countryId).Delete().RunResultAsync(_conn)).AssertNoErrors();
+            (await R.Table(s_CountryTable).Get(countryId).Delete().RunResultAsync(_conn)).AssertNoErrors();
         }
 
         #endregion

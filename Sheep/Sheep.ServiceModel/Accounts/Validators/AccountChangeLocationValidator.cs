@@ -25,7 +25,7 @@ namespace Sheep.ServiceModel.Accounts.Validators
 
         private bool CountriesContains(string country)
         {
-            var countryRepo = HostContext.AppHost.Resolve<IGeoCountryRepository>();
+            var countryRepo = HostContext.AppHost.Resolve<ICountryRepository>();
             using (countryRepo as IDisposable)
             {
                 return countryRepo.GetCountryByName(country) != null;

@@ -43,7 +43,7 @@ namespace Sheep.ServiceInterface.Countries
         /// <summary>
         ///     获取及设置国家的存储库。
         /// </summary>
-        public IGeoCountryRepository CountryRepo { get; set; }
+        public ICountryRepository CountryRepo { get; set; }
 
         #endregion
 
@@ -59,7 +59,7 @@ namespace Sheep.ServiceInterface.Countries
             {
                 CountryListValidator.ValidateAndThrow(request, ApplyTo.Get);
             }
-            List<GeoCountry> existingCountries;
+            List<Country> existingCountries;
             if (request.NameFilter.IsNullOrEmpty())
             {
                 existingCountries = await CountryRepo.GetCountriesAsync();
@@ -83,7 +83,7 @@ namespace Sheep.ServiceInterface.Countries
 
         #region 转换
 
-        private CountryDto MapToCountryDto(GeoCountry country)
+        private CountryDto MapToCountryDto(Country country)
         {
             var countryDto = new CountryDto
                              {

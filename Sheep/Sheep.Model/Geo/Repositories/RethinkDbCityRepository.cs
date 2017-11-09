@@ -15,14 +15,14 @@ namespace Sheep.Model.Geo.Repositories
     /// <summary>
     ///     基于RethinkDb的城市的存储库。
     /// </summary>
-    public class RethinkDbGeoCityRepository : IGeoCityRepository, IClearable
+    public class RethinkDbCityRepository : ICityRepository, IClearable
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(RethinkDbGeoCityRepository));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(RethinkDbCityRepository));
 
         /// <summary>
         ///     RethinkDB 查询器.
@@ -32,7 +32,7 @@ namespace Sheep.Model.Geo.Repositories
         /// <summary>
         ///     城市的数据表名。
         /// </summary>
-        private static readonly string s_GeoCityTable = typeof(GeoCity).Name;
+        private static readonly string s_CityTable = typeof(City).Name;
 
         #endregion
 
@@ -47,13 +47,13 @@ namespace Sheep.Model.Geo.Repositories
         #region 构造器
 
         /// <summary>
-        ///     初始化一个新的<see cref="RethinkDbGeoCityRepository" />对象。
+        ///     初始化一个新的<see cref="RethinkDbCityRepository" />对象。
         /// </summary>
         /// <param name="conn">数据库连接。</param>
         /// <param name="shards">数据库分片数。</param>
         /// <param name="replicas">复制份数。</param>
         /// <param name="createMissingTables">是否创建数据表。</param>
-        public RethinkDbGeoCityRepository(IConnection conn, int shards, int replicas, bool createMissingTables)
+        public RethinkDbCityRepository(IConnection conn, int shards, int replicas, bool createMissingTables)
         {
             _conn = conn;
             _shards = shards;
@@ -66,7 +66,7 @@ namespace Sheep.Model.Geo.Repositories
             // 检测指定的数据表是否存在。
             if (!TablesExists())
             {
-                throw new InvalidOperationException(string.Format("One of the tables needed by {0} is missing. You can call {0} constructor with the parameter CreateMissingTables set to 'true'  to create the needed tables.", typeof(RethinkDbGeoCityRepository).Name));
+                throw new InvalidOperationException(string.Format("One of the tables needed by {0} is missing. You can call {0} constructor with the parameter CreateMissingTables set to 'true'  to create the needed tables.", typeof(RethinkDbCityRepository).Name));
             }
         }
 
@@ -80,9 +80,9 @@ namespace Sheep.Model.Geo.Repositories
         public void DropAndReCreateTables()
         {
             var tables = R.TableList().RunResult<List<string>>(_conn);
-            if (tables.Contains(s_GeoCityTable))
+            if (tables.Contains(s_CityTable))
             {
-                R.TableDrop(s_GeoCityTable).RunResult(_conn).AssertNoErrors().AssertTablesDropped(1);
+                R.TableDrop(s_CityTable).RunResult(_conn).AssertNoErrors().AssertTablesDropped(1);
             }
             CreateTables();
         }
@@ -93,12 +93,12 @@ namespace Sheep.Model.Geo.Repositories
         public void CreateTables()
         {
             var tables = R.TableList().RunResult<List<string>>(_conn);
-            if (!tables.Contains(s_GeoCityTable))
+            if (!tables.Contains(s_CityTable))
             {
-                R.TableCreate(s_GeoCityTable).OptArg("primary_key", "Id").OptArg("durability", Durability.Soft).OptArg("shards", _shards).OptArg("replicas", _replicas).RunResult(_conn).AssertNoErrors().AssertTablesCreated(1);
-                R.Table(s_GeoCityTable).IndexCreate("StateId_Name", row => R.Array(row.G("StateId"), row.G("Name"))).RunResult(_conn).AssertNoErrors();
-                R.Table(s_GeoCityTable).IndexCreate("StateId").RunResult(_conn).AssertNoErrors();
-                //R.Table(s_GeoCityTable).IndexWait().RunResult(_conn).AssertNoErrors();
+                R.TableCreate(s_CityTable).OptArg("primary_key", "Id").OptArg("durability", Durability.Soft).OptArg("shards", _shards).OptArg("replicas", _replicas).RunResult(_conn).AssertNoErrors().AssertTablesCreated(1);
+                R.Table(s_CityTable).IndexCreate("StateId_Name", row => R.Array(row.G("StateId"), row.G("Name"))).RunResult(_conn).AssertNoErrors();
+                R.Table(s_CityTable).IndexCreate("StateId").RunResult(_conn).AssertNoErrors();
+                //R.Table(s_CityTable).IndexWait().RunResult(_conn).AssertNoErrors();
             }
         }
 
@@ -109,7 +109,7 @@ namespace Sheep.Model.Geo.Repositories
         {
             var tableNames = new List<string>
                              {
-                                 s_GeoCityTable
+                                 s_CityTable
                              };
             var tables = R.TableList().RunResult<List<string>>(_conn);
             return tables.Any(table => tableNames.Contains(table));
@@ -117,106 +117,106 @@ namespace Sheep.Model.Geo.Repositories
 
         #endregion
 
-        #region IGeoCityRepository 接口实现
+        #region ICityRepository 接口实现
 
         /// <inheritdoc />
-        public GeoCity GetCity(string cityId)
+        public City GetCity(string cityId)
         {
             if (cityId.IsNullOrEmpty())
             {
                 return null;
             }
-            return R.Table(s_GeoCityTable).Get(cityId).RunResult<GeoCity>(_conn);
+            return R.Table(s_CityTable).Get(cityId).RunResult<City>(_conn);
         }
 
         /// <inheritdoc />
-        public Task<GeoCity> GetCityAsync(string cityId)
+        public Task<City> GetCityAsync(string cityId)
         {
             if (cityId.IsNullOrEmpty())
             {
-                return Task.FromResult<GeoCity>(null);
+                return Task.FromResult<City>(null);
             }
-            return R.Table(s_GeoCityTable).Get(cityId).RunResultAsync<GeoCity>(_conn);
+            return R.Table(s_CityTable).Get(cityId).RunResultAsync<City>(_conn);
         }
 
         /// <inheritdoc />
-        public GeoCity GetCityByName(string stateId, string name)
+        public City GetCityByName(string stateId, string name)
         {
             if (stateId.IsNullOrEmpty() || name.IsNullOrEmpty())
             {
                 return null;
             }
-            return R.Table(s_GeoCityTable).GetAll(R.Array(stateId, name)).OptArg("index", "StateId_Name").Nth(0).Default_(default(GeoCity)).RunResult<GeoCity>(_conn);
+            return R.Table(s_CityTable).GetAll(R.Array(stateId, name)).OptArg("index", "StateId_Name").Nth(0).Default_(default(City)).RunResult<City>(_conn);
         }
 
         /// <inheritdoc />
-        public Task<GeoCity> GetCityByNameAsync(string stateId, string name)
+        public Task<City> GetCityByNameAsync(string stateId, string name)
         {
             if (stateId.IsNullOrEmpty() || name.IsNullOrEmpty())
             {
-                return Task.FromResult<GeoCity>(null);
+                return Task.FromResult<City>(null);
             }
-            return R.Table(s_GeoCityTable).GetAll(R.Array(stateId, name)).OptArg("index", "StateId_Name").Nth(0).Default_(default(GeoCity)).RunResultAsync<GeoCity>(_conn);
+            return R.Table(s_CityTable).GetAll(R.Array(stateId, name)).OptArg("index", "StateId_Name").Nth(0).Default_(default(City)).RunResultAsync<City>(_conn);
         }
 
         /// <inheritdoc />
-        public List<GeoCity> GetCitiesInState(string stateId)
+        public List<City> GetCitiesInState(string stateId)
         {
             if (stateId.IsNullOrEmpty())
             {
-                return new List<GeoCity>();
+                return new List<City>();
             }
-            return R.Table(s_GeoCityTable).GetAll(stateId).OptArg("index", "StateId").OrderBy("Id").RunResult<List<GeoCity>>(_conn);
+            return R.Table(s_CityTable).GetAll(stateId).OptArg("index", "StateId").OrderBy("Id").RunResult<List<City>>(_conn);
         }
 
         /// <inheritdoc />
-        public Task<List<GeoCity>> GetCitiesInStateAsync(string stateId)
+        public Task<List<City>> GetCitiesInStateAsync(string stateId)
         {
             if (stateId.IsNullOrEmpty())
             {
-                return Task.FromResult(new List<GeoCity>());
+                return Task.FromResult(new List<City>());
             }
-            return R.Table(s_GeoCityTable).GetAll(stateId).OptArg("index", "StateId").OrderBy("Id").RunResultAsync<List<GeoCity>>(_conn);
+            return R.Table(s_CityTable).GetAll(stateId).OptArg("index", "StateId").OrderBy("Id").RunResultAsync<List<City>>(_conn);
         }
 
         /// <inheritdoc />
-        public List<GeoCity> FindCitiesInStateByName(string stateId, string nameFilter)
+        public List<City> FindCitiesInStateByName(string stateId, string nameFilter)
         {
             if (stateId.IsNullOrEmpty() || nameFilter.IsNullOrEmpty())
             {
-                return new List<GeoCity>();
+                return new List<City>();
             }
-            return R.Table(s_GeoCityTable).GetAll(stateId).OptArg("index", "StateId").Filter(row => row.G("Name").Match(nameFilter)).OrderBy("Id").RunResult<List<GeoCity>>(_conn);
+            return R.Table(s_CityTable).GetAll(stateId).OptArg("index", "StateId").Filter(row => row.G("Name").Match(nameFilter)).OrderBy("Id").RunResult<List<City>>(_conn);
         }
 
         /// <inheritdoc />
-        public Task<List<GeoCity>> FindCitiesInStateByNameAsync(string stateId, string nameFilter)
+        public Task<List<City>> FindCitiesInStateByNameAsync(string stateId, string nameFilter)
         {
             if (stateId.IsNullOrEmpty() || nameFilter.IsNullOrEmpty())
             {
-                return Task.FromResult(new List<GeoCity>());
+                return Task.FromResult(new List<City>());
             }
-            return R.Table(s_GeoCityTable).GetAll(stateId).OptArg("index", "StateId").Filter(row => row.G("Name").Match(nameFilter)).OrderBy("Id").RunResultAsync<List<GeoCity>>(_conn);
+            return R.Table(s_CityTable).GetAll(stateId).OptArg("index", "StateId").Filter(row => row.G("Name").Match(nameFilter)).OrderBy("Id").RunResultAsync<List<City>>(_conn);
         }
 
         /// <inheritdoc />
-        public GeoCity CreateCity(GeoCity newCity)
+        public City CreateCity(City newCity)
         {
             newCity.Id.ThrowIfNullOrEmpty(nameof(newCity.Id));
             newCity.StateId.ThrowIfNullOrEmpty(nameof(newCity.StateId));
             newCity.Name.ThrowIfNullOrEmpty(nameof(newCity.Name));
-            var result = R.Table(s_GeoCityTable).Get(newCity.Id).Replace(newCity).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<GeoCity>()[0].NewValue;
+            var result = R.Table(s_CityTable).Get(newCity.Id).Replace(newCity).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
+            return result.ChangesAs<City>()[0].NewValue;
         }
 
         /// <inheritdoc />
-        public async Task<GeoCity> CreateCityAsync(GeoCity newCity)
+        public async Task<City> CreateCityAsync(City newCity)
         {
             newCity.Id.ThrowIfNullOrEmpty(nameof(newCity.Id));
             newCity.StateId.ThrowIfNullOrEmpty(nameof(newCity.StateId));
             newCity.Name.ThrowIfNullOrEmpty(nameof(newCity.Name));
-            var result = (await R.Table(s_GeoCityTable).Get(newCity.Id).Replace(newCity).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<GeoCity>()[0].NewValue;
+            var result = (await R.Table(s_CityTable).Get(newCity.Id).Replace(newCity).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
+            return result.ChangesAs<City>()[0].NewValue;
         }
 
         /// <inheritdoc />
@@ -226,7 +226,7 @@ namespace Sheep.Model.Geo.Repositories
             {
                 return;
             }
-            R.Table(s_GeoCityTable).Get(cityId).Delete().RunResult(_conn).AssertNoErrors();
+            R.Table(s_CityTable).Get(cityId).Delete().RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
@@ -236,7 +236,7 @@ namespace Sheep.Model.Geo.Repositories
             {
                 return;
             }
-            (await R.Table(s_GeoCityTable).Get(cityId).Delete().RunResultAsync(_conn)).AssertNoErrors();
+            (await R.Table(s_CityTable).Get(cityId).Delete().RunResultAsync(_conn)).AssertNoErrors();
         }
 
         #endregion

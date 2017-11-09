@@ -340,6 +340,15 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
+        ///   查找类似 来源地址必须为图像地址（以.jpg或.png为后缀名）。 的本地化字符串。
+        /// </summary>
+        internal static string SourceUrlMismatch {
+            get {
+                return ResourceManager.GetString("SourceUrlMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 省份编号必须输入。 的本地化字符串。
         /// </summary>
         internal static string StateIdRequired {

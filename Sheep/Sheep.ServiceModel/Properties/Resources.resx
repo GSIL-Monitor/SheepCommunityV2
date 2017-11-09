@@ -210,6 +210,9 @@
   <data name="SignatureLengthMismatch" xml:space="preserve">
     <value>签名的长度至少为{0}位并且最多为为{1}位。</value>
   </data>
+  <data name="SourceUrlMismatch" xml:space="preserve">
+    <value>来源地址必须为图像地址（以.jpg或.png为后缀名）。</value>
+  </data>
   <data name="StateIdRequired" xml:space="preserve">
     <value>省份编号必须输入。</value>
   </data>
