@@ -24,21 +24,27 @@ namespace Sheep.ServiceModel.Groups
         public string Description { get; set; }
 
         /// <summary>
+        ///     关联的第三方编号。
+        /// </summary>
+        [DataMember(Order = 3)]
+        public string RefId { get; set; }
+
+        /// <summary>
         ///     群组加入的方式。（可选值：Direct, RequireVerification, Joinless）
         /// </summary>
-        [DataMember(Order = 3, IsRequired = true)]
+        [DataMember(Order = 4)]
         public string JoinMode { get; set; }
 
         /// <summary>
         ///     非群组成员是否可以访问群组内容。
         /// </summary>
-        [DataMember(Order = 4)]
+        [DataMember(Order = 5)]
         public bool? IsPublic { get; set; }
 
         /// <summary>
         ///     是否开启群组消息。
         /// </summary>
-        [DataMember(Order = 5)]
+        [DataMember(Order = 6)]
         public bool? EnableMessages { get; set; }
     }
 

@@ -11,10 +11,10 @@ namespace Sheep.ServiceModel.Accounts
     public class AccountChangeCoverPhoto : IReturn<AccountChangeCoverPhotoResponse>
     {
         /// <summary>
-        ///     原始图像的地址。
+        ///     来源封面图片的地址。
         /// </summary>
         [DataMember(Order = 1)]
-        public string SourceUrl { get; set; }
+        public string SourceCoverPhotoUrl { get; set; }
     }
 
     /// <summary>

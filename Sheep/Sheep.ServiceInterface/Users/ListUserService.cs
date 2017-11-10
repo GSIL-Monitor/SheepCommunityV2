@@ -80,7 +80,7 @@ namespace Sheep.ServiceInterface.Users
             {
                 userAuth.Meta = new Dictionary<string, string>();
             }
-            var user = new UserDto
+            var userDto = new UserDto
                        {
                            Id = userAuth.Id,
                            Type = userAuth.Meta.GetValueOrDefault("Type"),
@@ -123,7 +123,7 @@ namespace Sheep.ServiceInterface.Users
                            LockedDate = userAuth.LockedDate?.ToString("u"),
                            Points = 0
                        };
-            return user;
+            return userDto;
         }
 
         #endregion

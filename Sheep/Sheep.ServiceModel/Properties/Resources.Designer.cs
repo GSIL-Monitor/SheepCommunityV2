@@ -196,11 +196,29 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
+        ///   查找类似 群组编号必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string GroupIdRequired {
+            get {
+                return ResourceManager.GetString("GroupIdRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 所属教会的长度至少为{0}位并且最多为为{1}位。 的本地化字符串。
         /// </summary>
         internal static string GuildLengthMismatch {
             get {
                 return ResourceManager.GetString("GuildLengthMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 加入方式的有效范围为:{0}。 的本地化字符串。
+        /// </summary>
+        internal static string JoinModeRangeMismatch {
+            get {
+                return ResourceManager.GetString("JoinModeRangeMismatch", resourceCulture);
             }
         }
         
@@ -219,6 +237,15 @@ namespace Sheep.ServiceModel.Properties {
         internal static string NameRequired {
             get {
                 return ResourceManager.GetString("NameRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 排序的字段的有效范围为:{0}。 的本地化字符串。
+        /// </summary>
+        internal static string OrderByRangeMismatch {
+            get {
+                return ResourceManager.GetString("OrderByRangeMismatch", resourceCulture);
             }
         }
         
@@ -313,6 +340,15 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
+        ///   查找类似 关联的第三方编号必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string RefIdRequired {
+            get {
+                return ResourceManager.GetString("RefIdRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 验证码有效长度必须为{0}位。 的本地化字符串。
         /// </summary>
         internal static string SecurityTokenLengthMismatch {
@@ -340,11 +376,29 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
-        ///   查找类似 来源地址必须为图像地址（以.jpg或.png为后缀名）。 的本地化字符串。
+        ///   查找类似 来源头像地址必须为图像地址（以.jpg或.png为后缀名）。 的本地化字符串。
         /// </summary>
-        internal static string SourceUrlMismatch {
+        internal static string SourceAvatarUrlMismatch {
             get {
-                return ResourceManager.GetString("SourceUrlMismatch", resourceCulture);
+                return ResourceManager.GetString("SourceAvatarUrlMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 来源封面图片地址必须为图像地址（以.jpg或.png为后缀名）。 的本地化字符串。
+        /// </summary>
+        internal static string SourceCoverPhotoUrlMismatch {
+            get {
+                return ResourceManager.GetString("SourceCoverPhotoUrlMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 来源图标地址必须为图像地址（以.jpg或.png为后缀名）。 的本地化字符串。
+        /// </summary>
+        internal static string SourceIconUrlMismatch {
+            get {
+                return ResourceManager.GetString("SourceIconUrlMismatch", resourceCulture);
             }
         }
         

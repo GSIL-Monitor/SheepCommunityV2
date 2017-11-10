@@ -115,6 +115,24 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
+        ///   查找类似 无法找到指定的群组{0}。 的本地化字符串。
+        /// </summary>
+        internal static string GroupNotFound {
+            get {
+                return ResourceManager.GetString("GroupNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定条件的群组列表。 的本地化字符串。
+        /// </summary>
+        internal static string GroupsNotFound {
+            get {
+                return ResourceManager.GetString("GroupsNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 错误的验证码。 的本地化字符串。
         /// </summary>
         internal static string InvalidSecurityToken {

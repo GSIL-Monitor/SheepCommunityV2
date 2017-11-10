@@ -70,19 +70,19 @@ namespace Sheep.ServiceInterface.Accounts
             }
             var session = GetSession();
             string avatarUrl = null;
-            if (!request.SourceUrl.IsNullOrEmpty())
+            if (!request.SourceAvatarUrl.IsNullOrEmpty())
             {
-                var imageBuffer = await request.SourceUrl.GetBytesFromUrlAsync();
+                var imageBuffer = await request.SourceAvatarUrl.GetBytesFromUrlAsync();
                 if (imageBuffer != null && imageBuffer.Length > 0)
                 {
                     using (var imageStream = new MemoryStream(imageBuffer))
                     {
                         var md5Hash = OssUtils.ComputeContentMd5(imageStream, imageStream.Length);
-                        var path = $"users/{session.UserAuthId}/avatars/{Guid.NewGuid():N}.{request.SourceUrl.GetImageUrlExtension()}";
+                        var path = $"users/{session.UserAuthId}/avatars/{Guid.NewGuid():N}.{request.SourceAvatarUrl.GetImageUrlExtension()}";
                         var objectMetadata = new ObjectMetadata
                                              {
                                                  ContentMd5 = md5Hash,
-                                                 ContentType = request.SourceUrl.GetImageUrlExtension().GetImageContentType(),
+                                                 ContentType = request.SourceAvatarUrl.GetImageUrlExtension().GetImageContentType(),
                                                  ContentLength = imageBuffer.Length,
                                                  CacheControl = "max-age=604800"
                                              };

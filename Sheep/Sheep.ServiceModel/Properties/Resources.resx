@@ -162,14 +162,23 @@
   <data name="GenderRangeMismatch" xml:space="preserve">
     <value>性别的有效范围为:{0}。</value>
   </data>
+  <data name="GroupIdRequired" xml:space="preserve">
+    <value>群组编号必须输入。</value>
+  </data>
   <data name="GuildLengthMismatch" xml:space="preserve">
     <value>所属教会的长度至少为{0}位并且最多为为{1}位。</value>
+  </data>
+  <data name="JoinModeRangeMismatch" xml:space="preserve">
+    <value>加入方式的有效范围为:{0}。</value>
   </data>
   <data name="LanguageRangeMismatch" xml:space="preserve">
     <value>语言的有效范围为:{0}。</value>
   </data>
   <data name="NameRequired" xml:space="preserve">
     <value>名称必须输入。</value>
+  </data>
+  <data name="OrderByRangeMismatch" xml:space="preserve">
+    <value>排序的字段的有效范围为:{0}。</value>
   </data>
   <data name="PasswordLengthMismatch" xml:space="preserve">
     <value>登录密码的长度至少为{0}位并且最多为为{1}位。</value>
@@ -201,6 +210,9 @@
   <data name="QQUserIdRequired" xml:space="preserve">
     <value>QQ用户编号必须输入。</value>
   </data>
+  <data name="RefIdRequired" xml:space="preserve">
+    <value>关联的第三方编号必须输入。</value>
+  </data>
   <data name="SecurityTokenLengthMismatch" xml:space="preserve">
     <value>验证码有效长度必须为{0}位。</value>
   </data>
@@ -210,8 +222,14 @@
   <data name="SignatureLengthMismatch" xml:space="preserve">
     <value>签名的长度至少为{0}位并且最多为为{1}位。</value>
   </data>
-  <data name="SourceUrlMismatch" xml:space="preserve">
-    <value>来源地址必须为图像地址（以.jpg或.png为后缀名）。</value>
+  <data name="SourceAvatarUrlMismatch" xml:space="preserve">
+    <value>来源头像地址必须为图像地址（以.jpg或.png为后缀名）。</value>
+  </data>
+  <data name="SourceCoverPhotoUrlMismatch" xml:space="preserve">
+    <value>来源封面图片地址必须为图像地址（以.jpg或.png为后缀名）。</value>
+  </data>
+  <data name="SourceIconUrlMismatch" xml:space="preserve">
+    <value>来源图标地址必须为图像地址（以.jpg或.png为后缀名）。</value>
   </data>
   <data name="StateIdRequired" xml:space="preserve">
     <value>省份编号必须输入。</value>

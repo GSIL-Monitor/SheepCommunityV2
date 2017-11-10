@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using Sheep.ServiceModel.BasicUsers.Entities;
 using Sheep.ServiceModel.Users.Entities;
 
 namespace Sheep.ServiceModel.Comments.Entities

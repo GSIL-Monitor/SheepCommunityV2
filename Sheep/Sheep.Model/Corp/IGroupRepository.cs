@@ -41,16 +41,16 @@ namespace Sheep.Model.Corp
         Task<Group> GetGroupByDisplayNameAsync(string displayName);
 
         /// <summary>
-        ///     根据关联的第三方群组编号获取群组。
+        ///     根据关联的第三方编号获取群组。
         /// </summary>
-        /// <param name="refId">关联的第三方群组编号。</param>
+        /// <param name="refId">关联的第三方编号。</param>
         /// <returns>群组。</returns>
         Group GetGroupByRefId(string refId);
 
         /// <summary>
-        ///     异步根据关联的第三方群组编号获取群组。
+        ///     异步根据关联的第三方编号获取群组。
         /// </summary>
-        /// <param name="refId">关联的第三方群组编号。</param>
+        /// <param name="refId">关联的第三方编号。</param>
         /// <returns>群组。</returns>
         Task<Group> GetGroupByRefIdAsync(string refId);
 

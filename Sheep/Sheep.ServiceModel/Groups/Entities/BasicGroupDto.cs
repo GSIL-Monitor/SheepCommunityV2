@@ -1,42 +1,42 @@
 ﻿using System.Runtime.Serialization;
 using ServiceStack.Model;
 
-namespace Sheep.ServiceModel.BasicUsers.Entities
+namespace Sheep.ServiceModel.Groups.Entities
 {
     /// <summary>
-    ///     基本用户信息。
+    ///     基本群组信息。
     /// </summary>
     [DataContract]
-    public class BasicUserDto : IHasIntId
+    public class BasicGroupDto : IHasStringId
     {
         /// <summary>
         ///     编号。
         /// </summary>
         [DataMember(Order = 1)]
-        public int Id { get; set; }
-
-        /// <summary>
-        ///     用户名称。
-        /// </summary>
-        [DataMember(Order = 2)]
-        public string UserName { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
         ///     显示名称。
         /// </summary>
-        [DataMember(Order = 3)]
+        [DataMember(Order = 2)]
         public string DisplayName { get; set; }
 
         /// <summary>
-        ///     头像地址。
+        ///     图像网址。
         /// </summary>
-        [DataMember(Order = 4)]
-        public string AvatarUrl { get; set; }
+        [DataMember(Order = 3)]
+        public string IconUrl { get; set; }
 
         /// <summary>
-        ///     性别。
+        ///     关联的第三方编号。
+        /// </summary>
+        [DataMember(Order = 4)]
+        public string RefId { get; set; }
+
+        /// <summary>
+        ///     加入群组的方式。（可选值：Direct, RequireVerification, Joinless）
         /// </summary>
         [DataMember(Order = 5)]
-        public string Gender { get; set; }
+        public string JoinMode { get; set; }
     }
 }

@@ -5,11 +5,11 @@ using Sheep.ServiceModel.Groups.Entities;
 namespace Sheep.ServiceModel.Groups
 {
     /// <summary>
-    ///     显示一个群组的请求。
+    ///     显示一个群组基本信息的请求。
     /// </summary>
-    [Route("/groups/{GroupId}", HttpMethods.Get)]
+    [Route("/groups/basic/{GroupId}", HttpMethods.Get)]
     [DataContract]
-    public class GroupShow : IReturn<GroupShowResponse>
+    public class BasicGroupShow : IReturn<BasicGroupShowResponse>
     {
         /// <summary>
         ///     群组的编号。
@@ -19,11 +19,11 @@ namespace Sheep.ServiceModel.Groups
     }
 
     /// <summary>
-    ///     根据关联的第三方编号显示一个群组的请求。
+    ///     根据关联的第三方编号显示一个群组基本信息的请求。
     /// </summary>
-    [Route("/groups/show/{RefId}", HttpMethods.Get)]
+    [Route("/groups/basic/show/{RefId}", HttpMethods.Get)]
     [DataContract]
-    public class GroupShowByRefId : IReturn<GroupShowResponse>
+    public class BasicGroupShowByRefId : IReturn<BasicGroupShowResponse>
     {
         /// <summary>
         ///     关联的第三方编号。
@@ -33,16 +33,16 @@ namespace Sheep.ServiceModel.Groups
     }
 
     /// <summary>
-    ///     显示一个群组的响应。
+    ///     显示一个群组基本信息的响应。
     /// </summary>
     [DataContract]
-    public class GroupShowResponse : IHasResponseStatus
+    public class BasicGroupShowResponse : IHasResponseStatus
     {
         /// <summary>
-        ///     群组信息。
+        ///     群组基本信息。
         /// </summary>
         [DataMember(Order = 1)]
-        public GroupDto Group { get; set; }
+        public BasicGroupDto Group { get; set; }
 
         /// <summary>
         ///     处理响应的状态。

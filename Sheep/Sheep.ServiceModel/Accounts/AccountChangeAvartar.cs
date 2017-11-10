@@ -11,10 +11,10 @@ namespace Sheep.ServiceModel.Accounts
     public class AccountChangeAvatar : IReturn<AccountChangeAvatarResponse>
     {
         /// <summary>
-        ///     原始图像的地址。
+        ///     来源头像的地址。
         /// </summary>
         [DataMember(Order = 1)]
-        public string SourceUrl { get; set; }
+        public string SourceAvatarUrl { get; set; }
     }
 
     /// <summary>

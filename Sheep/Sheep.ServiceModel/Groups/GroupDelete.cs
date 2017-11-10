@@ -15,12 +15,6 @@ namespace Sheep.ServiceModel.Groups
         /// </summary>
         [DataMember(Order = 1, IsRequired = true)]
         public string GroupId { get; set; }
-
-        /// <summary>
-        ///     是否自动删除应用程序。
-        /// </summary>
-        [DataMember(Order = 2)]
-        public bool? DeleteApplications { get; set; }
     }
 
     /// <summary>

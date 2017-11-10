@@ -70,6 +70,15 @@ namespace Sheep.Model.Properties {
         }
         
         /// <summary>
+        ///   查找类似 显示名称已经存在。 的本地化字符串。
+        /// </summary>
+        internal static string DisplayNameAlreadyExists {
+            get {
+                return ResourceManager.GetString("DisplayNameAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 电子邮件地址已存在。 的本地化字符串。
         /// </summary>
         internal static string EmailAlreadyExists {
@@ -147,6 +156,15 @@ namespace Sheep.Model.Properties {
         internal static string PurposeRequired {
             get {
                 return ResourceManager.GetString("PurposeRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 关联的第三方编号已经存在。 的本地化字符串。
+        /// </summary>
+        internal static string RefIdAlreadyExists {
+            get {
+                return ResourceManager.GetString("RefIdAlreadyExists", resourceCulture);
             }
         }
         

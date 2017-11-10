@@ -49,7 +49,7 @@ namespace Sheep.Model.Corp.Entities
         public string CoverPhotoUrl { get; set; }
 
         /// <summary>
-        ///     关联的第三方群组编号。
+        ///     关联的第三方编号。
         /// </summary>
         public string RefId { get; set; }
 
@@ -129,7 +129,14 @@ namespace Sheep.Model.Corp.Entities
         /// </summary>
         public DateTime ModifiedDate { get; set; }
 
-        /// <inheritdoc />
+        /// <summary>
+        ///     所有者用户编号。
+        /// </summary>
+        public int OwnerId { get; set; }
+
+        /// <summary>
+        ///     扩展属性。
+        /// </summary>
         public Dictionary<string, string> Meta { get; set; }
     }
 }

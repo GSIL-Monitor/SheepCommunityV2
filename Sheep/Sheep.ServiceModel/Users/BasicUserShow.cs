@@ -1,13 +1,13 @@
 ﻿using System.Runtime.Serialization;
 using ServiceStack;
-using Sheep.ServiceModel.BasicUsers.Entities;
+using Sheep.ServiceModel.Users.Entities;
 
-namespace Sheep.ServiceModel.BasicUsers
+namespace Sheep.ServiceModel.Users
 {
     /// <summary>
     ///     显示一个用户基本信息的请求。
     /// </summary>
-    [Route("/basicusers/{UserId}", HttpMethods.Get)]
+    [Route("/users/basic/{UserId}", HttpMethods.Get)]
     [DataContract]
     public class BasicUserShow : IReturn<BasicUserShowResponse>
     {
@@ -21,7 +21,7 @@ namespace Sheep.ServiceModel.BasicUsers
     /// <summary>
     ///     根据用户名称或电子邮件地址显示一个用户基本信息的请求。
     /// </summary>
-    [Route("/basicusers/show/{UserNameOrEmail}", HttpMethods.Get)]
+    [Route("/users/basic/show/{UserNameOrEmail}", HttpMethods.Get)]
     [DataContract]
     public class BasicUserShowByUserNameOrEmail : IReturn<BasicUserShowResponse>
     {
@@ -39,7 +39,7 @@ namespace Sheep.ServiceModel.BasicUsers
     public class BasicUserShowResponse : IHasResponseStatus
     {
         /// <summary>
-        ///     用户信息。
+        ///     用户基本信息。
         /// </summary>
         [DataMember(Order = 1)]
         public BasicUserDto User { get; set; }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using ServiceStack.Auth;
 
 namespace Sheep.Common.Auth
@@ -13,5 +14,17 @@ namespace Sheep.Common.Auth
         List<IUserAuth> FindUserAuths(string userNameFilter, string nameFilter, DateTime? createdSince, DateTime? modifiedSince, DateTime? lockedSince, string accountStatus, string orderBy, bool? descending, int? skip, int? limit);
         IUserAuthDetails GetUserAuthDetailsByProvider(string provider, string userId);
         void DeleteUserAuthDetailsByProvider(string provider, string userId);
+        Task<IUserAuth> CreateUserAuthAsync(IUserAuth newUserAuth, string password);
+        Task<IUserAuth> UpdateUserAuthAsync(IUserAuth existingUserAuth, IUserAuth newUserAuth);
+        Task<IUserAuth> UpdateUserAuthAsync(IUserAuth existingUserAuth, IUserAuth newUserAuth, string password);
+        Task<IUserAuth> GetUserAuthAsync(string userAuthId);
+        Task<IUserAuth> GetUserAuthByUserNameAsync(string userNameOrEmail);
+        Task<IUserAuth> GetUserAuthByDisplayNameAsync(string displayName);
+        Task<List<IUserAuth>> GetUserAuthsAsync(string[] userAuthIds);
+        Task<List<IUserAuth>> FindUserAuthsAsync(string userNameFilter, string nameFilter, DateTime? createdSince, DateTime? modifiedSince, DateTime? lockedSince, string accountStatus, string orderBy, bool? descending, int? skip, int? limit);
+        Task DeleteUserAuthAsync(string userAuthId);
+        Task<IUserAuthDetails> GetUserAuthDetailsByProviderAsync(string provider, string userId);
+        Task<List<IUserAuthDetails>> GetUserAuthDetailsAsync(string userAuthId);
+        Task DeleteUserAuthDetailsByProviderAsyn(string provider, string userId);
     }
 }

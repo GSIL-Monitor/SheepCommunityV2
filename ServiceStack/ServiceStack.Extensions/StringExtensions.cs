@@ -214,7 +214,7 @@ namespace ServiceStack.Extensions
         /// <returns>图像的内容类型。</returns>
         public static string GetImageContentType(this string extension)
         {
-            switch (extension)
+            switch (extension.ToLower())
             {
                 case "jpe":
                 case "jpg":
@@ -242,7 +242,7 @@ namespace ServiceStack.Extensions
         /// <returns>为图像文件后缀名则返回True，否则为False。</returns>
         public static bool IsImageExtension(this string extension)
         {
-            switch (extension)
+            switch (extension.ToLower())
             {
                 case "jpe":
                 case "jpg":

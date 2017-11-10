@@ -135,6 +135,12 @@
   <data name="GenerateTokenError" xml:space="preserve">
     <value>生成验证码时产生了错误。</value>
   </data>
+  <data name="GroupNotFound" xml:space="preserve">
+    <value>无法找到指定的群组{0}。</value>
+  </data>
+  <data name="GroupsNotFound" xml:space="preserve">
+    <value>无法找到指定条件的群组列表。</value>
+  </data>
   <data name="InvalidSecurityToken" xml:space="preserve">
     <value>错误的验证码。</value>
   </data>

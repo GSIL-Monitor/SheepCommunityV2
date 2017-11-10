@@ -18,40 +18,52 @@ namespace Sheep.ServiceModel.Groups
         public string GroupId { get; set; }
 
         /// <summary>
-        ///     群组的类型。（可选值：Joinless, PublicOpen, PublicClosed, PrivateUnlisted, PrivateListed）
+        ///     显示名称。
         /// </summary>
-        [DataMember(Order = 2)]
-        public string GroupType { get; set; }
+        [DataMember(Order = 2, IsRequired = true)]
+        public string DisplayName { get; set; }
 
         /// <summary>
-        ///     名称。
+        ///     简介。
         /// </summary>
         [DataMember(Order = 3)]
-        public string Name { get; set; }
+        public string Description { get; set; }
 
         /// <summary>
-        ///     上级群组的编号。
+        ///     所在国家。
         /// </summary>
         [DataMember(Order = 4)]
-        public string ParentGroupId { get; set; }
+        public string Country { get; set; }
 
         /// <summary>
-        ///     代号。（如果没有指定将自动生成）
+        ///     所在省份/州。
         /// </summary>
         [DataMember(Order = 5)]
-        public string Code { get; set; }
+        public string State { get; set; }
 
         /// <summary>
-        ///     说明。
+        ///     所在城市。
         /// </summary>
         [DataMember(Order = 6)]
-        public string Description { get; set; }
+        public string City { get; set; }
+
+        /// <summary>
+        ///     群组加入的方式。（可选值：Direct, RequireVerification, Joinless）
+        /// </summary>
+        [DataMember(Order = 7)]
+        public string JoinMode { get; set; }
+
+        /// <summary>
+        ///     非群组成员是否可以访问群组内容。
+        /// </summary>
+        [DataMember(Order = 8)]
+        public bool? IsPublic { get; set; }
 
         /// <summary>
         ///     是否开启群组消息。
         /// </summary>
-        [DataMember(Order = 7)]
-        public bool? EnableGroupMessages { get; set; }
+        [DataMember(Order = 9)]
+        public bool? EnableMessages { get; set; }
     }
 
     /// <summary>

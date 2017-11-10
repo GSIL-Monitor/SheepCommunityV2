@@ -2,7 +2,7 @@
 using ServiceStack.FluentValidation;
 using Sheep.ServiceModel.Properties;
 
-namespace Sheep.ServiceModel.BasicUsers.Validators
+namespace Sheep.ServiceModel.Users.Validators
 {
     /// <summary>
     ///     显示一个用户基本信息的校验器。

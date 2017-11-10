@@ -7,8 +7,8 @@ using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using ServiceStack.Validation;
 using Sheep.ServiceInterface.Properties;
-using Sheep.ServiceModel.BasicUsers;
-using Sheep.ServiceModel.BasicUsers.Entities;
+using Sheep.ServiceModel.Users;
+using Sheep.ServiceModel.Users.Entities;
 
 namespace Sheep.ServiceInterface.Users
 {
@@ -78,7 +78,7 @@ namespace Sheep.ServiceInterface.Users
             {
                 userAuth.Meta = new Dictionary<string, string>();
             }
-            var user = new BasicUserDto
+            var userDto = new BasicUserDto
                        {
                            Id = userAuth.Id,
                            UserName = userAuth.UserName,
@@ -86,7 +86,7 @@ namespace Sheep.ServiceInterface.Users
                            AvatarUrl = userAuth.Meta.GetValueOrDefault("AvatarUrl"),
                            Gender = userAuth.Gender
                        };
-            return user;
+            return userDto;
         }
 
         #endregion

@@ -120,6 +120,9 @@
   <data name="AccessTokenRequired" xml:space="preserve">
     <value>授权码必须输入。</value>
   </data>
+  <data name="DisplayNameAlreadyExists" xml:space="preserve">
+    <value>显示名称已经存在。</value>
+  </data>
   <data name="EmailAlreadyExists" xml:space="preserve">
     <value>电子邮件地址已存在。</value>
   </data>
@@ -146,6 +149,9 @@
   </data>
   <data name="PurposeRequired" xml:space="preserve">
     <value>用途必须输入。</value>
+  </data>
+  <data name="RefIdAlreadyExists" xml:space="preserve">
+    <value>关联的第三方编号已经存在。</value>
   </data>
   <data name="SecurityTokenLengthMismatch" xml:space="preserve">
     <value>验证码有效长度必须为{0}位。</value>

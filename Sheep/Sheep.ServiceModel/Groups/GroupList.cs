@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using ServiceStack;
-using Sheep.Common.Infrastructure;
 using Sheep.ServiceModel.Groups.Entities;
 
 namespace Sheep.ServiceModel.Groups
@@ -14,65 +14,71 @@ namespace Sheep.ServiceModel.Groups
     public class GroupList : IReturn<GroupListResponse>
     {
         /// <summary>
-        ///     上级群组的编号。
-        /// </summary>
-        [DataMember(Order = 1)]
-        public string ParentGroupId { get; set; }
-
-        /// <summary>
         ///     过滤群组名称。
         /// </summary>
-        [DataMember(Order = 2)]
+        [DataMember(Order = 1, Name = "namefilter")]
         public string NameFilter { get; set; }
 
         /// <summary>
-        ///     容器的编号列表。
+        ///     过滤创建日期在指定的时间之后。
         /// </summary>
-        [DataMember(Order = 3)]
-        public string[] ContainerIds { get; set; }
+        [DataMember(Order = 2, Name = "createdsince")]
+        public DateTime? CreatedSince { get; set; }
 
         /// <summary>
-        ///     群组的类型列表。（可选值：Joinless, PublicOpen, PublicClosed, PrivateUnlisted, PrivateListed 和 All）
+        ///     过滤修改日期在指定的时间之后。
         /// </summary>
-        [DataMember(Order = 4)]
-        public string[] GroupTypes { get; set; }
+        [DataMember(Order = 3, Name = "modifiedsince")]
+        public DateTime? ModifiedSince { get; set; }
 
         /// <summary>
-        ///     是否包含所有子群组。
+        ///     过滤加入群组的方式。（可选值：Direct, RequireVerification, Joinless）
         /// </summary>
-        [DataMember(Order = 5)]
-        public bool? IncludeAllSubGroups { get; set; }
+        [DataMember(Order = 4, Name = "joinmode")]
+        public string JoinMode { get; set; }
 
         /// <summary>
-        ///     排序的字段。（可选值：Name, SortOrder, ModifiedDate, 默认为 Name）
+        ///     非群组成员是否可以访问群组内容。
         /// </summary>
-        [DataMember(Order = 6)]
+        [DataMember(Order = 5, Name = "ispublic")]
+        public bool? IsPublic { get; set; }
+
+        /// <summary>
+        ///     过滤帐户状态。（可选值：Approved, Banned, Disapproved, PendingDeletion）
+        /// </summary>
+        [DataMember(Order = 6, Name = "accountstatus")]
+        public string AccountStatus { get; set; }
+
+        /// <summary>
+        ///     排序的字段。（可选值：DisplayName, FullName, RefId, JoinMode, AccountStatus, CreatedDate, ModifiedDate, TotalMembers 默认为 CreatedDate）
+        /// </summary>
+        [DataMember(Order = 7, Name = "orderby")]
         public string OrderBy { get; set; }
 
         /// <summary>
         ///     是否按降序排序。
         /// </summary>
-        [DataMember(Order = 7)]
+        [DataMember(Order = 8, Name = "descending")]
         public bool? Descending { get; set; }
 
         /// <summary>
         ///     忽略的行数。
         /// </summary>
-        [DataMember(Order = 8)]
+        [DataMember(Order = 9, Name = "skip")]
         public int? Skip { get; set; }
 
         /// <summary>
         ///     获取的行数。
         /// </summary>
-        [DataMember(Order = 9)]
-        public int? Take { get; set; }
+        [DataMember(Order = 10, Name = "limit")]
+        public int? Limit { get; set; }
     }
 
     /// <summary>
     ///     列举一组群组的响应。
     /// </summary>
     [DataContract]
-    public class GroupListResponse : IHasResponseStatus, IPaged
+    public class GroupListResponse : IHasResponseStatus
     {
         /// <summary>
         ///     群组信息列表。
@@ -81,27 +87,9 @@ namespace Sheep.ServiceModel.Groups
         public List<GroupDto> Groups { get; set; }
 
         /// <summary>
-        ///     当前分页号。
-        /// </summary>
-        [DataMember(Order = 2)]
-        public int PageNumber { get; set; }
-
-        /// <summary>
-        ///     单页行数。
-        /// </summary>
-        [DataMember(Order = 3)]
-        public int PageSize { get; set; }
-
-        /// <summary>
-        ///     总行数。
-        /// </summary>
-        [DataMember(Order = 4)]
-        public long TotalCount { get; set; }
-
-        /// <summary>
         ///     处理响应的状态。
         /// </summary>
-        [DataMember(Order = 5)]
+        [DataMember(Order = 2)]
         public ResponseStatus ResponseStatus { get; set; }
     }
 }

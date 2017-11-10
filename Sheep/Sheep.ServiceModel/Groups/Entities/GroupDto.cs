@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using ServiceStack;
+﻿using System.Runtime.Serialization;
 using ServiceStack.Model;
-using Sheep.ServiceModel.Containers.Entities;
+using Sheep.ServiceModel.Users.Entities;
 
 namespace Sheep.ServiceModel.Groups.Entities
 {
@@ -11,7 +8,7 @@ namespace Sheep.ServiceModel.Groups.Entities
     ///     群组信息。
     /// </summary>
     [DataContract]
-    public class GroupDto : IHasStringId, IMeta
+    public class GroupDto : IHasStringId
     {
         /// <summary>
         ///     编号。
@@ -20,99 +17,130 @@ namespace Sheep.ServiceModel.Groups.Entities
         public string Id { get; set; }
 
         /// <summary>
-        ///     类型。（可选值：Joinless, PublicOpen, PublicClosed, PrivateUnlisted, PrivateListed）
+        ///     类型。
         /// </summary>
         [DataMember(Order = 2)]
         public string Type { get; set; }
 
         /// <summary>
-        ///     上级编号。
+        ///     显示名称。
         /// </summary>
         [DataMember(Order = 3)]
-        public string ParentId { get; set; }
+        public string DisplayName { get; set; }
 
         /// <summary>
-        ///     所属的容器。
+        ///     真实组织全称。
         /// </summary>
         [DataMember(Order = 4)]
-        public ContainerDto Container { get; set; }
+        public string FullName { get; set; }
 
         /// <summary>
-        ///     群组的容器编号。
+        ///     真实组织全称是否已通过认证。
         /// </summary>
         [DataMember(Order = 5)]
-        public string ContainerId { get; set; }
+        public bool FullNameVerified { get; set; }
 
         /// <summary>
-        ///     群组的容器类型。
+        ///     简介。
         /// </summary>
         [DataMember(Order = 6)]
-        public string ContainerType { get; set; }
-
-        /// <summary>
-        ///     代号。
-        /// </summary>
-        [DataMember(Order = 7)]
-        public string Code { get; set; }
-
-        /// <summary>
-        ///     名称。
-        /// </summary>
-        [DataMember(Order = 8)]
-        public string Name { get; set; }
-
-        /// <summary>
-        ///     说明。
-        /// </summary>
-        [DataMember(Order = 9)]
         public string Description { get; set; }
 
         /// <summary>
         ///     图像网址。
         /// </summary>
-        [DataMember(Order = 10)]
-        public string AvatarUrl { get; set; }
+        [DataMember(Order = 7)]
+        public string IconUrl { get; set; }
 
         /// <summary>
-        ///     创建日期。
+        ///     封面图像地址。
+        /// </summary>
+        [DataMember(Order = 8)]
+        public string CoverPhotoUrl { get; set; }
+
+        /// <summary>
+        ///     关联的第三方编号。
+        /// </summary>
+        [DataMember(Order = 9)]
+        public string RefId { get; set; }
+
+        /// <summary>
+        ///     所在国家。
+        /// </summary>
+        [DataMember(Order = 10)]
+        public string Country { get; set; }
+
+        /// <summary>
+        ///     所在省份/州。
         /// </summary>
         [DataMember(Order = 11)]
-        public DateTime CreatedDate { get; set; }
+        public string State { get; set; }
 
         /// <summary>
-        ///     是否开启。
+        ///     所在城市。
         /// </summary>
         [DataMember(Order = 12)]
-        public bool IsEnabled { get; set; }
+        public string City { get; set; }
 
         /// <summary>
-        ///     是否为匿名用户开启联系方式。
+        ///     加入群组的方式。（可选值：Direct, RequireVerification, Joinless）
         /// </summary>
         [DataMember(Order = 13)]
-        public bool EnableContact { get; set; }
+        public string JoinMode { get; set; }
+
+        /// <summary>
+        ///     非群组成员是否可以访问群组内容。
+        /// </summary>
+        [DataMember(Order = 14)]
+        public bool? IsPublic { get; set; }
 
         /// <summary>
         ///     是否开启群组消息。
         /// </summary>
-        [DataMember(Order = 14)]
-        public bool EnableGroupMessages { get; set; }
+        [DataMember(Order = 15)]
+        public bool? EnableMessages { get; set; }
 
         /// <summary>
-        ///     子群组的数量。
+        ///     帐户状态。（可选值：Approved, Banned, Disapproved, PendingDeletion）
         /// </summary>
-        [DataMember(Order = 15)]
-        public int SubGroupsCount { get; set; }
+        [DataMember(Order = 16)]
+        public string AccountStatus { get; set; }
+
+        /// <summary>
+        ///     帐户禁止的原因。（可选值：Profanity, Advertising, Spam, Aggressive, Politics, Terrorism, Abuse, Porn, Flood, Contraband,
+        ///     Other）
+        /// </summary>
+        [DataMember(Order = 17)]
+        public string BanReason { get; set; }
+
+        /// <summary>
+        ///     帐户禁止的取消日期。
+        /// </summary>
+        [DataMember(Order = 18)]
+        public string BannedUntil { get; set; }
+
+        /// <summary>
+        ///     创建日期。
+        /// </summary>
+        [DataMember(Order = 19)]
+        public string CreatedDate { get; set; }
+
+        /// <summary>
+        ///     更新日期。
+        /// </summary>
+        [DataMember(Order = 20)]
+        public string ModifiedDate { get; set; }
+
+        /// <summary>
+        ///     所有者用户。
+        /// </summary>
+        [DataMember(Order = 21)]
+        public BasicUserDto Owner { get; set; }
 
         /// <summary>
         ///     所有的成员数。
         /// </summary>
-        [DataMember(Order = 16)]
-        public int TotalMembersCount { get; set; }
-
-        /// <summary>
-        ///     扩展字段。
-        /// </summary>
-        [DataMember(Order = 17)]
-        public Dictionary<string, string> Meta { get; set; }
+        [DataMember(Order = 22)]
+        public int TotalMembers { get; set; }
     }
 }

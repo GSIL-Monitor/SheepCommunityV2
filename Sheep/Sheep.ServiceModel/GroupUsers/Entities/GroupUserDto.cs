@@ -1,5 +1,4 @@
 ﻿using System.Runtime.Serialization;
-using Sheep.ServiceModel.BasicUsers.Entities;
 using Sheep.ServiceModel.Groups.Entities;
 using Sheep.ServiceModel.Users.Entities;
 

@@ -141,6 +141,7 @@
     <Compile Include="Accounts\LogoutService.cs" />
     <Compile Include="Accounts\LoginByMobileService.cs" />
     <Compile Include="Accounts\LoginByCredentialsService.cs" />
+    <Compile Include="Groups\UpdateGroupService.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -158,7 +159,6 @@
     <Compile Include="Users\ShowUserByUserNameOrEmailService.cs" />
     <Compile Include="Users\ShowBasicUserService.cs" />
     <Compile Include="Users\ShowUserService.cs" />
-    <Compile Include="Users\UpdateUserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
