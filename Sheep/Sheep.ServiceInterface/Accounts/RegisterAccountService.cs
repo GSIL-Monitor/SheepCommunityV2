@@ -16,14 +16,14 @@ namespace Sheep.ServiceInterface.Accounts
     /// <summary>
     ///     使用用户名称或电子邮件地址及密码注册服务接口。
     /// </summary>
-    public class RegisterService : Service
+    public class RegisterAccountService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(RegisterService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(RegisterAccountService));
 
         /// <summary>
         ///     自定义校验函数。

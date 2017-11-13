@@ -24,14 +24,14 @@ namespace Sheep.ServiceInterface.Groups
     /// <summary>
     ///     更改封面图片服务接口。
     /// </summary>
-    public class ChangeCoverPhotoService : Service
+    public class ChangeGroupCoverPhotoService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(ChangeCoverPhotoService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(ChangeGroupCoverPhotoService));
 
         #endregion
 

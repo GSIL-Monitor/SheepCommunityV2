@@ -6,23 +6,23 @@ using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using ServiceStack.Validation;
 using ServiceStack.Web;
+using Sheep.Model.Auth.Providers;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Accounts;
-using CredentialsAuthProvider = Sheep.Model.Auth.Providers.CredentialsAuthProvider;
 
 namespace Sheep.ServiceInterface.Accounts
 {
     /// <summary>
-    ///     使用用户名称或电子邮件地址及密码登录服务接口。
+    ///     使用微博帐号登录服务接口。
     /// </summary>
-    public class LoginByCredentialsService : Service
+    public class LoginAccountByWeiboService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(LoginByCredentialsService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(LoginAccountByWeiboService));
 
         /// <summary>
         ///     自定义校验函数。
@@ -39,18 +39,18 @@ namespace Sheep.ServiceInterface.Accounts
         public IAppSettings AppSettings { get; set; }
 
         /// <summary>
-        ///     获取及设置使用用户名称或电子邮件地址及密码登录的校验器。
+        ///     获取及设置使用微博帐号登录的校验器。
         /// </summary>
-        public IValidator<AccountLoginByCredentials> AccountLoginByCredentialsValidator { get; set; }
+        public IValidator<AccountLoginByWeibo> AccountLoginByWeiboValidator { get; set; }
 
         #endregion
 
-        #region 使用用户名称或电子邮件地址及密码登录
+        #region 使用微博帐号登录
 
         /// <summary>
-        ///     使用用户名称或电子邮件地址及密码登录。
+        ///     使用微博帐号登录。
         /// </summary>
-        public object Post(AccountLoginByCredentials request)
+        public object Post(AccountLoginByWeibo request)
         {
             if (IsAuthenticated)
             {
@@ -63,15 +63,15 @@ namespace Sheep.ServiceInterface.Accounts
             }
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
-                AccountLoginByCredentialsValidator.ValidateAndThrow(request, ApplyTo.Post);
+                AccountLoginByWeiboValidator.ValidateAndThrow(request, ApplyTo.Post);
             }
             using (var authService = ResolveService<AuthenticateService>())
             {
                 var authResult = authService.Post(new Authenticate
                                                   {
-                                                      provider = CredentialsAuthProvider.Name,
-                                                      UserName = request.UserNameOrEmail,
-                                                      Password = request.Password,
+                                                      provider = WeiboAuthProvider.Name,
+                                                      UserName = request.WeiboUserId,
+                                                      AccessToken = request.AccessToken,
                                                       RememberMe = true
                                                   });
                 if (authResult is IHttpError)
@@ -80,11 +80,25 @@ namespace Sheep.ServiceInterface.Accounts
                 }
                 if (authResult is AuthenticateResponse authResponse)
                 {
+                    var newlyCreated = false;
+                    var authRepo = HostContext.AppHost.GetAuthRepository(Request);
+                    using (authRepo as IDisposable)
+                    {
+                        var userAuth = authRepo.GetUserAuth(authResponse.UserId);
+                        if (userAuth == null)
+                        {
+                            throw HttpError.NotFound(string.Format(Resources.UserNotFound, authResponse.UserId));
+                        }
+                        if (userAuth.CreatedDate == userAuth.ModifiedDate)
+                        {
+                            newlyCreated = true;
+                        }
+                    }
                     return new AccountLoginResponse
                            {
                                SessionId = authResponse.SessionId,
                                UserId = authResponse.UserId.ToInt(),
-                               NewlyCreated = false
+                               NewlyCreated = newlyCreated
                            };
                 }
                 return authResult;

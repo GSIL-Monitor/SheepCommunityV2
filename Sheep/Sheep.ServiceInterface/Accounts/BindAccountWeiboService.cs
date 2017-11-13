@@ -13,16 +13,16 @@ using Sheep.ServiceModel.Accounts;
 namespace Sheep.ServiceInterface.Accounts
 {
     /// <summary>
-    ///     使用微博帐号登录服务接口。
+    ///     绑定微博帐号服务接口。
     /// </summary>
-    public class LoginByWeiboService : Service
+    public class BindAccountWeiboService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(LoginByWeiboService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(BindAccountWeiboService));
 
         /// <summary>
         ///     自定义校验函数。
@@ -39,22 +39,22 @@ namespace Sheep.ServiceInterface.Accounts
         public IAppSettings AppSettings { get; set; }
 
         /// <summary>
-        ///     获取及设置使用微博帐号登录的校验器。
+        ///     获取及设置绑定微博帐号的校验器。
         /// </summary>
-        public IValidator<AccountLoginByWeibo> AccountLoginByWeiboValidator { get; set; }
+        public IValidator<AccountBindWeibo> AccountBindWeiboValidator { get; set; }
 
         #endregion
 
-        #region 使用微博帐号登录
+        #region 绑定微博帐号
 
         /// <summary>
-        ///     使用微博帐号登录。
+        ///     绑定微博帐号。
         /// </summary>
-        public object Post(AccountLoginByWeibo request)
+        public object Post(AccountBindWeibo request)
         {
-            if (IsAuthenticated)
+            if (!IsAuthenticated)
             {
-                throw HttpError.Unauthorized(Resources.ReLoginNotAllowed);
+                throw HttpError.Unauthorized(Resources.LoginRequired);
             }
             var validateResponse = ValidateFn?.Invoke(this, HttpMethods.Post, request);
             if (validateResponse != null)
@@ -63,7 +63,7 @@ namespace Sheep.ServiceInterface.Accounts
             }
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
-                AccountLoginByWeiboValidator.ValidateAndThrow(request, ApplyTo.Post);
+                AccountBindWeiboValidator.ValidateAndThrow(request, ApplyTo.Post);
             }
             using (var authService = ResolveService<AuthenticateService>())
             {
@@ -78,28 +78,9 @@ namespace Sheep.ServiceInterface.Accounts
                 {
                     throw (Exception) authResult;
                 }
-                if (authResult is AuthenticateResponse authResponse)
+                if (authResult is AuthenticateResponse)
                 {
-                    var newlyCreated = false;
-                    var authRepo = HostContext.AppHost.GetAuthRepository(Request);
-                    using (authRepo as IDisposable)
-                    {
-                        var userAuth = authRepo.GetUserAuth(authResponse.UserId);
-                        if (userAuth == null)
-                        {
-                            throw HttpError.NotFound(string.Format(Resources.UserNotFound, authResponse.UserId));
-                        }
-                        if (userAuth.CreatedDate == userAuth.ModifiedDate)
-                        {
-                            newlyCreated = true;
-                        }
-                    }
-                    return new AccountLoginResponse
-                           {
-                               SessionId = authResponse.SessionId,
-                               UserId = authResponse.UserId.ToInt(),
-                               NewlyCreated = newlyCreated
-                           };
+                    return new AccountBindResponse();
                 }
                 return authResult;
             }

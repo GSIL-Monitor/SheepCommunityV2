@@ -15,14 +15,14 @@ namespace Sheep.ServiceInterface.Accounts
     /// <summary>
     ///     绑定手机号码服务接口。
     /// </summary>
-    public class BindMobileService : Service
+    public class BindAccountMobileService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(BindMobileService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(BindAccountMobileService));
 
         /// <summary>
         ///     自定义校验函数。

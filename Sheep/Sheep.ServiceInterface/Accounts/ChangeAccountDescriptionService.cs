@@ -17,14 +17,14 @@ namespace Sheep.ServiceInterface.Accounts
     /// <summary>
     ///     更改简介服务接口。
     /// </summary>
-    public class ChangeDescriptionService : Service
+    public class ChangeAccountDescriptionService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(ChangeDescriptionService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(ChangeAccountDescriptionService));
 
         #endregion
 

@@ -15,14 +15,14 @@ namespace Sheep.ServiceInterface.Accounts
     /// <summary>
     ///     使用手机号码登录服务接口。
     /// </summary>
-    public class LoginByMobileService : Service
+    public class LoginAccountByMobileService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(LoginByMobileService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(LoginAccountByMobileService));
 
         /// <summary>
         ///     自定义校验函数。

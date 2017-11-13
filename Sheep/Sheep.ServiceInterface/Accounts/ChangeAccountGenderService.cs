@@ -17,14 +17,14 @@ namespace Sheep.ServiceInterface.Accounts
     /// <summary>
     ///     更改性别服务接口。
     /// </summary>
-    public class ChangeGenderService : Service
+    public class ChangeAccountGenderService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(ChangeGenderService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(ChangeAccountGenderService));
 
         #endregion
 

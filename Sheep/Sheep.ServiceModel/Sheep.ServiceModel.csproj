@@ -113,6 +113,8 @@
     <Compile Include="Accounts\AccountChangePassword.cs" />
     <Compile Include="Accounts\AccountAccessToken.cs" />
     <Compile Include="Accounts\AccountUnbind.cs" />
+    <Compile Include="Accounts\Entities\AccountDto.cs" />
+    <Compile Include="Accounts\AccountShow.cs" />
     <Compile Include="Accounts\Validators\AccountChangeCoverPhotoValidator.cs" />
     <Compile Include="Accounts\Validators\AccountChangeAvatarValidator.cs" />
     <Compile Include="Accounts\Validators\AccountChangeBirthDateValidator.cs" />
@@ -128,6 +130,7 @@
     <Compile Include="Accounts\Validators\AccountUnbindValidator.cs" />
     <Compile Include="Accounts\Validators\AccountBindValidator.cs" />
     <Compile Include="Accounts\Validators\AccountChangePasswordValidator.cs" />
+    <Compile Include="Accounts\Validators\AccountShowValidator.cs" />
     <Compile Include="Achievements\Entities\AchievementDto.cs" />
     <Compile Include="Achievements\AchievementShow.cs" />
     <Compile Include="Achievements\AchievementList.cs" />

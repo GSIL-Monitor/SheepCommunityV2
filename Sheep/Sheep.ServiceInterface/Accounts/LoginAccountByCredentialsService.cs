@@ -6,23 +6,23 @@ using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using ServiceStack.Validation;
 using ServiceStack.Web;
-using Sheep.Model.Auth.Providers;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Accounts;
+using CredentialsAuthProvider = Sheep.Model.Auth.Providers.CredentialsAuthProvider;
 
 namespace Sheep.ServiceInterface.Accounts
 {
     /// <summary>
-    ///     绑定微博帐号服务接口。
+    ///     使用用户名称或电子邮件地址及密码登录服务接口。
     /// </summary>
-    public class BindWeiboService : Service
+    public class LoginAccountByCredentialsService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(BindWeiboService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(LoginAccountByCredentialsService));
 
         /// <summary>
         ///     自定义校验函数。
@@ -39,22 +39,22 @@ namespace Sheep.ServiceInterface.Accounts
         public IAppSettings AppSettings { get; set; }
 
         /// <summary>
-        ///     获取及设置绑定微博帐号的校验器。
+        ///     获取及设置使用用户名称或电子邮件地址及密码登录的校验器。
         /// </summary>
-        public IValidator<AccountBindWeibo> AccountBindWeiboValidator { get; set; }
+        public IValidator<AccountLoginByCredentials> AccountLoginByCredentialsValidator { get; set; }
 
         #endregion
 
-        #region 绑定微博帐号
+        #region 使用用户名称或电子邮件地址及密码登录
 
         /// <summary>
-        ///     绑定微博帐号。
+        ///     使用用户名称或电子邮件地址及密码登录。
         /// </summary>
-        public object Post(AccountBindWeibo request)
+        public object Post(AccountLoginByCredentials request)
         {
-            if (!IsAuthenticated)
+            if (IsAuthenticated)
             {
-                throw HttpError.Unauthorized(Resources.LoginRequired);
+                throw HttpError.Unauthorized(Resources.ReLoginNotAllowed);
             }
             var validateResponse = ValidateFn?.Invoke(this, HttpMethods.Post, request);
             if (validateResponse != null)
@@ -63,24 +63,29 @@ namespace Sheep.ServiceInterface.Accounts
             }
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
-                AccountBindWeiboValidator.ValidateAndThrow(request, ApplyTo.Post);
+                AccountLoginByCredentialsValidator.ValidateAndThrow(request, ApplyTo.Post);
             }
             using (var authService = ResolveService<AuthenticateService>())
             {
                 var authResult = authService.Post(new Authenticate
                                                   {
-                                                      provider = WeiboAuthProvider.Name,
-                                                      UserName = request.WeiboUserId,
-                                                      AccessToken = request.AccessToken,
+                                                      provider = CredentialsAuthProvider.Name,
+                                                      UserName = request.UserNameOrEmail,
+                                                      Password = request.Password,
                                                       RememberMe = true
                                                   });
                 if (authResult is IHttpError)
                 {
                     throw (Exception) authResult;
                 }
-                if (authResult is AuthenticateResponse)
+                if (authResult is AuthenticateResponse authResponse)
                 {
-                    return new AccountBindResponse();
+                    return new AccountLoginResponse
+                           {
+                               SessionId = authResponse.SessionId,
+                               UserId = authResponse.UserId.ToInt(),
+                               NewlyCreated = false
+                           };
                 }
                 return authResult;
             }

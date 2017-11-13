@@ -24,14 +24,14 @@ namespace Sheep.ServiceInterface.Groups
     /// <summary>
     ///     更改图标服务接口。
     /// </summary>
-    public class ChangeIconService : Service
+    public class ChangeGroupIconService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(ChangeIconService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(ChangeGroupIconService));
 
         #endregion
 

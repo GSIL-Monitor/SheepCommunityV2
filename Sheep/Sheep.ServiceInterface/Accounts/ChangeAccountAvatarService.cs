@@ -22,16 +22,16 @@ using Sheep.ServiceModel.Accounts;
 namespace Sheep.ServiceInterface.Accounts
 {
     /// <summary>
-    ///     更改封面图片服务接口。
+    ///     更改头像服务接口。
     /// </summary>
-    public class ChangeCoverPhotoService : Service
+    public class ChangeAccountAvatarService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(ChangeCoverPhotoService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(ChangeAccountAvatarService));
 
         #endregion
 
@@ -48,18 +48,18 @@ namespace Sheep.ServiceInterface.Accounts
         public IOss OssClient { get; set; }
 
         /// <summary>
-        ///     获取及设置更改封面图片的校验器。
+        ///     获取及设置更改头像的校验器。
         /// </summary>
-        public IValidator<AccountChangeCoverPhoto> AccountChangeCoverPhotoValidator { get; set; }
+        public IValidator<AccountChangeAvatar> AccountChangeAvatarValidator { get; set; }
 
         #endregion
 
-        #region 更改封面图片
+        #region 更改头像
 
         /// <summary>
-        ///     更改封面图片。
+        ///     更改头像。
         /// </summary>
-        public async Task<object> Put(AccountChangeCoverPhoto request)
+        public async Task<object> Put(AccountChangeAvatar request)
         {
             if (!IsAuthenticated)
             {
@@ -67,7 +67,7 @@ namespace Sheep.ServiceInterface.Accounts
             }
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
-                AccountChangeCoverPhotoValidator.ValidateAndThrow(request, ApplyTo.Put);
+                AccountChangeAvatarValidator.ValidateAndThrow(request, ApplyTo.Put);
             }
             var session = GetSession();
             var authRepo = HostContext.AppHost.GetAuthRepository(Request);
@@ -78,27 +78,27 @@ namespace Sheep.ServiceInterface.Accounts
                 {
                     throw HttpError.NotFound(string.Format(Resources.UserNotFound, session.UserAuthId));
                 }
-                string coverphotoUrl = null;
-                if (!request.SourceCoverPhotoUrl.IsNullOrEmpty())
+                string avatarUrl = null;
+                if (!request.SourceAvatarUrl.IsNullOrEmpty())
                 {
-                    var imageBuffer = await request.SourceCoverPhotoUrl.GetBytesFromUrlAsync();
+                    var imageBuffer = await request.SourceAvatarUrl.GetBytesFromUrlAsync();
                     if (imageBuffer != null && imageBuffer.Length > 0)
                     {
                         using (var imageStream = new MemoryStream(imageBuffer))
                         {
                             var md5Hash = OssUtils.ComputeContentMd5(imageStream, imageStream.Length);
-                            var path = $"users/{session.UserAuthId}/coverphotos/{Guid.NewGuid():N}.{request.SourceCoverPhotoUrl.GetImageUrlExtension()}";
+                            var path = $"users/{session.UserAuthId}/avatars/{Guid.NewGuid():N}.{request.SourceAvatarUrl.GetImageUrlExtension()}";
                             var objectMetadata = new ObjectMetadata
                                                  {
                                                      ContentMd5 = md5Hash,
-                                                     ContentType = request.SourceCoverPhotoUrl.GetImageUrlExtension().GetImageContentType(),
+                                                     ContentType = request.SourceAvatarUrl.GetImageUrlExtension().GetImageContentType(),
                                                      ContentLength = imageBuffer.Length,
                                                      CacheControl = "max-age=604800"
                                                  };
                             try
                             {
                                 await OssClient.PutObjectAsync(AppSettings.GetString(AppSettingsOssNames.OssBucket), path, imageStream, objectMetadata);
-                                coverphotoUrl = $"{AppSettings.GetString(AppSettingsOssNames.OssUrl)}/{path}";
+                                avatarUrl = $"{AppSettings.GetString(AppSettingsOssNames.OssUrl)}/{path}";
                             }
                             catch (OssException ex)
                             {
@@ -121,7 +121,7 @@ namespace Sheep.ServiceInterface.Accounts
                         using (var imageStream = imageFile.InputStream)
                         {
                             var md5Hash = OssUtils.ComputeContentMd5(imageStream, imageStream.Length);
-                            var path = $"users/{session.UserAuthId}/coverphotos/{Guid.NewGuid():N}.{imageFile.FileName.GetImageFileExtension()}";
+                            var path = $"users/{session.UserAuthId}/avatars/{Guid.NewGuid():N}.{imageFile.FileName.GetImageFileExtension()}";
                             var objectMetadata = new ObjectMetadata
                                                  {
                                                      ContentMd5 = md5Hash,
@@ -132,7 +132,7 @@ namespace Sheep.ServiceInterface.Accounts
                             try
                             {
                                 await OssClient.PutObjectAsync(AppSettings.GetString(AppSettingsOssNames.OssBucket), path, imageStream, objectMetadata);
-                                coverphotoUrl = $"{AppSettings.GetString(AppSettingsOssNames.OssUrl)}/{path}";
+                                avatarUrl = $"{AppSettings.GetString(AppSettingsOssNames.OssUrl)}/{path}";
                             }
                             catch (OssException ex)
                             {
@@ -150,7 +150,7 @@ namespace Sheep.ServiceInterface.Accounts
                 var newUserAuth = authRepo is ICustomUserAuth customUserAuth ? customUserAuth.CreateUserAuth() : new UserAuth();
                 newUserAuth.PopulateMissingExtended(existingUserAuth);
                 newUserAuth.Meta = existingUserAuth.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingUserAuth.Meta);
-                newUserAuth.Meta["CoverPhotoUrl"] = coverphotoUrl;
+                newUserAuth.Meta["AvatarUrl"] = avatarUrl;
                 var user = await ((IUserAuthRepositoryExtended) authRepo).UpdateUserAuthAsync(existingUserAuth, newUserAuth);
                 Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/users/{0}", user.Id)).ToArray());
                 Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/users/{0}", user.Id)).ToArray());
@@ -170,9 +170,9 @@ namespace Sheep.ServiceInterface.Accounts
                     Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/users/basic/show/{0}", user.Email)).ToArray());
                     Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/users/basic/show/{0}", user.Email)).ToArray());
                 }
-                return new AccountChangeCoverPhotoResponse
+                return new AccountChangeAvatarResponse
                        {
-                           CoverPhotoUrl = coverphotoUrl
+                           AvatarUrl = avatarUrl
                        };
             }
         }

@@ -15,16 +15,16 @@ using Sheep.ServiceModel.Accounts;
 namespace Sheep.ServiceInterface.Accounts
 {
     /// <summary>
-    ///     更改显示语言服务接口。
+    ///     更改所属教会服务接口。
     /// </summary>
-    public class ChangeLanguageService : Service
+    public class ChangeAccountGuildService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(ChangeLanguageService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(ChangeAccountGuildService));
 
         #endregion
 
@@ -36,18 +36,18 @@ namespace Sheep.ServiceInterface.Accounts
         public IAppSettings AppSettings { get; set; }
 
         /// <summary>
-        ///     获取及设置更改显示语言的校验器。
+        ///     获取及设置更改所属教会的校验器。
         /// </summary>
-        public IValidator<AccountChangeLanguage> AccountChangeLanguageValidator { get; set; }
+        public IValidator<AccountChangeGuild> AccountChangeGuildValidator { get; set; }
 
         #endregion
 
-        #region 更改显示语言
+        #region 更改所属教会
 
         /// <summary>
-        ///     更改显示语言。
+        ///     更改所属教会。
         /// </summary>
-        public async Task<object> Put(AccountChangeLanguage request)
+        public async Task<object> Put(AccountChangeGuild request)
         {
             if (!IsAuthenticated)
             {
@@ -55,7 +55,7 @@ namespace Sheep.ServiceInterface.Accounts
             }
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
-                AccountChangeLanguageValidator.ValidateAndThrow(request, ApplyTo.Put);
+                AccountChangeGuildValidator.ValidateAndThrow(request, ApplyTo.Put);
             }
             var session = GetSession();
             var authRepo = HostContext.AppHost.GetAuthRepository(Request);
@@ -69,7 +69,7 @@ namespace Sheep.ServiceInterface.Accounts
                 var newUserAuth = authRepo is ICustomUserAuth customUserAuth ? customUserAuth.CreateUserAuth() : new UserAuth();
                 newUserAuth.PopulateMissingExtended(existingUserAuth);
                 newUserAuth.Meta = existingUserAuth.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingUserAuth.Meta);
-                newUserAuth.Language = request.Language;
+                newUserAuth.Meta["Guild"] = request.Guild;
                 var user = await ((IUserAuthRepositoryExtended) authRepo).UpdateUserAuthAsync(existingUserAuth, newUserAuth);
                 Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/users/{0}", user.Id)).ToArray());
                 Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/users/{0}", user.Id)).ToArray());
@@ -89,7 +89,7 @@ namespace Sheep.ServiceInterface.Accounts
                     Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/users/basic/show/{0}", user.Email)).ToArray());
                     Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/users/basic/show/{0}", user.Email)).ToArray());
                 }
-                return new AccountChangeLanguageResponse();
+                return new AccountChangeGuildResponse();
             }
         }
 

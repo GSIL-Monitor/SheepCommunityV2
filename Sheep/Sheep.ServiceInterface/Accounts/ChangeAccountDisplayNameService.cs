@@ -15,16 +15,16 @@ using Sheep.ServiceModel.Accounts;
 namespace Sheep.ServiceInterface.Accounts
 {
     /// <summary>
-    ///     更改所属教会服务接口。
+    ///     更改显示名称服务接口。
     /// </summary>
-    public class ChangeGuildService : Service
+    public class ChangeAccountDisplayNameService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(ChangeGuildService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(ChangeAccountDisplayNameService));
 
         #endregion
 
@@ -36,18 +36,18 @@ namespace Sheep.ServiceInterface.Accounts
         public IAppSettings AppSettings { get; set; }
 
         /// <summary>
-        ///     获取及设置更改所属教会的校验器。
+        ///     获取及设置更改显示名称的校验器。
         /// </summary>
-        public IValidator<AccountChangeGuild> AccountChangeGuildValidator { get; set; }
+        public IValidator<AccountChangeDisplayName> AccountChangeDisplayNameValidator { get; set; }
 
         #endregion
 
-        #region 更改所属教会
+        #region 更改显示名称
 
         /// <summary>
-        ///     更改所属教会。
+        ///     更改显示名称。
         /// </summary>
-        public async Task<object> Put(AccountChangeGuild request)
+        public async Task<object> Put(AccountChangeDisplayName request)
         {
             if (!IsAuthenticated)
             {
@@ -55,7 +55,7 @@ namespace Sheep.ServiceInterface.Accounts
             }
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
-                AccountChangeGuildValidator.ValidateAndThrow(request, ApplyTo.Put);
+                AccountChangeDisplayNameValidator.ValidateAndThrow(request, ApplyTo.Put);
             }
             var session = GetSession();
             var authRepo = HostContext.AppHost.GetAuthRepository(Request);
@@ -69,7 +69,7 @@ namespace Sheep.ServiceInterface.Accounts
                 var newUserAuth = authRepo is ICustomUserAuth customUserAuth ? customUserAuth.CreateUserAuth() : new UserAuth();
                 newUserAuth.PopulateMissingExtended(existingUserAuth);
                 newUserAuth.Meta = existingUserAuth.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingUserAuth.Meta);
-                newUserAuth.Meta["Guild"] = request.Guild;
+                newUserAuth.DisplayName = request.DisplayName;
                 var user = await ((IUserAuthRepositoryExtended) authRepo).UpdateUserAuthAsync(existingUserAuth, newUserAuth);
                 Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/users/{0}", user.Id)).ToArray());
                 Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/users/{0}", user.Id)).ToArray());
@@ -89,7 +89,7 @@ namespace Sheep.ServiceInterface.Accounts
                     Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/users/basic/show/{0}", user.Email)).ToArray());
                     Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/users/basic/show/{0}", user.Email)).ToArray());
                 }
-                return new AccountChangeGuildResponse();
+                return new AccountChangeDisplayNameResponse();
             }
         }
 

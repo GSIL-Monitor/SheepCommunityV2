@@ -16,14 +16,14 @@ namespace Sheep.ServiceInterface.Accounts
     /// <summary>
     ///     绑定用户名称或电子邮件地址及密码帐户服务接口。
     /// </summary>
-    public class BindCredentialsService : Service
+    public class BindAccountCredentialsService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(BindCredentialsService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(BindAccountCredentialsService));
 
         /// <summary>
         ///     自定义校验函数。

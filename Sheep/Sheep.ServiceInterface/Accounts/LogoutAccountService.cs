@@ -10,14 +10,14 @@ namespace Sheep.ServiceInterface.Accounts
     /// <summary>
     ///     退出登录服务接口。
     /// </summary>
-    public class LogoutService : Service
+    public class LogoutAccountService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(LogoutService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(LogoutAccountService));
 
         #endregion
 

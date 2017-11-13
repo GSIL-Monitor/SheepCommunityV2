@@ -14,16 +14,16 @@ using Sheep.ServiceModel.Accounts;
 namespace Sheep.ServiceInterface.Accounts
 {
     /// <summary>
-    ///     解除绑定微博帐号服务接口。
+    ///     解除绑定手机号码服务接口。
     /// </summary>
-    public class UnbindWeiboService : Service
+    public class UnbindAccountMobileService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(UnbindWeiboService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(UnbindAccountMobileService));
 
         /// <summary>
         ///     自定义校验函数。
@@ -40,18 +40,18 @@ namespace Sheep.ServiceInterface.Accounts
         public IAppSettings AppSettings { get; set; }
 
         /// <summary>
-        ///     获取及设置解除绑定微博帐号的校验器。
+        ///     获取及设置解除绑定手机号码的校验器。
         /// </summary>
-        public IValidator<AccountUnbindWeibo> AccountUnbindWeiboValidator { get; set; }
+        public IValidator<AccountUnbindMobile> AccountUnbindMobileValidator { get; set; }
 
         #endregion
 
-        #region 解除绑定微博帐号
+        #region 解除绑定手机号码
 
         /// <summary>
-        ///     解除绑定微博帐号。
+        ///     解除绑定手机号码。
         /// </summary>
-        public async Task<object> Delete(AccountUnbindWeibo request)
+        public async Task<object> Delete(AccountUnbindMobile request)
         {
             if (!IsAuthenticated)
             {
@@ -64,15 +64,15 @@ namespace Sheep.ServiceInterface.Accounts
             }
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
-                AccountUnbindWeiboValidator.ValidateAndThrow(request, ApplyTo.Delete);
+                AccountUnbindMobileValidator.ValidateAndThrow(request, ApplyTo.Delete);
             }
             var session = GetSession();
             var authRepo = HostContext.AppHost.GetAuthRepository(Request);
             using (authRepo as IDisposable)
             {
-                await ((IUserAuthRepositoryExtended) authRepo).DeleteUserAuthDetailsByProviderAsync(WeiboAuthProvider.Name, request.WeiboUserId);
+                await ((IUserAuthRepositoryExtended) authRepo).DeleteUserAuthDetailsByProviderAsync(MobileAuthProvider.Name, request.PhoneNumber);
             }
-            session.ProviderOAuthAccess.RemoveAll(x => x.Provider == WeiboAuthProvider.Name && x.UserId == request.WeiboUserId);
+            session.ProviderOAuthAccess.RemoveAll(x => x.Provider == MobileAuthProvider.Name && x.UserId == request.PhoneNumber);
             this.SaveSession(session);
             return new AccountUnbindResponse();
         }

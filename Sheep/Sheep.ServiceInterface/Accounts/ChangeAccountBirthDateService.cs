@@ -15,16 +15,16 @@ using Sheep.ServiceModel.Accounts;
 namespace Sheep.ServiceInterface.Accounts
 {
     /// <summary>
-    ///     更改显示名称服务接口。
+    ///     更改出生日期服务接口。
     /// </summary>
-    public class ChangeDisplayNameService : Service
+    public class ChangeAccountBirthDateService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(ChangeDisplayNameService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(ChangeAccountBirthDateService));
 
         #endregion
 
@@ -36,18 +36,18 @@ namespace Sheep.ServiceInterface.Accounts
         public IAppSettings AppSettings { get; set; }
 
         /// <summary>
-        ///     获取及设置更改显示名称的校验器。
+        ///     获取及设置更改出生日期的校验器。
         /// </summary>
-        public IValidator<AccountChangeDisplayName> AccountChangeDisplayNameValidator { get; set; }
+        public IValidator<AccountChangeBirthDate> AccountChangeBirthDateValidator { get; set; }
 
         #endregion
 
-        #region 更改显示名称
+        #region 更改出生日期
 
         /// <summary>
-        ///     更改显示名称。
+        ///     更改出生日期。
         /// </summary>
-        public async Task<object> Put(AccountChangeDisplayName request)
+        public async Task<object> Put(AccountChangeBirthDate request)
         {
             if (!IsAuthenticated)
             {
@@ -55,7 +55,7 @@ namespace Sheep.ServiceInterface.Accounts
             }
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
-                AccountChangeDisplayNameValidator.ValidateAndThrow(request, ApplyTo.Put);
+                AccountChangeBirthDateValidator.ValidateAndThrow(request, ApplyTo.Put);
             }
             var session = GetSession();
             var authRepo = HostContext.AppHost.GetAuthRepository(Request);
@@ -69,7 +69,7 @@ namespace Sheep.ServiceInterface.Accounts
                 var newUserAuth = authRepo is ICustomUserAuth customUserAuth ? customUserAuth.CreateUserAuth() : new UserAuth();
                 newUserAuth.PopulateMissingExtended(existingUserAuth);
                 newUserAuth.Meta = existingUserAuth.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingUserAuth.Meta);
-                newUserAuth.DisplayName = request.DisplayName;
+                newUserAuth.BirthDate = request.BirthDate;
                 var user = await ((IUserAuthRepositoryExtended) authRepo).UpdateUserAuthAsync(existingUserAuth, newUserAuth);
                 Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/users/{0}", user.Id)).ToArray());
                 Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/users/{0}", user.Id)).ToArray());
@@ -89,7 +89,7 @@ namespace Sheep.ServiceInterface.Accounts
                     Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/users/basic/show/{0}", user.Email)).ToArray());
                     Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/users/basic/show/{0}", user.Email)).ToArray());
                 }
-                return new AccountChangeDisplayNameResponse();
+                return new AccountChangeBirthDateResponse();
             }
         }
 

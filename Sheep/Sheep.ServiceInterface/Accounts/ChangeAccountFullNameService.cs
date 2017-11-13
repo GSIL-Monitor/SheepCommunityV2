@@ -15,16 +15,16 @@ using Sheep.ServiceModel.Accounts;
 namespace Sheep.ServiceInterface.Accounts
 {
     /// <summary>
-    ///     更换密码服务接口。
+    ///     更改真实姓名服务接口。
     /// </summary>
-    public class ChangePasswordService : Service
+    public class ChangeAccountFullNameService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(ChangePasswordService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(ChangeAccountFullNameService));
 
         #endregion
 
@@ -36,18 +36,18 @@ namespace Sheep.ServiceInterface.Accounts
         public IAppSettings AppSettings { get; set; }
 
         /// <summary>
-        ///     获取及设置更换密码的校验器。
+        ///     获取及设置更改真实姓名的校验器。
         /// </summary>
-        public IValidator<AccountChangePassword> AccountChangePasswordValidator { get; set; }
+        public IValidator<AccountChangeFullName> AccountChangeFullNameValidator { get; set; }
 
         #endregion
 
-        #region 更换密码
+        #region 更改真实姓名
 
         /// <summary>
-        ///     更换密码。
+        ///     更改真实姓名。
         /// </summary>
-        public async Task<object> Put(AccountChangePassword request)
+        public async Task<object> Put(AccountChangeFullName request)
         {
             if (!IsAuthenticated)
             {
@@ -55,7 +55,7 @@ namespace Sheep.ServiceInterface.Accounts
             }
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
-                AccountChangePasswordValidator.ValidateAndThrow(request, ApplyTo.Put);
+                AccountChangeFullNameValidator.ValidateAndThrow(request, ApplyTo.Put);
             }
             var session = GetSession();
             var authRepo = HostContext.AppHost.GetAuthRepository(Request);
@@ -69,7 +69,9 @@ namespace Sheep.ServiceInterface.Accounts
                 var newUserAuth = authRepo is ICustomUserAuth customUserAuth ? customUserAuth.CreateUserAuth() : new UserAuth();
                 newUserAuth.PopulateMissingExtended(existingUserAuth);
                 newUserAuth.Meta = existingUserAuth.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingUserAuth.Meta);
-                var user = await ((IUserAuthRepositoryExtended) authRepo).UpdateUserAuthAsync(existingUserAuth, newUserAuth, request.Password);
+                newUserAuth.FullName = request.FullName;
+                newUserAuth.Meta["FullNameVerified"] = false.ToString();
+                var user = await ((IUserAuthRepositoryExtended) authRepo).UpdateUserAuthAsync(existingUserAuth, newUserAuth);
                 Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/users/{0}", user.Id)).ToArray());
                 Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/users/{0}", user.Id)).ToArray());
                 Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/users/basic/{0}", user.Id)).ToArray());
@@ -88,7 +90,7 @@ namespace Sheep.ServiceInterface.Accounts
                     Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/users/basic/show/{0}", user.Email)).ToArray());
                     Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/users/basic/show/{0}", user.Email)).ToArray());
                 }
-                return new AccountChangePasswordResponse();
+                return new AccountChangeFullNameResponse();
             }
         }
 
