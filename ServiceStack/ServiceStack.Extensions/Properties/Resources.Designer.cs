@@ -124,6 +124,15 @@ namespace ServiceStack.Extensions.Properties {
         }
         
         /// <summary>
+        ///   查找类似 当前值{0}与指定值{1}相等。 的本地化字符串。
+        /// </summary>
+        internal static string ValueIsEqual {
+            get {
+                return ResourceManager.GetString("ValueIsEqual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 当前值{0}与指定值{1}不相等。 的本地化字符串。
         /// </summary>
         internal static string ValueIsNotEqual {

@@ -129,6 +129,9 @@
   <data name="InvalidOpenUserId" xml:space="preserve">
     <value>错误的平台用户编号。</value>
   </data>
+  <data name="InvalidOwnerId" xml:space="preserve">
+    <value>错误的群主编号。</value>
+  </data>
   <data name="InvalidSecurityToken" xml:space="preserve">
     <value>错误的验证码。</value>
   </data>

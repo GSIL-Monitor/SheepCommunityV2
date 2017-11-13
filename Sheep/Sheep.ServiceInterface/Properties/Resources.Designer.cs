@@ -124,6 +124,15 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
+        ///   查找类似 操作的帐户必须为群组所有者。 的本地化字符串。
+        /// </summary>
+        internal static string GroupOwnerRequired {
+            get {
+                return ResourceManager.GetString("GroupOwnerRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 无法找到指定条件的群组列表。 的本地化字符串。
         /// </summary>
         internal static string GroupsNotFound {

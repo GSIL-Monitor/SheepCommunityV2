@@ -9,6 +9,7 @@ using RethinkDb.Driver.Model;
 using RethinkDb.Driver.Net;
 using ServiceStack;
 using ServiceStack.Auth;
+using ServiceStack.Extensions;
 using ServiceStack.Logging;
 using Sheep.Model.Properties;
 using Group = Sheep.Model.Corp.Entities.Group;
@@ -307,12 +308,14 @@ namespace Sheep.Model.Corp.Repositories
         }
 
         /// <inheritdoc />
-        public Group CreateGroup(Group newGroup)
+        public Group CreateGroup(Group newGroup, int ownerId)
         {
             newGroup.ThrowIfNull(nameof(newGroup));
             newGroup.DisplayName.ThrowIfNullOrEmpty(nameof(newGroup.DisplayName));
+            ownerId.ThrowIfEqual(nameof(ownerId), 0, Resources.InvalidOwnerId);
             AssertNoExistingGroup(newGroup);
             newGroup.Id = new Base36IdGenerator(10, 4, 4).NewId().ToLower();
+            newGroup.OwnerId = ownerId;
             newGroup.CreatedDate = DateTime.UtcNow;
             newGroup.ModifiedDate = newGroup.CreatedDate;
             var result = R.Table(s_GroupTable).Get(newGroup.Id).Replace(newGroup).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
@@ -320,12 +323,14 @@ namespace Sheep.Model.Corp.Repositories
         }
 
         /// <inheritdoc />
-        public async Task<Group> CreateGroupAsync(Group newGroup)
+        public async Task<Group> CreateGroupAsync(Group newGroup, int ownerId)
         {
             newGroup.ThrowIfNull(nameof(newGroup));
             newGroup.DisplayName.ThrowIfNullOrEmpty(nameof(newGroup.DisplayName));
+            ownerId.ThrowIfEqual(nameof(ownerId), 0, Resources.InvalidOwnerId);
             await AssertNoExistingGroupAsync(newGroup);
             newGroup.Id = new Base36IdGenerator(10, 4, 4).NewId().ToLower();
+            newGroup.OwnerId = ownerId;
             newGroup.CreatedDate = DateTime.UtcNow;
             newGroup.ModifiedDate = newGroup.CreatedDate;
             var result = (await R.Table(s_GroupTable).Get(newGroup.Id).Replace(newGroup).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();

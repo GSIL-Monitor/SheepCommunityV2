@@ -19,16 +19,16 @@ using Sheep.ServiceModel.Users.Entities;
 namespace Sheep.ServiceInterface.Groups
 {
     /// <summary>
-    ///     更新群组服务接口。
+    ///     列举一组群组服务接口。
     /// </summary>
-    public class UpdateGroupService : Service
+    public class ListGroupService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(UpdateGroupService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(ListGroupService));
 
         #endregion
 
@@ -40,9 +40,9 @@ namespace Sheep.ServiceInterface.Groups
         public IAppSettings AppSettings { get; set; }
 
         /// <summary>
-        ///     获取及设置更新群组的校验器。
+        ///     获取及设置列举一组群组的校验器。
         /// </summary>
-        public IValidator<GroupUpdate> GroupUpdateValidator { get; set; }
+        public IValidator<GroupList> GroupListValidator { get; set; }
 
         /// <summary>
         ///     获取及设置群组的存储库。
@@ -51,73 +51,43 @@ namespace Sheep.ServiceInterface.Groups
 
         #endregion
 
-        #region 更新群组
+        #region 列举一组群组
 
         /// <summary>
-        ///     更新群组。
+        ///     列举一组群组。
         /// </summary>
-        public async Task<object> Put(GroupUpdate request)
+        [CacheResponse(Duration = 600, MaxAge = 300)]
+        public async Task<object> Get(GroupList request)
         {
-            if (!IsAuthenticated)
-            {
-                throw HttpError.Unauthorized(Resources.LoginRequired);
-            }
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
-                GroupUpdateValidator.ValidateAndThrow(request, ApplyTo.Put);
+                GroupListValidator.ValidateAndThrow(request, ApplyTo.Get);
             }
-            var existingGroup = await GroupRepo.GetGroupAsync(request.GroupId);
-            if (existingGroup == null)
+            var existingGroups = await GroupRepo.FindGroupsAsync(request.NameFilter, request.CreatedSince, request.ModifiedSince, request.JoinMode, request.IsPublic, request.AccountStatus, request.OrderBy, request.Descending, request.Skip, request.Limit);
+            if (existingGroups == null)
             {
-                throw HttpError.NotFound(string.Format(Resources.GroupNotFound, request.GroupId));
+                throw HttpError.NotFound(string.Format(Resources.GroupsNotFound));
             }
-            var currentUserId = GetSession().UserAuthId.ToInt(0);
-            if (currentUserId != existingGroup.OwnerId)
-            {
-                throw HttpError.Unauthorized(Resources.GroupOwnerRequired);
-            }
-            var newGroup = MapToGroup(existingGroup, request);
-            var group = await GroupRepo.UpdateGroupAsync(existingGroup, newGroup);
-            Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/groups/{0}", group.Id)).ToArray());
-            Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/groups/{0}", group.Id)).ToArray());
-            BasicUserDto groupOwnerDto = null;
+            var groupOwnerDtoMap = new Dictionary<int, BasicUserDto>();
             var authRepo = HostContext.AppHost.GetAuthRepository(Request);
             using (authRepo as IDisposable)
             {
-                var ownerUserAuth = await ((IUserAuthRepositoryExtended) authRepo).GetUserAuthAsync(group.OwnerId.ToString());
-                if (ownerUserAuth != null)
+                var ownerUserAuths = await ((IUserAuthRepositoryExtended) authRepo).GetUserAuthsAsync(existingGroups.Select(g => g.OwnerId.ToString()).Distinct().ToArray());
+                if (ownerUserAuths != null)
                 {
-                    groupOwnerDto = MapToBasicUserDto(ownerUserAuth);
+                    groupOwnerDtoMap = ownerUserAuths.ToDictionary(userAuth => userAuth.Id, MapToBasicUserDto);
                 }
             }
-            return new GroupUpdateResponse
+            var groupsDto = existingGroups.Select(group => MapToGroupDto(group, groupOwnerDtoMap.GetValue(group.OwnerId, () => null))).ToList();
+            return new GroupListResponse
                    {
-                       Group = MapToGroupDto(group, groupOwnerDto)
+                       Groups = groupsDto
                    };
         }
 
         #endregion
 
         #region 转换
-
-        /// <summary>
-        ///     将注册身份的请求转换成群组身份。
-        /// </summary>
-        public Group MapToGroup(Group existingGroup, GroupUpdate request)
-        {
-            var newGroup = new Group();
-            newGroup.PopulateWith(existingGroup);
-            newGroup.Meta = existingGroup.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingGroup.Meta);
-            newGroup.DisplayName = request.DisplayName;
-            newGroup.Description = request.Description;
-            newGroup.Country = request.Country;
-            newGroup.State = request.State;
-            newGroup.City = request.City;
-            newGroup.JoinMode = !request.JoinMode.IsNullOrEmpty() ? request.JoinMode : "Direct";
-            newGroup.IsPublic = request.IsPublic.HasValue && request.IsPublic.Value;
-            newGroup.EnableMessages = request.EnableMessages.HasValue && request.EnableMessages.Value;
-            return newGroup;
-        }
 
         public GroupDto MapToGroupDto(Group group, BasicUserDto groupOwnerDto)
         {

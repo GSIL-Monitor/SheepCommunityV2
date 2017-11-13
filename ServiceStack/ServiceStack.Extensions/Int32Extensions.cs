@@ -11,6 +11,21 @@ namespace ServiceStack.Extensions
         #region 参数检测
 
         /// <summary>
+        ///     如果指定值与要比较的数值相等，则抛出异常。
+        /// </summary>
+        /// <param name="value">要检测的数值。</param>
+        /// <param name="varName">数值参数的名称。</param>
+        /// <param name="givenValue">指定要比较的数值。</param>
+        /// <param name="errorMessage">抛出异常的错误信息。</param>
+        public static void ThrowIfEqual(this int value, string varName, int givenValue, string errorMessage = null)
+        {
+            if (value == givenValue)
+            {
+                throw new ArgumentException(varName ?? nameof(value), errorMessage.IsNullOrEmpty() ? Resources.ValueIsEqual.Fmt(value, givenValue) : errorMessage);
+            }
+        }
+
+        /// <summary>
         ///     如果指定值与要比较的数值不相等，则抛出异常。
         /// </summary>
         /// <param name="value">要检测的数值。</param>

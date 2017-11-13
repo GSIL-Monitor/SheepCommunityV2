@@ -138,6 +138,9 @@
   <data name="GroupNotFound" xml:space="preserve">
     <value>无法找到指定的群组{0}。</value>
   </data>
+  <data name="GroupOwnerRequired" xml:space="preserve">
+    <value>操作的帐户必须为群组所有者。</value>
+  </data>
   <data name="GroupsNotFound" xml:space="preserve">
     <value>无法找到指定条件的群组列表。</value>
   </data>

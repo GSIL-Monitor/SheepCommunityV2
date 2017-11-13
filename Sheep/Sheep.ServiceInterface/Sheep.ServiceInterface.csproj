@@ -136,11 +136,16 @@
     <Compile Include="Countries\ShowCountryByNameService.cs" />
     <Compile Include="Countries\ListCountryService.cs" />
     <Compile Include="Countries\ShowCountryService.cs" />
+    <Compile Include="Groups\ChangeIconService.cs" />
+    <Compile Include="Groups\ChangeCoverPhotoService.cs" />
     <Compile Include="Groups\CreateGroupService.cs" />
     <Compile Include="Accounts\RegisterService.cs" />
     <Compile Include="Accounts\LogoutService.cs" />
     <Compile Include="Accounts\LoginByMobileService.cs" />
     <Compile Include="Accounts\LoginByCredentialsService.cs" />
+    <Compile Include="Groups\ListGroupService.cs" />
+    <Compile Include="Groups\ShowGroupByRefIdService.cs" />
+    <Compile Include="Groups\ShowGroupService.cs" />
     <Compile Include="Groups\UpdateGroupService.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

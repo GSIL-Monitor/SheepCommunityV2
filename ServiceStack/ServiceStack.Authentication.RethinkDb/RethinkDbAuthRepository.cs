@@ -710,13 +710,13 @@ namespace ServiceStack.Authentication.RethinkDb
         }
 
         /// <inheritdoc />
-        public async Task<List<IUserAuth>> GetUserAuthsAsync(string[] userAuthIds)
+        public async Task<List<IUserAuth>> GetUserAuthsAsync(IEnumerable<string> userAuthIds)
         {
             if (userAuthIds == null)
             {
                 return null;
             }
-            var userAuthList = await R.Table(s_UserAuthTable).GetAll(userAuthIds.Cast<int>().ToArray()).RunResultAsync<List<UserAuth>>(_conn);
+            var userAuthList = await R.Table(s_UserAuthTable).GetAll(userAuthIds.Select(uid => uid.ToInt(0)).ToArray()).RunResultAsync<List<UserAuth>>(_conn);
             return userAuthList.Cast<IUserAuth>().ToList();
         }
 

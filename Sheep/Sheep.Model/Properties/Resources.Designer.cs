@@ -97,6 +97,15 @@ namespace Sheep.Model.Properties {
         }
         
         /// <summary>
+        ///   查找类似 错误的群主编号。 的本地化字符串。
+        /// </summary>
+        internal static string InvalidOwnerId {
+            get {
+                return ResourceManager.GetString("InvalidOwnerId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 错误的验证码。 的本地化字符串。
         /// </summary>
         internal static string InvalidSecurityToken {

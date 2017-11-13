@@ -138,6 +138,9 @@
   <data name="TextMinLengthOutOfRange" xml:space="preserve">
     <value>当前长度{0}小于最小长度{1}。</value>
   </data>
+  <data name="ValueIsEqual" xml:space="preserve">
+    <value>当前值{0}与指定值{1}相等。</value>
+  </data>
   <data name="ValueIsNotEqual" xml:space="preserve">
     <value>当前值{0}与指定值{1}不相等。</value>
   </data>

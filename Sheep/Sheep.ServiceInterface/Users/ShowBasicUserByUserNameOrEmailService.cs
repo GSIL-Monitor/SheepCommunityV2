@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using ServiceStack.Validation;
+using Sheep.Common.Auth;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Users;
 using Sheep.ServiceModel.Users.Entities;
@@ -46,7 +48,7 @@ namespace Sheep.ServiceInterface.Users
         ///     根据用户名称或电子邮件地址显示一个用户基本信息。
         /// </summary>
         [CacheResponse(Duration = 7200, MaxAge = 3600)]
-        public object Get(BasicUserShowByUserNameOrEmail request)
+        public async Task<object> Get(BasicUserShowByUserNameOrEmail request)
         {
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
@@ -55,7 +57,7 @@ namespace Sheep.ServiceInterface.Users
             var authRepo = HostContext.AppHost.GetAuthRepository(Request);
             using (authRepo as IDisposable)
             {
-                var existingUserAuth = authRepo.GetUserAuthByUserName(request.UserNameOrEmail);
+                var existingUserAuth = await ((IUserAuthRepositoryExtended) authRepo).GetUserAuthByUserNameAsync(request.UserNameOrEmail);
                 if (existingUserAuth == null)
                 {
                     throw HttpError.NotFound(string.Format(Resources.UserNotFound, request.UserNameOrEmail));
@@ -79,13 +81,13 @@ namespace Sheep.ServiceInterface.Users
                 userAuth.Meta = new Dictionary<string, string>();
             }
             var userDto = new BasicUserDto
-                       {
-                           Id = userAuth.Id,
-                           UserName = userAuth.UserName,
-                           DisplayName = userAuth.DisplayName,
-                           AvatarUrl = userAuth.Meta.GetValueOrDefault("AvatarUrl"),
-                           Gender = userAuth.Gender
-                       };
+                          {
+                              Id = userAuth.Id,
+                              UserName = userAuth.UserName,
+                              DisplayName = userAuth.DisplayName,
+                              AvatarUrl = userAuth.Meta.GetValueOrDefault("AvatarUrl"),
+                              Gender = userAuth.Gender
+                          };
             return userDto;
         }
 

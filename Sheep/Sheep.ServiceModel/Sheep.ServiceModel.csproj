@@ -135,12 +135,17 @@
     <Compile Include="Achievements\AchievementDelete.cs" />
     <Compile Include="Achievements\AchievementUpdate.cs" />
     <Compile Include="Applications\Entities\ApplicationDto.cs" />
+    <Compile Include="Groups\GroupChangeIcon.cs" />
+    <Compile Include="Groups\GroupChangeCoverPhoto.cs" />
     <Compile Include="Groups\Entities\BasicGroupDto.cs" />
     <Compile Include="Groups\BasicGroupShow.cs" />
+    <Compile Include="Groups\Validators\GroupChangeIconValidator.cs" />
+    <Compile Include="Groups\Validators\GroupChangeCoverPhotoValidator.cs" />
     <Compile Include="Groups\Validators\GroupShowValidator.cs" />
     <Compile Include="Groups\Validators\BasicGroupShowValidator.cs" />
     <Compile Include="Groups\Validators\GroupDeleteValidator.cs" />
     <Compile Include="Groups\Validators\GroupListValidator.cs" />
+    <Compile Include="Groups\Validators\GroupCreateValidator.cs" />
     <Compile Include="Groups\Validators\GroupUpdateValidator.cs" />
     <Compile Include="Users\BasicUserShow.cs" />
     <Compile Include="Users\Validators\BasicUserShowValidator.cs" />
