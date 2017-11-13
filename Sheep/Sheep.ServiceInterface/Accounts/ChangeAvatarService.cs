@@ -14,6 +14,7 @@ using ServiceStack.Extensions;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using ServiceStack.Validation;
+using Sheep.Common.Auth;
 using Sheep.Common.Settings;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Accounts;
@@ -69,88 +70,106 @@ namespace Sheep.ServiceInterface.Accounts
                 AccountChangeAvatarValidator.ValidateAndThrow(request, ApplyTo.Put);
             }
             var session = GetSession();
-            string avatarUrl = null;
-            if (!request.SourceAvatarUrl.IsNullOrEmpty())
-            {
-                var imageBuffer = await request.SourceAvatarUrl.GetBytesFromUrlAsync();
-                if (imageBuffer != null && imageBuffer.Length > 0)
-                {
-                    using (var imageStream = new MemoryStream(imageBuffer))
-                    {
-                        var md5Hash = OssUtils.ComputeContentMd5(imageStream, imageStream.Length);
-                        var path = $"users/{session.UserAuthId}/avatars/{Guid.NewGuid():N}.{request.SourceAvatarUrl.GetImageUrlExtension()}";
-                        var objectMetadata = new ObjectMetadata
-                                             {
-                                                 ContentMd5 = md5Hash,
-                                                 ContentType = request.SourceAvatarUrl.GetImageUrlExtension().GetImageContentType(),
-                                                 ContentLength = imageBuffer.Length,
-                                                 CacheControl = "max-age=604800"
-                                             };
-                        try
-                        {
-                            await OssClient.PutObjectAsync(AppSettings.GetString(AppSettingsOssNames.OssBucket), path, imageStream, objectMetadata);
-                            avatarUrl = $"{AppSettings.GetString(AppSettingsOssNames.OssUrl)}/{path}";
-                        }
-                        catch (OssException ex)
-                        {
-                            Log.WarnFormat("Failed with error code: {0}; Error info: {1}. RequestID:{2}\tHostID:{3}", ex.ErrorCode, ex.Message, ex.RequestId, ex.HostId);
-                            throw new HttpError(HttpStatusCode.InternalServerError, ex.ErrorCode, ex.Message);
-                        }
-                        catch (Exception ex)
-                        {
-                            Log.WarnFormat("Failed with error info: {0}", ex.Message);
-                            throw new HttpError(HttpStatusCode.InternalServerError, ex.Message);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                var imageFile = Request.Files.FirstOrDefault(file => file.ContentLength > 0);
-                if (imageFile != null)
-                {
-                    using (var imageStream = imageFile.InputStream)
-                    {
-                        var md5Hash = OssUtils.ComputeContentMd5(imageStream, imageStream.Length);
-                        var path = $"users/{session.UserAuthId}/avatars/{Guid.NewGuid():N}.{imageFile.FileName.GetImageFileExtension()}";
-                        var objectMetadata = new ObjectMetadata
-                                             {
-                                                 ContentMd5 = md5Hash,
-                                                 ContentType = imageFile.ContentType,
-                                                 ContentLength = imageFile.ContentLength,
-                                                 CacheControl = "max-age=604800"
-                                             };
-                        try
-                        {
-                            await OssClient.PutObjectAsync(AppSettings.GetString(AppSettingsOssNames.OssBucket), path, imageStream, objectMetadata);
-                            avatarUrl = $"{AppSettings.GetString(AppSettingsOssNames.OssUrl)}/{path}";
-                        }
-                        catch (OssException ex)
-                        {
-                            Log.WarnFormat("Failed with error code: {0}; Error info: {1}. RequestID:{2}\tHostID:{3}", ex.ErrorCode, ex.Message, ex.RequestId, ex.HostId);
-                            throw new HttpError(HttpStatusCode.InternalServerError, ex.ErrorCode, ex.Message);
-                        }
-                        catch (Exception ex)
-                        {
-                            Log.WarnFormat("Failed with error info: {0}", ex.Message);
-                            throw new HttpError(HttpStatusCode.InternalServerError, ex.Message);
-                        }
-                    }
-                }
-            }
             var authRepo = HostContext.AppHost.GetAuthRepository(Request);
             using (authRepo as IDisposable)
             {
-                var existingUserAuth = authRepo.GetUserAuth(session, null);
+                var existingUserAuth = await ((IUserAuthRepositoryExtended) authRepo).GetUserAuthAsync(session, null);
                 if (existingUserAuth == null)
                 {
                     throw HttpError.NotFound(string.Format(Resources.UserNotFound, session.UserAuthId));
+                }
+                string avatarUrl = null;
+                if (!request.SourceAvatarUrl.IsNullOrEmpty())
+                {
+                    var imageBuffer = await request.SourceAvatarUrl.GetBytesFromUrlAsync();
+                    if (imageBuffer != null && imageBuffer.Length > 0)
+                    {
+                        using (var imageStream = new MemoryStream(imageBuffer))
+                        {
+                            var md5Hash = OssUtils.ComputeContentMd5(imageStream, imageStream.Length);
+                            var path = $"users/{session.UserAuthId}/avatars/{Guid.NewGuid():N}.{request.SourceAvatarUrl.GetImageUrlExtension()}";
+                            var objectMetadata = new ObjectMetadata
+                                                 {
+                                                     ContentMd5 = md5Hash,
+                                                     ContentType = request.SourceAvatarUrl.GetImageUrlExtension().GetImageContentType(),
+                                                     ContentLength = imageBuffer.Length,
+                                                     CacheControl = "max-age=604800"
+                                                 };
+                            try
+                            {
+                                await OssClient.PutObjectAsync(AppSettings.GetString(AppSettingsOssNames.OssBucket), path, imageStream, objectMetadata);
+                                avatarUrl = $"{AppSettings.GetString(AppSettingsOssNames.OssUrl)}/{path}";
+                            }
+                            catch (OssException ex)
+                            {
+                                Log.WarnFormat("Failed with error code: {0}; Error info: {1}. RequestID:{2}\tHostID:{3}", ex.ErrorCode, ex.Message, ex.RequestId, ex.HostId);
+                                throw new HttpError(HttpStatusCode.InternalServerError, ex.ErrorCode, ex.Message);
+                            }
+                            catch (Exception ex)
+                            {
+                                Log.WarnFormat("Failed with error info: {0}", ex.Message);
+                                throw new HttpError(HttpStatusCode.InternalServerError, ex.Message);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    var imageFile = Request.Files.FirstOrDefault(file => file.ContentLength > 0);
+                    if (imageFile != null)
+                    {
+                        using (var imageStream = imageFile.InputStream)
+                        {
+                            var md5Hash = OssUtils.ComputeContentMd5(imageStream, imageStream.Length);
+                            var path = $"users/{session.UserAuthId}/avatars/{Guid.NewGuid():N}.{imageFile.FileName.GetImageFileExtension()}";
+                            var objectMetadata = new ObjectMetadata
+                                                 {
+                                                     ContentMd5 = md5Hash,
+                                                     ContentType = imageFile.ContentType,
+                                                     ContentLength = imageFile.ContentLength,
+                                                     CacheControl = "max-age=604800"
+                                                 };
+                            try
+                            {
+                                await OssClient.PutObjectAsync(AppSettings.GetString(AppSettingsOssNames.OssBucket), path, imageStream, objectMetadata);
+                                avatarUrl = $"{AppSettings.GetString(AppSettingsOssNames.OssUrl)}/{path}";
+                            }
+                            catch (OssException ex)
+                            {
+                                Log.WarnFormat("Failed with error code: {0}; Error info: {1}. RequestID:{2}\tHostID:{3}", ex.ErrorCode, ex.Message, ex.RequestId, ex.HostId);
+                                throw new HttpError(HttpStatusCode.InternalServerError, ex.ErrorCode, ex.Message);
+                            }
+                            catch (Exception ex)
+                            {
+                                Log.WarnFormat("Failed with error info: {0}", ex.Message);
+                                throw new HttpError(HttpStatusCode.InternalServerError, ex.Message);
+                            }
+                        }
+                    }
                 }
                 var newUserAuth = authRepo is ICustomUserAuth customUserAuth ? customUserAuth.CreateUserAuth() : new UserAuth();
                 newUserAuth.PopulateMissingExtended(existingUserAuth);
                 newUserAuth.Meta = existingUserAuth.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingUserAuth.Meta);
                 newUserAuth.Meta["AvatarUrl"] = avatarUrl;
-                ((IUserAuthRepository) authRepo).UpdateUserAuth(existingUserAuth, newUserAuth);
+                var user = await ((IUserAuthRepositoryExtended) authRepo).UpdateUserAuthAsync(existingUserAuth, newUserAuth);
+                Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/users/{0}", user.Id)).ToArray());
+                Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/users/{0}", user.Id)).ToArray());
+                Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/users/basic/{0}", user.Id)).ToArray());
+                Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/users/basic/{0}", user.Id)).ToArray());
+                if (!user.UserName.IsNullOrEmpty())
+                {
+                    Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/users/show/{0}", user.UserName)).ToArray());
+                    Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/users/show/{0}", user.UserName)).ToArray());
+                    Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/users/basic/show/{0}", user.UserName)).ToArray());
+                    Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/users/basic/show/{0}", user.UserName)).ToArray());
+                }
+                if (!user.Email.IsNullOrEmpty())
+                {
+                    Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/users/show/{0}", user.Email)).ToArray());
+                    Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/users/show/{0}", user.Email)).ToArray());
+                    Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/users/basic/show/{0}", user.Email)).ToArray());
+                    Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/users/basic/show/{0}", user.Email)).ToArray());
+                }
                 return new AccountChangeAvatarResponse
                        {
                            AvatarUrl = avatarUrl

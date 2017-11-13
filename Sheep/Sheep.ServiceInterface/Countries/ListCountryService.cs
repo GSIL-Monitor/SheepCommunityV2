@@ -52,7 +52,7 @@ namespace Sheep.ServiceInterface.Countries
         /// <summary>
         ///     列举一组国家。
         /// </summary>
-        [CacheResponse(Duration = 86400, MaxAge = 43200)]
+        [CacheResponse(Duration = 600, MaxAge = 300)]
         public async Task<object> Get(CountryList request)
         {
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))

@@ -47,7 +47,7 @@ namespace Sheep.ServiceInterface.Users
         /// <summary>
         ///     显示一个用户基本信息。
         /// </summary>
-        [CacheResponse(Duration = 7200, MaxAge = 3600)]
+        [CacheResponse(Duration = 600, MaxAge = 300)]
         public async Task<object> Get(BasicUserShow request)
         {
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))

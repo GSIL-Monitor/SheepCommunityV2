@@ -144,7 +144,9 @@
     <Compile Include="Accounts\LoginByMobileService.cs" />
     <Compile Include="Accounts\LoginByCredentialsService.cs" />
     <Compile Include="Groups\ListGroupService.cs" />
+    <Compile Include="Groups\ShowBasicGroupByRefIdService.cs" />
     <Compile Include="Groups\ShowGroupByRefIdService.cs" />
+    <Compile Include="Groups\ShowBasicGroupService.cs" />
     <Compile Include="Groups\ShowGroupService.cs" />
     <Compile Include="Groups\UpdateGroupService.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

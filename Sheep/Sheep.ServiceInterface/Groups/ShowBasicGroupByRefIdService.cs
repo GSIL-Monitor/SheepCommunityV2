@@ -18,16 +18,16 @@ using Sheep.ServiceModel.Users.Entities;
 namespace Sheep.ServiceInterface.Groups
 {
     /// <summary>
-    ///     根据关联的第三方编号显示一个群组服务接口。
+    ///     根据关联的第三方编号显示一个群组基本信息服务接口。
     /// </summary>
-    public class ShowGroupByRefIdService : Service
+    public class ShowBasicGroupByRefIdService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(ShowGroupByRefIdService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(ShowBasicGroupByRefIdService));
 
         #endregion
 
@@ -39,28 +39,28 @@ namespace Sheep.ServiceInterface.Groups
         public IAppSettings AppSettings { get; set; }
 
         /// <summary>
-        ///     获取及设置根据关联的第三方编号显示一个群组的校验器。
+        ///     获取及设置根据关联的第三方编号显示一个群组基本信息的校验器。
         /// </summary>
-        public IValidator<GroupShowByRefId> GroupShowByRefIdValidator { get; set; }
+        public IValidator<BasicGroupShowByRefId> BasicGroupShowByRefIdValidator { get; set; }
 
         /// <summary>
-        ///     获取及设置群组的存储库。
+        ///     获取及设置群组基本信息的存储库。
         /// </summary>
         public IGroupRepository GroupRepo { get; set; }
 
         #endregion
 
-        #region 根据关联的第三方编号显示一个群组
+        #region 根据关联的第三方编号显示一个群组基本信息
 
         /// <summary>
-        ///     根据关联的第三方编号显示一个群组。
+        ///     根据关联的第三方编号显示一个群组基本信息。
         /// </summary>
         [CacheResponse(Duration = 600, MaxAge = 300)]
-        public async Task<object> Get(GroupShowByRefId request)
+        public async Task<object> Get(BasicGroupShowByRefId request)
         {
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
-                GroupShowByRefIdValidator.ValidateAndThrow(request, ApplyTo.Get);
+                BasicGroupShowByRefIdValidator.ValidateAndThrow(request, ApplyTo.Get);
             }
             var existingGroup = await GroupRepo.GetGroupByRefIdAsync(request.RefId);
             if (existingGroup == null)
@@ -77,8 +77,8 @@ namespace Sheep.ServiceInterface.Groups
                     groupOwnerDto = MapToBasicUserDto(ownerUserAuth);
                 }
             }
-            var groupDto = MapToGroupDto(existingGroup, groupOwnerDto);
-            return new GroupShowResponse
+            var groupDto = MapToBasicGroupDto(existingGroup, groupOwnerDto);
+            return new BasicGroupShowResponse
                    {
                        Group = groupDto
                    };
@@ -88,36 +88,19 @@ namespace Sheep.ServiceInterface.Groups
 
         #region 转换
 
-        public GroupDto MapToGroupDto(Group group, BasicUserDto groupOwnerDto)
+        public BasicGroupDto MapToBasicGroupDto(Group group, BasicUserDto groupOwnerDto)
         {
             if (group.Meta == null)
             {
                 group.Meta = new Dictionary<string, string>();
             }
-            var groupDto = new GroupDto
+            var groupDto = new BasicGroupDto
                            {
                                Id = group.Id,
-                               Type = group.Meta.GetValueOrDefault("Type"),
                                DisplayName = group.DisplayName,
-                               FullName = group.FullName,
-                               FullNameVerified = group.FullNameVerified,
-                               Description = group.Description,
                                IconUrl = group.IconUrl,
-                               CoverPhotoUrl = group.CoverPhotoUrl,
                                RefId = group.RefId,
-                               Country = group.Country,
-                               State = group.State,
-                               City = group.City,
-                               JoinMode = group.JoinMode,
-                               IsPublic = group.IsPublic,
-                               EnableMessages = group.EnableMessages,
-                               AccountStatus = group.AccountStatus,
-                               BanReason = group.BanReason,
-                               BannedUntil = group.BannedUntil?.ToString("u"),
-                               CreatedDate = group.CreatedDate.ToString("u"),
-                               ModifiedDate = group.ModifiedDate.ToString("u"),
-                               Owner = groupOwnerDto,
-                               TotalMembers = 0
+                               JoinMode = group.JoinMode
                            };
             return groupDto;
         }

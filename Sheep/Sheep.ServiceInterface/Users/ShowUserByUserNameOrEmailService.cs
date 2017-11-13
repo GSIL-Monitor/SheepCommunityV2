@@ -47,7 +47,7 @@ namespace Sheep.ServiceInterface.Users
         /// <summary>
         ///     根据用户名称或电子邮件地址显示一个用户。
         /// </summary>
-        [CacheResponse(Duration = 7200, MaxAge = 3600)]
+        [CacheResponse(Duration = 600, MaxAge = 300)]
         public async Task<object> Get(UserShowByUserNameOrEmail request)
         {
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))

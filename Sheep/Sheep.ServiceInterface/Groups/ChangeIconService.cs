@@ -160,6 +160,15 @@ namespace Sheep.ServiceInterface.Groups
             var group = await GroupRepo.UpdateGroupAsync(existingGroup, newGroup);
             Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/groups/{0}", group.Id)).ToArray());
             Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/groups/{0}", group.Id)).ToArray());
+            Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/groups/basic/{0}", group.Id)).ToArray());
+            Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/groups/basic/{0}", group.Id)).ToArray());
+            if (!group.RefId.IsNullOrEmpty())
+            {
+                Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/groups/show/{0}", group.RefId)).ToArray());
+                Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/groups/show/{0}", group.RefId)).ToArray());
+                Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/groups/basic/show/{0}", group.RefId)).ToArray());
+                Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/groups/basic/show/{0}", group.RefId)).ToArray());
+            }
             return new GroupChangeIconResponse
                    {
                        IconUrl = iconUrl

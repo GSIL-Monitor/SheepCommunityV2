@@ -17,6 +17,7 @@ namespace Sheep.Common.Auth
         Task<IUserAuth> CreateUserAuthAsync(IUserAuth newUserAuth, string password);
         Task<IUserAuth> UpdateUserAuthAsync(IUserAuth existingUserAuth, IUserAuth newUserAuth);
         Task<IUserAuth> UpdateUserAuthAsync(IUserAuth existingUserAuth, IUserAuth newUserAuth, string password);
+        Task<IUserAuth> GetUserAuthAsync(IAuthSession session, IAuthTokens tokens);
         Task<IUserAuth> GetUserAuthAsync(string userAuthId);
         Task<IUserAuth> GetUserAuthByUserNameAsync(string userNameOrEmail);
         Task<IUserAuth> GetUserAuthByDisplayNameAsync(string displayName);
@@ -25,6 +26,6 @@ namespace Sheep.Common.Auth
         Task DeleteUserAuthAsync(string userAuthId);
         Task<IUserAuthDetails> GetUserAuthDetailsByProviderAsync(string provider, string userId);
         Task<List<IUserAuthDetails>> GetUserAuthDetailsAsync(string userAuthId);
-        Task DeleteUserAuthDetailsByProviderAsyn(string provider, string userId);
+        Task DeleteUserAuthDetailsByProviderAsync(string provider, string userId);
     }
 }

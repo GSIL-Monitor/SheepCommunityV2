@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using ServiceStack.Validation;
+using Sheep.Common.Auth;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Accounts;
 
@@ -49,7 +51,7 @@ namespace Sheep.ServiceInterface.Accounts
         /// <summary>
         ///     绑定用户名称或电子邮件地址及密码帐户。
         /// </summary>
-        public object Post(AccountBindCredentials request)
+        public async Task<object> Post(AccountBindCredentials request)
         {
             if (!IsAuthenticated)
             {
@@ -79,13 +81,13 @@ namespace Sheep.ServiceInterface.Accounts
             var authRepo = HostContext.AppHost.GetAuthRepository(Request);
             using (authRepo as IDisposable)
             {
-                var existingUserAuth = authRepo.GetUserAuth(session, null);
+                var existingUserAuth = await ((IUserAuthRepositoryExtended) authRepo).GetUserAuthAsync(session, null);
                 if (existingUserAuth == null)
                 {
                     throw HttpError.NotFound(string.Format(Resources.UserNotFound, session.UserAuthId));
                 }
                 var newUserAuth = MapToUserAuth(authRepo, existingUserAuth, request);
-                authRepo.UpdateUserAuth(existingUserAuth, newUserAuth, request.Password);
+                await ((IUserAuthRepositoryExtended) authRepo).UpdateUserAuthAsync(existingUserAuth, newUserAuth, request.Password);
             }
             return new AccountBindResponse();
         }

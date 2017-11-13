@@ -50,7 +50,7 @@ namespace Sheep.ServiceInterface.States
         /// <summary>
         ///     根据省份名称显示一个省份。
         /// </summary>
-        [CacheResponse(Duration = 86400, MaxAge = 43200)]
+        [CacheResponse(Duration = 600, MaxAge = 300)]
         public async Task<object> Get(StateShowByName request)
         {
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))

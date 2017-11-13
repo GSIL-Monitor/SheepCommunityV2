@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Configuration;
@@ -50,7 +51,7 @@ namespace Sheep.ServiceInterface.Accounts
         /// <summary>
         ///     解除绑定手机号码。
         /// </summary>
-        public object Delete(AccountUnbindMobile request)
+        public async Task<object> Delete(AccountUnbindMobile request)
         {
             if (!IsAuthenticated)
             {
@@ -69,10 +70,7 @@ namespace Sheep.ServiceInterface.Accounts
             var authRepo = HostContext.AppHost.GetAuthRepository(Request);
             using (authRepo as IDisposable)
             {
-                if (authRepo is IUserAuthRepositoryExtended authRepoExtended)
-                {
-                    authRepoExtended.DeleteUserAuthDetailsByProvider(MobileAuthProvider.Name, request.PhoneNumber);
-                }
+                await ((IUserAuthRepositoryExtended) authRepo).DeleteUserAuthDetailsByProviderAsync(MobileAuthProvider.Name, request.PhoneNumber);
             }
             session.ProviderOAuthAccess.RemoveAll(x => x.Provider == MobileAuthProvider.Name && x.UserId == request.PhoneNumber);
             this.SaveSession(session);

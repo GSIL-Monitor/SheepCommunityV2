@@ -678,6 +678,37 @@ namespace ServiceStack.Authentication.RethinkDb
         }
 
         /// <inheritdoc />
+        public async Task<IUserAuth> GetUserAuthAsync(IAuthSession session, IAuthTokens tokens)
+        {
+            if (!session.UserAuthId.IsNullOrEmpty())
+            {
+                var userAuth = await GetUserAuthAsync(session.UserAuthId);
+                if (userAuth != null)
+                {
+                    return userAuth;
+                }
+            }
+            if (!session.UserAuthName.IsNullOrEmpty())
+            {
+                var userAuth = await GetUserAuthByUserNameAsync(session.UserAuthName);
+                if (userAuth != null)
+                {
+                    return userAuth;
+                }
+            }
+            if (tokens == null || tokens.Provider.IsNullOrEmpty() || tokens.UserId.IsNullOrEmpty())
+            {
+                return null;
+            }
+            var userAuthDetails = await R.Table(s_UserAuthDetailsTable).GetAll(R.Array(tokens.Provider, tokens.UserId)).OptArg("index", "Provider_UserId").Nth(0).Default_(default(UserAuthDetails)).RunResultAsync<UserAuthDetails>(_conn);
+            if (userAuthDetails != null)
+            {
+                return await R.Table(s_UserAuthTable).Get(userAuthDetails.UserAuthId).RunResultAsync<UserAuth>(_conn);
+            }
+            return null;
+        }
+
+        /// <inheritdoc />
         public async Task<IUserAuth> GetUserAuthAsync(string userAuthId)
         {
             if (userAuthId.IsNullOrEmpty())
@@ -794,7 +825,7 @@ namespace ServiceStack.Authentication.RethinkDb
         }
 
         /// <inheritdoc />
-        public async Task DeleteUserAuthDetailsByProviderAsyn(string provider, string userId)
+        public async Task DeleteUserAuthDetailsByProviderAsync(string provider, string userId)
         {
             if (provider.IsNullOrEmpty() || userId.IsNullOrEmpty())
             {

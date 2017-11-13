@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Configuration;
@@ -50,7 +51,7 @@ namespace Sheep.ServiceInterface.Accounts
         /// <summary>
         ///     解除绑定微博帐号。
         /// </summary>
-        public object Delete(AccountUnbindWeibo request)
+        public async Task<object> Delete(AccountUnbindWeibo request)
         {
             if (!IsAuthenticated)
             {
@@ -69,10 +70,7 @@ namespace Sheep.ServiceInterface.Accounts
             var authRepo = HostContext.AppHost.GetAuthRepository(Request);
             using (authRepo as IDisposable)
             {
-                if (authRepo is IUserAuthRepositoryExtended authRepoExtended)
-                {
-                    authRepoExtended.DeleteUserAuthDetailsByProvider(WeiboAuthProvider.Name, request.WeiboUserId);
-                }
+                await ((IUserAuthRepositoryExtended) authRepo).DeleteUserAuthDetailsByProviderAsync(WeiboAuthProvider.Name, request.WeiboUserId);
             }
             session.ProviderOAuthAccess.RemoveAll(x => x.Provider == WeiboAuthProvider.Name && x.UserId == request.WeiboUserId);
             this.SaveSession(session);

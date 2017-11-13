@@ -50,7 +50,7 @@ namespace Sheep.ServiceInterface.Cities
         /// <summary>
         ///     根据城市名称显示一个城市。
         /// </summary>
-        [CacheResponse(Duration = 86400, MaxAge = 43200)]
+        [CacheResponse(Duration = 600, MaxAge = 300)]
         public async Task<object> Get(CityShowByName request)
         {
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
