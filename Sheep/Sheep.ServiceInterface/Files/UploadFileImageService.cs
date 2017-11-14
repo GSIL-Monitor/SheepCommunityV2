@@ -47,7 +47,7 @@ namespace Sheep.ServiceInterface.Files
         /// <summary>
         ///     上传图像。
         /// </summary>
-        public async Task<object> Post(FileUploadImage request)
+        public async Task<object> Any(FileUploadImage request)
         {
             var imageFile = Request.Files.FirstOrDefault(file => file.ContentLength > 0);
             if (imageFile != null)

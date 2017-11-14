@@ -6,7 +6,7 @@ namespace Sheep.ServiceModel.Files
     /// <summary>
     ///     上传图像的请求。
     /// </summary>
-    [Route("/files/image", HttpMethods.Post)]
+    [Route("/files/image")]
     [DataContract]
     public class FileUploadImage : IReturn<FileUploadImageResponse>
     {

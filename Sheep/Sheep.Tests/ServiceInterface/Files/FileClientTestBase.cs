@@ -19,7 +19,7 @@ namespace Sheep.Tests.ServiceInterface.Files
         public virtual void OnBeforeTest()
         {
             AppSettings = new AppSettings();
-            ServiceClient = new JsonServiceClient("http://localhost:12345");
+            ServiceClient = new JsonServiceClient("http://apiv2.yangqungongshe.com");
         }
 
         [OneTimeTearDown]

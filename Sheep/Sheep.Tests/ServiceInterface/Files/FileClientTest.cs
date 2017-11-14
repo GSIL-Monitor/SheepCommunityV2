@@ -2,7 +2,6 @@
 using NUnit.Framework;
 using ServiceStack.Text;
 using Sheep.ServiceModel.Files;
-using Tencent.Cos;
 
 namespace Sheep.Tests.ServiceInterface.Files
 {

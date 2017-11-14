@@ -108,6 +108,8 @@ namespace Sheep
             ConfigureCorp(container);
             // 配置校验器。
             ConfigValidation(container);
+            // 配置跨域访问功能。
+            ConfigureCors(container);
             // 配置 Swagger 功能。
             ConfigSwagger(container);
         }
@@ -365,9 +367,17 @@ namespace Sheep
             Plugins.Add(feature);
         }
 
+        /// <summary>
+        ///     配置跨域访问功能。
+        /// </summary>
+        private void ConfigureCors(Container container)
+        {
+            var corsFeature = new CorsFeature();
+            Plugins.Add(corsFeature);
+        }
+
         private void ConfigurePlugin(Container container)
         {
-            //Plugins.Add(new CorsFeature("*", "GET,POST", "Content-Type", true));
             Plugins.Add(new ProtoBufFormat());
             Plugins.Add(new PostmanFeature());
             Plugins.Add(new RequestLogsFeature
