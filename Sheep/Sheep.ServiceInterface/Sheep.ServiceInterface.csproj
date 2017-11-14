@@ -141,6 +141,7 @@
     <Compile Include="Countries\ShowCountryByNameService.cs" />
     <Compile Include="Countries\ListCountryService.cs" />
     <Compile Include="Countries\ShowCountryService.cs" />
+    <Compile Include="Files\UploadFileImageService.cs" />
     <Compile Include="Groups\ChangeGroupService.cs" />
     <Compile Include="Groups\ChangeGroupLocationService.cs" />
     <Compile Include="Groups\ChangeGroupIconService.cs" />

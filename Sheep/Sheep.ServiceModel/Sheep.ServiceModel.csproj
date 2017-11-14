@@ -138,6 +138,7 @@
     <Compile Include="Achievements\AchievementDelete.cs" />
     <Compile Include="Achievements\AchievementUpdate.cs" />
     <Compile Include="Applications\Entities\ApplicationDto.cs" />
+    <Compile Include="Files\FileUploadImage.cs" />
     <Compile Include="Follows\Entities\FollowDto.cs" />
     <Compile Include="Follows\FollowCreate.cs" />
     <Compile Include="Groups\GroupChangeLocation.cs" />
@@ -218,6 +219,7 @@
   <ItemGroup>
     <Folder Include="Achievements\Mappers\" />
     <Folder Include="Achievements\Validators\" />
+    <Folder Include="Files\Validators\" />
     <Folder Include="Roles\Entities\" />
     <Folder Include="UserAchievements\Validators\" />
   </ItemGroup>

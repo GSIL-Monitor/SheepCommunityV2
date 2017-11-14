@@ -142,6 +142,15 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
+        ///   查找类似 无法找到指定的图像文件。 的本地化字符串。
+        /// </summary>
+        internal static string ImageFileNotFound {
+            get {
+                return ResourceManager.GetString("ImageFileNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 错误的验证码。 的本地化字符串。
         /// </summary>
         internal static string InvalidSecurityToken {
