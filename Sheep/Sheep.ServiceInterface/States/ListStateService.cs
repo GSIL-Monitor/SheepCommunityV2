@@ -9,8 +9,8 @@ using ServiceStack.Validation;
 using Sheep.Model.Geo;
 using Sheep.Model.Geo.Entities;
 using Sheep.ServiceInterface.Properties;
+using Sheep.ServiceInterface.States.Mappers;
 using Sheep.ServiceModel.States;
-using Sheep.ServiceModel.States.Entities;
 
 namespace Sheep.ServiceInterface.States
 {
@@ -52,7 +52,7 @@ namespace Sheep.ServiceInterface.States
         /// <summary>
         ///     列举一组省份。
         /// </summary>
-        [CacheResponse(Duration = 600, MaxAge = 300)]
+        [CacheResponse(Duration = 3600, MaxAge = 1800)]
         public async Task<object> Get(StateList request)
         {
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
@@ -72,25 +72,11 @@ namespace Sheep.ServiceInterface.States
             {
                 throw HttpError.NotFound(string.Format(Resources.StatesNotFound));
             }
-            var statesDto = existingStates.Select(MapToStateDto).ToList();
+            var statesDto = existingStates.Select(state => state.MapToStateDto()).ToList();
             return new StateListResponse
                    {
                        States = statesDto
                    };
-        }
-
-        #endregion
-
-        #region 转换
-
-        private StateDto MapToStateDto(State state)
-        {
-            var stateDto = new StateDto
-                           {
-                               Id = state.Id,
-                               Name = state.Name
-                           };
-            return stateDto;
         }
 
         #endregion

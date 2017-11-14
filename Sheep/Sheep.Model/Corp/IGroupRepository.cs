@@ -94,17 +94,15 @@ namespace Sheep.Model.Corp
         ///     创建一个新的群组。
         /// </summary>
         /// <param name="newGroup">新的群组。</param>
-        /// <param name="ownerId">群主编号。</param>
         /// <returns>创建后的群组。</returns>
-        Group CreateGroup(Group newGroup, int ownerId);
+        Group CreateGroup(Group newGroup);
 
         /// <summary>
         ///     异步创建一个新的群组。
         /// </summary>
         /// <param name="newGroup">新的群组。</param>
-        /// <param name="ownerId">群主编号。</param>
         /// <returns>创建后的群组。</returns>
-        Task<Group> CreateGroupAsync(Group newGroup, int ownerId);
+        Task<Group> CreateGroupAsync(Group newGroup);
 
         /// <summary>
         ///     更新一个群组。

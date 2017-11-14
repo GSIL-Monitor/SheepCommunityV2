@@ -117,7 +117,7 @@ namespace Sheep.Model.Corp.Entities
         /// <summary>
         ///     帐户禁止的取消日期。
         /// </summary>
-        public DateTime? BannedUntil { get; set; }
+        public DateTime? BannedUntilDate { get; set; }
 
         /// <summary>
         ///     创建日期。
@@ -128,11 +128,6 @@ namespace Sheep.Model.Corp.Entities
         ///     更新日期。
         /// </summary>
         public DateTime ModifiedDate { get; set; }
-
-        /// <summary>
-        ///     所有者用户编号。
-        /// </summary>
-        public int OwnerId { get; set; }
 
         /// <summary>
         ///     扩展属性。

@@ -1,6 +1,5 @@
 ﻿using System.Runtime.Serialization;
 using ServiceStack.Model;
-using Sheep.ServiceModel.Users.Entities;
 
 namespace Sheep.ServiceModel.Groups.Entities
 {
@@ -117,30 +116,24 @@ namespace Sheep.ServiceModel.Groups.Entities
         ///     帐户禁止的取消日期。
         /// </summary>
         [DataMember(Order = 18)]
-        public string BannedUntil { get; set; }
+        public long? BannedUntilDate { get; set; }
 
         /// <summary>
         ///     创建日期。
         /// </summary>
         [DataMember(Order = 19)]
-        public string CreatedDate { get; set; }
+        public long CreatedDate { get; set; }
 
         /// <summary>
         ///     更新日期。
         /// </summary>
         [DataMember(Order = 20)]
-        public string ModifiedDate { get; set; }
-
-        /// <summary>
-        ///     所有者用户。
-        /// </summary>
-        [DataMember(Order = 21)]
-        public BasicUserDto Owner { get; set; }
+        public long ModifiedDate { get; set; }
 
         /// <summary>
         ///     所有的成员数。
         /// </summary>
-        [DataMember(Order = 22)]
+        [DataMember(Order = 21)]
         public int TotalMembers { get; set; }
     }
 }

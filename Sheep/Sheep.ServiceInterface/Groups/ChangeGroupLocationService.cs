@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using ServiceStack;
 using ServiceStack.Configuration;
@@ -16,7 +15,7 @@ namespace Sheep.ServiceInterface.Groups
     /// <summary>
     ///     更改所在地服务接口。
     /// </summary>
-    public class ChangeGroupLocationService : Service
+    public class ChangeGroupLocationService : ChangeGroupService
     {
         #region 静态变量
 
@@ -66,11 +65,6 @@ namespace Sheep.ServiceInterface.Groups
             {
                 throw HttpError.NotFound(string.Format(Resources.GroupNotFound, request.GroupId));
             }
-            var currentUserId = GetSession().UserAuthId.ToInt(0);
-            if (currentUserId != existingGroup.OwnerId)
-            {
-                throw HttpError.Unauthorized(Resources.GroupOwnerRequired);
-            }
             var newGroup = new Group();
             newGroup.PopulateWith(existingGroup);
             newGroup.Meta = existingGroup.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingGroup.Meta);
@@ -78,17 +72,7 @@ namespace Sheep.ServiceInterface.Groups
             newGroup.State = request.State;
             newGroup.City = request.City;
             var group = await GroupRepo.UpdateGroupAsync(existingGroup, newGroup);
-            Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/groups/{0}", group.Id)).ToArray());
-            Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/groups/{0}", group.Id)).ToArray());
-            Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/groups/basic/{0}", group.Id)).ToArray());
-            Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/groups/basic/{0}", group.Id)).ToArray());
-            if (!group.RefId.IsNullOrEmpty())
-            {
-                Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/groups/show/{0}", group.RefId)).ToArray());
-                Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/groups/show/{0}", group.RefId)).ToArray());
-                Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/groups/basic/show/{0}", group.RefId)).ToArray());
-                Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/groups/basic/show/{0}", group.RefId)).ToArray());
-            }
+            ResetCache(group);
             return new GroupChangeLocationResponse();
         }
 

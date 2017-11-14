@@ -16,7 +16,7 @@ namespace Sheep.ServiceInterface.Accounts
     /// <summary>
     ///     绑定用户名称或电子邮件地址及密码帐户服务接口。
     /// </summary>
-    public class BindAccountCredentialsService : Service
+    public class BindAccountCredentialsService : ChangeAccountService
     {
         #region 静态变量
 
@@ -86,28 +86,16 @@ namespace Sheep.ServiceInterface.Accounts
                 {
                     throw HttpError.NotFound(string.Format(Resources.UserNotFound, session.UserAuthId));
                 }
-                var newUserAuth = MapToUserAuth(authRepo, existingUserAuth, request);
-                await ((IUserAuthRepositoryExtended) authRepo).UpdateUserAuthAsync(existingUserAuth, newUserAuth, request.Password);
+                var newUserAuth = authRepo is ICustomUserAuth customUserAuth ? customUserAuth.CreateUserAuth() : new UserAuth();
+                newUserAuth.PopulateMissingExtended(existingUserAuth);
+                newUserAuth.Meta = existingUserAuth.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingUserAuth.Meta);
+                newUserAuth.UserName = request.UserName;
+                newUserAuth.Email = request.Email;
+                newUserAuth.PrimaryEmail = request.Email;
+                var userAuth = await ((IUserAuthRepositoryExtended) authRepo).UpdateUserAuthAsync(existingUserAuth, newUserAuth, request.Password);
+                ResetCache(userAuth);
+                return new AccountBindResponse();
             }
-            return new AccountBindResponse();
-        }
-
-        #endregion
-
-        #region 转换成用户身份
-
-        /// <summary>
-        ///     将绑定的请求转换成用户身份。
-        /// </summary>
-        public IUserAuth MapToUserAuth(IAuthRepository authRepo, IUserAuth existingUserAuth, AccountBindCredentials request)
-        {
-            var newUserAuth = authRepo is ICustomUserAuth customUserAuth ? customUserAuth.CreateUserAuth() : new UserAuth();
-            newUserAuth.PopulateMissingExtended(existingUserAuth);
-            newUserAuth.Meta = existingUserAuth.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingUserAuth.Meta);
-            newUserAuth.UserName = request.UserName;
-            newUserAuth.Email = request.Email;
-            newUserAuth.PrimaryEmail = request.Email;
-            return newUserAuth;
         }
 
         #endregion

@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using ServiceStack;
-using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using ServiceStack.Validation;
 using Sheep.Common.Auth;
 using Sheep.ServiceInterface.Properties;
+using Sheep.ServiceInterface.Users.Mappers;
 using Sheep.ServiceModel.Users;
-using Sheep.ServiceModel.Users.Entities;
 
 namespace Sheep.ServiceInterface.Users
 {
@@ -62,33 +60,12 @@ namespace Sheep.ServiceInterface.Users
                 {
                     throw HttpError.NotFound(string.Format(Resources.UserNotFound, request.UserNameOrEmail));
                 }
-                var userDto = MapToBasicUserDto(existingUserAuth);
+                var userDto = existingUserAuth.MapToBasicUserDto();
                 return new BasicUserShowResponse
                        {
                            User = userDto
                        };
             }
-        }
-
-        #endregion
-
-        #region 转换
-
-        public BasicUserDto MapToBasicUserDto(IUserAuth userAuth)
-        {
-            if (userAuth.Meta == null)
-            {
-                userAuth.Meta = new Dictionary<string, string>();
-            }
-            var userDto = new BasicUserDto
-                          {
-                              Id = userAuth.Id,
-                              UserName = userAuth.UserName,
-                              DisplayName = userAuth.DisplayName,
-                              AvatarUrl = userAuth.Meta.GetValueOrDefault("AvatarUrl"),
-                              Gender = userAuth.Gender
-                          };
-            return userDto;
         }
 
         #endregion

@@ -224,7 +224,7 @@ namespace Sheep.ServiceModel.Accounts.Entities
         ///     帐户禁止的取消日期。
         /// </summary>
         [DataMember(Order = 36)]
-        public string BannedUntil { get; set; }
+        public long? BannedUntilDate { get; set; }
 
         /// <summary>
         ///     撰写的内容是否需要管理员审核。
@@ -236,19 +236,19 @@ namespace Sheep.ServiceModel.Accounts.Entities
         ///     创建日期。
         /// </summary>
         [DataMember(Order = 38)]
-        public string CreatedDate { get; set; }
+        public long CreatedDate { get; set; }
 
         /// <summary>
         ///     更新日期。
         /// </summary>
         [DataMember(Order = 39)]
-        public string ModifiedDate { get; set; }
+        public long ModifiedDate { get; set; }
 
         /// <summary>
         ///     锁定日期。
         /// </summary>
         [DataMember(Order = 40)]
-        public string LockedDate { get; set; }
+        public long? LockedDate { get; set; }
 
         /// <summary>
         ///     积分。

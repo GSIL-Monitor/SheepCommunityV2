@@ -86,7 +86,12 @@ namespace Sheep.ServiceInterface.Accounts
             var authRepo = HostContext.AppHost.GetAuthRepository(Request);
             using (authRepo as IDisposable)
             {
-                userAuth = authRepo.CreateUserAuth(MapToUserAuth(authRepo, request), request.Password);
+                var newUserAuth = authRepo is ICustomUserAuth customUserAuth ? customUserAuth.CreateUserAuth() : new UserAuth();
+                newUserAuth.Meta = new Dictionary<string, string>();
+                newUserAuth.UserName = request.UserName;
+                newUserAuth.Email = request.Email;
+                newUserAuth.PrimaryEmail = request.Email;
+                userAuth = authRepo.CreateUserAuth(newUserAuth, request.Password);
             }
             AccountRegisterResponse response = null;
             if (request.AutoLogin.GetValueOrDefault())
@@ -123,22 +128,6 @@ namespace Sheep.ServiceInterface.Accounts
                    {
                        UserId = userAuth.Id
                    };
-        }
-
-        #endregion
-
-        #region 转换成用户身份
-
-        /// <summary>
-        ///     将注册身份的请求转换成用户身份。
-        /// </summary>
-        public IUserAuth MapToUserAuth(IAuthRepository authRepo, AccountRegister request)
-        {
-            var newUserAuth = authRepo is ICustomUserAuth customUserAuth ? customUserAuth.CreateUserAuth() : new UserAuth();
-            newUserAuth.UserName = request.UserName;
-            newUserAuth.Email = request.Email;
-            newUserAuth.PrimaryEmail = request.Email;
-            return newUserAuth;
         }
 
         #endregion

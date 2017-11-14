@@ -8,9 +8,9 @@ using ServiceStack.Logging;
 using ServiceStack.Validation;
 using Sheep.Model.Geo;
 using Sheep.Model.Geo.Entities;
+using Sheep.ServiceInterface.Cities.Mappers;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Cities;
-using Sheep.ServiceModel.Cities.Entities;
 
 namespace Sheep.ServiceInterface.Cities
 {
@@ -52,7 +52,7 @@ namespace Sheep.ServiceInterface.Cities
         /// <summary>
         ///     列举一组城市。
         /// </summary>
-        [CacheResponse(Duration = 600, MaxAge = 300)]
+        [CacheResponse(Duration = 3600, MaxAge = 1800)]
         public async Task<object> Get(CityList request)
         {
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
@@ -72,25 +72,11 @@ namespace Sheep.ServiceInterface.Cities
             {
                 throw HttpError.NotFound(string.Format(Resources.CitiesNotFound));
             }
-            var citiesDto = existingCities.Select(MapToCityDto).ToList();
+            var citiesDto = existingCities.Select(city => city.MapToCityDto()).ToList();
             return new CityListResponse
                    {
                        Cities = citiesDto
                    };
-        }
-
-        #endregion
-
-        #region 转换
-
-        private CityDto MapToCityDto(City city)
-        {
-            var cityDto = new CityDto
-                          {
-                              Id = city.Id,
-                              Name = city.Name
-                          };
-            return cityDto;
         }
 
         #endregion

@@ -24,7 +24,7 @@ namespace Sheep.ServiceInterface.Groups
     /// <summary>
     ///     更改图标服务接口。
     /// </summary>
-    public class ChangeGroupIconService : Service
+    public class ChangeGroupIconService : ChangeGroupService
     {
         #region 静态变量
 
@@ -78,11 +78,6 @@ namespace Sheep.ServiceInterface.Groups
             if (existingGroup == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.GroupNotFound, request.GroupId));
-            }
-            var currentUserId = GetSession().UserAuthId.ToInt(0);
-            if (currentUserId != existingGroup.OwnerId)
-            {
-                throw HttpError.Unauthorized(Resources.GroupOwnerRequired);
             }
             string iconUrl = null;
             if (!request.SourceIconUrl.IsNullOrEmpty())
@@ -158,17 +153,7 @@ namespace Sheep.ServiceInterface.Groups
             newGroup.Meta = existingGroup.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingGroup.Meta);
             newGroup.IconUrl = iconUrl;
             var group = await GroupRepo.UpdateGroupAsync(existingGroup, newGroup);
-            Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/groups/{0}", group.Id)).ToArray());
-            Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/groups/{0}", group.Id)).ToArray());
-            Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/groups/basic/{0}", group.Id)).ToArray());
-            Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/groups/basic/{0}", group.Id)).ToArray());
-            if (!group.RefId.IsNullOrEmpty())
-            {
-                Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/groups/show/{0}", group.RefId)).ToArray());
-                Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/groups/show/{0}", group.RefId)).ToArray());
-                Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/groups/basic/show/{0}", group.RefId)).ToArray());
-                Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/groups/basic/show/{0}", group.RefId)).ToArray());
-            }
+            ResetCache(group);
             return new GroupChangeIconResponse
                    {
                        IconUrl = iconUrl

@@ -13,14 +13,14 @@ namespace Sheep.ServiceInterface.Accounts
     /// <summary>
     ///     获取微博授权码服务接口。
     /// </summary>
-    public class GetAccessTokenForWeiboService : Service
+    public class GetAccountAccessTokenForWeiboService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(GetAccessTokenForWeiboService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(GetAccountAccessTokenForWeiboService));
 
         #endregion
 

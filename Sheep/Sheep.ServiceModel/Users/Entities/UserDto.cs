@@ -128,25 +128,25 @@ namespace Sheep.ServiceModel.Users.Entities
         ///     帐户禁止的取消日期。
         /// </summary>
         [DataMember(Order = 20)]
-        public string BannedUntil { get; set; }
+        public long? BannedUntilDate { get; set; }
 
         /// <summary>
         ///     创建日期。
         /// </summary>
         [DataMember(Order = 21)]
-        public string CreatedDate { get; set; }
+        public long CreatedDate { get; set; }
 
         /// <summary>
         ///     更新日期。
         /// </summary>
         [DataMember(Order = 22)]
-        public string ModifiedDate { get; set; }
+        public long ModifiedDate { get; set; }
 
         /// <summary>
         ///     锁定日期。
         /// </summary>
         [DataMember(Order = 23)]
-        public string LockedDate { get; set; }
+        public long? LockedDate { get; set; }
 
         /// <summary>
         ///     积分。

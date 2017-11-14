@@ -5,10 +5,9 @@ using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using ServiceStack.Validation;
 using Sheep.Model.Geo;
-using Sheep.Model.Geo.Entities;
+using Sheep.ServiceInterface.Countries.Mappers;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Countries;
-using Sheep.ServiceModel.Countries.Entities;
 
 namespace Sheep.ServiceInterface.Countries
 {
@@ -50,7 +49,7 @@ namespace Sheep.ServiceInterface.Countries
         /// <summary>
         ///     显示一个国家。
         /// </summary>
-        [CacheResponse(Duration = 600, MaxAge = 300)]
+        [CacheResponse(Duration = 86400, MaxAge = 43200)]
         public async Task<object> Get(CountryShow request)
         {
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
@@ -62,25 +61,11 @@ namespace Sheep.ServiceInterface.Countries
             {
                 throw HttpError.NotFound(string.Format(Resources.CountryNotFound, request.CountryId));
             }
-            var countryDto = MapToCountryDto(existingCountry);
+            var countryDto = existingCountry.MapToCountryDto();
             return new CountryShowResponse
                    {
                        Country = countryDto
                    };
-        }
-
-        #endregion
-
-        #region 转换
-
-        private CountryDto MapToCountryDto(Country country)
-        {
-            var countryDto = new CountryDto
-                             {
-                                 Id = country.Id,
-                                 Name = country.Name
-                             };
-            return countryDto;
         }
 
         #endregion

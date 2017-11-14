@@ -138,6 +138,8 @@
     <Compile Include="Achievements\AchievementDelete.cs" />
     <Compile Include="Achievements\AchievementUpdate.cs" />
     <Compile Include="Applications\Entities\ApplicationDto.cs" />
+    <Compile Include="Follows\Entities\FollowDto.cs" />
+    <Compile Include="Follows\FollowCreate.cs" />
     <Compile Include="Groups\GroupChangeLocation.cs" />
     <Compile Include="Groups\GroupChangeIcon.cs" />
     <Compile Include="Groups\GroupChangeCoverPhoto.cs" />

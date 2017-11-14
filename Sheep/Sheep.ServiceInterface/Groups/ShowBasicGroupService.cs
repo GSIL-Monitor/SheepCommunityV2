@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using ServiceStack;
-using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using ServiceStack.Validation;
-using Sheep.Common.Auth;
 using Sheep.Model.Corp;
-using Sheep.Model.Corp.Entities;
+using Sheep.ServiceInterface.Groups.Mappers;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Groups;
-using Sheep.ServiceModel.Groups.Entities;
-using Sheep.ServiceModel.Users.Entities;
 
 namespace Sheep.ServiceInterface.Groups
 {
@@ -67,59 +61,11 @@ namespace Sheep.ServiceInterface.Groups
             {
                 throw HttpError.NotFound(string.Format(Resources.GroupNotFound, request.GroupId));
             }
-            BasicUserDto groupOwnerDto = null;
-            var authRepo = HostContext.AppHost.GetAuthRepository(Request);
-            using (authRepo as IDisposable)
-            {
-                var ownerUserAuth = await ((IUserAuthRepositoryExtended) authRepo).GetUserAuthAsync(existingGroup.OwnerId.ToString());
-                if (ownerUserAuth != null)
-                {
-                    groupOwnerDto = MapToBasicUserDto(ownerUserAuth);
-                }
-            }
-            var groupDto = MapToBasicGroupDto(existingGroup, groupOwnerDto);
+            var groupDto = existingGroup.MapToBasicGroupDto();
             return new BasicGroupShowResponse
                    {
                        Group = groupDto
                    };
-        }
-
-        #endregion
-
-        #region 转换
-
-        public BasicGroupDto MapToBasicGroupDto(Group group, BasicUserDto groupOwnerDto)
-        {
-            if (group.Meta == null)
-            {
-                group.Meta = new Dictionary<string, string>();
-            }
-            var groupDto = new BasicGroupDto
-                           {
-                               Id = group.Id,
-                               DisplayName = group.DisplayName,
-                               IconUrl = group.IconUrl,
-                               RefId = group.RefId,
-                               JoinMode = group.JoinMode
-                           };
-            return groupDto;
-        }
-
-        public BasicUserDto MapToBasicUserDto(IUserAuth userAuth)
-        {
-            if (userAuth.Meta == null)
-            {
-                userAuth.Meta = new Dictionary<string, string>();
-            }
-            var userDto = new BasicUserDto
-                          {
-                              Id = userAuth.Id,
-                              UserName = userAuth.UserName,
-                              DisplayName = userAuth.DisplayName,
-                              AvatarUrl = userAuth.Meta.GetValueOrDefault("AvatarUrl"),
-                              Gender = userAuth.Gender
-                          };
-            return userDto;
         }
 
         #endregion
