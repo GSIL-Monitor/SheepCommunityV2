@@ -49,6 +49,11 @@ namespace Sheep.ServiceInterface.Accounts
         /// </summary>
         public IValidator<AccountRegister> AccountRegisterValidator { get; set; }
 
+        /// <summary>
+        ///     获取及设置用户身份的存储库。
+        /// </summary>
+        public IUserAuthRepository AuthRepo { get; set; }
+
         #endregion
 
         #region 使用用户名称或电子邮件地址及密码注册
@@ -82,17 +87,12 @@ namespace Sheep.ServiceInterface.Accounts
             {
                 AccountRegisterValidator.ValidateAndThrow(request, ApplyTo.Post);
             }
-            IUserAuth userAuth;
-            var authRepo = HostContext.AppHost.GetAuthRepository(Request);
-            using (authRepo as IDisposable)
-            {
-                var newUserAuth = authRepo is ICustomUserAuth customUserAuth ? customUserAuth.CreateUserAuth() : new UserAuth();
-                newUserAuth.Meta = new Dictionary<string, string>();
-                newUserAuth.UserName = request.UserName;
-                newUserAuth.Email = request.Email;
-                newUserAuth.PrimaryEmail = request.Email;
-                userAuth = authRepo.CreateUserAuth(newUserAuth, request.Password);
-            }
+            var newUserAuth = AuthRepo is ICustomUserAuth customUserAuth ? customUserAuth.CreateUserAuth() : new UserAuth();
+            newUserAuth.Meta = new Dictionary<string, string>();
+            newUserAuth.UserName = request.UserName;
+            newUserAuth.Email = request.Email;
+            newUserAuth.PrimaryEmail = request.Email;
+            var userAuth = AuthRepo.CreateUserAuth(newUserAuth, request.Password);
             AccountRegisterResponse response = null;
             if (request.AutoLogin.GetValueOrDefault())
             {

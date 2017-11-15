@@ -332,7 +332,7 @@ namespace ServiceStack.Authentication.RethinkDb
             {
                 return new List<IUserAuthDetails>();
             }
-            var userAuthDetailsList = R.Table(s_UserAuthDetailsTable).GetAll(int.Parse(userAuthId)).OptArg("index", "UserAuthId").RunResult<List<UserAuthDetails>>(_conn);
+            var userAuthDetailsList = R.Table(s_UserAuthDetailsTable).GetAll(userAuthId.ToInt(0)).OptArg("index", "UserAuthId").RunResult<List<UserAuthDetails>>(_conn);
             return userAuthDetailsList.Cast<IUserAuthDetails>().ToList();
         }
 
@@ -527,7 +527,7 @@ namespace ServiceStack.Authentication.RethinkDb
             {
                 return null;
             }
-            return R.Table(s_UserAuthTable).Get(int.Parse(userAuthId)).RunResult<UserAuth>(_conn);
+            return R.Table(s_UserAuthTable).Get(userAuthId.ToInt(0)).RunResult<UserAuth>(_conn);
         }
 
         public void DeleteUserAuth(string userAuthId)
@@ -536,8 +536,8 @@ namespace ServiceStack.Authentication.RethinkDb
             {
                 return;
             }
-            R.Table(s_UserAuthTable).Get(int.Parse(userAuthId)).Delete().RunResult(_conn).AssertNoErrors();
-            R.Table(s_UserAuthDetailsTable).GetAll(int.Parse(userAuthId)).OptArg("index", "UserAuthId").Delete().RunResult(_conn).AssertNoErrors();
+            R.Table(s_UserAuthTable).Get(userAuthId.ToInt(0)).Delete().RunResult(_conn).AssertNoErrors();
+            R.Table(s_UserAuthDetailsTable).GetAll(userAuthId.ToInt(0)).OptArg("index", "UserAuthId").Delete().RunResult(_conn).AssertNoErrors();
         }
 
         #endregion
@@ -715,7 +715,7 @@ namespace ServiceStack.Authentication.RethinkDb
             {
                 return null;
             }
-            return await R.Table(s_UserAuthTable).Get(int.Parse(userAuthId)).RunResultAsync<UserAuth>(_conn);
+            return await R.Table(s_UserAuthTable).Get(userAuthId.ToInt(0)).RunResultAsync<UserAuth>(_conn);
         }
 
         /// <inheritdoc />
@@ -745,9 +745,9 @@ namespace ServiceStack.Authentication.RethinkDb
         {
             if (userAuthIds == null)
             {
-                return null;
+                return new List<IUserAuth>();
             }
-            var userAuthList = await R.Table(s_UserAuthTable).GetAll(userAuthIds.Select(uid => uid.ToInt(0)).ToArray()).RunResultAsync<List<UserAuth>>(_conn);
+            var userAuthList = await R.Table(s_UserAuthTable).GetAll(R.Args(userAuthIds.Select(userId => userId.ToInt(0)).ToArray())).OptArg("index", "Id").RunResultAsync<List<UserAuth>>(_conn);
             return userAuthList.Cast<IUserAuth>().ToList();
         }
 
@@ -799,8 +799,8 @@ namespace ServiceStack.Authentication.RethinkDb
             {
                 return;
             }
-            (await R.Table(s_UserAuthTable).Get(int.Parse(userAuthId)).Delete().RunResultAsync(_conn)).AssertNoErrors();
-            (await R.Table(s_UserAuthDetailsTable).GetAll(int.Parse(userAuthId)).OptArg("index", "UserAuthId").Delete().RunResultAsync(_conn)).AssertNoErrors();
+            (await R.Table(s_UserAuthTable).Get(userAuthId.ToInt(0)).Delete().RunResultAsync(_conn)).AssertNoErrors();
+            (await R.Table(s_UserAuthDetailsTable).GetAll(userAuthId.ToInt(0)).OptArg("index", "UserAuthId").Delete().RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
@@ -820,7 +820,7 @@ namespace ServiceStack.Authentication.RethinkDb
             {
                 return new List<IUserAuthDetails>();
             }
-            var userAuthDetailsList = await R.Table(s_UserAuthDetailsTable).GetAll(int.Parse(userAuthId)).OptArg("index", "UserAuthId").RunResultAsync<List<UserAuthDetails>>(_conn);
+            var userAuthDetailsList = await R.Table(s_UserAuthDetailsTable).GetAll(userAuthId.ToInt(0)).OptArg("index", "UserAuthId").RunResultAsync<List<UserAuthDetails>>(_conn);
             return userAuthDetailsList.Cast<IUserAuthDetails>().ToList();
         }
 

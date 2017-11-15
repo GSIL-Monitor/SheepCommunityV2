@@ -1,6 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using ServiceStack;
+using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
@@ -38,6 +38,11 @@ namespace Sheep.ServiceInterface.Users
         /// </summary>
         public IValidator<UserShow> UserShowValidator { get; set; }
 
+        /// <summary>
+        ///     获取及设置用户身份的存储库。
+        /// </summary>
+        public IUserAuthRepository AuthRepo { get; set; }
+
         #endregion
 
         #region 显示一个用户
@@ -45,27 +50,23 @@ namespace Sheep.ServiceInterface.Users
         /// <summary>
         ///     显示一个用户。
         /// </summary>
-        [CacheResponse(Duration = 600, MaxAge = 300)]
+        [CacheResponse(Duration = 600)]
         public async Task<object> Get(UserShow request)
         {
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
                 UserShowValidator.ValidateAndThrow(request, ApplyTo.Get);
             }
-            var authRepo = HostContext.AppHost.GetAuthRepository(Request);
-            using (authRepo as IDisposable)
+            var existingUserAuth = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(request.UserId.ToString());
+            if (existingUserAuth == null)
             {
-                var existingUserAuth = await ((IUserAuthRepositoryExtended) authRepo).GetUserAuthAsync(request.UserId.ToString());
-                if (existingUserAuth == null)
-                {
-                    throw HttpError.NotFound(string.Format(Resources.UserNotFound, request.UserId));
-                }
-                var userDto = existingUserAuth.MapToUserDto();
-                return new UserShowResponse
-                       {
-                           User = userDto
-                       };
+                throw HttpError.NotFound(string.Format(Resources.UserNotFound, request.UserId));
             }
+            var userDto = existingUserAuth.MapToUserDto();
+            return new UserShowResponse
+                   {
+                       User = userDto
+                   };
         }
 
         #endregion

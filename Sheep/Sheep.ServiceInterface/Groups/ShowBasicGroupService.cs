@@ -49,7 +49,7 @@ namespace Sheep.ServiceInterface.Groups
         /// <summary>
         ///     显示一个群组基本信息。
         /// </summary>
-        [CacheResponse(Duration = 600, MaxAge = 300)]
+        [CacheResponse(Duration = 600)]
         public async Task<object> Get(BasicGroupShow request)
         {
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))

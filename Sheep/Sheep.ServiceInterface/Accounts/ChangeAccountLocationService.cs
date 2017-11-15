@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using ServiceStack;
 using ServiceStack.Auth;
@@ -39,6 +38,11 @@ namespace Sheep.ServiceInterface.Accounts
         /// </summary>
         public IValidator<AccountChangeLocation> AccountChangeLocationValidator { get; set; }
 
+        /// <summary>
+        ///     获取及设置用户身份的存储库。
+        /// </summary>
+        public IUserAuthRepository AuthRepo { get; set; }
+
         #endregion
 
         #region 更改所在地
@@ -57,24 +61,20 @@ namespace Sheep.ServiceInterface.Accounts
                 AccountChangeLocationValidator.ValidateAndThrow(request, ApplyTo.Put);
             }
             var session = GetSession();
-            var authRepo = HostContext.AppHost.GetAuthRepository(Request);
-            using (authRepo as IDisposable)
+            var existingUserAuth = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(session, null);
+            if (existingUserAuth == null)
             {
-                var existingUserAuth = await ((IUserAuthRepositoryExtended) authRepo).GetUserAuthAsync(session, null);
-                if (existingUserAuth == null)
-                {
-                    throw HttpError.NotFound(string.Format(Resources.UserNotFound, session.UserAuthId));
-                }
-                var newUserAuth = authRepo is ICustomUserAuth customUserAuth ? customUserAuth.CreateUserAuth() : new UserAuth();
-                newUserAuth.PopulateMissingExtended(existingUserAuth);
-                newUserAuth.Meta = existingUserAuth.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingUserAuth.Meta);
-                newUserAuth.Country = request.Country;
-                newUserAuth.State = request.State;
-                newUserAuth.City = request.City;
-                var userAuth = await ((IUserAuthRepositoryExtended) authRepo).UpdateUserAuthAsync(existingUserAuth, newUserAuth);
-                ResetCache(userAuth);
-                return new AccountChangeLocationResponse();
+                throw HttpError.NotFound(string.Format(Resources.UserNotFound, session.UserAuthId));
             }
+            var newUserAuth = AuthRepo is ICustomUserAuth customUserAuth ? customUserAuth.CreateUserAuth() : new UserAuth();
+            newUserAuth.PopulateMissingExtended(existingUserAuth);
+            newUserAuth.Meta = existingUserAuth.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingUserAuth.Meta);
+            newUserAuth.Country = request.Country;
+            newUserAuth.State = request.State;
+            newUserAuth.City = request.City;
+            var userAuth = await ((IUserAuthRepositoryExtended) AuthRepo).UpdateUserAuthAsync(existingUserAuth, newUserAuth);
+            ResetCache(userAuth);
+            return new AccountChangeLocationResponse();
         }
 
         #endregion

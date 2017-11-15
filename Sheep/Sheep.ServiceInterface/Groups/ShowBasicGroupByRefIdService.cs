@@ -49,7 +49,7 @@ namespace Sheep.ServiceInterface.Groups
         /// <summary>
         ///     根据关联的第三方编号显示一个群组基本信息。
         /// </summary>
-        [CacheResponse(Duration = 600, MaxAge = 300)]
+        [CacheResponse(Duration = 600)]
         public async Task<object> Get(BasicGroupShowByRefId request)
         {
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))

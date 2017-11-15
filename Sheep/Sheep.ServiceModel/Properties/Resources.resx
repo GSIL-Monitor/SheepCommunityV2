@@ -156,6 +156,15 @@
   <data name="EmailLengthMismatch" xml:space="preserve">
     <value>电子邮件地址的长度至少为{0}位并且最多为为{1}位。</value>
   </data>
+  <data name="FollowerIdRequired" xml:space="preserve">
+    <value>关注者用户编号必须输入。</value>
+  </data>
+  <data name="FollowingUserIdNotExists" xml:space="preserve">
+    <value>被关注的用户编号不存在。</value>
+  </data>
+  <data name="FollowingUserIdRequired" xml:space="preserve">
+    <value>被关注者用户编号必须输入。</value>
+  </data>
   <data name="FullNameLengthMismatch" xml:space="preserve">
     <value>真实姓名的长度至少为{0}位并且最多为为{1}位。</value>
   </data>
@@ -233,6 +242,9 @@
   </data>
   <data name="StateIdRequired" xml:space="preserve">
     <value>省份编号必须输入。</value>
+  </data>
+  <data name="UserIdNotExists" xml:space="preserve">
+    <value>用户编号不存在。</value>
   </data>
   <data name="UserIdRequired" xml:space="preserve">
     <value>用户编号必须输入。</value>

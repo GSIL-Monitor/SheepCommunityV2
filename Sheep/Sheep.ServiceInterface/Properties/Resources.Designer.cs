@@ -106,6 +106,24 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
+        ///   查找类似 无法找到指定的关注{0}。 的本地化字符串。
+        /// </summary>
+        internal static string FollowNotFound {
+            get {
+                return ResourceManager.GetString("FollowNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定的关注列表。 的本地化字符串。
+        /// </summary>
+        internal static string FollowsNotFound {
+            get {
+                return ResourceManager.GetString("FollowsNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 生成验证码时产生了错误。 的本地化字符串。
         /// </summary>
         internal static string GenerateTokenError {

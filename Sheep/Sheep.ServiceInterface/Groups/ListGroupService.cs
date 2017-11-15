@@ -50,7 +50,7 @@ namespace Sheep.ServiceInterface.Groups
         /// <summary>
         ///     列举一组群组。
         /// </summary>
-        [CacheResponse(Duration = 600, MaxAge = 300)]
+        [CacheResponse(Duration = 600)]
         public async Task<object> Get(GroupList request)
         {
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Configuration;
@@ -44,6 +43,11 @@ namespace Sheep.ServiceInterface.Accounts
         /// </summary>
         public IValidator<AccountUnbindWeibo> AccountUnbindWeiboValidator { get; set; }
 
+        /// <summary>
+        ///     获取及设置用户身份的存储库。
+        /// </summary>
+        public IUserAuthRepository AuthRepo { get; set; }
+
         #endregion
 
         #region 解除绑定微博帐号
@@ -67,11 +71,7 @@ namespace Sheep.ServiceInterface.Accounts
                 AccountUnbindWeiboValidator.ValidateAndThrow(request, ApplyTo.Delete);
             }
             var session = GetSession();
-            var authRepo = HostContext.AppHost.GetAuthRepository(Request);
-            using (authRepo as IDisposable)
-            {
-                await ((IUserAuthRepositoryExtended) authRepo).DeleteUserAuthDetailsByProviderAsync(WeiboAuthProvider.Name, request.WeiboUserId);
-            }
+            await ((IUserAuthRepositoryExtended) AuthRepo).DeleteUserAuthDetailsByProviderAsync(WeiboAuthProvider.Name, request.WeiboUserId);
             session.ProviderOAuthAccess.RemoveAll(x => x.Provider == WeiboAuthProvider.Name && x.UserId == request.WeiboUserId);
             this.SaveSession(session);
             return new AccountUnbindResponse();

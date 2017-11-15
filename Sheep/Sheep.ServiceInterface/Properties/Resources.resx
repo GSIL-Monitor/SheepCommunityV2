@@ -132,6 +132,12 @@
   <data name="DisplayNameAlreadyExists" xml:space="preserve">
     <value>显示名称已经存在。</value>
   </data>
+  <data name="FollowNotFound" xml:space="preserve">
+    <value>无法找到指定的关注{0}。</value>
+  </data>
+  <data name="FollowsNotFound" xml:space="preserve">
+    <value>无法找到指定的关注列表。</value>
+  </data>
   <data name="GenerateTokenError" xml:space="preserve">
     <value>生成验证码时产生了错误。</value>
   </data>

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using ServiceStack;
 using ServiceStack.Auth;
@@ -44,6 +43,11 @@ namespace Sheep.ServiceInterface.Accounts
         /// </summary>
         public IValidator<AccountBindCredentials> AccountBindCredentialsValidator { get; set; }
 
+        /// <summary>
+        ///     获取及设置用户身份的存储库。
+        /// </summary>
+        public IUserAuthRepository AuthRepo { get; set; }
+
         #endregion
 
         #region 绑定用户名称或电子邮件地址及密码帐户
@@ -78,24 +82,20 @@ namespace Sheep.ServiceInterface.Accounts
                 AccountBindCredentialsValidator.ValidateAndThrow(request, ApplyTo.Post);
             }
             var session = GetSession();
-            var authRepo = HostContext.AppHost.GetAuthRepository(Request);
-            using (authRepo as IDisposable)
+            var existingUserAuth = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(session, null);
+            if (existingUserAuth == null)
             {
-                var existingUserAuth = await ((IUserAuthRepositoryExtended) authRepo).GetUserAuthAsync(session, null);
-                if (existingUserAuth == null)
-                {
-                    throw HttpError.NotFound(string.Format(Resources.UserNotFound, session.UserAuthId));
-                }
-                var newUserAuth = authRepo is ICustomUserAuth customUserAuth ? customUserAuth.CreateUserAuth() : new UserAuth();
-                newUserAuth.PopulateMissingExtended(existingUserAuth);
-                newUserAuth.Meta = existingUserAuth.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingUserAuth.Meta);
-                newUserAuth.UserName = request.UserName;
-                newUserAuth.Email = request.Email;
-                newUserAuth.PrimaryEmail = request.Email;
-                var userAuth = await ((IUserAuthRepositoryExtended) authRepo).UpdateUserAuthAsync(existingUserAuth, newUserAuth, request.Password);
-                ResetCache(userAuth);
-                return new AccountBindResponse();
+                throw HttpError.NotFound(string.Format(Resources.UserNotFound, session.UserAuthId));
             }
+            var newUserAuth = AuthRepo is ICustomUserAuth customUserAuth ? customUserAuth.CreateUserAuth() : new UserAuth();
+            newUserAuth.PopulateMissingExtended(existingUserAuth);
+            newUserAuth.Meta = existingUserAuth.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingUserAuth.Meta);
+            newUserAuth.UserName = request.UserName;
+            newUserAuth.Email = request.Email;
+            newUserAuth.PrimaryEmail = request.Email;
+            var userAuth = await ((IUserAuthRepositoryExtended) AuthRepo).UpdateUserAuthAsync(existingUserAuth, newUserAuth, request.Password);
+            ResetCache(userAuth);
+            return new AccountBindResponse();
         }
 
         #endregion

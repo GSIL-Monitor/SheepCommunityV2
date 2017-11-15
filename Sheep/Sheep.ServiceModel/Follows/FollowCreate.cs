@@ -12,7 +12,7 @@ namespace Sheep.ServiceModel.Follows
     public class FollowCreate : IReturn<FollowCreateResponse>
     {
         /// <summary>
-        ///     被关注的用户编号。
+        ///     被关注者编号。
         /// </summary>
         [DataMember(Order = 1, IsRequired = true)]
         public int FollowingUserId { get; set; }

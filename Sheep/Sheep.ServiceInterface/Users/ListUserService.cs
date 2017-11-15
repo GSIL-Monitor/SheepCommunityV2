@@ -1,7 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using ServiceStack;
+using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
@@ -39,6 +39,11 @@ namespace Sheep.ServiceInterface.Users
         /// </summary>
         public IValidator<UserList> UserListValidator { get; set; }
 
+        /// <summary>
+        ///     获取及设置用户身份的存储库。
+        /// </summary>
+        public IUserAuthRepository AuthRepo { get; set; }
+
         #endregion
 
         #region 列举一组用户
@@ -46,27 +51,23 @@ namespace Sheep.ServiceInterface.Users
         /// <summary>
         ///     列举一组用户。
         /// </summary>
-        [CacheResponse(Duration = 600, MaxAge = 300)]
+        [CacheResponse(Duration = 600)]
         public async Task<object> Get(UserList request)
         {
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
                 UserListValidator.ValidateAndThrow(request, ApplyTo.Get);
             }
-            var authRepo = HostContext.AppHost.GetAuthRepository(Request);
-            using (authRepo as IDisposable)
+            var existingUserAuths = await ((IUserAuthRepositoryExtended) AuthRepo).FindUserAuthsAsync(request.UserNameFilter, request.NameFilter, request.CreatedSince, request.ModifiedSince, request.LockedSince, request.AccountStatus, request.OrderBy, request.Descending, request.Skip, request.Limit);
+            if (existingUserAuths == null)
             {
-                var existingUserAuths = await ((IUserAuthRepositoryExtended) authRepo).FindUserAuthsAsync(request.UserNameFilter, request.NameFilter, request.CreatedSince, request.ModifiedSince, request.LockedSince, request.AccountStatus, request.OrderBy, request.Descending, request.Skip, request.Limit);
-                if (existingUserAuths == null)
-                {
-                    throw HttpError.NotFound(string.Format(Resources.UsersNotFound));
-                }
-                var usersDto = existingUserAuths.Select(userAuth => userAuth.MapToUserDto()).ToList();
-                return new UserListResponse
-                       {
-                           Users = usersDto
-                       };
+                throw HttpError.NotFound(string.Format(Resources.UsersNotFound));
             }
+            var usersDto = existingUserAuths.Select(userAuth => userAuth.MapToUserDto()).ToList();
+            return new UserListResponse
+                   {
+                       Users = usersDto
+                   };
         }
 
         #endregion

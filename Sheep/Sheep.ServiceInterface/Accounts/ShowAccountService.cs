@@ -1,6 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using ServiceStack;
+using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
@@ -38,6 +38,11 @@ namespace Sheep.ServiceInterface.Accounts
         /// </summary>
         public IValidator<AccountShow> AccountShowValidator { get; set; }
 
+        /// <summary>
+        ///     获取及设置用户身份的存储库。
+        /// </summary>
+        public IUserAuthRepository AuthRepo { get; set; }
+
         #endregion
 
         #region 显示一个帐户
@@ -56,20 +61,16 @@ namespace Sheep.ServiceInterface.Accounts
                 AccountShowValidator.ValidateAndThrow(request, ApplyTo.Get);
             }
             var session = GetSession();
-            var authRepo = HostContext.AppHost.GetAuthRepository(Request);
-            using (authRepo as IDisposable)
+            var existingUserAuth = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(session, null);
+            if (existingUserAuth == null)
             {
-                var existingUserAuth = await ((IUserAuthRepositoryExtended) authRepo).GetUserAuthAsync(session, null);
-                if (existingUserAuth == null)
-                {
-                    throw HttpError.NotFound(string.Format(Resources.UserNotFound, session.UserAuthId));
-                }
-                var accountDto = existingUserAuth.MapToAccountDto();
-                return new AccountShowResponse
-                       {
-                           Account = accountDto
-                       };
+                throw HttpError.NotFound(string.Format(Resources.UserNotFound, session.UserAuthId));
             }
+            var accountDto = existingUserAuth.MapToAccountDto();
+            return new AccountShowResponse
+                   {
+                       Account = accountDto
+                   };
         }
 
         #endregion

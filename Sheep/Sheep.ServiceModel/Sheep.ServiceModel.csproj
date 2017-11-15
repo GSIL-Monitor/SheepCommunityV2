@@ -139,8 +139,17 @@
     <Compile Include="Achievements\AchievementUpdate.cs" />
     <Compile Include="Applications\Entities\ApplicationDto.cs" />
     <Compile Include="Files\FileUploadImage.cs" />
+    <Compile Include="Follows\BasicFollowList.cs" />
+    <Compile Include="Follows\FollowList.cs" />
+    <Compile Include="Follows\Entities\BasicFollowOfFollowerDto.cs" />
+    <Compile Include="Follows\Entities\BasicFollowOfFollowingUserDto.cs" />
     <Compile Include="Follows\Entities\FollowDto.cs" />
+    <Compile Include="Follows\FollowDelete.cs" />
     <Compile Include="Follows\FollowCreate.cs" />
+    <Compile Include="Follows\Validators\BasicFollowListValidator.cs" />
+    <Compile Include="Follows\Validators\FollowListValidator.cs" />
+    <Compile Include="Follows\Validators\FollowCreateValidator.cs" />
+    <Compile Include="Follows\Validators\FollowDeleteValidator.cs" />
     <Compile Include="Groups\GroupChangeLocation.cs" />
     <Compile Include="Groups\GroupChangeIcon.cs" />
     <Compile Include="Groups\GroupChangeCoverPhoto.cs" />

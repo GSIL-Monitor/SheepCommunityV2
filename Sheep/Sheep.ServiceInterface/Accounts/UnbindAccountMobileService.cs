@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Configuration;
@@ -44,6 +43,11 @@ namespace Sheep.ServiceInterface.Accounts
         /// </summary>
         public IValidator<AccountUnbindMobile> AccountUnbindMobileValidator { get; set; }
 
+        /// <summary>
+        ///     获取及设置用户身份的存储库。
+        /// </summary>
+        public IUserAuthRepository AuthRepo { get; set; }
+
         #endregion
 
         #region 解除绑定手机号码
@@ -67,11 +71,7 @@ namespace Sheep.ServiceInterface.Accounts
                 AccountUnbindMobileValidator.ValidateAndThrow(request, ApplyTo.Delete);
             }
             var session = GetSession();
-            var authRepo = HostContext.AppHost.GetAuthRepository(Request);
-            using (authRepo as IDisposable)
-            {
-                await ((IUserAuthRepositoryExtended) authRepo).DeleteUserAuthDetailsByProviderAsync(MobileAuthProvider.Name, request.PhoneNumber);
-            }
+            await ((IUserAuthRepositoryExtended) AuthRepo).DeleteUserAuthDetailsByProviderAsync(MobileAuthProvider.Name, request.PhoneNumber);
             session.ProviderOAuthAccess.RemoveAll(x => x.Provider == MobileAuthProvider.Name && x.UserId == request.PhoneNumber);
             this.SaveSession(session);
             return new AccountUnbindResponse();

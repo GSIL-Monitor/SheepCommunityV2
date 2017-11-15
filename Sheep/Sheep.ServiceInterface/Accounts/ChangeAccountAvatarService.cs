@@ -52,6 +52,11 @@ namespace Sheep.ServiceInterface.Accounts
         /// </summary>
         public IValidator<AccountChangeAvatar> AccountChangeAvatarValidator { get; set; }
 
+        /// <summary>
+        ///     获取及设置用户身份的存储库。
+        /// </summary>
+        public IUserAuthRepository AuthRepo { get; set; }
+
         #endregion
 
         #region 更改头像
@@ -70,94 +75,90 @@ namespace Sheep.ServiceInterface.Accounts
                 AccountChangeAvatarValidator.ValidateAndThrow(request, ApplyTo.Put);
             }
             var session = GetSession();
-            var authRepo = HostContext.AppHost.GetAuthRepository(Request);
-            using (authRepo as IDisposable)
+            var existingUserAuth = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(session, null);
+            if (existingUserAuth == null)
             {
-                var existingUserAuth = await ((IUserAuthRepositoryExtended) authRepo).GetUserAuthAsync(session, null);
-                if (existingUserAuth == null)
-                {
-                    throw HttpError.NotFound(string.Format(Resources.UserNotFound, session.UserAuthId));
-                }
-                string avatarUrl = null;
-                if (!request.SourceAvatarUrl.IsNullOrEmpty())
-                {
-                    var imageBuffer = await request.SourceAvatarUrl.GetBytesFromUrlAsync();
-                    if (imageBuffer != null && imageBuffer.Length > 0)
-                    {
-                        using (var imageStream = new MemoryStream(imageBuffer))
-                        {
-                            var md5Hash = OssUtils.ComputeContentMd5(imageStream, imageStream.Length);
-                            var path = $"users/{session.UserAuthId}/avatars/{Guid.NewGuid():N}.{request.SourceAvatarUrl.GetImageUrlExtension()}";
-                            var objectMetadata = new ObjectMetadata
-                                                 {
-                                                     ContentMd5 = md5Hash,
-                                                     ContentType = request.SourceAvatarUrl.GetImageUrlExtension().GetImageContentType(),
-                                                     ContentLength = imageBuffer.Length,
-                                                     CacheControl = "max-age=604800"
-                                                 };
-                            try
-                            {
-                                await OssClient.PutObjectAsync(AppSettings.GetString(AppSettingsOssNames.OssBucket), path, imageStream, objectMetadata);
-                                avatarUrl = $"{AppSettings.GetString(AppSettingsOssNames.OssUrl)}/{path}";
-                            }
-                            catch (OssException ex)
-                            {
-                                Log.WarnFormat("Failed with error code: {0}; Error info: {1}. RequestID:{2}\tHostID:{3}", ex.ErrorCode, ex.Message, ex.RequestId, ex.HostId);
-                                throw new HttpError(HttpStatusCode.InternalServerError, ex.ErrorCode, ex.Message);
-                            }
-                            catch (Exception ex)
-                            {
-                                Log.WarnFormat("Failed with error info: {0}", ex.Message);
-                                throw new HttpError(HttpStatusCode.InternalServerError, ex.Message);
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    var imageFile = Request.Files.FirstOrDefault(file => file.ContentLength > 0);
-                    if (imageFile != null)
-                    {
-                        using (var imageStream = imageFile.InputStream)
-                        {
-                            var md5Hash = OssUtils.ComputeContentMd5(imageStream, imageStream.Length);
-                            var path = $"users/{session.UserAuthId}/avatars/{Guid.NewGuid():N}.{imageFile.FileName.GetImageFileExtension()}";
-                            var objectMetadata = new ObjectMetadata
-                                                 {
-                                                     ContentMd5 = md5Hash,
-                                                     ContentType = imageFile.ContentType,
-                                                     ContentLength = imageFile.ContentLength,
-                                                     CacheControl = "max-age=604800"
-                                                 };
-                            try
-                            {
-                                await OssClient.PutObjectAsync(AppSettings.GetString(AppSettingsOssNames.OssBucket), path, imageStream, objectMetadata);
-                                avatarUrl = $"{AppSettings.GetString(AppSettingsOssNames.OssUrl)}/{path}";
-                            }
-                            catch (OssException ex)
-                            {
-                                Log.WarnFormat("Failed with error code: {0}; Error info: {1}. RequestID:{2}\tHostID:{3}", ex.ErrorCode, ex.Message, ex.RequestId, ex.HostId);
-                                throw new HttpError(HttpStatusCode.InternalServerError, ex.ErrorCode, ex.Message);
-                            }
-                            catch (Exception ex)
-                            {
-                                Log.WarnFormat("Failed with error info: {0}", ex.Message);
-                                throw new HttpError(HttpStatusCode.InternalServerError, ex.Message);
-                            }
-                        }
-                    }
-                }
-                var newUserAuth = authRepo is ICustomUserAuth customUserAuth ? customUserAuth.CreateUserAuth() : new UserAuth();
-                newUserAuth.PopulateMissingExtended(existingUserAuth);
-                newUserAuth.Meta = existingUserAuth.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingUserAuth.Meta);
-                newUserAuth.Meta["AvatarUrl"] = avatarUrl;
-                var userAuth = await ((IUserAuthRepositoryExtended) authRepo).UpdateUserAuthAsync(existingUserAuth, newUserAuth);
-                ResetCache(userAuth);
-                return new AccountChangeAvatarResponse
-                       {
-                           AvatarUrl = avatarUrl
-                       };
+                throw HttpError.NotFound(string.Format(Resources.UserNotFound, session.UserAuthId));
             }
+            string avatarUrl = null;
+            if (!request.SourceAvatarUrl.IsNullOrEmpty())
+            {
+                var imageBuffer = await request.SourceAvatarUrl.GetBytesFromUrlAsync();
+                if (imageBuffer != null && imageBuffer.Length > 0)
+                {
+                    using (var imageStream = new MemoryStream(imageBuffer))
+                    {
+                        var md5Hash = OssUtils.ComputeContentMd5(imageStream, imageStream.Length);
+                        var path = $"users/{session.UserAuthId}/avatars/{Guid.NewGuid():N}.{request.SourceAvatarUrl.GetImageUrlExtension()}";
+                        var objectMetadata = new ObjectMetadata
+                                             {
+                                                 ContentMd5 = md5Hash,
+                                                 ContentType = request.SourceAvatarUrl.GetImageUrlExtension().GetImageContentType(),
+                                                 ContentLength = imageBuffer.Length,
+                                                 CacheControl = "max-age=604800"
+                                             };
+                        try
+                        {
+                            await OssClient.PutObjectAsync(AppSettings.GetString(AppSettingsOssNames.OssBucket), path, imageStream, objectMetadata);
+                            avatarUrl = $"{AppSettings.GetString(AppSettingsOssNames.OssUrl)}/{path}";
+                        }
+                        catch (OssException ex)
+                        {
+                            Log.WarnFormat("Failed with error code: {0}; Error info: {1}. RequestID:{2}\tHostID:{3}", ex.ErrorCode, ex.Message, ex.RequestId, ex.HostId);
+                            throw new HttpError(HttpStatusCode.InternalServerError, ex.ErrorCode, ex.Message);
+                        }
+                        catch (Exception ex)
+                        {
+                            Log.WarnFormat("Failed with error info: {0}", ex.Message);
+                            throw new HttpError(HttpStatusCode.InternalServerError, ex.Message);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                var imageFile = Request.Files.FirstOrDefault(file => file.ContentLength > 0);
+                if (imageFile != null)
+                {
+                    using (var imageStream = imageFile.InputStream)
+                    {
+                        var md5Hash = OssUtils.ComputeContentMd5(imageStream, imageStream.Length);
+                        var path = $"users/{session.UserAuthId}/avatars/{Guid.NewGuid():N}.{imageFile.FileName.GetImageFileExtension()}";
+                        var objectMetadata = new ObjectMetadata
+                                             {
+                                                 ContentMd5 = md5Hash,
+                                                 ContentType = imageFile.ContentType,
+                                                 ContentLength = imageFile.ContentLength,
+                                                 CacheControl = "max-age=604800"
+                                             };
+                        try
+                        {
+                            await OssClient.PutObjectAsync(AppSettings.GetString(AppSettingsOssNames.OssBucket), path, imageStream, objectMetadata);
+                            avatarUrl = $"{AppSettings.GetString(AppSettingsOssNames.OssUrl)}/{path}";
+                        }
+                        catch (OssException ex)
+                        {
+                            Log.WarnFormat("Failed with error code: {0}; Error info: {1}. RequestID:{2}\tHostID:{3}", ex.ErrorCode, ex.Message, ex.RequestId, ex.HostId);
+                            throw new HttpError(HttpStatusCode.InternalServerError, ex.ErrorCode, ex.Message);
+                        }
+                        catch (Exception ex)
+                        {
+                            Log.WarnFormat("Failed with error info: {0}", ex.Message);
+                            throw new HttpError(HttpStatusCode.InternalServerError, ex.Message);
+                        }
+                    }
+                }
+            }
+            var newUserAuth = AuthRepo is ICustomUserAuth customUserAuth ? customUserAuth.CreateUserAuth() : new UserAuth();
+            newUserAuth.PopulateMissingExtended(existingUserAuth);
+            newUserAuth.Meta = existingUserAuth.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingUserAuth.Meta);
+            newUserAuth.Meta["AvatarUrl"] = avatarUrl;
+            var userAuth = await ((IUserAuthRepositoryExtended) AuthRepo).UpdateUserAuthAsync(existingUserAuth, newUserAuth);
+            ResetCache(userAuth);
+            return new AccountChangeAvatarResponse
+                   {
+                       AvatarUrl = avatarUrl
+                   };
         }
 
         #endregion

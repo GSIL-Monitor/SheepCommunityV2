@@ -43,6 +43,11 @@ namespace Sheep.ServiceInterface.Accounts
         /// </summary>
         public IValidator<AccountLoginByMobile> AccountLoginByMobileValidator { get; set; }
 
+        /// <summary>
+        ///     获取及设置用户身份的存储库。
+        /// </summary>
+        public IUserAuthRepository AuthRepo { get; set; }
+
         #endregion
 
         #region 使用手机号码登录
@@ -82,18 +87,14 @@ namespace Sheep.ServiceInterface.Accounts
                 if (authResult is AuthenticateResponse authResponse)
                 {
                     var newlyCreated = false;
-                    var authRepo = HostContext.AppHost.GetAuthRepository(Request);
-                    using (authRepo as IDisposable)
+                    var userAuth = AuthRepo.GetUserAuth(authResponse.UserId);
+                    if (userAuth == null)
                     {
-                        var userAuth = authRepo.GetUserAuth(authResponse.UserId);
-                        if (userAuth == null)
-                        {
-                            throw HttpError.NotFound(string.Format(Resources.UserNotFound, authResponse.UserId));
-                        }
-                        if (userAuth.CreatedDate == userAuth.ModifiedDate)
-                        {
-                            newlyCreated = true;
-                        }
+                        throw HttpError.NotFound(string.Format(Resources.UserNotFound, authResponse.UserId));
+                    }
+                    if (userAuth.CreatedDate == userAuth.ModifiedDate)
+                    {
+                        newlyCreated = true;
                     }
                     return new AccountLoginResponse
                            {

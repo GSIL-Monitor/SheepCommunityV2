@@ -9,9 +9,7 @@ using ServiceStack;
 using ServiceStack.Api.Swagger;
 using ServiceStack.Auth;
 using ServiceStack.Authentication.RethinkDb;
-using ServiceStack.Data;
 using ServiceStack.Logging;
-using ServiceStack.OrmLite;
 using ServiceStack.ProtoBuf;
 using ServiceStack.Redis;
 using ServiceStack.Validation;
@@ -20,6 +18,8 @@ using Sheep.Model.Auth.Events;
 using Sheep.Model.Auth.Providers;
 using Sheep.Model.Corp;
 using Sheep.Model.Corp.Repositories;
+using Sheep.Model.Friendship;
+using Sheep.Model.Friendship.Repositories;
 using Sheep.Model.Geo;
 using Sheep.Model.Geo.Repositories;
 using Sheep.Model.Security;
@@ -106,12 +106,18 @@ namespace Sheep
             ConfigureGeo(container);
             // 配置团体功能。
             ConfigureCorp(container);
+            // 配置好友功能。
+            ConfigureFriendship(container);
             // 配置校验器。
             ConfigValidation(container);
             // 配置跨域访问功能。
-            ConfigureCors(container);
+            ConfigureCors();
+            // 配置ProtoBuf序列化功能。
+            ConfigureProtoBuf();
+            // 配置Postman接口生成功能。
+            ConfigurePostman();
             // 配置 Swagger 功能。
-            ConfigSwagger(container);
+            ConfigSwagger();
         }
 
         #endregion
@@ -137,29 +143,29 @@ namespace Sheep
                            });
         }
 
-        /// <summary>
-        ///     配置 SQL Server 数据库。
-        /// </summary>
-        private void ConfigSqlServerDb(Container container)
-        {
-            IOrmLiteDialectProvider dialectProvider;
-            switch (AppSettings.GetString(AppSettingsDbNames.DbProvider))
-            {
-                case "SqlServer2012":
-                    dialectProvider = SqlServer2012Dialect.Provider;
-                    break;
-                case "SqlServer2014":
-                    dialectProvider = SqlServer2014Dialect.Provider;
-                    break;
-                case "SqlServer2016":
-                    dialectProvider = SqlServer2016Dialect.Provider;
-                    break;
-                default:
-                    dialectProvider = SqlServerDialect.Provider;
-                    break;
-            }
-            container.Register<IDbConnectionFactory>(c => new OrmLiteConnectionFactory(AppSettings.GetString(AppSettingsDbNames.DbConnectionString), dialectProvider));
-        }
+        ///// <summary>
+        /////     配置 SQL Server 数据库。
+        ///// </summary>
+        //private void ConfigSqlServerDb(Container container)
+        //{
+        //    IOrmLiteDialectProvider dialectProvider;
+        //    switch (AppSettings.GetString(AppSettingsDbNames.DbProvider))
+        //    {
+        //        case "SqlServer2012":
+        //            dialectProvider = SqlServer2012Dialect.Provider;
+        //            break;
+        //        case "SqlServer2014":
+        //            dialectProvider = SqlServer2014Dialect.Provider;
+        //            break;
+        //        case "SqlServer2016":
+        //            dialectProvider = SqlServer2016Dialect.Provider;
+        //            break;
+        //        default:
+        //            dialectProvider = SqlServerDialect.Provider;
+        //            break;
+        //    }
+        //    container.Register<IDbConnectionFactory>(c => new OrmLiteConnectionFactory(AppSettings.GetString(AppSettingsDbNames.DbConnectionString), dialectProvider));
+        //}
 
         /// <summary>
         ///     配置 Redis 客户端管理器。
@@ -342,8 +348,12 @@ namespace Sheep
             container.Register<IGroupRepository>(c => new RethinkDbGroupRepository(c.Resolve<IConnection>(), AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true));
         }
 
+        /// <summary>
+        ///     配置好友功能。
+        /// </summary>
         private void ConfigureFriendship(Container container)
         {
+            container.Register<IFollowRepository>(c => new RethinkDbFollowRepository(c.Resolve<IConnection>(), AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true));
         }
 
         private void ConfigureBlog(Container container)
@@ -370,27 +380,47 @@ namespace Sheep
         /// <summary>
         ///     配置跨域访问功能。
         /// </summary>
-        private void ConfigureCors(Container container)
+        private void ConfigureCors()
         {
             var corsFeature = new CorsFeature();
             Plugins.Add(corsFeature);
         }
 
-        private void ConfigurePlugin(Container container)
+        /// <summary>
+        ///     配置ProtoBuf序列化功能。
+        /// </summary>
+        private void ConfigureProtoBuf()
         {
-            Plugins.Add(new ProtoBufFormat());
-            Plugins.Add(new PostmanFeature());
-            Plugins.Add(new RequestLogsFeature
-                        {
-                            EnableErrorTracking = false,
-                            EnableResponseTracking = false
-                        });
+            var protoBufFormat = new ProtoBufFormat();
+            Plugins.Add(protoBufFormat);
+        }
+
+        /// <summary>
+        ///     配置Postman接口生成功能。
+        /// </summary>
+        private void ConfigurePostman()
+        {
+            var postmanFeature = new PostmanFeature();
+            Plugins.Add(postmanFeature);
+        }
+
+        /// <summary>
+        ///     配置请求日志功能。
+        /// </summary>
+        private void ConfigureRequestLogs()
+        {
+            var requestLogsFeature = new RequestLogsFeature
+                                     {
+                                         EnableErrorTracking = false,
+                                         EnableResponseTracking = false
+                                     };
+            Plugins.Add(requestLogsFeature);
         }
 
         /// <summary>
         ///     配置 Swagger 功能。
         /// </summary>
-        private void ConfigSwagger(Container container)
+        private void ConfigSwagger()
         {
             var feature = new SwaggerFeature
                           {
