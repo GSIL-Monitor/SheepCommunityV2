@@ -15,7 +15,7 @@ using Sheep.ServiceModel.Follows;
 namespace Sheep.ServiceInterface.Follows
 {
     /// <summary>
-    ///     列举一组关注者的关注服务接口。
+    ///     列举一组关注者的关注信息服务接口。
     /// </summary>
     public class ListFollowOfFollowerService : Service
     {
@@ -36,7 +36,7 @@ namespace Sheep.ServiceInterface.Follows
         public IAppSettings AppSettings { get; set; }
 
         /// <summary>
-        ///     获取及设置列举一组关注者的关注的校验器。
+        ///     获取及设置列举一组关注者的校验器。
         /// </summary>
         public IValidator<FollowListOfFollower> FollowListOfFollowerValidator { get; set; }
 
@@ -52,10 +52,10 @@ namespace Sheep.ServiceInterface.Follows
 
         #endregion
 
-        #region 列举一组关注者的关注
+        #region 列举一组关注者
 
         /// <summary>
-        ///     列举一组关注者的关注。
+        ///     列举一组关注者。
         /// </summary>
         [CacheResponse(Duration = 600)]
         public async Task<object> Get(FollowListOfFollower request)
@@ -64,15 +64,14 @@ namespace Sheep.ServiceInterface.Follows
             {
                 FollowListOfFollowerValidator.ValidateAndThrow(request, ApplyTo.Get);
             }
-            var existingFollows = await FollowRepo.FindFollowsByFollowingUserAsync(request.FollowingUserId, request.CreatedSince, request.ModifiedSince, request.OrderBy, request.Descending, request.Skip, request.Limit);
+            var existingFollows = await FollowRepo.FindFollowsByOwnerAsync(request.OwnerId, request.CreatedSince, request.ModifiedSince, request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingFollows == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.FollowsNotFound));
             }
-            var followingUser = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(request.FollowingUserId.ToString());
             var followersMap = (await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthsAsync(existingFollows.Select(follow => follow.FollowerId.ToString()).Distinct())).ToDictionary(userAuth => userAuth.Id, userAuth => userAuth);
-            var followsDto = existingFollows.Select(follow => follow.MapToFollowDto(followingUser, followersMap.GetValueOrDefault(follow.FollowerId))).ToList();
-            return new FollowListResponse
+            var followsDto = existingFollows.Select(follow => follow.MapToFollowOfFollowerDto(followersMap.GetValueOrDefault(follow.FollowerId))).ToList();
+            return new FollowListOfFollowerResponse
                    {
                        Follows = followsDto
                    };

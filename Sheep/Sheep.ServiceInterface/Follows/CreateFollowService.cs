@@ -74,22 +74,32 @@ namespace Sheep.ServiceInterface.Follows
             {
                 FollowCreateValidator.ValidateAndThrow(request, ApplyTo.Post);
             }
+            var owner = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(request.OwnerId.ToString());
+            if (owner == null)
+            {
+                throw HttpError.NotFound(string.Format(Resources.UserNotFound, request.OwnerId));
+            }
             var followerId = GetSession().UserAuthId.ToInt(0);
-            var existingFollow = await FollowRepo.GetFollowAsync(request.FollowingUserId, followerId);
+            var follower = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(followerId.ToString());
+            if (follower == null)
+            {
+                throw HttpError.NotFound(string.Format(Resources.UserNotFound, followerId));
+            }
+            var existingFollow = await FollowRepo.GetFollowAsync(request.OwnerId, followerId);
             if (existingFollow != null)
             {
                 return new FollowCreateResponse
                        {
-                           Follow = existingFollow.MapToFollowDto(await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(existingFollow.FollowingUserId.ToString()), await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(existingFollow.FollowerId.ToString()))
+                           Follow = existingFollow.MapToFollowDto(owner, follower)
                        };
             }
             var newFollow = new Follow
                             {
                                 Meta = new Dictionary<string, string>(),
-                                FollowingUserId = request.FollowingUserId,
+                                OwnerId = request.OwnerId,
                                 FollowerId = followerId
                             };
-            var existingReversedFollow = await FollowRepo.GetFollowAsync(followerId, request.FollowingUserId);
+            var existingReversedFollow = await FollowRepo.GetFollowAsync(followerId, request.OwnerId);
             if (existingReversedFollow != null)
             {
                 newFollow.IsBidirectional = true;
@@ -104,16 +114,16 @@ namespace Sheep.ServiceInterface.Follows
             var friendAddResponse = await NimClient.PostAsync(new FriendAddRequest
                                                               {
                                                                   AccountId = followerId.ToString(),
-                                                                  FriendAccountId = request.FollowingUserId.ToString(),
+                                                                  FriendAccountId = request.OwnerId.ToString(),
                                                                   Type = 1
                                                               });
             if (friendAddResponse.Code != 200)
             {
-                Log.WarnFormat("NimClient friend add error: {0}, AccountId={1} FriendAccountId={2}", friendAddResponse.Code, followerId, request.FollowingUserId);
+                Log.WarnFormat("NimClient friend add error: {0}, AccountId={1} FriendAccountId={2}", friendAddResponse.Code, followerId, request.OwnerId);
             }
             return new FollowCreateResponse
                    {
-                       Follow = follow.MapToFollowDto(await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(follow.FollowingUserId.ToString()), await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(follow.FollowerId.ToString()))
+                       Follow = follow.MapToFollowDto(owner, follower)
                    };
         }
 

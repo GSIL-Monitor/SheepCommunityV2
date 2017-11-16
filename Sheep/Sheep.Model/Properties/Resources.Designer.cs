@@ -88,15 +88,6 @@ namespace Sheep.Model.Properties {
         }
         
         /// <summary>
-        ///   查找类似 被关注用户{0}与关注用户{1}的已经存在。 的本地化字符串。
-        /// </summary>
-        internal static string FollowingUserWithFollowerAlreadyExists {
-            get {
-                return ResourceManager.GetString("FollowingUserWithFollowerAlreadyExists", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 错误的平台用户编号。 的本地化字符串。
         /// </summary>
         internal static string InvalidOpenUserId {
@@ -138,6 +129,15 @@ namespace Sheep.Model.Properties {
         internal static string OpenUserIdRequired {
             get {
                 return ResourceManager.GetString("OpenUserIdRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 被关注用户{0}与关注用户{1}的已经存在。 的本地化字符串。
+        /// </summary>
+        internal static string OwnerWithFollowerAlreadyExists {
+            get {
+                return ResourceManager.GetString("OwnerWithFollowerAlreadyExists", resourceCulture);
             }
         }
         

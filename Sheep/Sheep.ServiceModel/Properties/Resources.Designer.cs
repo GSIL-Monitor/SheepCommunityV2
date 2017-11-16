@@ -187,24 +187,6 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
-        ///   查找类似 被关注的用户编号不存在。 的本地化字符串。
-        /// </summary>
-        internal static string FollowingUserIdNotExists {
-            get {
-                return ResourceManager.GetString("FollowingUserIdNotExists", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 被关注者用户编号必须输入。 的本地化字符串。
-        /// </summary>
-        internal static string FollowingUserIdRequired {
-            get {
-                return ResourceManager.GetString("FollowingUserIdRequired", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 真实姓名的长度至少为{0}位并且最多为为{1}位。 的本地化字符串。
         /// </summary>
         internal static string FullNameLengthMismatch {
@@ -273,6 +255,24 @@ namespace Sheep.ServiceModel.Properties {
         internal static string OrderByRangeMismatch {
             get {
                 return ResourceManager.GetString("OrderByRangeMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 被关注的用户编号不存在。 的本地化字符串。
+        /// </summary>
+        internal static string OwnerIdNotExists {
+            get {
+                return ResourceManager.GetString("OwnerIdNotExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 被关注者用户编号必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string OwnerIdRequired {
+            get {
+                return ResourceManager.GetString("OwnerIdRequired", resourceCulture);
             }
         }
         

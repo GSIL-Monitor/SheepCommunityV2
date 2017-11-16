@@ -1,5 +1,4 @@
 ﻿using System.Runtime.Serialization;
-using Sheep.ServiceModel.Contents.Entities;
 
 namespace Sheep.ServiceModel.Ratings.Entities
 {
@@ -15,11 +14,11 @@ namespace Sheep.ServiceModel.Ratings.Entities
         [DataMember(Order = 1)]
         public string Type { get; set; }
 
-        /// <summary>
-        ///     被评分对象相关的内容。
-        /// </summary>
-        [DataMember(Order = 2)]
-        public ContentDto Content { get; set; }
+        ///// <summary>
+        /////     被评分对象相关的内容。
+        ///// </summary>
+        //[DataMember(Order = 2)]
+        //public ContentDto Content { get; set; }
 
         /// <summary>
         ///     评分的数量。

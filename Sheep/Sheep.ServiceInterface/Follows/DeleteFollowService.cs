@@ -73,23 +73,23 @@ namespace Sheep.ServiceInterface.Follows
                 FollowDeleteValidator.ValidateAndThrow(request, ApplyTo.Delete);
             }
             var followerId = GetSession().UserAuthId.ToInt(0);
-            var existingFollow = await FollowRepo.GetFollowAsync(request.FollowingUserId, followerId);
+            var existingFollow = await FollowRepo.GetFollowAsync(request.OwnerId, followerId);
             if (existingFollow == null)
             {
-                throw HttpError.NotFound(string.Format(Resources.FollowNotFound, request.FollowingUserId));
+                throw HttpError.NotFound(string.Format(Resources.FollowNotFound, request.OwnerId));
             }
-            await FollowRepo.DeleteFollowAsync(request.FollowingUserId, followerId);
+            await FollowRepo.DeleteFollowAsync(request.OwnerId, followerId);
             ResetCache(existingFollow);
             var friendDeleteResponse = await NimClient.PostAsync(new FriendDeleteRequest
                                                                  {
                                                                      AccountId = followerId.ToString(),
-                                                                     FriendAccountId = request.FollowingUserId.ToString()
+                                                                     FriendAccountId = request.OwnerId.ToString()
                                                                  });
             if (friendDeleteResponse.Code != 200)
             {
-                Log.WarnFormat("NimClient friend delete error: {0}, AccountId={1} FriendAccountId={2}", friendDeleteResponse.Code, followerId, request.FollowingUserId);
+                Log.WarnFormat("NimClient friend delete error: {0}, AccountId={1} FriendAccountId={2}", friendDeleteResponse.Code, followerId, request.OwnerId);
             }
-            var existingReversedFollow = await FollowRepo.GetFollowAsync(followerId, request.FollowingUserId);
+            var existingReversedFollow = await FollowRepo.GetFollowAsync(followerId, request.OwnerId);
             if (existingReversedFollow != null)
             {
                 var newReversedFollow = new Follow();

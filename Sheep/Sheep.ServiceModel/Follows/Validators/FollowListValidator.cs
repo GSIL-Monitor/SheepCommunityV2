@@ -6,9 +6,9 @@ using Sheep.ServiceModel.Properties;
 namespace Sheep.ServiceModel.Follows.Validators
 {
     /// <summary>
-    ///     列举一组被关注者的关注的校验器。
+    ///     列举一组被关注者的校验器。
     /// </summary>
-    public class FollowListOfFollowingUserValidator : AbstractValidator<FollowListOfFollowingUser>
+    public class FollowListOfOwnerValidator : AbstractValidator<FollowListOfOwner>
     {
         public static readonly HashSet<string> OrderBys = new HashSet<string>
                                                           {
@@ -18,10 +18,10 @@ namespace Sheep.ServiceModel.Follows.Validators
                                                           };
 
         /// <summary>
-        ///     初始化一个新的<see cref="FollowListOfFollowingUserValidator" />对象。
+        ///     初始化一个新的<see cref="FollowListOfOwnerValidator" />对象。
         ///     创建规则集合。
         /// </summary>
-        public FollowListOfFollowingUserValidator()
+        public FollowListOfOwnerValidator()
         {
             RuleSet(ApplyTo.Get, () =>
                                  {
@@ -31,7 +31,7 @@ namespace Sheep.ServiceModel.Follows.Validators
     }
 
     /// <summary>
-    ///     列举一组关注者的关注的校验器。
+    ///     列举一组关注者的校验器。
     /// </summary>
     public class FollowListOfFollowerValidator : AbstractValidator<FollowListOfFollower>
     {

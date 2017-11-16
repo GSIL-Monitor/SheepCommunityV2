@@ -98,8 +98,8 @@ namespace Sheep.Model.Friendship.Repositories
             if (!tables.Contains(s_FollowTable))
             {
                 R.TableCreate(s_FollowTable).OptArg("primary_key", "Id").OptArg("durability", Durability.Soft).OptArg("shards", _shards).OptArg("replicas", _replicas).RunResult(_conn).AssertNoErrors().AssertTablesCreated(1);
-                R.Table(s_FollowTable).IndexCreate("FollowingUserId_FollowerId", row => R.Array(row.G("FollowingUserId"), row.G("FollowerId"))).RunResult(_conn).AssertNoErrors();
-                R.Table(s_FollowTable).IndexCreate("FollowingUserId").RunResult(_conn).AssertNoErrors();
+                R.Table(s_FollowTable).IndexCreate("OwnerId_FollowerId", row => R.Array(row.G("OwnerId"), row.G("FollowerId"))).RunResult(_conn).AssertNoErrors();
+                R.Table(s_FollowTable).IndexCreate("OwnerId").RunResult(_conn).AssertNoErrors();
                 R.Table(s_FollowTable).IndexCreate("FollowerId").RunResult(_conn).AssertNoErrors();
                 //R.Table(s_FollowTable).IndexWait().RunResult(_conn).AssertNoErrors();
             }
@@ -124,19 +124,19 @@ namespace Sheep.Model.Friendship.Repositories
 
         private void AssertNoExistingFollow(Follow newFollow, Follow exceptForExistingFollow = null)
         {
-            var existingFollow = GetFollow(newFollow.FollowingUserId, newFollow.FollowerId);
+            var existingFollow = GetFollow(newFollow.OwnerId, newFollow.FollowerId);
             if (existingFollow != null && (exceptForExistingFollow == null || existingFollow.Id != exceptForExistingFollow.Id))
             {
-                throw new ArgumentException(string.Format(Resources.FollowingUserWithFollowerAlreadyExists, newFollow.FollowingUserId, newFollow.FollowerId));
+                throw new ArgumentException(string.Format(Resources.OwnerWithFollowerAlreadyExists, newFollow.OwnerId, newFollow.FollowerId));
             }
         }
 
         private async Task AssertNoExistingFollowAsync(Follow newFollow, Follow exceptForExistingFollow = null)
         {
-            var existingFollow = await GetFollowAsync(newFollow.FollowingUserId, newFollow.FollowerId);
+            var existingFollow = await GetFollowAsync(newFollow.OwnerId, newFollow.FollowerId);
             if (existingFollow != null && (exceptForExistingFollow == null || existingFollow.Id != exceptForExistingFollow.Id))
             {
-                throw new ArgumentException(string.Format(Resources.FollowingUserWithFollowerAlreadyExists, newFollow.FollowingUserId, newFollow.FollowerId));
+                throw new ArgumentException(string.Format(Resources.OwnerWithFollowerAlreadyExists, newFollow.OwnerId, newFollow.FollowerId));
             }
         }
 
@@ -145,21 +145,21 @@ namespace Sheep.Model.Friendship.Repositories
         #region IFollowRepository 接口实现
 
         /// <inheritdoc />
-        public Follow GetFollow(int followingUserId, int followerId)
+        public Follow GetFollow(int ownerId, int followerId)
         {
-            return R.Table(s_FollowTable).GetAll(R.Array(followingUserId, followerId)).OptArg("index", "FollowingUserId_FollowerId").Nth(0).Default_(default(Follow)).RunResult<Follow>(_conn);
+            return R.Table(s_FollowTable).GetAll(R.Array(ownerId, followerId)).OptArg("index", "OwnerId_FollowerId").Nth(0).Default_(default(Follow)).RunResult<Follow>(_conn);
         }
 
         /// <inheritdoc />
-        public Task<Follow> GetFollowAsync(int followingUserId, int followerId)
+        public Task<Follow> GetFollowAsync(int ownerId, int followerId)
         {
-            return R.Table(s_FollowTable).GetAll(R.Array(followingUserId, followerId)).OptArg("index", "FollowingUserId_FollowerId").Nth(0).Default_(default(Follow)).RunResultAsync<Follow>(_conn);
+            return R.Table(s_FollowTable).GetAll(R.Array(ownerId, followerId)).OptArg("index", "OwnerId_FollowerId").Nth(0).Default_(default(Follow)).RunResultAsync<Follow>(_conn);
         }
 
         /// <inheritdoc />
-        public List<Follow> FindFollowsByFollowingUser(int followingUserId, DateTime? createdSince, DateTime? modifiedSince, string orderBy, bool? descending, int? skip, int? limit)
+        public List<Follow> FindFollowsByOwner(int ownerId, DateTime? createdSince, DateTime? modifiedSince, string orderBy, bool? descending, int? skip, int? limit)
         {
-            var query = R.Table(s_FollowTable).GetAll(followingUserId).OptArg("index", "FollowingUserId").Filter(true);
+            var query = R.Table(s_FollowTable).GetAll(ownerId).OptArg("index", "OwnerId").Filter(true);
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
@@ -181,9 +181,9 @@ namespace Sheep.Model.Friendship.Repositories
         }
 
         /// <inheritdoc />
-        public Task<List<Follow>> FindFollowsByFollowingUserAsync(int followingUserId, DateTime? createdSince, DateTime? modifiedSince, string orderBy, bool? descending, int? skip, int? limit)
+        public Task<List<Follow>> FindFollowsByOwnerAsync(int ownerId, DateTime? createdSince, DateTime? modifiedSince, string orderBy, bool? descending, int? skip, int? limit)
         {
-            var query = R.Table(s_FollowTable).GetAll(followingUserId).OptArg("index", "FollowingUserId").Filter(true);
+            var query = R.Table(s_FollowTable).GetAll(ownerId).OptArg("index", "OwnerId").Filter(true);
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
@@ -257,7 +257,7 @@ namespace Sheep.Model.Friendship.Repositories
         {
             newFollow.ThrowIfNull(nameof(newFollow));
             AssertNoExistingFollow(newFollow);
-            newFollow.Id = string.Format("{0}-{1}", newFollow.FollowingUserId, newFollow.FollowerId);
+            newFollow.Id = string.Format("{0}-{1}", newFollow.OwnerId, newFollow.FollowerId);
             newFollow.CreatedDate = DateTime.UtcNow;
             newFollow.ModifiedDate = newFollow.CreatedDate;
             var result = R.Table(s_FollowTable).Get(newFollow.Id).Replace(newFollow).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
@@ -269,7 +269,7 @@ namespace Sheep.Model.Friendship.Repositories
         {
             newFollow.ThrowIfNull(nameof(newFollow));
             await AssertNoExistingFollowAsync(newFollow);
-            newFollow.Id = string.Format("{0}-{1}", newFollow.FollowingUserId, newFollow.FollowerId);
+            newFollow.Id = string.Format("{0}-{1}", newFollow.OwnerId, newFollow.FollowerId);
             newFollow.CreatedDate = DateTime.UtcNow;
             newFollow.ModifiedDate = newFollow.CreatedDate;
             var result = (await R.Table(s_FollowTable).Get(newFollow.Id).Replace(newFollow).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
@@ -301,15 +301,15 @@ namespace Sheep.Model.Friendship.Repositories
         }
 
         /// <inheritdoc />
-        public void DeleteFollow(int followingUserId, int followerId)
+        public void DeleteFollow(int ownerId, int followerId)
         {
-            R.Table(s_FollowTable).GetAll(R.Array(followingUserId, followerId)).OptArg("index", "FollowingUserId_FollowerId").Delete().RunResult(_conn).AssertNoErrors();
+            R.Table(s_FollowTable).GetAll(R.Array(ownerId, followerId)).OptArg("index", "OwnerId_FollowerId").Delete().RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task DeleteFollowAsync(int followingUserId, int followerId)
+        public async Task DeleteFollowAsync(int ownerId, int followerId)
         {
-            (await R.Table(s_FollowTable).GetAll(R.Array(followingUserId, followerId)).OptArg("index", "FollowingUserId_FollowerId").Delete().RunResultAsync(_conn)).AssertNoErrors();
+            (await R.Table(s_FollowTable).GetAll(R.Array(ownerId, followerId)).OptArg("index", "OwnerId_FollowerId").Delete().RunResultAsync(_conn)).AssertNoErrors();
         }
 
         #endregion

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using ServiceStack;
 using ServiceStack.Model;
-using Sheep.ServiceModel.Contents.Entities;
 using Sheep.ServiceModel.Users.Entities;
 
 namespace Sheep.ServiceModel.Comments.Entities
@@ -32,11 +31,11 @@ namespace Sheep.ServiceModel.Comments.Entities
         [DataMember(Order = 3)]
         public string ParentId { get; set; }
 
-        /// <summary>
-        ///     所属的内容。
-        /// </summary>
-        [DataMember(Order = 4)]
-        public ContentDto Content { get; set; }
+        ///// <summary>
+        /////     所属的内容。
+        ///// </summary>
+        //[DataMember(Order = 4)]
+        //public ContentDto Content { get; set; }
 
         /// <summary>
         ///     正文。

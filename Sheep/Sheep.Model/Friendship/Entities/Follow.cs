@@ -20,7 +20,7 @@ namespace Sheep.Model.Friendship.Entities
         /// <summary>
         ///     被关注者的用户编号。
         /// </summary>
-        public int FollowingUserId { get; set; }
+        public int OwnerId { get; set; }
 
         /// <summary>
         ///     关注者的用户编号。

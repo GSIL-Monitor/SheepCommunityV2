@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using Sheep.ServiceModel.Contents.Entities;
 using Sheep.ServiceModel.Users.Entities;
 
 namespace Sheep.ServiceModel.Bookmarks.Entities
@@ -17,11 +16,11 @@ namespace Sheep.ServiceModel.Bookmarks.Entities
         [DataMember(Order = 1)]
         public string Type { get; set; }
 
-        /// <summary>
-        ///     书签标记的内容。
-        /// </summary>
-        [DataMember(Order = 2)]
-        public ContentDto Content { get; set; }
+        ///// <summary>
+        /////     书签标记的内容。
+        ///// </summary>
+        //[DataMember(Order = 2)]
+        //public ContentDto Content { get; set; }
 
         /// <summary>
         ///     书签的用户。

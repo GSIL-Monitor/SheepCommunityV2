@@ -13,13 +13,13 @@ namespace Sheep.ServiceModel.Follows.Entities
         ///     被关注者。
         /// </summary>
         [DataMember(Order = 1)]
-        public BasicUserDto FollowingUser { get; set; }
+        public UserDto Owner { get; set; }
 
         /// <summary>
         ///     关注者。
         /// </summary>
         [DataMember(Order = 2)]
-        public BasicUserDto Follower { get; set; }
+        public UserDto Follower { get; set; }
 
         /// <summary>
         ///     是否已双向关注。

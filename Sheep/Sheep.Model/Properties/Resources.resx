@@ -126,7 +126,7 @@
   <data name="EmailAlreadyExists" xml:space="preserve">
     <value>电子邮件地址已存在。</value>
   </data>
-  <data name="FollowingUserWithFollowerAlreadyExists" xml:space="preserve">
+  <data name="OwnerWithFollowerAlreadyExists" xml:space="preserve">
     <value>被关注用户{0}与关注用户{1}的已经存在。</value>
   </data>
   <data name="InvalidOpenUserId" xml:space="preserve">

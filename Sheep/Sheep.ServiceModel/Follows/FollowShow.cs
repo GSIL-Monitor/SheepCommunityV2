@@ -5,11 +5,11 @@ using Sheep.ServiceModel.Follows.Entities;
 namespace Sheep.ServiceModel.Follows
 {
     /// <summary>
-    ///     新建关注的请求。
+    ///     显示一个关注的请求。
     /// </summary>
-    [Route("/follows", HttpMethods.Post, Summary = "新建关注")]
+    [Route("/follows/{OwnerId}/{FollowerId}", HttpMethods.Get, Summary = "显示一个关注")]
     [DataContract]
-    public class FollowCreate : IReturn<FollowCreateResponse>
+    public class FollowShow : IReturn<FollowShowResponse>
     {
         /// <summary>
         ///     被关注者编号。
@@ -17,13 +17,20 @@ namespace Sheep.ServiceModel.Follows
         [DataMember(Order = 1, IsRequired = true)]
         [ApiMember(Description = "被关注者编号")]
         public int OwnerId { get; set; }
+
+        /// <summary>
+        ///     关注者编号。
+        /// </summary>
+        [DataMember(Order = 2, IsRequired = true)]
+        [ApiMember(Description = "关注者编号")]
+        public int FollowerId { get; set; }
     }
 
     /// <summary>
-    ///     新建关注的响应。
+    ///     显示一个关注的响应。
     /// </summary>
     [DataContract]
-    public class FollowCreateResponse : IHasResponseStatus
+    public class FollowShowResponse : IHasResponseStatus
     {
         /// <summary>
         ///     关注信息。

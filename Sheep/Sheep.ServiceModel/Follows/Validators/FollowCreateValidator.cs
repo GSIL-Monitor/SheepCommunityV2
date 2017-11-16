@@ -19,17 +19,7 @@ namespace Sheep.ServiceModel.Follows.Validators
         {
             RuleSet(ApplyTo.Post, () =>
                                   {
-                                      RuleFor(x => x.FollowingUserId).Must(UserIdExists).WithMessage(Resources.FollowingUserIdNotExists);
                                   });
-        }
-
-        private bool UserIdExists(int userId)
-        {
-            var authRepo = HostContext.AppHost.GetAuthRepository(Request);
-            using (authRepo as IDisposable)
-            {
-                return ((IUserAuthRepository) authRepo).GetUserAuth(userId.ToString()) != null;
-            }
         }
     }
 }

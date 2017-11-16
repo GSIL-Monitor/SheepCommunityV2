@@ -6,7 +6,7 @@ namespace Sheep.ServiceModel.Follows
     /// <summary>
     ///     取消关注的请求。
     /// </summary>
-    [Route("/follows", HttpMethods.Delete)]
+    [Route("/follows", HttpMethods.Delete, Summary = "取消关注")]
     [DataContract]
     public class FollowDelete : IReturn<FollowDeleteResponse>
     {
@@ -14,7 +14,8 @@ namespace Sheep.ServiceModel.Follows
         ///     被关注者编号。
         /// </summary>
         [DataMember(Order = 1, IsRequired = true)]
-        public int FollowingUserId { get; set; }
+        [ApiMember(Description = "被关注者编号")]
+        public int OwnerId { get; set; }
     }
 
     /// <summary>
@@ -27,6 +28,7 @@ namespace Sheep.ServiceModel.Follows
         ///     处理响应的状态。
         /// </summary>
         [DataMember(Order = 1)]
+        [ApiMember(Description = "处理响应的状态")]
         public ResponseStatus ResponseStatus { get; set; }
     }
 }

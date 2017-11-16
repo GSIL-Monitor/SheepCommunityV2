@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Configuration;
@@ -15,16 +14,16 @@ using Sheep.ServiceModel.Follows;
 namespace Sheep.ServiceInterface.Follows
 {
     /// <summary>
-    ///     列举一组被关注者的关注服务接口。
+    ///     显示一个关注服务接口。
     /// </summary>
-    public class ListFollowOfFollowingUserService : Service
+    public class ShowFollowService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(ListFollowOfFollowingUserService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(ShowFollowService));
 
         #endregion
 
@@ -36,9 +35,9 @@ namespace Sheep.ServiceInterface.Follows
         public IAppSettings AppSettings { get; set; }
 
         /// <summary>
-        ///     获取及设置列举一组被关注者的关注的校验器。
+        ///     获取及设置显示一个关注的校验器。
         /// </summary>
-        public IValidator<FollowListOfFollowingUser> FollowListOfFollowingUserValidator { get; set; }
+        public IValidator<FollowShow> FollowShowValidator { get; set; }
 
         /// <summary>
         ///     获取及设置用户身份的存储库。
@@ -52,29 +51,37 @@ namespace Sheep.ServiceInterface.Follows
 
         #endregion
 
-        #region 列举一组被关注者的关注
+        #region 显示一个关注
 
         /// <summary>
-        ///     列举一组被关注者的关注。
+        ///     显示一个关注。
         /// </summary>
         [CacheResponse(Duration = 600)]
-        public async Task<object> Get(FollowListOfFollowingUser request)
+        public async Task<object> Get(FollowShow request)
         {
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
-                FollowListOfFollowingUserValidator.ValidateAndThrow(request, ApplyTo.Get);
+                FollowShowValidator.ValidateAndThrow(request, ApplyTo.Get);
             }
-            var existingFollows = await FollowRepo.FindFollowsByFollowerAsync(request.FollowerId, request.CreatedSince, request.ModifiedSince, request.OrderBy, request.Descending, request.Skip, request.Limit);
-            if (existingFollows == null)
+            var owner = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(request.OwnerId.ToString());
+            if (owner == null)
             {
-                throw HttpError.NotFound(string.Format(Resources.FollowsNotFound));
+                throw HttpError.NotFound(string.Format(Resources.UserNotFound, request.OwnerId));
             }
-            var followingUsersMap = (await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthsAsync(existingFollows.Select(follow => follow.FollowingUserId.ToString()).Distinct())).ToDictionary(userAuth => userAuth.Id, userAuth => userAuth);
             var follower = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(request.FollowerId.ToString());
-            var followsDto = existingFollows.Select(follow => follow.MapToFollowDto(followingUsersMap.GetValueOrDefault(follow.FollowingUserId), follower)).ToList();
-            return new FollowListResponse
+            if (follower == null)
+            {
+                throw HttpError.NotFound(string.Format(Resources.UserNotFound, request.FollowerId));
+            }
+            var existingFollow = await FollowRepo.GetFollowAsync(request.OwnerId, request.FollowerId);
+            if (existingFollow == null)
+            {
+                throw HttpError.NotFound(string.Format(Resources.FollowNotFound, request.OwnerId));
+            }
+            var followDto = existingFollow.MapToFollowDto(owner, follower);
+            return new FollowShowResponse
                    {
-                       Follows = followsDto
+                       Follow = followDto
                    };
         }
 

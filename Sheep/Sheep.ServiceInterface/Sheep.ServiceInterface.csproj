@@ -145,12 +145,10 @@
     <Compile Include="Follows\ChangeFollowService.cs" />
     <Compile Include="Follows\DeleteFollowService.cs" />
     <Compile Include="Follows\CreateFollowService.cs" />
-    <Compile Include="Follows\ListBasicFollowOfFollowerService.cs" />
     <Compile Include="Follows\ListFollowOfFollowerService.cs" />
-    <Compile Include="Follows\ListBasicFollowOfFollowingUserService.cs" />
-    <Compile Include="Follows\ListFollowOfFollowingUserService.cs" />
-    <Compile Include="Follows\Mappers\FollowToBasicFollowDtoMapper.cs" />
+    <Compile Include="Follows\ListFollowOfOwnerService.cs" />
     <Compile Include="Follows\Mappers\FollowToFollowDtoMapper.cs" />
+    <Compile Include="Follows\ShowFollowService.cs" />
     <Compile Include="Groups\ChangeGroupService.cs" />
     <Compile Include="Groups\ChangeGroupLocationService.cs" />
     <Compile Include="Groups\ChangeGroupIconService.cs" />

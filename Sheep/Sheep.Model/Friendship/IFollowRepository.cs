@@ -15,23 +15,23 @@ namespace Sheep.Model.Friendship
         /// <summary>
         ///     根据被关注者与关注者获取关注。
         /// </summary>
-        /// <param name="followingUserId">被关注者的用户编号。</param>
+        /// <param name="ownerId">被关注者的用户编号。</param>
         /// <param name="followerId">关注者的用户编号。</param>
         /// <returns>关注。</returns>
-        Follow GetFollow(int followingUserId, int followerId);
+        Follow GetFollow(int ownerId, int followerId);
 
         /// <summary>
         ///     异步根据被关注者与关注者获取关注。
         /// </summary>
-        /// <param name="followingUserId">被关注者的用户编号。</param>
+        /// <param name="ownerId">被关注者的用户编号。</param>
         /// <param name="followerId">关注者的用户编号。</param>
         /// <returns>关注。</returns>
-        Task<Follow> GetFollowAsync(int followingUserId, int followerId);
+        Task<Follow> GetFollowAsync(int ownerId, int followerId);
 
         /// <summary>
         ///     根据被关注者查找关注。
         /// </summary>
-        /// <param name="followingUserId">被关注者的用户编号。</param>
+        /// <param name="ownerId">被关注者的用户编号。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
         /// <param name="orderBy">排序的字段。</param>
@@ -39,12 +39,12 @@ namespace Sheep.Model.Friendship
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>关注列表。</returns>
-        List<Follow> FindFollowsByFollowingUser(int followingUserId, DateTime? createdSince, DateTime? modifiedSince, string orderBy, bool? descending, int? skip, int? limit);
+        List<Follow> FindFollowsByOwner(int ownerId, DateTime? createdSince, DateTime? modifiedSince, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
         ///     异步根据被关注者查找关注。
         /// </summary>
-        /// <param name="followingUserId">被关注者的用户编号。</param>
+        /// <param name="ownerId">被关注者的用户编号。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
         /// <param name="orderBy">排序的字段。</param>
@@ -52,7 +52,7 @@ namespace Sheep.Model.Friendship
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>关注列表。</returns>
-        Task<List<Follow>> FindFollowsByFollowingUserAsync(int followingUserId, DateTime? createdSince, DateTime? modifiedSince, string orderBy, bool? descending, int? skip, int? limit);
+        Task<List<Follow>> FindFollowsByOwnerAsync(int ownerId, DateTime? createdSince, DateTime? modifiedSince, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
         ///     根据关注者查找关注。
@@ -117,16 +117,16 @@ namespace Sheep.Model.Friendship
         /// <summary>
         ///     删除一个关注。
         /// </summary>
-        /// <param name="followingUserId">被关注者的用户编号。</param>
+        /// <param name="ownerId">被关注者的用户编号。</param>
         /// <param name="followerId">关注者的用户编号。</param>
-        void DeleteFollow(int followingUserId, int followerId);
+        void DeleteFollow(int ownerId, int followerId);
 
         /// <summary>
         ///     异步删除一个关注。
         /// </summary>
-        /// <param name="followingUserId">被关注者的用户编号。</param>
+        /// <param name="ownerId">被关注者的用户编号。</param>
         /// <param name="followerId">关注者的用户编号。</param>
-        Task DeleteFollowAsync(int followingUserId, int followerId);
+        Task DeleteFollowAsync(int ownerId, int followerId);
 
         #endregion
     }
