@@ -29,7 +29,7 @@ namespace Sheep.ServiceInterface.Accounts.Mappers
                                  Description = userAuth.Meta.GetValueOrDefault("Description"),
                                  AvatarUrl = userAuth.Meta.GetValueOrDefault("AvatarUrl"),
                                  CoverPhotoUrl = userAuth.Meta.GetValueOrDefault("CoverPhotoUrl"),
-                                 BirthDate = userAuth.BirthDate?.ToString("u"),
+                                 BirthDate = userAuth.BirthDate?.ToString("yyyy-MM-dd"),
                                  Gender = userAuth.Gender,
                                  PrimaryEmail = userAuth.PrimaryEmail,
                                  PhoneNumber = userAuth.PhoneNumber,

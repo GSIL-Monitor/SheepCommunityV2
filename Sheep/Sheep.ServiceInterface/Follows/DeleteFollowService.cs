@@ -80,15 +80,11 @@ namespace Sheep.ServiceInterface.Follows
             }
             await FollowRepo.DeleteFollowAsync(request.OwnerId, followerId);
             ResetCache(existingFollow);
-            var friendDeleteResponse = await NimClient.PostAsync(new FriendDeleteRequest
-                                                                 {
-                                                                     AccountId = followerId.ToString(),
-                                                                     FriendAccountId = request.OwnerId.ToString()
-                                                                 });
-            if (friendDeleteResponse.Code != 200)
-            {
-                Log.WarnFormat("NimClient friend delete error: {0}, AccountId={1} FriendAccountId={2}", friendDeleteResponse.Code, followerId, request.OwnerId);
-            }
+            await NimClient.PostAsync(new FriendDeleteRequest
+                                      {
+                                          AccountId = followerId.ToString(),
+                                          FriendAccountId = request.OwnerId.ToString()
+                                      });
             var existingReversedFollow = await FollowRepo.GetFollowAsync(followerId, request.OwnerId);
             if (existingReversedFollow != null)
             {

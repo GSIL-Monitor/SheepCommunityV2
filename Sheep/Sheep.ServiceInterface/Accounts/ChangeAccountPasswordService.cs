@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Netease.Nim;
 using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Configuration;
@@ -32,6 +33,11 @@ namespace Sheep.ServiceInterface.Accounts
         ///     获取及设置相关的应用程序设置器。
         /// </summary>
         public IAppSettings AppSettings { get; set; }
+
+        /// <summary>
+        ///     网易云通信服务客户端。
+        /// </summary>
+        public INimClient NimClient { get; set; }
 
         /// <summary>
         ///     获取及设置更改密码的校验器。

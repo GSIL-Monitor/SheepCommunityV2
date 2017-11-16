@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Aliyun.OSS;
 using Aliyun.OSS.Common;
 using Aliyun.OSS.Util;
+using Netease.Nim;
 using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Configuration;
@@ -46,6 +47,11 @@ namespace Sheep.ServiceInterface.Accounts
         ///     获取及设置阿里云对象存储客户端。
         /// </summary>
         public IOss OssClient { get; set; }
+
+        /// <summary>
+        ///     网易云通信服务客户端。
+        /// </summary>
+        public INimClient NimClient { get; set; }
 
         /// <summary>
         ///     获取及设置更改真实姓名的校验器。
@@ -157,6 +163,17 @@ namespace Sheep.ServiceInterface.Accounts
             newUserAuth.Meta["IdImageUrl"] = idimageUrl;
             var userAuth = await ((IUserAuthRepositoryExtended) AuthRepo).UpdateUserAuthAsync(existingUserAuth, newUserAuth);
             ResetCache(userAuth);
+            await NimClient.PostAsync(new UserUpdateInfoRequest
+                                      {
+                                          AccountId = userAuth.Id.ToString(),
+                                          Name = userAuth.DisplayName,
+                                          IconUrl = userAuth.Meta.GetValueOrDefault("AvatarUrl"),
+                                          Signature = userAuth.Meta.GetValueOrDefault("Signature"),
+                                          Email = userAuth.Email,
+                                          BirthDate = userAuth.BirthDate?.ToString("yyyy-MM-dd"),
+                                          Mobile = userAuth.PhoneNumber,
+                                          Gender = userAuth.Gender.IsNullOrEmpty() ? 0 : (userAuth.Gender == "男" ? 1 : 2)
+                                      });
             return new AccountChangeFullNameResponse();
         }
 

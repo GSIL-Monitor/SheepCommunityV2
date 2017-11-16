@@ -220,7 +220,7 @@ namespace Netease.Nim
                 var response = responseJson.FromJson<UserCreateResponse>();
                 if (response != null && response.Code != 200)
                 {
-                    Log.ErrorFormat("{0} {1} Error: {2}-{3}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription());
+                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription(), response.Description);
                 }
                 return response;
             }
@@ -254,7 +254,7 @@ namespace Netease.Nim
                 var response = responseJson.FromJson<UserUpdateResponse>();
                 if (response != null && response.Code != 200)
                 {
-                    Log.ErrorFormat("{0} {1} Error: {2}-{3}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription());
+                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription(), response.Description);
                 }
                 return response;
             }
@@ -288,7 +288,7 @@ namespace Netease.Nim
                 var response = responseJson.FromJson<UserBlockResponse>();
                 if (response != null && response.Code != 200)
                 {
-                    Log.ErrorFormat("{0} {1} Error: {2}-{3}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription());
+                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription(), response.Description);
                 }
                 return response;
             }
@@ -322,7 +322,7 @@ namespace Netease.Nim
                 var response = responseJson.FromJson<UserUnBlockResponse>();
                 if (response != null && response.Code != 200)
                 {
-                    Log.ErrorFormat("{0} {1} Error: {2}-{3}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription());
+                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription(), response.Description);
                 }
                 return response;
             }
@@ -356,7 +356,7 @@ namespace Netease.Nim
                 var response = responseJson.FromJson<UserUpdateInfoResponse>();
                 if (response != null && response.Code != 200)
                 {
-                    Log.ErrorFormat("{0} {1} Error: {2}-{3}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription());
+                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription(), response.Description);
                 }
                 return response;
             }
@@ -390,7 +390,7 @@ namespace Netease.Nim
                 var response = responseJson.FromJson<UserGetInfosResponse>();
                 if (response != null && response.Code != 200)
                 {
-                    Log.ErrorFormat("{0} {1} Error: {2}-{3}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription());
+                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription(), response.Description);
                 }
                 return response;
             }
@@ -424,7 +424,7 @@ namespace Netease.Nim
                 var response = responseJson.FromJson<UserSetSpecialRelationResponse>();
                 if (response != null && response.Code != 200)
                 {
-                    Log.ErrorFormat("{0} {1} Error: {2}-{3}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription());
+                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription(), response.Description);
                 }
                 return response;
             }
@@ -462,7 +462,7 @@ namespace Netease.Nim
                 var response = responseJson.FromJson<FriendAddResponse>();
                 if (response != null && response.Code != 200)
                 {
-                    Log.ErrorFormat("{0} {1} Error: {2}-{3}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription());
+                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription(), response.Description);
                 }
                 return response;
             }
@@ -496,7 +496,7 @@ namespace Netease.Nim
                 var response = responseJson.FromJson<FriendUpdateResponse>();
                 if (response != null && response.Code != 200)
                 {
-                    Log.ErrorFormat("{0} {1} Error: {2}-{3}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription());
+                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription(), response.Description);
                 }
                 return response;
             }
@@ -530,7 +530,7 @@ namespace Netease.Nim
                 var response = responseJson.FromJson<FriendDeleteResponse>();
                 if (response != null && response.Code != 200)
                 {
-                    Log.ErrorFormat("{0} {1} Error: {2}-{3}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription());
+                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription(), response.Description);
                 }
                 return response;
             }
@@ -568,7 +568,7 @@ namespace Netease.Nim
                 var response = responseJson.FromJson<MessageSendResponse>();
                 if (response != null && response.Code != 200)
                 {
-                    Log.ErrorFormat("{0} {1} Error: {2}-{3}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription());
+                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription(), response.Description);
                 }
                 return response;
             }
@@ -602,7 +602,7 @@ namespace Netease.Nim
                 var response = responseJson.FromJson<MessageSendBatchResponse>();
                 if (response != null && response.Code != 200)
                 {
-                    Log.ErrorFormat("{0} {1} Error: {2}-{3}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription());
+                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription(), response.Description);
                 }
                 return response;
             }
@@ -636,7 +636,7 @@ namespace Netease.Nim
                 var response = responseJson.FromJson<MessageSendAttachResponse>();
                 if (response != null && response.Code != 200)
                 {
-                    Log.ErrorFormat("{0} {1} Error: {2}-{3}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription());
+                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription(), response.Description);
                 }
                 return response;
             }
@@ -670,7 +670,7 @@ namespace Netease.Nim
                 var response = responseJson.FromJson<MessageSendBatchAttachResponse>();
                 if (response != null && response.Code != 200)
                 {
-                    Log.ErrorFormat("{0} {1} Error: {2}-{3}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription());
+                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription(), response.Description);
                 }
                 return response;
             }
@@ -704,7 +704,7 @@ namespace Netease.Nim
                 var response = responseJson.FromJson<MessageFileUploadResponse>();
                 if (response != null && response.Code != 200)
                 {
-                    Log.ErrorFormat("{0} {1} Error: {2}-{3}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription());
+                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription(), response.Description);
                 }
                 return response;
             }
@@ -738,7 +738,7 @@ namespace Netease.Nim
                 var response = responseJson.FromJson<MessageRecallResponse>();
                 if (response != null && response.Code != 200)
                 {
-                    Log.ErrorFormat("{0} {1} Error: {2}-{3}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription());
+                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription(), response.Description);
                 }
                 return response;
             }
@@ -776,7 +776,7 @@ namespace Netease.Nim
                 var response = responseJson.FromJson<TeamCreateResponse>();
                 if (response != null && response.Code != 200)
                 {
-                    Log.ErrorFormat("{0} {1} Error: {2}-{3}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription());
+                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription(), response.Description);
                 }
                 return response;
             }
@@ -810,7 +810,7 @@ namespace Netease.Nim
                 var response = responseJson.FromJson<TeamAddMemberResponse>();
                 if (response != null && response.Code != 200)
                 {
-                    Log.ErrorFormat("{0} {1} Error: {2}-{3}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription());
+                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription(), response.Description);
                 }
                 return response;
             }
@@ -844,7 +844,7 @@ namespace Netease.Nim
                 var response = responseJson.FromJson<TeamKickMemberResponse>();
                 if (response != null && response.Code != 200)
                 {
-                    Log.ErrorFormat("{0} {1} Error: {2}-{3}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription());
+                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription(), response.Description);
                 }
                 return response;
             }
@@ -878,7 +878,7 @@ namespace Netease.Nim
                 var response = responseJson.FromJson<TeamRemoveResponse>();
                 if (response != null && response.Code != 200)
                 {
-                    Log.ErrorFormat("{0} {1} Error: {2}-{3}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription());
+                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription(), response.Description);
                 }
                 return response;
             }
@@ -912,7 +912,7 @@ namespace Netease.Nim
                 var response = responseJson.FromJson<TeamUpdateResponse>();
                 if (response != null && response.Code != 200)
                 {
-                    Log.ErrorFormat("{0} {1} Error: {2}-{3}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription());
+                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription(), response.Description);
                 }
                 return response;
             }
@@ -946,7 +946,7 @@ namespace Netease.Nim
                 var response = responseJson.FromJson<TeamQueryResponse>();
                 if (response != null && response.Code != 200)
                 {
-                    Log.ErrorFormat("{0} {1} Error: {2}-{3}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription());
+                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription(), response.Description);
                 }
                 return response;
             }
@@ -980,7 +980,7 @@ namespace Netease.Nim
                 var response = responseJson.FromJson<TeamChangeOwnerResponse>();
                 if (response != null && response.Code != 200)
                 {
-                    Log.ErrorFormat("{0} {1} Error: {2}-{3}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription());
+                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription(), response.Description);
                 }
                 return response;
             }
@@ -1014,7 +1014,7 @@ namespace Netease.Nim
                 var response = responseJson.FromJson<TeamAddManagerResponse>();
                 if (response != null && response.Code != 200)
                 {
-                    Log.ErrorFormat("{0} {1} Error: {2}-{3}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription());
+                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription(), response.Description);
                 }
                 return response;
             }
@@ -1048,7 +1048,7 @@ namespace Netease.Nim
                 var response = responseJson.FromJson<TeamRemoveManagerResponse>();
                 if (response != null && response.Code != 200)
                 {
-                    Log.ErrorFormat("{0} {1} Error: {2}-{3}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription());
+                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription(), response.Description);
                 }
                 return response;
             }
@@ -1082,7 +1082,7 @@ namespace Netease.Nim
                 var response = responseJson.FromJson<TeamGetJoinedResponse>();
                 if (response != null && response.Code != 200)
                 {
-                    Log.ErrorFormat("{0} {1} Error: {2}-{3}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription());
+                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription(), response.Description);
                 }
                 return response;
             }
@@ -1116,7 +1116,7 @@ namespace Netease.Nim
                 var response = responseJson.FromJson<TeamUpdateMemberNickResponse>();
                 if (response != null && response.Code != 200)
                 {
-                    Log.ErrorFormat("{0} {1} Error: {2}-{3}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription());
+                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription(), response.Description);
                 }
                 return response;
             }
@@ -1150,7 +1150,7 @@ namespace Netease.Nim
                 var response = responseJson.FromJson<TeamUpdateMemberMuteResponse>();
                 if (response != null && response.Code != 200)
                 {
-                    Log.ErrorFormat("{0} {1} Error: {2}-{3}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription());
+                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription(), response.Description);
                 }
                 return response;
             }
@@ -1184,7 +1184,7 @@ namespace Netease.Nim
                 var response = responseJson.FromJson<TeamMuteMemberResponse>();
                 if (response != null && response.Code != 200)
                 {
-                    Log.ErrorFormat("{0} {1} Error: {2}-{3}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription());
+                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription(), response.Description);
                 }
                 return response;
             }
@@ -1218,7 +1218,7 @@ namespace Netease.Nim
                 var response = responseJson.FromJson<TeamLeaveMemberResponse>();
                 if (response != null && response.Code != 200)
                 {
-                    Log.ErrorFormat("{0} {1} Error: {2}-{3}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription());
+                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription(), response.Description);
                 }
                 return response;
             }
@@ -1252,7 +1252,7 @@ namespace Netease.Nim
                 var response = responseJson.FromJson<TeamMuteResponse>();
                 if (response != null && response.Code != 200)
                 {
-                    Log.ErrorFormat("{0} {1} Error: {2}-{3}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription());
+                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription(), response.Description);
                 }
                 return response;
             }
@@ -1286,7 +1286,7 @@ namespace Netease.Nim
                 var response = responseJson.FromJson<TeamGetMutedMembersResponse>();
                 if (response != null && response.Code != 200)
                 {
-                    Log.ErrorFormat("{0} {1} Error: {2}-{3}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription());
+                    Log.ErrorFormat("{0} {1} Error: {2}-{3}-{4}", GetType().Name, request.GetType().Name, response.Code, response.Code.ToErrorDescription(), response.Description);
                 }
                 return response;
             }

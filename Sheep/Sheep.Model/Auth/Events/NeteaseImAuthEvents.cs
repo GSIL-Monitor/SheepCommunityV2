@@ -35,10 +35,18 @@ namespace Sheep.Model.Auth.Events
         /// </summary>
         public INimClient NimClient { get; set; }
 
+        #endregion
+
+        #region 构造器
+
         /// <summary>
-        ///     获取及设置用户身份的存储库。
+        ///     初始化一个新的<see cref="NeteaseImAuthEvents" />对象。
         /// </summary>
-        public IUserAuthRepository AuthRepo { get; set; }
+        /// <param name="nimClient">网易云通信服务客户端。</param>
+        public NeteaseImAuthEvents(INimClient nimClient)
+        {
+            NimClient = nimClient;
+        }
 
         #endregion
 
@@ -49,16 +57,12 @@ namespace Sheep.Model.Auth.Events
         /// </summary>
         public override void OnRegistered(IRequest httpReq, IAuthSession session, IServiceBase registrationService)
         {
-            var userCreateResponse = NimClient.Post(new UserCreateRequest
-                                                    {
-                                                        AccountId = session.UserAuthId,
-                                                        Name = session.DisplayName,
-                                                        Token = session.UserAuthId.ToMd5Hash()
-                                                    });
-            if (userCreateResponse.Code != 200)
-            {
-                Log.WarnFormat("NimClient user create error: {0}, AccountId={1}", userCreateResponse.Code, session.UserAuthId);
-            }
+            NimClient.Post(new UserCreateRequest
+                           {
+                               AccountId = session.UserAuthId,
+                               Name = session.DisplayName,
+                               Token = session.UserAuthId.ToMd5Hash()
+                           });
         }
 
         /// <summary>

@@ -304,7 +304,7 @@ namespace Sheep
             var authEvents = new IAuthEvents[]
                              {
                                  new SystemAuthEvents(),
-                                 new NeteaseImAuthEvents()
+                                 new NeteaseImAuthEvents(container.Resolve<INimClient>())
                              };
             container.Register<IAuthEvents>(c => new MultiAuthEvents(authEvents));
             var authProviders = new IAuthProvider[]

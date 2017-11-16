@@ -16,6 +16,12 @@ namespace Netease.Nim
         [DataMember(Order = 1, Name = "code")]
         public int Code { get; set; }
 
+        /// <summary>
+        ///     错误描述。
+        /// </summary>
+        [DataMember(Order = 1, Name = "desc")]
+        public int Description { get; set; }
+
         #endregion
     }
 }

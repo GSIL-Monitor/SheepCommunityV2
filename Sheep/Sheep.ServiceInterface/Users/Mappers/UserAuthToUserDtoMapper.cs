@@ -28,7 +28,7 @@ namespace Sheep.ServiceInterface.Users.Mappers
                               Description = userAuth.Meta.GetValueOrDefault("Description"),
                               AvatarUrl = userAuth.Meta.GetValueOrDefault("AvatarUrl"),
                               CoverPhotoUrl = userAuth.Meta.GetValueOrDefault("CoverPhotoUrl"),
-                              BirthDate = userAuth.BirthDate?.ToString("u"),
+                              BirthDate = userAuth.BirthDate?.ToString("yyyy-MM-dd"),
                               Gender = userAuth.Gender,
                               Country = userAuth.Country,
                               State = userAuth.State,

@@ -111,16 +111,12 @@ namespace Sheep.ServiceInterface.Follows
             }
             var follow = await FollowRepo.CreateFollowAsync(newFollow);
             ResetCache(follow);
-            var friendAddResponse = await NimClient.PostAsync(new FriendAddRequest
-                                                              {
-                                                                  AccountId = followerId.ToString(),
-                                                                  FriendAccountId = request.OwnerId.ToString(),
-                                                                  Type = 1
-                                                              });
-            if (friendAddResponse.Code != 200)
-            {
-                Log.WarnFormat("NimClient friend add error: {0}, AccountId={1} FriendAccountId={2}", friendAddResponse.Code, followerId, request.OwnerId);
-            }
+            await NimClient.PostAsync(new FriendAddRequest
+                                      {
+                                          AccountId = followerId.ToString(),
+                                          FriendAccountId = request.OwnerId.ToString(),
+                                          Type = 1
+                                      });
             return new FollowCreateResponse
                    {
                        Follow = follow.MapToFollowDto(owner, follower)
