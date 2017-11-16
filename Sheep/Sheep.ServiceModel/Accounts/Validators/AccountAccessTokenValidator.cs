@@ -7,7 +7,7 @@ namespace Sheep.ServiceModel.Accounts.Validators
     /// <summary>
     ///     获取微博授权码的校验器。
     /// </summary>
-    public class AccountAccessTokenForWeiboValidator : AbstractValidator<AccountAccessTokenForWeibo>
+    public class AccountAccessTokenForWeiboValidator : AbstractValidator<AccountGetAccessTokenForWeibo>
     {
         /// <summary>
         ///     初始化一个新的<see cref="AccountAccessTokenForWeiboValidator" />对象。

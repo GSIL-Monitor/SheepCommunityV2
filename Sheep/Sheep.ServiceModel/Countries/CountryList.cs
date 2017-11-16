@@ -13,7 +13,7 @@ namespace Sheep.ServiceModel.Countries
     public class CountryList : IReturn<CountryListResponse>
     {
         /// <summary>
-        ///     过滤名称。（包括国家名称）
+        ///     名称。（包括国家名称）
         /// </summary>
         [DataMember(Order = 1, Name = "namefilter")]
         public string NameFilter { get; set; }

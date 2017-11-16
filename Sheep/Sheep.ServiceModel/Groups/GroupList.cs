@@ -14,25 +14,25 @@ namespace Sheep.ServiceModel.Groups
     public class GroupList : IReturn<GroupListResponse>
     {
         /// <summary>
-        ///     过滤群组名称。
+        ///     群组名称。
         /// </summary>
         [DataMember(Order = 1, Name = "namefilter")]
         public string NameFilter { get; set; }
 
         /// <summary>
-        ///     过滤创建日期在指定的时间之后。
+        ///     创建日期在指定的时间之后。
         /// </summary>
         [DataMember(Order = 2, Name = "createdsince")]
         public DateTime? CreatedSince { get; set; }
 
         /// <summary>
-        ///     过滤修改日期在指定的时间之后。
+        ///     修改日期在指定的时间之后。
         /// </summary>
         [DataMember(Order = 3, Name = "modifiedsince")]
         public DateTime? ModifiedSince { get; set; }
 
         /// <summary>
-        ///     过滤加入群组的方式。（可选值：Direct, RequireVerification, Joinless）
+        ///     加入群组的方式。（可选值：Direct, RequireVerification, Joinless）
         /// </summary>
         [DataMember(Order = 4, Name = "joinmode")]
         public string JoinMode { get; set; }
@@ -44,7 +44,7 @@ namespace Sheep.ServiceModel.Groups
         public bool? IsPublic { get; set; }
 
         /// <summary>
-        ///     过滤帐户状态。（可选值：Approved, Banned, Disapproved, PendingDeletion）
+        ///     帐户状态。（可选值：Approved, Banned, Disapproved, PendingDeletion）
         /// </summary>
         [DataMember(Order = 6, Name = "accountstatus")]
         public string AccountStatus { get; set; }

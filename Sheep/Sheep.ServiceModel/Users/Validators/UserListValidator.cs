@@ -6,7 +6,7 @@ using Sheep.ServiceModel.Properties;
 namespace Sheep.ServiceModel.Users.Validators
 {
     /// <summary>
-    ///     列举一组用户的校验器。
+    ///     查询并列举一组用户的校验器。
     /// </summary>
     public class UserListValidator : AbstractValidator<UserList>
     {

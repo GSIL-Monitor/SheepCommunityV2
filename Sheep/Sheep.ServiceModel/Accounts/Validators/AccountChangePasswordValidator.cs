@@ -5,7 +5,7 @@ using Sheep.ServiceModel.Properties;
 namespace Sheep.ServiceModel.Accounts.Validators
 {
     /// <summary>
-    ///     更换密码的校验器。
+    ///     更改密码的校验器。
     /// </summary>
     public class AccountChangePasswordValidator : AbstractValidator<AccountChangePassword>
     {

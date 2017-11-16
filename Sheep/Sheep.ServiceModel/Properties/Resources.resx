@@ -207,6 +207,9 @@
   <data name="PhoneNumberRequired" xml:space="preserve">
     <value>手机号码必须输入。</value>
   </data>
+  <data name="PurposeRangeMismatch" xml:space="preserve">
+    <value>用途的有效范围为:{0}。</value>
+  </data>
   <data name="PurposeRequired" xml:space="preserve">
     <value>用途必须输入。</value>
   </data>
@@ -239,6 +242,9 @@
   </data>
   <data name="SourceIconUrlMismatch" xml:space="preserve">
     <value>来源图标地址必须为图像地址（以.jpg或.png为后缀名）。</value>
+  </data>
+  <data name="SourceIdImageUrlMismatch" xml:space="preserve">
+    <value>来源身份证图片地址必须为图像地址（以.jpg或.png为后缀名）。</value>
   </data>
   <data name="StateIdRequired" xml:space="preserve">
     <value>省份编号必须输入。</value>

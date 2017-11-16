@@ -1,4 +1,5 @@
 ﻿using ServiceStack;
+using ServiceStack.Extensions;
 using ServiceStack.FluentValidation;
 using Sheep.ServiceModel.Properties;
 
@@ -18,6 +19,7 @@ namespace Sheep.ServiceModel.Accounts.Validators
             RuleSet(ApplyTo.Put, () =>
                                  {
                                      RuleFor(x => x.FullName).Length(2, 64).WithMessage(Resources.FullNameLengthMismatch, 2, 64).When(x => !x.FullName.IsNullOrEmpty());
+                                     RuleFor(x => x.SourceIdImageUrl).Must(url => url.GetImageUrlExtension().IsImageExtension()).WithMessage(Resources.SourceIdImageUrlMismatch).When(x => !x.SourceIdImageUrl.IsNullOrEmpty());
                                  });
         }
     }

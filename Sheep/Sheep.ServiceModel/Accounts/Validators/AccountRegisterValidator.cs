@@ -6,7 +6,7 @@ using Sheep.ServiceModel.Properties;
 namespace Sheep.ServiceModel.Accounts.Validators
 {
     /// <summary>
-    ///     使用用户名称或电子邮件地址及密码注册帐户的校验器。
+    ///     注册帐户的校验器。
     /// </summary>
     public class AccountRegisterValidator : AbstractValidator<AccountRegister>
     {

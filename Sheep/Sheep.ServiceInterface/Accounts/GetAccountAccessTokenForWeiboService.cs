@@ -34,7 +34,7 @@ namespace Sheep.ServiceInterface.Accounts
         /// <summary>
         ///     获取及设置获取微博授权码的校验器。
         /// </summary>
-        public IValidator<AccountAccessTokenForWeibo> AccountAccessTokenForWeiboValidator { get; set; }
+        public IValidator<AccountGetAccessTokenForWeibo> AccountAccessTokenForWeiboValidator { get; set; }
 
         /// <summary>
         ///     获取及设置新浪微博服务客户端封装库。
@@ -48,7 +48,7 @@ namespace Sheep.ServiceInterface.Accounts
         /// <summary>
         ///     获取微博授权码。
         /// </summary>
-        public async Task<object> Get(AccountAccessTokenForWeibo request)
+        public async Task<object> Get(AccountGetAccessTokenForWeibo request)
         {
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
@@ -62,7 +62,7 @@ namespace Sheep.ServiceInterface.Accounts
             {
                 throw new HttpError(HttpStatusCode.BadRequest, accessTokenResponse.Error, accessTokenResponse.ErrorDescription);
             }
-            return new AccountAccessTokenResponse
+            return new AccountGetAccessTokenResponse
                    {
                        AccessToken = accessTokenResponse.AccessToken,
                        UserId = accessTokenResponse.UserId

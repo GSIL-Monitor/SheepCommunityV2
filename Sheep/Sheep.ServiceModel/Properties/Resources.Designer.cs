@@ -331,6 +331,15 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
+        ///   查找类似 用途的有效范围为:{0}。 的本地化字符串。
+        /// </summary>
+        internal static string PurposeRangeMismatch {
+            get {
+                return ResourceManager.GetString("PurposeRangeMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 用途必须输入。 的本地化字符串。
         /// </summary>
         internal static string PurposeRequired {
@@ -426,6 +435,15 @@ namespace Sheep.ServiceModel.Properties {
         internal static string SourceIconUrlMismatch {
             get {
                 return ResourceManager.GetString("SourceIconUrlMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 来源身份证图片地址必须为图像地址（以.jpg或.png为后缀名）。 的本地化字符串。
+        /// </summary>
+        internal static string SourceIdImageUrlMismatch {
+            get {
+                return ResourceManager.GetString("SourceIdImageUrlMismatch", resourceCulture);
             }
         }
         

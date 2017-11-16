@@ -24,6 +24,7 @@ namespace Sheep.ServiceInterface.Accounts.Mappers
                                  DisplayName = userAuth.DisplayName,
                                  FullName = userAuth.FullName,
                                  FullNameVerified = userAuth.Meta.GetValueOrDefault("FullNameVerified").To(false),
+                                 IdImageUrl = userAuth.Meta.GetValueOrDefault("IdImageUrl"),
                                  Signature = userAuth.Meta.GetValueOrDefault("Signature"),
                                  Description = userAuth.Meta.GetValueOrDefault("Description"),
                                  AvatarUrl = userAuth.Meta.GetValueOrDefault("AvatarUrl"),

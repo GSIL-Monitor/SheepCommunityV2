@@ -20,13 +20,13 @@ namespace Sheep.ServiceModel.Follows
         public int FollowerId { get; set; }
 
         /// <summary>
-        ///     过滤创建日期在指定的时间之后。
+        ///     创建日期在指定的时间之后。
         /// </summary>
         [DataMember(Order = 2, Name = "createdsince")]
         public DateTime? CreatedSince { get; set; }
 
         /// <summary>
-        ///     过滤修改日期在指定的时间之后。
+        ///     修改日期在指定的时间之后。
         /// </summary>
         [DataMember(Order = 3, Name = "modifiedsince")]
         public DateTime? ModifiedSince { get; set; }
@@ -70,13 +70,13 @@ namespace Sheep.ServiceModel.Follows
         public int FollowingUserId { get; set; }
 
         /// <summary>
-        ///     过滤创建日期在指定的时间之后。
+        ///     创建日期在指定的时间之后。
         /// </summary>
         [DataMember(Order = 2, Name = "createdsince")]
         public DateTime? CreatedSince { get; set; }
 
         /// <summary>
-        ///     过滤修改日期在指定的时间之后。
+        ///     修改日期在指定的时间之后。
         /// </summary>
         [DataMember(Order = 3, Name = "modifiedsince")]
         public DateTime? ModifiedSince { get; set; }

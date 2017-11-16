@@ -13,7 +13,7 @@ using Sheep.ServiceModel.Accounts;
 namespace Sheep.ServiceInterface.Accounts
 {
     /// <summary>
-    ///     更换密码服务接口。
+    ///     更改密码服务接口。
     /// </summary>
     public class ChangeAccountPasswordService : ChangeAccountService
     {
@@ -34,7 +34,7 @@ namespace Sheep.ServiceInterface.Accounts
         public IAppSettings AppSettings { get; set; }
 
         /// <summary>
-        ///     获取及设置更换密码的校验器。
+        ///     获取及设置更改密码的校验器。
         /// </summary>
         public IValidator<AccountChangePassword> AccountChangePasswordValidator { get; set; }
 
@@ -45,10 +45,10 @@ namespace Sheep.ServiceInterface.Accounts
 
         #endregion
 
-        #region 更换密码
+        #region 更改密码
 
         /// <summary>
-        ///     更换密码。
+        ///     更改密码。
         /// </summary>
         public async Task<object> Put(AccountChangePassword request)
         {

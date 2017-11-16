@@ -19,7 +19,7 @@ namespace Sheep.ServiceModel.Cities
         public string StateId { get; set; }
 
         /// <summary>
-        ///     过滤名称。（包括城市名称）
+        ///     名称。（包括城市名称）
         /// </summary>
         [DataMember(Order = 2, Name = "namefilter")]
         public string NameFilter { get; set; }

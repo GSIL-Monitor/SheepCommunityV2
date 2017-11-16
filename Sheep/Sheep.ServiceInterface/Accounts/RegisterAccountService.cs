@@ -14,7 +14,7 @@ using CredentialsAuthProvider = Sheep.Model.Auth.Providers.CredentialsAuthProvid
 namespace Sheep.ServiceInterface.Accounts
 {
     /// <summary>
-    ///     使用用户名称或电子邮件地址及密码注册服务接口。
+    ///     注册服务接口。
     /// </summary>
     public class RegisterAccountService : Service
     {
@@ -45,7 +45,7 @@ namespace Sheep.ServiceInterface.Accounts
         public IAuthEvents AuthEvents { get; set; }
 
         /// <summary>
-        ///     获取及设置使用用户名称或电子邮件地址及密码注册的校验器。
+        ///     获取及设置注册帐户的校验器。
         /// </summary>
         public IValidator<AccountRegister> AccountRegisterValidator { get; set; }
 
@@ -56,10 +56,10 @@ namespace Sheep.ServiceInterface.Accounts
 
         #endregion
 
-        #region 使用用户名称或电子邮件地址及密码注册
+        #region 注册
 
         /// <summary>
-        ///     使用用户名称或电子邮件地址及密码注册。
+        ///     注册。
         /// </summary>
         public object Post(AccountRegister request)
         {

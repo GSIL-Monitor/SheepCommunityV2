@@ -21,19 +21,19 @@ namespace Sheep.ServiceModel.GroupUsers
         public string GroupId { get; set; }
 
         /// <summary>
-        ///     过滤用户名称或显示名称。
+        ///     用户名称或显示名称。
         /// </summary>
         [DataMember(Order = 2)]
         public string NameFilter { get; set; }
 
         /// <summary>
-        ///     过滤成员的类型。（可选值：Owner, Manager, Member, 默认为 Member）
+        ///     成员的类型。（可选值：Owner, Manager, Member, 默认为 Member）
         /// </summary>
         [DataMember(Order = 3)]
         public string MembershipType { get; set; }
 
         /// <summary>
-        ///     过滤用户注册日期在指定日期之后。
+        ///     用户注册日期在指定日期之后。
         /// </summary>
         [DataMember(Order = 4)]
         public DateTime? CreatedAfter { get; set; }
