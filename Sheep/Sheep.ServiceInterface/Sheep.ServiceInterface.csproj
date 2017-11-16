@@ -182,7 +182,9 @@
     <Compile Include="Users\ListUserService.cs" />
     <Compile Include="Users\Mappers\UserAuthToBasicUserDtoMapper.cs" />
     <Compile Include="Users\Mappers\UserAuthToUserDtoMapper.cs" />
+    <Compile Include="Users\ShowBasicUserByDisplayNameService.cs" />
     <Compile Include="Users\ShowBasicUserByUserNameOrEmailService.cs" />
+    <Compile Include="Users\ShowUserByDisplayNameService.cs" />
     <Compile Include="Users\ShowUserByUserNameOrEmailService.cs" />
     <Compile Include="Users\ShowBasicUserService.cs" />
     <Compile Include="Users\ShowUserService.cs" />

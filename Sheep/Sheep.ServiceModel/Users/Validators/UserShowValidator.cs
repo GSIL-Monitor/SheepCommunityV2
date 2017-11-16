@@ -39,4 +39,22 @@ namespace Sheep.ServiceModel.Users.Validators
                                  });
         }
     }
+
+    /// <summary>
+    ///     根据显示名称显示一个用户的校验器。
+    /// </summary>
+    public class UserShowByDisplayNameValidator : AbstractValidator<UserShowByDisplayName>
+    {
+        /// <summary>
+        ///     初始化一个新的<see cref="UserShowValidator" />对象。
+        ///     创建规则集合。
+        /// </summary>
+        public UserShowByDisplayNameValidator()
+        {
+            RuleSet(ApplyTo.Get, () =>
+                                 {
+                                     RuleFor(x => x.DisplayName).NotEmpty().WithMessage(Resources.DisplayNameRequired);
+                                 });
+        }
+    }
 }

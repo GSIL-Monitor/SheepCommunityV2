@@ -35,6 +35,21 @@ namespace Sheep.ServiceModel.Users
     }
 
     /// <summary>
+    ///     根据显示名称显示一个用户的请求。
+    /// </summary>
+    [Route("/users/showname/{DisplayName}", HttpMethods.Get, Summary = "根据显示名称显示一个用户")]
+    [DataContract]
+    public class UserShowByDisplayName : IReturn<UserShowResponse>
+    {
+        /// <summary>
+        ///     显示名称。
+        /// </summary>
+        [DataMember(Order = 1, IsRequired = true)]
+        [ApiMember(Description = "显示名称")]
+        public string DisplayName { get; set; }
+    }
+
+    /// <summary>
     ///     显示一个用户的响应。
     /// </summary>
     [DataContract]
