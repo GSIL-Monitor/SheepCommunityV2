@@ -57,7 +57,7 @@ namespace Sheep.ServiceInterface.Groups
             {
                 GroupListValidator.ValidateAndThrow(request, ApplyTo.Get);
             }
-            var existingGroups = await GroupRepo.FindGroupsAsync(request.NameFilter, request.CreatedSince, request.ModifiedSince, request.JoinMode, request.IsPublic, request.AccountStatus, request.OrderBy, request.Descending, request.Skip, request.Limit);
+            var existingGroups = await GroupRepo.FindGroupsAsync(request.NameFilter, request.CreatedSince, request.ModifiedSince, request.JoinMode, request.IsPublic, request.Status, request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingGroups == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.GroupsNotFound));

@@ -49,23 +49,16 @@ namespace Sheep.ServiceModel.Users
         public DateTime? LockedSince { get; set; }
 
         /// <summary>
-        ///     帐户状态。（可选值：Approved, Banned, Disapproved, PendingDeletion）
-        /// </summary>
-        [DataMember(Order = 6, Name = "accountstatus")]
-        [ApiMember(Description = "帐户状态（可选值：Approved, Banned, Disapproved, PendingDeletion）")]
-        public string AccountStatus { get; set; }
-
-        /// <summary>
         ///     排序的字段。（可选值：UserName, Email, DisplayName, CreatedDate, ModifiedDate, 默认为 CreatedDate）
         /// </summary>
-        [DataMember(Order = 7, Name = "orderby")]
+        [DataMember(Order = 6, Name = "orderby")]
         [ApiMember(Description = "排序的字段（可选值：UserName, Email, DisplayName, CreatedDate, ModifiedDate, 默认为 CreatedDate）")]
         public string OrderBy { get; set; }
 
         /// <summary>
         ///     是否按降序排序。
         /// </summary>
-        [DataMember(Order = 8, Name = "descending")]
+        [DataMember(Order = 7, Name = "descending")]
         [ApiMember(Description = "是否按降序排序")]
         public bool? Descending { get; set; }
 

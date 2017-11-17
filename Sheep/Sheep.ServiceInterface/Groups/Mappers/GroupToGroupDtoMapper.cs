@@ -30,7 +30,7 @@ namespace Sheep.ServiceInterface.Groups.Mappers
                                JoinMode = group.JoinMode,
                                IsPublic = group.IsPublic,
                                EnableMessages = group.EnableMessages,
-                               AccountStatus = group.AccountStatus,
+                               Status = group.Status,
                                BanReason = group.BanReason,
                                BannedUntilDate = group.BannedUntilDate?.ToUnixTime(),
                                CreatedDate = group.CreatedDate.ToUnixTime(),

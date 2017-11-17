@@ -62,13 +62,13 @@ namespace Sheep.Model.Corp
         /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
         /// <param name="joinMode">过滤加入群组的方式。</param>
         /// <param name="isPublic">过滤非群组成员是否可以访问群组内容。</param>
-        /// <param name="accountStatus"> 过滤帐户状态。</param>
+        /// <param name="status"> 过滤状态。</param>
         /// <param name="orderBy">排序的字段。</param>
         /// <param name="descending">是否按降序排序。</param>
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>群组列表。</returns>
-        List<Group> FindGroups(string nameFilter, DateTime? createdSince, DateTime? modifiedSince, string joinMode, bool? isPublic, string accountStatus, string orderBy, bool? descending, int? skip, int? limit);
+        List<Group> FindGroups(string nameFilter, DateTime? createdSince, DateTime? modifiedSince, string joinMode, bool? isPublic, string status, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
         ///     异步根据名称查找群组。
@@ -78,13 +78,13 @@ namespace Sheep.Model.Corp
         /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
         /// <param name="joinMode">过滤加入群组的方式。</param>
         /// <param name="isPublic">过滤非群组成员是否可以访问群组内容。</param>
-        /// <param name="accountStatus"> 过滤帐户状态。</param>
+        /// <param name="status"> 过滤状态。</param>
         /// <param name="orderBy">排序的字段。</param>
         /// <param name="descending">是否按降序排序。</param>
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>群组列表。</returns>
-        Task<List<Group>> FindGroupsAsync(string nameFilter, DateTime? createdSince, DateTime? modifiedSince, string joinMode, bool? isPublic, string accountStatus, string orderBy, bool? descending, int? skip, int? limit);
+        Task<List<Group>> FindGroupsAsync(string nameFilter, DateTime? createdSince, DateTime? modifiedSince, string joinMode, bool? isPublic, string status, string orderBy, bool? descending, int? skip, int? limit);
 
         #endregion
 

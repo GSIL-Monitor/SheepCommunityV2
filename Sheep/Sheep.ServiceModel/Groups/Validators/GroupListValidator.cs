@@ -17,12 +17,13 @@ namespace Sheep.ServiceModel.Groups.Validators
                                                                "Joinless"
                                                            };
 
-        public static readonly HashSet<string> AccountStatuses = new HashSet<string>
+        public static readonly HashSet<string> Statuses = new HashSet<string>
                                                                  {
-                                                                     "Approved",
-                                                                     "Banned",
-                                                                     "Disapproved",
-                                                                     "PendingDeletion"
+                                                                     "待审核",
+                                                                     "审核通过",
+                                                                     "已禁止",
+                                                                     "审核失败",
+                                                                     "等待删除"
                                                                  };
 
         public static readonly HashSet<string> OrderBys = new HashSet<string>
@@ -31,7 +32,7 @@ namespace Sheep.ServiceModel.Groups.Validators
                                                               "FullName",
                                                               "RefId",
                                                               "JoinMode",
-                                                              "AccountStatus",
+                                                              "Status",
                                                               "CreatedDate",
                                                               "ModifiedDate",
                                                               "TotalMembers"
@@ -46,7 +47,7 @@ namespace Sheep.ServiceModel.Groups.Validators
             RuleSet(ApplyTo.Get, () =>
                                  {
                                      RuleFor(x => x.JoinMode).Must(joinMode => JoinModes.Contains(joinMode)).WithMessage(Resources.JoinModeRangeMismatch, JoinModes.Join(",")).When(x => !x.JoinMode.IsNullOrEmpty());
-                                     RuleFor(x => x.AccountStatus).Must(accountStatus => AccountStatuses.Contains(accountStatus)).WithMessage(Resources.AccountStatusRangeMismatch, AccountStatuses.Join(",")).When(x => !x.AccountStatus.IsNullOrEmpty());
+                                     RuleFor(x => x.Status).Must(status => Statuses.Contains(status)).WithMessage(Resources.StatusRangeMismatch, Statuses.Join(",")).When(x => !x.Status.IsNullOrEmpty());
                                      RuleFor(x => x.OrderBy).Must(orderBy => OrderBys.Contains(orderBy)).WithMessage(Resources.OrderByRangeMismatch, OrderBys.Join(",")).When(x => !x.OrderBy.IsNullOrEmpty());
                                  });
         }

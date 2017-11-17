@@ -553,7 +553,7 @@ namespace ServiceStack.Authentication.RethinkDb
             return R.Table(s_UserAuthTable).GetAll(displayName).OptArg("index", "DisplayName").Nth(0).Default_(default(UserAuth)).RunResult<UserAuth>(_conn);
         }
 
-        public List<IUserAuth> FindUserAuths(string userNameFilter, string nameFilter, DateTime? createdSince, DateTime? modifiedSince, DateTime? lockedSince, string accountStatus, string orderBy, bool? descending, int? skip, int? limit)
+        public List<IUserAuth> FindUserAuths(string userNameFilter, string nameFilter, DateTime? createdSince, DateTime? modifiedSince, DateTime? lockedSince, string status, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_UserAuthTable).Filter(true);
             if (!userNameFilter.IsNullOrEmpty())
@@ -576,9 +576,9 @@ namespace ServiceStack.Authentication.RethinkDb
             {
                 query = query.Filter(row => row.G("LockedDate").Ge(lockedSince.Value));
             }
-            if (!accountStatus.IsNullOrEmpty())
+            if (!status.IsNullOrEmpty())
             {
-                query = query.Filter(row => row.G("Meta").G("AccountStatus").Eq(accountStatus));
+                query = query.Filter(row => row.G("Meta").G("Status").Eq(status));
             }
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
@@ -752,7 +752,7 @@ namespace ServiceStack.Authentication.RethinkDb
         }
 
         /// <inheritdoc />
-        public async Task<List<IUserAuth>> FindUserAuthsAsync(string userNameFilter, string nameFilter, DateTime? createdSince, DateTime? modifiedSince, DateTime? lockedSince, string accountStatus, string orderBy, bool? descending, int? skip, int? limit)
+        public async Task<List<IUserAuth>> FindUserAuthsAsync(string userNameFilter, string nameFilter, DateTime? createdSince, DateTime? modifiedSince, DateTime? lockedSince, string status, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_UserAuthTable).Filter(true);
             if (!userNameFilter.IsNullOrEmpty())
@@ -775,9 +775,9 @@ namespace ServiceStack.Authentication.RethinkDb
             {
                 query = query.Filter(row => row.G("LockedDate").Ge(lockedSince.Value));
             }
-            if (!accountStatus.IsNullOrEmpty())
+            if (!status.IsNullOrEmpty())
             {
-                query = query.Filter(row => row.G("Meta").G("AccountStatus").Eq(accountStatus));
+                query = query.Filter(row => row.G("Meta").G("Status").Eq(status));
             }
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())

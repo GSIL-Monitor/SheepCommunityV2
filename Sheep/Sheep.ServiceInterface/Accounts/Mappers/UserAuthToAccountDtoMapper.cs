@@ -50,7 +50,7 @@ namespace Sheep.ServiceInterface.Accounts.Mappers
                                  ReceiveCommentNotifications = userAuth.Meta.GetValueOrDefault("ReceiveCommentNotifications").To<bool?>(),
                                  ReceiveConversationNotifications = userAuth.Meta.GetValueOrDefault("ReceiveConversationNotifications").To<bool?>(),
                                  TrackPresence = userAuth.Meta.GetValueOrDefault("TrackPresence").To<bool?>(),
-                                 AccountStatus = userAuth.Meta.GetValueOrDefault("AccountStatus"),
+                                 Status = userAuth.Meta.GetValueOrDefault("Status"),
                                  BanReason = userAuth.Meta.GetValueOrDefault("BanReason"),
                                  BannedUntilDate = userAuth.Meta.GetValueOrDefault("BannedUntilDate").To<DateTime?>()?.ToUnixTime(),
                                  RequireModeration = userAuth.Meta.GetValueOrDefault("RequireModeration").To<bool?>(),

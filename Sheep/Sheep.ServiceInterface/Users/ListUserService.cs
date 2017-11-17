@@ -58,7 +58,7 @@ namespace Sheep.ServiceInterface.Users
             {
                 UserListValidator.ValidateAndThrow(request, ApplyTo.Get);
             }
-            var existingUserAuths = await ((IUserAuthRepositoryExtended) AuthRepo).FindUserAuthsAsync(request.UserNameFilter, request.NameFilter, request.CreatedSince, request.ModifiedSince, request.LockedSince, request.AccountStatus, request.OrderBy, request.Descending, request.Skip, request.Limit);
+            var existingUserAuths = await ((IUserAuthRepositoryExtended) AuthRepo).FindUserAuthsAsync(request.UserNameFilter, request.NameFilter, request.CreatedSince, request.ModifiedSince, request.LockedSince, null, request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingUserAuths == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.UsersNotFound));

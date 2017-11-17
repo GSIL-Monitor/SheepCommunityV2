@@ -44,13 +44,13 @@ namespace Sheep.ServiceModel.Groups
         public bool? IsPublic { get; set; }
 
         /// <summary>
-        ///     帐户状态。（可选值：Approved, Banned, Disapproved, PendingDeletion）
+        ///     状态。（可选值：待审核, 审核通过, 已禁止, 审核失败, 等待删除）
         /// </summary>
-        [DataMember(Order = 6, Name = "accountstatus")]
-        public string AccountStatus { get; set; }
+        [DataMember(Order = 6, Name = "status")]
+        public string Status { get; set; }
 
         /// <summary>
-        ///     排序的字段。（可选值：DisplayName, FullName, RefId, JoinMode, AccountStatus, CreatedDate, ModifiedDate, TotalMembers 默认为 CreatedDate）
+        ///     排序的字段。（可选值：DisplayName, FullName, RefId, JoinMode, Status, CreatedDate, ModifiedDate, TotalMembers 默认为 CreatedDate）
         /// </summary>
         [DataMember(Order = 7, Name = "orderby")]
         public string OrderBy { get; set; }

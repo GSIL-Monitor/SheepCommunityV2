@@ -227,7 +227,7 @@ namespace Sheep.Model.Corp.Repositories
         }
 
         /// <inheritdoc />
-        public List<Group> FindGroups(string nameFilter, DateTime? createdSince, DateTime? modifiedSince, string joinMode, bool? isPublic, string accountStatus, string orderBy, bool? descending, int? skip, int? limit)
+        public List<Group> FindGroups(string nameFilter, DateTime? createdSince, DateTime? modifiedSince, string joinMode, bool? isPublic, string status, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_GroupTable).Filter(true);
             if (!nameFilter.IsNullOrEmpty())
@@ -250,9 +250,9 @@ namespace Sheep.Model.Corp.Repositories
             {
                 query = query.Filter(row => row.G("IsPublic").Eq(isPublic.Value));
             }
-            if (!accountStatus.IsNullOrEmpty())
+            if (!status.IsNullOrEmpty())
             {
-                query = query.Filter(row => row.G("AccountStatus").Eq(accountStatus));
+                query = query.Filter(row => row.G("Status").Eq(status));
             }
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
@@ -267,7 +267,7 @@ namespace Sheep.Model.Corp.Repositories
         }
 
         /// <inheritdoc />
-        public Task<List<Group>> FindGroupsAsync(string nameFilter, DateTime? createdSince, DateTime? modifiedSince, string joinMode, bool? isPublic, string accountStatus, string orderBy, bool? descending, int? skip, int? limit)
+        public Task<List<Group>> FindGroupsAsync(string nameFilter, DateTime? createdSince, DateTime? modifiedSince, string joinMode, bool? isPublic, string status, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_GroupTable).Filter(true);
             if (!nameFilter.IsNullOrEmpty())
@@ -290,9 +290,9 @@ namespace Sheep.Model.Corp.Repositories
             {
                 query = query.Filter(row => row.G("IsPublic").Eq(isPublic.Value));
             }
-            if (!accountStatus.IsNullOrEmpty())
+            if (!status.IsNullOrEmpty())
             {
-                query = query.Filter(row => row.G("AccountStatus").Eq(accountStatus));
+                query = query.Filter(row => row.G("Status").Eq(status));
             }
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())

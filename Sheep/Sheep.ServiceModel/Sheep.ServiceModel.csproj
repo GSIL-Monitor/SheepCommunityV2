@@ -163,6 +163,8 @@
     <Compile Include="Groups\Validators\GroupListValidator.cs" />
     <Compile Include="Groups\Validators\GroupCreateValidator.cs" />
     <Compile Include="Groups\Validators\GroupUpdateValidator.cs" />
+    <Compile Include="Posts\Entities\PostDto.cs" />
+    <Compile Include="Posts\PostCreate.cs" />
     <Compile Include="Users\BasicUserShow.cs" />
     <Compile Include="Users\Validators\BasicUserShowValidator.cs" />
     <Compile Include="Bookmarks\Entities\BookmarkDto.cs" />
@@ -226,6 +228,7 @@
     <Folder Include="Achievements\Mappers\" />
     <Folder Include="Achievements\Validators\" />
     <Folder Include="Files\Validators\" />
+    <Folder Include="Posts\Validators\" />
     <Folder Include="Roles\Entities\" />
     <Folder Include="UserAchievements\Validators\" />
   </ItemGroup>
@@ -251,6 +254,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

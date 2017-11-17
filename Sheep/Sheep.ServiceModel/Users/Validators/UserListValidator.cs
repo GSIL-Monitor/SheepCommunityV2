@@ -10,14 +10,6 @@ namespace Sheep.ServiceModel.Users.Validators
     /// </summary>
     public class UserListValidator : AbstractValidator<UserList>
     {
-        public static readonly HashSet<string> AccountStatuses = new HashSet<string>
-                                                                 {
-                                                                     "Approved",
-                                                                     "Banned",
-                                                                     "Disapproved",
-                                                                     "PendingDeletion"
-                                                                 };
-
         public static readonly HashSet<string> OrderBys = new HashSet<string>
                                                           {
                                                               "UserName",
@@ -27,7 +19,7 @@ namespace Sheep.ServiceModel.Users.Validators
                                                               "BirthDate",
                                                               "TimeZone",
                                                               "Language",
-                                                              "AccountStatus",
+                                                              "Status",
                                                               "CreatedDate",
                                                               "ModifiedDate",
                                                               "Points"
@@ -41,7 +33,6 @@ namespace Sheep.ServiceModel.Users.Validators
         {
             RuleSet(ApplyTo.Get, () =>
                                  {
-                                     RuleFor(x => x.AccountStatus).Must(accountStatus => AccountStatuses.Contains(accountStatus)).WithMessage(Resources.AccountStatusRangeMismatch, AccountStatuses.Join(",")).When(x => !x.AccountStatus.IsNullOrEmpty());
                                      RuleFor(x => x.OrderBy).Must(orderBy => OrderBys.Contains(orderBy)).WithMessage(Resources.OrderByRangeMismatch, OrderBys.Join(",")).When(x => !x.OrderBy.IsNullOrEmpty());
                                  });
         }

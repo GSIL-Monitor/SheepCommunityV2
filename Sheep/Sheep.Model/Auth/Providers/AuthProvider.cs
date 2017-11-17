@@ -290,7 +290,7 @@ namespace Sheep.Model.Auth.Providers
                 {
                     return true;
                 }
-                if (userAuth.Meta != null && userAuth.Meta.TryGetValue("AccountStatus", out var accountStatus) && accountStatus != null && accountStatus != "Approved")
+                if (userAuth.Meta != null && userAuth.Meta.TryGetValue("Status", out var status) && status != null && status != "审核通过")
                 {
                     return true;
                 }

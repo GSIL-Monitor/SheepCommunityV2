@@ -112,20 +112,19 @@ namespace Sheep.ServiceModel.Users.Entities
         public string Guild { get; set; }
 
         /// <summary>
-        ///     帐户状态。（可选值：Approved, Banned, Disapproved, PendingDeletion）
+        ///     状态。（可选值：待审核, 审核通过, 已禁止, 审核失败, 等待删除）
         /// </summary>
         [DataMember(Order = 18)]
-        public string AccountStatus { get; set; }
+        public string Status { get; set; }
 
         /// <summary>
-        ///     帐户禁止的原因。（可选值：Profanity, Advertising, Spam, Aggressive, Politics, Terrorism, Abuse, Porn, Flood, Contraband,
-        ///     BadUserName, BadSignature, Other）
+        ///     禁止的原因。（可选值：垃圾营销, 不实信息, 违法信息, 有害信息, 淫秽色情, 欺诈骗局, 冒充他人, 抄袭内容, 人身攻击, 泄露隐私）
         /// </summary>
         [DataMember(Order = 19)]
         public string BanReason { get; set; }
 
         /// <summary>
-        ///     帐户禁止的取消日期。
+        ///     禁止的取消日期。
         /// </summary>
         [DataMember(Order = 20)]
         public long? BannedUntilDate { get; set; }

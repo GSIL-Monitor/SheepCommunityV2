@@ -34,7 +34,7 @@ namespace Sheep.ServiceInterface.Users.Mappers
                               State = userAuth.State,
                               City = userAuth.City,
                               Guild = userAuth.Meta.GetValueOrDefault("Guild"),
-                              AccountStatus = userAuth.Meta.GetValueOrDefault("AccountStatus"),
+                              Status = userAuth.Meta.GetValueOrDefault("Status"),
                               BanReason = userAuth.Meta.GetValueOrDefault("BanReason"),
                               BannedUntilDate = userAuth.Meta.GetValueOrDefault("BannedUntilDate").To<DateTime?>()?.ToUnixTime(),
                               CreatedDate = userAuth.CreatedDate.ToUnixTime(),
