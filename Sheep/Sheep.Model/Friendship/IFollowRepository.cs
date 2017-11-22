@@ -115,14 +115,14 @@ namespace Sheep.Model.Friendship
         Task<Follow> UpdateFollowAsync(Follow existingFollow, Follow newFollow);
 
         /// <summary>
-        ///     删除一个关注。
+        ///     取消一个关注。
         /// </summary>
         /// <param name="ownerId">被关注者的用户编号。</param>
         /// <param name="followerId">关注者的用户编号。</param>
         void DeleteFollow(int ownerId, int followerId);
 
         /// <summary>
-        ///     异步删除一个关注。
+        ///     异步取消一个关注。
         /// </summary>
         /// <param name="ownerId">被关注者的用户编号。</param>
         /// <param name="followerId">关注者的用户编号。</param>

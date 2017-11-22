@@ -5,9 +5,9 @@ using Sheep.ServiceModel.Follows.Entities;
 namespace Sheep.ServiceModel.Follows
 {
     /// <summary>
-    ///     新建关注的请求。
+    ///     新建一个关注的请求。
     /// </summary>
-    [Route("/follows", HttpMethods.Post, Summary = "新建关注")]
+    [Route("/follows", HttpMethods.Post, Summary = "新建一个关注")]
     [DataContract]
     public class FollowCreate : IReturn<FollowCreateResponse>
     {
@@ -20,7 +20,7 @@ namespace Sheep.ServiceModel.Follows
     }
 
     /// <summary>
-    ///     新建关注的响应。
+    ///     新建一个关注的响应。
     /// </summary>
     [DataContract]
     public class FollowCreateResponse : IHasResponseStatus

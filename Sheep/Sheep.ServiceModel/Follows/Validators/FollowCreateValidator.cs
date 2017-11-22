@@ -1,13 +1,10 @@
-﻿using System;
-using ServiceStack;
-using ServiceStack.Auth;
+﻿using ServiceStack;
 using ServiceStack.FluentValidation;
-using Sheep.ServiceModel.Properties;
 
 namespace Sheep.ServiceModel.Follows.Validators
 {
     /// <summary>
-    ///     创建关注的校验器。
+    ///     新建一个关注的校验器。
     /// </summary>
     public class FollowCreateValidator : AbstractValidator<FollowCreate>
     {
@@ -19,6 +16,7 @@ namespace Sheep.ServiceModel.Follows.Validators
         {
             RuleSet(ApplyTo.Post, () =>
                                   {
+                                      
                                   });
         }
     }

@@ -97,6 +97,42 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
+        ///   查找类似 正文内容必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string ContentRequired {
+            get {
+                return ResourceManager.GetString("ContentRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 内容类型的有效范围为:{0}。 的本地化字符串。
+        /// </summary>
+        internal static string ContentTypeRangeMismatch {
+            get {
+                return ResourceManager.GetString("ContentTypeRangeMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 内容类型必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string ContentTypeRequired {
+            get {
+                return ResourceManager.GetString("ContentTypeRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 内容的地址必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string ContentUrlRequired {
+            get {
+                return ResourceManager.GetString("ContentUrlRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 国家编号必须输入。 的本地化字符串。
         /// </summary>
         internal static string CountryIdRequired {
@@ -322,6 +358,15 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
+        ///   查找类似 帖子编号必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string PostIdRequired {
+            get {
+                return ResourceManager.GetString("PostIdRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 用途的有效范围为:{0}。 的本地化字符串。
         /// </summary>
         internal static string PurposeRangeMismatch {
@@ -453,6 +498,15 @@ namespace Sheep.ServiceModel.Properties {
         internal static string StatusRangeMismatch {
             get {
                 return ResourceManager.GetString("StatusRangeMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 标题必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string TitleRequired {
+            get {
+                return ResourceManager.GetString("TitleRequired", resourceCulture);
             }
         }
         

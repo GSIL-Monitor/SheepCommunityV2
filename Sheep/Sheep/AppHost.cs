@@ -16,6 +16,8 @@ using ServiceStack.Validation;
 using Sheep.Common.Settings;
 using Sheep.Model.Auth.Events;
 using Sheep.Model.Auth.Providers;
+using Sheep.Model.Content;
+using Sheep.Model.Content.Repositories;
 using Sheep.Model.Corp;
 using Sheep.Model.Corp.Repositories;
 using Sheep.Model.Friendship;
@@ -108,6 +110,8 @@ namespace Sheep
             ConfigureCorp(container);
             // 配置好友功能。
             ConfigureFriendship(container);
+            //配置内容功能。
+            ConfigureContent(container);
             // 配置校验器。
             ConfigValidation(container);
             // 配置跨域访问功能。
@@ -356,8 +360,12 @@ namespace Sheep
             container.Register<IFollowRepository>(c => new RethinkDbFollowRepository(c.Resolve<IConnection>(), AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true));
         }
 
-        private void ConfigureBlog(Container container)
+        /// <summary>
+        ///     配置内容功能。
+        /// </summary>
+        private void ConfigureContent(Container container)
         {
+            container.Register<IPostRepository>(c => new RethinkDbPostRepository(c.Resolve<IConnection>(), AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true));
         }
 
         private void ConfigureBible(Container container)

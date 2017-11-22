@@ -15,7 +15,7 @@ using Sheep.ServiceModel.Follows;
 namespace Sheep.ServiceInterface.Follows
 {
     /// <summary>
-    ///     取消关注服务接口。
+    ///     取消一个关注服务接口。
     /// </summary>
     public class DeleteFollowService : ChangeFollowService
     {
@@ -41,7 +41,7 @@ namespace Sheep.ServiceInterface.Follows
         public INimClient NimClient { get; set; }
 
         /// <summary>
-        ///     获取及设置取消关注的校验器。
+        ///     获取及设置取消一个关注的校验器。
         /// </summary>
         public IValidator<FollowDelete> FollowDeleteValidator { get; set; }
 
@@ -57,10 +57,10 @@ namespace Sheep.ServiceInterface.Follows
 
         #endregion
 
-        #region 取消关注
+        #region 取消一个关注
 
         /// <summary>
-        ///     取消关注。
+        ///     取消一个关注。
         /// </summary>
         public async Task<object> Delete(FollowDelete request)
         {

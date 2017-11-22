@@ -285,4 +285,22 @@
   <data name="WeixinUserIdRequired" xml:space="preserve">
     <value>微信用户编号必须输入。</value>
   </data>
+  <data name="ContentRequired" xml:space="preserve">
+    <value>正文内容必须输入。</value>
+  </data>
+  <data name="ContentTypeRangeMismatch" xml:space="preserve">
+    <value>内容类型的有效范围为:{0}。</value>
+  </data>
+  <data name="ContentTypeRequired" xml:space="preserve">
+    <value>内容类型必须输入。</value>
+  </data>
+  <data name="ContentUrlRequired" xml:space="preserve">
+    <value>内容的地址必须输入。</value>
+  </data>
+  <data name="TitleRequired" xml:space="preserve">
+    <value>标题必须输入。</value>
+  </data>
+  <data name="PostIdRequired" xml:space="preserve">
+    <value>帖子编号必须输入。</value>
+  </data>
 </root>

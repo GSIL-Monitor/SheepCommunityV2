@@ -159,8 +159,17 @@
   <data name="InvalidUserId" xml:space="preserve">
     <value>错误的用户编号{0}。</value>
   </data>
+  <data name="LoginAsAuthorRequired" xml:space="preserve">
+    <value>必须先使用作者身份登录。</value>
+  </data>
   <data name="LoginRequired" xml:space="preserve">
-    <value>必须先登录系统。</value>
+    <value>必须先登录。</value>
+  </data>
+  <data name="PostNotFound" xml:space="preserve">
+    <value>无法找到指定的帖子{0}。</value>
+  </data>
+  <data name="PostsNotFound" xml:space="preserve">
+    <value>无法找到指定条件的帖子列表。</value>
   </data>
   <data name="ReLoginNotAllowed" xml:space="preserve">
     <value>在已登录的状态下不允许进行重复登录，请先退出登录。</value>

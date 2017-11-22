@@ -17,7 +17,7 @@ using Sheep.ServiceModel.Follows;
 namespace Sheep.ServiceInterface.Follows
 {
     /// <summary>
-    ///     创建关注服务接口。
+    ///     新建一个关注服务接口。
     /// </summary>
     public class CreateFollowService : ChangeFollowService
     {
@@ -43,7 +43,7 @@ namespace Sheep.ServiceInterface.Follows
         public INimClient NimClient { get; set; }
 
         /// <summary>
-        ///     获取及设置创建关注的校验器。
+        ///     获取及设置新建一个关注的校验器。
         /// </summary>
         public IValidator<FollowCreate> FollowCreateValidator { get; set; }
 
@@ -59,10 +59,10 @@ namespace Sheep.ServiceInterface.Follows
 
         #endregion
 
-        #region 创建关注
+        #region 新建一个关注
 
         /// <summary>
-        ///     创建关注。
+        ///     新建一个关注。
         /// </summary>
         public async Task<object> Post(FollowCreate request)
         {

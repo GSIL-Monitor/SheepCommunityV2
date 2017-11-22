@@ -174,4 +174,7 @@
   <data name="UserNameOrEmailRequired" xml:space="preserve">
     <value>用户名称或电子邮件地址必须输入。</value>
   </data>
+  <data name="PostAlreadyExists" xml:space="preserve">
+    <value>用户名称已经存在。</value>
+  </data>
 </root>
