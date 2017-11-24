@@ -142,6 +142,100 @@ namespace Sheep.Model.Content
 
         #endregion
 
+        #region 统计
+
+        /// <summary>
+        ///     查找获取帖子数量。
+        /// </summary>
+        /// <param name="titleFilter">过滤标题及概要的表达式。</param>
+        /// <param name="tag">分类的标签。</param>
+        /// <param name="contentType">内容的类型。</param>
+        /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
+        /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
+        /// <param name="publishedSince">过滤发布日期在指定的时间之后。</param>
+        /// <param name="isPublished">是否已发布。</param>
+        /// <param name="isFeatured">是否标记为精选。</param>
+        /// <param name="status"> 过滤状态。</param>
+        /// <returns>帖子数量。</returns>
+        int GetPostsCount(string titleFilter, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status);
+
+        /// <summary>
+        ///     异步获取帖子数量。
+        /// </summary>
+        /// <param name="titleFilter">过滤标题及概要的表达式。</param>
+        /// <param name="tag">分类的标签。</param>
+        /// <param name="contentType">内容的类型。</param>
+        /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
+        /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
+        /// <param name="publishedSince">过滤发布日期在指定的时间之后。</param>
+        /// <param name="isPublished">是否已发布。</param>
+        /// <param name="isFeatured">是否标记为精选。</param>
+        /// <param name="status"> 过滤状态。</param>
+        /// <returns>帖子数量。</returns>
+        Task<int> GetPostsCountAsync(string titleFilter, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status);
+
+        /// <summary>
+        ///     根据作者查找帖子。
+        /// </summary>
+        /// <param name="authorId">作者的用户编号。</param>
+        /// <param name="contentType">内容的类型。</param>
+        /// <param name="tag">分类的标签。</param>
+        /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
+        /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
+        /// <param name="publishedSince">过滤发布日期在指定的时间之后。</param>
+        /// <param name="isPublished">是否已发布。</param>
+        /// <param name="isFeatured">是否标记为精选。</param>
+        /// <param name="status"> 过滤状态。</param>
+        /// <returns>帖子数量。</returns>
+        int GetPostsCountByAuthor(int authorId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status);
+
+        /// <summary>
+        ///     异步根据作者获取帖子数量。
+        /// </summary>
+        /// <param name="authorId">作者的用户编号。</param>
+        /// <param name="tag">分类的标签。</param>
+        /// <param name="contentType">内容的类型。</param>
+        /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
+        /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
+        /// <param name="publishedSince">过滤发布日期在指定的时间之后。</param>
+        /// <param name="isPublished">是否已发布。</param>
+        /// <param name="isFeatured">是否标记为精选。</param>
+        /// <param name="status"> 过滤状态。</param>
+        /// <returns>帖子数量。</returns>
+        Task<int> GetPostsCountByAuthorAsync(int authorId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status);
+
+        /// <summary>
+        ///     根据群组获取帖子数量。
+        /// </summary>
+        /// <param name="groupId">群组的编号。</param>
+        /// <param name="tag">分类的标签。</param>
+        /// <param name="contentType">内容的类型。</param>
+        /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
+        /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
+        /// <param name="publishedSince">过滤发布日期在指定的时间之后。</param>
+        /// <param name="isPublished">是否已发布。</param>
+        /// <param name="isFeatured">是否标记为精选。</param>
+        /// <param name="status"> 过滤状态。</param>
+        /// <returns>帖子数量。</returns>
+        int GetPostsCountByGroup(string groupId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status);
+
+        /// <summary>
+        ///     异步根据群组获取帖子数量。
+        /// </summary>
+        /// <param name="groupId">群组的编号。</param>
+        /// <param name="tag">分类的标签。</param>
+        /// <param name="contentType">内容的类型。</param>
+        /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
+        /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
+        /// <param name="publishedSince">过滤发布日期在指定的时间之后。</param>
+        /// <param name="isPublished">是否已发布。</param>
+        /// <param name="isFeatured">是否标记为精选。</param>
+        /// <param name="status"> 过滤状态。</param>
+        /// <returns>帖子数量。</returns>
+        Task<int> GetPostsCountByGroupAsync(string groupId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status);
+
+        #endregion
+
         #region 写入
 
         /// <summary>

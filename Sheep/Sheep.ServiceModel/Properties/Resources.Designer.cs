@@ -97,6 +97,15 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
+        ///   查找类似 内容编号必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string ContentIdRequired {
+            get {
+                return ResourceManager.GetString("ContentIdRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 正文内容必须输入。 的本地化字符串。
         /// </summary>
         internal static string ContentRequired {

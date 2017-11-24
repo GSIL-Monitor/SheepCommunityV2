@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using ServiceStack;
 using ServiceStack.DataAnnotations;
+using ServiceStack.Model;
 
 namespace Sheep.Model.Friendship.Entities
 {
     /// <summary>
     ///     关注。
     /// </summary>
-    public class Follow : IMeta
+    public class Follow : IHasStringId, IMeta
     {
         /// <summary>
         ///     编号。

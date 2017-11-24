@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using ServiceStack;
 using ServiceStack.DataAnnotations;
+using ServiceStack.Model;
 
 namespace Sheep.Model.Corp.Entities
 {
     /// <summary>
     ///     群组。
     /// </summary>
-    public class Group : IMeta
+    public class Group : IHasStringId, IMeta
     {
         /// <summary>
         ///     编号。

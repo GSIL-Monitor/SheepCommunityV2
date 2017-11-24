@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using ServiceStack;
 using ServiceStack.DataAnnotations;
+using ServiceStack.Model;
 
 namespace Sheep.Model.Content.Entities
 {
     /// <summary>
     ///     帖子。
     /// </summary>
-    public class Post : IMeta
+    public class Post : IHasStringId, IMeta
     {
         /// <summary>
         ///     编号。

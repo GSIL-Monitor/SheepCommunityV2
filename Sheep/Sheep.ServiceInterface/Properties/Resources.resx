@@ -159,6 +159,12 @@
   <data name="InvalidUserId" xml:space="preserve">
     <value>错误的用户编号{0}。</value>
   </data>
+  <data name="LikeNotFound" xml:space="preserve">
+    <value>无法找到指定的点赞。</value>
+  </data>
+  <data name="LikesNotFound" xml:space="preserve">
+    <value>无法找到指定条件的点赞列表。</value>
+  </data>
   <data name="LoginAsAuthorRequired" xml:space="preserve">
     <value>必须先使用作者身份登录。</value>
   </data>

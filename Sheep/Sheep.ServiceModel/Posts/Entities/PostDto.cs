@@ -117,7 +117,7 @@ namespace Sheep.ServiceModel.Posts.Entities
         ///     作者的用户。
         /// </summary>
         [DataMember(Order = 18)]
-        public UserDto Author { get; set; }
+        public BasicUserDto Author { get; set; }
 
         /// <summary>
         ///     查看的次数。

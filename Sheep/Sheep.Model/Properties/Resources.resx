@@ -177,4 +177,7 @@
   <data name="PostAlreadyExists" xml:space="preserve">
     <value>用户名称已经存在。</value>
   </data>
+  <data name="ContentWithUserAlreadyExists" xml:space="preserve">
+    <value>内容{0}与用户{1}的已经存在。</value>
+  </data>
 </root>

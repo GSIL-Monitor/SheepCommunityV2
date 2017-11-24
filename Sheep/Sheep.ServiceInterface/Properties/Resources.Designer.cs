@@ -187,6 +187,24 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
+        ///   查找类似 无法找到指定的点赞。 的本地化字符串。
+        /// </summary>
+        internal static string LikeNotFound {
+            get {
+                return ResourceManager.GetString("LikeNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定条件的点赞列表。 的本地化字符串。
+        /// </summary>
+        internal static string LikesNotFound {
+            get {
+                return ResourceManager.GetString("LikesNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 必须先使用作者身份登录。 的本地化字符串。
         /// </summary>
         internal static string LoginAsAuthorRequired {

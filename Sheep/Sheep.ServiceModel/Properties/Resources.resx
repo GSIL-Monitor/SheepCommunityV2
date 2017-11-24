@@ -303,4 +303,7 @@
   <data name="PostIdRequired" xml:space="preserve">
     <value>帖子编号必须输入。</value>
   </data>
+  <data name="ContentIdRequired" xml:space="preserve">
+    <value>内容编号必须输入。</value>
+  </data>
 </root>

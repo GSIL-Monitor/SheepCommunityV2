@@ -443,6 +443,248 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
+        public int GetPostsCount(string titleFilter, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status)
+        {
+            var query = R.Table(s_PostTable).Filter(true);
+            if (!tag.IsNullOrEmpty())
+            {
+                query = R.Table(s_PostTable).GetAll(tag).OptArg("index", "Tags").Filter(true);
+            }
+            if (!titleFilter.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("Title").Match(titleFilter).Or(row.G("Summary").Match(titleFilter)));
+            }
+            if (!contentType.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ContentType").Eq(contentType));
+            }
+            if (createdSince.HasValue)
+            {
+                query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
+            }
+            if (modifiedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("ModifiedDate").Ge(modifiedSince.Value));
+            }
+            if (publishedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("PublishedDate").Ge(publishedSince.Value));
+            }
+            if (isPublished.HasValue)
+            {
+                query = query.Filter(row => row.G("IsPublished").Eq(isPublished.Value));
+            }
+            if (isFeatured.HasValue)
+            {
+                query = query.Filter(row => row.G("IsFeatured").Eq(isFeatured.Value));
+            }
+            if (!status.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("Status").Eq(status));
+            }
+            return query.Count().RunResult<int>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<int> GetPostsCountAsync(string titleFilter, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status)
+        {
+            var query = R.Table(s_PostTable).Filter(true);
+            if (!tag.IsNullOrEmpty())
+            {
+                query = R.Table(s_PostTable).GetAll(tag).OptArg("index", "Tags").Filter(true);
+            }
+            if (!titleFilter.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("Title").Match(titleFilter).Or(row.G("Summary").Match(titleFilter)));
+            }
+            if (!contentType.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ContentType").Eq(contentType));
+            }
+            if (createdSince.HasValue)
+            {
+                query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
+            }
+            if (modifiedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("ModifiedDate").Ge(modifiedSince.Value));
+            }
+            if (publishedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("PublishedDate").Ge(publishedSince.Value));
+            }
+            if (isPublished.HasValue)
+            {
+                query = query.Filter(row => row.G("IsPublished").Eq(isPublished.Value));
+            }
+            if (isFeatured.HasValue)
+            {
+                query = query.Filter(row => row.G("IsFeatured").Eq(isFeatured.Value));
+            }
+            if (!status.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("Status").Eq(status));
+            }
+            return query.Count().RunResultAsync<int>(_conn);
+        }
+
+        /// <inheritdoc />
+        public int GetPostsCountByAuthor(int authorId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status)
+        {
+            var query = R.Table(s_PostTable).GetAll(authorId).OptArg("index", "AuthorId").Filter(true);
+            if (!contentType.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ContentType").Eq(contentType));
+            }
+            if (!tag.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("Tags").Contains(tag));
+            }
+            if (createdSince.HasValue)
+            {
+                query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
+            }
+            if (modifiedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("ModifiedDate").Ge(modifiedSince.Value));
+            }
+            if (publishedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("PublishedDate").Ge(publishedSince.Value));
+            }
+            if (isPublished.HasValue)
+            {
+                query = query.Filter(row => row.G("IsPublished").Eq(isPublished.Value));
+            }
+            if (isFeatured.HasValue)
+            {
+                query = query.Filter(row => row.G("IsFeatured").Eq(isFeatured.Value));
+            }
+            if (!status.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("Status").Eq(status));
+            }
+            return query.Count().RunResult<int>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<int> GetPostsCountByAuthorAsync(int authorId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status)
+        {
+            var query = R.Table(s_PostTable).GetAll(authorId).OptArg("index", "AuthorId").Filter(true);
+            if (!contentType.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ContentType").Eq(contentType));
+            }
+            if (!tag.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("Tags").Contains(tag));
+            }
+            if (createdSince.HasValue)
+            {
+                query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
+            }
+            if (modifiedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("ModifiedDate").Ge(modifiedSince.Value));
+            }
+            if (publishedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("PublishedDate").Ge(publishedSince.Value));
+            }
+            if (isPublished.HasValue)
+            {
+                query = query.Filter(row => row.G("IsPublished").Eq(isPublished.Value));
+            }
+            if (isFeatured.HasValue)
+            {
+                query = query.Filter(row => row.G("IsFeatured").Eq(isFeatured.Value));
+            }
+            if (!status.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("Status").Eq(status));
+            }
+            return query.Count().RunResultAsync<int>(_conn);
+        }
+
+        /// <inheritdoc />
+        public int GetPostsCountByGroup(string groupId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status)
+        {
+            var query = R.Table(s_PostTable).GetAll(groupId).OptArg("index", "GroupId").Filter(true);
+            if (!contentType.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ContentType").Eq(contentType));
+            }
+            if (!tag.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("Tags").Contains(tag));
+            }
+            if (createdSince.HasValue)
+            {
+                query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
+            }
+            if (modifiedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("ModifiedDate").Ge(modifiedSince.Value));
+            }
+            if (publishedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("PublishedDate").Ge(publishedSince.Value));
+            }
+            if (isPublished.HasValue)
+            {
+                query = query.Filter(row => row.G("IsPublished").Eq(isPublished.Value));
+            }
+            if (isFeatured.HasValue)
+            {
+                query = query.Filter(row => row.G("IsFeatured").Eq(isFeatured.Value));
+            }
+            if (!status.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("Status").Eq(status));
+            }
+            return query.Count().RunResult<int>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<int> GetPostsCountByGroupAsync(string groupId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status)
+        {
+            var query = R.Table(s_PostTable).GetAll(groupId).OptArg("index", "GroupId").Filter(true);
+            if (!contentType.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ContentType").Eq(contentType));
+            }
+            if (!tag.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("Tags").Contains(tag));
+            }
+            if (createdSince.HasValue)
+            {
+                query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
+            }
+            if (modifiedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("ModifiedDate").Ge(modifiedSince.Value));
+            }
+            if (publishedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("PublishedDate").Ge(publishedSince.Value));
+            }
+            if (isPublished.HasValue)
+            {
+                query = query.Filter(row => row.G("IsPublished").Eq(isPublished.Value));
+            }
+            if (isFeatured.HasValue)
+            {
+                query = query.Filter(row => row.G("IsFeatured").Eq(isFeatured.Value));
+            }
+            if (!status.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("Status").Eq(status));
+            }
+            return query.Count().RunResultAsync<int>(_conn);
+        }
+
+        /// <inheritdoc />
         public Post CreatePost(Post newPost)
         {
             newPost.ThrowIfNull(nameof(newPost));

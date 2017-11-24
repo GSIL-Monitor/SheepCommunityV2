@@ -34,7 +34,7 @@ namespace Sheep.ServiceInterface.Posts.Mappers
                               IsPublished = post.IsPublished,
                               PublishedDate = post.PublishedDate?.ToUnixTime(),
                               IsFeatured = post.IsFeatured,
-                              Author = author.MapToUserDto(),
+                              Author = author.MapToBasicUserDto(),
                               ViewsCount = post.ViewsCount,
                               BookmarksCount = post.BookmarksCount,
                               CommentsCount = post.CommentsCount,

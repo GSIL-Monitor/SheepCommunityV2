@@ -1,11 +1,12 @@
 ﻿using ServiceStack.DataAnnotations;
+using ServiceStack.Model;
 
 namespace Sheep.Model.Geo.Entities
 {
     /// <summary>
     ///     城市/区域。
     /// </summary>
-    public class City
+    public class City : IHasStringId
     {
         /// <summary>
         ///     编号。

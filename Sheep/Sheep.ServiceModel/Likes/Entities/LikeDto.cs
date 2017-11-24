@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 using Sheep.ServiceModel.Users.Entities;
 
 namespace Sheep.ServiceModel.Likes.Entities
@@ -11,19 +10,19 @@ namespace Sheep.ServiceModel.Likes.Entities
     public class LikeDto
     {
         /// <summary>
-        ///     类型。
+        ///     内容的类型。（可选值：帖子）
         /// </summary>
         [DataMember(Order = 1)]
-        public string Type { get; set; }
-
-        ///// <summary>
-        /////     点赞标记的内容。
-        ///// </summary>
-        //[DataMember(Order = 2)]
-        //public ContentDto Content { get; set; }
+        public string ContentType { get; set; }
 
         /// <summary>
-        ///     点赞的用户。
+        ///     内容编号。
+        /// </summary>
+        [DataMember(Order = 2)]
+        public string ContentId { get; set; }
+
+        /// <summary>
+        ///     用户。
         /// </summary>
         [DataMember(Order = 3)]
         public BasicUserDto User { get; set; }
@@ -32,6 +31,6 @@ namespace Sheep.ServiceModel.Likes.Entities
         ///     创建日期。
         /// </summary>
         [DataMember(Order = 4)]
-        public DateTime CreatedDate { get; set; }
+        public long CreatedDate { get; set; }
     }
 }

@@ -163,6 +163,14 @@
     <Compile Include="Groups\Validators\GroupListValidator.cs" />
     <Compile Include="Groups\Validators\GroupCreateValidator.cs" />
     <Compile Include="Groups\Validators\GroupUpdateValidator.cs" />
+    <Compile Include="Likes\LikeCreate.cs" />
+    <Compile Include="Likes\LikeDelete.cs" />
+    <Compile Include="Likes\LikeList.cs" />
+    <Compile Include="Likes\LikeShow.cs" />
+    <Compile Include="Likes\Validators\LikeCreateValidator.cs" />
+    <Compile Include="Likes\Validators\LikeDeleteValidator.cs" />
+    <Compile Include="Likes\Validators\LikeListValidator.cs" />
+    <Compile Include="Likes\Validators\LikeShowValidator.cs" />
     <Compile Include="Posts\BasicPostShow.cs" />
     <Compile Include="Posts\Entities\BasicPostDto.cs" />
     <Compile Include="Posts\Entities\PostDto.cs" />
@@ -207,7 +215,6 @@
     <Compile Include="Accounts\AccountBind.cs" />
     <Compile Include="Accounts\AccountRegister.cs" />
     <Compile Include="Accounts\Validators\AccountRegisterValidator.cs" />
-    <Compile Include="Likes\Entities\LikedItemDto.cs" />
     <Compile Include="Likes\Entities\LikeDto.cs" />
     <Compile Include="ServiceModelAssembly.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
