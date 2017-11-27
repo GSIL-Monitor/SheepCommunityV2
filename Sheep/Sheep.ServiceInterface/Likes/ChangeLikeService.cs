@@ -15,8 +15,8 @@ namespace Sheep.ServiceInterface.Likes
         /// <param name="like">用户身份。</param>
         protected void ResetCache(Like like)
         {
-            Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/likes/query?contentid={0}", like.ContentId)).ToArray());
-            Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/likes/query?contentid={0}", like.ContentId)).ToArray());
+            Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/likes/query?parentid={0}", like.ParentId)).ToArray());
+            Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/likes/query?parentid={0}", like.ParentId)).ToArray());
         }
     }
 }

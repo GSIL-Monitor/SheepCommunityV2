@@ -26,8 +26,8 @@ namespace Sheep.ServiceModel.Posts.Validators
             RuleSet(ApplyTo.Post, () =>
                                   {
                                       RuleFor(x => x.Title).NotEmpty().WithMessage(Resources.TitleRequired);
-                                      RuleFor(x => x.ContentType).NotEmpty().WithMessage(Resources.ContentTypeRequired);
-                                      RuleFor(x => x.ContentType).Must(contentType => ContentTypes.Contains(contentType)).WithMessage(Resources.ContentTypeRangeMismatch, ContentTypes.Join(","));
+                                      RuleFor(x => x.ContentType).NotEmpty().WithMessage(Resources.ParentTypeRequired);
+                                      RuleFor(x => x.ContentType).Must(contentType => ContentTypes.Contains(contentType)).WithMessage(Resources.ParentTypeRangeMismatch, ContentTypes.Join(","));
                                       RuleFor(x => x.Content).NotEmpty().WithMessage(Resources.ContentRequired).When(x => x.ContentType == "图文");
                                       RuleFor(x => x.ContentUrl).NotEmpty().WithMessage(Resources.ContentUrlRequired).When(x => x.ContentType == "音频" || x.ContentType == "视频");
                                   });

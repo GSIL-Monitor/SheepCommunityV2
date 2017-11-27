@@ -187,7 +187,7 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
-        ///   查找类似 无法找到指定的点赞。 的本地化字符串。
+        ///   查找类似 无法找到指定的点赞{0}。 的本地化字符串。
         /// </summary>
         internal static string LikeNotFound {
             get {

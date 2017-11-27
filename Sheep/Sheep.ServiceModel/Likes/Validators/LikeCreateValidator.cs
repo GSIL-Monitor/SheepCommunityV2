@@ -10,10 +10,10 @@ namespace Sheep.ServiceModel.Likes.Validators
     /// </summary>
     public class LikeCreateValidator : AbstractValidator<LikeCreate>
     {
-        public static readonly HashSet<string> ContentTypes = new HashSet<string>
-                                                              {
-                                                                  "帖子"
-                                                              };
+        public static readonly HashSet<string> ParentTypes = new HashSet<string>
+                                                             {
+                                                                 "帖子"
+                                                             };
 
         /// <summary>
         ///     初始化一个新的<see cref="LikeCreateValidator" />对象。
@@ -23,9 +23,9 @@ namespace Sheep.ServiceModel.Likes.Validators
         {
             RuleSet(ApplyTo.Post, () =>
                                   {
-                                      RuleFor(x => x.ContentType).NotEmpty().WithMessage(Resources.ContentTypeRequired);
-                                      RuleFor(x => x.ContentType).Must(contentType => ContentTypes.Contains(contentType)).WithMessage(Resources.ContentTypeRangeMismatch, ContentTypes.Join(","));
-                                      RuleFor(x => x.ContentId).NotEmpty().WithMessage(Resources.ContentIdRequired);
+                                      RuleFor(x => x.ParentType).NotEmpty().WithMessage(Resources.ParentTypeRequired);
+                                      RuleFor(x => x.ParentType).Must(contentType => ParentTypes.Contains(contentType)).WithMessage(Resources.ParentTypeRangeMismatch, ParentTypes.Join(","));
+                                      RuleFor(x => x.ParentId).NotEmpty().WithMessage(Resources.ParentIdRequired);
                                   });
         }
     }

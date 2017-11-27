@@ -13,49 +13,49 @@ namespace Sheep.Model.Content
         #region 获取
 
         /// <summary>
-        ///     根据内容与点赞者获取点赞。
+        ///     根据内容与用户获取点赞。
         /// </summary>
-        /// <param name="contentId">内容的编号。</param>
-        /// <param name="userId">点赞者的用户编号。</param>
+        /// <param name="parentId">上级的编号。（如帖子编号）</param>
+        /// <param name="userId">用户的用户编号。</param>
         /// <returns>点赞。</returns>
-        Like GetLike(string contentId, int userId);
+        Like GetLike(string parentId, int userId);
 
         /// <summary>
-        ///     异步根据内容与点赞者获取点赞。
+        ///     异步根据内容与用户获取点赞。
         /// </summary>
-        /// <param name="contentId">内容的编号。</param>
-        /// <param name="userId">点赞者的用户编号。</param>
+        /// <param name="parentId">上级的编号。（如帖子编号）</param>
+        /// <param name="userId">用户的用户编号。</param>
         /// <returns>点赞。</returns>
-        Task<Like> GetLikeAsync(string contentId, int userId);
+        Task<Like> GetLikeAsync(string parentId, int userId);
 
         /// <summary>
         ///     根据内容查找点赞。
         /// </summary>
-        /// <param name="contentId">内容的编号。</param>
+        /// <param name="parentId">上级的编号。（如帖子编号）</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="orderBy">排序的字段。</param>
         /// <param name="descending">是否按降序排序。</param>
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>点赞列表。</returns>
-        List<Like> FindLikesByContent(string contentId, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit);
+        List<Like> FindLikesByParent(string parentId, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
         ///     异步根据内容查找点赞。
         /// </summary>
-        /// <param name="contentId">内容的编号。</param>
+        /// <param name="parentId">上级的编号。（如帖子编号）</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="orderBy">排序的字段。</param>
         /// <param name="descending">是否按降序排序。</param>
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>点赞列表。</returns>
-        Task<List<Like>> FindLikesByContentAsync(string contentId, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit);
+        Task<List<Like>> FindLikesByParentAsync(string parentId, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
-        ///     根据点赞者查找点赞。
+        ///     根据用户查找点赞。
         /// </summary>
-        /// <param name="userId">点赞者的用户编号。</param>
+        /// <param name="userId">用户的用户编号。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="orderBy">排序的字段。</param>
         /// <param name="descending">是否按降序排序。</param>
@@ -65,9 +65,9 @@ namespace Sheep.Model.Content
         List<Like> FindLikesByUser(int userId, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
-        ///     异步根据点赞者查找点赞。
+        ///     异步根据用户查找点赞。
         /// </summary>
-        /// <param name="userId">点赞者的用户编号。</param>
+        /// <param name="userId">用户的用户编号。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="orderBy">排序的字段。</param>
         /// <param name="descending">是否按降序排序。</param>
@@ -83,31 +83,31 @@ namespace Sheep.Model.Content
         /// <summary>
         ///     根据内容获取点赞数量。
         /// </summary>
-        /// <param name="contentId">内容的编号。</param>
+        /// <param name="parentId">上级的编号。（如帖子编号）</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <returns>点赞数量。</returns>
-        int GetLikesCountByContent(string contentId, DateTime? createdSince);
+        int GetLikesCountByParent(string parentId, DateTime? createdSince);
 
         /// <summary>
         ///     异步根据内容获取点赞数量。
         /// </summary>
-        /// <param name="contentId">内容的编号。</param>
+        /// <param name="parentId">上级的编号。（如帖子编号）</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <returns>点赞数量。</returns>
-        Task<int> GetLikesCountByContentAsync(string contentId, DateTime? createdSince);
+        Task<int> GetLikesCountByParentAsync(string parentId, DateTime? createdSince);
 
         /// <summary>
-        ///     根据点赞者获取点赞数量。
+        ///     根据用户获取点赞数量。
         /// </summary>
-        /// <param name="userId">点赞者的用户编号。</param>
+        /// <param name="userId">用户的用户编号。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <returns>点赞数量。</returns>
         int GetLikesCountByUser(int userId, DateTime? createdSince);
 
         /// <summary>
-        ///     异步根据点赞者获取点赞数量。
+        ///     异步根据用户获取点赞数量。
         /// </summary>
-        /// <param name="userId">点赞者的用户编号。</param>
+        /// <param name="userId">用户的用户编号。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <returns>点赞数量。</returns>
         Task<int> GetLikesCountByUserAsync(int userId, DateTime? createdSince);
@@ -133,16 +133,16 @@ namespace Sheep.Model.Content
         /// <summary>
         ///     取消一个点赞。
         /// </summary>
-        /// <param name="contentId">内容的编号。</param>
-        /// <param name="userId">点赞者的用户编号。</param>
-        void DeleteLike(string contentId, int userId);
+        /// <param name="parentId">上级的编号。（如帖子编号）</param>
+        /// <param name="userId">用户的用户编号。</param>
+        void DeleteLike(string parentId, int userId);
 
         /// <summary>
         ///     异步取消一个点赞。
         /// </summary>
-        /// <param name="contentId">内容的编号。</param>
-        /// <param name="userId">点赞者的用户编号。</param>
-        Task DeleteLikeAsync(string contentId, int userId);
+        /// <param name="parentId">上级的编号。（如帖子编号）</param>
+        /// <param name="userId">用户的用户编号。</param>
+        Task DeleteLikeAsync(string parentId, int userId);
 
         #endregion
     }

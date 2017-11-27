@@ -67,10 +67,10 @@ namespace Sheep.ServiceInterface.Likes
             {
                 throw HttpError.NotFound(string.Format(Resources.UserNotFound, request.UserId));
             }
-            var existingLike = await LikeRepo.GetLikeAsync(request.ContentId, request.UserId);
+            var existingLike = await LikeRepo.GetLikeAsync(request.ParentId, request.UserId);
             if (existingLike == null)
             {
-                throw HttpError.NotFound(string.Format(Resources.LikeNotFound, request.ContentId));
+                throw HttpError.NotFound(string.Format(Resources.LikeNotFound, request.ParentId));
             }
             var likeDto = existingLike.MapToLikeDto(user);
             return new LikeShowResponse

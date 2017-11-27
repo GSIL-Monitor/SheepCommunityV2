@@ -12,8 +12,8 @@ namespace Sheep.ServiceInterface.Likes.Mappers
         {
             var likeDto = new LikeDto
                           {
-                              ContentType = like.ContentType,
-                              ContentId = like.ContentId,
+                              ParentType = like.ParentType,
+                              ParentId = like.ParentId,
                               User = user?.MapToBasicUserDto(),
                               CreatedDate = like.CreatedDate.ToUnixTime()
                           };

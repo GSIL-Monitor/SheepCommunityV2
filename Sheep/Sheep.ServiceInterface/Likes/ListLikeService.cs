@@ -36,7 +36,7 @@ namespace Sheep.ServiceInterface.Likes
         public IAppSettings AppSettings { get; set; }
 
         /// <summary>
-        ///     获取及设置列举一组点赞者的校验器。
+        ///     获取及设置列举一组用户的校验器。
         /// </summary>
         public IValidator<LikeList> LikeListValidator { get; set; }
 
@@ -52,10 +52,10 @@ namespace Sheep.ServiceInterface.Likes
 
         #endregion
 
-        #region 列举一组点赞者
+        #region 列举一组用户
 
         /// <summary>
-        ///     列举一组点赞者。
+        ///     列举一组用户。
         /// </summary>
         [CacheResponse(Duration = 600)]
         public async Task<object> Get(LikeList request)
@@ -64,7 +64,7 @@ namespace Sheep.ServiceInterface.Likes
             {
                 LikeListValidator.ValidateAndThrow(request, ApplyTo.Get);
             }
-            var existingLikes = await LikeRepo.FindLikesByContentAsync(request.ContentId, request.CreatedSince, request.OrderBy, request.Descending, request.Skip, request.Limit);
+            var existingLikes = await LikeRepo.FindLikesByParentAsync(request.ParentId, request.CreatedSince, request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingLikes == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.LikesNotFound));

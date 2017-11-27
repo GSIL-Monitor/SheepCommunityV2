@@ -7,22 +7,22 @@ namespace Sheep.ServiceModel.Likes
     /// <summary>
     ///     显示一个点赞的请求。
     /// </summary>
-    [Route("/likes/{ContentId}/{UserId}", HttpMethods.Get, Summary = "显示一个点赞")]
+    [Route("/likes/{ParentId}/{UserId}", HttpMethods.Get, Summary = "显示一个点赞")]
     [DataContract]
     public class LikeShow : IReturn<LikeShowResponse>
     {
         /// <summary>
-        ///     内容编号。（如帖子编号）
+        ///     上级编号。（如帖子编号）
         /// </summary>
         [DataMember(Order = 1, IsRequired = true)]
-        [ApiMember(Description = "内容编号（如帖子编号）")]
-        public string ContentId { get; set; }
+        [ApiMember(Description = "上级编号（如帖子编号）")]
+        public string ParentId { get; set; }
 
         /// <summary>
-        ///     点赞者编号。
+        ///     用户编号。
         /// </summary>
         [DataMember(Order = 2, IsRequired = true)]
-        [ApiMember(Description = "点赞者编号")]
+        [ApiMember(Description = "用户编号")]
         public int UserId { get; set; }
     }
 

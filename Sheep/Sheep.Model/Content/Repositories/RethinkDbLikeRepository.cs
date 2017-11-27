@@ -98,8 +98,8 @@ namespace Sheep.Model.Content.Repositories
             if (!tables.Contains(s_LikeTable))
             {
                 R.TableCreate(s_LikeTable).OptArg("primary_key", "Id").OptArg("durability", Durability.Soft).OptArg("shards", _shards).OptArg("replicas", _replicas).RunResult(_conn).AssertNoErrors().AssertTablesCreated(1);
-                R.Table(s_LikeTable).IndexCreate("ContentId_UserId", row => R.Array(row.G("ContentId"), row.G("UserId"))).RunResult(_conn).AssertNoErrors();
-                R.Table(s_LikeTable).IndexCreate("ContentId").RunResult(_conn).AssertNoErrors();
+                R.Table(s_LikeTable).IndexCreate("ParentId_UserId", row => R.Array(row.G("ParentId"), row.G("UserId"))).RunResult(_conn).AssertNoErrors();
+                R.Table(s_LikeTable).IndexCreate("ParentId").RunResult(_conn).AssertNoErrors();
                 R.Table(s_LikeTable).IndexCreate("UserId").RunResult(_conn).AssertNoErrors();
                 //R.Table(s_LikeTable).IndexWait().RunResult(_conn).AssertNoErrors();
             }
@@ -124,19 +124,19 @@ namespace Sheep.Model.Content.Repositories
 
         private void AssertNoExistingLike(Like newLike, Like exceptForExistingLike = null)
         {
-            var existingLike = GetLike(newLike.ContentId, newLike.UserId);
+            var existingLike = GetLike(newLike.ParentId, newLike.UserId);
             if (existingLike != null && (exceptForExistingLike == null || existingLike.Id != exceptForExistingLike.Id))
             {
-                throw new ArgumentException(string.Format(Resources.ContentWithUserAlreadyExists, newLike.ContentId, newLike.UserId));
+                throw new ArgumentException(string.Format(Resources.ContentWithUserAlreadyExists, newLike.ParentId, newLike.UserId));
             }
         }
 
         private async Task AssertNoExistingLikeAsync(Like newLike, Like exceptForExistingLike = null)
         {
-            var existingLike = await GetLikeAsync(newLike.ContentId, newLike.UserId);
+            var existingLike = await GetLikeAsync(newLike.ParentId, newLike.UserId);
             if (existingLike != null && (exceptForExistingLike == null || existingLike.Id != exceptForExistingLike.Id))
             {
-                throw new ArgumentException(string.Format(Resources.ContentWithUserAlreadyExists, newLike.ContentId, newLike.UserId));
+                throw new ArgumentException(string.Format(Resources.ContentWithUserAlreadyExists, newLike.ParentId, newLike.UserId));
             }
         }
 
@@ -145,21 +145,21 @@ namespace Sheep.Model.Content.Repositories
         #region ILikeRepository 接口实现
 
         /// <inheritdoc />
-        public Like GetLike(string contentId, int userId)
+        public Like GetLike(string parentId, int userId)
         {
-            return R.Table(s_LikeTable).GetAll(R.Array(contentId, userId)).OptArg("index", "ContentId_UserId").Nth(0).Default_(default(Like)).RunResult<Like>(_conn);
+            return R.Table(s_LikeTable).GetAll(R.Array(parentId, userId)).OptArg("index", "ParentId_UserId").Nth(0).Default_(default(Like)).RunResult<Like>(_conn);
         }
 
         /// <inheritdoc />
-        public Task<Like> GetLikeAsync(string contentId, int userId)
+        public Task<Like> GetLikeAsync(string parentId, int userId)
         {
-            return R.Table(s_LikeTable).GetAll(R.Array(contentId, userId)).OptArg("index", "ContentId_UserId").Nth(0).Default_(default(Like)).RunResultAsync<Like>(_conn);
+            return R.Table(s_LikeTable).GetAll(R.Array(parentId, userId)).OptArg("index", "ParentId_UserId").Nth(0).Default_(default(Like)).RunResultAsync<Like>(_conn);
         }
 
         /// <inheritdoc />
-        public List<Like> FindLikesByContent(string contentId, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit)
+        public List<Like> FindLikesByParent(string parentId, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit)
         {
-            var query = R.Table(s_LikeTable).GetAll(contentId).OptArg("index", "ContentId").Filter(true);
+            var query = R.Table(s_LikeTable).GetAll(parentId).OptArg("index", "ParentId").Filter(true);
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
@@ -177,9 +177,9 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public Task<List<Like>> FindLikesByContentAsync(string contentId, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit)
+        public Task<List<Like>> FindLikesByParentAsync(string parentId, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit)
         {
-            var query = R.Table(s_LikeTable).GetAll(contentId).OptArg("index", "ContentId").Filter(true);
+            var query = R.Table(s_LikeTable).GetAll(parentId).OptArg("index", "ParentId").Filter(true);
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
@@ -237,9 +237,9 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public int GetLikesCountByContent(string contentId, DateTime? createdSince)
+        public int GetLikesCountByParent(string parentId, DateTime? createdSince)
         {
-            var query = R.Table(s_LikeTable).GetAll(contentId).OptArg("index", "ContentId").Filter(true);
+            var query = R.Table(s_LikeTable).GetAll(parentId).OptArg("index", "ParentId").Filter(true);
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
@@ -248,9 +248,9 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public Task<int> GetLikesCountByContentAsync(string contentId, DateTime? createdSince)
+        public Task<int> GetLikesCountByParentAsync(string parentId, DateTime? createdSince)
         {
-            var query = R.Table(s_LikeTable).GetAll(contentId).OptArg("index", "ContentId").Filter(true);
+            var query = R.Table(s_LikeTable).GetAll(parentId).OptArg("index", "ParentId").Filter(true);
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
@@ -285,7 +285,7 @@ namespace Sheep.Model.Content.Repositories
         {
             newLike.ThrowIfNull(nameof(newLike));
             AssertNoExistingLike(newLike);
-            newLike.Id = string.Format("{0}-{1}", newLike.ContentId, newLike.UserId);
+            newLike.Id = string.Format("{0}-{1}", newLike.ParentId, newLike.UserId);
             newLike.CreatedDate = DateTime.UtcNow;
             var result = R.Table(s_LikeTable).Get(newLike.Id).Replace(newLike).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
             return result.ChangesAs<Like>()[0].NewValue;
@@ -296,22 +296,22 @@ namespace Sheep.Model.Content.Repositories
         {
             newLike.ThrowIfNull(nameof(newLike));
             await AssertNoExistingLikeAsync(newLike);
-            newLike.Id = string.Format("{0}-{1}", newLike.ContentId, newLike.UserId);
+            newLike.Id = string.Format("{0}-{1}", newLike.ParentId, newLike.UserId);
             newLike.CreatedDate = DateTime.UtcNow;
             var result = (await R.Table(s_LikeTable).Get(newLike.Id).Replace(newLike).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
             return result.ChangesAs<Like>()[0].NewValue;
         }
 
         /// <inheritdoc />
-        public void DeleteLike(string contentId, int userId)
+        public void DeleteLike(string parentId, int userId)
         {
-            R.Table(s_LikeTable).GetAll(R.Array(contentId, userId)).OptArg("index", "ContentId_UserId").Delete().RunResult(_conn).AssertNoErrors();
+            R.Table(s_LikeTable).GetAll(R.Array(parentId, userId)).OptArg("index", "ParentId_UserId").Delete().RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task DeleteLikeAsync(string contentId, int userId)
+        public async Task DeleteLikeAsync(string parentId, int userId)
         {
-            (await R.Table(s_LikeTable).GetAll(R.Array(contentId, userId)).OptArg("index", "ContentId_UserId").Delete().RunResultAsync(_conn)).AssertNoErrors();
+            (await R.Table(s_LikeTable).GetAll(R.Array(parentId, userId)).OptArg("index", "ParentId_UserId").Delete().RunResultAsync(_conn)).AssertNoErrors();
         }
 
         #endregion

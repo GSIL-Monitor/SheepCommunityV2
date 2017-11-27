@@ -17,7 +17,7 @@ namespace Sheep.ServiceModel.Likes.Validators
         {
             RuleSet(ApplyTo.Get, () =>
                                  {
-                                     RuleFor(x => x.ContentId).NotEmpty().WithMessage(Resources.ContentIdRequired);
+                                     RuleFor(x => x.ParentId).NotEmpty().WithMessage(Resources.ParentIdRequired);
                                      RuleFor(x => x.UserId).NotEmpty().WithMessage(Resources.UserIdRequired);
                                  });
         }

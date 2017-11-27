@@ -1,36 +1,39 @@
-﻿using System.Runtime.Serialization;
-using Sheep.ServiceModel.Users.Entities;
+﻿using System;
+using ServiceStack.DataAnnotations;
+using ServiceStack.Model;
 
-namespace Sheep.ServiceModel.Likes.Entities
+namespace Sheep.Model.Content.Entities
 {
     /// <summary>
-    ///     点赞信息。
+    ///     评论。
     /// </summary>
-    [DataContract]
-    public class LikeDto
+    public class Comment : IHasStringId
     {
+        /// <summary>
+        ///     编号。
+        /// </summary>
+        [PrimaryKey]
+        [StringLength(32)]
+        public string Id { get; set; }
+
         /// <summary>
         ///     上级类型。（可选值：帖子）
         /// </summary>
-        [DataMember(Order = 1)]
         public string ParentType { get; set; }
 
         /// <summary>
         ///     上级编号。（如帖子编号）
         /// </summary>
-        [DataMember(Order = 2)]
         public string ParentId { get; set; }
 
         /// <summary>
-        ///     用户。
+        ///     用户编号。
         /// </summary>
-        [DataMember(Order = 3)]
-        public BasicUserDto User { get; set; }
+        public int UserId { get; set; }
 
         /// <summary>
         ///     创建日期。
         /// </summary>
-        [DataMember(Order = 4)]
-        public long CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 }

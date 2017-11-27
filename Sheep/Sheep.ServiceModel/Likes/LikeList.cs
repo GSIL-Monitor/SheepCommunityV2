@@ -14,11 +14,11 @@ namespace Sheep.ServiceModel.Likes
     public class LikeList : IReturn<LikeListResponse>
     {
         /// <summary>
-        ///     内容编号。（如帖子编号）
+        ///     上级编号。（如帖子编号）
         /// </summary>
-        [DataMember(Order = 1, Name = "contentid", IsRequired = true)]
-        [ApiMember(Description = "内容编号（如帖子编号）")]
-        public string ContentId { get; set; }
+        [DataMember(Order = 1, Name = "parentid", IsRequired = true)]
+        [ApiMember(Description = "上级编号（如帖子编号）")]
+        public string ParentId { get; set; }
 
         /// <summary>
         ///     创建日期在指定的时间之后。

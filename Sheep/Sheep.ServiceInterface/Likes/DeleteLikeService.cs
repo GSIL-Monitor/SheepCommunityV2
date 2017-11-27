@@ -49,6 +49,11 @@ namespace Sheep.ServiceInterface.Likes
         public IUserAuthRepository AuthRepo { get; set; }
 
         /// <summary>
+        ///     获取及设置帖子的存储库。
+        /// </summary>
+        public IPostRepository PostRepo { get; set; }
+
+        /// <summary>
         ///     获取及设置点赞的存储库。
         /// </summary>
         public ILikeRepository LikeRepo { get; set; }
@@ -71,13 +76,19 @@ namespace Sheep.ServiceInterface.Likes
                 LikeDeleteValidator.ValidateAndThrow(request, ApplyTo.Delete);
             }
             var userId = GetSession().UserAuthId.ToInt(0);
-            var existingLike = await LikeRepo.GetLikeAsync(request.ContentId, userId);
+            var existingLike = await LikeRepo.GetLikeAsync(request.ParentId, userId);
             if (existingLike == null)
             {
-                throw HttpError.NotFound(string.Format(Resources.LikeNotFound, request.ContentId));
+                throw HttpError.NotFound(string.Format(Resources.LikeNotFound, request.ParentId));
             }
-            await LikeRepo.DeleteLikeAsync(request.ContentId, userId);
+            await LikeRepo.DeleteLikeAsync(request.ParentId, userId);
             ResetCache(existingLike);
+            switch (request.ParentType)
+            {
+                case "帖子":
+                    await PostRepo.IncrementPostLikesCountAsync(request.ParentId, -1);
+                    break;
+            }
             return new LikeDeleteResponse();
         }
 

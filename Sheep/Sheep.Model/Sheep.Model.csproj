@@ -133,6 +133,7 @@
     <Compile Include="Auth\Providers\WeiboAuthProvider.cs" />
     <Compile Include="Auth\Providers\MobileAuthProvider.cs" />
     <Compile Include="Auth\Providers\OAuthProvider.cs" />
+    <Compile Include="Content\Entities\Comment.cs" />
     <Compile Include="Content\Entities\Like.cs" />
     <Compile Include="Content\Entities\Post.cs" />
     <Compile Include="Content\Entities\PostExtensions.cs" />

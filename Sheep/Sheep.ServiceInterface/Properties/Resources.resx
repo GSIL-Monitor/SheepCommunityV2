@@ -160,7 +160,7 @@
     <value>错误的用户编号{0}。</value>
   </data>
   <data name="LikeNotFound" xml:space="preserve">
-    <value>无法找到指定的点赞。</value>
+    <value>无法找到指定的点赞{0}。</value>
   </data>
   <data name="LikesNotFound" xml:space="preserve">
     <value>无法找到指定条件的点赞列表。</value>

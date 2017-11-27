@@ -52,6 +52,11 @@ namespace Sheep.ServiceInterface.Likes
         public IUserAuthRepository AuthRepo { get; set; }
 
         /// <summary>
+        ///     获取及设置帖子的存储库。
+        /// </summary>
+        public IPostRepository PostRepo { get; set; }
+
+        /// <summary>
         ///     获取及设置点赞的存储库。
         /// </summary>
         public ILikeRepository LikeRepo { get; set; }
@@ -79,7 +84,7 @@ namespace Sheep.ServiceInterface.Likes
             {
                 throw HttpError.NotFound(string.Format(Resources.UserNotFound, userId));
             }
-            var existingLike = await LikeRepo.GetLikeAsync(request.ContentId, userId);
+            var existingLike = await LikeRepo.GetLikeAsync(request.ParentId, userId);
             if (existingLike != null)
             {
                 return new LikeCreateResponse
@@ -89,16 +94,22 @@ namespace Sheep.ServiceInterface.Likes
             }
             var newLike = new Like
                           {
-                              ContentType = request.ContentType,
-                              ContentId = request.ContentId,
+                              ParentType = request.ParentType,
+                              ParentId = request.ParentId,
                               UserId = userId
                           };
             var like = await LikeRepo.CreateLikeAsync(newLike);
             ResetCache(like);
+            switch (request.ParentType)
+            {
+                case "帖子":
+                    await PostRepo.IncrementPostLikesCountAsync(request.ParentId, 1);
+                    break;
+            }
             //await NimClient.PostAsync(new FriendAddRequest
             //                          {
             //                              AccountId = userId.ToString(),
-            //                              FriendAccountId = request.ContentId.ToString(),
+            //                              FriendAccountId = request.ParentId.ToString(),
             //                              Type = 1
             //                          });
             return new LikeCreateResponse

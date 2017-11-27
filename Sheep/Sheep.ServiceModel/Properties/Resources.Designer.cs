@@ -97,15 +97,6 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
-        ///   查找类似 内容编号必须输入。 的本地化字符串。
-        /// </summary>
-        internal static string ContentIdRequired {
-            get {
-                return ResourceManager.GetString("ContentIdRequired", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 正文内容必须输入。 的本地化字符串。
         /// </summary>
         internal static string ContentRequired {
@@ -115,25 +106,7 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
-        ///   查找类似 内容类型的有效范围为:{0}。 的本地化字符串。
-        /// </summary>
-        internal static string ContentTypeRangeMismatch {
-            get {
-                return ResourceManager.GetString("ContentTypeRangeMismatch", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 内容类型必须输入。 的本地化字符串。
-        /// </summary>
-        internal static string ContentTypeRequired {
-            get {
-                return ResourceManager.GetString("ContentTypeRequired", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 内容的地址必须输入。 的本地化字符串。
+        ///   查找类似 内容地址必须输入。 的本地化字符串。
         /// </summary>
         internal static string ContentUrlRequired {
             get {
@@ -309,6 +282,33 @@ namespace Sheep.ServiceModel.Properties {
         internal static string OwnerIdRequired {
             get {
                 return ResourceManager.GetString("OwnerIdRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 上级编号必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string ParentIdRequired {
+            get {
+                return ResourceManager.GetString("ParentIdRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 上级类型的有效范围为:{0}。 的本地化字符串。
+        /// </summary>
+        internal static string ParentTypeRangeMismatch {
+            get {
+                return ResourceManager.GetString("ParentTypeRangeMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 上级类型必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string ParentTypeRequired {
+            get {
+                return ResourceManager.GetString("ParentTypeRequired", resourceCulture);
             }
         }
         
