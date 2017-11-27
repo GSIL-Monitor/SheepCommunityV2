@@ -134,11 +134,17 @@
     <Compile Include="Auth\Providers\MobileAuthProvider.cs" />
     <Compile Include="Auth\Providers\OAuthProvider.cs" />
     <Compile Include="Content\Entities\Comment.cs" />
+    <Compile Include="Content\Entities\CommentExtensions.cs" />
+    <Compile Include="Content\Entities\Vote.cs" />
     <Compile Include="Content\Entities\Like.cs" />
     <Compile Include="Content\Entities\Post.cs" />
     <Compile Include="Content\Entities\PostExtensions.cs" />
+    <Compile Include="Content\ICommentRepository.cs" />
+    <Compile Include="Content\IVoteRepository.cs" />
     <Compile Include="Content\ILikeRepository.cs" />
     <Compile Include="Content\IPostRepository.cs" />
+    <Compile Include="Content\Repositories\RethinkDbCommentRepository.cs" />
+    <Compile Include="Content\Repositories\RethinkDbVoteRepository.cs" />
     <Compile Include="Content\Repositories\RethinkDbLikeRepository.cs" />
     <Compile Include="Content\Repositories\RethinkDbPostRepository.cs" />
     <Compile Include="Corp\Repositories\RethinkDbGroupRepository.cs" />

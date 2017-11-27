@@ -106,6 +106,24 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
+        ///   查找类似 内容类型的有效范围为:{0}。 的本地化字符串。
+        /// </summary>
+        internal static string ContentTypeRangeMismatch {
+            get {
+                return ResourceManager.GetString("ContentTypeRangeMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 内容类型必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string ContentTypeRequired {
+            get {
+                return ResourceManager.GetString("ContentTypeRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 内容地址必须输入。 的本地化字符串。
         /// </summary>
         internal static string ContentUrlRequired {

@@ -42,7 +42,7 @@ namespace Sheep.ServiceModel.Posts.Validators
         {
             RuleSet(ApplyTo.Get, () =>
                                  {
-                                     RuleFor(x => x.ContentType).Must(contentType => ContentTypes.Contains(contentType)).WithMessage(Resources.ParentTypeRangeMismatch, ContentTypes.Join(",")).When(x => !x.ContentType.IsNullOrEmpty());
+                                     RuleFor(x => x.ContentType).Must(contentType => ContentTypes.Contains(contentType)).WithMessage(Resources.ContentTypeRangeMismatch, ContentTypes.Join(",")).When(x => !x.ContentType.IsNullOrEmpty());
                                      RuleFor(x => x.OrderBy).Must(orderBy => OrderBys.Contains(orderBy)).WithMessage(Resources.OrderByRangeMismatch, OrderBys.Join(",")).When(x => !x.OrderBy.IsNullOrEmpty());
                                  });
         }

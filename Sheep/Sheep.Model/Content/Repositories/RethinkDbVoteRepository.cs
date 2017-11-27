@@ -15,16 +15,16 @@ using Sheep.Model.Properties;
 namespace Sheep.Model.Content.Repositories
 {
     /// <summary>
-    ///     基于RethinkDb的点赞的存储库。
+    ///     基于RethinkDb的投票的存储库。
     /// </summary>
-    public class RethinkDbLikeRepository : ILikeRepository, IClearable
+    public class RethinkDbVoteRepository : IVoteRepository, IClearable
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(RethinkDbLikeRepository));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(RethinkDbVoteRepository));
 
         /// <summary>
         ///     RethinkDB 查询器.
@@ -32,9 +32,9 @@ namespace Sheep.Model.Content.Repositories
         public static readonly RethinkDB R = RethinkDB.R;
 
         /// <summary>
-        ///     点赞的数据表名。
+        ///     投票的数据表名。
         /// </summary>
-        private static readonly string s_LikeTable = typeof(Like).Name;
+        private static readonly string s_VoteTable = typeof(Vote).Name;
 
         #endregion
 
@@ -49,13 +49,13 @@ namespace Sheep.Model.Content.Repositories
         #region 构造器
 
         /// <summary>
-        ///     初始化一个新的<see cref="RethinkDbLikeRepository" />对象。
+        ///     初始化一个新的<see cref="RethinkDbVoteRepository" />对象。
         /// </summary>
         /// <param name="conn">数据库连接。</param>
         /// <param name="shards">数据库分片数。</param>
         /// <param name="replicas">复制份数。</param>
         /// <param name="createMissingTables">是否创建数据表。</param>
-        public RethinkDbLikeRepository(IConnection conn, int shards, int replicas, bool createMissingTables)
+        public RethinkDbVoteRepository(IConnection conn, int shards, int replicas, bool createMissingTables)
         {
             _conn = conn;
             _shards = shards;
@@ -68,7 +68,7 @@ namespace Sheep.Model.Content.Repositories
             // 检测指定的数据表是否存在。
             if (!TablesExists())
             {
-                throw new InvalidOperationException(string.Format("One of the tables needed by {0} is missing. You can call {0} constructor with the parameter CreateMissingTables set to 'true'  to create the needed tables.", typeof(RethinkDbLikeRepository).Name));
+                throw new InvalidOperationException(string.Format("One of the tables needed by {0} is missing. You can call {0} constructor with the parameter CreateMissingTables set to 'true'  to create the needed tables.", typeof(RethinkDbVoteRepository).Name));
             }
         }
 
@@ -82,9 +82,9 @@ namespace Sheep.Model.Content.Repositories
         public void DropAndReCreateTables()
         {
             var tables = R.TableList().RunResult<List<string>>(_conn);
-            if (tables.Contains(s_LikeTable))
+            if (tables.Contains(s_VoteTable))
             {
-                R.TableDrop(s_LikeTable).RunResult(_conn).AssertNoErrors().AssertTablesDropped(1);
+                R.TableDrop(s_VoteTable).RunResult(_conn).AssertNoErrors().AssertTablesDropped(1);
             }
             CreateTables();
         }
@@ -95,13 +95,13 @@ namespace Sheep.Model.Content.Repositories
         public void CreateTables()
         {
             var tables = R.TableList().RunResult<List<string>>(_conn);
-            if (!tables.Contains(s_LikeTable))
+            if (!tables.Contains(s_VoteTable))
             {
-                R.TableCreate(s_LikeTable).OptArg("primary_key", "Id").OptArg("durability", Durability.Soft).OptArg("shards", _shards).OptArg("replicas", _replicas).RunResult(_conn).AssertNoErrors().AssertTablesCreated(1);
-                R.Table(s_LikeTable).IndexCreate("ParentId_UserId", row => R.Array(row.G("ParentId"), row.G("UserId"))).RunResult(_conn).AssertNoErrors();
-                R.Table(s_LikeTable).IndexCreate("ParentId").RunResult(_conn).AssertNoErrors();
-                R.Table(s_LikeTable).IndexCreate("UserId").RunResult(_conn).AssertNoErrors();
-                //R.Table(s_LikeTable).IndexWait().RunResult(_conn).AssertNoErrors();
+                R.TableCreate(s_VoteTable).OptArg("primary_key", "Id").OptArg("durability", Durability.Soft).OptArg("shards", _shards).OptArg("replicas", _replicas).RunResult(_conn).AssertNoErrors().AssertTablesCreated(1);
+                R.Table(s_VoteTable).IndexCreate("ParentId_UserId", row => R.Array(row.G("ParentId"), row.G("UserId"))).RunResult(_conn).AssertNoErrors();
+                R.Table(s_VoteTable).IndexCreate("ParentId").RunResult(_conn).AssertNoErrors();
+                R.Table(s_VoteTable).IndexCreate("UserId").RunResult(_conn).AssertNoErrors();
+                //R.Table(s_VoteTable).IndexWait().RunResult(_conn).AssertNoErrors();
             }
         }
 
@@ -112,7 +112,7 @@ namespace Sheep.Model.Content.Repositories
         {
             var tableNames = new List<string>
                              {
-                                 s_LikeTable
+                                 s_VoteTable
                              };
             var tables = R.TableList().RunResult<List<string>>(_conn);
             return tables.Any(table => tableNames.Contains(table));
@@ -120,46 +120,46 @@ namespace Sheep.Model.Content.Repositories
 
         #endregion
 
-        #region 检测点赞是否存在
+        #region 检测投票是否存在
 
-        private void AssertNoExistingLike(Like newLike, Like exceptForExistingLike = null)
+        private void AssertNoExistingVote(Vote newVote, Vote exceptForExistingVote = null)
         {
-            var existingLike = GetLike(newLike.ParentId, newLike.UserId);
-            if (existingLike != null && (exceptForExistingLike == null || existingLike.Id != exceptForExistingLike.Id))
+            var existingVote = GetVote(newVote.ParentId, newVote.UserId);
+            if (existingVote != null && (exceptForExistingVote == null || existingVote.Id != exceptForExistingVote.Id))
             {
-                throw new ArgumentException(string.Format(Resources.ContentWithUserAlreadyExists, newLike.ParentId, newLike.UserId));
+                throw new ArgumentException(string.Format(Resources.ContentWithUserAlreadyExists, newVote.ParentId, newVote.UserId));
             }
         }
 
-        private async Task AssertNoExistingLikeAsync(Like newLike, Like exceptForExistingLike = null)
+        private async Task AssertNoExistingVoteAsync(Vote newVote, Vote exceptForExistingVote = null)
         {
-            var existingLike = await GetLikeAsync(newLike.ParentId, newLike.UserId);
-            if (existingLike != null && (exceptForExistingLike == null || existingLike.Id != exceptForExistingLike.Id))
+            var existingVote = await GetVoteAsync(newVote.ParentId, newVote.UserId);
+            if (existingVote != null && (exceptForExistingVote == null || existingVote.Id != exceptForExistingVote.Id))
             {
-                throw new ArgumentException(string.Format(Resources.ContentWithUserAlreadyExists, newLike.ParentId, newLike.UserId));
+                throw new ArgumentException(string.Format(Resources.ContentWithUserAlreadyExists, newVote.ParentId, newVote.UserId));
             }
         }
 
         #endregion
 
-        #region ILikeRepository 接口实现
+        #region IVoteRepository 接口实现
 
         /// <inheritdoc />
-        public Like GetLike(string parentId, int userId)
+        public Vote GetVote(string parentId, int userId)
         {
-            return R.Table(s_LikeTable).GetAll(R.Array(parentId, userId)).OptArg("index", "ParentId_UserId").Nth(0).Default_(default(Like)).RunResult<Like>(_conn);
+            return R.Table(s_VoteTable).GetAll(R.Array(parentId, userId)).OptArg("index", "ParentId_UserId").Nth(0).Default_(default(Vote)).RunResult<Vote>(_conn);
         }
 
         /// <inheritdoc />
-        public Task<Like> GetLikeAsync(string parentId, int userId)
+        public Task<Vote> GetVoteAsync(string parentId, int userId)
         {
-            return R.Table(s_LikeTable).GetAll(R.Array(parentId, userId)).OptArg("index", "ParentId_UserId").Nth(0).Default_(default(Like)).RunResultAsync<Like>(_conn);
+            return R.Table(s_VoteTable).GetAll(R.Array(parentId, userId)).OptArg("index", "ParentId_UserId").Nth(0).Default_(default(Vote)).RunResultAsync<Vote>(_conn);
         }
 
         /// <inheritdoc />
-        public List<Like> FindLikesByParent(string parentId, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit)
+        public List<Vote> FindVotesByParent(string parentId, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit)
         {
-            var query = R.Table(s_LikeTable).GetAll(parentId).OptArg("index", "ParentId").Filter(true);
+            var query = R.Table(s_VoteTable).GetAll(parentId).OptArg("index", "ParentId").Filter(true);
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
@@ -173,13 +173,13 @@ namespace Sheep.Model.Content.Repositories
             {
                 queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("CreatedDate")) : query.OrderBy("CreatedDate");
             }
-            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 500).RunResult<List<Like>>(_conn);
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 500).RunResult<List<Vote>>(_conn);
         }
 
         /// <inheritdoc />
-        public Task<List<Like>> FindLikesByParentAsync(string parentId, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit)
+        public Task<List<Vote>> FindVotesByParentAsync(string parentId, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit)
         {
-            var query = R.Table(s_LikeTable).GetAll(parentId).OptArg("index", "ParentId").Filter(true);
+            var query = R.Table(s_VoteTable).GetAll(parentId).OptArg("index", "ParentId").Filter(true);
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
@@ -193,13 +193,13 @@ namespace Sheep.Model.Content.Repositories
             {
                 queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("CreatedDate")) : query.OrderBy("CreatedDate");
             }
-            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 500).RunResultAsync<List<Like>>(_conn);
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 500).RunResultAsync<List<Vote>>(_conn);
         }
 
         /// <inheritdoc />
-        public List<Like> FindLikesByUser(int userId, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit)
+        public List<Vote> FindVotesByUser(int userId, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit)
         {
-            var query = R.Table(s_LikeTable).GetAll(userId).OptArg("index", "UserId").Filter(true);
+            var query = R.Table(s_VoteTable).GetAll(userId).OptArg("index", "UserId").Filter(true);
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
@@ -213,13 +213,13 @@ namespace Sheep.Model.Content.Repositories
             {
                 queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("CreatedDate")) : query.OrderBy("CreatedDate");
             }
-            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 500).RunResult<List<Like>>(_conn);
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 500).RunResult<List<Vote>>(_conn);
         }
 
         /// <inheritdoc />
-        public Task<List<Like>> FindLikesByUserAsync(int userId, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit)
+        public Task<List<Vote>> FindVotesByUserAsync(int userId, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit)
         {
-            var query = R.Table(s_LikeTable).GetAll(userId).OptArg("index", "UserId").Filter(true);
+            var query = R.Table(s_VoteTable).GetAll(userId).OptArg("index", "UserId").Filter(true);
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
@@ -233,13 +233,13 @@ namespace Sheep.Model.Content.Repositories
             {
                 queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("CreatedDate")) : query.OrderBy("CreatedDate");
             }
-            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 500).RunResultAsync<List<Like>>(_conn);
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 500).RunResultAsync<List<Vote>>(_conn);
         }
 
         /// <inheritdoc />
-        public int GetLikesCountByParent(string parentId, DateTime? createdSince)
+        public int GetVotesCountByParent(string parentId, DateTime? createdSince)
         {
-            var query = R.Table(s_LikeTable).GetAll(parentId).OptArg("index", "ParentId").Filter(true);
+            var query = R.Table(s_VoteTable).GetAll(parentId).OptArg("index", "ParentId").Filter(true);
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
@@ -248,9 +248,9 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public Task<int> GetLikesCountByParentAsync(string parentId, DateTime? createdSince)
+        public Task<int> GetVotesCountByParentAsync(string parentId, DateTime? createdSince)
         {
-            var query = R.Table(s_LikeTable).GetAll(parentId).OptArg("index", "ParentId").Filter(true);
+            var query = R.Table(s_VoteTable).GetAll(parentId).OptArg("index", "ParentId").Filter(true);
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
@@ -259,9 +259,9 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public int GetLikesCountByUser(int userId, DateTime? createdSince)
+        public int GetVotesCountByUser(int userId, DateTime? createdSince)
         {
-            var query = R.Table(s_LikeTable).GetAll(userId).OptArg("index", "UserId").Filter(true);
+            var query = R.Table(s_VoteTable).GetAll(userId).OptArg("index", "UserId").Filter(true);
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
@@ -270,9 +270,9 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public Task<int> GetLikesCountByUserAsync(int userId, DateTime? createdSince)
+        public Task<int> GetVotesCountByUserAsync(int userId, DateTime? createdSince)
         {
-            var query = R.Table(s_LikeTable).GetAll(userId).OptArg("index", "UserId").Filter(true);
+            var query = R.Table(s_VoteTable).GetAll(userId).OptArg("index", "UserId").Filter(true);
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
@@ -281,37 +281,37 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public Like CreateLike(Like newLike)
+        public Vote CreateVote(Vote newVote)
         {
-            newLike.ThrowIfNull(nameof(newLike));
-            AssertNoExistingLike(newLike);
-            newLike.Id = string.Format("{0}-{1}", newLike.ParentId, newLike.UserId);
-            newLike.CreatedDate = DateTime.UtcNow;
-            var result = R.Table(s_LikeTable).Get(newLike.Id).Replace(newLike).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Like>()[0].NewValue;
+            newVote.ThrowIfNull(nameof(newVote));
+            AssertNoExistingVote(newVote);
+            newVote.Id = string.Format("{0}-{1}", newVote.ParentId, newVote.UserId);
+            newVote.CreatedDate = DateTime.UtcNow;
+            var result = R.Table(s_VoteTable).Get(newVote.Id).Replace(newVote).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
+            return result.ChangesAs<Vote>()[0].NewValue;
         }
 
         /// <inheritdoc />
-        public async Task<Like> CreateLikeAsync(Like newLike)
+        public async Task<Vote> CreateVoteAsync(Vote newVote)
         {
-            newLike.ThrowIfNull(nameof(newLike));
-            await AssertNoExistingLikeAsync(newLike);
-            newLike.Id = string.Format("{0}-{1}", newLike.ParentId, newLike.UserId);
-            newLike.CreatedDate = DateTime.UtcNow;
-            var result = (await R.Table(s_LikeTable).Get(newLike.Id).Replace(newLike).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Like>()[0].NewValue;
+            newVote.ThrowIfNull(nameof(newVote));
+            await AssertNoExistingVoteAsync(newVote);
+            newVote.Id = string.Format("{0}-{1}", newVote.ParentId, newVote.UserId);
+            newVote.CreatedDate = DateTime.UtcNow;
+            var result = (await R.Table(s_VoteTable).Get(newVote.Id).Replace(newVote).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
+            return result.ChangesAs<Vote>()[0].NewValue;
         }
 
         /// <inheritdoc />
-        public void DeleteLike(string parentId, int userId)
+        public void DeleteVote(string parentId, int userId)
         {
-            R.Table(s_LikeTable).GetAll(R.Array(parentId, userId)).OptArg("index", "ParentId_UserId").Delete().RunResult(_conn).AssertNoErrors();
+            R.Table(s_VoteTable).GetAll(R.Array(parentId, userId)).OptArg("index", "ParentId_UserId").Delete().RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task DeleteLikeAsync(string parentId, int userId)
+        public async Task DeleteVoteAsync(string parentId, int userId)
         {
-            (await R.Table(s_LikeTable).GetAll(R.Array(parentId, userId)).OptArg("index", "ParentId_UserId").Delete().RunResultAsync(_conn)).AssertNoErrors();
+            (await R.Table(s_VoteTable).GetAll(R.Array(parentId, userId)).OptArg("index", "ParentId_UserId").Delete().RunResultAsync(_conn)).AssertNoErrors();
         }
 
         #endregion

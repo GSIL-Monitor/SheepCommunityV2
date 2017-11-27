@@ -20,7 +20,11 @@ namespace Sheep.Model.Content.Entities
         /// <returns>得分。</returns>
         public static float CalculateTagsScore(this Post post)
         {
-            return post.IsFeatured ? 1.0f : 0.0f;
+            if (post.Tags == null)
+            {
+                return 0.0f;
+            }
+            return 0.8f + 0.2f * (Math.Min(5.0f, post.Tags.Count) / 5.0f);
         }
 
         /// <summary>
@@ -30,11 +34,7 @@ namespace Sheep.Model.Content.Entities
         /// <returns>得分。</returns>
         public static float CalculateViewsScore(this Post post)
         {
-            if (post.Tags == null)
-            {
-                return 0.0f;
-            }
-            return 0.8f + 0.2f * (Math.Min(5.0f, post.Tags.Count) / 5.0f);
+            return Math.Min(1.0f, post.ViewsCount / 1000.0f);
         }
 
         /// <summary>

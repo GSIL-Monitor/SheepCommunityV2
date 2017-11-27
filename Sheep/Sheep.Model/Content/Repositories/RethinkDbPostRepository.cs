@@ -129,20 +129,12 @@ namespace Sheep.Model.Content.Repositories
         /// <inheritdoc />
         public Post GetPost(string postId)
         {
-            if (postId.IsNullOrEmpty())
-            {
-                return null;
-            }
             return R.Table(s_PostTable).Get(postId).RunResult<Post>(_conn);
         }
 
         /// <inheritdoc />
         public Task<Post> GetPostAsync(string postId)
         {
-            if (postId.IsNullOrEmpty())
-            {
-                return null;
-            }
             return R.Table(s_PostTable).Get(postId).RunResultAsync<Post>(_conn);
         }
 
