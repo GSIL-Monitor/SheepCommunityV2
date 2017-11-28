@@ -10,12 +10,6 @@ namespace Sheep.ServiceModel.Bookmarks.Entities
     [DataContract]
     public class BookmarkDto
     {
-        /// <summary>
-        ///     类型。
-        /// </summary>
-        [DataMember(Order = 1)]
-        public string Type { get; set; }
-
         ///// <summary>
         /////     书签标记的内容。
         ///// </summary>

@@ -18,7 +18,6 @@ namespace Sheep.ServiceInterface.Posts.Mappers
             var postDto = new PostDto
                           {
                               Id = post.Id,
-                              Type = post.Meta.GetValueOrDefault("Type"),
                               Title = post.Title,
                               Summary = post.Summary,
                               PictureUrl = post.PictureUrl,
@@ -27,8 +26,6 @@ namespace Sheep.ServiceInterface.Posts.Mappers
                               ContentUrl = post.ContentUrl,
                               Tags = post.Tags,
                               Status = post.Status,
-                              BanReason = post.BanReason,
-                              BannedUntilDate = post.BannedUntilDate?.ToUnixTime(),
                               CreatedDate = post.CreatedDate.ToUnixTime(),
                               ModifiedDate = post.ModifiedDate.ToUnixTime(),
                               IsPublished = post.IsPublished,
@@ -42,8 +39,7 @@ namespace Sheep.ServiceInterface.Posts.Mappers
                               RatingsCount = post.RatingsCount,
                               RatingsAverageValue = post.RatingsAverageValue,
                               SharesCount = post.SharesCount,
-                              AbuseReportsCount = post.AbuseReportsCount,
-                              ContentQuality = post.ContentQuality
+                              AbuseReportsCount = post.AbuseReportsCount
                           };
             return postDto;
         }

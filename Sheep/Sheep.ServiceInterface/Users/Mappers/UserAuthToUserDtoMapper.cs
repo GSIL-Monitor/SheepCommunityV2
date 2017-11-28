@@ -18,7 +18,6 @@ namespace Sheep.ServiceInterface.Users.Mappers
             var userDto = new UserDto
                           {
                               Id = userAuth.Id,
-                              Type = userAuth.Meta.GetValueOrDefault("Type"),
                               UserName = userAuth.UserName,
                               Email = userAuth.Email,
                               DisplayName = userAuth.DisplayName,
@@ -35,8 +34,6 @@ namespace Sheep.ServiceInterface.Users.Mappers
                               City = userAuth.City,
                               Guild = userAuth.Meta.GetValueOrDefault("Guild"),
                               Status = userAuth.Meta.GetValueOrDefault("Status"),
-                              BanReason = userAuth.Meta.GetValueOrDefault("BanReason"),
-                              BannedUntilDate = userAuth.Meta.GetValueOrDefault("BannedUntilDate").To<DateTime?>()?.ToUnixTime(),
                               CreatedDate = userAuth.CreatedDate.ToUnixTime(),
                               ModifiedDate = userAuth.ModifiedDate.ToUnixTime(),
                               LockedDate = userAuth.LockedDate?.ToUnixTime(),

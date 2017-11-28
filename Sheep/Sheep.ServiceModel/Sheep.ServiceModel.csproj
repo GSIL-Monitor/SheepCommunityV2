@@ -196,7 +196,6 @@
     <Compile Include="Cities\Validators\CityListValidator.cs" />
     <Compile Include="Cities\Validators\CityShowValidator.cs" />
     <Compile Include="Comments\Entities\CommentDto.cs" />
-    <Compile Include="Comments\Entities\CommentVoteDto.cs" />
     <Compile Include="Countries\Entities\CountryDto.cs" />
     <Compile Include="Countries\CountryList.cs" />
     <Compile Include="Countries\CountryShow.cs" />
@@ -248,6 +247,7 @@
   <ItemGroup>
     <Folder Include="Achievements\Mappers\" />
     <Folder Include="Achievements\Validators\" />
+    <Folder Include="Comments\Validators\" />
     <Folder Include="Files\Validators\" />
     <Folder Include="Roles\Entities\" />
     <Folder Include="UserAchievements\Validators\" />

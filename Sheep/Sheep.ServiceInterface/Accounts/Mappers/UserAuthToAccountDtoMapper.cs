@@ -18,7 +18,6 @@ namespace Sheep.ServiceInterface.Accounts.Mappers
             var accountDto = new AccountDto
                              {
                                  Id = userAuth.Id,
-                                 Type = userAuth.Meta.GetValueOrDefault("Type"),
                                  UserName = userAuth.UserName,
                                  Email = userAuth.Email,
                                  DisplayName = userAuth.DisplayName,

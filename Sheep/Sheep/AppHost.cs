@@ -393,7 +393,7 @@ namespace Sheep
         /// </summary>
         private void ConfigureCors()
         {
-            var corsFeature = new CorsFeature();
+            var corsFeature = new CorsFeature(allowedHeaders: "Content-Type,Accept,X-ss-opts,X-ss-pid,X-ss-id");
             Plugins.Add(corsFeature);
         }
 

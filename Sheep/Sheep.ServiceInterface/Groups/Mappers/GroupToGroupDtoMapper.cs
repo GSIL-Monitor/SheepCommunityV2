@@ -16,7 +16,6 @@ namespace Sheep.ServiceInterface.Groups.Mappers
             var groupDto = new GroupDto
                            {
                                Id = group.Id,
-                               Type = group.Meta.GetValueOrDefault("Type"),
                                DisplayName = group.DisplayName,
                                FullName = group.FullName,
                                FullNameVerified = group.FullNameVerified,
@@ -31,8 +30,6 @@ namespace Sheep.ServiceInterface.Groups.Mappers
                                IsPublic = group.IsPublic,
                                EnableMessages = group.EnableMessages,
                                Status = group.Status,
-                               BanReason = group.BanReason,
-                               BannedUntilDate = group.BannedUntilDate?.ToUnixTime(),
                                CreatedDate = group.CreatedDate.ToUnixTime(),
                                ModifiedDate = group.ModifiedDate.ToUnixTime(),
                                TotalMembers = 0

@@ -10,12 +10,6 @@ namespace Sheep.ServiceModel.Ratings.Entities
     [DataContract]
     public class RatingDto
     {
-        /// <summary>
-        ///     类型。
-        /// </summary>
-        [DataMember(Order = 1)]
-        public string Type { get; set; }
-
         ///// <summary>
         /////     评分标记的内容。
         ///// </summary>
