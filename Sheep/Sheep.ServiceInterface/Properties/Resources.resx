@@ -123,6 +123,12 @@
   <data name="CityNotFound" xml:space="preserve">
     <value>无法找到指定的城市/区域{0}。</value>
   </data>
+  <data name="CommentNotFound" xml:space="preserve">
+    <value>无法找到指定的评论{0}。</value>
+  </data>
+  <data name="CommentsNotFound" xml:space="preserve">
+    <value>无法找到指定的评论列表。</value>
+  </data>
   <data name="CountriesNotFound" xml:space="preserve">
     <value>无法找到指定条件的国家/地区列表。</value>
   </data>

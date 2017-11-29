@@ -15,16 +15,16 @@ using Sheep.ServiceModel.Likes;
 namespace Sheep.ServiceInterface.Likes
 {
     /// <summary>
-    ///     列举一组点赞信息服务接口。
+    ///     根据用户列举一组点赞信息服务接口。
     /// </summary>
-    public class ListLikeService : Service
+    public class ListLikeByUserService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(ListLikeService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(ListLikeByUserService));
 
         #endregion
 
@@ -36,9 +36,9 @@ namespace Sheep.ServiceInterface.Likes
         public IAppSettings AppSettings { get; set; }
 
         /// <summary>
-        ///     获取及设置列举一组用户的校验器。
+        ///     获取及设置列举一组点赞的校验器。
         /// </summary>
-        public IValidator<LikeList> LikeListValidator { get; set; }
+        public IValidator<LikeListByUser> LikeListByUserValidator { get; set; }
 
         /// <summary>
         ///     获取及设置用户身份的存储库。
@@ -58,13 +58,13 @@ namespace Sheep.ServiceInterface.Likes
         ///     列举一组用户。
         /// </summary>
         [CacheResponse(Duration = 600)]
-        public async Task<object> Get(LikeList request)
+        public async Task<object> Get(LikeListByUser request)
         {
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
-                LikeListValidator.ValidateAndThrow(request, ApplyTo.Get);
+                LikeListByUserValidator.ValidateAndThrow(request, ApplyTo.Get);
             }
-            var existingLikes = await LikeRepo.FindLikesByParentAsync(request.ParentId, request.CreatedSince, request.OrderBy, request.Descending, request.Skip, request.Limit);
+            var existingLikes = await LikeRepo.FindLikesByUserAsync(request.UserId, request.CreatedSince, request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingLikes == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.LikesNotFound));

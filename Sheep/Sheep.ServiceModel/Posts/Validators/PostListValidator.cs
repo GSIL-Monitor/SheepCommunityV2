@@ -19,7 +19,6 @@ namespace Sheep.ServiceModel.Posts.Validators
 
         public static readonly HashSet<string> OrderBys = new HashSet<string>
                                                           {
-                                                              "Title",
                                                               "CreatedDate",
                                                               "ModifiedDate",
                                                               "PublishedDate",

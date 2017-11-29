@@ -12,7 +12,7 @@ namespace Sheep.ServiceInterface.Follows
         /// <summary>
         ///     重置缓存。
         /// </summary>
-        /// <param name="follow">用户身份。</param>
+        /// <param name="follow">关注。</param>
         protected void ResetCache(Follow follow)
         {
             Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/follows/owners?followerid={0}", follow.FollowerId)).ToArray());

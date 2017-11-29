@@ -12,7 +12,6 @@ namespace Sheep.ServiceModel.Follows.Validators
     {
         public static readonly HashSet<string> OrderBys = new HashSet<string>
                                                           {
-                                                              "IsBidirectional",
                                                               "CreatedDate",
                                                               "ModifiedDate"
                                                           };
@@ -37,7 +36,6 @@ namespace Sheep.ServiceModel.Follows.Validators
     {
         public static readonly HashSet<string> OrderBys = new HashSet<string>
                                                           {
-                                                              "IsBidirectional",
                                                               "CreatedDate",
                                                               "ModifiedDate"
                                                           };

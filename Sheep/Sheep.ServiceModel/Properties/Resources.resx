@@ -312,4 +312,7 @@
   <data name="ContentTypeRequired" xml:space="preserve">
     <value>内容类型必须输入。</value>
   </data>
+  <data name="CommentIdRequired" xml:space="preserve">
+    <value>评论编号必须输入。</value>
+  </data>
 </root>

@@ -3,12 +3,12 @@ using ServiceStack;
 using ServiceStack.FluentValidation;
 using Sheep.ServiceModel.Properties;
 
-namespace Sheep.ServiceModel.Likes.Validators
+namespace Sheep.ServiceModel.Comments.Validators
 {
     /// <summary>
-    ///     新建一个点赞的校验器。
+    ///     创建一个评论的校验器。
     /// </summary>
-    public class LikeCreateValidator : AbstractValidator<LikeCreate>
+    public class CommentCreateValidator : AbstractValidator<CommentCreate>
     {
         public static readonly HashSet<string> ParentTypes = new HashSet<string>
                                                              {
@@ -16,16 +16,17 @@ namespace Sheep.ServiceModel.Likes.Validators
                                                              };
 
         /// <summary>
-        ///     初始化一个新的<see cref="LikeCreateValidator" />对象。
+        ///     初始化一个新的<see cref="CommentCreateValidator" />对象。
         ///     创建规则集合。
         /// </summary>
-        public LikeCreateValidator()
+        public CommentCreateValidator()
         {
             RuleSet(ApplyTo.Post, () =>
                                   {
                                       RuleFor(x => x.ParentType).NotEmpty().WithMessage(Resources.ParentTypeRequired);
                                       RuleFor(x => x.ParentType).Must(contentType => ParentTypes.Contains(contentType)).WithMessage(Resources.ParentTypeRangeMismatch, ParentTypes.Join(",")).When(x => !x.ParentType.IsNullOrEmpty());
                                       RuleFor(x => x.ParentId).NotEmpty().WithMessage(Resources.ParentIdRequired);
+                                      RuleFor(x => x.Content).NotEmpty().WithMessage(Resources.ContentRequired);
                                   });
         }
     }

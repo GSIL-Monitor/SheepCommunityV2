@@ -6,7 +6,7 @@ using Sheep.ServiceModel.Properties;
 namespace Sheep.ServiceModel.Posts.Validators
 {
     /// <summary>
-    ///     创建帖子的校验器。
+    ///     更新一个帖子的校验器。
     /// </summary>
     public class PostUpdateValidator : AbstractValidator<PostUpdate>
     {

@@ -137,6 +137,16 @@
     <Compile Include="Achievements\AchievementCreate.cs" />
     <Compile Include="Achievements\AchievementDelete.cs" />
     <Compile Include="Achievements\AchievementUpdate.cs" />
+    <Compile Include="Comments\CommentCreate.cs" />
+    <Compile Include="Comments\CommentDelete.cs" />
+    <Compile Include="Comments\CommentList.cs" />
+    <Compile Include="Comments\CommentShow.cs" />
+    <Compile Include="Comments\CommentUpdate.cs" />
+    <Compile Include="Comments\Validators\CommentCreateValidator.cs" />
+    <Compile Include="Comments\Validators\CommentDeleteValidator.cs" />
+    <Compile Include="Comments\Validators\CommentListValidator.cs" />
+    <Compile Include="Comments\Validators\CommentShowValidator.cs" />
+    <Compile Include="Comments\Validators\CommentUpdateValidator.cs" />
     <Compile Include="Files\FileUploadImage.cs" />
     <Compile Include="Follows\Entities\FollowOfFollowerDto.cs" />
     <Compile Include="Follows\Entities\FollowOfOwnerDto.cs" />
@@ -247,7 +257,6 @@
   <ItemGroup>
     <Folder Include="Achievements\Mappers\" />
     <Folder Include="Achievements\Validators\" />
-    <Folder Include="Comments\Validators\" />
     <Folder Include="Files\Validators\" />
     <Folder Include="Roles\Entities\" />
     <Folder Include="UserAchievements\Validators\" />

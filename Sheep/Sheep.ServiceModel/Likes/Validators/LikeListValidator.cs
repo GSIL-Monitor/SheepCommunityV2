@@ -6,9 +6,9 @@ using Sheep.ServiceModel.Properties;
 namespace Sheep.ServiceModel.Likes.Validators
 {
     /// <summary>
-    ///     列举一组用户的校验器。
+    ///     根据上级列举一组点赞的校验器。
     /// </summary>
-    public class LikeListValidator : AbstractValidator<LikeList>
+    public class LikeListByParentValidator : AbstractValidator<LikeListByParent>
     {
         public static readonly HashSet<string> OrderBys = new HashSet<string>
                                                           {
@@ -16,14 +16,38 @@ namespace Sheep.ServiceModel.Likes.Validators
                                                           };
 
         /// <summary>
-        ///     初始化一个新的<see cref="LikeListValidator" />对象。
+        ///     初始化一个新的<see cref="LikeListByParentValidator" />对象。
         ///     创建规则集合。
         /// </summary>
-        public LikeListValidator()
+        public LikeListByParentValidator()
         {
             RuleSet(ApplyTo.Get, () =>
                                  {
                                      RuleFor(x => x.ParentId).NotEmpty().WithMessage(Resources.ParentIdRequired);
+                                     RuleFor(x => x.OrderBy).Must(orderBy => OrderBys.Contains(orderBy)).WithMessage(Resources.OrderByRangeMismatch, OrderBys.Join(",")).When(x => !x.OrderBy.IsNullOrEmpty());
+                                 });
+        }
+    }
+
+    /// <summary>
+    ///     根据用户列举一组点赞的校验器。
+    /// </summary>
+    public class LikeListByUserValidator : AbstractValidator<LikeListByUser>
+    {
+        public static readonly HashSet<string> OrderBys = new HashSet<string>
+                                                          {
+                                                              "CreatedDate"
+                                                          };
+
+        /// <summary>
+        ///     初始化一个新的<see cref="LikeListByUserValidator" />对象。
+        ///     创建规则集合。
+        /// </summary>
+        public LikeListByUserValidator()
+        {
+            RuleSet(ApplyTo.Get, () =>
+                                 {
+                                     RuleFor(x => x.UserId).NotEmpty().WithMessage(Resources.UserIdRequired);
                                      RuleFor(x => x.OrderBy).Must(orderBy => OrderBys.Contains(orderBy)).WithMessage(Resources.OrderByRangeMismatch, OrderBys.Join(",")).When(x => !x.OrderBy.IsNullOrEmpty());
                                  });
         }

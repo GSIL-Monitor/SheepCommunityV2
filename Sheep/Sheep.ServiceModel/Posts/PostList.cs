@@ -70,11 +70,11 @@ namespace Sheep.ServiceModel.Posts
         public bool? IsFeatured { get; set; }
 
         /// <summary>
-        ///     排序的字段。（可选值：Title, CreatedDate, ModifiedDate, PublishedDate, ViewsCount, BookmarksCount, CommentsCount,LikesCount,
+        ///     排序的字段。（可选值： CreatedDate, ModifiedDate, PublishedDate, ViewsCount, BookmarksCount, CommentsCount, LikesCount,
         ///     RatingsCount, RatingsAverageValue, SharesCount, AbuseReportsCount, ContentQuality 默认为 CreatedDate）
         /// </summary>
         [DataMember(Order = 9, Name = "orderby")]
-        [ApiMember(Description = "排序的字段（可选值：Title, CreatedDate, ModifiedDate, PublishedDate, ViewsCount, BookmarksCount, CommentsCount, LikesCount, RatingsCount, RatingsAverageValue, SharesCount, AbuseReportsCount, ContentQuality 默认为 CreatedDate）")]
+        [ApiMember(Description = "排序的字段（可选值：CreatedDate, ModifiedDate, PublishedDate, ViewsCount, BookmarksCount, CommentsCount, LikesCount, RatingsCount, RatingsAverageValue, SharesCount, AbuseReportsCount, ContentQuality 默认为 CreatedDate）")]
         public string OrderBy { get; set; }
 
         /// <summary>

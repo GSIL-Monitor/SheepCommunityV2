@@ -140,6 +140,13 @@
     <Compile Include="Cities\Mappers\CityToToCityDtoMapper.cs" />
     <Compile Include="Cities\ShowCityByNameService.cs" />
     <Compile Include="Cities\ShowCityService.cs" />
+    <Compile Include="Comments\ChangeCommentService.cs" />
+    <Compile Include="Comments\CreateCommentService.cs" />
+    <Compile Include="Comments\DeleteCommentService.cs" />
+    <Compile Include="Comments\ListCommentByParentService.cs" />
+    <Compile Include="Comments\ListCommentByUserService.cs" />
+    <Compile Include="Comments\Mappers\CommentToCommentDtoMapper.cs" />
+    <Compile Include="Comments\ShowCommentService.cs" />
     <Compile Include="Countries\Mappers\CountryToCountryDtoMapper.cs" />
     <Compile Include="Countries\ShowCountryByNameService.cs" />
     <Compile Include="Countries\ListCountryService.cs" />
@@ -172,7 +179,8 @@
     <Compile Include="Likes\ChangeLikeService.cs" />
     <Compile Include="Likes\CreateLikeService.cs" />
     <Compile Include="Likes\DeleteLikeService.cs" />
-    <Compile Include="Likes\ListLikeService.cs" />
+    <Compile Include="Likes\ListLikeByUserService.cs" />
+    <Compile Include="Likes\ListLikeByParentService.cs" />
     <Compile Include="Likes\Mappers\LikeToLikeDtoMapper.cs" />
     <Compile Include="Likes\ShowLikeService.cs" />
     <Compile Include="Posts\ChangePostService.cs" />
@@ -253,9 +261,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Comments\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

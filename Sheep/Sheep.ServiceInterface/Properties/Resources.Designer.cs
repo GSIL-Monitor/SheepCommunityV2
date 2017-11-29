@@ -79,6 +79,24 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
+        ///   查找类似 无法找到指定的评论{0}。 的本地化字符串。
+        /// </summary>
+        internal static string CommentNotFound {
+            get {
+                return ResourceManager.GetString("CommentNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定的评论列表。 的本地化字符串。
+        /// </summary>
+        internal static string CommentsNotFound {
+            get {
+                return ResourceManager.GetString("CommentsNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 无法找到指定条件的国家/地区列表。 的本地化字符串。
         /// </summary>
         internal static string CountriesNotFound {
