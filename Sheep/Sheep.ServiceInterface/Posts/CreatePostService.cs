@@ -104,7 +104,7 @@ namespace Sheep.ServiceInterface.Posts
                               Title = request.Title.Replace("\"", "'"),
                               Summary = request.Summary.Replace("\"", "'"),
                               ContentType = request.ContentType,
-                              Content = request.Content.Replace("\"", "'").HtmlEncode(),
+                              Content = request.Content.Replace("\"", "'"),
                               ContentUrl = request.ContentUrl,
                               Tags = request.Tags.IsNullOrEmpty() ? new List<string>() : request.Tags.Replace(",", ";").Replace("，", ";").Replace("；", ";").Split(';').Select(x => x.Replace("”", string.Empty).Replace("“", string.Empty).Replace("\"", string.Empty).Trim()).ToList(),
                               IsPublished = request.AutoPublish ?? false

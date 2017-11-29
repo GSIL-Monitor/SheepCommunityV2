@@ -52,10 +52,10 @@ namespace Sheep.ServiceInterface.Likes
 
         #endregion
 
-        #region 列举一组用户
+        #region 列举一组点赞
 
         /// <summary>
-        ///     列举一组用户。
+        ///     列举一组点赞。
         /// </summary>
         [CacheResponse(Duration = 600)]
         public async Task<object> Get(LikeListByUser request)

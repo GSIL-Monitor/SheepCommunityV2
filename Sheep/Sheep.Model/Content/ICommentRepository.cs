@@ -236,6 +236,34 @@ namespace Sheep.Model.Content
         /// <param name="count">增加的数量。</param>
         Task<Comment> IncrementCommentNoVotesCountAsync(string commentId, int count);
 
+        /// <summary>
+        ///     增加一个评论的赞成投票的次数及总投票的次数。
+        /// </summary>
+        /// <param name="commentId">评论的编号。</param>
+        /// <param name="count">增加的数量。</param>
+        Comment IncrementCommentVotesAndYesVotesCount(string commentId, int count);
+
+        /// <summary>
+        ///     异步增加一个评论的赞成投票的次数及总投票的次数。
+        /// </summary>
+        /// <param name="commentId">评论的编号。</param>
+        /// <param name="count">增加的数量。</param>
+        Task<Comment> IncrementCommentVotesAndYesVotesCountAsync(string commentId, int count);
+
+        /// <summary>
+        ///     增加一个评论的反对投票的次数及总投票的次数。
+        /// </summary>
+        /// <param name="commentId">评论的编号。</param>
+        /// <param name="count">增加的数量。</param>
+        Comment IncrementCommentVotesAndNoVotesCount(string commentId, int count);
+
+        /// <summary>
+        ///     异步增加一个评论的反对投票的次数及总投票的次数。
+        /// </summary>
+        /// <param name="commentId">评论的编号。</param>
+        /// <param name="count">增加的数量。</param>
+        Task<Comment> IncrementCommentVotesAndNoVotesCountAsync(string commentId, int count);
+
         #endregion
     }
 }

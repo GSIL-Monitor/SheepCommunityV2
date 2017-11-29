@@ -9,7 +9,7 @@ namespace Sheep.ServiceModel.Likes
     /// <summary>
     ///     根据上级查询并列举一组点赞信息的请求。
     /// </summary>
-    [Route("/likes/query/byparent", HttpMethods.Get, Summary = "根据上级查询并列举一组点赞信息")]
+    [Route("/likes/querybyparent", HttpMethods.Get, Summary = "根据上级查询并列举一组点赞信息")]
     [DataContract]
     public class LikeListByParent : IReturn<LikeListResponse>
     {
@@ -28,7 +28,7 @@ namespace Sheep.ServiceModel.Likes
         public DateTime? CreatedSince { get; set; }
 
         /// <summary>
-        ///     排序的字段。（可选值：IsBidirectional, CreatedDate, ModifiedDate 默认为 CreatedDate）
+        ///     排序的字段。（可选值：CreatedDate 默认为 CreatedDate）
         /// </summary>
         [DataMember(Order = 3, Name = "orderby")]
         [ApiMember(Description = "排序的字段（可选值：CreatedDate 默认为 CreatedDate）")]
@@ -59,7 +59,7 @@ namespace Sheep.ServiceModel.Likes
     /// <summary>
     ///     根据用户查询并列举一组点赞信息的请求。
     /// </summary>
-    [Route("/likes/query/byuser", HttpMethods.Get, Summary = "根据用户查询并列举一组点赞信息")]
+    [Route("/likes/querybyuser", HttpMethods.Get, Summary = "根据用户查询并列举一组点赞信息")]
     [DataContract]
     public class LikeListByUser : IReturn<LikeListResponse>
     {
@@ -78,7 +78,7 @@ namespace Sheep.ServiceModel.Likes
         public DateTime? CreatedSince { get; set; }
 
         /// <summary>
-        ///     排序的字段。（可选值：IsBidirectional, CreatedDate, ModifiedDate 默认为 CreatedDate）
+        ///     排序的字段。（可选值：CreatedDate 默认为 CreatedDate）
         /// </summary>
         [DataMember(Order = 3, Name = "orderby")]
         [ApiMember(Description = "排序的字段（可选值：CreatedDate 默认为 CreatedDate）")]

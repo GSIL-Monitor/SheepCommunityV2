@@ -52,10 +52,10 @@ namespace Sheep.ServiceInterface.Comments
 
         #endregion
 
-        #region 列举一组用户
+        #region 列举一组评论
 
         /// <summary>
-        ///     列举一组用户。
+        ///     列举一组评论。
         /// </summary>
         [CacheResponse(Duration = 600)]
         public async Task<object> Get(CommentListByUser request)

@@ -338,5 +338,23 @@ namespace Sheep.ServiceInterface.Properties {
                 return ResourceManager.GetString("UsersNotFound", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定的投票{0}。 的本地化字符串。
+        /// </summary>
+        internal static string VoteNotFound {
+            get {
+                return ResourceManager.GetString("VoteNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定条件的投票列表。 的本地化字符串。
+        /// </summary>
+        internal static string VotesNotFound {
+            get {
+                return ResourceManager.GetString("VotesNotFound", resourceCulture);
+            }
+        }
     }
 }

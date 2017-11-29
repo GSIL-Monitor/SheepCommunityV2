@@ -484,6 +484,34 @@ namespace Sheep.Model.Content.Repositories
             return result.ChangesAs<Comment>()[0].NewValue;
         }
 
+        /// <inheritdoc />
+        public Comment IncrementCommentVotesAndYesVotesCount(string commentId, int count)
+        {
+            var result = R.Table(s_CommentTable).Get(commentId).Update(row => R.HashMap("YesVotesCount", row.G("YesVotesCount").Default_(0).Add(count)).With("VotesCount", row.G("VotesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
+            return result.ChangesAs<Comment>()[0].NewValue;
+        }
+
+        /// <inheritdoc />
+        public async Task<Comment> IncrementCommentVotesAndYesVotesCountAsync(string commentId, int count)
+        {
+            var result = (await R.Table(s_CommentTable).Get(commentId).Update(row => R.HashMap("YesVotesCount", row.G("YesVotesCount").Default_(0).Add(count)).With("VotesCount", row.G("VotesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
+            return result.ChangesAs<Comment>()[0].NewValue;
+        }
+
+        /// <inheritdoc />
+        public Comment IncrementCommentVotesAndNoVotesCount(string commentId, int count)
+        {
+            var result = R.Table(s_CommentTable).Get(commentId).Update(row => R.HashMap("NoVotesCount", row.G("NoVotesCount").Default_(0).Add(count)).With("VotesCount", row.G("VotesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
+            return result.ChangesAs<Comment>()[0].NewValue;
+        }
+
+        /// <inheritdoc />
+        public async Task<Comment> IncrementCommentVotesAndNoVotesCountAsync(string commentId, int count)
+        {
+            var result = (await R.Table(s_CommentTable).Get(commentId).Update(row => R.HashMap("NoVotesCount", row.G("NoVotesCount").Default_(0).Add(count)).With("VotesCount", row.G("VotesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
+            return result.ChangesAs<Comment>()[0].NewValue;
+        }
+
         #endregion
 
         #region IClearable 接口实现

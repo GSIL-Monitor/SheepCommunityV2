@@ -210,4 +210,10 @@
   <data name="UsersNotFound" xml:space="preserve">
     <value>无法找到指定条件的用户列表。</value>
   </data>
+  <data name="VoteNotFound" xml:space="preserve">
+    <value>无法找到指定的投票{0}。</value>
+  </data>
+  <data name="VotesNotFound" xml:space="preserve">
+    <value>无法找到指定条件的投票列表。</value>
+  </data>
 </root>

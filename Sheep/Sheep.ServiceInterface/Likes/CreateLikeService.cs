@@ -100,10 +100,10 @@ namespace Sheep.ServiceInterface.Likes
                           };
             var like = await LikeRepo.CreateLikeAsync(newLike);
             ResetCache(like);
-            switch (request.ParentType)
+            switch (like.ParentType)
             {
                 case "帖子":
-                    await PostRepo.IncrementPostLikesCountAsync(request.ParentId, 1);
+                    await PostRepo.IncrementPostLikesCountAsync(like.ParentId, 1);
                     break;
             }
             //await NimClient.PostAsync(new FriendAddRequest

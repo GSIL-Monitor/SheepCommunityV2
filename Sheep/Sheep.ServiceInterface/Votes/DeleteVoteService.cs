@@ -8,21 +8,21 @@ using ServiceStack.Logging;
 using ServiceStack.Validation;
 using Sheep.Model.Content;
 using Sheep.ServiceInterface.Properties;
-using Sheep.ServiceModel.Likes;
+using Sheep.ServiceModel.Votes;
 
-namespace Sheep.ServiceInterface.Likes
+namespace Sheep.ServiceInterface.Votes
 {
     /// <summary>
-    ///     取消一个点赞服务接口。
+    ///     取消一个投票服务接口。
     /// </summary>
-    public class DeleteLikeService : ChangeLikeService
+    public class DeleteVoteService : ChangeVoteService
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(DeleteLikeService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(DeleteVoteService));
 
         #endregion
 
@@ -39,9 +39,9 @@ namespace Sheep.ServiceInterface.Likes
         public INimClient NimClient { get; set; }
 
         /// <summary>
-        ///     获取及设置取消一个点赞的校验器。
+        ///     获取及设置取消一个投票的校验器。
         /// </summary>
-        public IValidator<LikeDelete> LikeDeleteValidator { get; set; }
+        public IValidator<VoteDelete> VoteDeleteValidator { get; set; }
 
         /// <summary>
         ///     获取及设置用户身份的存储库。
@@ -49,23 +49,23 @@ namespace Sheep.ServiceInterface.Likes
         public IUserAuthRepository AuthRepo { get; set; }
 
         /// <summary>
-        ///     获取及设置帖子的存储库。
+        ///     获取及设置评论的存储库。
         /// </summary>
-        public IPostRepository PostRepo { get; set; }
+        public ICommentRepository CommentRepo { get; set; }
 
         /// <summary>
-        ///     获取及设置点赞的存储库。
+        ///     获取及设置投票的存储库。
         /// </summary>
-        public ILikeRepository LikeRepo { get; set; }
+        public IVoteRepository VoteRepo { get; set; }
 
         #endregion
 
-        #region 取消一个点赞
+        #region 取消一个投票
 
         /// <summary>
-        ///     取消一个点赞。
+        ///     取消一个投票。
         /// </summary>
-        public async Task<object> Delete(LikeDelete request)
+        public async Task<object> Delete(VoteDelete request)
         {
             if (!IsAuthenticated)
             {
@@ -73,27 +73,34 @@ namespace Sheep.ServiceInterface.Likes
             }
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
-                LikeDeleteValidator.ValidateAndThrow(request, ApplyTo.Delete);
+                VoteDeleteValidator.ValidateAndThrow(request, ApplyTo.Delete);
             }
             var userId = GetSession().UserAuthId.ToInt(0);
-            var existingLike = await LikeRepo.GetLikeAsync(request.ParentId, userId);
-            if (existingLike == null)
+            var existingVote = await VoteRepo.GetVoteAsync(request.ParentId, userId);
+            if (existingVote == null)
             {
-                throw HttpError.NotFound(string.Format(Resources.LikeNotFound, request.ParentId));
+                throw HttpError.NotFound(string.Format(Resources.VoteNotFound, request.ParentId));
             }
-            if (existingLike.UserId != userId)
+            if (existingVote.UserId != userId)
             {
                 throw HttpError.Unauthorized(Resources.LoginAsAuthorRequired);
             }
-            await LikeRepo.DeleteLikeAsync(request.ParentId, userId);
-            ResetCache(existingLike);
-            switch (existingLike.ParentType)
+            await VoteRepo.DeleteVoteAsync(request.ParentId, userId);
+            ResetCache(existingVote);
+            switch (request.ParentType)
             {
-                case "帖子":
-                    await PostRepo.IncrementPostLikesCountAsync(existingLike.ParentId, -1);
+                case "评论":
+                    if (existingVote.Value)
+                    {
+                        await CommentRepo.IncrementCommentVotesAndYesVotesCountAsync(existingVote.ParentId, -1);
+                    }
+                    else
+                    {
+                        await CommentRepo.IncrementCommentVotesAndNoVotesCountAsync(existingVote.ParentId, -1);
+                    }
                     break;
             }
-            return new LikeDeleteResponse();
+            return new VoteDeleteResponse();
         }
 
         #endregion

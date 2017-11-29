@@ -601,6 +601,15 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
+        ///   查找类似 值必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string ValueRequired {
+            get {
+                return ResourceManager.GetString("ValueRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 微博用户编号已经存在。 的本地化字符串。
         /// </summary>
         internal static string WeiboUserIdAlreadyExists {

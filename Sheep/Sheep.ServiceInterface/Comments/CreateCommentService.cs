@@ -89,14 +89,14 @@ namespace Sheep.ServiceInterface.Comments
                                  ParentType = request.ParentType,
                                  ParentId = request.ParentId,
                                  UserId = userId,
-                                 Content = request.Content
+                                 Content = request.Content.Replace("\"", "'")
                              };
             var comment = await CommentRepo.CreateCommentAsync(newComment);
             ResetCache(comment);
-            switch (request.ParentType)
+            switch (comment.ParentType)
             {
                 case "帖子":
-                    await PostRepo.IncrementPostCommentsCountAsync(request.ParentId, 1);
+                    await PostRepo.IncrementPostCommentsCountAsync(comment.ParentId, 1);
                     break;
             }
             //await NimClient.PostAsync(new FriendAddRequest

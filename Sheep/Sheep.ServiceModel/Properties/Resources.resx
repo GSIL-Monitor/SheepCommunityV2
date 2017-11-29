@@ -315,4 +315,7 @@
   <data name="CommentIdRequired" xml:space="preserve">
     <value>评论编号必须输入。</value>
   </data>
+  <data name="ValueRequired" xml:space="preserve">
+    <value>值必须输入。</value>
+  </data>
 </root>

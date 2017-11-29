@@ -215,6 +215,13 @@
     <Compile Include="Users\ShowUserByUserNameOrEmailService.cs" />
     <Compile Include="Users\ShowBasicUserService.cs" />
     <Compile Include="Users\ShowUserService.cs" />
+    <Compile Include="Votes\ChangeVoteService.cs" />
+    <Compile Include="Votes\CreateVoteService.cs" />
+    <Compile Include="Votes\DeleteVoteService.cs" />
+    <Compile Include="Votes\ListVoteByParentService.cs" />
+    <Compile Include="Votes\ListVoteByUserService.cs" />
+    <Compile Include="Votes\Mappers\VoteToVoteDtoMapper.cs" />
+    <Compile Include="Votes\ShowVoteService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

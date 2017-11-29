@@ -157,12 +157,16 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public List<Vote> FindVotesByParent(string parentId, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit)
+        public List<Vote> FindVotesByParent(string parentId, DateTime? createdSince, DateTime? modifiedSince, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_VoteTable).GetAll(parentId).OptArg("index", "ParentId").Filter(true);
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
+            }
+            if (modifiedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("ModifiedDate").Ge(modifiedSince.Value));
             }
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
@@ -177,12 +181,16 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public Task<List<Vote>> FindVotesByParentAsync(string parentId, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit)
+        public Task<List<Vote>> FindVotesByParentAsync(string parentId, DateTime? createdSince, DateTime? modifiedSince, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_VoteTable).GetAll(parentId).OptArg("index", "ParentId").Filter(true);
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
+            }
+            if (modifiedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("ModifiedDate").Ge(modifiedSince.Value));
             }
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
@@ -197,12 +205,16 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public List<Vote> FindVotesByUser(int userId, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit)
+        public List<Vote> FindVotesByUser(int userId, DateTime? createdSince, DateTime? modifiedSince, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_VoteTable).GetAll(userId).OptArg("index", "UserId").Filter(true);
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
+            }
+            if (modifiedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("ModifiedDate").Ge(modifiedSince.Value));
             }
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
@@ -217,12 +229,16 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public Task<List<Vote>> FindVotesByUserAsync(int userId, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit)
+        public Task<List<Vote>> FindVotesByUserAsync(int userId, DateTime? createdSince, DateTime? modifiedSince, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_VoteTable).GetAll(userId).OptArg("index", "UserId").Filter(true);
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
+            }
+            if (modifiedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("ModifiedDate").Ge(modifiedSince.Value));
             }
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
@@ -237,45 +253,61 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public int GetVotesCountByParent(string parentId, DateTime? createdSince)
+        public int GetVotesCountByParent(string parentId, DateTime? createdSince, DateTime? modifiedSince)
         {
             var query = R.Table(s_VoteTable).GetAll(parentId).OptArg("index", "ParentId").Filter(true);
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
+            }
+            if (modifiedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("ModifiedDate").Ge(modifiedSince.Value));
             }
             return query.Count().RunResult<int>(_conn);
         }
 
         /// <inheritdoc />
-        public Task<int> GetVotesCountByParentAsync(string parentId, DateTime? createdSince)
+        public Task<int> GetVotesCountByParentAsync(string parentId, DateTime? createdSince, DateTime? modifiedSince)
         {
             var query = R.Table(s_VoteTable).GetAll(parentId).OptArg("index", "ParentId").Filter(true);
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
+            }
+            if (modifiedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("ModifiedDate").Ge(modifiedSince.Value));
             }
             return query.Count().RunResultAsync<int>(_conn);
         }
 
         /// <inheritdoc />
-        public int GetVotesCountByUser(int userId, DateTime? createdSince)
+        public int GetVotesCountByUser(int userId, DateTime? createdSince, DateTime? modifiedSince)
         {
             var query = R.Table(s_VoteTable).GetAll(userId).OptArg("index", "UserId").Filter(true);
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
             }
+            if (modifiedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("ModifiedDate").Ge(modifiedSince.Value));
+            }
             return query.Count().RunResult<int>(_conn);
         }
 
         /// <inheritdoc />
-        public Task<int> GetVotesCountByUserAsync(int userId, DateTime? createdSince)
+        public Task<int> GetVotesCountByUserAsync(int userId, DateTime? createdSince, DateTime? modifiedSince)
         {
             var query = R.Table(s_VoteTable).GetAll(userId).OptArg("index", "UserId").Filter(true);
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
+            }
+            if (modifiedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("ModifiedDate").Ge(modifiedSince.Value));
             }
             return query.Count().RunResultAsync<int>(_conn);
         }
@@ -287,6 +319,7 @@ namespace Sheep.Model.Content.Repositories
             AssertNoExistingVote(newVote);
             newVote.Id = string.Format("{0}-{1}", newVote.ParentId, newVote.UserId);
             newVote.CreatedDate = DateTime.UtcNow;
+            newVote.ModifiedDate = newVote.CreatedDate;
             var result = R.Table(s_VoteTable).Get(newVote.Id).Replace(newVote).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
             return result.ChangesAs<Vote>()[0].NewValue;
         }
@@ -298,6 +331,29 @@ namespace Sheep.Model.Content.Repositories
             await AssertNoExistingVoteAsync(newVote);
             newVote.Id = string.Format("{0}-{1}", newVote.ParentId, newVote.UserId);
             newVote.CreatedDate = DateTime.UtcNow;
+            newVote.ModifiedDate = newVote.CreatedDate;
+            var result = (await R.Table(s_VoteTable).Get(newVote.Id).Replace(newVote).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
+            return result.ChangesAs<Vote>()[0].NewValue;
+        }
+
+        /// <inheritdoc />
+        public Vote UpdateVote(Vote existingVote, Vote newVote)
+        {
+            existingVote.ThrowIfNull(nameof(existingVote));
+            newVote.Id = existingVote.Id;
+            newVote.CreatedDate = existingVote.CreatedDate;
+            newVote.ModifiedDate = DateTime.UtcNow;
+            var result = R.Table(s_VoteTable).Get(newVote.Id).Replace(newVote).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
+            return result.ChangesAs<Vote>()[0].NewValue;
+        }
+
+        /// <inheritdoc />
+        public async Task<Vote> UpdateVoteAsync(Vote existingVote, Vote newVote)
+        {
+            existingVote.ThrowIfNull(nameof(existingVote));
+            newVote.Id = existingVote.Id;
+            newVote.CreatedDate = existingVote.CreatedDate;
+            newVote.ModifiedDate = DateTime.UtcNow;
             var result = (await R.Table(s_VoteTable).Get(newVote.Id).Replace(newVote).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
             return result.ChangesAs<Vote>()[0].NewValue;
         }
