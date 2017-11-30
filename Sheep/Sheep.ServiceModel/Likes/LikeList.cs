@@ -9,7 +9,7 @@ namespace Sheep.ServiceModel.Likes
     /// <summary>
     ///     根据上级查询并列举一组点赞信息的请求。
     /// </summary>
-    [Route("/likes/querybyparent", HttpMethods.Get, Summary = "根据上级查询并列举一组点赞信息")]
+    [Route("/likes/query/byparent", HttpMethods.Get, Summary = "根据上级查询并列举一组点赞信息")]
     [DataContract]
     public class LikeListByParent : IReturn<LikeListResponse>
     {
@@ -59,7 +59,7 @@ namespace Sheep.ServiceModel.Likes
     /// <summary>
     ///     根据用户查询并列举一组点赞信息的请求。
     /// </summary>
-    [Route("/likes/querybyuser", HttpMethods.Get, Summary = "根据用户查询并列举一组点赞信息")]
+    [Route("/likes/query/byuser", HttpMethods.Get, Summary = "根据用户查询并列举一组点赞信息")]
     [DataContract]
     public class LikeListByUser : IReturn<LikeListResponse>
     {

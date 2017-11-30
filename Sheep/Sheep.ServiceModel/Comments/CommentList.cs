@@ -9,7 +9,7 @@ namespace Sheep.ServiceModel.Comments
     /// <summary>
     ///     根据上级查询并列举一组评论的请求。
     /// </summary>
-    [Route("/comments/querybyparent", HttpMethods.Get, Summary = "根据上级查询并列举一组评论信息")]
+    [Route("/comments/query/byparent", HttpMethods.Get, Summary = "根据上级查询并列举一组评论信息")]
     [DataContract]
     public class CommentListByParent : IReturn<CommentListResponse>
     {
@@ -42,11 +42,11 @@ namespace Sheep.ServiceModel.Comments
         public bool? IsFeatured { get; set; }
 
         /// <summary>
-        ///     排序的字段。（可选值：CreatedDate, ModifiedDate, PublishedDate, RepliesCount, VotesCount, YesVotesCount, NoVotesCount,
+        ///     排序的字段。（可选值：CreatedDate, ModifiedDate, RepliesCount, VotesCount, YesVotesCount, NoVotesCount,
         ///     ContentQuality 默认为 CreatedDate）
         /// </summary>
         [DataMember(Order = 5, Name = "orderby")]
-        [ApiMember(Description = "排序的字段（可选值：CreatedDate, ModifiedDate, PublishedDate, RepliesCount, VotesCount, YesVotesCount, NoVotesCount, ContentQuality 默认为 CreatedDate）")]
+        [ApiMember(Description = "排序的字段（可选值：CreatedDate, ModifiedDate, RepliesCount, VotesCount, YesVotesCount, NoVotesCount, ContentQuality 默认为 CreatedDate）")]
         public string OrderBy { get; set; }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Sheep.ServiceModel.Comments
     /// <summary>
     ///     根据用户查询并列举一组评论的请求。
     /// </summary>
-    [Route("/comments/querybyuser", HttpMethods.Get, Summary = "根据用户查询并列举一组评论信息")]
+    [Route("/comments/query/byuser", HttpMethods.Get, Summary = "根据用户查询并列举一组评论信息")]
     [DataContract]
     public class CommentListByUser : IReturn<CommentListResponse>
     {
@@ -107,11 +107,11 @@ namespace Sheep.ServiceModel.Comments
         public bool? IsFeatured { get; set; }
 
         /// <summary>
-        ///     排序的字段。（可选值：CreatedDate, ModifiedDate, PublishedDate, RepliesCount, VotesCount, YesVotesCount, NoVotesCount,
+        ///     排序的字段。（可选值：CreatedDate, ModifiedDate, RepliesCount, VotesCount, YesVotesCount, NoVotesCount,
         ///     ContentQuality 默认为 CreatedDate）
         /// </summary>
         [DataMember(Order = 5, Name = "orderby")]
-        [ApiMember(Description = "排序的字段（可选值：CreatedDate, ModifiedDate, PublishedDate, RepliesCount, VotesCount, YesVotesCount, NoVotesCount, ContentQuality 默认为 CreatedDate）")]
+        [ApiMember(Description = "排序的字段（可选值：CreatedDate, ModifiedDate, RepliesCount, VotesCount, YesVotesCount, NoVotesCount, ContentQuality 默认为 CreatedDate）")]
         public string OrderBy { get; set; }
 
         /// <summary>

@@ -268,6 +268,24 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
+        ///   查找类似 无法找到指定条件的回复列表。 的本地化字符串。
+        /// </summary>
+        internal static string RepliesNotFound {
+            get {
+                return ResourceManager.GetString("RepliesNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定的回复{0}。 的本地化字符串。
+        /// </summary>
+        internal static string ReplyNotFound {
+            get {
+                return ResourceManager.GetString("ReplyNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 在已登录的状态下不允许进行注册，请先退出登录。 的本地化字符串。
         /// </summary>
         internal static string ReRegisterNotAllowed {

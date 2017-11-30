@@ -15,10 +15,10 @@ namespace Sheep.ServiceInterface.Votes
         /// <param name="vote">投票。</param>
         protected void ResetCache(Vote vote)
         {
-            Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/votes/querybyparent?parentid={0}", vote.ParentId)).ToArray());
-            Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/votes/querybyparent?parentid={0}", vote.ParentId)).ToArray());
-            Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/votes/querybyuser?userid={0}", vote.UserId)).ToArray());
-            Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/votes/querybyuser?userid={0}", vote.UserId)).ToArray());
+            Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/votes/query/byparent?parentid={0}", vote.ParentId)).ToArray());
+            Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/votes/query/byparent?parentid={0}", vote.ParentId)).ToArray());
+            Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/votes/query/byuser?userid={0}", vote.UserId)).ToArray());
+            Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/votes/query/byuser?userid={0}", vote.UserId)).ToArray());
         }
     }
 }

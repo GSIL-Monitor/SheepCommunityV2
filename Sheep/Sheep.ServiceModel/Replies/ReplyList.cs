@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using ServiceStack;
-using Sheep.ServiceModel.Votes.Entities;
+using Sheep.ServiceModel.Replies.Entities;
 
-namespace Sheep.ServiceModel.Votes
+namespace Sheep.ServiceModel.Replies
 {
     /// <summary>
-    ///     根据上级查询并列举一组投票信息的请求。
+    ///     根据上级查询并列举一组回复的请求。
     /// </summary>
-    [Route("/votes/query/byparent", HttpMethods.Get, Summary = "根据上级查询并列举一组投票信息")]
+    [Route("/replies/query/byparent", HttpMethods.Get, Summary = "根据上级查询并列举一组回复信息")]
     [DataContract]
-    public class VoteListByParent : IReturn<VoteListResponse>
+    public class ReplyListByParent : IReturn<ReplyListResponse>
     {
         /// <summary>
         ///     上级编号。（如评论编号）
@@ -35,10 +35,11 @@ namespace Sheep.ServiceModel.Votes
         public DateTime? ModifiedSince { get; set; }
 
         /// <summary>
-        ///     排序的字段。（可选值：CreatedDate, ModifiedDate 默认为 CreatedDate）
+        ///     排序的字段。（可选值：CreatedDate, ModifiedDate, VotesCount, YesVotesCount, NoVotesCount,
+        ///     ContentQuality 默认为 CreatedDate）
         /// </summary>
         [DataMember(Order = 4, Name = "orderby")]
-        [ApiMember(Description = "排序的字段（可选值：CreatedDate, ModifiedDate 默认为 CreatedDate）")]
+        [ApiMember(Description = "排序的字段（可选值：CreatedDate, ModifiedDate, VotesCount, YesVotesCount, NoVotesCount, ContentQuality 默认为 CreatedDate）")]
         public string OrderBy { get; set; }
 
         /// <summary>
@@ -64,11 +65,11 @@ namespace Sheep.ServiceModel.Votes
     }
 
     /// <summary>
-    ///     根据用户查询并列举一组投票信息的请求。
+    ///     根据用户查询并列举一组回复的请求。
     /// </summary>
-    [Route("/votes/query/byuser", HttpMethods.Get, Summary = "根据用户查询并列举一组投票信息")]
+    [Route("/replies/query/byuser", HttpMethods.Get, Summary = "根据用户查询并列举一组回复信息")]
     [DataContract]
-    public class VoteListByUser : IReturn<VoteListResponse>
+    public class ReplyListByUser : IReturn<ReplyListResponse>
     {
         /// <summary>
         ///     用户编号。
@@ -92,10 +93,11 @@ namespace Sheep.ServiceModel.Votes
         public DateTime? ModifiedSince { get; set; }
 
         /// <summary>
-        ///     排序的字段。（可选值：CreatedDate, ModifiedDate 默认为 CreatedDate）
+        ///     排序的字段。（可选值：CreatedDate, ModifiedDate, VotesCount, YesVotesCount, NoVotesCount,
+        ///     ContentQuality 默认为 CreatedDate）
         /// </summary>
         [DataMember(Order = 4, Name = "orderby")]
-        [ApiMember(Description = "排序的字段（可选值：CreatedDate, ModifiedDate 默认为 CreatedDate）")]
+        [ApiMember(Description = "排序的字段（可选值：CreatedDate, ModifiedDate, VotesCount, YesVotesCount, NoVotesCount, ContentQuality 默认为 CreatedDate）")]
         public string OrderBy { get; set; }
 
         /// <summary>
@@ -121,17 +123,17 @@ namespace Sheep.ServiceModel.Votes
     }
 
     /// <summary>
-    ///     列举一组投票信息的响应。
+    ///     查询并列举一组回复的响应。
     /// </summary>
     [DataContract]
-    public class VoteListResponse : IHasResponseStatus
+    public class ReplyListResponse : IHasResponseStatus
     {
         /// <summary>
-        ///     投票信息列表。
+        ///     回复信息列表。
         /// </summary>
         [DataMember(Order = 1)]
-        [ApiMember(Description = "投票信息列表")]
-        public List<VoteDto> Votes { get; set; }
+        [ApiMember(Description = "回复信息列表")]
+        public List<ReplyDto> Replies { get; set; }
 
         /// <summary>
         ///     处理响应的状态。

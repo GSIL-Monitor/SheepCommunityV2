@@ -186,6 +186,12 @@
   <data name="ReLoginNotAllowed" xml:space="preserve">
     <value>在已登录的状态下不允许进行重复登录，请先退出登录。</value>
   </data>
+  <data name="RepliesNotFound" xml:space="preserve">
+    <value>无法找到指定条件的回复列表。</value>
+  </data>
+  <data name="ReplyNotFound" xml:space="preserve">
+    <value>无法找到指定的回复{0}。</value>
+  </data>
   <data name="ReRegisterNotAllowed" xml:space="preserve">
     <value>在已登录的状态下不允许进行注册，请先退出登录。</value>
   </data>

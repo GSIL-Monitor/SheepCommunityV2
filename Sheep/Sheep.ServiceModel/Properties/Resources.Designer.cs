@@ -457,6 +457,15 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
+        ///   查找类似 回复编号必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string ReplyIdRequired {
+            get {
+                return ResourceManager.GetString("ReplyIdRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 验证码有效长度必须为{0}位。 的本地化字符串。
         /// </summary>
         internal static string SecurityTokenLengthMismatch {

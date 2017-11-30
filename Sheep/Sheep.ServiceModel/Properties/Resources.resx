@@ -318,4 +318,7 @@
   <data name="ValueRequired" xml:space="preserve">
     <value>值必须输入。</value>
   </data>
+  <data name="ReplyIdRequired" xml:space="preserve">
+    <value>回复编号必须输入。</value>
+  </data>
 </root>

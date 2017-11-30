@@ -15,10 +15,10 @@ namespace Sheep.ServiceInterface.Likes
         /// <param name="like">点赞。</param>
         protected void ResetCache(Like like)
         {
-            Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/likes/querybyparent?parentid={0}", like.ParentId)).ToArray());
-            Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/likes/querybyparent?parentid={0}", like.ParentId)).ToArray());
-            Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/likes/querybyuser?userid={0}", like.UserId)).ToArray());
-            Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/likes/querybyuser?userid={0}", like.UserId)).ToArray());
+            Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/likes/query/byparent?parentid={0}", like.ParentId)).ToArray());
+            Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/likes/query/byparent?parentid={0}", like.ParentId)).ToArray());
+            Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/likes/query/byuser?userid={0}", like.UserId)).ToArray());
+            Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/likes/query/byuser?userid={0}", like.UserId)).ToArray());
         }
     }
 }
