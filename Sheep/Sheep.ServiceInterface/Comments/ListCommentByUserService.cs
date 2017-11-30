@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using ServiceStack;
 using ServiceStack.Auth;
@@ -50,6 +51,11 @@ namespace Sheep.ServiceInterface.Comments
         /// </summary>
         public ICommentRepository CommentRepo { get; set; }
 
+        /// <summary>
+        ///     获取及设置投票的存储库。
+        /// </summary>
+        public IVoteRepository VoteRepo { get; set; }
+
         #endregion
 
         #region 列举一组评论
@@ -70,7 +76,9 @@ namespace Sheep.ServiceInterface.Comments
                 throw HttpError.NotFound(string.Format(Resources.CommentsNotFound));
             }
             var usersMap = (await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthsAsync(existingComments.Select(comment => comment.UserId.ToString()).Distinct())).ToDictionary(userAuth => userAuth.Id, userAuth => userAuth);
-            var commentsDto = existingComments.Select(comment => comment.MapToCommentDto(usersMap.GetValueOrDefault(comment.UserId))).ToList();
+            var currentUserId = GetSession().UserAuthId.ToInt(0);
+            var votesMap = (await VoteRepo.GetVotesAsync(existingComments.Select(comment => new Tuple<string, int>(comment.Id, currentUserId)))).ToDictionary(vote => vote.ParentId, vote => vote);
+            var commentsDto = existingComments.Select(comment => comment.MapToCommentDto(usersMap.GetValueOrDefault(comment.UserId), votesMap.GetValueOrDefault(comment.Id)?.Value ?? false, !votesMap.GetValueOrDefault(comment.Id)?.Value ?? false)).ToList();
             return new CommentListResponse
                    {
                        Comments = commentsDto

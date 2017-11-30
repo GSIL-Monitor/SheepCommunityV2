@@ -8,7 +8,7 @@ namespace Sheep.ServiceInterface.Comments.Mappers
 {
     public static class CommentToCommentDtoMapper
     {
-        public static CommentDto MapToCommentDto(this Comment comment, IUserAuth user)
+        public static CommentDto MapToCommentDto(this Comment comment, IUserAuth user, bool yesVoted, bool noVoted)
         {
             var commentDto = new CommentDto
                              {
@@ -24,7 +24,9 @@ namespace Sheep.ServiceInterface.Comments.Mappers
                                  RepliesCount = comment.RepliesCount,
                                  VotesCount = comment.VotesCount,
                                  YesVotesCount = comment.YesVotesCount,
-                                 NoVotesCount = comment.NoVotesCount
+                                 NoVotesCount = comment.NoVotesCount,
+                                 YesVoted = yesVoted,
+                                 NoVoted = noVoted
                              };
             return commentDto;
         }

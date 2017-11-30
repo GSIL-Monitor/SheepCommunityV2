@@ -87,5 +87,17 @@ namespace Sheep.ServiceModel.Comments.Entities
         /// </summary>
         [DataMember(Order = 13)]
         public int NoVotesCount { get; set; }
+
+        /// <summary>
+        ///     当前用户是否已投赞成票。
+        /// </summary>
+        [DataMember(Order = 14)]
+        public bool YesVoted { get; set; }
+
+        /// <summary>
+        ///     当前用户是否已投反对票。
+        /// </summary>
+        [DataMember(Order = 15)]
+        public bool NoVoted { get; set; }
     }
 }

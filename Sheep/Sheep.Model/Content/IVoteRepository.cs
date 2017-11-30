@@ -29,6 +29,20 @@ namespace Sheep.Model.Content
         Task<Vote> GetVoteAsync(string parentId, int userId);
 
         /// <summary>
+        ///     根据上级与用户获取投票。
+        /// </summary>
+        /// <param name="compositeIds">上级的编号及用户的用户编号的列表。</param>
+        /// <returns>投票。</returns>
+        List<Vote> GetVotes(IEnumerable<Tuple<string, int>> compositeIds);
+
+        /// <summary>
+        ///     异步根据上级与用户获取投票。
+        /// </summary>
+        /// <param name="compositeIds">上级的编号及用户的用户编号的列表。</param>
+        /// <returns>投票。</returns>
+        Task<List<Vote>> GetVotesAsync(IEnumerable<Tuple<string, int>> compositeIds);
+
+        /// <summary>
         ///     根据上级查找投票。
         /// </summary>
         /// <param name="parentId">上级的编号。（如帖子编号）</param>

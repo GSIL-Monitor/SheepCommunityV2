@@ -181,7 +181,6 @@
     <Compile Include="Likes\Validators\LikeDeleteValidator.cs" />
     <Compile Include="Likes\Validators\LikeListValidator.cs" />
     <Compile Include="Likes\Validators\LikeShowValidator.cs" />
-    <Compile Include="Posts\BasicPostShow.cs" />
     <Compile Include="Posts\Entities\BasicPostDto.cs" />
     <Compile Include="Posts\Entities\PostDto.cs" />
     <Compile Include="Posts\BasicPostList.cs" />
@@ -190,7 +189,6 @@
     <Compile Include="Posts\PostUpdate.cs" />
     <Compile Include="Posts\PostDelete.cs" />
     <Compile Include="Posts\PostCreate.cs" />
-    <Compile Include="Posts\Validators\BasicPostShowValidator.cs" />
     <Compile Include="Posts\Validators\PostDeleteValidator.cs" />
     <Compile Include="Posts\Validators\BasicPostListValidator.cs" />
     <Compile Include="Posts\Validators\PostUpdateValidator.cs" />
@@ -267,6 +265,7 @@
     <Folder Include="Achievements\Mappers\" />
     <Folder Include="Achievements\Validators\" />
     <Folder Include="Files\Validators\" />
+    <Folder Include="Replies\" />
     <Folder Include="Roles\Entities\" />
     <Folder Include="UserAchievements\Validators\" />
   </ItemGroup>

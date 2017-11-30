@@ -12,7 +12,8 @@ namespace Sheep.ServiceModel.Votes.Validators
     {
         public static readonly HashSet<string> ParentTypes = new HashSet<string>
                                                              {
-                                                                 "评论"
+                                                                 "评论",
+                                                                 "回复"
                                                              };
 
         /// <summary>

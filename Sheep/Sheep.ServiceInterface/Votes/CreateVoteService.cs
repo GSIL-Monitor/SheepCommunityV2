@@ -57,6 +57,11 @@ namespace Sheep.ServiceInterface.Votes
         public ICommentRepository CommentRepo { get; set; }
 
         /// <summary>
+        ///     获取及设置回复的存储库。
+        /// </summary>
+        public IReplyRepository ReplyRepo { get; set; }
+
+        /// <summary>
         ///     获取及设置投票的存储库。
         /// </summary>
         public IVoteRepository VoteRepo { get; set; }
@@ -113,6 +118,18 @@ namespace Sheep.ServiceInterface.Votes
                             await CommentRepo.IncrementCommentNoVotesCountAsync(vote.ParentId, 1);
                         }
                         break;
+                    case "回复":
+                        if (vote.Value)
+                        {
+                            await ReplyRepo.IncrementReplyYesVotesCountAsync(vote.ParentId, 1);
+                            await ReplyRepo.IncrementReplyNoVotesCountAsync(vote.ParentId, -1);
+                        }
+                        else
+                        {
+                            await ReplyRepo.IncrementReplyYesVotesCountAsync(vote.ParentId, -1);
+                            await ReplyRepo.IncrementReplyNoVotesCountAsync(vote.ParentId, 1);
+                        }
+                        break;
                 }
                 //await NimClient.PostAsync(new FriendAddRequest
                 //                          {
@@ -146,6 +163,16 @@ namespace Sheep.ServiceInterface.Votes
                         else
                         {
                             await CommentRepo.IncrementCommentVotesAndNoVotesCountAsync(vote.ParentId, 1);
+                        }
+                        break;
+                    case "回复":
+                        if (vote.Value)
+                        {
+                            await ReplyRepo.IncrementReplyVotesAndYesVotesCountAsync(vote.ParentId, 1);
+                        }
+                        else
+                        {
+                            await ReplyRepo.IncrementReplyVotesAndNoVotesCountAsync(vote.ParentId, 1);
                         }
                         break;
                 }

@@ -11,10 +11,10 @@ namespace Sheep.ServiceModel.Votes
     public class VoteDelete : IReturn<VoteDeleteResponse>
     {
         /// <summary>
-        ///     上级类型。（可选值：评论）
+        ///     上级类型。（可选值：评论, 回复）
         /// </summary>
         [DataMember(Order = 1, IsRequired = true)]
-        [ApiMember(Description = "上级类型（可选值：评论）")]
+        [ApiMember(Description = "上级类型（可选值：评论, 回复）")]
         public string ParentType { get; set; }
 
         /// <summary>

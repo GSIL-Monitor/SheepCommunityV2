@@ -190,7 +190,6 @@
     <Compile Include="Posts\ListPostService.cs" />
     <Compile Include="Posts\Mappers\PostToBasicPostDtoMapper.cs" />
     <Compile Include="Posts\Mappers\PostToPostDtoMapper.cs" />
-    <Compile Include="Posts\ShowBasicPostService.cs" />
     <Compile Include="Posts\ShowPostService.cs" />
     <Compile Include="Posts\UpdatePostService.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -268,7 +267,9 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Replies\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

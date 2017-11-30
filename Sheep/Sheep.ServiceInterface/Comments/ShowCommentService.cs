@@ -49,6 +49,11 @@ namespace Sheep.ServiceInterface.Comments
         /// </summary>
         public ICommentRepository CommentRepo { get; set; }
 
+        /// <summary>
+        ///     获取及设置投票的存储库。
+        /// </summary>
+        public IVoteRepository VoteRepo { get; set; }
+
         #endregion
 
         #region 显示一个评论
@@ -72,7 +77,9 @@ namespace Sheep.ServiceInterface.Comments
             {
                 throw HttpError.NotFound(string.Format(Resources.UserNotFound, existingComment.UserId));
             }
-            var commentDto = existingComment.MapToCommentDto(user);
+            var currentUserId = GetSession().UserAuthId.ToInt(0);
+            var vote = await VoteRepo.GetVoteAsync(existingComment.Id, currentUserId);
+            var commentDto = existingComment.MapToCommentDto(user, vote?.Value ?? false, !vote?.Value ?? false);
             return new CommentShowResponse
                    {
                        Comment = commentDto

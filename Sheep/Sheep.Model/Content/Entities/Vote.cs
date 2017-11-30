@@ -17,7 +17,7 @@ namespace Sheep.Model.Content.Entities
         public string Id { get; set; }
 
         /// <summary>
-        ///     上级类型。（可选值：评论）
+        ///     上级类型。（可选值：评论, 回复）
         /// </summary>
         public string ParentType { get; set; }
 

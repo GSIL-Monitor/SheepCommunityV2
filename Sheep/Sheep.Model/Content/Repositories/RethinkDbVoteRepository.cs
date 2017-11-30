@@ -157,6 +157,26 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
+        public List<Vote> GetVotes(IEnumerable<Tuple<string, int>> compositeIds)
+        {
+            if (compositeIds == null)
+            {
+                return new List<Vote>();
+            }
+            return R.Table(s_VoteTable).GetAll(R.Args(compositeIds.Select(compositeId => R.Array(compositeId.Item1, compositeId.Item2)).ToArray())).OptArg("index", "ParentId_UserId").RunResult<List<Vote>>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<List<Vote>> GetVotesAsync(IEnumerable<Tuple<string, int>> compositeIds)
+        {
+            if (compositeIds == null)
+            {
+                return Task.FromResult(new List<Vote>());
+            }
+            return R.Table(s_VoteTable).GetAll(R.Args(compositeIds.Select(compositeId => R.Array(compositeId.Item1, compositeId.Item2)).ToArray())).OptArg("index", "ParentId_UserId").RunResultAsync<List<Vote>>(_conn);
+        }
+
+        /// <inheritdoc />
         public List<Vote> FindVotesByParent(string parentId, DateTime? createdSince, DateTime? modifiedSince, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_VoteTable).GetAll(parentId).OptArg("index", "ParentId").Filter(true);

@@ -54,6 +54,11 @@ namespace Sheep.ServiceInterface.Votes
         public ICommentRepository CommentRepo { get; set; }
 
         /// <summary>
+        ///     获取及设置回复的存储库。
+        /// </summary>
+        public IReplyRepository ReplyRepo { get; set; }
+
+        /// <summary>
         ///     获取及设置投票的存储库。
         /// </summary>
         public IVoteRepository VoteRepo { get; set; }
@@ -97,6 +102,16 @@ namespace Sheep.ServiceInterface.Votes
                     else
                     {
                         await CommentRepo.IncrementCommentVotesAndNoVotesCountAsync(existingVote.ParentId, -1);
+                    }
+                    break;
+                case "回复":
+                    if (existingVote.Value)
+                    {
+                        await ReplyRepo.IncrementReplyVotesAndYesVotesCountAsync(existingVote.ParentId, -1);
+                    }
+                    else
+                    {
+                        await ReplyRepo.IncrementReplyVotesAndNoVotesCountAsync(existingVote.ParentId, -1);
                     }
                     break;
             }

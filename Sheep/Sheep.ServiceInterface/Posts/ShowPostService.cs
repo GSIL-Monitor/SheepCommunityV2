@@ -73,6 +73,7 @@ namespace Sheep.ServiceInterface.Posts
             {
                 throw HttpError.NotFound(string.Format(Resources.UserNotFound, existingPost.AuthorId));
             }
+            await PostRepo.IncrementPostViewsCountAsync(request.PostId, 1);
             var postDto = existingPost.MapToPostDto(author);
             return new PostShowResponse
                    {

@@ -107,7 +107,7 @@ namespace Sheep.ServiceInterface.Comments
             //                          });
             return new CommentCreateResponse
                    {
-                       Comment = comment.MapToCommentDto(user)
+                       Comment = comment.MapToCommentDto(user, false, false)
                    };
         }
 
