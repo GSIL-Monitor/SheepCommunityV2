@@ -319,7 +319,7 @@ namespace Sheep
                                 };
             var feature = new AuthFeature(() => new AuthUserSession(), authProviders)
                           {
-                              IncludeAssignRoleServices = true,
+                              IncludeAssignRoleServices = false,
                               IncludeAuthMetadataProvider = true,
                               IncludeRegistrationService = false,
                               ValidateUniqueUserNames = true,
@@ -394,7 +394,7 @@ namespace Sheep
         /// </summary>
         private void ConfigureCors()
         {
-            var corsFeature = new CorsFeature(allowedHeaders: "Content-Type,Accept,X-ss-opts,X-ss-pid,X-ss-id");
+            var corsFeature = new CorsFeature(allowedHeaders: "Content-Type,Accept,X-ss-opt,X-ss-pid,X-ss-id");
             Plugins.Add(corsFeature);
         }
 

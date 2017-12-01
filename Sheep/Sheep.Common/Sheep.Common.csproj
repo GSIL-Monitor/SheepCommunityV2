@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Auth\IUserAuthRepositoryExtended.cs" />
+    <Compile Include="Auth\IUserAuthExtensions.cs" />
     <Compile Include="Infrastructure\IPaged.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\AppSettingsDbNames.cs" />
