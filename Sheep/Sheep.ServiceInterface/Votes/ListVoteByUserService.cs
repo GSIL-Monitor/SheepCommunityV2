@@ -57,7 +57,7 @@ namespace Sheep.ServiceInterface.Votes
         /// <summary>
         ///     列举一组投票。
         /// </summary>
-        [CacheResponse(Duration = 600)]
+        //[CacheResponse(Duration = 600)]
         public async Task<object> Get(VoteListByUser request)
         {
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))

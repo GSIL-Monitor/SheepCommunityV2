@@ -63,7 +63,7 @@ namespace Sheep.ServiceInterface.Comments
         /// <summary>
         ///     列举一组评论。
         /// </summary>
-        [CacheResponse(Duration = 600)]
+        //[CacheResponse(Duration = 600)]
         public async Task<object> Get(CommentListByUser request)
         {
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
