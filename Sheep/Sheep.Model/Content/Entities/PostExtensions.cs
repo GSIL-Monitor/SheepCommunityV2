@@ -44,7 +44,7 @@ namespace Sheep.Model.Content.Entities
         /// <returns>得分。</returns>
         public static float CalculateBookmarksScore(this Post post)
         {
-            return Math.Min(1.0f, post.BookmarksCount / 5.0f);
+            return Math.Min(1.0f, post.BookmarksCount / 10.0f);
         }
 
         /// <summary>

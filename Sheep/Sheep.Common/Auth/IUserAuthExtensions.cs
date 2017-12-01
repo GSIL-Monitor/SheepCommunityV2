@@ -29,35 +29,38 @@ namespace Sheep.Common.Auth
             return Math.Min(1.0f, userAuth.Meta.GetValueOrDefault("CommentsCountInPeriod").ToInt() / 20.0f);
         }
 
-        ///// <summary>
-        /////     计算点赞的得分。
-        ///// </summary>
-        ///// <param name="userAuth">用户身份。</param>
-        ///// <returns>得分。</returns>
-        //public static float CalculateLikesScore(this IUserAuth userAuth)
-        //{
-        //    return Math.Min(1.0f, userAuth.LikesCount / 100.0f);
-        //}
+        /// <summary>
+        ///     计算点赞的得分。
+        /// </summary>
+        /// <param name="userAuth">用户身份。</param>
+        /// <returns>得分。</returns>
+        public static float CalculateLikesScore(this IUserAuth userAuth)
+        {
+            userAuth.Meta = userAuth.Meta ?? new Dictionary<string, string>();
+            return Math.Min(1.0f, userAuth.Meta.GetValueOrDefault("LikesCountInPeriod").ToInt() / 50.0f);
+        }
 
-        ///// <summary>
-        /////     计算评分的得分。
-        ///// </summary>
-        ///// <param name="userAuth">用户身份。</param>
-        ///// <returns>得分。</returns>
-        //public static float CalculateRatingsScore(this IUserAuth userAuth)
-        //{
-        //    return userAuth.RatingsCount >= 5 ? userAuth.RatingsAverageValue : 0.6f;
-        //}
+        /// <summary>
+        ///     计算评分的得分。
+        /// </summary>
+        /// <param name="userAuth">用户身份。</param>
+        /// <returns>得分。</returns>
+        public static float CalculateRatingsScore(this IUserAuth userAuth)
+        {
+            userAuth.Meta = userAuth.Meta ?? new Dictionary<string, string>();
+            return Math.Min(1.0f, userAuth.Meta.GetValueOrDefault("RatingsCountInPeriod").ToInt() / 10.0f);
+        }
 
-        ///// <summary>
-        /////     计算分享的得分。
-        ///// </summary>
-        ///// <param name="userAuth">用户身份。</param>
-        ///// <returns>得分。</returns>
-        //public static float CalculateSharesScore(this IUserAuth userAuth)
-        //{
-        //    return Math.Min(1.0f, userAuth.SharesCount / 10.0f);
-        //}
+        /// <summary>
+        ///     计算分享的得分。
+        /// </summary>
+        /// <param name="userAuth">用户身份。</param>
+        /// <returns>得分。</returns>
+        public static float CalculateSharesScore(this IUserAuth userAuth)
+        {
+            userAuth.Meta = userAuth.Meta ?? new Dictionary<string, string>();
+            return Math.Min(1.0f, userAuth.Meta.GetValueOrDefault("SharesCountInPeriod").ToInt() / 10.0f);
+        }
 
         ///// <summary>
         /////     计算滥用举报的得分。
