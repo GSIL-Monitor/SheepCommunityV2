@@ -12,10 +12,10 @@ namespace Sheep.ServiceModel.Likes
     public class LikeCreate : IReturn<LikeCreateResponse>
     {
         /// <summary>
-        ///     上级类型。（可选值：帖子）
+        ///     上级类型。（可选值：帖子, 章, 节）
         /// </summary>
         [DataMember(Order = 1, IsRequired = true)]
-        [ApiMember(Description = "上级类型（可选值：帖子）")]
+        [ApiMember(Description = "上级类型（可选值：帖子, 章, 节）")]
         public string ParentType { get; set; }
 
         /// <summary>

@@ -17,7 +17,7 @@ namespace Sheep.ServiceModel.Comments.Entities
         public string Id { get; set; }
 
         /// <summary>
-        ///     上级类型。（可选值：帖子）
+        ///     上级类型。（可选值：帖子, 章, 节）
         /// </summary>
         [DataMember(Order = 2)]
         public string ParentType { get; set; }

@@ -13,14 +13,14 @@ namespace Sheep.Model.Content
         #region 获取
 
         /// <summary>
-        ///     根据上级与用户获取评论。
+        ///     根据编号获取评论。
         /// </summary>
         /// <param name="commentId">评论的编号。</param>
         /// <returns>评论。</returns>
         Comment GetComment(string commentId);
 
         /// <summary>
-        ///     异步根据上级与用户获取评论。
+        ///     异步根据编号获取评论。
         /// </summary>
         /// <param name="commentId">评论的编号。</param>
         /// <returns>评论。</returns>

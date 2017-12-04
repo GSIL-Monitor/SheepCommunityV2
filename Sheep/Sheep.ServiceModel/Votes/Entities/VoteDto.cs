@@ -10,7 +10,7 @@ namespace Sheep.ServiceModel.Votes.Entities
     public class VoteDto
     {
         /// <summary>
-        ///     上级类型。（可选值：帖子）
+        ///     上级类型。（可选值：帖子, 章, 节）
         /// </summary>
         [DataMember(Order = 1)]
         public string ParentType { get; set; }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ServiceStack;
 using ServiceStack.DataAnnotations;
 using ServiceStack.Model;
@@ -7,9 +6,9 @@ using ServiceStack.Model;
 namespace Sheep.Model.Read.Entities
 {
     /// <summary>
-    ///     书籍。
+    ///     章。
     /// </summary>
-    public class Book : IHasStringId, IMeta
+    public class Chapter : IHasStringId, IMeta
     {
         /// <summary>
         ///     编号。
@@ -18,54 +17,49 @@ namespace Sheep.Model.Read.Entities
         public string Id { get; set; }
 
         /// <summary>
+        ///     卷编号。
+        /// </summary>
+        public string VolumeId { get; set; }
+
+        /// <summary>
+        ///     序号。
+        /// </summary>
+        public int Number { get; set; }
+
+        /// <summary>
         ///     标题。
         /// </summary>
         public string Title { get; set; }
 
         /// <summary>
-        ///     概要。
+        ///     正文内容。
         /// </summary>
-        public string Summary { get; set; }
+        public string Content { get; set; }
 
         /// <summary>
-        ///     图片的地址。
+        ///     节数。
         /// </summary>
-        public string PictureUrl { get; set; }
+        public int ParagraphsCount { get; set; }
 
         /// <summary>
-        ///     作者。
+        ///     查看的次数。
         /// </summary>
-        public string Author { get; set; }
-
-        /// <summary>
-        ///     分类的标签列表。
-        /// </summary>
-        public List<string> Tags { get; set; }
-
-        /// <summary>
-        ///     状态。（可选值：待审核, 审核通过, 已禁止, 审核失败, 等待删除）
-        /// </summary>
-        public string Status { get; set; }
-
-        /// <summary>
-        ///     是否已发布。
-        /// </summary>
-        public bool IsPublished { get; set; }
-
-        /// <summary>
-        ///     发布日期。
-        /// </summary>
-        public DateTime? PublishedDate { get; set; }
-
-        /// <summary>
-        ///     卷数。
-        /// </summary>
-        public int VolumesCount { get; set; }
+        public int ViewsCount { get; set; }
 
         /// <summary>
         ///     收藏的次数。
         /// </summary>
         public int BookmarksCount { get; set; }
+
+        /// <summary>
+        ///     评论的次数。
+        /// </summary>
+        public int CommentsCount { get; set; }
+
+        /// <summary>
+        ///     点赞的次数。
+        /// </summary>
+        public int LikesCount { get; set; }
 
         /// <summary>
         ///     评分的次数。
