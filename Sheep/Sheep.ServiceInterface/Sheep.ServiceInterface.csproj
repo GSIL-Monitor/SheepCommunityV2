@@ -136,6 +136,13 @@
     <Compile Include="Accounts\BindAccountMobileService.cs" />
     <Compile Include="Accounts\BindAccountCredentialsService.cs" />
     <Compile Include="Accounts\LoginAccountByWeiboService.cs" />
+    <Compile Include="Books\ChangeBookService.cs" />
+    <Compile Include="Books\CreateBookService.cs" />
+    <Compile Include="Books\DeleteBookService.cs" />
+    <Compile Include="Books\ListBookService.cs" />
+    <Compile Include="Books\Mappers\BookToBookDtoMapper.cs" />
+    <Compile Include="Books\ShowBookService.cs" />
+    <Compile Include="Books\UpdateBookService.cs" />
     <Compile Include="Cities\ListCityService.cs" />
     <Compile Include="Cities\Mappers\CityToToCityDtoMapper.cs" />
     <Compile Include="Cities\ShowCityByNameService.cs" />

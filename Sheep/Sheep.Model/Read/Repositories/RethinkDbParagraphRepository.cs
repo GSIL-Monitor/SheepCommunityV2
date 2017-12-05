@@ -98,6 +98,8 @@ namespace Sheep.Model.Read.Repositories
             if (!tables.Contains(s_ParagraphTable))
             {
                 R.TableCreate(s_ParagraphTable).OptArg("primary_key", "Id").OptArg("durability", Durability.Soft).OptArg("shards", _shards).OptArg("replicas", _replicas).RunResult(_conn).AssertNoErrors().AssertTablesCreated(1);
+                R.Table(s_ParagraphTable).IndexCreate("BookId").RunResult(_conn).AssertNoErrors();
+                R.Table(s_ParagraphTable).IndexCreate("VolumeId").RunResult(_conn).AssertNoErrors();
                 R.Table(s_ParagraphTable).IndexCreate("ChapterId").RunResult(_conn).AssertNoErrors();
                 R.Table(s_ParagraphTable).IndexCreate("SubjectId").RunResult(_conn).AssertNoErrors();
                 //R.Table(s_ParagraphTable).IndexWait().RunResult(_conn).AssertNoErrors();
@@ -138,9 +140,9 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public List<Paragraph> FindParagraphs(string contentFilter, string annotationFilter, string orderBy, bool? descending, int? skip, int? limit)
+        public List<Paragraph> FindParagraphs(string bookId, string contentFilter, string annotationFilter, string orderBy, bool? descending, int? skip, int? limit)
         {
-            var query = R.Table(s_ParagraphTable).Filter(true);
+            var query = R.Table(s_ParagraphTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
             if (!contentFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Content").Match(contentFilter));
@@ -162,9 +164,9 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public Task<List<Paragraph>> FindParagraphsAsync(string contentFilter, string annotationFilter, string orderBy, bool? descending, int? skip, int? limit)
+        public Task<List<Paragraph>> FindParagraphsAsync(string bookId, string contentFilter, string annotationFilter, string orderBy, bool? descending, int? skip, int? limit)
         {
-            var query = R.Table(s_ParagraphTable).Filter(true);
+            var query = R.Table(s_ParagraphTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
             if (!contentFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Content").Match(contentFilter));
@@ -186,13 +188,9 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public List<Paragraph> FindParagraphsByChapter(string chapterId, string annotationFilter, string orderBy, bool? descending, int? skip, int? limit)
+        public List<Paragraph> FindParagraphsByChapter(string chapterId, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_ParagraphTable).GetAll(chapterId).OptArg("index", "ChapterId").Filter(true);
-            if (!annotationFilter.IsNullOrEmpty())
-            {
-                query = query.Filter(row => row.G("Annotation").Match(annotationFilter));
-            }
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
             {
@@ -206,13 +204,9 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public Task<List<Paragraph>> FindParagraphsByChapterAsync(string chapterId, string annotationFilter, string orderBy, bool? descending, int? skip, int? limit)
+        public Task<List<Paragraph>> FindParagraphsByChapterAsync(string chapterId, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_ParagraphTable).GetAll(chapterId).OptArg("index", "ChapterId").Filter(true);
-            if (!annotationFilter.IsNullOrEmpty())
-            {
-                query = query.Filter(row => row.G("Annotation").Match(annotationFilter));
-            }
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
             {
@@ -226,13 +220,9 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public List<Paragraph> FindParagraphsBySubject(string subjectId, string annotationFilter, string orderBy, bool? descending, int? skip, int? limit)
+        public List<Paragraph> FindParagraphsBySubject(string subjectId, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_ParagraphTable).GetAll(subjectId).OptArg("index", "SubjectId").Filter(true);
-            if (!annotationFilter.IsNullOrEmpty())
-            {
-                query = query.Filter(row => row.G("Annotation").Match(annotationFilter));
-            }
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
             {
@@ -246,13 +236,9 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public Task<List<Paragraph>> FindParagraphsBySubjectAsync(string subjectId, string annotationFilter, string orderBy, bool? descending, int? skip, int? limit)
+        public Task<List<Paragraph>> FindParagraphsBySubjectAsync(string subjectId, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_ParagraphTable).GetAll(subjectId).OptArg("index", "SubjectId").Filter(true);
-            if (!annotationFilter.IsNullOrEmpty())
-            {
-                query = query.Filter(row => row.G("Annotation").Match(annotationFilter));
-            }
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
             {
@@ -266,9 +252,9 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public int GetParagraphsCount(string contentFilter, string annotationFilter)
+        public int GetParagraphsCount(string bookId, string contentFilter, string annotationFilter)
         {
-            var query = R.Table(s_ParagraphTable).Filter(true);
+            var query = R.Table(s_ParagraphTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
             if (!contentFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Content").Match(contentFilter));
@@ -281,9 +267,9 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public Task<int> GetParagraphsCountAsync(string contentFilter, string annotationFilter)
+        public Task<int> GetParagraphsCountAsync(string bookId, string contentFilter, string annotationFilter)
         {
-            var query = R.Table(s_ParagraphTable).Filter(true);
+            var query = R.Table(s_ParagraphTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
             if (!contentFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Content").Match(contentFilter));
@@ -296,46 +282,30 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public int GetParagraphsCountByChapter(string chapterId, string annotationFilter)
+        public int GetParagraphsCountByChapter(string chapterId)
         {
             var query = R.Table(s_ParagraphTable).GetAll(chapterId).OptArg("index", "ChapterId").Filter(true);
-            if (!annotationFilter.IsNullOrEmpty())
-            {
-                query = query.Filter(row => row.G("Annotation").Match(annotationFilter));
-            }
             return query.Count().RunResult<int>(_conn);
         }
 
         /// <inheritdoc />
-        public Task<int> GetParagraphsCountByChapterAsync(string chapterId, string annotationFilter)
+        public Task<int> GetParagraphsCountByChapterAsync(string chapterId)
         {
             var query = R.Table(s_ParagraphTable).GetAll(chapterId).OptArg("index", "ChapterId").Filter(true);
-            if (!annotationFilter.IsNullOrEmpty())
-            {
-                query = query.Filter(row => row.G("Annotation").Match(annotationFilter));
-            }
             return query.Count().RunResultAsync<int>(_conn);
         }
 
         /// <inheritdoc />
-        public int GetParagraphsCountBySubject(string subjectId, string annotationFilter)
+        public int GetParagraphsCountBySubject(string subjectId)
         {
             var query = R.Table(s_ParagraphTable).GetAll(subjectId).OptArg("index", "SubjectId").Filter(true);
-            if (!annotationFilter.IsNullOrEmpty())
-            {
-                query = query.Filter(row => row.G("Annotation").Match(annotationFilter));
-            }
             return query.Count().RunResult<int>(_conn);
         }
 
         /// <inheritdoc />
-        public Task<int> GetParagraphsCountBySubjectAsync(string subjectId, string annotationFilter)
+        public Task<int> GetParagraphsCountBySubjectAsync(string subjectId)
         {
             var query = R.Table(s_ParagraphTable).GetAll(subjectId).OptArg("index", "SubjectId").Filter(true);
-            if (!annotationFilter.IsNullOrEmpty())
-            {
-                query = query.Filter(row => row.G("Annotation").Match(annotationFilter));
-            }
             return query.Count().RunResultAsync<int>(_conn);
         }
 

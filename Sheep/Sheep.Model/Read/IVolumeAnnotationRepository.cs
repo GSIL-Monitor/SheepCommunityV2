@@ -28,24 +28,26 @@ namespace Sheep.Model.Read
         /// <summary>
         ///     查找卷注释。
         /// </summary>
+        /// <param name="bookId">书籍的编号。</param>
         /// <param name="annotationFilter">过滤注释的表达式。</param>
         /// <param name="orderBy">排序的字段。</param>
         /// <param name="descending">是否按降序排序。</param>
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>卷注释列表。</returns>
-        List<VolumeAnnotation> FindVolumeAnnotations(string annotationFilter, string orderBy, bool? descending, int? skip, int? limit);
+        List<VolumeAnnotation> FindVolumeAnnotations(string bookId, string annotationFilter, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
         ///     异步查找卷注释。
         /// </summary>
+        /// <param name="bookId">书籍的编号。</param>
         /// <param name="annotationFilter">过滤注释的表达式。</param>
         /// <param name="orderBy">排序的字段。</param>
         /// <param name="descending">是否按降序排序。</param>
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>卷注释列表。</returns>
-        Task<List<VolumeAnnotation>> FindVolumeAnnotationsAsync(string annotationFilter, string orderBy, bool? descending, int? skip, int? limit);
+        Task<List<VolumeAnnotation>> FindVolumeAnnotationsAsync(string bookId, string annotationFilter, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
         ///     根据卷查找卷注释。
@@ -76,16 +78,18 @@ namespace Sheep.Model.Read
         /// <summary>
         ///     查找获取卷注释数量。
         /// </summary>
+        /// <param name="bookId">书籍的编号。</param>
         /// <param name="annotationFilter">过滤注释的表达式。</param>
         /// <returns>卷注释数量。</returns>
-        int GetVolumeAnnotationsCount(string annotationFilter);
+        int GetVolumeAnnotationsCount(string bookId, string annotationFilter);
 
         /// <summary>
         ///     异步获取卷注释数量。
         /// </summary>
+        /// <param name="bookId">书籍的编号。</param>
         /// <param name="annotationFilter">过滤注释的表达式。</param>
         /// <returns>卷注释数量。</returns>
-        Task<int> GetVolumeAnnotationsCountAsync(string annotationFilter);
+        Task<int> GetVolumeAnnotationsCountAsync(string bookId, string annotationFilter);
 
         /// <summary>
         ///     根据卷获取卷注释数量。

@@ -79,6 +79,15 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
+        ///   查找类似 书籍编号必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string BookIdRequired {
+            get {
+                return ResourceManager.GetString("BookIdRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 城市编号必须输入。 的本地化字符串。
         /// </summary>
         internal static string CityIdRequired {

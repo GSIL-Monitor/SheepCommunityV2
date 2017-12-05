@@ -28,6 +28,7 @@ namespace Sheep.Model.Read
         /// <summary>
         ///     查找节。
         /// </summary>
+        /// <param name="bookId">书籍的编号。</param>
         /// <param name="contentFilter">过滤内容的表达式。</param>
         /// <param name="annotationFilter">过滤注释的表达式。</param>
         /// <param name="orderBy">排序的字段。</param>
@@ -35,11 +36,12 @@ namespace Sheep.Model.Read
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>节列表。</returns>
-        List<Paragraph> FindParagraphs(string contentFilter, string annotationFilter, string orderBy, bool? descending, int? skip, int? limit);
+        List<Paragraph> FindParagraphs(string bookId, string contentFilter, string annotationFilter, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
         ///     异步查找节。
         /// </summary>
+        /// <param name="bookId">书籍的编号。</param>
         /// <param name="contentFilter">过滤内容的表达式。</param>
         /// <param name="annotationFilter">过滤注释的表达式。</param>
         /// <param name="orderBy">排序的字段。</param>
@@ -47,55 +49,51 @@ namespace Sheep.Model.Read
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>节列表。</returns>
-        Task<List<Paragraph>> FindParagraphsAsync(string contentFilter, string annotationFilter, string orderBy, bool? descending, int? skip, int? limit);
+        Task<List<Paragraph>> FindParagraphsAsync(string bookId, string contentFilter, string annotationFilter, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
         ///     根据章查找节。
         /// </summary>
         /// <param name="chapterId">章的编号。</param>
-        /// <param name="annotationFilter">过滤注释的表达式。</param>
         /// <param name="orderBy">排序的字段。</param>
         /// <param name="descending">是否按降序排序。</param>
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>节列表。</returns>
-        List<Paragraph> FindParagraphsByChapter(string chapterId, string annotationFilter, string orderBy, bool? descending, int? skip, int? limit);
+        List<Paragraph> FindParagraphsByChapter(string chapterId, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
         ///     异步根据章查找节。
         /// </summary>
         /// <param name="chapterId">章的编号。</param>
-        /// <param name="annotationFilter">过滤注释的表达式。</param>
         /// <param name="orderBy">排序的字段。</param>
         /// <param name="descending">是否按降序排序。</param>
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>节列表。</returns>
-        Task<List<Paragraph>> FindParagraphsByChapterAsync(string chapterId, string annotationFilter, string orderBy, bool? descending, int? skip, int? limit);
+        Task<List<Paragraph>> FindParagraphsByChapterAsync(string chapterId, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
         ///     根据主题查找节。
         /// </summary>
         /// <param name="subjectId">主题的编号。</param>
-        /// <param name="annotationFilter">过滤注释的表达式。</param>
         /// <param name="orderBy">排序的字段。</param>
         /// <param name="descending">是否按降序排序。</param>
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>节列表。</returns>
-        List<Paragraph> FindParagraphsBySubject(string subjectId, string annotationFilter, string orderBy, bool? descending, int? skip, int? limit);
+        List<Paragraph> FindParagraphsBySubject(string subjectId, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
         ///     异步根据主题查找节。
         /// </summary>
         /// <param name="subjectId">主题的编号。</param>
-        /// <param name="annotationFilter">过滤注释的表达式。</param>
         /// <param name="orderBy">排序的字段。</param>
         /// <param name="descending">是否按降序排序。</param>
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>节列表。</returns>
-        Task<List<Paragraph>> FindParagraphsBySubjectAsync(string subjectId, string annotationFilter, string orderBy, bool? descending, int? skip, int? limit);
+        Task<List<Paragraph>> FindParagraphsBySubjectAsync(string subjectId, string orderBy, bool? descending, int? skip, int? limit);
 
         #endregion
 
@@ -104,50 +102,48 @@ namespace Sheep.Model.Read
         /// <summary>
         ///     查找获取节数量。
         /// </summary>
+        /// <param name="bookId">书籍的编号。</param>
         /// <param name="contentFilter">过滤内容的表达式。</param>
         /// <param name="annotationFilter">过滤注释的表达式。</param>
         /// <returns>节数量。</returns>
-        int GetParagraphsCount(string contentFilter, string annotationFilter);
+        int GetParagraphsCount(string bookId, string contentFilter, string annotationFilter);
 
         /// <summary>
         ///     异步获取节数量。
         /// </summary>
+        /// <param name="bookId">书籍的编号。</param>
         /// <param name="contentFilter">过滤内容的表达式。</param>
         /// <param name="annotationFilter">过滤注释的表达式。</param>
         /// <returns>节数量。</returns>
-        Task<int> GetParagraphsCountAsync(string contentFilter, string annotationFilter);
+        Task<int> GetParagraphsCountAsync(string bookId, string contentFilter, string annotationFilter);
 
         /// <summary>
         ///     根据章查找节。
         /// </summary>
         /// <param name="chapterId">章的编号。</param>
-        /// <param name="annotationFilter">过滤注释的表达式。</param>
         /// <returns>节数量。</returns>
-        int GetParagraphsCountByChapter(string chapterId, string annotationFilter);
+        int GetParagraphsCountByChapter(string chapterId);
 
         /// <summary>
         ///     异步根据章获取节数量。
         /// </summary>
         /// <param name="chapterId">章的编号。</param>
-        /// <param name="annotationFilter">过滤注释的表达式。</param>
         /// <returns>节数量。</returns>
-        Task<int> GetParagraphsCountByChapterAsync(string chapterId, string annotationFilter);
+        Task<int> GetParagraphsCountByChapterAsync(string chapterId);
 
         /// <summary>
         ///     根据主题获取节数量。
         /// </summary>
         /// <param name="subjectId">主题的编号。</param>
-        /// <param name="annotationFilter">过滤注释的表达式。</param>
         /// <returns>节数量。</returns>
-        int GetParagraphsCountBySubject(string subjectId, string annotationFilter);
+        int GetParagraphsCountBySubject(string subjectId);
 
         /// <summary>
         ///     异步根据主题获取节数量。
         /// </summary>
         /// <param name="subjectId">主题的编号。</param>
-        /// <param name="annotationFilter">过滤注释的表达式。</param>
         /// <returns>节数量。</returns>
-        Task<int> GetParagraphsCountBySubjectAsync(string subjectId, string annotationFilter);
+        Task<int> GetParagraphsCountBySubjectAsync(string subjectId);
 
         #endregion
 

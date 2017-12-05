@@ -36,6 +36,16 @@ namespace Sheep.Model.Read.Repositories
         /// </summary>
         private static readonly string s_ChapterTable = typeof(Chapter).Name;
 
+        /// <summary>
+        ///     章注释的数据表名。
+        /// </summary>
+        private static readonly string s_ChapterAnnotationTable = typeof(ChapterAnnotation).Name;
+
+        /// <summary>
+        ///     节的数据表名。
+        /// </summary>
+        private static readonly string s_ParagraphTable = typeof(Paragraph).Name;
+
         #endregion
 
         #region 属性
@@ -98,6 +108,7 @@ namespace Sheep.Model.Read.Repositories
             if (!tables.Contains(s_ChapterTable))
             {
                 R.TableCreate(s_ChapterTable).OptArg("primary_key", "Id").OptArg("durability", Durability.Soft).OptArg("shards", _shards).OptArg("replicas", _replicas).RunResult(_conn).AssertNoErrors().AssertTablesCreated(1);
+                R.Table(s_ChapterTable).IndexCreate("BookId").RunResult(_conn).AssertNoErrors();
                 R.Table(s_ChapterTable).IndexCreate("VolumeId").RunResult(_conn).AssertNoErrors();
                 //R.Table(s_ChapterTable).IndexWait().RunResult(_conn).AssertNoErrors();
             }
@@ -137,9 +148,9 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public List<Chapter> FindChapters(string contentFilter, string orderBy, bool? descending, int? skip, int? limit)
+        public List<Chapter> FindChapters(string bookId, string contentFilter, string orderBy, bool? descending, int? skip, int? limit)
         {
-            var query = R.Table(s_ChapterTable).Filter(true);
+            var query = R.Table(s_ChapterTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
             if (!contentFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Content").Match(contentFilter));
@@ -157,9 +168,9 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public Task<List<Chapter>> FindChaptersAsync(string contentFilter, string orderBy, bool? descending, int? skip, int? limit)
+        public Task<List<Chapter>> FindChaptersAsync(string bookId, string contentFilter, string orderBy, bool? descending, int? skip, int? limit)
         {
-            var query = R.Table(s_ChapterTable).Filter(true);
+            var query = R.Table(s_ChapterTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
             if (!contentFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Content").Match(contentFilter));
@@ -209,9 +220,9 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public int GetChaptersCount(string contentFilter)
+        public int GetChaptersCount(string bookId, string contentFilter)
         {
-            var query = R.Table(s_ChapterTable).Filter(true);
+            var query = R.Table(s_ChapterTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
             if (!contentFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Content").Match(contentFilter));
@@ -220,9 +231,9 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public Task<int> GetChaptersCountAsync(string contentFilter)
+        public Task<int> GetChaptersCountAsync(string bookId, string contentFilter)
         {
-            var query = R.Table(s_ChapterTable).Filter(true);
+            var query = R.Table(s_ChapterTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
             if (!contentFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Content").Match(contentFilter));
@@ -302,12 +313,16 @@ namespace Sheep.Model.Read.Repositories
         public void DeleteChapter(string chapterId)
         {
             R.Table(s_ChapterTable).Get(chapterId).Delete().RunResult(_conn).AssertNoErrors();
+            R.Table(s_ChapterAnnotationTable).GetAll(chapterId).OptArg("index", "ChapterId").Delete().RunResult(_conn).AssertNoErrors();
+            R.Table(s_ParagraphTable).GetAll(chapterId).OptArg("index", "ChapterId").Delete().RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
         public async Task DeleteChapterAsync(string chapterId)
         {
             (await R.Table(s_ChapterTable).Get(chapterId).Delete().RunResultAsync(_conn)).AssertNoErrors();
+            (await R.Table(s_ChapterAnnotationTable).GetAll(chapterId).OptArg("index", "ChapterId").Delete().RunResultAsync(_conn)).AssertNoErrors();
+            (await R.Table(s_ParagraphTable).GetAll(chapterId).OptArg("index", "ChapterId").Delete().RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />

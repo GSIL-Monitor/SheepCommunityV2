@@ -137,6 +137,17 @@
     <Compile Include="Achievements\AchievementCreate.cs" />
     <Compile Include="Achievements\AchievementDelete.cs" />
     <Compile Include="Achievements\AchievementUpdate.cs" />
+    <Compile Include="Books\Entities\BookDto.cs" />
+    <Compile Include="Books\BookCreate.cs" />
+    <Compile Include="Books\BookDelete.cs" />
+    <Compile Include="Books\BookList.cs" />
+    <Compile Include="Books\BookShow.cs" />
+    <Compile Include="Books\BookUpdate.cs" />
+    <Compile Include="Books\Validators\BookCreateValidator.cs" />
+    <Compile Include="Books\Validators\BookDeleteValidator.cs" />
+    <Compile Include="Books\Validators\BookListValidator.cs" />
+    <Compile Include="Books\Validators\BookShowValidator.cs" />
+    <Compile Include="Books\Validators\BookUpdateValidator.cs" />
     <Compile Include="Comments\CommentCreate.cs" />
     <Compile Include="Comments\CommentDelete.cs" />
     <Compile Include="Comments\CommentList.cs" />

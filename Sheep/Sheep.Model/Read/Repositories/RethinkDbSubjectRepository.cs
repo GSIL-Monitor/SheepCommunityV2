@@ -36,6 +36,11 @@ namespace Sheep.Model.Read.Repositories
         /// </summary>
         private static readonly string s_SubjectTable = typeof(Subject).Name;
 
+        /// <summary>
+        ///     节的数据表名。
+        /// </summary>
+        private static readonly string s_ParagraphTable = typeof(Paragraph).Name;
+
         #endregion
 
         #region 属性
@@ -98,6 +103,7 @@ namespace Sheep.Model.Read.Repositories
             if (!tables.Contains(s_SubjectTable))
             {
                 R.TableCreate(s_SubjectTable).OptArg("primary_key", "Id").OptArg("durability", Durability.Soft).OptArg("shards", _shards).OptArg("replicas", _replicas).RunResult(_conn).AssertNoErrors().AssertTablesCreated(1);
+                R.Table(s_SubjectTable).IndexCreate("BookId").RunResult(_conn).AssertNoErrors();
                 R.Table(s_SubjectTable).IndexCreate("VolumeId").RunResult(_conn).AssertNoErrors();
                 //R.Table(s_SubjectTable).IndexWait().RunResult(_conn).AssertNoErrors();
             }
@@ -137,9 +143,9 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public List<Subject> FindSubjects(string titleFilter, string orderBy, bool? descending, int? skip, int? limit)
+        public List<Subject> FindSubjects(string bookId, string titleFilter, string orderBy, bool? descending, int? skip, int? limit)
         {
-            var query = R.Table(s_SubjectTable).Filter(true);
+            var query = R.Table(s_SubjectTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
             if (!titleFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Title").Match(titleFilter));
@@ -157,9 +163,9 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public Task<List<Subject>> FindSubjectsAsync(string titleFilter, string orderBy, bool? descending, int? skip, int? limit)
+        public Task<List<Subject>> FindSubjectsAsync(string bookId, string titleFilter, string orderBy, bool? descending, int? skip, int? limit)
         {
-            var query = R.Table(s_SubjectTable).Filter(true);
+            var query = R.Table(s_SubjectTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
             if (!titleFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Title").Match(titleFilter));
@@ -209,9 +215,9 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public int GetSubjectsCount(string titleFilter)
+        public int GetSubjectsCount(string bookId, string titleFilter)
         {
-            var query = R.Table(s_SubjectTable).Filter(true);
+            var query = R.Table(s_SubjectTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
             if (!titleFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Title").Match(titleFilter));
@@ -220,9 +226,9 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public Task<int> GetSubjectsCountAsync(string titleFilter)
+        public Task<int> GetSubjectsCountAsync(string bookId, string titleFilter)
         {
-            var query = R.Table(s_SubjectTable).Filter(true);
+            var query = R.Table(s_SubjectTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
             if (!titleFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Title").Match(titleFilter));
@@ -288,12 +294,14 @@ namespace Sheep.Model.Read.Repositories
         public void DeleteSubject(string subjectId)
         {
             R.Table(s_SubjectTable).Get(subjectId).Delete().RunResult(_conn).AssertNoErrors();
+            R.Table(s_ParagraphTable).GetAll(subjectId).OptArg("index", "SubjectId").Update(row => R.HashMap("SubjectId", null)).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
         public async Task DeleteSubjectAsync(string subjectId)
         {
             (await R.Table(s_SubjectTable).Get(subjectId).Delete().RunResultAsync(_conn)).AssertNoErrors();
+            (await R.Table(s_ParagraphTable).GetAll(subjectId).OptArg("index", "SubjectId").Update(row => R.HashMap("SubjectId", null)).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         #endregion

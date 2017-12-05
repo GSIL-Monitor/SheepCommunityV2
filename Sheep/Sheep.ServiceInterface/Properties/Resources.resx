@@ -222,4 +222,10 @@
   <data name="VotesNotFound" xml:space="preserve">
     <value>无法找到指定条件的投票列表。</value>
   </data>
+  <data name="BookNotFound" xml:space="preserve">
+    <value>无法找到指定的书籍{0}。</value>
+  </data>
+  <data name="BooksNotFound" xml:space="preserve">
+    <value>无法找到指定条件的书籍列表。</value>
+  </data>
 </root>

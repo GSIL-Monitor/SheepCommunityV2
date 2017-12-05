@@ -36,6 +36,31 @@ namespace Sheep.Model.Read.Repositories
         /// </summary>
         private static readonly string s_VolumeTable = typeof(Volume).Name;
 
+        /// <summary>
+        ///     卷注释的数据表名。
+        /// </summary>
+        private static readonly string s_VolumeAnnotationTable = typeof(VolumeAnnotation).Name;
+
+        /// <summary>
+        ///     主题的数据表名。
+        /// </summary>
+        private static readonly string s_SubjectTable = typeof(Subject).Name;
+
+        /// <summary>
+        ///     章的数据表名。
+        /// </summary>
+        private static readonly string s_ChapterTable = typeof(Chapter).Name;
+
+        /// <summary>
+        ///     章注释的数据表名。
+        /// </summary>
+        private static readonly string s_ChapterAnnotationTable = typeof(ChapterAnnotation).Name;
+
+        /// <summary>
+        ///     节的数据表名。
+        /// </summary>
+        private static readonly string s_ParagraphTable = typeof(Paragraph).Name;
+
         #endregion
 
         #region 属性
@@ -137,9 +162,9 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public List<Volume> FindVolumes(string titleFilter, string orderBy, bool? descending, int? skip, int? limit)
+        public List<Volume> FindVolumes(string bookId, string titleFilter, string orderBy, bool? descending, int? skip, int? limit)
         {
-            var query = R.Table(s_VolumeTable).Filter(true);
+            var query = R.Table(s_VolumeTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
             if (!titleFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Title").Match(titleFilter));
@@ -157,9 +182,9 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public Task<List<Volume>> FindVolumesAsync(string titleFilter, string orderBy, bool? descending, int? skip, int? limit)
+        public Task<List<Volume>> FindVolumesAsync(string bookId, string titleFilter, string orderBy, bool? descending, int? skip, int? limit)
         {
-            var query = R.Table(s_VolumeTable).Filter(true);
+            var query = R.Table(s_VolumeTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
             if (!titleFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Title").Match(titleFilter));
@@ -209,9 +234,9 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public int GetVolumesCount(string titleFilter)
+        public int GetVolumesCount(string bookId, string titleFilter)
         {
-            var query = R.Table(s_VolumeTable).Filter(true);
+            var query = R.Table(s_VolumeTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
             if (!titleFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Title").Match(titleFilter));
@@ -220,9 +245,9 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public Task<int> GetVolumesCountAsync(string titleFilter)
+        public Task<int> GetVolumesCountAsync(string bookId, string titleFilter)
         {
-            var query = R.Table(s_VolumeTable).Filter(true);
+            var query = R.Table(s_VolumeTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
             if (!titleFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Title").Match(titleFilter));
@@ -292,12 +317,22 @@ namespace Sheep.Model.Read.Repositories
         public void DeleteVolume(string volumeId)
         {
             R.Table(s_VolumeTable).Get(volumeId).Delete().RunResult(_conn).AssertNoErrors();
+            R.Table(s_VolumeAnnotationTable).GetAll(volumeId).OptArg("index", "VolumeId").Delete().RunResult(_conn).AssertNoErrors();
+            R.Table(s_SubjectTable).GetAll(volumeId).OptArg("index", "VolumeId").Delete().RunResult(_conn).AssertNoErrors();
+            R.Table(s_ChapterTable).GetAll(volumeId).OptArg("index", "VolumeId").Delete().RunResult(_conn).AssertNoErrors();
+            R.Table(s_ChapterAnnotationTable).GetAll(volumeId).OptArg("index", "VolumeId").Delete().RunResult(_conn).AssertNoErrors();
+            R.Table(s_ParagraphTable).GetAll(volumeId).OptArg("index", "VolumeId").Delete().RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
         public async Task DeleteVolumeAsync(string volumeId)
         {
             (await R.Table(s_VolumeTable).Get(volumeId).Delete().RunResultAsync(_conn)).AssertNoErrors();
+            (await R.Table(s_VolumeAnnotationTable).GetAll(volumeId).OptArg("index", "VolumeId").Delete().RunResultAsync(_conn)).AssertNoErrors();
+            (await R.Table(s_SubjectTable).GetAll(volumeId).OptArg("index", "VolumeId").Delete().RunResultAsync(_conn)).AssertNoErrors();
+            (await R.Table(s_ChapterTable).GetAll(volumeId).OptArg("index", "VolumeId").Delete().RunResultAsync(_conn)).AssertNoErrors();
+            (await R.Table(s_ChapterAnnotationTable).GetAll(volumeId).OptArg("index", "VolumeId").Delete().RunResultAsync(_conn)).AssertNoErrors();
+            (await R.Table(s_ParagraphTable).GetAll(volumeId).OptArg("index", "VolumeId").Delete().RunResultAsync(_conn)).AssertNoErrors();
         }
 
         #endregion

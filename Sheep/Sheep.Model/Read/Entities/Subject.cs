@@ -17,6 +17,11 @@ namespace Sheep.Model.Read.Entities
         public string Id { get; set; }
 
         /// <summary>
+        ///     书籍编号。
+        /// </summary>
+        public string BookId { get; set; }
+
+        /// <summary>
         ///     卷编号。
         /// </summary>
         public string VolumeId { get; set; }

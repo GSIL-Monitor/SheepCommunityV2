@@ -33,13 +33,12 @@ namespace Sheep.Model.Read
         /// <param name="tag">分类的标签。</param>
         /// <param name="publishedSince">过滤发布日期在指定的时间之后。</param>
         /// <param name="isPublished">是否已发布。</param>
-        /// <param name="status"> 过滤状态。</param>
         /// <param name="orderBy">排序的字段。</param>
         /// <param name="descending">是否按降序排序。</param>
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>书籍列表。</returns>
-        List<Book> FindBooks(string titleFilter, string tag, DateTime? publishedSince, bool? isPublished, string status, string orderBy, bool? descending, int? skip, int? limit);
+        List<Book> FindBooks(string titleFilter, string tag, DateTime? publishedSince, bool? isPublished, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
         ///     异步查找书籍。
@@ -48,13 +47,12 @@ namespace Sheep.Model.Read
         /// <param name="tag">分类的标签。</param>
         /// <param name="publishedSince">过滤发布日期在指定的时间之后。</param>
         /// <param name="isPublished">是否已发布。</param>
-        /// <param name="status"> 过滤状态。</param>
         /// <param name="orderBy">排序的字段。</param>
         /// <param name="descending">是否按降序排序。</param>
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>书籍列表。</returns>
-        Task<List<Book>> FindBooksAsync(string titleFilter, string tag, DateTime? publishedSince, bool? isPublished, string status, string orderBy, bool? descending, int? skip, int? limit);
+        Task<List<Book>> FindBooksAsync(string titleFilter, string tag, DateTime? publishedSince, bool? isPublished, string orderBy, bool? descending, int? skip, int? limit);
 
         #endregion
 
@@ -67,9 +65,8 @@ namespace Sheep.Model.Read
         /// <param name="tag">分类的标签。</param>
         /// <param name="publishedSince">过滤发布日期在指定的时间之后。</param>
         /// <param name="isPublished">是否已发布。</param>
-        /// <param name="status"> 过滤状态。</param>
         /// <returns>书籍数量。</returns>
-        int GetBooksCount(string titleFilter, string tag, DateTime? publishedSince, bool? isPublished, string status);
+        int GetBooksCount(string titleFilter, string tag, DateTime? publishedSince, bool? isPublished);
 
         /// <summary>
         ///     异步获取书籍数量。
@@ -78,9 +75,8 @@ namespace Sheep.Model.Read
         /// <param name="tag">分类的标签。</param>
         /// <param name="publishedSince">过滤发布日期在指定的时间之后。</param>
         /// <param name="isPublished">是否已发布。</param>
-        /// <param name="status"> 过滤状态。</param>
         /// <returns>书籍数量。</returns>
-        Task<int> GetBooksCountAsync(string titleFilter, string tag, DateTime? publishedSince, bool? isPublished, string status);
+        Task<int> GetBooksCountAsync(string titleFilter, string tag, DateTime? publishedSince, bool? isPublished);
 
         #endregion
 

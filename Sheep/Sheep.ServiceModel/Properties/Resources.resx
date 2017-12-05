@@ -321,4 +321,7 @@
   <data name="ReplyIdRequired" xml:space="preserve">
     <value>回复编号必须输入。</value>
   </data>
+  <data name="BookIdRequired" xml:space="preserve">
+    <value>书籍编号必须输入。</value>
+  </data>
 </root>

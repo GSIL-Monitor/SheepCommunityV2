@@ -98,6 +98,7 @@ namespace Sheep.Model.Read.Repositories
             if (!tables.Contains(s_VolumeAnnotationTable))
             {
                 R.TableCreate(s_VolumeAnnotationTable).OptArg("primary_key", "Id").OptArg("durability", Durability.Soft).OptArg("shards", _shards).OptArg("replicas", _replicas).RunResult(_conn).AssertNoErrors().AssertTablesCreated(1);
+                R.Table(s_VolumeAnnotationTable).IndexCreate("BookId").RunResult(_conn).AssertNoErrors();
                 R.Table(s_VolumeAnnotationTable).IndexCreate("VolumeId").RunResult(_conn).AssertNoErrors();
                 //R.Table(s_VolumeAnnotationTable).IndexWait().RunResult(_conn).AssertNoErrors();
             }
@@ -137,9 +138,9 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public List<VolumeAnnotation> FindVolumeAnnotations(string annotationFilter, string orderBy, bool? descending, int? skip, int? limit)
+        public List<VolumeAnnotation> FindVolumeAnnotations(string bookId, string annotationFilter, string orderBy, bool? descending, int? skip, int? limit)
         {
-            var query = R.Table(s_VolumeAnnotationTable).Filter(true);
+            var query = R.Table(s_VolumeAnnotationTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
             if (!annotationFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Annotation").Match(annotationFilter));
@@ -157,9 +158,9 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public Task<List<VolumeAnnotation>> FindVolumeAnnotationsAsync(string annotationFilter, string orderBy, bool? descending, int? skip, int? limit)
+        public Task<List<VolumeAnnotation>> FindVolumeAnnotationsAsync(string bookId, string annotationFilter, string orderBy, bool? descending, int? skip, int? limit)
         {
-            var query = R.Table(s_VolumeAnnotationTable).Filter(true);
+            var query = R.Table(s_VolumeAnnotationTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
             if (!annotationFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Annotation").Match(annotationFilter));
@@ -209,9 +210,9 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public int GetVolumeAnnotationsCount(string annotationFilter)
+        public int GetVolumeAnnotationsCount(string bookId, string annotationFilter)
         {
-            var query = R.Table(s_VolumeAnnotationTable).Filter(true);
+            var query = R.Table(s_VolumeAnnotationTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
             if (!annotationFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Annotation").Match(annotationFilter));
@@ -220,9 +221,9 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public Task<int> GetVolumeAnnotationsCountAsync(string annotationFilter)
+        public Task<int> GetVolumeAnnotationsCountAsync(string bookId, string annotationFilter)
         {
-            var query = R.Table(s_VolumeAnnotationTable).Filter(true);
+            var query = R.Table(s_VolumeAnnotationTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
             if (!annotationFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Annotation").Match(annotationFilter));

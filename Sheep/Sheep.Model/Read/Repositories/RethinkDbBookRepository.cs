@@ -36,6 +36,36 @@ namespace Sheep.Model.Read.Repositories
         /// </summary>
         private static readonly string s_BookTable = typeof(Book).Name;
 
+        /// <summary>
+        ///     卷的数据表名。
+        /// </summary>
+        private static readonly string s_VolumeTable = typeof(Volume).Name;
+
+        /// <summary>
+        ///     卷注释的数据表名。
+        /// </summary>
+        private static readonly string s_VolumeAnnotationTable = typeof(VolumeAnnotation).Name;
+
+        /// <summary>
+        ///     主题的数据表名。
+        /// </summary>
+        private static readonly string s_SubjectTable = typeof(Subject).Name;
+
+        /// <summary>
+        ///     章的数据表名。
+        /// </summary>
+        private static readonly string s_ChapterTable = typeof(Chapter).Name;
+
+        /// <summary>
+        ///     章注释的数据表名。
+        /// </summary>
+        private static readonly string s_ChapterAnnotationTable = typeof(ChapterAnnotation).Name;
+
+        /// <summary>
+        ///     节的数据表名。
+        /// </summary>
+        private static readonly string s_ParagraphTable = typeof(Paragraph).Name;
+
         #endregion
 
         #region 属性
@@ -137,7 +167,7 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public List<Book> FindBooks(string titleFilter, string tag, DateTime? publishedSince, bool? isPublished, string status, string orderBy, bool? descending, int? skip, int? limit)
+        public List<Book> FindBooks(string titleFilter, string tag, DateTime? publishedSince, bool? isPublished, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_BookTable).Filter(true);
             if (!tag.IsNullOrEmpty())
@@ -155,10 +185,6 @@ namespace Sheep.Model.Read.Repositories
             if (isPublished.HasValue)
             {
                 query = query.Filter(row => row.G("IsPublished").Eq(isPublished.Value));
-            }
-            if (!status.IsNullOrEmpty())
-            {
-                query = query.Filter(row => row.G("Status").Eq(status));
             }
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
@@ -173,7 +199,7 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public Task<List<Book>> FindBooksAsync(string titleFilter, string tag, DateTime? publishedSince, bool? isPublished, string status, string orderBy, bool? descending, int? skip, int? limit)
+        public Task<List<Book>> FindBooksAsync(string titleFilter, string tag, DateTime? publishedSince, bool? isPublished, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_BookTable).Filter(true);
             if (!tag.IsNullOrEmpty())
@@ -191,10 +217,6 @@ namespace Sheep.Model.Read.Repositories
             if (isPublished.HasValue)
             {
                 query = query.Filter(row => row.G("IsPublished").Eq(isPublished.Value));
-            }
-            if (!status.IsNullOrEmpty())
-            {
-                query = query.Filter(row => row.G("Status").Eq(status));
             }
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
@@ -209,7 +231,7 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public int GetBooksCount(string titleFilter, string tag, DateTime? publishedSince, bool? isPublished, string status)
+        public int GetBooksCount(string titleFilter, string tag, DateTime? publishedSince, bool? isPublished)
         {
             var query = R.Table(s_BookTable).Filter(true);
             if (!tag.IsNullOrEmpty())
@@ -227,16 +249,12 @@ namespace Sheep.Model.Read.Repositories
             if (isPublished.HasValue)
             {
                 query = query.Filter(row => row.G("IsPublished").Eq(isPublished.Value));
-            }
-            if (!status.IsNullOrEmpty())
-            {
-                query = query.Filter(row => row.G("Status").Eq(status));
             }
             return query.Count().RunResult<int>(_conn);
         }
 
         /// <inheritdoc />
-        public Task<int> GetBooksCountAsync(string titleFilter, string tag, DateTime? publishedSince, bool? isPublished, string status)
+        public Task<int> GetBooksCountAsync(string titleFilter, string tag, DateTime? publishedSince, bool? isPublished)
         {
             var query = R.Table(s_BookTable).Filter(true);
             if (!tag.IsNullOrEmpty())
@@ -254,10 +272,6 @@ namespace Sheep.Model.Read.Repositories
             if (isPublished.HasValue)
             {
                 query = query.Filter(row => row.G("IsPublished").Eq(isPublished.Value));
-            }
-            if (!status.IsNullOrEmpty())
-            {
-                query = query.Filter(row => row.G("Status").Eq(status));
             }
             return query.Count().RunResultAsync<int>(_conn);
         }
@@ -267,7 +281,6 @@ namespace Sheep.Model.Read.Repositories
         {
             newBook.ThrowIfNull(nameof(newBook));
             newBook.Id = newBook.Id.IsNullOrEmpty() ? new Base36IdGenerator(8, 4, 4).NewId().ToLower() : newBook.Id;
-            newBook.Status = "审核通过";
             newBook.PublishedDate = newBook.IsPublished ? DateTime.UtcNow : (DateTime?) null;
             newBook.BookmarksCount = 0;
             newBook.RatingsCount = 0;
@@ -282,7 +295,6 @@ namespace Sheep.Model.Read.Repositories
         {
             newBook.ThrowIfNull(nameof(newBook));
             newBook.Id = newBook.Id.IsNullOrEmpty() ? new Base36IdGenerator(8, 4, 4).NewId().ToLower() : newBook.Id;
-            newBook.Status = "审核通过";
             newBook.PublishedDate = newBook.IsPublished ? DateTime.UtcNow : (DateTime?) null;
             newBook.BookmarksCount = 0;
             newBook.RatingsCount = 0;
@@ -314,12 +326,24 @@ namespace Sheep.Model.Read.Repositories
         public void DeleteBook(string bookId)
         {
             R.Table(s_BookTable).Get(bookId).Delete().RunResult(_conn).AssertNoErrors();
+            R.Table(s_VolumeTable).GetAll(bookId).OptArg("index", "BookId").Delete().RunResult(_conn).AssertNoErrors();
+            R.Table(s_VolumeAnnotationTable).GetAll(bookId).OptArg("index", "BookId").Delete().RunResult(_conn).AssertNoErrors();
+            R.Table(s_SubjectTable).GetAll(bookId).OptArg("index", "BookId").Delete().RunResult(_conn).AssertNoErrors();
+            R.Table(s_ChapterTable).GetAll(bookId).OptArg("index", "BookId").Delete().RunResult(_conn).AssertNoErrors();
+            R.Table(s_ChapterAnnotationTable).GetAll(bookId).OptArg("index", "BookId").Delete().RunResult(_conn).AssertNoErrors();
+            R.Table(s_ParagraphTable).GetAll(bookId).OptArg("index", "BookId").Delete().RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
         public async Task DeleteBookAsync(string bookId)
         {
             (await R.Table(s_BookTable).Get(bookId).Delete().RunResultAsync(_conn)).AssertNoErrors();
+            (await R.Table(s_VolumeTable).GetAll(bookId).OptArg("index", "BookId").Delete().RunResultAsync(_conn)).AssertNoErrors();
+            (await R.Table(s_VolumeAnnotationTable).GetAll(bookId).OptArg("index", "BookId").Delete().RunResultAsync(_conn)).AssertNoErrors();
+            (await R.Table(s_SubjectTable).GetAll(bookId).OptArg("index", "BookId").Delete().RunResultAsync(_conn)).AssertNoErrors();
+            (await R.Table(s_ChapterTable).GetAll(bookId).OptArg("index", "BookId").Delete().RunResultAsync(_conn)).AssertNoErrors();
+            (await R.Table(s_ChapterAnnotationTable).GetAll(bookId).OptArg("index", "BookId").Delete().RunResultAsync(_conn)).AssertNoErrors();
+            (await R.Table(s_ParagraphTable).GetAll(bookId).OptArg("index", "BookId").Delete().RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
