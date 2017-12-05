@@ -15,16 +15,16 @@ using Sheep.Model.Read.Entities;
 namespace Sheep.Model.Read.Repositories
 {
     /// <summary>
-    ///     基于RethinkDb的卷的存储库。
+    ///     基于RethinkDb的主题的存储库。
     /// </summary>
-    public class RethinkDbVolumeRepository : IVolumeRepository, IClearable
+    public class RethinkDbSubjectRepository : ISubjectRepository, IClearable
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(RethinkDbVolumeRepository));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(RethinkDbSubjectRepository));
 
         /// <summary>
         ///     RethinkDB 查询器.
@@ -32,9 +32,9 @@ namespace Sheep.Model.Read.Repositories
         public static readonly RethinkDB R = RethinkDB.R;
 
         /// <summary>
-        ///     卷的数据表名。
+        ///     主题的数据表名。
         /// </summary>
-        private static readonly string s_VolumeTable = typeof(Volume).Name;
+        private static readonly string s_SubjectTable = typeof(Subject).Name;
 
         #endregion
 
@@ -49,13 +49,13 @@ namespace Sheep.Model.Read.Repositories
         #region 构造器
 
         /// <summary>
-        ///     初始化一个新的<see cref="RethinkDbVolumeRepository" />对象。
+        ///     初始化一个新的<see cref="RethinkDbSubjectRepository" />对象。
         /// </summary>
         /// <param name="conn">数据库连接。</param>
         /// <param name="shards">数据库分片数。</param>
         /// <param name="replicas">复制份数。</param>
         /// <param name="createMissingTables">是否创建数据表。</param>
-        public RethinkDbVolumeRepository(IConnection conn, int shards, int replicas, bool createMissingTables)
+        public RethinkDbSubjectRepository(IConnection conn, int shards, int replicas, bool createMissingTables)
         {
             _conn = conn;
             _shards = shards;
@@ -68,7 +68,7 @@ namespace Sheep.Model.Read.Repositories
             // 检测指定的数据表是否存在。
             if (!TablesExists())
             {
-                throw new InvalidOperationException(string.Format("One of the tables needed by {0} is missing. You can call {0} constructor with the parameter CreateMissingTables set to 'true'  to create the needed tables.", typeof(RethinkDbVolumeRepository).Name));
+                throw new InvalidOperationException(string.Format("One of the tables needed by {0} is missing. You can call {0} constructor with the parameter CreateMissingTables set to 'true'  to create the needed tables.", typeof(RethinkDbSubjectRepository).Name));
             }
         }
 
@@ -82,9 +82,9 @@ namespace Sheep.Model.Read.Repositories
         public void DropAndReCreateTables()
         {
             var tables = R.TableList().RunResult<List<string>>(_conn);
-            if (tables.Contains(s_VolumeTable))
+            if (tables.Contains(s_SubjectTable))
             {
-                R.TableDrop(s_VolumeTable).RunResult(_conn).AssertNoErrors().AssertTablesDropped(1);
+                R.TableDrop(s_SubjectTable).RunResult(_conn).AssertNoErrors().AssertTablesDropped(1);
             }
             CreateTables();
         }
@@ -95,11 +95,11 @@ namespace Sheep.Model.Read.Repositories
         public void CreateTables()
         {
             var tables = R.TableList().RunResult<List<string>>(_conn);
-            if (!tables.Contains(s_VolumeTable))
+            if (!tables.Contains(s_SubjectTable))
             {
-                R.TableCreate(s_VolumeTable).OptArg("primary_key", "Id").OptArg("durability", Durability.Soft).OptArg("shards", _shards).OptArg("replicas", _replicas).RunResult(_conn).AssertNoErrors().AssertTablesCreated(1);
-                R.Table(s_VolumeTable).IndexCreate("BookId").RunResult(_conn).AssertNoErrors();
-                //R.Table(s_VolumeTable).IndexWait().RunResult(_conn).AssertNoErrors();
+                R.TableCreate(s_SubjectTable).OptArg("primary_key", "Id").OptArg("durability", Durability.Soft).OptArg("shards", _shards).OptArg("replicas", _replicas).RunResult(_conn).AssertNoErrors().AssertTablesCreated(1);
+                R.Table(s_SubjectTable).IndexCreate("VolumeId").RunResult(_conn).AssertNoErrors();
+                //R.Table(s_SubjectTable).IndexWait().RunResult(_conn).AssertNoErrors();
             }
         }
 
@@ -110,7 +110,7 @@ namespace Sheep.Model.Read.Repositories
         {
             var tableNames = new List<string>
                              {
-                                 s_VolumeTable
+                                 s_SubjectTable
                              };
             var tables = R.TableList().RunResult<List<string>>(_conn);
             return tables.Any(table => tableNames.Contains(table));
@@ -118,28 +118,28 @@ namespace Sheep.Model.Read.Repositories
 
         #endregion
 
-        #region 检测卷是否存在
+        #region 检测主题是否存在
 
         #endregion
 
-        #region IVolumeRepository 接口实现
+        #region ISubjectRepository 接口实现
 
         /// <inheritdoc />
-        public Volume GetVolume(string volumeId)
+        public Subject GetSubject(string subjectId)
         {
-            return R.Table(s_VolumeTable).Get(volumeId).RunResult<Volume>(_conn);
+            return R.Table(s_SubjectTable).Get(subjectId).RunResult<Subject>(_conn);
         }
 
         /// <inheritdoc />
-        public Task<Volume> GetVolumeAsync(string volumeId)
+        public Task<Subject> GetSubjectAsync(string subjectId)
         {
-            return R.Table(s_VolumeTable).Get(volumeId).RunResultAsync<Volume>(_conn);
+            return R.Table(s_SubjectTable).Get(subjectId).RunResultAsync<Subject>(_conn);
         }
 
         /// <inheritdoc />
-        public List<Volume> FindVolumes(string titleFilter, string orderBy, bool? descending, int? skip, int? limit)
+        public List<Subject> FindSubjects(string titleFilter, string orderBy, bool? descending, int? skip, int? limit)
         {
-            var query = R.Table(s_VolumeTable).Filter(true);
+            var query = R.Table(s_SubjectTable).Filter(true);
             if (!titleFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Title").Match(titleFilter));
@@ -153,13 +153,13 @@ namespace Sheep.Model.Read.Repositories
             {
                 queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("Number")) : query.OrderBy("Number");
             }
-            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 500).RunResult<List<Volume>>(_conn);
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 500).RunResult<List<Subject>>(_conn);
         }
 
         /// <inheritdoc />
-        public Task<List<Volume>> FindVolumesAsync(string titleFilter, string orderBy, bool? descending, int? skip, int? limit)
+        public Task<List<Subject>> FindSubjectsAsync(string titleFilter, string orderBy, bool? descending, int? skip, int? limit)
         {
-            var query = R.Table(s_VolumeTable).Filter(true);
+            var query = R.Table(s_SubjectTable).Filter(true);
             if (!titleFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Title").Match(titleFilter));
@@ -173,13 +173,13 @@ namespace Sheep.Model.Read.Repositories
             {
                 queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("Number")) : query.OrderBy("Number");
             }
-            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 500).RunResultAsync<List<Volume>>(_conn);
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 500).RunResultAsync<List<Subject>>(_conn);
         }
 
         /// <inheritdoc />
-        public List<Volume> FindVolumesByBook(string bookId, string orderBy, bool? descending, int? skip, int? limit)
+        public List<Subject> FindSubjectsByVolume(string volumeId, string orderBy, bool? descending, int? skip, int? limit)
         {
-            var query = R.Table(s_VolumeTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
+            var query = R.Table(s_SubjectTable).GetAll(volumeId).OptArg("index", "VolumeId").Filter(true);
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
             {
@@ -189,13 +189,13 @@ namespace Sheep.Model.Read.Repositories
             {
                 queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("Number")) : query.OrderBy("Number");
             }
-            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 500).RunResult<List<Volume>>(_conn);
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 500).RunResult<List<Subject>>(_conn);
         }
 
         /// <inheritdoc />
-        public Task<List<Volume>> FindVolumesByBookAsync(string bookId, string orderBy, bool? descending, int? skip, int? limit)
+        public Task<List<Subject>> FindSubjectsByVolumeAsync(string volumeId, string orderBy, bool? descending, int? skip, int? limit)
         {
-            var query = R.Table(s_VolumeTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
+            var query = R.Table(s_SubjectTable).GetAll(volumeId).OptArg("index", "VolumeId").Filter(true);
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
             {
@@ -205,13 +205,13 @@ namespace Sheep.Model.Read.Repositories
             {
                 queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("Number")) : query.OrderBy("Number");
             }
-            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 500).RunResultAsync<List<Volume>>(_conn);
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 500).RunResultAsync<List<Subject>>(_conn);
         }
 
         /// <inheritdoc />
-        public int GetVolumesCount(string titleFilter)
+        public int GetSubjectsCount(string titleFilter)
         {
-            var query = R.Table(s_VolumeTable).Filter(true);
+            var query = R.Table(s_SubjectTable).Filter(true);
             if (!titleFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Title").Match(titleFilter));
@@ -220,9 +220,9 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public Task<int> GetVolumesCountAsync(string titleFilter)
+        public Task<int> GetSubjectsCountAsync(string titleFilter)
         {
-            var query = R.Table(s_VolumeTable).Filter(true);
+            var query = R.Table(s_SubjectTable).Filter(true);
             if (!titleFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Title").Match(titleFilter));
@@ -231,73 +231,69 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public int GetVolumesCountByBook(string bookId)
+        public int GetSubjectsCountByVolume(string volumeId)
         {
-            var query = R.Table(s_VolumeTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
+            var query = R.Table(s_SubjectTable).GetAll(volumeId).OptArg("index", "VolumeId").Filter(true);
             return query.Count().RunResult<int>(_conn);
         }
 
         /// <inheritdoc />
-        public Task<int> GetVolumesCountByBookAsync(string bookId)
+        public Task<int> GetSubjectsCountByVolumeAsync(string volumeId)
         {
-            var query = R.Table(s_VolumeTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
+            var query = R.Table(s_SubjectTable).GetAll(volumeId).OptArg("index", "VolumeId").Filter(true);
             return query.Count().RunResultAsync<int>(_conn);
         }
 
         /// <inheritdoc />
-        public Volume CreateVolume(Volume newVolume)
+        public Subject CreateSubject(Subject newSubject)
         {
-            newVolume.ThrowIfNull(nameof(newVolume));
-            newVolume.Id = newVolume.Id.IsNullOrEmpty() ? new Base36IdGenerator(9, 4, 4).NewId().ToLower() : newVolume.Id;
-            newVolume.ChaptersCount = 0;
-            newVolume.SubjectsCount = 0;
-            var result = R.Table(s_VolumeTable).Get(newVolume.Id).Replace(newVolume).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Volume>()[0].NewValue;
+            newSubject.ThrowIfNull(nameof(newSubject));
+            newSubject.Id = newSubject.Id.IsNullOrEmpty() ? new Base36IdGenerator(10, 4, 4).NewId().ToLower() : newSubject.Id;
+            var result = R.Table(s_SubjectTable).Get(newSubject.Id).Replace(newSubject).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
+            return result.ChangesAs<Subject>()[0].NewValue;
         }
 
         /// <inheritdoc />
-        public async Task<Volume> CreateVolumeAsync(Volume newVolume)
+        public async Task<Subject> CreateSubjectAsync(Subject newSubject)
         {
-            newVolume.ThrowIfNull(nameof(newVolume));
-            newVolume.Id = newVolume.Id.IsNullOrEmpty() ? new Base36IdGenerator(9, 4, 4).NewId().ToLower() : newVolume.Id;
-            newVolume.ChaptersCount = 0;
-            newVolume.SubjectsCount = 0;
-            var result = (await R.Table(s_VolumeTable).Get(newVolume.Id).Replace(newVolume).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Volume>()[0].NewValue;
+            newSubject.ThrowIfNull(nameof(newSubject));
+            newSubject.Id = newSubject.Id.IsNullOrEmpty() ? new Base36IdGenerator(10, 4, 4).NewId().ToLower() : newSubject.Id;
+            var result = (await R.Table(s_SubjectTable).Get(newSubject.Id).Replace(newSubject).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
+            return result.ChangesAs<Subject>()[0].NewValue;
         }
 
         /// <inheritdoc />
-        public Volume UpdateVolume(Volume existingVolume, Volume newVolume)
+        public Subject UpdateSubject(Subject existingSubject, Subject newSubject)
         {
-            existingVolume.ThrowIfNull(nameof(existingVolume));
-            newVolume.Id = existingVolume.Id;
-            newVolume.BookId = existingVolume.BookId;
-            newVolume.Number = existingVolume.Number;
-            var result = R.Table(s_VolumeTable).Get(newVolume.Id).Replace(newVolume).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Volume>()[0].NewValue;
+            existingSubject.ThrowIfNull(nameof(existingSubject));
+            newSubject.Id = existingSubject.Id;
+            newSubject.VolumeId = newSubject.VolumeId;
+            newSubject.Number = newSubject.Number;
+            var result = R.Table(s_SubjectTable).Get(newSubject.Id).Replace(newSubject).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
+            return result.ChangesAs<Subject>()[0].NewValue;
         }
 
         /// <inheritdoc />
-        public async Task<Volume> UpdateVolumeAsync(Volume existingVolume, Volume newVolume)
+        public async Task<Subject> UpdateSubjectAsync(Subject existingSubject, Subject newSubject)
         {
-            existingVolume.ThrowIfNull(nameof(existingVolume));
-            newVolume.Id = existingVolume.Id;
-            newVolume.BookId = existingVolume.BookId;
-            newVolume.Number = existingVolume.Number;
-            var result = (await R.Table(s_VolumeTable).Get(newVolume.Id).Replace(newVolume).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Volume>()[0].NewValue;
+            existingSubject.ThrowIfNull(nameof(existingSubject));
+            newSubject.Id = existingSubject.Id;
+            newSubject.VolumeId = newSubject.VolumeId;
+            newSubject.Number = newSubject.Number;
+            var result = (await R.Table(s_SubjectTable).Get(newSubject.Id).Replace(newSubject).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
+            return result.ChangesAs<Subject>()[0].NewValue;
         }
 
         /// <inheritdoc />
-        public void DeleteVolume(string volumeId)
+        public void DeleteSubject(string subjectId)
         {
-            R.Table(s_VolumeTable).Get(volumeId).Delete().RunResult(_conn).AssertNoErrors();
+            R.Table(s_SubjectTable).Get(subjectId).Delete().RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task DeleteVolumeAsync(string volumeId)
+        public async Task DeleteSubjectAsync(string subjectId)
         {
-            (await R.Table(s_VolumeTable).Get(volumeId).Delete().RunResultAsync(_conn)).AssertNoErrors();
+            (await R.Table(s_SubjectTable).Get(subjectId).Delete().RunResultAsync(_conn)).AssertNoErrors();
         }
 
         #endregion
