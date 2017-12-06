@@ -589,7 +589,7 @@ namespace ServiceStack.Authentication.RethinkDb
             {
                 queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("CreatedDate")) : query.OrderBy("CreatedDate");
             }
-            var userAuthList = queryOrder.Skip(skip ?? 0).Limit(limit ?? 500).RunResult<List<UserAuth>>(_conn);
+            var userAuthList = queryOrder.Skip(skip ?? 0).Limit(limit ?? 10000).RunResult<List<UserAuth>>(_conn);
             return userAuthList.Cast<IUserAuth>().ToList();
         }
 
@@ -788,7 +788,7 @@ namespace ServiceStack.Authentication.RethinkDb
             {
                 queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("CreatedDate")) : query.OrderBy("CreatedDate");
             }
-            var userAuthList = await queryOrder.Skip(skip ?? 0).Limit(limit ?? 500).RunResultAsync<List<UserAuth>>(_conn);
+            var userAuthList = await queryOrder.Skip(skip ?? 0).Limit(limit ?? 10000).RunResultAsync<List<UserAuth>>(_conn);
             return userAuthList.Cast<IUserAuth>().ToList();
         }
 

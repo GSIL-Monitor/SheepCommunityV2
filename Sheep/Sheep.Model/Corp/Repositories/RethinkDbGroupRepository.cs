@@ -263,7 +263,7 @@ namespace Sheep.Model.Corp.Repositories
             {
                 queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("CreatedDate")) : query.OrderBy("CreatedDate");
             }
-            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 500).RunResult<List<Group>>(_conn);
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 10000).RunResult<List<Group>>(_conn);
         }
 
         /// <inheritdoc />
@@ -303,7 +303,7 @@ namespace Sheep.Model.Corp.Repositories
             {
                 queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("CreatedDate")) : query.OrderBy("CreatedDate");
             }
-            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 500).RunResultAsync<List<Group>>(_conn);
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 10000).RunResultAsync<List<Group>>(_conn);
         }
 
         /// <inheritdoc />

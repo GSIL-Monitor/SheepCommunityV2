@@ -195,7 +195,7 @@ namespace Sheep.Model.Read.Repositories
             {
                 queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("PublishedDate")) : query.OrderBy("PublishedDate");
             }
-            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 500).RunResult<List<Book>>(_conn);
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 10000).RunResult<List<Book>>(_conn);
         }
 
         /// <inheritdoc />
@@ -227,7 +227,7 @@ namespace Sheep.Model.Read.Repositories
             {
                 queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("PublishedDate")) : query.OrderBy("PublishedDate");
             }
-            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 500).RunResultAsync<List<Book>>(_conn);
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 10000).RunResultAsync<List<Book>>(_conn);
         }
 
         /// <inheritdoc />

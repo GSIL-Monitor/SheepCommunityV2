@@ -167,7 +167,7 @@ namespace Sheep.Model.Content.Repositories
             {
                 queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("CreatedDate")) : query.OrderBy("CreatedDate");
             }
-            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 500).RunResult<List<Comment>>(_conn);
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 10000).RunResult<List<Comment>>(_conn);
         }
 
         /// <inheritdoc />
@@ -199,7 +199,7 @@ namespace Sheep.Model.Content.Repositories
             {
                 queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("CreatedDate")) : query.OrderBy("CreatedDate");
             }
-            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 500).RunResultAsync<List<Comment>>(_conn);
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 10000).RunResultAsync<List<Comment>>(_conn);
         }
 
         /// <inheritdoc />
@@ -231,7 +231,7 @@ namespace Sheep.Model.Content.Repositories
             {
                 queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("CreatedDate")) : query.OrderBy("CreatedDate");
             }
-            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 500).RunResult<List<Comment>>(_conn);
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 10000).RunResult<List<Comment>>(_conn);
         }
 
         /// <inheritdoc />
@@ -263,7 +263,7 @@ namespace Sheep.Model.Content.Repositories
             {
                 queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("CreatedDate")) : query.OrderBy("CreatedDate");
             }
-            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 500).RunResultAsync<List<Comment>>(_conn);
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 10000).RunResultAsync<List<Comment>>(_conn);
         }
 
         /// <inheritdoc />
