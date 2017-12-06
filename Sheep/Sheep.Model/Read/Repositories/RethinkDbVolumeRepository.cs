@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Funcular.IdGenerators.Base36;
 using RethinkDb.Driver;
 using RethinkDb.Driver.Ast;
 using RethinkDb.Driver.Model;
@@ -10,6 +9,7 @@ using RethinkDb.Driver.Net;
 using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Logging;
+using Sheep.Model.Properties;
 using Sheep.Model.Read.Entities;
 
 namespace Sheep.Model.Read.Repositories
@@ -123,6 +123,7 @@ namespace Sheep.Model.Read.Repositories
             if (!tables.Contains(s_VolumeTable))
             {
                 R.TableCreate(s_VolumeTable).OptArg("primary_key", "Id").OptArg("durability", Durability.Soft).OptArg("shards", _shards).OptArg("replicas", _replicas).RunResult(_conn).AssertNoErrors().AssertTablesCreated(1);
+                R.Table(s_VolumeTable).IndexCreate("BookId_Number", row => R.Array(row.G("BookId"), row.G("Number"))).RunResult(_conn).AssertNoErrors();
                 R.Table(s_VolumeTable).IndexCreate("BookId").RunResult(_conn).AssertNoErrors();
                 //R.Table(s_VolumeTable).IndexWait().RunResult(_conn).AssertNoErrors();
             }
@@ -145,6 +146,24 @@ namespace Sheep.Model.Read.Repositories
 
         #region 检测卷是否存在
 
+        private void AssertNoExistingVolume(Volume newVolume, Volume exceptForExistingVolume = null)
+        {
+            var existingVolume = GetVolume(newVolume.BookId, newVolume.Number);
+            if (existingVolume != null && (exceptForExistingVolume == null || existingVolume.Id != exceptForExistingVolume.Id))
+            {
+                throw new ArgumentException(string.Format(Resources.BookWithNumberAlreadyExists, newVolume.BookId, newVolume.Number));
+            }
+        }
+
+        private async Task AssertNoExistingVolumeAsync(Volume newVolume, Volume exceptForExistingVolume = null)
+        {
+            var existingVolume = await GetVolumeAsync(newVolume.BookId, newVolume.Number);
+            if (existingVolume != null && (exceptForExistingVolume == null || existingVolume.Id != exceptForExistingVolume.Id))
+            {
+                throw new ArgumentException(string.Format(Resources.BookWithNumberAlreadyExists, newVolume.BookId, newVolume.Number));
+            }
+        }
+
         #endregion
 
         #region IVolumeRepository 接口实现
@@ -159,6 +178,18 @@ namespace Sheep.Model.Read.Repositories
         public Task<Volume> GetVolumeAsync(string volumeId)
         {
             return R.Table(s_VolumeTable).Get(volumeId).RunResultAsync<Volume>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Volume GetVolume(string bookId, int number)
+        {
+            return R.Table(s_VolumeTable).GetAll(R.Array(bookId, number)).OptArg("index", "BookId_Number").Nth(0).Default_(default(Volume)).RunResult<Volume>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<Volume> GetVolumeAsync(string bookId, int number)
+        {
+            return R.Table(s_VolumeTable).GetAll(R.Array(bookId, number)).OptArg("index", "BookId_Number").Nth(0).Default_(default(Volume)).RunResultAsync<Volume>(_conn);
         }
 
         /// <inheritdoc />
@@ -273,7 +304,8 @@ namespace Sheep.Model.Read.Repositories
         public Volume CreateVolume(Volume newVolume)
         {
             newVolume.ThrowIfNull(nameof(newVolume));
-            newVolume.Id = newVolume.Id.IsNullOrEmpty() ? new Base36IdGenerator(9, 4, 4).NewId().ToLower() : newVolume.Id;
+            AssertNoExistingVolume(newVolume);
+            newVolume.Id = string.Format("{0}-{1}", newVolume.BookId, newVolume.Number);
             newVolume.ChaptersCount = 0;
             newVolume.SubjectsCount = 0;
             var result = R.Table(s_VolumeTable).Get(newVolume.Id).Replace(newVolume).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
@@ -284,7 +316,8 @@ namespace Sheep.Model.Read.Repositories
         public async Task<Volume> CreateVolumeAsync(Volume newVolume)
         {
             newVolume.ThrowIfNull(nameof(newVolume));
-            newVolume.Id = newVolume.Id.IsNullOrEmpty() ? new Base36IdGenerator(9, 4, 4).NewId().ToLower() : newVolume.Id;
+            await AssertNoExistingVolumeAsync(newVolume);
+            newVolume.Id = string.Format("{0}-{1}", newVolume.BookId, newVolume.Number);
             newVolume.ChaptersCount = 0;
             newVolume.SubjectsCount = 0;
             var result = (await R.Table(s_VolumeTable).Get(newVolume.Id).Replace(newVolume).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();

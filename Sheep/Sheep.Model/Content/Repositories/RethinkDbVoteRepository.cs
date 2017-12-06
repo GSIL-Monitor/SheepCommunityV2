@@ -127,7 +127,7 @@ namespace Sheep.Model.Content.Repositories
             var existingVote = GetVote(newVote.ParentId, newVote.UserId);
             if (existingVote != null && (exceptForExistingVote == null || existingVote.Id != exceptForExistingVote.Id))
             {
-                throw new ArgumentException(string.Format(Resources.ContentWithUserAlreadyExists, newVote.ParentId, newVote.UserId));
+                throw new ArgumentException(string.Format(Resources.ParentWithUserAlreadyExists, newVote.ParentId, newVote.UserId));
             }
         }
 
@@ -136,7 +136,7 @@ namespace Sheep.Model.Content.Repositories
             var existingVote = await GetVoteAsync(newVote.ParentId, newVote.UserId);
             if (existingVote != null && (exceptForExistingVote == null || existingVote.Id != exceptForExistingVote.Id))
             {
-                throw new ArgumentException(string.Format(Resources.ContentWithUserAlreadyExists, newVote.ParentId, newVote.UserId));
+                throw new ArgumentException(string.Format(Resources.ParentWithUserAlreadyExists, newVote.ParentId, newVote.UserId));
             }
         }
 

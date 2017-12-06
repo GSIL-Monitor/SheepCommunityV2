@@ -70,6 +70,24 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
+        ///   查找类似 注释序号必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string AnnotationNumberRequired {
+            get {
+                return ResourceManager.GetString("AnnotationNumberRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 注释必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string AnnotationRequired {
+            get {
+                return ResourceManager.GetString("AnnotationRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 出生日期的有效范围为{0}至{1}。 的本地化字符串。
         /// </summary>
         internal static string BirthDateRangeMismatch {
@@ -624,6 +642,24 @@ namespace Sheep.ServiceModel.Properties {
         internal static string ValueRequired {
             get {
                 return ResourceManager.GetString("ValueRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 卷编号必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string VolumeIdRequired {
+            get {
+                return ResourceManager.GetString("VolumeIdRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 卷序号必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string VolumeNumberRequired {
+            get {
+                return ResourceManager.GetString("VolumeNumberRequired", resourceCulture);
             }
         }
         

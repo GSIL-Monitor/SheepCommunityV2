@@ -125,6 +125,20 @@ namespace Sheep.Model.Read
         Task DeleteBookAsync(string bookId);
 
         /// <summary>
+        ///     增加一个书籍的卷数。
+        /// </summary>
+        /// <param name="bookId">书籍的编号。</param>
+        /// <param name="count">增加的数量。</param>
+        Book IncrementBookVolumesCount(string bookId, int count);
+
+        /// <summary>
+        ///     异步增加一个书籍的卷数。
+        /// </summary>
+        /// <param name="bookId">书籍的编号。</param>
+        /// <param name="count">增加的数量。</param>
+        Task<Book> IncrementBookVolumesCountAsync(string bookId, int count);
+
+        /// <summary>
         ///     增加一个书籍的收藏的次数。
         /// </summary>
         /// <param name="bookId">书籍的编号。</param>

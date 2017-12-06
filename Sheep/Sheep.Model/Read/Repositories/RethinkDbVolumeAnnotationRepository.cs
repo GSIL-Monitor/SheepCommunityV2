@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Funcular.IdGenerators.Base36;
 using RethinkDb.Driver;
 using RethinkDb.Driver.Ast;
 using RethinkDb.Driver.Model;
@@ -10,6 +9,7 @@ using RethinkDb.Driver.Net;
 using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Logging;
+using Sheep.Model.Properties;
 using Sheep.Model.Read.Entities;
 
 namespace Sheep.Model.Read.Repositories
@@ -98,6 +98,7 @@ namespace Sheep.Model.Read.Repositories
             if (!tables.Contains(s_VolumeAnnotationTable))
             {
                 R.TableCreate(s_VolumeAnnotationTable).OptArg("primary_key", "Id").OptArg("durability", Durability.Soft).OptArg("shards", _shards).OptArg("replicas", _replicas).RunResult(_conn).AssertNoErrors().AssertTablesCreated(1);
+                R.Table(s_VolumeAnnotationTable).IndexCreate("VolumeId_Number", row => R.Array(row.G("VolumeId"), row.G("Number"))).RunResult(_conn).AssertNoErrors();
                 R.Table(s_VolumeAnnotationTable).IndexCreate("BookId").RunResult(_conn).AssertNoErrors();
                 R.Table(s_VolumeAnnotationTable).IndexCreate("VolumeId").RunResult(_conn).AssertNoErrors();
                 //R.Table(s_VolumeAnnotationTable).IndexWait().RunResult(_conn).AssertNoErrors();
@@ -121,6 +122,24 @@ namespace Sheep.Model.Read.Repositories
 
         #region 检测卷注释是否存在
 
+        private void AssertNoExistingVolumeAnnotation(VolumeAnnotation newVolumeAnnotation, VolumeAnnotation exceptForExistingVolumeAnnotation = null)
+        {
+            var existingVolumeAnnotation = GetVolumeAnnotation(newVolumeAnnotation.VolumeId, newVolumeAnnotation.Number);
+            if (existingVolumeAnnotation != null && (exceptForExistingVolumeAnnotation == null || existingVolumeAnnotation.Id != exceptForExistingVolumeAnnotation.Id))
+            {
+                throw new ArgumentException(string.Format(Resources.VolumeWithNumberAlreadyExists, newVolumeAnnotation.VolumeId, newVolumeAnnotation.Number));
+            }
+        }
+
+        private async Task AssertNoExistingVolumeAnnotationAsync(VolumeAnnotation newVolumeAnnotation, VolumeAnnotation exceptForExistingVolumeAnnotation = null)
+        {
+            var existingVolumeAnnotation = await GetVolumeAnnotationAsync(newVolumeAnnotation.VolumeId, newVolumeAnnotation.Number);
+            if (existingVolumeAnnotation != null && (exceptForExistingVolumeAnnotation == null || existingVolumeAnnotation.Id != exceptForExistingVolumeAnnotation.Id))
+            {
+                throw new ArgumentException(string.Format(Resources.VolumeWithNumberAlreadyExists, newVolumeAnnotation.VolumeId, newVolumeAnnotation.Number));
+            }
+        }
+
         #endregion
 
         #region IVolumeAnnotationRepository 接口实现
@@ -135,6 +154,18 @@ namespace Sheep.Model.Read.Repositories
         public Task<VolumeAnnotation> GetVolumeAnnotationAsync(string volumeAnnotationId)
         {
             return R.Table(s_VolumeAnnotationTable).Get(volumeAnnotationId).RunResultAsync<VolumeAnnotation>(_conn);
+        }
+
+        /// <inheritdoc />
+        public VolumeAnnotation GetVolumeAnnotation(string volumeId, int number)
+        {
+            return R.Table(s_VolumeAnnotationTable).GetAll(R.Array(volumeId, number)).OptArg("index", "VolumeId_Number").Nth(0).Default_(default(VolumeAnnotation)).RunResult<VolumeAnnotation>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<VolumeAnnotation> GetVolumeAnnotationAsync(string volumeId, int number)
+        {
+            return R.Table(s_VolumeAnnotationTable).GetAll(R.Array(volumeId, number)).OptArg("index", "VolumeId_Number").Nth(0).Default_(default(VolumeAnnotation)).RunResultAsync<VolumeAnnotation>(_conn);
         }
 
         /// <inheritdoc />
@@ -210,6 +241,38 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
+        public List<VolumeAnnotation> FindVolumeAnnotationsByVolumes(IEnumerable<string> volumeIds, string orderBy, bool? descending, int? skip, int? limit)
+        {
+            var query = R.Table(s_VolumeAnnotationTable).GetAll(R.Args(volumeIds.ToArray())).OptArg("index", "VolumeId").Filter(true);
+            OrderBy queryOrder;
+            if (!orderBy.IsNullOrEmpty())
+            {
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc(orderBy)) : query.OrderBy(orderBy);
+            }
+            else
+            {
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("Number")) : query.OrderBy("Number");
+            }
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 500).RunResult<List<VolumeAnnotation>>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<List<VolumeAnnotation>> FindVolumeAnnotationsByVolumesAsync(IEnumerable<string> volumeIds, string orderBy, bool? descending, int? skip, int? limit)
+        {
+            var query = R.Table(s_VolumeAnnotationTable).GetAll(R.Args(volumeIds.ToArray())).OptArg("index", "VolumeId").Filter(true);
+            OrderBy queryOrder;
+            if (!orderBy.IsNullOrEmpty())
+            {
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc(orderBy)) : query.OrderBy(orderBy);
+            }
+            else
+            {
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("Number")) : query.OrderBy("Number");
+            }
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 500).RunResultAsync<List<VolumeAnnotation>>(_conn);
+        }
+
+        /// <inheritdoc />
         public int GetVolumeAnnotationsCount(string bookId, string annotationFilter)
         {
             var query = R.Table(s_VolumeAnnotationTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
@@ -249,7 +312,8 @@ namespace Sheep.Model.Read.Repositories
         public VolumeAnnotation CreateVolumeAnnotation(VolumeAnnotation newVolumeAnnotation)
         {
             newVolumeAnnotation.ThrowIfNull(nameof(newVolumeAnnotation));
-            newVolumeAnnotation.Id = newVolumeAnnotation.Id.IsNullOrEmpty() ? new Base36IdGenerator(10, 4, 4).NewId().ToLower() : newVolumeAnnotation.Id;
+            AssertNoExistingVolumeAnnotation(newVolumeAnnotation);
+            newVolumeAnnotation.Id = string.Format("{0}-{1}", newVolumeAnnotation.VolumeId, newVolumeAnnotation.Number);
             var result = R.Table(s_VolumeAnnotationTable).Get(newVolumeAnnotation.Id).Replace(newVolumeAnnotation).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
             return result.ChangesAs<VolumeAnnotation>()[0].NewValue;
         }
@@ -258,7 +322,8 @@ namespace Sheep.Model.Read.Repositories
         public async Task<VolumeAnnotation> CreateVolumeAnnotationAsync(VolumeAnnotation newVolumeAnnotation)
         {
             newVolumeAnnotation.ThrowIfNull(nameof(newVolumeAnnotation));
-            newVolumeAnnotation.Id = newVolumeAnnotation.Id.IsNullOrEmpty() ? new Base36IdGenerator(10, 4, 4).NewId().ToLower() : newVolumeAnnotation.Id;
+            await AssertNoExistingVolumeAnnotationAsync(newVolumeAnnotation);
+            newVolumeAnnotation.Id = string.Format("{0}-{1}", newVolumeAnnotation.VolumeId, newVolumeAnnotation.Number);
             var result = (await R.Table(s_VolumeAnnotationTable).Get(newVolumeAnnotation.Id).Replace(newVolumeAnnotation).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
             return result.ChangesAs<VolumeAnnotation>()[0].NewValue;
         }
@@ -268,6 +333,7 @@ namespace Sheep.Model.Read.Repositories
         {
             existingVolumeAnnotation.ThrowIfNull(nameof(existingVolumeAnnotation));
             newVolumeAnnotation.Id = existingVolumeAnnotation.Id;
+            newVolumeAnnotation.BookId = existingVolumeAnnotation.BookId;
             newVolumeAnnotation.VolumeId = existingVolumeAnnotation.VolumeId;
             newVolumeAnnotation.Number = existingVolumeAnnotation.Number;
             var result = R.Table(s_VolumeAnnotationTable).Get(newVolumeAnnotation.Id).Replace(newVolumeAnnotation).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
@@ -279,6 +345,7 @@ namespace Sheep.Model.Read.Repositories
         {
             existingVolumeAnnotation.ThrowIfNull(nameof(existingVolumeAnnotation));
             newVolumeAnnotation.Id = existingVolumeAnnotation.Id;
+            newVolumeAnnotation.BookId = existingVolumeAnnotation.BookId;
             newVolumeAnnotation.VolumeId = existingVolumeAnnotation.VolumeId;
             newVolumeAnnotation.Number = existingVolumeAnnotation.Number;
             var result = (await R.Table(s_VolumeAnnotationTable).Get(newVolumeAnnotation.Id).Replace(newVolumeAnnotation).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();

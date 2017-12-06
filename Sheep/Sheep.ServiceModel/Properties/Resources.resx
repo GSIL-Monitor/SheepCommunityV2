@@ -324,4 +324,16 @@
   <data name="BookIdRequired" xml:space="preserve">
     <value>书籍编号必须输入。</value>
   </data>
+  <data name="VolumeIdRequired" xml:space="preserve">
+    <value>卷编号必须输入。</value>
+  </data>
+  <data name="VolumeNumberRequired" xml:space="preserve">
+    <value>卷序号必须输入。</value>
+  </data>
+  <data name="AnnotationNumberRequired" xml:space="preserve">
+    <value>注释序号必须输入。</value>
+  </data>
+  <data name="AnnotationRequired" xml:space="preserve">
+    <value>注释必须输入。</value>
+  </data>
 </root>

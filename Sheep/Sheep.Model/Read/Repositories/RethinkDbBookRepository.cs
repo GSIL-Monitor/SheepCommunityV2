@@ -347,6 +347,20 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
+        public Book IncrementBookVolumesCount(string bookId, int count)
+        {
+            var result = R.Table(s_BookTable).Get(bookId).Update(row => R.HashMap("VolumesCount", row.G("VolumesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
+            return result.ChangesAs<Book>()[0].NewValue;
+        }
+
+        /// <inheritdoc />
+        public async Task<Book> IncrementBookVolumesCountAsync(string bookId, int count)
+        {
+            var result = (await R.Table(s_BookTable).Get(bookId).Update(row => R.HashMap("VolumesCount", row.G("VolumesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
+            return result.ChangesAs<Book>()[0].NewValue;
+        }
+
+        /// <inheritdoc />
         public Book IncrementBookBookmarksCount(string bookId, int count)
         {
             var result = R.Table(s_BookTable).Get(bookId).Update(row => R.HashMap("BookmarksCount", row.G("BookmarksCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();

@@ -26,6 +26,22 @@ namespace Sheep.Model.Read
         Task<VolumeAnnotation> GetVolumeAnnotationAsync(string volumeAnnotationId);
 
         /// <summary>
+        ///     根据卷及序号获取卷注释。
+        /// </summary>
+        /// <param name="volumeId">卷的编号。</param>
+        /// <param name="number">序号。</param>
+        /// <returns>卷注释。</returns>
+        VolumeAnnotation GetVolumeAnnotation(string volumeId, int number);
+
+        /// <summary>
+        ///     异步根据卷及序号获取卷注释。
+        /// </summary>
+        /// <param name="volumeId">卷的编号。</param>
+        /// <param name="number">序号。</param>
+        /// <returns>卷注释。</returns>
+        Task<VolumeAnnotation> GetVolumeAnnotationAsync(string volumeId, int number);
+
+        /// <summary>
         ///     查找卷注释。
         /// </summary>
         /// <param name="bookId">书籍的编号。</param>
@@ -70,6 +86,28 @@ namespace Sheep.Model.Read
         /// <param name="limit">获取的行数。</param>
         /// <returns>卷注释列表。</returns>
         Task<List<VolumeAnnotation>> FindVolumeAnnotationsByVolumeAsync(string volumeId, string orderBy, bool? descending, int? skip, int? limit);
+
+        /// <summary>
+        ///     根据卷列表查找卷注释。
+        /// </summary>
+        /// <param name="volumeIds">卷的编号列表。</param>
+        /// <param name="orderBy">排序的字段。</param>
+        /// <param name="descending">是否按降序排序。</param>
+        /// <param name="skip">忽略的行数。</param>
+        /// <param name="limit">获取的行数。</param>
+        /// <returns>卷注释列表。</returns>
+        List<VolumeAnnotation> FindVolumeAnnotationsByVolumes(IEnumerable<string> volumeIds, string orderBy, bool? descending, int? skip, int? limit);
+
+        /// <summary>
+        ///     异步根据卷列表查找卷注释。
+        /// </summary>
+        /// <param name="volumeIds">卷的编号列表。</param>
+        /// <param name="orderBy">排序的字段。</param>
+        /// <param name="descending">是否按降序排序。</param>
+        /// <param name="skip">忽略的行数。</param>
+        /// <param name="limit">获取的行数。</param>
+        /// <returns>卷注释列表。</returns>
+        Task<List<VolumeAnnotation>> FindVolumeAnnotationsByVolumesAsync(IEnumerable<string> volumeIds, string orderBy, bool? descending, int? skip, int? limit);
 
         #endregion
 

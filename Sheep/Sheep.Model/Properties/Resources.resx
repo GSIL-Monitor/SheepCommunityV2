@@ -180,4 +180,13 @@
   <data name="ContentWithUserAlreadyExists" xml:space="preserve">
     <value>内容{0}与用户{1}的已经存在。</value>
   </data>
+  <data name="BookWithNumberAlreadyExists" xml:space="preserve">
+    <value>书籍{0}与序号{1}的已经存在。</value>
+  </data>
+  <data name="ParentWithUserAlreadyExists" xml:space="preserve">
+    <value>上级{0}与用户{1}的已经存在。</value>
+  </data>
+  <data name="VolumeWithNumberAlreadyExists" xml:space="preserve">
+    <value>卷{0}与序号{1}的已经存在。</value>
+  </data>
 </root>

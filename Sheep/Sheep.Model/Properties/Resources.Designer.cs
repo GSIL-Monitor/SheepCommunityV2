@@ -70,6 +70,15 @@ namespace Sheep.Model.Properties {
         }
         
         /// <summary>
+        ///   查找类似 书籍{0}与序号{1}的已经存在。 的本地化字符串。
+        /// </summary>
+        internal static string BookWithNumberAlreadyExists {
+            get {
+                return ResourceManager.GetString("BookWithNumberAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 内容{0}与用户{1}的已经存在。 的本地化字符串。
         /// </summary>
         internal static string ContentWithUserAlreadyExists {
@@ -147,6 +156,15 @@ namespace Sheep.Model.Properties {
         internal static string OwnerWithFollowerAlreadyExists {
             get {
                 return ResourceManager.GetString("OwnerWithFollowerAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 上级{0}与用户{1}的已经存在。 的本地化字符串。
+        /// </summary>
+        internal static string ParentWithUserAlreadyExists {
+            get {
+                return ResourceManager.GetString("ParentWithUserAlreadyExists", resourceCulture);
             }
         }
         
@@ -246,6 +264,15 @@ namespace Sheep.Model.Properties {
         internal static string UserNameOrEmailRequired {
             get {
                 return ResourceManager.GetString("UserNameOrEmailRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 卷{0}与序号{1}的已经存在。 的本地化字符串。
+        /// </summary>
+        internal static string VolumeWithNumberAlreadyExists {
+            get {
+                return ResourceManager.GetString("VolumeWithNumberAlreadyExists", resourceCulture);
             }
         }
     }

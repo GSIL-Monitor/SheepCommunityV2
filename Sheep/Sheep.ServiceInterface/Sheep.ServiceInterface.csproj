@@ -228,6 +228,14 @@
     <Compile Include="Users\ShowUserByUserNameOrEmailService.cs" />
     <Compile Include="Users\ShowBasicUserService.cs" />
     <Compile Include="Users\ShowUserService.cs" />
+    <Compile Include="Volumes\ChangeVolumeService.cs" />
+    <Compile Include="Volumes\CreateVolumeService.cs" />
+    <Compile Include="Volumes\DeleteVolumeService.cs" />
+    <Compile Include="Volumes\ListVolumeService.cs" />
+    <Compile Include="Volumes\Mappers\VolumeAnnotationToVolumeAnnotationDtoMapper.cs" />
+    <Compile Include="Volumes\Mappers\VolumeToVolumeDtoMapper.cs" />
+    <Compile Include="Volumes\ShowVolumeService.cs" />
+    <Compile Include="Volumes\UpdateVolumeService.cs" />
     <Compile Include="Votes\ChangeVoteService.cs" />
     <Compile Include="Votes\CreateVoteService.cs" />
     <Compile Include="Votes\DeleteVoteService.cs" />

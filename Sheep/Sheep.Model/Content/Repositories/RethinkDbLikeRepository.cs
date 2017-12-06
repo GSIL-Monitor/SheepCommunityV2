@@ -127,7 +127,7 @@ namespace Sheep.Model.Content.Repositories
             var existingLike = GetLike(newLike.ParentId, newLike.UserId);
             if (existingLike != null && (exceptForExistingLike == null || existingLike.Id != exceptForExistingLike.Id))
             {
-                throw new ArgumentException(string.Format(Resources.ContentWithUserAlreadyExists, newLike.ParentId, newLike.UserId));
+                throw new ArgumentException(string.Format(Resources.ParentWithUserAlreadyExists, newLike.ParentId, newLike.UserId));
             }
         }
 
@@ -136,7 +136,7 @@ namespace Sheep.Model.Content.Repositories
             var existingLike = await GetLikeAsync(newLike.ParentId, newLike.UserId);
             if (existingLike != null && (exceptForExistingLike == null || existingLike.Id != exceptForExistingLike.Id))
             {
-                throw new ArgumentException(string.Format(Resources.ContentWithUserAlreadyExists, newLike.ParentId, newLike.UserId));
+                throw new ArgumentException(string.Format(Resources.ParentWithUserAlreadyExists, newLike.ParentId, newLike.UserId));
             }
         }
 

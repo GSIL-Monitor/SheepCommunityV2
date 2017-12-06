@@ -26,6 +26,22 @@ namespace Sheep.Model.Read
         Task<Volume> GetVolumeAsync(string volumeId);
 
         /// <summary>
+        ///     根据书籍及序号获取卷。
+        /// </summary>
+        /// <param name="bookId">书籍的编号。</param>
+        /// <param name="number">序号。</param>
+        /// <returns>卷。</returns>
+        Volume GetVolume(string bookId, int number);
+
+        /// <summary>
+        ///     异步根据书籍及序号获取卷。
+        /// </summary>
+        /// <param name="bookId">书籍的编号。</param>
+        /// <param name="number">序号。</param>
+        /// <returns>卷。</returns>
+        Task<Volume> GetVolumeAsync(string bookId, int number);
+
+        /// <summary>
         ///     查找卷。
         /// </summary>
         /// <param name="bookId">书籍的编号。</param>

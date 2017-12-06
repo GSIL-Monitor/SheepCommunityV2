@@ -228,4 +228,10 @@
   <data name="BooksNotFound" xml:space="preserve">
     <value>无法找到指定条件的书籍列表。</value>
   </data>
+  <data name="VolumeNotFound" xml:space="preserve">
+    <value>无法找到指定的卷{0}。</value>
+  </data>
+  <data name="VolumesNotFound" xml:space="preserve">
+    <value>无法找到指定的卷列表。</value>
+  </data>
 </root>
