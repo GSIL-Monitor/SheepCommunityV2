@@ -368,6 +368,34 @@ namespace Sheep.Model.Read.Repositories
             (await R.Table(s_ParagraphTable).GetAll(volumeId).OptArg("index", "VolumeId").Delete().RunResultAsync(_conn)).AssertNoErrors();
         }
 
+        /// <inheritdoc />
+        public Volume IncrementVolumeChaptersCount(string volumeId, int count)
+        {
+            var result = R.Table(s_VolumeTable).Get(volumeId).Update(row => R.HashMap("ChaptersCount", row.G("ChaptersCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
+            return result.ChangesAs<Volume>()[0].NewValue;
+        }
+
+        /// <inheritdoc />
+        public async Task<Volume> IncrementVolumeChaptersCountAsync(string volumeId, int count)
+        {
+            var result = (await R.Table(s_VolumeTable).Get(volumeId).Update(row => R.HashMap("ChaptersCount", row.G("ChaptersCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
+            return result.ChangesAs<Volume>()[0].NewValue;
+        }
+
+        /// <inheritdoc />
+        public Volume IncrementVolumeSubjectsCount(string volumeId, int count)
+        {
+            var result = R.Table(s_VolumeTable).Get(volumeId).Update(row => R.HashMap("SubjectsCount", row.G("SubjectsCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
+            return result.ChangesAs<Volume>()[0].NewValue;
+        }
+
+        /// <inheritdoc />
+        public async Task<Volume> IncrementVolumeSubjectsCountAsync(string volumeId, int count)
+        {
+            var result = (await R.Table(s_VolumeTable).Get(volumeId).Update(row => R.HashMap("SubjectsCount", row.G("SubjectsCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
+            return result.ChangesAs<Volume>()[0].NewValue;
+        }
+
         #endregion
 
         #region IClearable 接口实现

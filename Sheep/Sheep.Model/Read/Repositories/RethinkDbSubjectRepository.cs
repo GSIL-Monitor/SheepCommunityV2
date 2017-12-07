@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Funcular.IdGenerators.Base36;
 using RethinkDb.Driver;
 using RethinkDb.Driver.Ast;
 using RethinkDb.Driver.Model;
@@ -10,6 +9,7 @@ using RethinkDb.Driver.Net;
 using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Logging;
+using Sheep.Model.Properties;
 using Sheep.Model.Read.Entities;
 
 namespace Sheep.Model.Read.Repositories
@@ -103,6 +103,8 @@ namespace Sheep.Model.Read.Repositories
             if (!tables.Contains(s_SubjectTable))
             {
                 R.TableCreate(s_SubjectTable).OptArg("primary_key", "Id").OptArg("durability", Durability.Soft).OptArg("shards", _shards).OptArg("replicas", _replicas).RunResult(_conn).AssertNoErrors().AssertTablesCreated(1);
+                R.Table(s_SubjectTable).IndexCreate("BookId_VolumeNumber_Number", row => R.Array(row.G("BookId"), row.G("VolumeNumber"), row.G("Number"))).RunResult(_conn).AssertNoErrors();
+                R.Table(s_SubjectTable).IndexCreate("VolumeId_Number", row => R.Array(row.G("VolumeId"), row.G("Number"))).RunResult(_conn).AssertNoErrors();
                 R.Table(s_SubjectTable).IndexCreate("BookId").RunResult(_conn).AssertNoErrors();
                 R.Table(s_SubjectTable).IndexCreate("VolumeId").RunResult(_conn).AssertNoErrors();
                 //R.Table(s_SubjectTable).IndexWait().RunResult(_conn).AssertNoErrors();
@@ -126,6 +128,34 @@ namespace Sheep.Model.Read.Repositories
 
         #region 检测主题是否存在
 
+        private void AssertNoExistingSubject(Subject newSubject, Subject exceptForExistingSubject = null)
+        {
+            var existingSubject = GetSubject(newSubject.VolumeId, newSubject.Number);
+            if (existingSubject != null && (exceptForExistingSubject == null || existingSubject.Id != exceptForExistingSubject.Id))
+            {
+                throw new ArgumentException(string.Format(Resources.VolumeWithNumberAlreadyExists, newSubject.VolumeId, newSubject.Number));
+            }
+            existingSubject = GetSubject(newSubject.BookId, newSubject.VolumeNumber, newSubject.Number);
+            if (existingSubject != null && (exceptForExistingSubject == null || existingSubject.Id != exceptForExistingSubject.Id))
+            {
+                throw new ArgumentException(string.Format(Resources.BookWithVolumeAndNumberAlreadyExists, newSubject.BookId, newSubject.VolumeNumber, newSubject.Number));
+            }
+        }
+
+        private async Task AssertNoExistingSubjectAsync(Subject newSubject, Subject exceptForExistingSubject = null)
+        {
+            var existingSubject = await GetSubjectAsync(newSubject.VolumeId, newSubject.Number);
+            if (existingSubject != null && (exceptForExistingSubject == null || existingSubject.Id != exceptForExistingSubject.Id))
+            {
+                throw new ArgumentException(string.Format(Resources.VolumeWithNumberAlreadyExists, newSubject.VolumeId, newSubject.Number));
+            }
+            existingSubject = await GetSubjectAsync(newSubject.BookId, newSubject.VolumeNumber, newSubject.Number);
+            if (existingSubject != null && (exceptForExistingSubject == null || existingSubject.Id != exceptForExistingSubject.Id))
+            {
+                throw new ArgumentException(string.Format(Resources.BookWithVolumeAndNumberAlreadyExists, newSubject.BookId, newSubject.VolumeNumber, newSubject.Number));
+            }
+        }
+
         #endregion
 
         #region ISubjectRepository 接口实现
@@ -143,9 +173,33 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public List<Subject> FindSubjects(string bookId, string titleFilter, string orderBy, bool? descending, int? skip, int? limit)
+        public Subject GetSubject(string volumeId, int number)
         {
-            var query = R.Table(s_SubjectTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
+            return R.Table(s_SubjectTable).GetAll(R.Array(volumeId, number)).OptArg("index", "VolumeId_Number").Nth(0).Default_(default(Subject)).RunResult<Subject>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<Subject> GetSubjectAsync(string volumeId, int number)
+        {
+            return R.Table(s_SubjectTable).GetAll(R.Array(volumeId, number)).OptArg("index", "VolumeId_Number").Nth(0).Default_(default(Subject)).RunResultAsync<Subject>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Subject GetSubject(string bookId, int volumeNumber, int number)
+        {
+            return R.Table(s_SubjectTable).GetAll(R.Array(bookId, volumeNumber, number)).OptArg("index", "BookId_VolumeNumber_Number").Nth(0).Default_(default(Subject)).RunResult<Subject>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<Subject> GetSubjectAsync(string bookId, int volumeNumber, int number)
+        {
+            return R.Table(s_SubjectTable).GetAll(R.Array(bookId, volumeNumber, number)).OptArg("index", "BookId_VolumeNumber_Number").Nth(0).Default_(default(Subject)).RunResultAsync<Subject>(_conn);
+        }
+
+        /// <inheritdoc />
+        public List<Subject> FindSubjects(string bookId, int volumeNumber, string titleFilter, string orderBy, bool? descending, int? skip, int? limit)
+        {
+            var query = R.Table(s_SubjectTable).GetAll(bookId).OptArg("index", "BookId").Filter(row => row.G("VolumeNumber").Eq(volumeNumber));
             if (!titleFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Title").Match(titleFilter));
@@ -163,9 +217,9 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public Task<List<Subject>> FindSubjectsAsync(string bookId, string titleFilter, string orderBy, bool? descending, int? skip, int? limit)
+        public Task<List<Subject>> FindSubjectsAsync(string bookId, int volumeNumber, string titleFilter, string orderBy, bool? descending, int? skip, int? limit)
         {
-            var query = R.Table(s_SubjectTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
+            var query = R.Table(s_SubjectTable).GetAll(bookId).OptArg("index", "BookId").Filter(row => row.G("VolumeNumber").Eq(volumeNumber));
             if (!titleFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Title").Match(titleFilter));
@@ -215,9 +269,9 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public int GetSubjectsCount(string bookId, string titleFilter)
+        public int GetSubjectsCount(string bookId, int volumeNumber, string titleFilter)
         {
-            var query = R.Table(s_SubjectTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
+            var query = R.Table(s_SubjectTable).GetAll(bookId).OptArg("index", "BookId").Filter(row => row.G("VolumeNumber").Eq(volumeNumber));
             if (!titleFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Title").Match(titleFilter));
@@ -226,9 +280,9 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public Task<int> GetSubjectsCountAsync(string bookId, string titleFilter)
+        public Task<int> GetSubjectsCountAsync(string bookId, int volumeNumber, string titleFilter)
         {
-            var query = R.Table(s_SubjectTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
+            var query = R.Table(s_SubjectTable).GetAll(bookId).OptArg("index", "BookId").Filter(row => row.G("VolumeNumber").Eq(volumeNumber));
             if (!titleFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Title").Match(titleFilter));
@@ -254,7 +308,8 @@ namespace Sheep.Model.Read.Repositories
         public Subject CreateSubject(Subject newSubject)
         {
             newSubject.ThrowIfNull(nameof(newSubject));
-            newSubject.Id = newSubject.Id.IsNullOrEmpty() ? new Base36IdGenerator(10, 4, 4).NewId().ToLower() : newSubject.Id;
+            AssertNoExistingSubject(newSubject);
+            newSubject.Id = string.Format("{0}-s-{1}", newSubject.VolumeId, newSubject.Number);
             var result = R.Table(s_SubjectTable).Get(newSubject.Id).Replace(newSubject).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
             return result.ChangesAs<Subject>()[0].NewValue;
         }
@@ -263,7 +318,8 @@ namespace Sheep.Model.Read.Repositories
         public async Task<Subject> CreateSubjectAsync(Subject newSubject)
         {
             newSubject.ThrowIfNull(nameof(newSubject));
-            newSubject.Id = newSubject.Id.IsNullOrEmpty() ? new Base36IdGenerator(10, 4, 4).NewId().ToLower() : newSubject.Id;
+            await AssertNoExistingSubjectAsync(newSubject);
+            newSubject.Id = string.Format("{0}-s-{1}", newSubject.VolumeId, newSubject.Number);
             var result = (await R.Table(s_SubjectTable).Get(newSubject.Id).Replace(newSubject).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
             return result.ChangesAs<Subject>()[0].NewValue;
         }
@@ -273,8 +329,10 @@ namespace Sheep.Model.Read.Repositories
         {
             existingSubject.ThrowIfNull(nameof(existingSubject));
             newSubject.Id = existingSubject.Id;
-            newSubject.VolumeId = newSubject.VolumeId;
-            newSubject.Number = newSubject.Number;
+            newSubject.BookId = existingSubject.BookId;
+            newSubject.VolumeId = existingSubject.VolumeId;
+            newSubject.VolumeNumber = existingSubject.VolumeNumber;
+            newSubject.Number = existingSubject.Number;
             var result = R.Table(s_SubjectTable).Get(newSubject.Id).Replace(newSubject).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
             return result.ChangesAs<Subject>()[0].NewValue;
         }
@@ -284,8 +342,10 @@ namespace Sheep.Model.Read.Repositories
         {
             existingSubject.ThrowIfNull(nameof(existingSubject));
             newSubject.Id = existingSubject.Id;
-            newSubject.VolumeId = newSubject.VolumeId;
-            newSubject.Number = newSubject.Number;
+            newSubject.BookId = existingSubject.BookId;
+            newSubject.VolumeId = existingSubject.VolumeId;
+            newSubject.VolumeNumber = existingSubject.VolumeNumber;
+            newSubject.Number = existingSubject.Number;
             var result = (await R.Table(s_SubjectTable).Get(newSubject.Id).Replace(newSubject).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
             return result.ChangesAs<Subject>()[0].NewValue;
         }

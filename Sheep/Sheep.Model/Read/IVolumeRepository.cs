@@ -167,6 +167,34 @@ namespace Sheep.Model.Read
         /// <param name="volumeId">卷的编号。</param>
         Task DeleteVolumeAsync(string volumeId);
 
+        /// <summary>
+        ///     增加一卷的章数。
+        /// </summary>
+        /// <param name="volumeId">卷的编号。</param>
+        /// <param name="count">增加的数量。</param>
+        Volume IncrementVolumeChaptersCount(string volumeId, int count);
+
+        /// <summary>
+        ///     异步增加一卷的章数。
+        /// </summary>
+        /// <param name="volumeId">卷的编号。</param>
+        /// <param name="count">增加的数量。</param>
+        Task<Volume> IncrementVolumeChaptersCountAsync(string volumeId, int count);
+
+        /// <summary>
+        ///     增加一卷的主题数。
+        /// </summary>
+        /// <param name="volumeId">卷的编号。</param>
+        /// <param name="count">增加的数量。</param>
+        Volume IncrementVolumeSubjectsCount(string volumeId, int count);
+
+        /// <summary>
+        ///     异步增加一卷的主题数。
+        /// </summary>
+        /// <param name="volumeId">卷的编号。</param>
+        /// <param name="count">增加的数量。</param>
+        Task<Volume> IncrementVolumeSubjectsCountAsync(string volumeId, int count);
+
         #endregion
     }
 }

@@ -340,6 +340,24 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
+        ///   查找类似 无法找到指定的主题{0}。 的本地化字符串。
+        /// </summary>
+        internal static string SubjectNotFound {
+            get {
+                return ResourceManager.GetString("SubjectNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定条件的主题列表。 的本地化字符串。
+        /// </summary>
+        internal static string SubjectsNotFound {
+            get {
+                return ResourceManager.GetString("SubjectsNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 无法更新指定用户{0}的显示名称。 的本地化字符串。
         /// </summary>
         internal static string UserDisplayNameNotUpdated {

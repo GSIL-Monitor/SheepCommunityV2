@@ -219,6 +219,13 @@
     <Compile Include="States\Mappers\StateToStateDtoMapper.cs" />
     <Compile Include="States\ShowStateService.cs" />
     <Compile Include="States\ShowStateByNameService.cs" />
+    <Compile Include="Subjects\ChangeSubjectService.cs" />
+    <Compile Include="Subjects\CreateSubjectService.cs" />
+    <Compile Include="Subjects\DeleteSubjectService.cs" />
+    <Compile Include="Subjects\ListSubjectService.cs" />
+    <Compile Include="Subjects\Mappers\SubjectToSubjectDtoMapper.cs" />
+    <Compile Include="Subjects\ShowSubjectService.cs" />
+    <Compile Include="Subjects\UpdateSubjectService.cs" />
     <Compile Include="Users\ListUserService.cs" />
     <Compile Include="Users\Mappers\UserAuthToBasicUserDtoMapper.cs" />
     <Compile Include="Users\Mappers\UserAuthToUserDtoMapper.cs" />

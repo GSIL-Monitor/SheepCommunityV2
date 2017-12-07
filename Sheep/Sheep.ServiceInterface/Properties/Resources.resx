@@ -240,4 +240,10 @@
   <data name="VolumeAnnotationsNotFound" xml:space="preserve">
     <value>无法找到指定的卷注释列表。</value>
   </data>
+  <data name="SubjectNotFound" xml:space="preserve">
+    <value>无法找到指定的主题{0}。</value>
+  </data>
+  <data name="SubjectsNotFound" xml:space="preserve">
+    <value>无法找到指定条件的主题列表。</value>
+  </data>
 </root>

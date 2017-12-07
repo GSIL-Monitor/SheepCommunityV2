@@ -574,6 +574,15 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
+        ///   查找类似 主题序号必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string SubjectNumberRequired {
+            get {
+                return ResourceManager.GetString("SubjectNumberRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 标题必须输入。 的本地化字符串。
         /// </summary>
         internal static string TitleRequired {

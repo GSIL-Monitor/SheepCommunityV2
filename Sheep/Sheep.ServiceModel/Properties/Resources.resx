@@ -336,4 +336,7 @@
   <data name="AnnotationRequired" xml:space="preserve">
     <value>注释必须输入。</value>
   </data>
+  <data name="SubjectNumberRequired" xml:space="preserve">
+    <value>主题序号必须输入。</value>
+  </data>
 </root>

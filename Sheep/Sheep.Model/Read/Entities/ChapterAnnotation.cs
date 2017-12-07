@@ -27,9 +27,19 @@ namespace Sheep.Model.Read.Entities
         public string VolumeId { get; set; }
 
         /// <summary>
+        ///     卷序号。
+        /// </summary>
+        public int VolumeNumber { get; set; }
+
+        /// <summary>
         ///     章编号。
         /// </summary>
         public string ChapterId { get; set; }
+
+        /// <summary>
+        ///     章序号。
+        /// </summary>
+        public int ChapterNumber { get; set; }
 
         /// <summary>
         ///     序号。

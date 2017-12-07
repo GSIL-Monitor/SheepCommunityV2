@@ -217,6 +217,17 @@
     <Compile Include="Replies\Validators\ReplyListValidator.cs" />
     <Compile Include="Replies\Validators\ReplyShowValidator.cs" />
     <Compile Include="Replies\Validators\ReplyUpdateValidator.cs" />
+    <Compile Include="Subjects\Entities\SubjectDto.cs" />
+    <Compile Include="Subjects\Validators\SubjectCreateValidator.cs" />
+    <Compile Include="Subjects\Validators\SubjectDeleteValidator.cs" />
+    <Compile Include="Subjects\Validators\SubjectListValidator.cs" />
+    <Compile Include="Subjects\Validators\SubjectShowValidator.cs" />
+    <Compile Include="Subjects\Validators\SubjectUpdateValidator.cs" />
+    <Compile Include="Subjects\SubjectCreate.cs" />
+    <Compile Include="Subjects\SubjectDelete.cs" />
+    <Compile Include="Subjects\SubjectList.cs" />
+    <Compile Include="Subjects\SubjectShow.cs" />
+    <Compile Include="Subjects\SubjectUpdate.cs" />
     <Compile Include="Users\BasicUserShow.cs" />
     <Compile Include="Users\Validators\BasicUserShowValidator.cs" />
     <Compile Include="Bookmarks\Entities\BookmarkDto.cs" />
