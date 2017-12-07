@@ -309,7 +309,7 @@ namespace Sheep.Model.Read.Repositories
         {
             newSubject.ThrowIfNull(nameof(newSubject));
             AssertNoExistingSubject(newSubject);
-            newSubject.Id = string.Format("{0}-s-{1}", newSubject.VolumeId, newSubject.Number);
+            newSubject.Id = string.Format("{0}-{1}", newSubject.VolumeId, newSubject.Number);
             var result = R.Table(s_SubjectTable).Get(newSubject.Id).Replace(newSubject).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
             return result.ChangesAs<Subject>()[0].NewValue;
         }
@@ -319,7 +319,7 @@ namespace Sheep.Model.Read.Repositories
         {
             newSubject.ThrowIfNull(nameof(newSubject));
             await AssertNoExistingSubjectAsync(newSubject);
-            newSubject.Id = string.Format("{0}-s-{1}", newSubject.VolumeId, newSubject.Number);
+            newSubject.Id = string.Format("{0}-{1}", newSubject.VolumeId, newSubject.Number);
             var result = (await R.Table(s_SubjectTable).Get(newSubject.Id).Replace(newSubject).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
             return result.ChangesAs<Subject>()[0].NewValue;
         }

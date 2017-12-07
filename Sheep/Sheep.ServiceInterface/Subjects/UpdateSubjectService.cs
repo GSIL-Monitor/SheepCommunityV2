@@ -92,7 +92,7 @@ namespace Sheep.ServiceInterface.Subjects
             var existingSubject = await SubjectRepo.GetSubjectAsync(request.BookId, request.VolumeNumber, request.SubjectNumber);
             if (existingSubject == null)
             {
-                throw HttpError.NotFound(string.Format(Resources.SubjectNotFound, string.Format("{0}-{1}-s-{2}", request.BookId, request.VolumeNumber, request.SubjectNumber)));
+                throw HttpError.NotFound(string.Format(Resources.SubjectNotFound, string.Format("{0}-{1}-{2}", request.BookId, request.VolumeNumber, request.SubjectNumber)));
             }
             var newSubject = new Subject();
             newSubject.PopulateWith(existingSubject);
