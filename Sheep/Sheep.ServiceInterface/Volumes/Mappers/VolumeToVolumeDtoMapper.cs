@@ -21,7 +21,7 @@ namespace Sheep.ServiceInterface.Volumes.Mappers
                                 Abbreviation = volume.Abbreviation,
                                 ChaptersCount = volume.ChaptersCount,
                                 SubjectsCount = volume.SubjectsCount,
-                                Annotations = volumeAnnotations.Select(va => va.MapToVolumeAnnotationDto()).ToList()
+                                Annotations = volumeAnnotations?.Select(va => va.MapToVolumeAnnotationDto()).ToList() ?? new List<VolumeAnnotationDto>()
                             };
             return volumeDto;
         }

@@ -78,7 +78,7 @@ namespace Sheep.ServiceInterface.Volumes
             {
                 throw HttpError.NotFound(string.Format(Resources.VolumesNotFound));
             }
-            var volumeAnnotationsMap = (await VolumeAnnotationRepo.FindVolumeAnnotationsByVolumesAsync(existingVolumes.Select(volume => volume.Id), "VolumeId", null, null, null)).GroupBy(volumeAnnotation => volumeAnnotation.VolumeId, volumeAnnotation => volumeAnnotation).ToDictionary(grouping => grouping.Key, grouping => grouping.ToList());
+            var volumeAnnotationsMap = (await VolumeAnnotationRepo.FindVolumeAnnotationsByVolumesAsync(existingVolumes.Select(volume => volume.Id), "VolumeId", null, null, null)).GroupBy(volumeAnnotation => volumeAnnotation.VolumeId, volumeAnnotation => volumeAnnotation).ToDictionary(grouping => grouping.Key, grouping => grouping.OrderBy(g => g.Number).ToList());
             var volumesDto = existingVolumes.Select(volume => volume.MapToVolumeDto(volumeAnnotationsMap.GetValueOrDefault(volume.Id))).ToList();
             return new VolumeListResponse
                    {
