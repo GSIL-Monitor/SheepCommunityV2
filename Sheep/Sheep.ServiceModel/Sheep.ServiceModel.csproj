@@ -279,7 +279,9 @@
     <Compile Include="Volumes\Validators\VolumeAnnotationDeleteValidator.cs" />
     <Compile Include="Volumes\Validators\VolumeAnnotationShowValidator.cs" />
     <Compile Include="Volumes\Validators\VolumeAnnotationUpdateValidator.cs" />
+    <Compile Include="Volumes\Validators\VolumeAnnotationListValidator.cs" />
     <Compile Include="Volumes\VolumeAnnotationCreate.cs" />
+    <Compile Include="Volumes\VolumeAnnotationList.cs" />
     <Compile Include="Volumes\VolumeCreate.cs" />
     <Compile Include="Volumes\VolumeAnnotationDelete.cs" />
     <Compile Include="Volumes\VolumeDelete.cs" />

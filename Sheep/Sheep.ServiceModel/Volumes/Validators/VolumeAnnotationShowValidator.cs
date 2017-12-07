@@ -5,7 +5,7 @@ using Sheep.ServiceModel.Properties;
 namespace Sheep.ServiceModel.Volumes.Validators
 {
     /// <summary>
-    ///     显示一个卷注释的校验器。
+    ///     显示一条卷注释的校验器。
     /// </summary>
     public class VolumeAnnotationShowValidator : AbstractValidator<VolumeAnnotationShow>
     {

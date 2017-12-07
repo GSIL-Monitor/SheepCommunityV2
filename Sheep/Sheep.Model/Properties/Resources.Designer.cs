@@ -79,6 +79,15 @@ namespace Sheep.Model.Properties {
         }
         
         /// <summary>
+        ///   查找类似 书籍{0}与卷序号{1}和序号{2}的已经存在。 的本地化字符串。
+        /// </summary>
+        internal static string BookWithVolumeAndNumberAlreadyExists {
+            get {
+                return ResourceManager.GetString("BookWithVolumeAndNumberAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 内容{0}与用户{1}的已经存在。 的本地化字符串。
         /// </summary>
         internal static string ContentWithUserAlreadyExists {

@@ -4,9 +4,9 @@ using ServiceStack;
 namespace Sheep.ServiceModel.Volumes
 {
     /// <summary>
-    ///     删除一个卷注释的请求。
+    ///     删除一条卷注释的请求。
     /// </summary>
-    [Route("/books/{BookId}/volumes/{VolumeNumber}/annotations/{AnnotationNumber}", HttpMethods.Delete, Summary = "删除一个卷注释")]
+    [Route("/books/{BookId}/volumes/{VolumeNumber}/annotations/{AnnotationNumber}", HttpMethods.Delete, Summary = "删除一条卷注释")]
     [DataContract]
     public class VolumeAnnotationDelete : IReturn<VolumeAnnotationDeleteResponse>
     {
@@ -33,7 +33,7 @@ namespace Sheep.ServiceModel.Volumes
     }
 
     /// <summary>
-    ///     删除一个卷注释的响应。
+    ///     删除一条卷注释的响应。
     /// </summary>
     [DataContract]
     public class VolumeAnnotationDeleteResponse : IHasResponseStatus

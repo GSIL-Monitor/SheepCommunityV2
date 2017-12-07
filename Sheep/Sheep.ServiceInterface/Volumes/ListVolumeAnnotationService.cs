@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Configuration;
@@ -13,16 +14,16 @@ using Sheep.ServiceModel.Volumes;
 namespace Sheep.ServiceInterface.Volumes
 {
     /// <summary>
-    ///     显示一卷服务接口。
+    ///     列举一组卷注释服务接口。
     /// </summary>
-    public class ShowVolumeService : Service
+    public class ListVolumeAnnotationService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(ShowVolumeService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(ListVolumeAnnotationService));
 
         #endregion
 
@@ -34,9 +35,9 @@ namespace Sheep.ServiceInterface.Volumes
         public IAppSettings AppSettings { get; set; }
 
         /// <summary>
-        ///     获取及设置显示一卷的校验器。
+        ///     获取及设置列举一组卷注释的校验器。
         /// </summary>
-        public IValidator<VolumeShow> VolumeShowValidator { get; set; }
+        public IValidator<VolumeAnnotationList> VolumeAnnotationListValidator { get; set; }
 
         /// <summary>
         ///     获取及设置用户身份的存储库。
@@ -60,28 +61,27 @@ namespace Sheep.ServiceInterface.Volumes
 
         #endregion
 
-        #region 显示一卷
+        #region 列举一组卷注释
 
         /// <summary>
-        ///     显示一卷。
+        ///     列举一组卷注释。
         /// </summary>
         [CacheResponse(Duration = 600)]
-        public async Task<object> Get(VolumeShow request)
+        public async Task<object> Get(VolumeAnnotationList request)
         {
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
-                VolumeShowValidator.ValidateAndThrow(request, ApplyTo.Get);
+                VolumeAnnotationListValidator.ValidateAndThrow(request, ApplyTo.Get);
             }
-            var existingVolume = await VolumeRepo.GetVolumeAsync(request.BookId, request.VolumeNumber);
-            if (existingVolume == null)
+            var existingVolumeAnnotations = await VolumeAnnotationRepo.FindVolumeAnnotationsAsync(request.BookId, request.VolumeNumber, request.AnnotationFilter, request.OrderBy, request.Descending, request.Skip, request.Limit);
+            if (existingVolumeAnnotations == null)
             {
-                throw HttpError.NotFound(string.Format(Resources.VolumeNotFound, string.Format("{0}-{1}", request.BookId, request.VolumeNumber)));
+                throw HttpError.NotFound(string.Format(Resources.VolumeAnnotationsNotFound));
             }
-            var volumeAnnotations = await VolumeAnnotationRepo.FindVolumeAnnotationsByVolumeAsync(existingVolume.Id, null, null, null, null);
-            var volumeDto = existingVolume.MapToVolumeDto(volumeAnnotations);
-            return new VolumeShowResponse
+            var volumeAnnotationsDto = existingVolumeAnnotations.Select(volumeAnnotation => volumeAnnotation.MapToVolumeAnnotationDto()).ToList();
+            return new VolumeAnnotationListResponse
                    {
-                       Volume = volumeDto
+                       VolumeAnnotations = volumeAnnotationsDto
                    };
         }
 

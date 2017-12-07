@@ -376,6 +376,24 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
+        ///   查找类似 无法找到指定的卷注释{0}。 的本地化字符串。
+        /// </summary>
+        internal static string VolumeAnnotationNotFound {
+            get {
+                return ResourceManager.GetString("VolumeAnnotationNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定的卷注释列表。 的本地化字符串。
+        /// </summary>
+        internal static string VolumeAnnotationsNotFound {
+            get {
+                return ResourceManager.GetString("VolumeAnnotationsNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 无法找到指定的卷{0}。 的本地化字符串。
         /// </summary>
         internal static string VolumeNotFound {

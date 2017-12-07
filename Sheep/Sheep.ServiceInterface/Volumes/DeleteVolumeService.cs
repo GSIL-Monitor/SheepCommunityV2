@@ -13,7 +13,7 @@ using Sheep.ServiceModel.Volumes;
 namespace Sheep.ServiceInterface.Volumes
 {
     /// <summary>
-    ///     删除一个卷服务接口。
+    ///     删除一卷服务接口。
     /// </summary>
     public class DeleteVolumeService : ChangeVolumeService
     {
@@ -39,7 +39,7 @@ namespace Sheep.ServiceInterface.Volumes
         public INimClient NimClient { get; set; }
 
         /// <summary>
-        ///     获取及设置删除一个卷的校验器。
+        ///     获取及设置删除一卷的校验器。
         /// </summary>
         public IValidator<VolumeDelete> VolumeDeleteValidator { get; set; }
 
@@ -65,10 +65,10 @@ namespace Sheep.ServiceInterface.Volumes
 
         #endregion
 
-        #region 删除一个卷
+        #region 删除一卷
 
         /// <summary>
-        ///     删除一个卷。
+        ///     删除一卷。
         /// </summary>
         public async Task<object> Delete(VolumeDelete request)
         {

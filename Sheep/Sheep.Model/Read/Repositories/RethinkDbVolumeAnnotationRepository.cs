@@ -98,6 +98,7 @@ namespace Sheep.Model.Read.Repositories
             if (!tables.Contains(s_VolumeAnnotationTable))
             {
                 R.TableCreate(s_VolumeAnnotationTable).OptArg("primary_key", "Id").OptArg("durability", Durability.Soft).OptArg("shards", _shards).OptArg("replicas", _replicas).RunResult(_conn).AssertNoErrors().AssertTablesCreated(1);
+                R.Table(s_VolumeAnnotationTable).IndexCreate("BookId_VolumeNumber_Number", row => R.Array(row.G("BookId"), row.G("VolumeNumber"), row.G("Number"))).RunResult(_conn).AssertNoErrors();
                 R.Table(s_VolumeAnnotationTable).IndexCreate("VolumeId_Number", row => R.Array(row.G("VolumeId"), row.G("Number"))).RunResult(_conn).AssertNoErrors();
                 R.Table(s_VolumeAnnotationTable).IndexCreate("BookId").RunResult(_conn).AssertNoErrors();
                 R.Table(s_VolumeAnnotationTable).IndexCreate("VolumeId").RunResult(_conn).AssertNoErrors();
@@ -129,6 +130,11 @@ namespace Sheep.Model.Read.Repositories
             {
                 throw new ArgumentException(string.Format(Resources.VolumeWithNumberAlreadyExists, newVolumeAnnotation.VolumeId, newVolumeAnnotation.Number));
             }
+            existingVolumeAnnotation = GetVolumeAnnotation(newVolumeAnnotation.BookId, newVolumeAnnotation.VolumeNumber, newVolumeAnnotation.Number);
+            if (existingVolumeAnnotation != null && (exceptForExistingVolumeAnnotation == null || existingVolumeAnnotation.Id != exceptForExistingVolumeAnnotation.Id))
+            {
+                throw new ArgumentException(string.Format(Resources.BookWithVolumeAndNumberAlreadyExists, newVolumeAnnotation.BookId, newVolumeAnnotation.VolumeNumber, newVolumeAnnotation.Number));
+            }
         }
 
         private async Task AssertNoExistingVolumeAnnotationAsync(VolumeAnnotation newVolumeAnnotation, VolumeAnnotation exceptForExistingVolumeAnnotation = null)
@@ -137,6 +143,11 @@ namespace Sheep.Model.Read.Repositories
             if (existingVolumeAnnotation != null && (exceptForExistingVolumeAnnotation == null || existingVolumeAnnotation.Id != exceptForExistingVolumeAnnotation.Id))
             {
                 throw new ArgumentException(string.Format(Resources.VolumeWithNumberAlreadyExists, newVolumeAnnotation.VolumeId, newVolumeAnnotation.Number));
+            }
+            existingVolumeAnnotation = await GetVolumeAnnotationAsync(newVolumeAnnotation.BookId, newVolumeAnnotation.VolumeNumber, newVolumeAnnotation.Number);
+            if (existingVolumeAnnotation != null && (exceptForExistingVolumeAnnotation == null || existingVolumeAnnotation.Id != exceptForExistingVolumeAnnotation.Id))
+            {
+                throw new ArgumentException(string.Format(Resources.BookWithVolumeAndNumberAlreadyExists, newVolumeAnnotation.BookId, newVolumeAnnotation.VolumeNumber, newVolumeAnnotation.Number));
             }
         }
 
@@ -169,9 +180,21 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public List<VolumeAnnotation> FindVolumeAnnotations(string bookId, string annotationFilter, string orderBy, bool? descending, int? skip, int? limit)
+        public VolumeAnnotation GetVolumeAnnotation(string bookId, int volumeNumber, int number)
         {
-            var query = R.Table(s_VolumeAnnotationTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
+            return R.Table(s_VolumeAnnotationTable).GetAll(R.Array(bookId, volumeNumber, number)).OptArg("index", "BookId_VolumeNumber_Number").Nth(0).Default_(default(VolumeAnnotation)).RunResult<VolumeAnnotation>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<VolumeAnnotation> GetVolumeAnnotationAsync(string bookId, int volumeNumber, int number)
+        {
+            return R.Table(s_VolumeAnnotationTable).GetAll(R.Array(bookId, volumeNumber, number)).OptArg("index", "BookId_VolumeNumber_Number").Nth(0).Default_(default(VolumeAnnotation)).RunResultAsync<VolumeAnnotation>(_conn);
+        }
+
+        /// <inheritdoc />
+        public List<VolumeAnnotation> FindVolumeAnnotations(string bookId, int volumeNumber, string annotationFilter, string orderBy, bool? descending, int? skip, int? limit)
+        {
+            var query = R.Table(s_VolumeAnnotationTable).GetAll(bookId).OptArg("index", "BookId").Filter(row => row.G("VolumeNumber").Eq(volumeNumber));
             if (!annotationFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Annotation").Match(annotationFilter));
@@ -189,9 +212,9 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public Task<List<VolumeAnnotation>> FindVolumeAnnotationsAsync(string bookId, string annotationFilter, string orderBy, bool? descending, int? skip, int? limit)
+        public Task<List<VolumeAnnotation>> FindVolumeAnnotationsAsync(string bookId, int volumeNumber, string annotationFilter, string orderBy, bool? descending, int? skip, int? limit)
         {
-            var query = R.Table(s_VolumeAnnotationTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
+            var query = R.Table(s_VolumeAnnotationTable).GetAll(bookId).OptArg("index", "BookId").Filter(row => row.G("VolumeNumber").Eq(volumeNumber));
             if (!annotationFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Annotation").Match(annotationFilter));
@@ -273,9 +296,9 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public int GetVolumeAnnotationsCount(string bookId, string annotationFilter)
+        public int GetVolumeAnnotationsCount(string bookId, int volumeNumber, string annotationFilter)
         {
-            var query = R.Table(s_VolumeAnnotationTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
+            var query = R.Table(s_VolumeAnnotationTable).GetAll(bookId).OptArg("index", "BookId").Filter(row => row.G("VolumeNumber").Eq(volumeNumber));
             if (!annotationFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Annotation").Match(annotationFilter));
@@ -284,9 +307,9 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public Task<int> GetVolumeAnnotationsCountAsync(string bookId, string annotationFilter)
+        public Task<int> GetVolumeAnnotationsCountAsync(string bookId, int volumeNumber, string annotationFilter)
         {
-            var query = R.Table(s_VolumeAnnotationTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
+            var query = R.Table(s_VolumeAnnotationTable).GetAll(bookId).OptArg("index", "BookId").Filter(row => row.G("VolumeNumber").Eq(volumeNumber));
             if (!annotationFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Annotation").Match(annotationFilter));
@@ -335,6 +358,7 @@ namespace Sheep.Model.Read.Repositories
             newVolumeAnnotation.Id = existingVolumeAnnotation.Id;
             newVolumeAnnotation.BookId = existingVolumeAnnotation.BookId;
             newVolumeAnnotation.VolumeId = existingVolumeAnnotation.VolumeId;
+            newVolumeAnnotation.VolumeNumber = existingVolumeAnnotation.VolumeNumber;
             newVolumeAnnotation.Number = existingVolumeAnnotation.Number;
             var result = R.Table(s_VolumeAnnotationTable).Get(newVolumeAnnotation.Id).Replace(newVolumeAnnotation).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
             return result.ChangesAs<VolumeAnnotation>()[0].NewValue;
@@ -347,6 +371,7 @@ namespace Sheep.Model.Read.Repositories
             newVolumeAnnotation.Id = existingVolumeAnnotation.Id;
             newVolumeAnnotation.BookId = existingVolumeAnnotation.BookId;
             newVolumeAnnotation.VolumeId = existingVolumeAnnotation.VolumeId;
+            newVolumeAnnotation.VolumeNumber = existingVolumeAnnotation.VolumeNumber;
             newVolumeAnnotation.Number = existingVolumeAnnotation.Number;
             var result = (await R.Table(s_VolumeAnnotationTable).Get(newVolumeAnnotation.Id).Replace(newVolumeAnnotation).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
             return result.ChangesAs<VolumeAnnotation>()[0].NewValue;

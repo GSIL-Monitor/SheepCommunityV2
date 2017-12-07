@@ -5,9 +5,9 @@ using Sheep.ServiceModel.Volumes.Entities;
 namespace Sheep.ServiceModel.Volumes
 {
     /// <summary>
-    ///     新建一个卷的请求。
+    ///     新建一卷的请求。
     /// </summary>
-    [Route("/books/{BookId}/volumes", HttpMethods.Post, Summary = "新建一个卷")]
+    [Route("/books/{BookId}/volumes", HttpMethods.Post, Summary = "新建一卷")]
     [DataContract]
     public class VolumeCreate : IReturn<VolumeCreateResponse>
     {
@@ -41,7 +41,7 @@ namespace Sheep.ServiceModel.Volumes
     }
 
     /// <summary>
-    ///     新建一个卷的响应。
+    ///     新建一卷的响应。
     /// </summary>
     [DataContract]
     public class VolumeCreateResponse : IHasResponseStatus

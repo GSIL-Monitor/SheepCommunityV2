@@ -140,7 +140,7 @@ namespace Sheep.Model.Read
         Task<Volume> CreateVolumeAsync(Volume newVolume);
 
         /// <summary>
-        ///     更新一个卷。
+        ///     更新一卷。
         /// </summary>
         /// <param name="existingVolume">原有的卷。</param>
         /// <param name="newVolume">新的卷。</param>
@@ -148,7 +148,7 @@ namespace Sheep.Model.Read
         Volume UpdateVolume(Volume existingVolume, Volume newVolume);
 
         /// <summary>
-        ///     异步更新一个卷。
+        ///     异步更新一卷。
         /// </summary>
         /// <param name="existingVolume">原有的卷。</param>
         /// <param name="newVolume">新的卷。</param>
@@ -156,13 +156,13 @@ namespace Sheep.Model.Read
         Task<Volume> UpdateVolumeAsync(Volume existingVolume, Volume newVolume);
 
         /// <summary>
-        ///     删除一个卷。
+        ///     删除一卷。
         /// </summary>
         /// <param name="volumeId">卷的编号。</param>
         void DeleteVolume(string volumeId);
 
         /// <summary>
-        ///     异步删除一个卷。
+        ///     异步删除一卷。
         /// </summary>
         /// <param name="volumeId">卷的编号。</param>
         Task DeleteVolumeAsync(string volumeId);

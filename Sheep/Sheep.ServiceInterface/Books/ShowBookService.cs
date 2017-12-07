@@ -13,7 +13,7 @@ using Sheep.ServiceModel.Books;
 namespace Sheep.ServiceInterface.Books
 {
     /// <summary>
-    ///     显示一个书籍服务接口。
+    ///     显示一本书籍服务接口。
     /// </summary>
     public class ShowBookService : Service
     {
@@ -34,7 +34,7 @@ namespace Sheep.ServiceInterface.Books
         public IAppSettings AppSettings { get; set; }
 
         /// <summary>
-        ///     获取及设置显示一个书籍的校验器。
+        ///     获取及设置显示一本书籍的校验器。
         /// </summary>
         public IValidator<BookShow> BookShowValidator { get; set; }
 
@@ -50,10 +50,10 @@ namespace Sheep.ServiceInterface.Books
 
         #endregion
 
-        #region 显示一个书籍
+        #region 显示一本书籍
 
         /// <summary>
-        ///     显示一个书籍。
+        ///     显示一本书籍。
         /// </summary>
         [CacheResponse(Duration = 600)]
         public async Task<object> Get(BookShow request)

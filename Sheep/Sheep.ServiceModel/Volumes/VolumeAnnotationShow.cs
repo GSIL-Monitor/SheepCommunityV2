@@ -5,9 +5,9 @@ using Sheep.ServiceModel.Volumes.Entities;
 namespace Sheep.ServiceModel.Volumes
 {
     /// <summary>
-    ///     显示一个卷注释的请求。
+    ///     显示一条卷注释的请求。
     /// </summary>
-    [Route("/books/{BookId}/volumes/{VolumeNumber}/annotations/{AnnotationNumber}", HttpMethods.Get, Summary = "显示一个卷注释")]
+    [Route("/books/{BookId}/volumes/{VolumeNumber}/annotations/{AnnotationNumber}", HttpMethods.Get, Summary = "显示一条卷注释")]
     [DataContract]
     public class VolumeAnnotationShow : IReturn<VolumeAnnotationShowResponse>
     {
@@ -34,7 +34,7 @@ namespace Sheep.ServiceModel.Volumes
     }
 
     /// <summary>
-    ///     显示一个卷注释的响应。
+    ///     显示一条卷注释的响应。
     /// </summary>
     [DataContract]
     public class VolumeAnnotationShowResponse : IHasResponseStatus

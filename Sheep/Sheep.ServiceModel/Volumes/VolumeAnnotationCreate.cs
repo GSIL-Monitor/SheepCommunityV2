@@ -5,9 +5,9 @@ using Sheep.ServiceModel.Volumes.Entities;
 namespace Sheep.ServiceModel.Volumes
 {
     /// <summary>
-    ///     新建一个卷注释的请求。
+    ///     新建一条卷注释的请求。
     /// </summary>
-    [Route("/books/{BookId}/volumes/{VolumeNumber}/annotations", HttpMethods.Post, Summary = "新建一个卷注释")]
+    [Route("/books/{BookId}/volumes/{VolumeNumber}/annotations", HttpMethods.Post, Summary = "新建一条卷注释")]
     [DataContract]
     public class VolumeAnnotationCreate : IReturn<VolumeAnnotationCreateResponse>
     {
@@ -48,7 +48,7 @@ namespace Sheep.ServiceModel.Volumes
     }
 
     /// <summary>
-    ///     新建一个卷注释的响应。
+    ///     新建一条卷注释的响应。
     /// </summary>
     [DataContract]
     public class VolumeAnnotationCreateResponse : IHasResponseStatus

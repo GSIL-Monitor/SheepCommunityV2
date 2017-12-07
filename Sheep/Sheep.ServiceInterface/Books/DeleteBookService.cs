@@ -13,7 +13,7 @@ using Sheep.ServiceModel.Books;
 namespace Sheep.ServiceInterface.Books
 {
     /// <summary>
-    ///     删除一个书籍服务接口。
+    ///     删除一本书籍服务接口。
     /// </summary>
     public class DeleteBookService : ChangeBookService
     {
@@ -39,7 +39,7 @@ namespace Sheep.ServiceInterface.Books
         public INimClient NimClient { get; set; }
 
         /// <summary>
-        ///     获取及设置删除一个书籍的校验器。
+        ///     获取及设置删除一本书籍的校验器。
         /// </summary>
         public IValidator<BookDelete> BookDeleteValidator { get; set; }
 
@@ -55,10 +55,10 @@ namespace Sheep.ServiceInterface.Books
 
         #endregion
 
-        #region 删除一个书籍
+        #region 删除一本书籍
 
         /// <summary>
-        ///     删除一个书籍。
+        ///     删除一本书籍。
         /// </summary>
         public async Task<object> Delete(BookDelete request)
         {

@@ -17,16 +17,16 @@ using Sheep.ServiceModel.Volumes;
 namespace Sheep.ServiceInterface.Volumes
 {
     /// <summary>
-    ///     更新一卷服务接口。
+    ///     新建一条卷注释服务接口。
     /// </summary>
-    public class UpdateVolumeService : ChangeVolumeService
+    public class CreateVolumeAnnotationService : ChangeVolumeAnnotationService
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(UpdateVolumeService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(CreateVolumeAnnotationService));
 
         #endregion
 
@@ -48,9 +48,9 @@ namespace Sheep.ServiceInterface.Volumes
         public INimClient NimClient { get; set; }
 
         /// <summary>
-        ///     获取及设置更新一卷的校验器。
+        ///     获取及设置新建一条卷注释的校验器。
         /// </summary>
-        public IValidator<VolumeUpdate> VolumeUpdateValidator { get; set; }
+        public IValidator<VolumeAnnotationCreate> VolumeAnnotationCreateValidator { get; set; }
 
         /// <summary>
         ///     获取及设置用户身份的存储库。
@@ -74,12 +74,12 @@ namespace Sheep.ServiceInterface.Volumes
 
         #endregion
 
-        #region 更新一卷
+        #region 新建一条卷注释
 
         /// <summary>
-        ///     更新一卷。
+        ///     新建一条卷注释。
         /// </summary>
-        public async Task<object> Put(VolumeUpdate request)
+        public async Task<object> Post(VolumeAnnotationCreate request)
         {
             if (!IsAuthenticated)
             {
@@ -87,24 +87,36 @@ namespace Sheep.ServiceInterface.Volumes
             }
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
-                VolumeUpdateValidator.ValidateAndThrow(request, ApplyTo.Put);
+                VolumeAnnotationCreateValidator.ValidateAndThrow(request, ApplyTo.Post);
+            }
+            var existingVolumeAnnotation = await VolumeAnnotationRepo.GetVolumeAnnotationAsync(request.BookId, request.VolumeNumber, request.AnnotationNumber);
+            if (existingVolumeAnnotation != null)
+            {
+                return new VolumeAnnotationCreateResponse
+                       {
+                           VolumeAnnotation = existingVolumeAnnotation.MapToVolumeAnnotationDto()
+                       };
             }
             var existingVolume = await VolumeRepo.GetVolumeAsync(request.BookId, request.VolumeNumber);
             if (existingVolume == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.VolumeNotFound, string.Format("{0}-{1}", request.BookId, request.VolumeNumber)));
             }
-            var newVolume = new Volume();
-            newVolume.PopulateWith(existingVolume);
-            newVolume.Meta = existingVolume.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingVolume.Meta);
-            newVolume.Title = request.Title.Replace("\"", "'");
-            newVolume.Abbreviation = request.Abbreviation;
-            var volume = await VolumeRepo.UpdateVolumeAsync(existingVolume, newVolume);
-            var volumeAnnotations = await VolumeAnnotationRepo.FindVolumeAnnotationsByVolumeAsync(existingVolume.Id, null, null, null, null);
-            ResetCache(volume);
-            return new VolumeUpdateResponse
+            var newVolumeAnnotation = new VolumeAnnotation
+                                      {
+                                          Meta = new Dictionary<string, string>(),
+                                          BookId = existingVolume.BookId,
+                                          VolumeId = existingVolume.Id,
+                                          VolumeNumber = existingVolume.Number,
+                                          Number = request.AnnotationNumber,
+                                          Title = request.Title.Replace("\"", "'"),
+                                          Annotation = request.Annotation.Replace("\"", "'")
+                                      };
+            var volumeAnnotation = await VolumeAnnotationRepo.CreateVolumeAnnotationAsync(newVolumeAnnotation);
+            ResetCache(volumeAnnotation);
+            return new VolumeAnnotationCreateResponse
                    {
-                       Volume = volume.MapToVolumeDto(volumeAnnotations)
+                       VolumeAnnotation = volumeAnnotation.MapToVolumeAnnotationDto()
                    };
         }
 

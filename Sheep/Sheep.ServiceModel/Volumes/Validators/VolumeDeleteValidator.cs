@@ -5,7 +5,7 @@ using Sheep.ServiceModel.Properties;
 namespace Sheep.ServiceModel.Volumes.Validators
 {
     /// <summary>
-    ///     删除一个卷的校验器。
+    ///     删除一卷的校验器。
     /// </summary>
     public class VolumeDeleteValidator : AbstractValidator<VolumeDelete>
     {

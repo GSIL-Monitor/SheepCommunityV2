@@ -234,4 +234,10 @@
   <data name="VolumesNotFound" xml:space="preserve">
     <value>无法找到指定的卷列表。</value>
   </data>
+  <data name="VolumeAnnotationNotFound" xml:space="preserve">
+    <value>无法找到指定的卷注释{0}。</value>
+  </data>
+  <data name="VolumeAnnotationsNotFound" xml:space="preserve">
+    <value>无法找到指定的卷注释列表。</value>
+  </data>
 </root>

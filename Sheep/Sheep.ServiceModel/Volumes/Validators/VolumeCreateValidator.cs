@@ -5,7 +5,7 @@ using Sheep.ServiceModel.Properties;
 namespace Sheep.ServiceModel.Volumes.Validators
 {
     /// <summary>
-    ///     创建一个卷的校验器。
+    ///     创建一卷的校验器。
     /// </summary>
     public class VolumeCreateValidator : AbstractValidator<VolumeCreate>
     {

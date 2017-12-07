@@ -17,7 +17,7 @@ using Sheep.ServiceModel.Volumes;
 namespace Sheep.ServiceInterface.Volumes
 {
     /// <summary>
-    ///     新建一个卷服务接口。
+    ///     新建一卷服务接口。
     /// </summary>
     public class CreateVolumeService : ChangeVolumeService
     {
@@ -48,7 +48,7 @@ namespace Sheep.ServiceInterface.Volumes
         public INimClient NimClient { get; set; }
 
         /// <summary>
-        ///     获取及设置新建一个卷的校验器。
+        ///     获取及设置新建一卷的校验器。
         /// </summary>
         public IValidator<VolumeCreate> VolumeCreateValidator { get; set; }
 
@@ -74,10 +74,10 @@ namespace Sheep.ServiceInterface.Volumes
 
         #endregion
 
-        #region 新建一个卷
+        #region 新建一卷
 
         /// <summary>
-        ///     新建一个卷。
+        ///     新建一卷。
         /// </summary>
         public async Task<object> Post(VolumeCreate request)
         {
@@ -104,7 +104,7 @@ namespace Sheep.ServiceInterface.Volumes
                                 BookId = request.BookId,
                                 Number = request.VolumeNumber,
                                 Title = request.Title.Replace("\"", "'"),
-                                Abbreviation = request.Abbreviation
+                                Abbreviation = request.Abbreviation.Replace("\"", "'")
                             };
             var volume = await VolumeRepo.CreateVolumeAsync(newVolume);
             ResetCache(volume);

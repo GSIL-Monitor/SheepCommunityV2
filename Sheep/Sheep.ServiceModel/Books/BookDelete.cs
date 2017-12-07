@@ -4,9 +4,9 @@ using ServiceStack;
 namespace Sheep.ServiceModel.Books
 {
     /// <summary>
-    ///     删除一个书籍的请求。
+    ///     删除一本书籍的请求。
     /// </summary>
-    [Route("/books/{BookId}", HttpMethods.Delete, Summary = "删除一个书籍")]
+    [Route("/books/{BookId}", HttpMethods.Delete, Summary = "删除一本书籍")]
     [DataContract]
     public class BookDelete : IReturn<BookDeleteResponse>
     {
@@ -19,7 +19,7 @@ namespace Sheep.ServiceModel.Books
     }
 
     /// <summary>
-    ///     删除一个书籍的响应。
+    ///     删除一本书籍的响应。
     /// </summary>
     [DataContract]
     public class BookDeleteResponse : IHasResponseStatus

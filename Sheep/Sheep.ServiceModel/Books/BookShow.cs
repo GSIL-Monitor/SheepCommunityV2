@@ -5,9 +5,9 @@ using Sheep.ServiceModel.Books.Entities;
 namespace Sheep.ServiceModel.Books
 {
     /// <summary>
-    ///     显示一个书籍的请求。
+    ///     显示一本书籍的请求。
     /// </summary>
-    [Route("/books/{BookId}", HttpMethods.Get, Summary = "显示一个书籍")]
+    [Route("/books/{BookId}", HttpMethods.Get, Summary = "显示一本书籍")]
     [DataContract]
     public class BookShow : IReturn<BookShowResponse>
     {
@@ -20,7 +20,7 @@ namespace Sheep.ServiceModel.Books
     }
 
     /// <summary>
-    ///     显示一个书籍的响应。
+    ///     显示一本书籍的响应。
     /// </summary>
     [DataContract]
     public class BookShowResponse : IHasResponseStatus

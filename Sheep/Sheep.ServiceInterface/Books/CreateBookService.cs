@@ -25,7 +25,7 @@ using Sheep.ServiceModel.Books;
 namespace Sheep.ServiceInterface.Books
 {
     /// <summary>
-    ///     新建一个书籍服务接口。
+    ///     新建一本书籍服务接口。
     /// </summary>
     public class CreateBookService : ChangeBookService
     {
@@ -56,7 +56,7 @@ namespace Sheep.ServiceInterface.Books
         public INimClient NimClient { get; set; }
 
         /// <summary>
-        ///     获取及设置新建一个书籍的校验器。
+        ///     获取及设置新建一本书籍的校验器。
         /// </summary>
         public IValidator<BookCreate> BookCreateValidator { get; set; }
 
@@ -72,10 +72,10 @@ namespace Sheep.ServiceInterface.Books
 
         #endregion
 
-        #region 新建一个书籍
+        #region 新建一本书籍
 
         /// <summary>
-        ///     新建一个书籍。
+        ///     新建一本书籍。
         /// </summary>
         public async Task<object> Post(BookCreate request)
         {

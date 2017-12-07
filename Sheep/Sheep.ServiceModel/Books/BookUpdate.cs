@@ -5,9 +5,9 @@ using Sheep.ServiceModel.Books.Entities;
 namespace Sheep.ServiceModel.Books
 {
     /// <summary>
-    ///     更新一个书籍的请求。
+    ///     更新一本书籍的请求。
     /// </summary>
-    [Route("/books/{BookId}", HttpMethods.Put, Summary = "更新一个书籍")]
+    [Route("/books/{BookId}", HttpMethods.Put, Summary = "更新一本书籍")]
     [DataContract]
     public class BookUpdate : IReturn<BookUpdateResponse>
     {
@@ -62,7 +62,7 @@ namespace Sheep.ServiceModel.Books
     }
 
     /// <summary>
-    ///     更新一个书籍的响应。
+    ///     更新一本书籍的响应。
     /// </summary>
     [DataContract]
     public class BookUpdateResponse : IHasResponseStatus
