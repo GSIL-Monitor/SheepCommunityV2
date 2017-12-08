@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Funcular.IdGenerators.Base36;
 using RethinkDb.Driver;
 using RethinkDb.Driver.Ast;
 using RethinkDb.Driver.Model;
@@ -10,6 +9,7 @@ using RethinkDb.Driver.Net;
 using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Logging;
+using Sheep.Model.Properties;
 using Sheep.Model.Read.Entities;
 
 namespace Sheep.Model.Read.Repositories
@@ -98,6 +98,8 @@ namespace Sheep.Model.Read.Repositories
             if (!tables.Contains(s_ChapterAnnotationTable))
             {
                 R.TableCreate(s_ChapterAnnotationTable).OptArg("primary_key", "Id").OptArg("durability", Durability.Soft).OptArg("shards", _shards).OptArg("replicas", _replicas).RunResult(_conn).AssertNoErrors().AssertTablesCreated(1);
+                R.Table(s_ChapterAnnotationTable).IndexCreate("BookId_VolumeNumber_ChapterNumber_Number", row => R.Array(row.G("BookId"), row.G("VolumeNumber"), row.G("ChapterNumber"), row.G("Number"))).RunResult(_conn).AssertNoErrors();
+                R.Table(s_ChapterAnnotationTable).IndexCreate("ChapterId_Number", row => R.Array(row.G("ChapterId"), row.G("Number"))).RunResult(_conn).AssertNoErrors();
                 R.Table(s_ChapterAnnotationTable).IndexCreate("BookId").RunResult(_conn).AssertNoErrors();
                 R.Table(s_ChapterAnnotationTable).IndexCreate("VolumeId").RunResult(_conn).AssertNoErrors();
                 R.Table(s_ChapterAnnotationTable).IndexCreate("ChapterId").RunResult(_conn).AssertNoErrors();
@@ -122,6 +124,34 @@ namespace Sheep.Model.Read.Repositories
 
         #region 检测章注释是否存在
 
+        private void AssertNoExistingChapterAnnotation(ChapterAnnotation newChapterAnnotation, ChapterAnnotation exceptForExistingChapterAnnotation = null)
+        {
+            var existingChapterAnnotation = GetChapterAnnotation(newChapterAnnotation.ChapterId, newChapterAnnotation.Number);
+            if (existingChapterAnnotation != null && (exceptForExistingChapterAnnotation == null || existingChapterAnnotation.Id != exceptForExistingChapterAnnotation.Id))
+            {
+                throw new ArgumentException(string.Format(Resources.ChapterWithNumberAlreadyExists, newChapterAnnotation.ChapterId, newChapterAnnotation.Number));
+            }
+            existingChapterAnnotation = GetChapterAnnotation(newChapterAnnotation.BookId, newChapterAnnotation.VolumeNumber, newChapterAnnotation.ChapterNumber, newChapterAnnotation.Number);
+            if (existingChapterAnnotation != null && (exceptForExistingChapterAnnotation == null || existingChapterAnnotation.Id != exceptForExistingChapterAnnotation.Id))
+            {
+                throw new ArgumentException(string.Format(Resources.BookWithVolumeAndChapterAndNumberAlreadyExists, newChapterAnnotation.BookId, newChapterAnnotation.VolumeNumber, newChapterAnnotation.ChapterNumber, newChapterAnnotation.Number));
+            }
+        }
+
+        private async Task AssertNoExistingChapterAnnotationAsync(ChapterAnnotation newChapterAnnotation, ChapterAnnotation exceptForExistingChapterAnnotation = null)
+        {
+            var existingChapterAnnotation = await GetChapterAnnotationAsync(newChapterAnnotation.ChapterId, newChapterAnnotation.Number);
+            if (existingChapterAnnotation != null && (exceptForExistingChapterAnnotation == null || existingChapterAnnotation.Id != exceptForExistingChapterAnnotation.Id))
+            {
+                throw new ArgumentException(string.Format(Resources.ChapterWithNumberAlreadyExists, newChapterAnnotation.ChapterId, newChapterAnnotation.Number));
+            }
+            existingChapterAnnotation = await GetChapterAnnotationAsync(newChapterAnnotation.BookId, newChapterAnnotation.VolumeNumber, newChapterAnnotation.ChapterNumber, newChapterAnnotation.Number);
+            if (existingChapterAnnotation != null && (exceptForExistingChapterAnnotation == null || existingChapterAnnotation.Id != exceptForExistingChapterAnnotation.Id))
+            {
+                throw new ArgumentException(string.Format(Resources.BookWithVolumeAndChapterAndNumberAlreadyExists, newChapterAnnotation.BookId, newChapterAnnotation.VolumeNumber, newChapterAnnotation.ChapterNumber, newChapterAnnotation.Number));
+            }
+        }
+
         #endregion
 
         #region IChapterAnnotationRepository 接口实现
@@ -139,9 +169,33 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public List<ChapterAnnotation> FindChapterAnnotations(string bookId, string annotationFilter, string orderBy, bool? descending, int? skip, int? limit)
+        public ChapterAnnotation GetChapterAnnotation(string chapterId, int number)
         {
-            var query = R.Table(s_ChapterAnnotationTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
+            return R.Table(s_ChapterAnnotationTable).GetAll(R.Array(chapterId, number)).OptArg("index", "ChapterId_Number").Nth(0).Default_(default(ChapterAnnotation)).RunResult<ChapterAnnotation>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<ChapterAnnotation> GetChapterAnnotationAsync(string chapterId, int number)
+        {
+            return R.Table(s_ChapterAnnotationTable).GetAll(R.Array(chapterId, number)).OptArg("index", "ChapterId_Number").Nth(0).Default_(default(ChapterAnnotation)).RunResultAsync<ChapterAnnotation>(_conn);
+        }
+
+        /// <inheritdoc />
+        public ChapterAnnotation GetChapterAnnotation(string bookId, int volumeNumber, int chapterNumber, int number)
+        {
+            return R.Table(s_ChapterAnnotationTable).GetAll(R.Array(bookId, volumeNumber, chapterNumber, number)).OptArg("index", "BookId_VolumeNumber_ChapterNumber_Number").Nth(0).Default_(default(ChapterAnnotation)).RunResult<ChapterAnnotation>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<ChapterAnnotation> GetChapterAnnotationAsync(string bookId, int volumeNumber, int chapterNumber, int number)
+        {
+            return R.Table(s_ChapterAnnotationTable).GetAll(R.Array(bookId, volumeNumber, chapterNumber, number)).OptArg("index", "BookId_VolumeNumber_ChapterNumber_Number").Nth(0).Default_(default(ChapterAnnotation)).RunResultAsync<ChapterAnnotation>(_conn);
+        }
+
+        /// <inheritdoc />
+        public List<ChapterAnnotation> FindChapterAnnotations(string bookId, int volumeNumber, int chapterNumber, string annotationFilter, string orderBy, bool? descending, int? skip, int? limit)
+        {
+            var query = R.Table(s_ChapterAnnotationTable).GetAll(bookId).OptArg("index", "BookId").Filter(row => row.G("VolumeNumber").Eq(volumeNumber).And(row.G("ChapterNumber").Eq(chapterNumber)));
             if (!annotationFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Annotation").Match(annotationFilter));
@@ -159,9 +213,9 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public Task<List<ChapterAnnotation>> FindChapterAnnotationsAsync(string bookId, string annotationFilter, string orderBy, bool? descending, int? skip, int? limit)
+        public Task<List<ChapterAnnotation>> FindChapterAnnotationsAsync(string bookId, int volumeNumber, int chapterNumber, string annotationFilter, string orderBy, bool? descending, int? skip, int? limit)
         {
-            var query = R.Table(s_ChapterAnnotationTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
+            var query = R.Table(s_ChapterAnnotationTable).GetAll(bookId).OptArg("index", "BookId").Filter(row => row.G("VolumeNumber").Eq(volumeNumber).And(row.G("ChapterNumber").Eq(chapterNumber)));
             if (!annotationFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Annotation").Match(annotationFilter));
@@ -211,9 +265,41 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public int GetChapterAnnotationsCount(string bookId, string annotationFilter)
+        public List<ChapterAnnotation> FindChapterAnnotationsByChapters(IEnumerable<string> chapterIds, string orderBy, bool? descending, int? skip, int? limit)
         {
-            var query = R.Table(s_ChapterAnnotationTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
+            var query = R.Table(s_ChapterAnnotationTable).GetAll(R.Args(chapterIds.ToArray())).OptArg("index", "ChapterId").Filter(true);
+            OrderBy queryOrder;
+            if (!orderBy.IsNullOrEmpty())
+            {
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc(orderBy)) : query.OrderBy(orderBy);
+            }
+            else
+            {
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("Number")) : query.OrderBy("Number");
+            }
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 10000).RunResult<List<ChapterAnnotation>>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<List<ChapterAnnotation>> FindChapterAnnotationsByChaptersAsync(IEnumerable<string> chapterIds, string orderBy, bool? descending, int? skip, int? limit)
+        {
+            var query = R.Table(s_ChapterAnnotationTable).GetAll(R.Args(chapterIds.ToArray())).OptArg("index", "ChapterId").Filter(true);
+            OrderBy queryOrder;
+            if (!orderBy.IsNullOrEmpty())
+            {
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc(orderBy)) : query.OrderBy(orderBy);
+            }
+            else
+            {
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("Number")) : query.OrderBy("Number");
+            }
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 10000).RunResultAsync<List<ChapterAnnotation>>(_conn);
+        }
+
+        /// <inheritdoc />
+        public int GetChapterAnnotationsCount(string bookId, int volumeNumber, int chapterNumber, string annotationFilter)
+        {
+            var query = R.Table(s_ChapterAnnotationTable).GetAll(bookId).OptArg("index", "BookId").Filter(row => row.G("VolumeNumber").Eq(volumeNumber).And(row.G("ChapterNumber").Eq(chapterNumber)));
             if (!annotationFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Annotation").Match(annotationFilter));
@@ -222,9 +308,9 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public Task<int> GetChapterAnnotationsCountAsync(string bookId, string annotationFilter)
+        public Task<int> GetChapterAnnotationsCountAsync(string bookId, int volumeNumber, int chapterNumber, string annotationFilter)
         {
-            var query = R.Table(s_ChapterAnnotationTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
+            var query = R.Table(s_ChapterAnnotationTable).GetAll(bookId).OptArg("index", "BookId").Filter(row => row.G("VolumeNumber").Eq(volumeNumber).And(row.G("ChapterNumber").Eq(chapterNumber)));
             if (!annotationFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Annotation").Match(annotationFilter));
@@ -250,7 +336,8 @@ namespace Sheep.Model.Read.Repositories
         public ChapterAnnotation CreateChapterAnnotation(ChapterAnnotation newChapterAnnotation)
         {
             newChapterAnnotation.ThrowIfNull(nameof(newChapterAnnotation));
-            newChapterAnnotation.Id = newChapterAnnotation.Id.IsNullOrEmpty() ? new Base36IdGenerator(10, 4, 4).NewId().ToLower() : newChapterAnnotation.Id;
+            AssertNoExistingChapterAnnotation(newChapterAnnotation);
+            newChapterAnnotation.Id = string.Format("{0}-{1}", newChapterAnnotation.ChapterId, newChapterAnnotation.Number);
             var result = R.Table(s_ChapterAnnotationTable).Get(newChapterAnnotation.Id).Replace(newChapterAnnotation).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
             return result.ChangesAs<ChapterAnnotation>()[0].NewValue;
         }
@@ -259,7 +346,8 @@ namespace Sheep.Model.Read.Repositories
         public async Task<ChapterAnnotation> CreateChapterAnnotationAsync(ChapterAnnotation newChapterAnnotation)
         {
             newChapterAnnotation.ThrowIfNull(nameof(newChapterAnnotation));
-            newChapterAnnotation.Id = newChapterAnnotation.Id.IsNullOrEmpty() ? new Base36IdGenerator(10, 4, 4).NewId().ToLower() : newChapterAnnotation.Id;
+            await AssertNoExistingChapterAnnotationAsync(newChapterAnnotation);
+            newChapterAnnotation.Id = string.Format("{0}-{1}", newChapterAnnotation.ChapterId, newChapterAnnotation.Number);
             var result = (await R.Table(s_ChapterAnnotationTable).Get(newChapterAnnotation.Id).Replace(newChapterAnnotation).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
             return result.ChangesAs<ChapterAnnotation>()[0].NewValue;
         }
@@ -269,7 +357,11 @@ namespace Sheep.Model.Read.Repositories
         {
             existingChapterAnnotation.ThrowIfNull(nameof(existingChapterAnnotation));
             newChapterAnnotation.Id = existingChapterAnnotation.Id;
+            newChapterAnnotation.BookId = existingChapterAnnotation.BookId;
+            newChapterAnnotation.VolumeId = existingChapterAnnotation.VolumeId;
+            newChapterAnnotation.VolumeNumber = existingChapterAnnotation.VolumeNumber;
             newChapterAnnotation.ChapterId = existingChapterAnnotation.ChapterId;
+            newChapterAnnotation.ChapterNumber = existingChapterAnnotation.ChapterNumber;
             newChapterAnnotation.Number = existingChapterAnnotation.Number;
             var result = R.Table(s_ChapterAnnotationTable).Get(newChapterAnnotation.Id).Replace(newChapterAnnotation).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
             return result.ChangesAs<ChapterAnnotation>()[0].NewValue;
@@ -280,7 +372,11 @@ namespace Sheep.Model.Read.Repositories
         {
             existingChapterAnnotation.ThrowIfNull(nameof(existingChapterAnnotation));
             newChapterAnnotation.Id = existingChapterAnnotation.Id;
+            newChapterAnnotation.BookId = existingChapterAnnotation.BookId;
+            newChapterAnnotation.VolumeId = existingChapterAnnotation.VolumeId;
+            newChapterAnnotation.VolumeNumber = existingChapterAnnotation.VolumeNumber;
             newChapterAnnotation.ChapterId = existingChapterAnnotation.ChapterId;
+            newChapterAnnotation.ChapterNumber = existingChapterAnnotation.ChapterNumber;
             newChapterAnnotation.Number = existingChapterAnnotation.Number;
             var result = (await R.Table(s_ChapterAnnotationTable).Get(newChapterAnnotation.Id).Replace(newChapterAnnotation).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
             return result.ChangesAs<ChapterAnnotation>()[0].NewValue;

@@ -16,21 +16,27 @@ namespace Sheep.ServiceModel.Volumes.Entities
         public string Id { get; set; }
 
         /// <summary>
-        ///     序号。
+        ///     卷序号。
         /// </summary>
         [DataMember(Order = 2)]
+        public int VolumeNumber { get; set; }
+
+        /// <summary>
+        ///     序号。
+        /// </summary>
+        [DataMember(Order = 3)]
         public int Number { get; set; }
 
         /// <summary>
         ///     标题。
         /// </summary>
-        [DataMember(Order = 3)]
+        [DataMember(Order = 4)]
         public string Title { get; set; }
 
         /// <summary>
         ///     注释。
         /// </summary>
-        [DataMember(Order = 4)]
+        [DataMember(Order = 5)]
         public string Annotation { get; set; }
     }
 }

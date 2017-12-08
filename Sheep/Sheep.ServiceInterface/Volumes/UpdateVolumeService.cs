@@ -100,7 +100,7 @@ namespace Sheep.ServiceInterface.Volumes
             newVolume.Title = request.Title.Replace("\"", "'");
             newVolume.Abbreviation = request.Abbreviation;
             var volume = await VolumeRepo.UpdateVolumeAsync(existingVolume, newVolume);
-            var volumeAnnotations = await VolumeAnnotationRepo.FindVolumeAnnotationsByVolumeAsync(existingVolume.Id, null, null, null, null);
+            var volumeAnnotations = await VolumeAnnotationRepo.FindVolumeAnnotationsByVolumeAsync(volume.Id, null, null, null, null);
             ResetCache(volume);
             return new VolumeUpdateResponse
                    {

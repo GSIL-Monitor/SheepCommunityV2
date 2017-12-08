@@ -15,6 +15,7 @@ namespace Sheep.ServiceInterface.Volumes.Mappers
             var volumeAnnotationDto = new VolumeAnnotationDto
                                       {
                                           Id = volumeAnnotation.Id,
+                                          VolumeNumber = volumeAnnotation.VolumeNumber,
                                           Number = volumeAnnotation.Number,
                                           Title = volumeAnnotation.Title,
                                           Annotation = volumeAnnotation.Annotation

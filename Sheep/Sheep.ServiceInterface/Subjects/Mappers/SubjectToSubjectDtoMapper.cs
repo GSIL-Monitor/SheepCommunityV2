@@ -15,6 +15,7 @@ namespace Sheep.ServiceInterface.Subjects.Mappers
             var subjectDto = new SubjectDto
                              {
                                  Id = subject.Id,
+                                 VolumeNumber = subject.VolumeNumber,
                                  Number = subject.Number,
                                  Title = subject.Title
                              };

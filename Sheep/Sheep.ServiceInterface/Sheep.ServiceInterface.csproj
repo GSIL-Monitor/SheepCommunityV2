@@ -143,6 +143,14 @@
     <Compile Include="Books\Mappers\BookToBookDtoMapper.cs" />
     <Compile Include="Books\ShowBookService.cs" />
     <Compile Include="Books\UpdateBookService.cs" />
+    <Compile Include="Chapters\ChangeChapterService.cs" />
+    <Compile Include="Chapters\CreateChapterService.cs" />
+    <Compile Include="Chapters\DeleteChapterService.cs" />
+    <Compile Include="Chapters\ListChapterService.cs" />
+    <Compile Include="Chapters\Mappers\ChapterToChapterDtoMapper.cs" />
+    <Compile Include="Chapters\Mappers\ChapterAnnotationToChapterAnnotationDtoMapper.cs" />
+    <Compile Include="Chapters\ShowChapterService.cs" />
+    <Compile Include="Chapters\UpdateChapterService.cs" />
     <Compile Include="Cities\ListCityService.cs" />
     <Compile Include="Cities\Mappers\CityToToCityDtoMapper.cs" />
     <Compile Include="Cities\ShowCityByNameService.cs" />

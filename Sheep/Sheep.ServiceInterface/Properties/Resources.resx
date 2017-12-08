@@ -246,4 +246,10 @@
   <data name="SubjectsNotFound" xml:space="preserve">
     <value>无法找到指定条件的主题列表。</value>
   </data>
+  <data name="ChapterNotFound" xml:space="preserve">
+    <value>无法找到指定的章{0}。</value>
+  </data>
+  <data name="ChaptersNotFound" xml:space="preserve">
+    <value>无法找到指定条件的章列表。</value>
+  </data>
 </root>

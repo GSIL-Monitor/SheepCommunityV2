@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Funcular.IdGenerators.Base36;
 using RethinkDb.Driver;
 using RethinkDb.Driver.Ast;
 using RethinkDb.Driver.Model;
@@ -10,6 +9,7 @@ using RethinkDb.Driver.Net;
 using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Logging;
+using Sheep.Model.Properties;
 using Sheep.Model.Read.Entities;
 
 namespace Sheep.Model.Read.Repositories
@@ -108,6 +108,8 @@ namespace Sheep.Model.Read.Repositories
             if (!tables.Contains(s_ChapterTable))
             {
                 R.TableCreate(s_ChapterTable).OptArg("primary_key", "Id").OptArg("durability", Durability.Soft).OptArg("shards", _shards).OptArg("replicas", _replicas).RunResult(_conn).AssertNoErrors().AssertTablesCreated(1);
+                R.Table(s_ChapterTable).IndexCreate("BookId_VolumeNumber_Number", row => R.Array(row.G("BookId"), row.G("VolumeNumber"), row.G("Number"))).RunResult(_conn).AssertNoErrors();
+                R.Table(s_ChapterTable).IndexCreate("VolumeId_Number", row => R.Array(row.G("VolumeId"), row.G("Number"))).RunResult(_conn).AssertNoErrors();
                 R.Table(s_ChapterTable).IndexCreate("BookId").RunResult(_conn).AssertNoErrors();
                 R.Table(s_ChapterTable).IndexCreate("VolumeId").RunResult(_conn).AssertNoErrors();
                 //R.Table(s_ChapterTable).IndexWait().RunResult(_conn).AssertNoErrors();
@@ -131,6 +133,34 @@ namespace Sheep.Model.Read.Repositories
 
         #region 检测章是否存在
 
+        private void AssertNoExistingChapter(Chapter newChapter, Chapter exceptForExistingChapter = null)
+        {
+            var existingChapter = GetChapter(newChapter.VolumeId, newChapter.Number);
+            if (existingChapter != null && (exceptForExistingChapter == null || existingChapter.Id != exceptForExistingChapter.Id))
+            {
+                throw new ArgumentException(string.Format(Resources.VolumeWithNumberAlreadyExists, newChapter.VolumeId, newChapter.Number));
+            }
+            existingChapter = GetChapter(newChapter.BookId, newChapter.VolumeNumber, newChapter.Number);
+            if (existingChapter != null && (exceptForExistingChapter == null || existingChapter.Id != exceptForExistingChapter.Id))
+            {
+                throw new ArgumentException(string.Format(Resources.BookWithVolumeAndNumberAlreadyExists, newChapter.BookId, newChapter.VolumeNumber, newChapter.Number));
+            }
+        }
+
+        private async Task AssertNoExistingChapterAsync(Chapter newChapter, Chapter exceptForExistingChapter = null)
+        {
+            var existingChapter = await GetChapterAsync(newChapter.VolumeId, newChapter.Number);
+            if (existingChapter != null && (exceptForExistingChapter == null || existingChapter.Id != exceptForExistingChapter.Id))
+            {
+                throw new ArgumentException(string.Format(Resources.VolumeWithNumberAlreadyExists, newChapter.VolumeId, newChapter.Number));
+            }
+            existingChapter = await GetChapterAsync(newChapter.BookId, newChapter.VolumeNumber, newChapter.Number);
+            if (existingChapter != null && (exceptForExistingChapter == null || existingChapter.Id != exceptForExistingChapter.Id))
+            {
+                throw new ArgumentException(string.Format(Resources.BookWithVolumeAndNumberAlreadyExists, newChapter.BookId, newChapter.VolumeNumber, newChapter.Number));
+            }
+        }
+
         #endregion
 
         #region IChapterRepository 接口实现
@@ -148,9 +178,33 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public List<Chapter> FindChapters(string bookId, string contentFilter, string orderBy, bool? descending, int? skip, int? limit)
+        public Chapter GetChapter(string volumeId, int number)
         {
-            var query = R.Table(s_ChapterTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
+            return R.Table(s_ChapterTable).GetAll(R.Array(volumeId, number)).OptArg("index", "VolumeId_Number").Nth(0).Default_(default(Chapter)).RunResult<Chapter>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<Chapter> GetChapterAsync(string volumeId, int number)
+        {
+            return R.Table(s_ChapterTable).GetAll(R.Array(volumeId, number)).OptArg("index", "VolumeId_Number").Nth(0).Default_(default(Chapter)).RunResultAsync<Chapter>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Chapter GetChapter(string bookId, int volumeNumber, int number)
+        {
+            return R.Table(s_ChapterTable).GetAll(R.Array(bookId, volumeNumber, number)).OptArg("index", "BookId_VolumeNumber_Number").Nth(0).Default_(default(Chapter)).RunResult<Chapter>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<Chapter> GetChapterAsync(string bookId, int volumeNumber, int number)
+        {
+            return R.Table(s_ChapterTable).GetAll(R.Array(bookId, volumeNumber, number)).OptArg("index", "BookId_VolumeNumber_Number").Nth(0).Default_(default(Chapter)).RunResultAsync<Chapter>(_conn);
+        }
+
+        /// <inheritdoc />
+        public List<Chapter> FindChapters(string bookId, int volumeNumber, string contentFilter, string orderBy, bool? descending, int? skip, int? limit)
+        {
+            var query = R.Table(s_ChapterTable).GetAll(bookId).OptArg("index", "BookId").Filter(row => row.G("VolumeNumber").Eq(volumeNumber));
             if (!contentFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Content").Match(contentFilter));
@@ -168,9 +222,9 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public Task<List<Chapter>> FindChaptersAsync(string bookId, string contentFilter, string orderBy, bool? descending, int? skip, int? limit)
+        public Task<List<Chapter>> FindChaptersAsync(string bookId, int volumeNumber, string contentFilter, string orderBy, bool? descending, int? skip, int? limit)
         {
-            var query = R.Table(s_ChapterTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
+            var query = R.Table(s_ChapterTable).GetAll(bookId).OptArg("index", "BookId").Filter(row => row.G("VolumeNumber").Eq(volumeNumber));
             if (!contentFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Content").Match(contentFilter));
@@ -220,9 +274,9 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public int GetChaptersCount(string bookId, string contentFilter)
+        public int GetChaptersCount(string bookId, int volumeNumber, string contentFilter)
         {
-            var query = R.Table(s_ChapterTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
+            var query = R.Table(s_ChapterTable).GetAll(bookId).OptArg("index", "BookId").Filter(row => row.G("VolumeNumber").Eq(volumeNumber));
             if (!contentFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Content").Match(contentFilter));
@@ -231,9 +285,9 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public Task<int> GetChaptersCountAsync(string bookId, string contentFilter)
+        public Task<int> GetChaptersCountAsync(string bookId, int volumeNumber, string contentFilter)
         {
-            var query = R.Table(s_ChapterTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
+            var query = R.Table(s_ChapterTable).GetAll(bookId).OptArg("index", "BookId").Filter(row => row.G("VolumeNumber").Eq(volumeNumber));
             if (!contentFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Content").Match(contentFilter));
@@ -259,7 +313,9 @@ namespace Sheep.Model.Read.Repositories
         public Chapter CreateChapter(Chapter newChapter)
         {
             newChapter.ThrowIfNull(nameof(newChapter));
-            newChapter.Id = newChapter.Id.IsNullOrEmpty() ? new Base36IdGenerator(10, 4, 4).NewId().ToLower() : newChapter.Id;
+            AssertNoExistingChapter(newChapter);
+            newChapter.Id = string.Format("{0}-{1}", newChapter.VolumeId, newChapter.Number);
+            newChapter.ParagraphsCount = 0;
             newChapter.ViewsCount = 0;
             newChapter.BookmarksCount = 0;
             newChapter.CommentsCount = 0;
@@ -275,7 +331,9 @@ namespace Sheep.Model.Read.Repositories
         public async Task<Chapter> CreateChapterAsync(Chapter newChapter)
         {
             newChapter.ThrowIfNull(nameof(newChapter));
-            newChapter.Id = newChapter.Id.IsNullOrEmpty() ? new Base36IdGenerator(10, 4, 4).NewId().ToLower() : newChapter.Id;
+            await AssertNoExistingChapterAsync(newChapter);
+            newChapter.Id = string.Format("{0}-{1}", newChapter.VolumeId, newChapter.Number);
+            newChapter.ParagraphsCount = 0;
             newChapter.ViewsCount = 0;
             newChapter.BookmarksCount = 0;
             newChapter.CommentsCount = 0;
@@ -292,7 +350,9 @@ namespace Sheep.Model.Read.Repositories
         {
             existingChapter.ThrowIfNull(nameof(existingChapter));
             newChapter.Id = existingChapter.Id;
+            newChapter.BookId = existingChapter.BookId;
             newChapter.VolumeId = existingChapter.VolumeId;
+            newChapter.VolumeNumber = existingChapter.VolumeNumber;
             newChapter.Number = existingChapter.Number;
             var result = R.Table(s_ChapterTable).Get(newChapter.Id).Replace(newChapter).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
             return result.ChangesAs<Chapter>()[0].NewValue;
@@ -303,7 +363,9 @@ namespace Sheep.Model.Read.Repositories
         {
             existingChapter.ThrowIfNull(nameof(existingChapter));
             newChapter.Id = existingChapter.Id;
+            newChapter.BookId = existingChapter.BookId;
             newChapter.VolumeId = existingChapter.VolumeId;
+            newChapter.VolumeNumber = existingChapter.VolumeNumber;
             newChapter.Number = existingChapter.Number;
             var result = (await R.Table(s_ChapterTable).Get(newChapter.Id).Replace(newChapter).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
             return result.ChangesAs<Chapter>()[0].NewValue;
@@ -323,6 +385,20 @@ namespace Sheep.Model.Read.Repositories
             (await R.Table(s_ChapterTable).Get(chapterId).Delete().RunResultAsync(_conn)).AssertNoErrors();
             (await R.Table(s_ChapterAnnotationTable).GetAll(chapterId).OptArg("index", "ChapterId").Delete().RunResultAsync(_conn)).AssertNoErrors();
             (await R.Table(s_ParagraphTable).GetAll(chapterId).OptArg("index", "ChapterId").Delete().RunResultAsync(_conn)).AssertNoErrors();
+        }
+
+        /// <inheritdoc />
+        public Chapter IncrementChapterParagraphsCount(string chapterId, int count)
+        {
+            var result = R.Table(s_ChapterTable).Get(chapterId).Update(row => R.HashMap("ParagraphsCount", row.G("ParagraphsCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
+            return result.ChangesAs<Chapter>()[0].NewValue;
+        }
+
+        /// <inheritdoc />
+        public async Task<Chapter> IncrementChapterParagraphsCountAsync(string chapterId, int count)
+        {
+            var result = (await R.Table(s_ChapterTable).Get(chapterId).Update(row => R.HashMap("ParagraphsCount", row.G("ParagraphsCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
+            return result.ChangesAs<Chapter>()[0].NewValue;
         }
 
         /// <inheritdoc />

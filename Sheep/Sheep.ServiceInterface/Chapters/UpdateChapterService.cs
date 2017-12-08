@@ -10,23 +10,23 @@ using ServiceStack.Logging;
 using ServiceStack.Validation;
 using Sheep.Model.Read;
 using Sheep.Model.Read.Entities;
+using Sheep.ServiceInterface.Chapters.Mappers;
 using Sheep.ServiceInterface.Properties;
-using Sheep.ServiceInterface.Volumes.Mappers;
-using Sheep.ServiceModel.Volumes;
+using Sheep.ServiceModel.Chapters;
 
-namespace Sheep.ServiceInterface.Volumes
+namespace Sheep.ServiceInterface.Chapters
 {
     /// <summary>
-    ///     新建一卷服务接口。
+    ///     更新一章服务接口。
     /// </summary>
-    public class CreateVolumeService : ChangeVolumeService
+    public class UpdateChapterService : ChangeChapterService
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(CreateVolumeService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(UpdateChapterService));
 
         #endregion
 
@@ -48,9 +48,9 @@ namespace Sheep.ServiceInterface.Volumes
         public INimClient NimClient { get; set; }
 
         /// <summary>
-        ///     获取及设置新建一卷的校验器。
+        ///     获取及设置更新一章的校验器。
         /// </summary>
-        public IValidator<VolumeCreate> VolumeCreateValidator { get; set; }
+        public IValidator<ChapterUpdate> ChapterUpdateValidator { get; set; }
 
         /// <summary>
         ///     获取及设置用户身份的存储库。
@@ -68,18 +68,23 @@ namespace Sheep.ServiceInterface.Volumes
         public IVolumeRepository VolumeRepo { get; set; }
 
         /// <summary>
-        ///     获取及设置卷注释的存储库。
+        ///     获取及设置章的存储库。
         /// </summary>
-        public IVolumeAnnotationRepository VolumeAnnotationRepo { get; set; }
+        public IChapterRepository ChapterRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置章注释的存储库。
+        /// </summary>
+        public IChapterAnnotationRepository ChapterAnnotationRepo { get; set; }
 
         #endregion
 
-        #region 新建一卷
+        #region 更新一章
 
         /// <summary>
-        ///     新建一卷。
+        ///     更新一章。
         /// </summary>
-        public async Task<object> Post(VolumeCreate request)
+        public async Task<object> Put(ChapterUpdate request)
         {
             if (!IsAuthenticated)
             {
@@ -87,31 +92,24 @@ namespace Sheep.ServiceInterface.Volumes
             }
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
-                VolumeCreateValidator.ValidateAndThrow(request, ApplyTo.Post);
+                ChapterUpdateValidator.ValidateAndThrow(request, ApplyTo.Put);
             }
-            var existingVolume = await VolumeRepo.GetVolumeAsync(request.BookId, request.VolumeNumber);
-            if (existingVolume != null)
+            var existingChapter = await ChapterRepo.GetChapterAsync(request.BookId, request.VolumeNumber, request.ChapterNumber);
+            if (existingChapter == null)
             {
-                var volumeAnnotations = await VolumeAnnotationRepo.FindVolumeAnnotationsByVolumeAsync(existingVolume.Id, null, null, null, null);
-                return new VolumeCreateResponse
-                       {
-                           Volume = existingVolume.MapToVolumeDto(volumeAnnotations)
-                       };
+                throw HttpError.NotFound(string.Format(Resources.ChapterNotFound, string.Format("{0}-{1}-{2}", request.BookId, request.VolumeNumber, request.ChapterNumber)));
             }
-            var newVolume = new Volume
-                            {
-                                Meta = new Dictionary<string, string>(),
-                                BookId = request.BookId,
-                                Number = request.VolumeNumber,
-                                Title = request.Title.Replace("\"", "'"),
-                                Abbreviation = request.Abbreviation.Replace("\"", "'")
-                            };
-            var volume = await VolumeRepo.CreateVolumeAsync(newVolume);
-            await BookRepo.IncrementBookVolumesCountAsync(volume.BookId, 1);
-            ResetCache(volume);
-            return new VolumeCreateResponse
+            var newChapter = new Chapter();
+            newChapter.PopulateWith(existingChapter);
+            newChapter.Meta = existingChapter.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingChapter.Meta);
+            newChapter.Title = request.Title.Replace("\"", "'");
+            newChapter.Content = request.Content.Replace("\"", "'");
+            var chapter = await ChapterRepo.UpdateChapterAsync(existingChapter, newChapter);
+            var chapterAnnotations = await ChapterAnnotationRepo.FindChapterAnnotationsByChapterAsync(chapter.Id, null, null, null, null);
+            ResetCache(chapter);
+            return new ChapterUpdateResponse
                    {
-                       Volume = volume.MapToVolumeDto(new List<VolumeAnnotation>())
+                       Chapter = chapter.MapToChapterDto(chapterAnnotations)
                    };
         }
 
