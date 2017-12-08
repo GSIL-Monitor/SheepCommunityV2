@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Funcular.IdGenerators.Base36;
 using RethinkDb.Driver;
 using RethinkDb.Driver.Ast;
 using RethinkDb.Driver.Model;
@@ -10,6 +9,7 @@ using RethinkDb.Driver.Net;
 using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Logging;
+using Sheep.Model.Properties;
 using Sheep.Model.Read.Entities;
 
 namespace Sheep.Model.Read.Repositories
@@ -98,6 +98,8 @@ namespace Sheep.Model.Read.Repositories
             if (!tables.Contains(s_ParagraphTable))
             {
                 R.TableCreate(s_ParagraphTable).OptArg("primary_key", "Id").OptArg("durability", Durability.Soft).OptArg("shards", _shards).OptArg("replicas", _replicas).RunResult(_conn).AssertNoErrors().AssertTablesCreated(1);
+                R.Table(s_ParagraphTable).IndexCreate("BookId_VolumeNumber_ChapterNumber_Number", row => R.Array(row.G("BookId"), row.G("VolumeNumber"), row.G("ChapterNumber"), row.G("Number"))).RunResult(_conn).AssertNoErrors();
+                R.Table(s_ParagraphTable).IndexCreate("ChapterId_Number", row => R.Array(row.G("ChapterId"), row.G("Number"))).RunResult(_conn).AssertNoErrors();
                 R.Table(s_ParagraphTable).IndexCreate("BookId").RunResult(_conn).AssertNoErrors();
                 R.Table(s_ParagraphTable).IndexCreate("VolumeId").RunResult(_conn).AssertNoErrors();
                 R.Table(s_ParagraphTable).IndexCreate("ChapterId").RunResult(_conn).AssertNoErrors();
@@ -123,6 +125,34 @@ namespace Sheep.Model.Read.Repositories
 
         #region 检测节是否存在
 
+        private void AssertNoExistingParagraph(Paragraph newParagraph, Paragraph exceptForExistingParagraph = null)
+        {
+            var existingParagraph = GetParagraph(newParagraph.ChapterId, newParagraph.Number);
+            if (existingParagraph != null && (exceptForExistingParagraph == null || existingParagraph.Id != exceptForExistingParagraph.Id))
+            {
+                throw new ArgumentException(string.Format(Resources.ChapterWithNumberAlreadyExists, newParagraph.ChapterId, newParagraph.Number));
+            }
+            existingParagraph = GetParagraph(newParagraph.BookId, newParagraph.VolumeNumber, newParagraph.ChapterNumber, newParagraph.Number);
+            if (existingParagraph != null && (exceptForExistingParagraph == null || existingParagraph.Id != exceptForExistingParagraph.Id))
+            {
+                throw new ArgumentException(string.Format(Resources.BookWithVolumeAndChapterAndNumberAlreadyExists, newParagraph.BookId, newParagraph.VolumeNumber, newParagraph.ChapterNumber, newParagraph.Number));
+            }
+        }
+
+        private async Task AssertNoExistingParagraphAsync(Paragraph newParagraph, Paragraph exceptForExistingParagraph = null)
+        {
+            var existingParagraph = await GetParagraphAsync(newParagraph.ChapterId, newParagraph.Number);
+            if (existingParagraph != null && (exceptForExistingParagraph == null || existingParagraph.Id != exceptForExistingParagraph.Id))
+            {
+                throw new ArgumentException(string.Format(Resources.ChapterWithNumberAlreadyExists, newParagraph.ChapterId, newParagraph.Number));
+            }
+            existingParagraph = await GetParagraphAsync(newParagraph.BookId, newParagraph.VolumeNumber, newParagraph.ChapterNumber, newParagraph.Number);
+            if (existingParagraph != null && (exceptForExistingParagraph == null || existingParagraph.Id != exceptForExistingParagraph.Id))
+            {
+                throw new ArgumentException(string.Format(Resources.BookWithVolumeAndChapterAndNumberAlreadyExists, newParagraph.BookId, newParagraph.VolumeNumber, newParagraph.ChapterNumber, newParagraph.Number));
+            }
+        }
+
         #endregion
 
         #region IParagraphRepository 接口实现
@@ -140,16 +170,36 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public List<Paragraph> FindParagraphs(string bookId, string contentFilter, string annotationFilter, string orderBy, bool? descending, int? skip, int? limit)
+        public Paragraph GetParagraph(string chapterId, int number)
         {
-            var query = R.Table(s_ParagraphTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
+            return R.Table(s_ParagraphTable).GetAll(R.Array(chapterId, number)).OptArg("index", "ChapterId_Number").Nth(0).Default_(default(Paragraph)).RunResult<Paragraph>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<Paragraph> GetParagraphAsync(string chapterId, int number)
+        {
+            return R.Table(s_ParagraphTable).GetAll(R.Array(chapterId, number)).OptArg("index", "ChapterId_Number").Nth(0).Default_(default(Paragraph)).RunResultAsync<Paragraph>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Paragraph GetParagraph(string bookId, int volumeNumber, int chapterNumber, int number)
+        {
+            return R.Table(s_ParagraphTable).GetAll(R.Array(bookId, volumeNumber, chapterNumber, number)).OptArg("index", "BookId_VolumeNumber_ChapterNumber_Number").Nth(0).Default_(default(Paragraph)).RunResult<Paragraph>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<Paragraph> GetParagraphAsync(string bookId, int volumeNumber, int chapterNumber, int number)
+        {
+            return R.Table(s_ParagraphTable).GetAll(R.Array(bookId, volumeNumber, chapterNumber, number)).OptArg("index", "BookId_VolumeNumber_ChapterNumber_Number").Nth(0).Default_(default(Paragraph)).RunResultAsync<Paragraph>(_conn);
+        }
+
+        /// <inheritdoc />
+        public List<Paragraph> FindParagraphs(string bookId, int volumeNumber, int chapterNumber, string contentFilter, string orderBy, bool? descending, int? skip, int? limit)
+        {
+            var query = R.Table(s_ParagraphTable).GetAll(bookId).OptArg("index", "BookId").Filter(row => row.G("VolumeNumber").Eq(volumeNumber).And(row.G("ChapterNumber").Eq(chapterNumber)));
             if (!contentFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Content").Match(contentFilter));
-            }
-            if (!annotationFilter.IsNullOrEmpty())
-            {
-                query = query.Filter(row => row.G("Annotation").Match(annotationFilter));
             }
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
@@ -164,16 +214,12 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public Task<List<Paragraph>> FindParagraphsAsync(string bookId, string contentFilter, string annotationFilter, string orderBy, bool? descending, int? skip, int? limit)
+        public Task<List<Paragraph>> FindParagraphsAsync(string bookId, int volumeNumber, int chapterNumber, string contentFilter, string orderBy, bool? descending, int? skip, int? limit)
         {
-            var query = R.Table(s_ParagraphTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
+            var query = R.Table(s_ParagraphTable).GetAll(bookId).OptArg("index", "BookId").Filter(row => row.G("VolumeNumber").Eq(volumeNumber).And(row.G("ChapterNumber").Eq(chapterNumber)));
             if (!contentFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Content").Match(contentFilter));
-            }
-            if (!annotationFilter.IsNullOrEmpty())
-            {
-                query = query.Filter(row => row.G("Annotation").Match(annotationFilter));
             }
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
@@ -252,31 +298,23 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public int GetParagraphsCount(string bookId, string contentFilter, string annotationFilter)
+        public int GetParagraphsCount(string bookId, int volumeNumber, int chapterNumber, string contentFilter)
         {
-            var query = R.Table(s_ParagraphTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
+            var query = R.Table(s_ParagraphTable).GetAll(bookId).OptArg("index", "BookId").Filter(row => row.G("VolumeNumber").Eq(volumeNumber).And(row.G("ChapterNumber").Eq(chapterNumber)));
             if (!contentFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Content").Match(contentFilter));
-            }
-            if (!annotationFilter.IsNullOrEmpty())
-            {
-                query = query.Filter(row => row.G("Annotation").Match(annotationFilter));
             }
             return query.Count().RunResult<int>(_conn);
         }
 
         /// <inheritdoc />
-        public Task<int> GetParagraphsCountAsync(string bookId, string contentFilter, string annotationFilter)
+        public Task<int> GetParagraphsCountAsync(string bookId, int volumeNumber, int chapterNumber, string contentFilter)
         {
-            var query = R.Table(s_ParagraphTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
+            var query = R.Table(s_ParagraphTable).GetAll(bookId).OptArg("index", "BookId").Filter(row => row.G("VolumeNumber").Eq(volumeNumber).And(row.G("ChapterNumber").Eq(chapterNumber)));
             if (!contentFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Content").Match(contentFilter));
-            }
-            if (!annotationFilter.IsNullOrEmpty())
-            {
-                query = query.Filter(row => row.G("Annotation").Match(annotationFilter));
             }
             return query.Count().RunResultAsync<int>(_conn);
         }
@@ -313,7 +351,8 @@ namespace Sheep.Model.Read.Repositories
         public Paragraph CreateParagraph(Paragraph newParagraph)
         {
             newParagraph.ThrowIfNull(nameof(newParagraph));
-            newParagraph.Id = newParagraph.Id.IsNullOrEmpty() ? new Base36IdGenerator(11).NewId().ToLower() : newParagraph.Id;
+            AssertNoExistingParagraph(newParagraph);
+            newParagraph.Id = string.Format("{0}-{1}", newParagraph.ChapterId, newParagraph.Number);
             newParagraph.ViewsCount = 0;
             newParagraph.BookmarksCount = 0;
             newParagraph.CommentsCount = 0;
@@ -329,7 +368,8 @@ namespace Sheep.Model.Read.Repositories
         public async Task<Paragraph> CreateParagraphAsync(Paragraph newParagraph)
         {
             newParagraph.ThrowIfNull(nameof(newParagraph));
-            newParagraph.Id = newParagraph.Id.IsNullOrEmpty() ? new Base36IdGenerator(11).NewId().ToLower() : newParagraph.Id;
+            await AssertNoExistingParagraphAsync(newParagraph);
+            newParagraph.Id = string.Format("{0}-{1}", newParagraph.ChapterId, newParagraph.Number);
             newParagraph.ViewsCount = 0;
             newParagraph.BookmarksCount = 0;
             newParagraph.CommentsCount = 0;
@@ -346,8 +386,12 @@ namespace Sheep.Model.Read.Repositories
         {
             existingParagraph.ThrowIfNull(nameof(existingParagraph));
             newParagraph.Id = existingParagraph.Id;
+            newParagraph.BookId = existingParagraph.BookId;
+            newParagraph.VolumeId = existingParagraph.VolumeId;
+            newParagraph.VolumeNumber = existingParagraph.VolumeNumber;
             newParagraph.ChapterId = existingParagraph.ChapterId;
-            newParagraph.SubjectId = existingParagraph.SubjectId;
+            newParagraph.ChapterNumber = existingParagraph.ChapterNumber;
+            //newParagraph.SubjectId = existingParagraph.SubjectId;
             newParagraph.Number = existingParagraph.Number;
             var result = R.Table(s_ParagraphTable).Get(newParagraph.Id).Replace(newParagraph).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
             return result.ChangesAs<Paragraph>()[0].NewValue;
@@ -358,8 +402,12 @@ namespace Sheep.Model.Read.Repositories
         {
             existingParagraph.ThrowIfNull(nameof(existingParagraph));
             newParagraph.Id = existingParagraph.Id;
+            newParagraph.BookId = existingParagraph.BookId;
+            newParagraph.VolumeId = existingParagraph.VolumeId;
+            newParagraph.VolumeNumber = existingParagraph.VolumeNumber;
             newParagraph.ChapterId = existingParagraph.ChapterId;
-            newParagraph.SubjectId = existingParagraph.SubjectId;
+            newParagraph.ChapterNumber = existingParagraph.ChapterNumber;
+            //newParagraph.SubjectId = existingParagraph.SubjectId;
             newParagraph.Number = existingParagraph.Number;
             var result = (await R.Table(s_ParagraphTable).Get(newParagraph.Id).Replace(newParagraph).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
             return result.ChangesAs<Paragraph>()[0].NewValue;

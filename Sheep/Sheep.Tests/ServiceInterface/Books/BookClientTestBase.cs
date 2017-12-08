@@ -19,8 +19,8 @@ namespace Sheep.Tests.ServiceInterface.Books
         public virtual void OnBeforeTest()
         {
             AppSettings = new AppSettings();
-            //ServiceClient = new JsonServiceClient("http://apiv2.yangqungongshe.com");
-            ServiceClient = new JsonServiceClient("http://localhost:12345");
+            ServiceClient = new JsonServiceClient("http://apiv2.yangqungongshe.com");
+            //ServiceClient = new JsonServiceClient("http://localhost:12345");
             ServiceClient.AddHeader("X-ss-opt", "perm");
             ServiceClient.AddHeader("X-ss-pid", "0GBQbTdaBoNY00RnFW4s");
         }

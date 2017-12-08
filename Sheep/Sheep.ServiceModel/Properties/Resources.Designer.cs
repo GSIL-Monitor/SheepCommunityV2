@@ -349,6 +349,15 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
+        ///   查找类似 节序号必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string ParagraphNumberRequired {
+            get {
+                return ResourceManager.GetString("ParagraphNumberRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 上级编号必须输入。 的本地化字符串。
         /// </summary>
         internal static string ParentIdRequired {

@@ -6,9 +6,9 @@ using ServiceStack.Model;
 namespace Sheep.Model.Read.Entities
 {
     /// <summary>
-    ///     节。
+    ///     节注释。
     /// </summary>
-    public class Paragraph : IHasStringId, IMeta
+    public class ParagraphAnnotation : IHasStringId, IMeta
     {
         /// <summary>
         ///     编号。
@@ -42,9 +42,14 @@ namespace Sheep.Model.Read.Entities
         public int ChapterNumber { get; set; }
 
         /// <summary>
-        ///     主题编号。
+        ///     节编号。
         /// </summary>
-        public string SubjectId { get; set; }
+        public string ParagraphId { get; set; }
+
+        /// <summary>
+        ///     节序号。
+        /// </summary>
+        public int ParagraphNumber { get; set; }
 
         /// <summary>
         ///     序号。
@@ -52,44 +57,14 @@ namespace Sheep.Model.Read.Entities
         public int Number { get; set; }
 
         /// <summary>
-        ///     正文内容。
+        ///     标题。
         /// </summary>
-        public string Content { get; set; }
+        public string Title { get; set; }
 
         /// <summary>
-        ///     查看的次数。
+        ///     注释。
         /// </summary>
-        public int ViewsCount { get; set; }
-
-        /// <summary>
-        ///     收藏的次数。
-        /// </summary>
-        public int BookmarksCount { get; set; }
-
-        /// <summary>
-        ///     评论的次数。
-        /// </summary>
-        public int CommentsCount { get; set; }
-
-        /// <summary>
-        ///     点赞的次数。
-        /// </summary>
-        public int LikesCount { get; set; }
-
-        /// <summary>
-        ///     评分的次数。
-        /// </summary>
-        public int RatingsCount { get; set; }
-
-        /// <summary>
-        ///     评分的平均值。
-        /// </summary>
-        public float RatingsAverageValue { get; set; }
-
-        /// <summary>
-        ///     分享的次数。
-        /// </summary>
-        public int SharesCount { get; set; }
+        public string Annotation { get; set; }
 
         /// <summary>
         ///     扩展属性。

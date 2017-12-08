@@ -342,4 +342,7 @@
   <data name="ChapterNumberRequired" xml:space="preserve">
     <value>章序号必须输入。</value>
   </data>
+  <data name="ParagraphNumberRequired" xml:space="preserve">
+    <value>节序号必须输入。</value>
+  </data>
 </root>

@@ -175,6 +175,7 @@
     </Compile>
     <Compile Include="Read\Entities\Book.cs" />
     <Compile Include="Read\Entities\Chapter.cs" />
+    <Compile Include="Read\Entities\ParagraphAnnotation.cs" />
     <Compile Include="Read\Entities\Paragraph.cs" />
     <Compile Include="Read\Entities\Subject.cs" />
     <Compile Include="Read\Entities\Volume.cs" />

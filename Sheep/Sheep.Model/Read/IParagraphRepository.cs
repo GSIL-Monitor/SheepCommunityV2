@@ -26,30 +26,68 @@ namespace Sheep.Model.Read
         Task<Paragraph> GetParagraphAsync(string paragraphId);
 
         /// <summary>
+        ///     根据章及序号获取节。
+        /// </summary>
+        /// <param name="chapterId">章的编号。</param>
+        /// <param name="number">序号。</param>
+        /// <returns>节。</returns>
+        Paragraph GetParagraph(string chapterId, int number);
+
+        /// <summary>
+        ///     异步根据章及序号获取节。
+        /// </summary>
+        /// <param name="chapterId">章的编号。</param>
+        /// <param name="number">序号。</param>
+        /// <returns>节。</returns>
+        Task<Paragraph> GetParagraphAsync(string chapterId, int number);
+
+        /// <summary>
+        ///     根据书籍及章序号及序号获取节。
+        /// </summary>
+        /// <param name="bookId">书籍的编号。</param>
+        /// <param name="volumeNumber">卷的编号。</param>
+        /// <param name="chapterNumber">章的编号。</param>
+        /// <param name="number">序号。</param>
+        /// <returns>节。</returns>
+        Paragraph GetParagraph(string bookId, int volumeNumber, int chapterNumber, int number);
+
+        /// <summary>
+        ///     异步根据书籍及章序号及序号获取节。
+        /// </summary>
+        /// <param name="bookId">书籍的编号。</param>
+        /// <param name="volumeNumber">卷的编号。</param>
+        /// <param name="chapterNumber">章的编号。</param>
+        /// <param name="number">序号。</param>
+        /// <returns>节。</returns>
+        Task<Paragraph> GetParagraphAsync(string bookId, int volumeNumber, int chapterNumber, int number);
+
+        /// <summary>
         ///     查找节。
         /// </summary>
         /// <param name="bookId">书籍的编号。</param>
+        /// <param name="volumeNumber">卷的编号。</param>
+        /// <param name="chapterNumber">章的编号。</param>
         /// <param name="contentFilter">过滤内容的表达式。</param>
-        /// <param name="annotationFilter">过滤注释的表达式。</param>
         /// <param name="orderBy">排序的字段。</param>
         /// <param name="descending">是否按降序排序。</param>
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>节列表。</returns>
-        List<Paragraph> FindParagraphs(string bookId, string contentFilter, string annotationFilter, string orderBy, bool? descending, int? skip, int? limit);
+        List<Paragraph> FindParagraphs(string bookId, int volumeNumber, int chapterNumber, string contentFilter, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
         ///     异步查找节。
         /// </summary>
         /// <param name="bookId">书籍的编号。</param>
+        /// <param name="volumeNumber">卷的编号。</param>
+        /// <param name="chapterNumber">章的编号。</param>
         /// <param name="contentFilter">过滤内容的表达式。</param>
-        /// <param name="annotationFilter">过滤注释的表达式。</param>
         /// <param name="orderBy">排序的字段。</param>
         /// <param name="descending">是否按降序排序。</param>
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>节列表。</returns>
-        Task<List<Paragraph>> FindParagraphsAsync(string bookId, string contentFilter, string annotationFilter, string orderBy, bool? descending, int? skip, int? limit);
+        Task<List<Paragraph>> FindParagraphsAsync(string bookId, int volumeNumber, int chapterNumber, string contentFilter, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
         ///     根据章查找节。
@@ -103,19 +141,21 @@ namespace Sheep.Model.Read
         ///     查找获取节数量。
         /// </summary>
         /// <param name="bookId">书籍的编号。</param>
+        /// <param name="volumeNumber">卷的编号。</param>
+        /// <param name="chapterNumber">章的编号。</param>
         /// <param name="contentFilter">过滤内容的表达式。</param>
-        /// <param name="annotationFilter">过滤注释的表达式。</param>
         /// <returns>节数量。</returns>
-        int GetParagraphsCount(string bookId, string contentFilter, string annotationFilter);
+        int GetParagraphsCount(string bookId, int volumeNumber, int chapterNumber, string contentFilter);
 
         /// <summary>
         ///     异步获取节数量。
         /// </summary>
         /// <param name="bookId">书籍的编号。</param>
+        /// <param name="volumeNumber">卷的编号。</param>
+        /// <param name="chapterNumber">章的编号。</param>
         /// <param name="contentFilter">过滤内容的表达式。</param>
-        /// <param name="annotationFilter">过滤注释的表达式。</param>
         /// <returns>节数量。</returns>
-        Task<int> GetParagraphsCountAsync(string bookId, string contentFilter, string annotationFilter);
+        Task<int> GetParagraphsCountAsync(string bookId, int volumeNumber, int chapterNumber, string contentFilter);
 
         /// <summary>
         ///     根据章查找节。
