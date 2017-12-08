@@ -160,6 +160,16 @@
     <Compile Include="Chapters\Validators\ChapterListValidator.cs" />
     <Compile Include="Chapters\Validators\ChapterShowValidator.cs" />
     <Compile Include="Chapters\Validators\ChapterUpdateValidator.cs" />
+    <Compile Include="Chapters\Validators\ChapterAnnotationCreateValidator.cs" />
+    <Compile Include="Chapters\Validators\ChapterAnnotationDeleteValidator.cs" />
+    <Compile Include="Chapters\Validators\ChapterAnnotationListValidator.cs" />
+    <Compile Include="Chapters\Validators\ChapterAnnotationShowValidator.cs" />
+    <Compile Include="Chapters\Validators\ChapterAnnotationUpdateValidator.cs" />
+    <Compile Include="Chapters\ChapterAnnotationCreate.cs" />
+    <Compile Include="Chapters\ChapterAnnotationDelete.cs" />
+    <Compile Include="Chapters\ChapterAnnotationList.cs" />
+    <Compile Include="Chapters\ChapterAnnotationShow.cs" />
+    <Compile Include="Chapters\ChapterAnnotationUpdate.cs" />
     <Compile Include="Comments\CommentCreate.cs" />
     <Compile Include="Comments\CommentDelete.cs" />
     <Compile Include="Comments\CommentList.cs" />

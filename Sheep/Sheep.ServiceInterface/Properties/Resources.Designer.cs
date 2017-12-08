@@ -79,6 +79,24 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
+        ///   查找类似 无法找到指定的章注释{0}。 的本地化字符串。
+        /// </summary>
+        internal static string ChapterAnnotationNotFound {
+            get {
+                return ResourceManager.GetString("ChapterAnnotationNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定的章注释列表。 的本地化字符串。
+        /// </summary>
+        internal static string ChapterAnnotationsNotFound {
+            get {
+                return ResourceManager.GetString("ChapterAnnotationsNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 无法找到指定的章{0}。 的本地化字符串。
         /// </summary>
         internal static string ChapterNotFound {

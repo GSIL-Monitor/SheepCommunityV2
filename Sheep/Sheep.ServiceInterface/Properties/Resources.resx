@@ -252,4 +252,10 @@
   <data name="ChaptersNotFound" xml:space="preserve">
     <value>无法找到指定条件的章列表。</value>
   </data>
+  <data name="ChapterAnnotationNotFound" xml:space="preserve">
+    <value>无法找到指定的章注释{0}。</value>
+  </data>
+  <data name="ChapterAnnotationsNotFound" xml:space="preserve">
+    <value>无法找到指定的章注释列表。</value>
+  </data>
 </root>
