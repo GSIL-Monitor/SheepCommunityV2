@@ -98,7 +98,7 @@ namespace Sheep.ServiceInterface.Volumes
             newVolume.PopulateWith(existingVolume);
             newVolume.Meta = existingVolume.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingVolume.Meta);
             newVolume.Title = request.Title.Replace("\"", "'");
-            newVolume.Abbreviation = request.Abbreviation;
+            newVolume.Abbreviation = request.Abbreviation?.Replace("\"", "'");
             var volume = await VolumeRepo.UpdateVolumeAsync(existingVolume, newVolume);
             var volumeAnnotations = await VolumeAnnotationRepo.FindVolumeAnnotationsByVolumeAsync(volume.Id, null, null, null, null);
             ResetCache(volume);

@@ -89,7 +89,7 @@ namespace Sheep.ServiceInterface.Replies
                                ParentType = request.ParentType,
                                ParentId = request.ParentId,
                                UserId = userId,
-                               Content = request.Content.Replace("\"", "'")
+                               Content = request.Content?.Replace("\"", "'")
                            };
             var reply = await ReplyRepo.CreateReplyAsync(newReply);
             ResetCache(reply);

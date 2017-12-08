@@ -89,7 +89,7 @@ namespace Sheep.ServiceInterface.Comments
                                  ParentType = request.ParentType,
                                  ParentId = request.ParentId,
                                  UserId = userId,
-                                 Content = request.Content.Replace("\"", "'")
+                                 Content = request.Content?.Replace("\"", "'")
                              };
             var comment = await CommentRepo.CreateCommentAsync(newComment);
             ResetCache(comment);

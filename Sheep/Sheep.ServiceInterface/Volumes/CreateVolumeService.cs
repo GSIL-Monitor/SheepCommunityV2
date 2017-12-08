@@ -104,7 +104,7 @@ namespace Sheep.ServiceInterface.Volumes
                                 BookId = request.BookId,
                                 Number = request.VolumeNumber,
                                 Title = request.Title.Replace("\"", "'"),
-                                Abbreviation = request.Abbreviation.Replace("\"", "'")
+                                Abbreviation = request.Abbreviation?.Replace("\"", "'")
                             };
             var volume = await VolumeRepo.CreateVolumeAsync(newVolume);
             await BookRepo.IncrementBookVolumesCountAsync(volume.BookId, 1);
