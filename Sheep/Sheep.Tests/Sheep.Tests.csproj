@@ -127,6 +127,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceInterface\Books\BookBibleParagraphAnnotationClientTest.cs" />
+    <Compile Include="ServiceInterface\Books\BookBibleParagraphClientTest.cs" />
     <Compile Include="ServiceInterface\Books\BookClientTestBase.cs" />
     <Compile Include="ServiceInterface\Books\BookBibleClientTest.cs" />
     <Compile Include="ServiceInterface\Files\FileClientTest.cs" />

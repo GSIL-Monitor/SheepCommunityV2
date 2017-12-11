@@ -214,6 +214,11 @@
     <Compile Include="Likes\Validators\LikeDeleteValidator.cs" />
     <Compile Include="Likes\Validators\LikeListValidator.cs" />
     <Compile Include="Likes\Validators\LikeShowValidator.cs" />
+    <Compile Include="Paragraphs\ParagraphAnnotationCreate.cs" />
+    <Compile Include="Paragraphs\ParagraphAnnotationDelete.cs" />
+    <Compile Include="Paragraphs\ParagraphAnnotationList.cs" />
+    <Compile Include="Paragraphs\ParagraphAnnotationShow.cs" />
+    <Compile Include="Paragraphs\ParagraphAnnotationUpdate.cs" />
     <Compile Include="Paragraphs\ParagraphCreate.cs" />
     <Compile Include="Paragraphs\ParagraphDelete.cs" />
     <Compile Include="Paragraphs\ParagraphList.cs" />
@@ -221,6 +226,11 @@
     <Compile Include="Paragraphs\ParagraphUpdate.cs" />
     <Compile Include="Paragraphs\Entities\ParagraphAnnotationDto.cs" />
     <Compile Include="Paragraphs\Entities\ParagraphDto.cs" />
+    <Compile Include="Paragraphs\Validators\ParagraphAnnotationCreateValidator.cs" />
+    <Compile Include="Paragraphs\Validators\ParagraphAnnotationDeleteValidator.cs" />
+    <Compile Include="Paragraphs\Validators\ParagraphAnnotationListValidator.cs" />
+    <Compile Include="Paragraphs\Validators\ParagraphAnnotationShowValidator.cs" />
+    <Compile Include="Paragraphs\Validators\ParagraphAnnotationUpdateValidator.cs" />
     <Compile Include="Paragraphs\Validators\ParagraphCreateValidator.cs" />
     <Compile Include="Paragraphs\Validators\ParagraphDeleteValidator.cs" />
     <Compile Include="Paragraphs\Validators\ParagraphListValidator.cs" />
