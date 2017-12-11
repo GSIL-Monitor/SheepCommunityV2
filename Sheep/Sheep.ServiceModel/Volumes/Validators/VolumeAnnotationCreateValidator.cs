@@ -20,7 +20,6 @@ namespace Sheep.ServiceModel.Volumes.Validators
                                       RuleFor(x => x.BookId).NotEmpty().WithMessage(Resources.BookIdRequired);
                                       RuleFor(x => x.VolumeNumber).NotEmpty().WithMessage(Resources.VolumeNumberRequired);
                                       RuleFor(x => x.AnnotationNumber).NotEmpty().WithMessage(Resources.AnnotationNumberRequired);
-                                      RuleFor(x => x.Title).NotEmpty().WithMessage(Resources.TitleRequired);
                                       RuleFor(x => x.Annotation).NotEmpty().WithMessage(Resources.AnnotationRequired);
                                   });
         }

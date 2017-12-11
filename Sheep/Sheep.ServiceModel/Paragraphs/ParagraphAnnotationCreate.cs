@@ -49,7 +49,7 @@ namespace Sheep.ServiceModel.Paragraphs
         /// <summary>
         ///     标题。
         /// </summary>
-        [DataMember(Order = 6, IsRequired = true)]
+        [DataMember(Order = 6)]
         [ApiMember(Description = "标题")]
         public string Title { get; set; }
 

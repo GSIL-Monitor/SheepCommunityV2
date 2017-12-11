@@ -42,7 +42,7 @@ namespace Sheep.ServiceModel.Chapters
         /// <summary>
         ///     标题。
         /// </summary>
-        [DataMember(Order = 5, IsRequired = true)]
+        [DataMember(Order = 5)]
         [ApiMember(Description = "标题")]
         public string Title { get; set; }
 

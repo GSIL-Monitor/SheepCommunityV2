@@ -35,7 +35,7 @@ namespace Sheep.ServiceModel.Volumes
         /// <summary>
         ///     标题。
         /// </summary>
-        [DataMember(Order = 4, IsRequired = true)]
+        [DataMember(Order = 4)]
         [ApiMember(Description = "标题")]
         public string Title { get; set; }
 
