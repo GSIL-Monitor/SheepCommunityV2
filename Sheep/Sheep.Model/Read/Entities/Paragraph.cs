@@ -47,6 +47,11 @@ namespace Sheep.Model.Read.Entities
         public string SubjectId { get; set; }
 
         /// <summary>
+        ///     主题序号。
+        /// </summary>
+        public int? SubjectNumber { get; set; }
+
+        /// <summary>
         ///     序号。
         /// </summary>
         public int Number { get; set; }

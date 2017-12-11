@@ -198,4 +198,10 @@
   <data name="ChapterWithNumberAlreadyExists" xml:space="preserve">
     <value>章{0}与序号{1}的已经存在。</value>
   </data>
+  <data name="ParagraphWithNumberAlreadyExists" xml:space="preserve">
+    <value>节{0}与序号{1}的已经存在。</value>
+  </data>
+  <data name="BookWithVolumeAndChapterAndParagraphAndNumberAlreadyExists" xml:space="preserve">
+    <value>书籍{0}与卷序号{1}和章序号{2}和节序号{3}和序号{4}的已经存在。</value>
+  </data>
 </root>

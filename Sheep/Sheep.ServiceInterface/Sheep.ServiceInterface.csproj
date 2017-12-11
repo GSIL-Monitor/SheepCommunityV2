@@ -204,6 +204,14 @@
     <Compile Include="Likes\ListLikeByParentService.cs" />
     <Compile Include="Likes\Mappers\LikeToLikeDtoMapper.cs" />
     <Compile Include="Likes\ShowLikeService.cs" />
+    <Compile Include="Paragraphs\ChangeParagraphService.cs" />
+    <Compile Include="Paragraphs\CreateParagraphService.cs" />
+    <Compile Include="Paragraphs\DeleteParagraphService.cs" />
+    <Compile Include="Paragraphs\ListParagraphService.cs" />
+    <Compile Include="Paragraphs\Mappers\ParagraphAnnotationToParagraphAnnotationDtoMapper.cs" />
+    <Compile Include="Paragraphs\Mappers\ParagraphToParagraphDtoMapper.cs" />
+    <Compile Include="Paragraphs\ShowParagraphService.cs" />
+    <Compile Include="Paragraphs\UpdateParagraphService.cs" />
     <Compile Include="Posts\ChangePostService.cs" />
     <Compile Include="Posts\CreatePostService.cs" />
     <Compile Include="Posts\DeletePostService.cs" />

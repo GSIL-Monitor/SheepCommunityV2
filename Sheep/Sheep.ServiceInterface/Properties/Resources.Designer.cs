@@ -295,6 +295,42 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
+        ///   查找类似 无法找到指定的节注释{0}。 的本地化字符串。
+        /// </summary>
+        internal static string ParagraphAnnotationNotFound {
+            get {
+                return ResourceManager.GetString("ParagraphAnnotationNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定的节注释列表。 的本地化字符串。
+        /// </summary>
+        internal static string ParagraphAnnotationsNotFound {
+            get {
+                return ResourceManager.GetString("ParagraphAnnotationsNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定的节{0}。 的本地化字符串。
+        /// </summary>
+        internal static string ParagraphNotFound {
+            get {
+                return ResourceManager.GetString("ParagraphNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定条件的节列表。 的本地化字符串。
+        /// </summary>
+        internal static string ParagraphsNotFound {
+            get {
+                return ResourceManager.GetString("ParagraphsNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 无法找到指定的帖子{0}。 的本地化字符串。
         /// </summary>
         internal static string PostNotFound {

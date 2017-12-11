@@ -182,6 +182,7 @@
     <Compile Include="Read\Entities\ChapterAnnotation.cs" />
     <Compile Include="Read\Entities\VolumeAnnotation.cs" />
     <Compile Include="Read\IBookRepository.cs" />
+    <Compile Include="Read\IParagraphAnnotationRepository.cs" />
     <Compile Include="Read\IParagraphRepository.cs" />
     <Compile Include="Read\ISubjectRepository.cs" />
     <Compile Include="Read\IChapterAnnotationRepository.cs" />
@@ -189,6 +190,7 @@
     <Compile Include="Read\IChapterRepository.cs" />
     <Compile Include="Read\IVolumeRepository.cs" />
     <Compile Include="Read\Repositories\RethinkDbBookRepository.cs" />
+    <Compile Include="Read\Repositories\RethinkDbParagraphAnnotationRepository.cs" />
     <Compile Include="Read\Repositories\RethinkDbParagraphRepository.cs" />
     <Compile Include="Read\Repositories\RethinkDbSubjectRepository.cs" />
     <Compile Include="Read\Repositories\RethinkDbChapterAnnotationRepository.cs" />

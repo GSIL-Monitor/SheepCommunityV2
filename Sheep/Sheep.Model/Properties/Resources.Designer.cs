@@ -88,6 +88,15 @@ namespace Sheep.Model.Properties {
         }
         
         /// <summary>
+        ///   查找类似 书籍{0}与卷序号{1}和章序号{2}和节序号{3}和序号{4}的已经存在。 的本地化字符串。
+        /// </summary>
+        internal static string BookWithVolumeAndChapterAndParagraphAndNumberAlreadyExists {
+            get {
+                return ResourceManager.GetString("BookWithVolumeAndChapterAndParagraphAndNumberAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 书籍{0}与卷序号{1}和序号{2}的已经存在。 的本地化字符串。
         /// </summary>
         internal static string BookWithVolumeAndNumberAlreadyExists {
@@ -183,6 +192,15 @@ namespace Sheep.Model.Properties {
         internal static string OwnerWithFollowerAlreadyExists {
             get {
                 return ResourceManager.GetString("OwnerWithFollowerAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 节{0}与序号{1}的已经存在。 的本地化字符串。
+        /// </summary>
+        internal static string ParagraphWithNumberAlreadyExists {
+            get {
+                return ResourceManager.GetString("ParagraphWithNumberAlreadyExists", resourceCulture);
             }
         }
         

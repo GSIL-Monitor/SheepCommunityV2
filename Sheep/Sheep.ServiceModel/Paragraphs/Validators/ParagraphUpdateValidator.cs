@@ -21,7 +21,7 @@ namespace Sheep.ServiceModel.Paragraphs.Validators
                                      RuleFor(x => x.VolumeNumber).NotEmpty().WithMessage(Resources.VolumeNumberRequired);
                                      RuleFor(x => x.ChapterNumber).NotEmpty().WithMessage(Resources.ChapterNumberRequired);
                                      RuleFor(x => x.ParagraphNumber).NotEmpty().WithMessage(Resources.ParagraphNumberRequired);
-                                     RuleFor(x => x.Content).NotEmpty().WithMessage(Resources.TitleRequired);
+                                     RuleFor(x => x.Content).NotEmpty().WithMessage(Resources.ContentRequired);
                                  });
         }
     }

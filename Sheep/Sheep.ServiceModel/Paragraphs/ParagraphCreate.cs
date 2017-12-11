@@ -33,16 +33,23 @@ namespace Sheep.ServiceModel.Paragraphs
         public int ChapterNumber { get; set; }
 
         /// <summary>
+        ///     主题序号。
+        /// </summary>
+        [DataMember(Order = 4)]
+        [ApiMember(Description = "主题序号")]
+        public int? SubjectNumber { get; set; }
+
+        /// <summary>
         ///     节序号。
         /// </summary>
-        [DataMember(Order = 4, IsRequired = true)]
+        [DataMember(Order = 5, IsRequired = true)]
         [ApiMember(Description = "节序号")]
         public int ParagraphNumber { get; set; }
 
         /// <summary>
         ///     正文内容。
         /// </summary>
-        [DataMember(Order = 5, IsRequired = true)]
+        [DataMember(Order = 6, IsRequired = true)]
         [ApiMember(Description = "正文内容")]
         public string Content { get; set; }
     }

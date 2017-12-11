@@ -258,4 +258,16 @@
   <data name="ChapterAnnotationsNotFound" xml:space="preserve">
     <value>无法找到指定的章注释列表。</value>
   </data>
+  <data name="ParagraphAnnotationNotFound" xml:space="preserve">
+    <value>无法找到指定的节注释{0}。</value>
+  </data>
+  <data name="ParagraphAnnotationsNotFound" xml:space="preserve">
+    <value>无法找到指定的节注释列表。</value>
+  </data>
+  <data name="ParagraphNotFound" xml:space="preserve">
+    <value>无法找到指定的节{0}。</value>
+  </data>
+  <data name="ParagraphsNotFound" xml:space="preserve">
+    <value>无法找到指定条件的节列表。</value>
+  </data>
 </root>
