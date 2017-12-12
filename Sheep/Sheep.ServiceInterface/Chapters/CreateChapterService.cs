@@ -115,7 +115,7 @@ namespace Sheep.ServiceInterface.Chapters
                                  VolumeId = existingVolume.Id,
                                  VolumeNumber = existingVolume.Number,
                                  Number = request.ChapterNumber,
-                                 Title = request.Title.Replace("\"", "'"),
+                                 Title = request.Title?.Replace("\"", "'"),
                                  Content = request.Content?.Replace("\"", "'")
                              };
             var chapter = await ChapterRepo.CreateChapterAsync(newChapter);

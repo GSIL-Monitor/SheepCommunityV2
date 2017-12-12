@@ -109,7 +109,7 @@ namespace Sheep.ServiceInterface.Subjects
                                  VolumeId = existingVolume.Id,
                                  VolumeNumber = existingVolume.Number,
                                  Number = request.SubjectNumber,
-                                 Title = request.Title.Replace("\"", "'")
+                                 Title = request.Title?.Replace("\"", "'")
                              };
             var subject = await SubjectRepo.CreateSubjectAsync(newSubject);
             await VolumeRepo.IncrementVolumeSubjectsCountAsync(subject.VolumeId, 1);

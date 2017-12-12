@@ -108,7 +108,7 @@ namespace Sheep.ServiceInterface.Posts
             newPost.Meta = existingPost.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingPost.Meta);
             newPost.AuthorId = authorId;
             newPost.GroupId = request.GroupId;
-            newPost.Title = request.Title.Replace("\"", "'");
+            newPost.Title = request.Title?.Replace("\"", "'");
             newPost.Summary = request.Summary.Replace("\"", "'");
             newPost.ContentType = request.ContentType;
             newPost.Content = request.Content?.Replace("\"", "'");

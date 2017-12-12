@@ -97,8 +97,8 @@ namespace Sheep.ServiceInterface.Paragraphs
             var newParagraphAnnotation = new ParagraphAnnotation();
             newParagraphAnnotation.PopulateWith(existingParagraphAnnotation);
             newParagraphAnnotation.Meta = existingParagraphAnnotation.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingParagraphAnnotation.Meta);
-            newParagraphAnnotation.Title = request.Title.Replace("\"", "'");
-            newParagraphAnnotation.Annotation = request.Annotation.Replace("\"", "'");
+            newParagraphAnnotation.Title = request.Title?.Replace("\"", "'");
+            newParagraphAnnotation.Annotation = request.Annotation?.Replace("\"", "'");
             var paragraphAnnotation = await ParagraphAnnotationRepo.UpdateParagraphAnnotationAsync(existingParagraphAnnotation, newParagraphAnnotation);
             ResetCache(paragraphAnnotation);
             return new ParagraphAnnotationUpdateResponse

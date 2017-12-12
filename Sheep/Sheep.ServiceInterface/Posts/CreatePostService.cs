@@ -101,7 +101,7 @@ namespace Sheep.ServiceInterface.Posts
                               Id = new Base36IdGenerator(11).NewId().ToLower(),
                               AuthorId = authorId,
                               GroupId = request.GroupId,
-                              Title = request.Title.Replace("\"", "'"),
+                              Title = request.Title?.Replace("\"", "'"),
                               Summary = request.Summary.Replace("\"", "'"),
                               ContentType = request.ContentType,
                               Content = request.Content?.Replace("\"", "'"),

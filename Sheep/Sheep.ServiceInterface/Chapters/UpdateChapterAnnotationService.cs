@@ -97,8 +97,8 @@ namespace Sheep.ServiceInterface.Chapters
             var newChapterAnnotation = new ChapterAnnotation();
             newChapterAnnotation.PopulateWith(existingChapterAnnotation);
             newChapterAnnotation.Meta = existingChapterAnnotation.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingChapterAnnotation.Meta);
-            newChapterAnnotation.Title = request.Title.Replace("\"", "'");
-            newChapterAnnotation.Annotation = request.Annotation.Replace("\"", "'");
+            newChapterAnnotation.Title = request.Title?.Replace("\"", "'");
+            newChapterAnnotation.Annotation = request.Annotation?.Replace("\"", "'");
             var chapterAnnotation = await ChapterAnnotationRepo.UpdateChapterAnnotationAsync(existingChapterAnnotation, newChapterAnnotation);
             ResetCache(chapterAnnotation);
             return new ChapterAnnotationUpdateResponse

@@ -97,8 +97,8 @@ namespace Sheep.ServiceInterface.Volumes
             var newVolumeAnnotation = new VolumeAnnotation();
             newVolumeAnnotation.PopulateWith(existingVolumeAnnotation);
             newVolumeAnnotation.Meta = existingVolumeAnnotation.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingVolumeAnnotation.Meta);
-            newVolumeAnnotation.Title = request.Title.Replace("\"", "'");
-            newVolumeAnnotation.Annotation = request.Annotation.Replace("\"", "'");
+            newVolumeAnnotation.Title = request.Title?.Replace("\"", "'");
+            newVolumeAnnotation.Annotation = request.Annotation?.Replace("\"", "'");
             var volumeAnnotation = await VolumeAnnotationRepo.UpdateVolumeAnnotationAsync(existingVolumeAnnotation, newVolumeAnnotation);
             ResetCache(volumeAnnotation);
             return new VolumeAnnotationUpdateResponse

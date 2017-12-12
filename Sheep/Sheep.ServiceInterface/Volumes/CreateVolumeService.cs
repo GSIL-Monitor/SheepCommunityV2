@@ -103,7 +103,7 @@ namespace Sheep.ServiceInterface.Volumes
                                 Meta = new Dictionary<string, string>(),
                                 BookId = request.BookId,
                                 Number = request.VolumeNumber,
-                                Title = request.Title.Replace("\"", "'"),
+                                Title = request.Title?.Replace("\"", "'"),
                                 Abbreviation = request.Abbreviation?.Replace("\"", "'")
                             };
             var volume = await VolumeRepo.CreateVolumeAsync(newVolume);

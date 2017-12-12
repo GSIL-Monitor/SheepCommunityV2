@@ -113,8 +113,8 @@ namespace Sheep.ServiceInterface.Paragraphs
                                              ParagraphId = existingParagraph.Id,
                                              ParagraphNumber = existingParagraph.Number,
                                              Number = request.AnnotationNumber,
-                                             Title = request.Title.Replace("\"", "'"),
-                                             Annotation = request.Annotation.Replace("\"", "'")
+                                             Title = request.Title?.Replace("\"", "'"),
+                                             Annotation = request.Annotation?.Replace("\"", "'")
                                          };
             var paragraphAnnotation = await ParagraphAnnotationRepo.CreateParagraphAnnotationAsync(newParagraphAnnotation);
             ResetCache(paragraphAnnotation);

@@ -97,7 +97,7 @@ namespace Sheep.ServiceInterface.Subjects
             var newSubject = new Subject();
             newSubject.PopulateWith(existingSubject);
             newSubject.Meta = existingSubject.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingSubject.Meta);
-            newSubject.Title = request.Title.Replace("\"", "'");
+            newSubject.Title = request.Title?.Replace("\"", "'");
             var subject = await SubjectRepo.UpdateSubjectAsync(existingSubject, newSubject);
             ResetCache(subject);
             return new SubjectUpdateResponse

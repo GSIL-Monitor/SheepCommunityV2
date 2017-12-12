@@ -95,7 +95,7 @@ namespace Sheep.ServiceInterface.Books
             var newBook = new Book();
             newBook.PopulateWith(existingBook);
             newBook.Meta = existingBook.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingBook.Meta);
-            newBook.Title = request.Title.Replace("\"", "'");
+            newBook.Title = request.Title?.Replace("\"", "'");
             newBook.Summary = request.Summary.Replace("\"", "'");
             newBook.Author = request.Author;
             newBook.Tags = request.Tags.IsNullOrEmpty() ? new List<string>() : request.Tags.Replace(",", ";").Replace("，", ";").Replace("；", ";").Split(';').Select(x => x.Replace("”", string.Empty).Replace("“", string.Empty).Replace("\"", string.Empty).Trim()).ToList();

@@ -111,8 +111,8 @@ namespace Sheep.ServiceInterface.Chapters
                                            ChapterId = existingChapter.Id,
                                            ChapterNumber = existingChapter.Number,
                                            Number = request.AnnotationNumber,
-                                           Title = request.Title.Replace("\"", "'"),
-                                           Annotation = request.Annotation.Replace("\"", "'")
+                                           Title = request.Title?.Replace("\"", "'"),
+                                           Annotation = request.Annotation?.Replace("\"", "'")
                                        };
             var chapterAnnotation = await ChapterAnnotationRepo.CreateChapterAnnotationAsync(newChapterAnnotation);
             ResetCache(chapterAnnotation);

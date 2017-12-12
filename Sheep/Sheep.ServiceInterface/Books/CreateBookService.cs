@@ -91,7 +91,7 @@ namespace Sheep.ServiceInterface.Books
                           {
                               Meta = new Dictionary<string, string>(),
                               Id = request.BookId,
-                              Title = request.Title.Replace("\"", "'"),
+                              Title = request.Title?.Replace("\"", "'"),
                               Summary = request.Summary.Replace("\"", "'"),
                               Author = request.Author,
                               Tags = request.Tags.IsNullOrEmpty() ? new List<string>() : request.Tags.Replace(",", ";").Replace("，", ";").Replace("；", ";").Split(';').Select(x => x.Replace("”", string.Empty).Replace("“", string.Empty).Replace("\"", string.Empty).Trim()).ToList(),

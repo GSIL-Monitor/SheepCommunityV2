@@ -109,8 +109,8 @@ namespace Sheep.ServiceInterface.Volumes
                                           VolumeId = existingVolume.Id,
                                           VolumeNumber = existingVolume.Number,
                                           Number = request.AnnotationNumber,
-                                          Title = request.Title.Replace("\"", "'"),
-                                          Annotation = request.Annotation.Replace("\"", "'")
+                                          Title = request.Title?.Replace("\"", "'"),
+                                          Annotation = request.Annotation?.Replace("\"", "'")
                                       };
             var volumeAnnotation = await VolumeAnnotationRepo.CreateVolumeAnnotationAsync(newVolumeAnnotation);
             ResetCache(volumeAnnotation);
