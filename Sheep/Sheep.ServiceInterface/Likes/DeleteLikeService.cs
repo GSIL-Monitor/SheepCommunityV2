@@ -7,6 +7,7 @@ using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using ServiceStack.Validation;
 using Sheep.Model.Content;
+using Sheep.Model.Read;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Likes;
 
@@ -58,6 +59,16 @@ namespace Sheep.ServiceInterface.Likes
         /// </summary>
         public ILikeRepository LikeRepo { get; set; }
 
+        /// <summary>
+        ///     获取及设置章的存储库。
+        /// </summary>
+        public IChapterRepository ChapterRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置节的存储库。
+        /// </summary>
+        public IParagraphRepository ParagraphRepo { get; set; }
+
         #endregion
 
         #region 取消一个点赞
@@ -91,6 +102,12 @@ namespace Sheep.ServiceInterface.Likes
             {
                 case "帖子":
                     await PostRepo.IncrementPostLikesCountAsync(existingLike.ParentId, -1);
+                    break;
+                case "章":
+                    await ChapterRepo.IncrementChapterLikesCountAsync(existingLike.ParentId, -1);
+                    break;
+                case "节":
+                    await ParagraphRepo.IncrementParagraphLikesCountAsync(existingLike.ParentId, -1);
                     break;
             }
             return new LikeDeleteResponse();

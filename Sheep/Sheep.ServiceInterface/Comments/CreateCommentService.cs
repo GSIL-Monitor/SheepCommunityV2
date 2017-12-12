@@ -9,6 +9,7 @@ using ServiceStack.Validation;
 using Sheep.Common.Auth;
 using Sheep.Model.Content;
 using Sheep.Model.Content.Entities;
+using Sheep.Model.Read;
 using Sheep.ServiceInterface.Comments.Mappers;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Comments;
@@ -61,6 +62,16 @@ namespace Sheep.ServiceInterface.Comments
         /// </summary>
         public ICommentRepository CommentRepo { get; set; }
 
+        /// <summary>
+        ///     获取及设置章的存储库。
+        /// </summary>
+        public IChapterRepository ChapterRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置节的存储库。
+        /// </summary>
+        public IParagraphRepository ParagraphRepo { get; set; }
+
         #endregion
 
         #region 新建一个评论
@@ -97,6 +108,12 @@ namespace Sheep.ServiceInterface.Comments
             {
                 case "帖子":
                     await PostRepo.IncrementPostCommentsCountAsync(comment.ParentId, 1);
+                    break;
+                case "章":
+                    await ChapterRepo.IncrementChapterCommentsCountAsync(comment.ParentId, 1);
+                    break;
+                case "节":
+                    await ParagraphRepo.IncrementParagraphCommentsCountAsync(comment.ParentId, 1);
                     break;
             }
             //await NimClient.PostAsync(new FriendAddRequest

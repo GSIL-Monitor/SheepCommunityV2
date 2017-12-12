@@ -12,7 +12,9 @@ namespace Sheep.ServiceModel.Likes.Validators
     {
         public static readonly HashSet<string> ParentTypes = new HashSet<string>
                                                              {
-                                                                 "帖子"
+                                                                 "帖子",
+                                                                 "章",
+                                                                 "节"
                                                              };
 
         /// <summary>

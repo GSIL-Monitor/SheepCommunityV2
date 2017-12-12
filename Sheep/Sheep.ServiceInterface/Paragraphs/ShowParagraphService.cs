@@ -87,6 +87,7 @@ namespace Sheep.ServiceInterface.Paragraphs
             {
                 throw HttpError.NotFound(string.Format(Resources.ParagraphNotFound, string.Format("{0}-{1}-{2}-{3}", request.BookId, request.VolumeNumber, request.ChapterNumber, request.ParagraphNumber)));
             }
+            await ParagraphRepo.IncrementParagraphViewsCountAsync(existingParagraph.Id, 1);
             var paragraphAnnotations = await ParagraphAnnotationRepo.FindParagraphAnnotationsByParagraphAsync(existingParagraph.Id, null, null, null, null);
             var paragraphDto = existingParagraph.MapToParagraphDto(paragraphAnnotations);
             return new ParagraphShowResponse

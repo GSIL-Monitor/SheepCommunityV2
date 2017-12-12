@@ -82,6 +82,7 @@ namespace Sheep.ServiceInterface.Chapters
             {
                 throw HttpError.NotFound(string.Format(Resources.ChapterNotFound, string.Format("{0}-{1}-{2}", request.BookId, request.VolumeNumber, request.ChapterNumber)));
             }
+            await ChapterRepo.IncrementChapterViewsCountAsync(existingChapter.Id, 1);
             var chapterAnnotations = await ChapterAnnotationRepo.FindChapterAnnotationsByChapterAsync(existingChapter.Id, null, null, null, null);
             var chapterDto = existingChapter.MapToChapterDto(chapterAnnotations);
             return new ChapterShowResponse

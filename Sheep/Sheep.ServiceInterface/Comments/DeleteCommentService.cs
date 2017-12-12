@@ -7,6 +7,7 @@ using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using ServiceStack.Validation;
 using Sheep.Model.Content;
+using Sheep.Model.Read;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Comments;
 
@@ -58,6 +59,16 @@ namespace Sheep.ServiceInterface.Comments
         /// </summary>
         public ICommentRepository CommentRepo { get; set; }
 
+        /// <summary>
+        ///     获取及设置章的存储库。
+        /// </summary>
+        public IChapterRepository ChapterRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置节的存储库。
+        /// </summary>
+        public IParagraphRepository ParagraphRepo { get; set; }
+
         #endregion
 
         #region 删除一个评论
@@ -91,6 +102,12 @@ namespace Sheep.ServiceInterface.Comments
             {
                 case "帖子":
                     await PostRepo.IncrementPostCommentsCountAsync(existingComment.ParentId, -1);
+                    break;
+                case "章":
+                    await ChapterRepo.IncrementChapterCommentsCountAsync(existingComment.ParentId, -1);
+                    break;
+                case "节":
+                    await ParagraphRepo.IncrementParagraphCommentsCountAsync(existingComment.ParentId, -1);
                     break;
             }
             return new CommentDeleteResponse();
