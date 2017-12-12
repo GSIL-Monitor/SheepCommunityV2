@@ -99,7 +99,7 @@ namespace Sheep.ServiceInterface.Paragraphs
             {
                 ParagraphCreateValidator.ValidateAndThrow(request, ApplyTo.Post);
             }
-            var existingParagraph = await ParagraphRepo.GetParagraphAsync(request.BookId, request.ChapterNumber, request.ChapterNumber, request.ParagraphNumber);
+            var existingParagraph = await ParagraphRepo.GetParagraphAsync(request.BookId, request.VolumeNumber, request.ChapterNumber, request.ParagraphNumber);
             if (existingParagraph != null)
             {
                 var paragraphAnnotations = await ParagraphAnnotationRepo.FindParagraphAnnotationsByParagraphAsync(existingParagraph.Id, null, null, null, null);
