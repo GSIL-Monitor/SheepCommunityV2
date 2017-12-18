@@ -66,11 +66,16 @@ namespace Sheep.ServiceInterface.Comments
         //[CacheResponse(Duration = 600)]
         public async Task<object> Get(CommentListByParent request)
         {
+            if (request.IsMine.HasValue && request.IsMine.Value && !IsAuthenticated)
+            {
+                throw HttpError.Unauthorized(Resources.LoginRequired);
+            }
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
                 CommentListByParentValidator.ValidateAndThrow(request, ApplyTo.Get);
             }
-            var existingComments = await CommentRepo.FindCommentsByParentAsync(request.ParentId, request.CreatedSince, request.ModifiedSince, request.IsFeatured, "审核通过", request.OrderBy, request.Descending, request.Skip, request.Limit);
+            var userId = GetSession().UserAuthId.ToInt(0);
+            var existingComments = await CommentRepo.FindCommentsByParentAsync(request.ParentId, request.IsMine.HasValue && request.IsMine.Value ? userId : (int?) null, request.CreatedSince, request.ModifiedSince, request.IsFeatured, "审核通过", request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingComments == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.CommentsNotFound));

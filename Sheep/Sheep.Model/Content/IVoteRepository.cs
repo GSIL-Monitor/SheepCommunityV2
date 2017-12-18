@@ -16,7 +16,7 @@ namespace Sheep.Model.Content
         ///     根据上级与用户获取投票。
         /// </summary>
         /// <param name="parentId">上级的编号。（如帖子编号）</param>
-        /// <param name="userId">用户的用户编号。</param>
+        /// <param name="userId">用户的编号。</param>
         /// <returns>投票。</returns>
         Vote GetVote(string parentId, int userId);
 
@@ -24,21 +24,21 @@ namespace Sheep.Model.Content
         ///     异步根据上级与用户获取投票。
         /// </summary>
         /// <param name="parentId">上级的编号。（如帖子编号）</param>
-        /// <param name="userId">用户的用户编号。</param>
+        /// <param name="userId">用户的编号。</param>
         /// <returns>投票。</returns>
         Task<Vote> GetVoteAsync(string parentId, int userId);
 
         /// <summary>
         ///     根据上级与用户获取投票。
         /// </summary>
-        /// <param name="compositeIds">上级的编号及用户的用户编号的列表。</param>
+        /// <param name="compositeIds">上级的编号及用户的编号的列表。</param>
         /// <returns>投票。</returns>
         List<Vote> GetVotes(IEnumerable<Tuple<string, int>> compositeIds);
 
         /// <summary>
         ///     异步根据上级与用户获取投票。
         /// </summary>
-        /// <param name="compositeIds">上级的编号及用户的用户编号的列表。</param>
+        /// <param name="compositeIds">上级的编号及用户的编号的列表。</param>
         /// <returns>投票。</returns>
         Task<List<Vote>> GetVotesAsync(IEnumerable<Tuple<string, int>> compositeIds);
 
@@ -71,7 +71,7 @@ namespace Sheep.Model.Content
         /// <summary>
         ///     根据用户查找投票。
         /// </summary>
-        /// <param name="userId">用户的用户编号。</param>
+        /// <param name="userId">用户的编号。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
         /// <param name="orderBy">排序的字段。</param>
@@ -84,7 +84,7 @@ namespace Sheep.Model.Content
         /// <summary>
         ///     异步根据用户查找投票。
         /// </summary>
-        /// <param name="userId">用户的用户编号。</param>
+        /// <param name="userId">用户的编号。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
         /// <param name="orderBy">排序的字段。</param>
@@ -119,7 +119,7 @@ namespace Sheep.Model.Content
         /// <summary>
         ///     根据用户获取投票数量。
         /// </summary>
-        /// <param name="userId">用户的用户编号。</param>
+        /// <param name="userId">用户的编号。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
         /// <returns>投票数量。</returns>
@@ -128,7 +128,7 @@ namespace Sheep.Model.Content
         /// <summary>
         ///     异步根据用户获取投票数量。
         /// </summary>
-        /// <param name="userId">用户的用户编号。</param>
+        /// <param name="userId">用户的编号。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
         /// <returns>投票数量。</returns>
@@ -172,14 +172,14 @@ namespace Sheep.Model.Content
         ///     取消一个投票。
         /// </summary>
         /// <param name="parentId">上级的编号。（如帖子编号）</param>
-        /// <param name="userId">用户的用户编号。</param>
+        /// <param name="userId">用户的编号。</param>
         void DeleteVote(string parentId, int userId);
 
         /// <summary>
         ///     异步取消一个投票。
         /// </summary>
         /// <param name="parentId">上级的编号。（如帖子编号）</param>
-        /// <param name="userId">用户的用户编号。</param>
+        /// <param name="userId">用户的编号。</param>
         Task DeleteVoteAsync(string parentId, int userId);
 
         #endregion

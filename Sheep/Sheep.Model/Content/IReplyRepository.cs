@@ -57,7 +57,7 @@ namespace Sheep.Model.Content
         /// <summary>
         ///     根据用户查找回复。
         /// </summary>
-        /// <param name="userId">用户的用户编号。</param>
+        /// <param name="userId">用户的编号。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
         /// <param name="status"> 过滤状态。</param>
@@ -71,7 +71,7 @@ namespace Sheep.Model.Content
         /// <summary>
         ///     异步根据用户查找回复。
         /// </summary>
-        /// <param name="userId">用户的用户编号。</param>
+        /// <param name="userId">用户的编号。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
         /// <param name="status"> 过滤状态。</param>
@@ -109,7 +109,7 @@ namespace Sheep.Model.Content
         /// <summary>
         ///     根据用户获取回复数量。
         /// </summary>
-        /// <param name="userId">用户的用户编号。</param>
+        /// <param name="userId">用户的编号。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
         /// <param name="status"> 过滤状态。</param>
@@ -119,7 +119,7 @@ namespace Sheep.Model.Content
         /// <summary>
         ///     异步根据用户获取回复数量。
         /// </summary>
-        /// <param name="userId">用户的用户编号。</param>
+        /// <param name="userId">用户的编号。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
         /// <param name="status"> 过滤状态。</param>

@@ -30,6 +30,7 @@ namespace Sheep.Model.Content
         ///     根据上级查找评论。
         /// </summary>
         /// <param name="parentId">上级的编号。（如帖子编号）</param>
+        /// <param name="userId">用户的编号。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
         /// <param name="isFeatured">是否标记为精选。</param>
@@ -39,12 +40,13 @@ namespace Sheep.Model.Content
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>评论列表。</returns>
-        List<Comment> FindCommentsByParent(string parentId, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status, string orderBy, bool? descending, int? skip, int? limit);
+        List<Comment> FindCommentsByParent(string parentId, int? userId, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
         ///     异步根据上级查找评论。
         /// </summary>
         /// <param name="parentId">上级的编号。（如帖子编号）</param>
+        /// <param name="userId">用户的编号。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
         /// <param name="isFeatured">是否标记为精选。</param>
@@ -54,12 +56,12 @@ namespace Sheep.Model.Content
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>评论列表。</returns>
-        Task<List<Comment>> FindCommentsByParentAsync(string parentId, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status, string orderBy, bool? descending, int? skip, int? limit);
+        Task<List<Comment>> FindCommentsByParentAsync(string parentId, int? userId, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
         ///     根据用户查找评论。
         /// </summary>
-        /// <param name="userId">用户的用户编号。</param>
+        /// <param name="userId">用户的编号。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
         /// <param name="isFeatured">是否标记为精选。</param>
@@ -74,7 +76,7 @@ namespace Sheep.Model.Content
         /// <summary>
         ///     异步根据用户查找评论。
         /// </summary>
-        /// <param name="userId">用户的用户编号。</param>
+        /// <param name="userId">用户的编号。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
         /// <param name="isFeatured">是否标记为精选。</param>
@@ -94,28 +96,30 @@ namespace Sheep.Model.Content
         ///     根据上级获取评论数量。
         /// </summary>
         /// <param name="parentId">上级的编号。（如帖子编号）</param>
+        /// <param name="userId">用户的编号。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
         /// <param name="isFeatured">是否标记为精选。</param>
         /// <param name="status"> 过滤状态。</param>
         /// <returns>评论数量。</returns>
-        int GetCommentsCountByParent(string parentId, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status);
+        int GetCommentsCountByParent(string parentId, int? userId, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status);
 
         /// <summary>
         ///     异步根据上级获取评论数量。
         /// </summary>
         /// <param name="parentId">上级的编号。（如帖子编号）</param>
+        /// <param name="userId">用户的编号。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
         /// <param name="isFeatured">是否标记为精选。</param>
         /// <param name="status"> 过滤状态。</param>
         /// <returns>评论数量。</returns>
-        Task<int> GetCommentsCountByParentAsync(string parentId, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status);
+        Task<int> GetCommentsCountByParentAsync(string parentId, int? userId, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status);
 
         /// <summary>
         ///     根据用户获取评论数量。
         /// </summary>
-        /// <param name="userId">用户的用户编号。</param>
+        /// <param name="userId">用户的编号。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
         /// <param name="isFeatured">是否标记为精选。</param>
@@ -126,7 +130,7 @@ namespace Sheep.Model.Content
         /// <summary>
         ///     异步根据用户获取评论数量。
         /// </summary>
-        /// <param name="userId">用户的用户编号。</param>
+        /// <param name="userId">用户的编号。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
         /// <param name="isFeatured">是否标记为精选。</param>

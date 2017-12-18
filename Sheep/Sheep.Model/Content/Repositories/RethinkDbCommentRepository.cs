@@ -139,9 +139,13 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public List<Comment> FindCommentsByParent(string parentId, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status, string orderBy, bool? descending, int? skip, int? limit)
+        public List<Comment> FindCommentsByParent(string parentId, int? userId, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_CommentTable).GetAll(parentId).OptArg("index", "ParentId").Filter(true);
+            if (userId.HasValue)
+            {
+                query = query.Filter(row => row.G("UserId").Eq(userId.Value));
+            }
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
@@ -171,9 +175,13 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public Task<List<Comment>> FindCommentsByParentAsync(string parentId, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status, string orderBy, bool? descending, int? skip, int? limit)
+        public Task<List<Comment>> FindCommentsByParentAsync(string parentId, int? userId, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_CommentTable).GetAll(parentId).OptArg("index", "ParentId").Filter(true);
+            if (userId.HasValue)
+            {
+                query = query.Filter(row => row.G("UserId").Eq(userId.Value));
+            }
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
@@ -267,9 +275,13 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public int GetCommentsCountByParent(string parentId, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status)
+        public int GetCommentsCountByParent(string parentId, int? userId, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status)
         {
             var query = R.Table(s_CommentTable).GetAll(parentId).OptArg("index", "ParentId").Filter(true);
+            if (userId.HasValue)
+            {
+                query = query.Filter(row => row.G("UserId").Eq(userId.Value));
+            }
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
@@ -290,9 +302,13 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public Task<int> GetCommentsCountByParentAsync(string parentId, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status)
+        public Task<int> GetCommentsCountByParentAsync(string parentId, int? userId, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status)
         {
             var query = R.Table(s_CommentTable).GetAll(parentId).OptArg("index", "ParentId").Filter(true);
+            if (userId.HasValue)
+            {
+                query = query.Filter(row => row.G("UserId").Eq(userId.Value));
+            }
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
