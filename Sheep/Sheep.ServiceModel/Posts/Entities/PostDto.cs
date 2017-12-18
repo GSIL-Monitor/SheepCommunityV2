@@ -148,5 +148,11 @@ namespace Sheep.ServiceModel.Posts.Entities
         /// </summary>
         [DataMember(Order = 23)]
         public int AbuseReportsCount { get; set; }
+
+        /// <summary>
+        ///     当前用户是否已评论。
+        /// </summary>
+        [DataMember(Order = 24)]
+        public bool Commented { get; set; }
     }
 }

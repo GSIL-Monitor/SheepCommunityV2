@@ -72,6 +72,16 @@ namespace Sheep.ServiceInterface.Posts
         /// </summary>
         public IPostRepository PostRepo { get; set; }
 
+        /// <summary>
+        ///     获取及设置评论的存储库。
+        /// </summary>
+        public ICommentRepository CommentRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置点赞的存储库。
+        /// </summary>
+        public ILikeRepository LikeRepo { get; set; }
+
         #endregion
 
         #region 新建一个帖子
@@ -189,7 +199,7 @@ namespace Sheep.ServiceInterface.Posts
             //                          });
             return new PostCreateResponse
                    {
-                       Post = post.MapToPostDto(author)
+                       Post = post.MapToPostDto(author, false)
                    };
         }
 

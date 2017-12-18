@@ -8,6 +8,7 @@ using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using ServiceStack.Validation;
+using Sheep.Model.Content;
 using Sheep.Model.Read;
 using Sheep.Model.Read.Entities;
 using Sheep.ServiceInterface.Paragraphs.Mappers;
@@ -82,6 +83,16 @@ namespace Sheep.ServiceInterface.Paragraphs
         /// </summary>
         public IParagraphAnnotationRepository ParagraphAnnotationRepo { get; set; }
 
+        /// <summary>
+        ///     获取及设置评论的存储库。
+        /// </summary>
+        public ICommentRepository CommentRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置点赞的存储库。
+        /// </summary>
+        public ILikeRepository LikeRepo { get; set; }
+
         #endregion
 
         #region 更新一节
@@ -109,11 +120,13 @@ namespace Sheep.ServiceInterface.Paragraphs
             newParagraph.Meta = existingParagraph.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingParagraph.Meta);
             newParagraph.Content = request.Content?.Replace("\"", "'");
             var paragraph = await ParagraphRepo.UpdateParagraphAsync(existingParagraph, newParagraph);
+            var currentUserId = GetSession().UserAuthId.ToInt(0);
+            var commentsCount = await CommentRepo.GetCommentsCountByParentAsync(paragraph.Id, currentUserId, null, null, null, "审核通过");
             var paragraphAnnotations = await ParagraphAnnotationRepo.FindParagraphAnnotationsByParagraphAsync(paragraph.Id, null, null, null, null);
             ResetCache(paragraph);
             return new ParagraphUpdateResponse
                    {
-                       Paragraph = paragraph.MapToParagraphDto(paragraphAnnotations)
+                       Paragraph = paragraph.MapToParagraphDto(commentsCount > 0, paragraphAnnotations)
                    };
         }
 

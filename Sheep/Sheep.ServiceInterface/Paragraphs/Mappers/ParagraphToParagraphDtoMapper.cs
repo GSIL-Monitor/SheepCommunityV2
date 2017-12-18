@@ -7,7 +7,7 @@ namespace Sheep.ServiceInterface.Paragraphs.Mappers
 {
     public static class ParagraphToParagraphDtoMapper
     {
-        public static ParagraphDto MapToParagraphDto(this Paragraph paragraph, IEnumerable<ParagraphAnnotation> paragraphAnnotations)
+        public static ParagraphDto MapToParagraphDto(this Paragraph paragraph, bool commented, IEnumerable<ParagraphAnnotation> paragraphAnnotations)
         {
             if (paragraph.Meta == null)
             {
@@ -28,6 +28,7 @@ namespace Sheep.ServiceInterface.Paragraphs.Mappers
                                    RatingsCount = paragraph.RatingsCount,
                                    RatingsAverageValue = paragraph.RatingsAverageValue,
                                    SharesCount = paragraph.SharesCount,
+                                   Commented = commented,
                                    Annotations = paragraphAnnotations?.Select(va => va.MapToParagraphAnnotationDto()).ToList() ?? new List<ParagraphAnnotationDto>()
                                };
             return paragraphDto;

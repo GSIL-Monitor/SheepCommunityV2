@@ -71,6 +71,16 @@ namespace Sheep.ServiceInterface.Posts
         /// </summary>
         public IPostRepository PostRepo { get; set; }
 
+        /// <summary>
+        ///     获取及设置评论的存储库。
+        /// </summary>
+        public ICommentRepository CommentRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置点赞的存储库。
+        /// </summary>
+        public ILikeRepository LikeRepo { get; set; }
+
         #endregion
 
         #region 更新一个帖子
@@ -186,10 +196,11 @@ namespace Sheep.ServiceInterface.Posts
             }
             newPost.PictureUrl = pictureUrl.IsNullOrEmpty() ? existingPost.PictureUrl : pictureUrl;
             var post = await PostRepo.UpdatePostAsync(existingPost, newPost);
+            var commentsCount = await CommentRepo.GetCommentsCountByParentAsync(post.Id, authorId, null, null, null, "审核通过");
             ResetCache(post);
             return new PostUpdateResponse
                    {
-                       Post = post.MapToPostDto(author)
+                       Post = post.MapToPostDto(author, commentsCount > 0)
                    };
         }
 

@@ -8,6 +8,7 @@ using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using ServiceStack.Validation;
+using Sheep.Model.Content;
 using Sheep.Model.Read;
 using Sheep.Model.Read.Entities;
 using Sheep.ServiceInterface.Paragraphs.Mappers;
@@ -82,6 +83,16 @@ namespace Sheep.ServiceInterface.Paragraphs
         /// </summary>
         public IParagraphAnnotationRepository ParagraphAnnotationRepo { get; set; }
 
+        /// <summary>
+        ///     获取及设置评论的存储库。
+        /// </summary>
+        public ICommentRepository CommentRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置点赞的存储库。
+        /// </summary>
+        public ILikeRepository LikeRepo { get; set; }
+
         #endregion
 
         #region 新建一节
@@ -102,10 +113,12 @@ namespace Sheep.ServiceInterface.Paragraphs
             var existingParagraph = await ParagraphRepo.GetParagraphAsync(request.BookId, request.VolumeNumber, request.ChapterNumber, request.ParagraphNumber);
             if (existingParagraph != null)
             {
+                var currentUserId = GetSession().UserAuthId.ToInt(0);
+                var commentsCount = await CommentRepo.GetCommentsCountByParentAsync(existingParagraph.Id, currentUserId, null, null, null, "审核通过");
                 var paragraphAnnotations = await ParagraphAnnotationRepo.FindParagraphAnnotationsByParagraphAsync(existingParagraph.Id, null, null, null, null);
                 return new ParagraphCreateResponse
                        {
-                           Paragraph = existingParagraph.MapToParagraphDto(paragraphAnnotations)
+                           Paragraph = existingParagraph.MapToParagraphDto(commentsCount > 0, paragraphAnnotations)
                        };
             }
             var existingChapter = await ChapterRepo.GetChapterAsync(request.BookId, request.VolumeNumber, request.ChapterNumber);
@@ -136,7 +149,7 @@ namespace Sheep.ServiceInterface.Paragraphs
             ResetCache(paragraph);
             return new ParagraphCreateResponse
                    {
-                       Paragraph = paragraph.MapToParagraphDto(new List<ParagraphAnnotation>())
+                       Paragraph = paragraph.MapToParagraphDto(false, new List<ParagraphAnnotation>())
                    };
         }
 

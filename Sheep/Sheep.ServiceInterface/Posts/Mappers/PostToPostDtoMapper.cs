@@ -9,7 +9,7 @@ namespace Sheep.ServiceInterface.Posts.Mappers
 {
     public static class PostToPostDtoMapper
     {
-        public static PostDto MapToPostDto(this Post post, IUserAuth author)
+        public static PostDto MapToPostDto(this Post post, IUserAuth author, bool commented)
         {
             if (post.Meta == null)
             {
@@ -39,7 +39,8 @@ namespace Sheep.ServiceInterface.Posts.Mappers
                               RatingsCount = post.RatingsCount,
                               RatingsAverageValue = post.RatingsAverageValue,
                               SharesCount = post.SharesCount,
-                              AbuseReportsCount = post.AbuseReportsCount
+                              AbuseReportsCount = post.AbuseReportsCount,
+                              Commented = commented
                           };
             return postDto;
         }

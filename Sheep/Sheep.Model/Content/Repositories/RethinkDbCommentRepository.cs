@@ -329,6 +329,60 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
+        public List<KeyValuePair<string, int>> GetCommentsCountByParents(IEnumerable<string> parentIds, int? userId, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status)
+        {
+            var query = R.Table(s_CommentTable).GetAll(R.Args(parentIds.ToArray())).OptArg("index", "ParentId").Filter(true);
+            if (userId.HasValue)
+            {
+                query = query.Filter(row => row.G("UserId").Eq(userId.Value));
+            }
+            if (createdSince.HasValue)
+            {
+                query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
+            }
+            if (modifiedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("ModifiedDate").Ge(modifiedSince.Value));
+            }
+            if (isFeatured.HasValue)
+            {
+                query = query.Filter(row => row.G("IsFeatured").Eq(isFeatured.Value));
+            }
+            if (!status.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("Status").Eq(status));
+            }
+            return query.Group(row => row.G("ParentId")).Count().Ungroup().Map(row => R.HashMap("Key", row.G("group")).With("Value", row.G("reduction"))).RunResult<List<KeyValuePair<string, int>>>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<List<KeyValuePair<string, int>>> GetCommentsCountByParentsAsync(IEnumerable<string> parentIds, int? userId, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status)
+        {
+            var query = R.Table(s_CommentTable).GetAll(R.Args(parentIds.ToArray())).OptArg("index", "ParentId").Filter(true);
+            if (userId.HasValue)
+            {
+                query = query.Filter(row => row.G("UserId").Eq(userId.Value));
+            }
+            if (createdSince.HasValue)
+            {
+                query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
+            }
+            if (modifiedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("ModifiedDate").Ge(modifiedSince.Value));
+            }
+            if (isFeatured.HasValue)
+            {
+                query = query.Filter(row => row.G("IsFeatured").Eq(isFeatured.Value));
+            }
+            if (!status.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("Status").Eq(status));
+            }
+            return query.Group(row => row.G("ParentId")).Count().Ungroup().Map(row => R.HashMap("Key", row.G("group")).With("Value", row.G("reduction"))).RunResultAsync<List<KeyValuePair<string, int>>>(_conn);
+        }
+
+        /// <inheritdoc />
         public int GetCommentsCountByUser(int userId, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status)
         {
             var query = R.Table(s_CommentTable).GetAll(userId).OptArg("index", "UserId").Filter(true);

@@ -50,6 +50,16 @@ namespace Sheep.ServiceInterface.Posts
         /// </summary>
         public IPostRepository PostRepo { get; set; }
 
+        /// <summary>
+        ///     获取及设置评论的存储库。
+        /// </summary>
+        public ICommentRepository CommentRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置点赞的存储库。
+        /// </summary>
+        public ILikeRepository LikeRepo { get; set; }
+
         #endregion
 
         #region 列举一组帖子
@@ -70,7 +80,9 @@ namespace Sheep.ServiceInterface.Posts
                 throw HttpError.NotFound(string.Format(Resources.PostsNotFound));
             }
             var authorsMap = (await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthsAsync(existingPosts.Select(post => post.AuthorId.ToString()).Distinct())).ToDictionary(author => author.Id, author => author);
-            var postsDto = existingPosts.Select(post => post.MapToPostDto(authorsMap.GetValueOrDefault(post.AuthorId))).ToList();
+            var currentUserId = GetSession().UserAuthId.ToInt(0);
+            var commentsMap = (await CommentRepo.GetCommentsCountByParentsAsync(existingPosts.Select(post => post.Id), currentUserId, null, null, null, "审核通过")).ToDictionary(pair => pair.Key, pair => pair.Value);
+            var postsDto = existingPosts.Select(post => post.MapToPostDto(authorsMap.GetValueOrDefault(post.AuthorId), commentsMap.GetValueOrDefault(post.Id) > 0)).ToList();
             return new PostListResponse
                    {
                        Posts = postsDto

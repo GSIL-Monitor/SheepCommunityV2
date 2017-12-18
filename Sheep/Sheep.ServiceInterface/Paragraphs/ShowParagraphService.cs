@@ -5,6 +5,7 @@ using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using ServiceStack.Validation;
+using Sheep.Model.Content;
 using Sheep.Model.Read;
 using Sheep.ServiceInterface.Paragraphs.Mappers;
 using Sheep.ServiceInterface.Properties;
@@ -68,6 +69,16 @@ namespace Sheep.ServiceInterface.Paragraphs
         /// </summary>
         public IParagraphAnnotationRepository ParagraphAnnotationRepo { get; set; }
 
+        /// <summary>
+        ///     获取及设置评论的存储库。
+        /// </summary>
+        public ICommentRepository CommentRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置点赞的存储库。
+        /// </summary>
+        public ILikeRepository LikeRepo { get; set; }
+
         #endregion
 
         #region 显示一节
@@ -88,8 +99,10 @@ namespace Sheep.ServiceInterface.Paragraphs
                 throw HttpError.NotFound(string.Format(Resources.ParagraphNotFound, string.Format("{0}-{1}-{2}-{3}", request.BookId, request.VolumeNumber, request.ChapterNumber, request.ParagraphNumber)));
             }
             await ParagraphRepo.IncrementParagraphViewsCountAsync(existingParagraph.Id, 1);
+            var currentUserId = GetSession().UserAuthId.ToInt(0);
+            var commentsCount = await CommentRepo.GetCommentsCountByParentAsync(existingParagraph.Id, currentUserId, null, null, null, "审核通过");
             var paragraphAnnotations = await ParagraphAnnotationRepo.FindParagraphAnnotationsByParagraphAsync(existingParagraph.Id, null, null, null, null);
-            var paragraphDto = existingParagraph.MapToParagraphDto(paragraphAnnotations);
+            var paragraphDto = existingParagraph.MapToParagraphDto(commentsCount > 0, paragraphAnnotations);
             return new ParagraphShowResponse
                    {
                        Paragraph = paragraphDto

@@ -89,9 +89,15 @@ namespace Sheep.ServiceModel.Paragraphs.Entities
         public int SharesCount { get; set; }
 
         /// <summary>
-        ///     注释列表。
+        ///     当前用户是否已评论。
         /// </summary>
         [DataMember(Order = 14)]
+        public bool Commented { get; set; }
+
+        /// <summary>
+        ///     注释列表。
+        /// </summary>
+        [DataMember(Order = 15)]
         public List<ParagraphAnnotationDto> Annotations { get; set; }
     }
 }

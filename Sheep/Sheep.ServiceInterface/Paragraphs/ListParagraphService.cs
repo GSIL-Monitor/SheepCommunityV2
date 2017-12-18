@@ -6,6 +6,7 @@ using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using ServiceStack.Validation;
+using Sheep.Model.Content;
 using Sheep.Model.Read;
 using Sheep.ServiceInterface.Paragraphs.Mappers;
 using Sheep.ServiceInterface.Properties;
@@ -69,6 +70,16 @@ namespace Sheep.ServiceInterface.Paragraphs
         /// </summary>
         public IParagraphAnnotationRepository ParagraphAnnotationRepo { get; set; }
 
+        /// <summary>
+        ///     获取及设置评论的存储库。
+        /// </summary>
+        public ICommentRepository CommentRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置点赞的存储库。
+        /// </summary>
+        public ILikeRepository LikeRepo { get; set; }
+
         #endregion
 
         #region 列举一组节
@@ -89,7 +100,9 @@ namespace Sheep.ServiceInterface.Paragraphs
                 throw HttpError.NotFound(string.Format(Resources.ParagraphsNotFound));
             }
             var paragraphAnnotationsMap = (await ParagraphAnnotationRepo.FindParagraphAnnotationsByParagraphsAsync(existingParagraphs.Select(paragraph => paragraph.Id), "ParagraphId", null, null, null)).GroupBy(paragraphAnnotation => paragraphAnnotation.ParagraphId, paragraphAnnotation => paragraphAnnotation).ToDictionary(grouping => grouping.Key, grouping => grouping.OrderBy(g => g.Number).ToList());
-            var paragraphsDto = existingParagraphs.Select(paragraph => paragraph.MapToParagraphDto(paragraphAnnotationsMap.GetValueOrDefault(paragraph.Id))).ToList();
+            var currentUserId = GetSession().UserAuthId.ToInt(0);
+            var commentsMap = (await CommentRepo.GetCommentsCountByParentsAsync(existingParagraphs.Select(paragraph => paragraph.Id), currentUserId, null, null, null, "审核通过")).ToDictionary(pair => pair.Key, pair => pair.Value);
+            var paragraphsDto = existingParagraphs.Select(paragraph => paragraph.MapToParagraphDto(commentsMap.GetValueOrDefault(paragraph.Id) > 0, paragraphAnnotationsMap.GetValueOrDefault(paragraph.Id))).ToList();
             return new ParagraphListResponse
                    {
                        Paragraphs = paragraphsDto

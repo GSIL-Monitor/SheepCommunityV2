@@ -74,14 +74,14 @@ namespace Sheep.ServiceInterface.Comments
             {
                 CommentListByParentValidator.ValidateAndThrow(request, ApplyTo.Get);
             }
-            var userId = GetSession().UserAuthId.ToInt(0);
-            var existingComments = await CommentRepo.FindCommentsByParentAsync(request.ParentId, request.IsMine.HasValue && request.IsMine.Value ? userId : (int?) null, request.CreatedSince, request.ModifiedSince, request.IsFeatured, "审核通过", request.OrderBy, request.Descending, request.Skip, request.Limit);
+            var currentUserId = GetSession().UserAuthId.ToInt(0);
+            var existingComments = await CommentRepo.FindCommentsByParentAsync(request.ParentId, request.IsMine.HasValue && request.IsMine.Value ? currentUserId : (int?) null, request.CreatedSince, request.ModifiedSince, request.IsFeatured, "审核通过", request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingComments == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.CommentsNotFound));
             }
             var usersMap = (await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthsAsync(existingComments.Select(comment => comment.UserId.ToString()).Distinct())).ToDictionary(userAuth => userAuth.Id, userAuth => userAuth);
-            var currentUserId = GetSession().UserAuthId.ToInt(0);
+            //var currentUserId = GetSession().UserAuthId.ToInt(0);
             var votesMap = (await VoteRepo.GetVotesAsync(existingComments.Select(comment => new Tuple<string, int>(comment.Id, currentUserId)))).ToDictionary(vote => vote.ParentId, vote => vote);
             var commentsDto = existingComments.Select(comment => comment.MapToCommentDto(usersMap.GetValueOrDefault(comment.UserId), votesMap.GetValueOrDefault(comment.Id)?.Value ?? false, !votesMap.GetValueOrDefault(comment.Id)?.Value ?? false)).ToList();
             return new CommentListResponse

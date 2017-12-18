@@ -49,6 +49,16 @@ namespace Sheep.ServiceInterface.Posts
         /// </summary>
         public IPostRepository PostRepo { get; set; }
 
+        /// <summary>
+        ///     获取及设置评论的存储库。
+        /// </summary>
+        public ICommentRepository CommentRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置点赞的存储库。
+        /// </summary>
+        public ILikeRepository LikeRepo { get; set; }
+
         #endregion
 
         #region 显示一个帖子
@@ -74,7 +84,9 @@ namespace Sheep.ServiceInterface.Posts
                 throw HttpError.NotFound(string.Format(Resources.UserNotFound, existingPost.AuthorId));
             }
             await PostRepo.IncrementPostViewsCountAsync(existingPost.Id, 1);
-            var postDto = existingPost.MapToPostDto(author);
+            var currentUserId = GetSession().UserAuthId.ToInt(0);
+            var commentsCount = await CommentRepo.GetCommentsCountByParentAsync(existingPost.Id, currentUserId, null, null, null, "审核通过");
+            var postDto = existingPost.MapToPostDto(author, commentsCount > 0);
             return new PostShowResponse
                    {
                        Post = postDto

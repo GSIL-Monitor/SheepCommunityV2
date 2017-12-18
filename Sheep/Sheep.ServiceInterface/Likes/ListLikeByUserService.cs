@@ -57,7 +57,7 @@ namespace Sheep.ServiceInterface.Likes
         /// <summary>
         ///     列举一组点赞。
         /// </summary>
-        [CacheResponse(Duration = 600)]
+        //[CacheResponse(Duration = 600)]
         public async Task<object> Get(LikeListByUser request)
         {
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))

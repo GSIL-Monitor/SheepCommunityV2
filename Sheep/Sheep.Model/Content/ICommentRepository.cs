@@ -117,6 +117,30 @@ namespace Sheep.Model.Content
         Task<int> GetCommentsCountByParentAsync(string parentId, int? userId, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status);
 
         /// <summary>
+        ///     根据上级列表获取评论数量列表。
+        /// </summary>
+        /// <param name="parentIds">上级的编号的列表。（如帖子编号）</param>
+        /// <param name="userId">用户的编号。</param>
+        /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
+        /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
+        /// <param name="isFeatured">是否标记为精选。</param>
+        /// <param name="status"> 过滤状态。</param>
+        /// <returns>评论数量列表。</returns>
+        List<KeyValuePair<string, int>> GetCommentsCountByParents(IEnumerable<string> parentIds, int? userId, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status);
+
+        /// <summary>
+        ///     异步根据上级列表获取评论数量列表。
+        /// </summary>
+        /// <param name="parentIds">上级的编号的列表。（如帖子编号）</param>
+        /// <param name="userId">用户的编号。</param>
+        /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
+        /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
+        /// <param name="isFeatured">是否标记为精选。</param>
+        /// <param name="status"> 过滤状态。</param>
+        /// <returns>评论数量。</returns>
+        Task<List<KeyValuePair<string, int>>> GetCommentsCountByParentsAsync(IEnumerable<string> parentIds, int? userId, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status);
+
+        /// <summary>
         ///     根据用户获取评论数量。
         /// </summary>
         /// <param name="userId">用户的编号。</param>
