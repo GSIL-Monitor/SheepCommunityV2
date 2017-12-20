@@ -202,9 +202,13 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public List<Chapter> FindChapters(string bookId, int volumeNumber, string contentFilter, string orderBy, bool? descending, int? skip, int? limit)
+        public List<Chapter> FindChapters(string bookId, int? volumeNumber, string contentFilter, string orderBy, bool? descending, int? skip, int? limit)
         {
-            var query = R.Table(s_ChapterTable).GetAll(bookId).OptArg("index", "BookId").Filter(row => row.G("VolumeNumber").Eq(volumeNumber));
+            var query = R.Table(s_ChapterTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
+            if (volumeNumber.HasValue)
+            {
+                query = query.Filter(row => row.G("VolumeNumber").Eq(volumeNumber));
+            }
             if (!contentFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Content").Match(contentFilter));
@@ -222,9 +226,13 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public Task<List<Chapter>> FindChaptersAsync(string bookId, int volumeNumber, string contentFilter, string orderBy, bool? descending, int? skip, int? limit)
+        public Task<List<Chapter>> FindChaptersAsync(string bookId, int? volumeNumber, string contentFilter, string orderBy, bool? descending, int? skip, int? limit)
         {
-            var query = R.Table(s_ChapterTable).GetAll(bookId).OptArg("index", "BookId").Filter(row => row.G("VolumeNumber").Eq(volumeNumber));
+            var query = R.Table(s_ChapterTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
+            if (volumeNumber.HasValue)
+            {
+                query = query.Filter(row => row.G("VolumeNumber").Eq(volumeNumber));
+            }
             if (!contentFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Content").Match(contentFilter));
@@ -274,9 +282,13 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public int GetChaptersCount(string bookId, int volumeNumber, string contentFilter)
+        public int GetChaptersCount(string bookId, int? volumeNumber, string contentFilter)
         {
-            var query = R.Table(s_ChapterTable).GetAll(bookId).OptArg("index", "BookId").Filter(row => row.G("VolumeNumber").Eq(volumeNumber));
+            var query = R.Table(s_ChapterTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
+            if (volumeNumber.HasValue)
+            {
+                query = query.Filter(row => row.G("VolumeNumber").Eq(volumeNumber));
+            }
             if (!contentFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Content").Match(contentFilter));
@@ -285,9 +297,13 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public Task<int> GetChaptersCountAsync(string bookId, int volumeNumber, string contentFilter)
+        public Task<int> GetChaptersCountAsync(string bookId, int? volumeNumber, string contentFilter)
         {
-            var query = R.Table(s_ChapterTable).GetAll(bookId).OptArg("index", "BookId").Filter(row => row.G("VolumeNumber").Eq(volumeNumber));
+            var query = R.Table(s_ChapterTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
+            if (volumeNumber.HasValue)
+            {
+                query = query.Filter(row => row.G("VolumeNumber").Eq(volumeNumber));
+            }
             if (!contentFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Content").Match(contentFilter));

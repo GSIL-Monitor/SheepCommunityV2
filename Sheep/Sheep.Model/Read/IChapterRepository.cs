@@ -70,7 +70,7 @@ namespace Sheep.Model.Read
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>章列表。</returns>
-        List<Chapter> FindChapters(string bookId, int volumeNumber, string contentFilter, string orderBy, bool? descending, int? skip, int? limit);
+        List<Chapter> FindChapters(string bookId, int? volumeNumber, string contentFilter, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
         ///     异步查找章。
@@ -83,7 +83,7 @@ namespace Sheep.Model.Read
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>章列表。</returns>
-        Task<List<Chapter>> FindChaptersAsync(string bookId, int volumeNumber, string contentFilter, string orderBy, bool? descending, int? skip, int? limit);
+        Task<List<Chapter>> FindChaptersAsync(string bookId, int? volumeNumber, string contentFilter, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
         ///     根据卷查找章。
@@ -118,7 +118,7 @@ namespace Sheep.Model.Read
         /// <param name="volumeNumber">卷的编号。</param>
         /// <param name="contentFilter">过滤内容的表达式。</param>
         /// <returns>章数量。</returns>
-        int GetChaptersCount(string bookId, int volumeNumber, string contentFilter);
+        int GetChaptersCount(string bookId, int? volumeNumber, string contentFilter);
 
         /// <summary>
         ///     异步获取章数量。
@@ -127,7 +127,7 @@ namespace Sheep.Model.Read
         /// <param name="volumeNumber">卷的编号。</param>
         /// <param name="contentFilter">过滤内容的表达式。</param>
         /// <returns>章数量。</returns>
-        Task<int> GetChaptersCountAsync(string bookId, int volumeNumber, string contentFilter);
+        Task<int> GetChaptersCountAsync(string bookId, int? volumeNumber, string contentFilter);
 
         /// <summary>
         ///     根据卷获取章数量。

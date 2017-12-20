@@ -148,6 +148,7 @@
     <Compile Include="Books\Validators\BookListValidator.cs" />
     <Compile Include="Books\Validators\BookShowValidator.cs" />
     <Compile Include="Books\Validators\BookUpdateValidator.cs" />
+    <Compile Include="Chapters\ChapterSearch.cs" />
     <Compile Include="Chapters\Entities\ChapterDto.cs" />
     <Compile Include="Chapters\ChapterCreate.cs" />
     <Compile Include="Chapters\ChapterDelete.cs" />
@@ -157,6 +158,7 @@
     <Compile Include="Chapters\Entities\ChapterAnnotationDto.cs" />
     <Compile Include="Chapters\Validators\ChapterCreateValidator.cs" />
     <Compile Include="Chapters\Validators\ChapterDeleteValidator.cs" />
+    <Compile Include="Chapters\Validators\ChapterSearchValidator.cs" />
     <Compile Include="Chapters\Validators\ChapterListValidator.cs" />
     <Compile Include="Chapters\Validators\ChapterShowValidator.cs" />
     <Compile Include="Chapters\Validators\ChapterUpdateValidator.cs" />

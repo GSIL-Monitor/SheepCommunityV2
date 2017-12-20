@@ -149,6 +149,7 @@
     <Compile Include="Chapters\CreateChapterAnnotationService.cs" />
     <Compile Include="Chapters\DeleteChapterService.cs" />
     <Compile Include="Chapters\DeleteChapterAnnotationService.cs" />
+    <Compile Include="Chapters\SearchChapterService.cs" />
     <Compile Include="Chapters\ListChapterService.cs" />
     <Compile Include="Chapters\ListChapterAnnotationService.cs" />
     <Compile Include="Chapters\Mappers\ChapterToChapterDtoMapper.cs" />
