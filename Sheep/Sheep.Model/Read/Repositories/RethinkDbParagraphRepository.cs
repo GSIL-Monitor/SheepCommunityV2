@@ -282,6 +282,38 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
+        public List<Paragraph> FindParagraphsByChapters(IEnumerable<string> chapterIds, string orderBy, bool? descending, int? skip, int? limit)
+        {
+            var query = R.Table(s_ParagraphTable).GetAll(R.Args(chapterIds.ToArray())).OptArg("index", "ChapterId").Filter(true);
+            OrderBy queryOrder;
+            if (!orderBy.IsNullOrEmpty())
+            {
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc(orderBy)) : query.OrderBy(orderBy);
+            }
+            else
+            {
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("Number")) : query.OrderBy("Number");
+            }
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 10000).RunResult<List<Paragraph>>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<List<Paragraph>> FindParagraphsByChaptersAsync(IEnumerable<string> chapterIds, string orderBy, bool? descending, int? skip, int? limit)
+        {
+            var query = R.Table(s_ParagraphTable).GetAll(R.Args(chapterIds.ToArray())).OptArg("index", "ChapterId").Filter(true);
+            OrderBy queryOrder;
+            if (!orderBy.IsNullOrEmpty())
+            {
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc(orderBy)) : query.OrderBy(orderBy);
+            }
+            else
+            {
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("Number")) : query.OrderBy("Number");
+            }
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 10000).RunResultAsync<List<Paragraph>>(_conn);
+        }
+
+        /// <inheritdoc />
         public List<Paragraph> FindParagraphsBySubject(string subjectId, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_ParagraphTable).GetAll(subjectId).OptArg("index", "SubjectId").Filter(true);

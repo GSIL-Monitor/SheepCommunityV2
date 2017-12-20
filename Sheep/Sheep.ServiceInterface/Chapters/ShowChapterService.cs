@@ -1,10 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using ServiceStack.Validation;
+using Sheep.Model.Content;
 using Sheep.Model.Read;
 using Sheep.ServiceInterface.Chapters.Mappers;
 using Sheep.ServiceInterface.Properties;
@@ -63,6 +65,21 @@ namespace Sheep.ServiceInterface.Chapters
         /// </summary>
         public IChapterAnnotationRepository ChapterAnnotationRepo { get; set; }
 
+        /// <summary>
+        ///     获取及设置节的存储库。
+        /// </summary>
+        public IParagraphRepository ParagraphRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置评论的存储库。
+        /// </summary>
+        public ICommentRepository CommentRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置点赞的存储库。
+        /// </summary>
+        public ILikeRepository LikeRepo { get; set; }
+
         #endregion
 
         #region 显示一章
@@ -84,7 +101,10 @@ namespace Sheep.ServiceInterface.Chapters
             }
             await ChapterRepo.IncrementChapterViewsCountAsync(existingChapter.Id, 1);
             var chapterAnnotations = await ChapterAnnotationRepo.FindChapterAnnotationsByChapterAsync(existingChapter.Id, null, null, null, null);
-            var chapterDto = existingChapter.MapToChapterDto(chapterAnnotations);
+            var currentUserId = GetSession().UserAuthId.ToInt(0);
+            var paragraphs = await ParagraphRepo.FindParagraphsByChapterAsync(existingChapter.Id, null, null, null, null);
+            var paragraphCommentsMap = (await CommentRepo.GetCommentsCountByParentsAsync(paragraphs.Select(paragraph => paragraph.Id), currentUserId, null, null, null, "审核通过")).ToDictionary(pair => pair.Key, pair => pair.Value);
+            var chapterDto = existingChapter.MapToChapterDto(chapterAnnotations, paragraphs, paragraphCommentsMap);
             return new ChapterShowResponse
                    {
                        Chapter = chapterDto

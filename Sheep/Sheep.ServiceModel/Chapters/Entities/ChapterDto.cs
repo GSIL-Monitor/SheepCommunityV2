@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 using ServiceStack.Model;
+using Sheep.ServiceModel.Paragraphs.Entities;
 
 namespace Sheep.ServiceModel.Chapters.Entities
 {
@@ -93,5 +94,11 @@ namespace Sheep.ServiceModel.Chapters.Entities
         /// </summary>
         [DataMember(Order = 14)]
         public List<ChapterAnnotationDto> Annotations { get; set; }
+
+        /// <summary>
+        ///     节列表。
+        /// </summary>
+        [DataMember(Order = 15)]
+        public List<ParagraphDto> Paragraphs { get; set; }
     }
 }

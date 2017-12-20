@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Aliyun.OSS;
 using Netease.Nim;
@@ -8,6 +9,7 @@ using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using ServiceStack.Validation;
+using Sheep.Model.Content;
 using Sheep.Model.Read;
 using Sheep.Model.Read.Entities;
 using Sheep.ServiceInterface.Chapters.Mappers;
@@ -77,6 +79,21 @@ namespace Sheep.ServiceInterface.Chapters
         /// </summary>
         public IChapterAnnotationRepository ChapterAnnotationRepo { get; set; }
 
+        /// <summary>
+        ///     获取及设置节的存储库。
+        /// </summary>
+        public IParagraphRepository ParagraphRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置评论的存储库。
+        /// </summary>
+        public ICommentRepository CommentRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置点赞的存储库。
+        /// </summary>
+        public ILikeRepository LikeRepo { get; set; }
+
         #endregion
 
         #region 新建一章
@@ -98,9 +115,12 @@ namespace Sheep.ServiceInterface.Chapters
             if (existingChapter != null)
             {
                 var chapterAnnotations = await ChapterAnnotationRepo.FindChapterAnnotationsByChapterAsync(existingChapter.Id, null, null, null, null);
+                var currentUserId = GetSession().UserAuthId.ToInt(0);
+                var paragraphs = await ParagraphRepo.FindParagraphsByChapterAsync(existingChapter.Id, null, null, null, null);
+                var paragraphCommentsMap = (await CommentRepo.GetCommentsCountByParentsAsync(paragraphs.Select(paragraph => paragraph.Id), currentUserId, null, null, null, "审核通过")).ToDictionary(pair => pair.Key, pair => pair.Value);
                 return new ChapterCreateResponse
                        {
-                           Chapter = existingChapter.MapToChapterDto(chapterAnnotations)
+                           Chapter = existingChapter.MapToChapterDto(chapterAnnotations, paragraphs, paragraphCommentsMap)
                        };
             }
             var existingVolume = await VolumeRepo.GetVolumeAsync(request.BookId, request.VolumeNumber);
@@ -123,7 +143,7 @@ namespace Sheep.ServiceInterface.Chapters
             ResetCache(chapter);
             return new ChapterCreateResponse
                    {
-                       Chapter = chapter.MapToChapterDto(new List<ChapterAnnotation>())
+                       Chapter = chapter.MapToChapterDto(new List<ChapterAnnotation>(), new List<Paragraph>(), new Dictionary<string, int>())
                    };
         }
 

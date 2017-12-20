@@ -112,6 +112,28 @@ namespace Sheep.Model.Read
         Task<List<Paragraph>> FindParagraphsByChapterAsync(string chapterId, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
+        ///     根据章列表查找节。
+        /// </summary>
+        /// <param name="chapterIds">章的编号列表。</param>
+        /// <param name="orderBy">排序的字段。</param>
+        /// <param name="descending">是否按降序排序。</param>
+        /// <param name="skip">忽略的行数。</param>
+        /// <param name="limit">获取的行数。</param>
+        /// <returns>节列表。</returns>
+        List<Paragraph> FindParagraphsByChapters(IEnumerable<string> chapterIds, string orderBy, bool? descending, int? skip, int? limit);
+
+        /// <summary>
+        ///     异步根据章列表查找节。
+        /// </summary>
+        /// <param name="chapterIds">章的编号列表。</param>
+        /// <param name="orderBy">排序的字段。</param>
+        /// <param name="descending">是否按降序排序。</param>
+        /// <param name="skip">忽略的行数。</param>
+        /// <param name="limit">获取的行数。</param>
+        /// <returns>节列表。</returns>
+        Task<List<Paragraph>> FindParagraphsByChaptersAsync(IEnumerable<string> chapterIds, string orderBy, bool? descending, int? skip, int? limit);
+
+        /// <summary>
         ///     根据主题查找节。
         /// </summary>
         /// <param name="subjectId">主题的编号。</param>

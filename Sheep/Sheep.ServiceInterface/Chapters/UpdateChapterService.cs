@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Aliyun.OSS;
 using Netease.Nim;
@@ -8,6 +9,7 @@ using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using ServiceStack.Validation;
+using Sheep.Model.Content;
 using Sheep.Model.Read;
 using Sheep.Model.Read.Entities;
 using Sheep.ServiceInterface.Chapters.Mappers;
@@ -77,6 +79,21 @@ namespace Sheep.ServiceInterface.Chapters
         /// </summary>
         public IChapterAnnotationRepository ChapterAnnotationRepo { get; set; }
 
+        /// <summary>
+        ///     获取及设置节的存储库。
+        /// </summary>
+        public IParagraphRepository ParagraphRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置评论的存储库。
+        /// </summary>
+        public ICommentRepository CommentRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置点赞的存储库。
+        /// </summary>
+        public ILikeRepository LikeRepo { get; set; }
+
         #endregion
 
         #region 更新一章
@@ -106,10 +123,13 @@ namespace Sheep.ServiceInterface.Chapters
             newChapter.Content = request.Content?.Replace("\"", "'");
             var chapter = await ChapterRepo.UpdateChapterAsync(existingChapter, newChapter);
             var chapterAnnotations = await ChapterAnnotationRepo.FindChapterAnnotationsByChapterAsync(chapter.Id, null, null, null, null);
+            var currentUserId = GetSession().UserAuthId.ToInt(0);
+            var paragraphs = await ParagraphRepo.FindParagraphsByChapterAsync(chapter.Id, null, null, null, null);
+            var paragraphCommentsMap = (await CommentRepo.GetCommentsCountByParentsAsync(paragraphs.Select(paragraph => paragraph.Id), currentUserId, null, null, null, "审核通过")).ToDictionary(pair => pair.Key, pair => pair.Value);
             ResetCache(chapter);
             return new ChapterUpdateResponse
                    {
-                       Chapter = chapter.MapToChapterDto(chapterAnnotations)
+                       Chapter = chapter.MapToChapterDto(chapterAnnotations, paragraphs, paragraphCommentsMap)
                    };
         }
 

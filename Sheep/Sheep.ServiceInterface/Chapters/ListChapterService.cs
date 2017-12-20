@@ -7,6 +7,7 @@ using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using ServiceStack.Validation;
+using Sheep.Model.Content;
 using Sheep.Model.Read;
 using Sheep.Model.Read.Entities;
 using Sheep.ServiceInterface.Chapters.Mappers;
@@ -66,6 +67,21 @@ namespace Sheep.ServiceInterface.Chapters
         /// </summary>
         public IChapterAnnotationRepository ChapterAnnotationRepo { get; set; }
 
+        /// <summary>
+        ///     获取及设置节的存储库。
+        /// </summary>
+        public IParagraphRepository ParagraphRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置评论的存储库。
+        /// </summary>
+        public ICommentRepository CommentRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置点赞的存储库。
+        /// </summary>
+        public ILikeRepository LikeRepo { get; set; }
+
         #endregion
 
         #region 列举一组章
@@ -86,7 +102,11 @@ namespace Sheep.ServiceInterface.Chapters
                 throw HttpError.NotFound(string.Format(Resources.ChaptersNotFound));
             }
             var chapterAnnotationsMap = request.LoadAnnotations.HasValue && request.LoadAnnotations.Value ? (await ChapterAnnotationRepo.FindChapterAnnotationsByChaptersAsync(existingChapters.Select(chapter => chapter.Id), "ChapterId", null, null, null)).GroupBy(chapterAnnotation => chapterAnnotation.ChapterId, chapterAnnotation => chapterAnnotation).ToDictionary(grouping => grouping.Key, grouping => grouping.OrderBy(g => g.Number).ToList()) : new Dictionary<string, List<ChapterAnnotation>>();
-            var chaptersDto = existingChapters.Select(chapter => chapter.MapToChapterDto(chapterAnnotationsMap.GetValueOrDefault(chapter.Id))).ToList();
+            var currentUserId = GetSession().UserAuthId.ToInt(0);
+            var paragraphs = request.LoadParagraphs.HasValue && request.LoadParagraphs.Value ? await ParagraphRepo.FindParagraphsByChaptersAsync(existingChapters.Select(chapter => chapter.Id), "ChapterId", null, null, null) : new List<Paragraph>();
+            var paragraphsMap = request.LoadParagraphs.HasValue && request.LoadParagraphs.Value ? paragraphs.GroupBy(paragraph => paragraph.ChapterId, paragraph => paragraph).ToDictionary(grouping => grouping.Key, grouping => grouping.OrderBy(g => g.Number).ToList()) : new Dictionary<string, List<Paragraph>>();
+            var paragraphCommentsMap = request.LoadParagraphs.HasValue && request.LoadParagraphs.Value ? (await CommentRepo.GetCommentsCountByParentsAsync(paragraphs.Select(paragraph => paragraph.Id), currentUserId, null, null, null, "审核通过")).ToDictionary(pair => pair.Key, pair => pair.Value) : new Dictionary<string, int>();
+            var chaptersDto = existingChapters.Select(chapter => chapter.MapToChapterDto(chapterAnnotationsMap.GetValueOrDefault(chapter.Id), paragraphsMap.GetValueOrDefault(chapter.Id), paragraphCommentsMap)).ToList();
             return new ChapterListResponse
                    {
                        Chapters = chaptersDto
