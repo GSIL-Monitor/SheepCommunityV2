@@ -6,11 +6,11 @@ using Sheep.ServiceModel.Paragraphs.Entities;
 namespace Sheep.ServiceModel.Paragraphs
 {
     /// <summary>
-    ///     查询并列举一组节的请求。
+    ///     搜索一组节的请求。
     /// </summary>
-    [Route("/books/{BookId}/volumes/{VolumeNumber}/chapters/{ChapterNumber}/paragraphs/query", HttpMethods.Get, Summary = "查询并列举一组节信息")]
+    [Route("/books/{BookId}/paragraphs/search", HttpMethods.Get, Summary = "搜索一组节信息")]
     [DataContract]
-    public class ParagraphList : IReturn<ParagraphListResponse>
+    public class ParagraphSearch : IReturn<ParagraphSearchResponse>
     {
         /// <summary>
         ///     书籍编号。
@@ -22,16 +22,16 @@ namespace Sheep.ServiceModel.Paragraphs
         /// <summary>
         ///     卷序号。
         /// </summary>
-        [DataMember(Order = 2, IsRequired = true)]
+        [DataMember(Order = 2, Name = "volumenumber")]
         [ApiMember(Description = "卷序号")]
-        public int VolumeNumber { get; set; }
+        public int? VolumeNumber { get; set; }
 
         /// <summary>
         ///     章序号。
         /// </summary>
-        [DataMember(Order = 3, IsRequired = true)]
+        [DataMember(Order = 3, Name = "chapternumber")]
         [ApiMember(Description = "章序号")]
-        public int ChapterNumber { get; set; }
+        public int? ChapterNumber { get; set; }
 
         /// <summary>
         ///     过滤内容。
@@ -78,10 +78,10 @@ namespace Sheep.ServiceModel.Paragraphs
     }
 
     /// <summary>
-    ///     查询并列举一组节的响应。
+    ///     搜索一组节的响应。
     /// </summary>
     [DataContract]
-    public class ParagraphListResponse : IHasResponseStatus
+    public class ParagraphSearchResponse : IHasResponseStatus
     {
         /// <summary>
         ///     节信息列表。

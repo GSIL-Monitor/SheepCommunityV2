@@ -194,9 +194,17 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public List<Paragraph> FindParagraphs(string bookId, int volumeNumber, int chapterNumber, string contentFilter, string orderBy, bool? descending, int? skip, int? limit)
+        public List<Paragraph> FindParagraphs(string bookId, int? volumeNumber, int? chapterNumber, string contentFilter, string orderBy, bool? descending, int? skip, int? limit)
         {
-            var query = R.Table(s_ParagraphTable).GetAll(bookId).OptArg("index", "BookId").Filter(row => row.G("VolumeNumber").Eq(volumeNumber).And(row.G("ChapterNumber").Eq(chapterNumber)));
+            var query = R.Table(s_ParagraphTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
+            if (volumeNumber.HasValue)
+            {
+                query = query.Filter(row => row.G("VolumeNumber").Eq(volumeNumber));
+            }
+            if (chapterNumber.HasValue)
+            {
+                query = query.Filter(row => row.G("ChapterNumber").Eq(chapterNumber));
+            }
             if (!contentFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Content").Match(contentFilter));
@@ -214,9 +222,17 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public Task<List<Paragraph>> FindParagraphsAsync(string bookId, int volumeNumber, int chapterNumber, string contentFilter, string orderBy, bool? descending, int? skip, int? limit)
+        public Task<List<Paragraph>> FindParagraphsAsync(string bookId, int? volumeNumber, int? chapterNumber, string contentFilter, string orderBy, bool? descending, int? skip, int? limit)
         {
-            var query = R.Table(s_ParagraphTable).GetAll(bookId).OptArg("index", "BookId").Filter(row => row.G("VolumeNumber").Eq(volumeNumber).And(row.G("ChapterNumber").Eq(chapterNumber)));
+            var query = R.Table(s_ParagraphTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
+            if (volumeNumber.HasValue)
+            {
+                query = query.Filter(row => row.G("VolumeNumber").Eq(volumeNumber));
+            }
+            if (chapterNumber.HasValue)
+            {
+                query = query.Filter(row => row.G("ChapterNumber").Eq(chapterNumber));
+            }
             if (!contentFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Content").Match(contentFilter));
@@ -298,9 +314,17 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public int GetParagraphsCount(string bookId, int volumeNumber, int chapterNumber, string contentFilter)
+        public int GetParagraphsCount(string bookId, int? volumeNumber, int? chapterNumber, string contentFilter)
         {
-            var query = R.Table(s_ParagraphTable).GetAll(bookId).OptArg("index", "BookId").Filter(row => row.G("VolumeNumber").Eq(volumeNumber).And(row.G("ChapterNumber").Eq(chapterNumber)));
+            var query = R.Table(s_ParagraphTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
+            if (volumeNumber.HasValue)
+            {
+                query = query.Filter(row => row.G("VolumeNumber").Eq(volumeNumber));
+            }
+            if (chapterNumber.HasValue)
+            {
+                query = query.Filter(row => row.G("ChapterNumber").Eq(chapterNumber));
+            }
             if (!contentFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Content").Match(contentFilter));
@@ -309,9 +333,17 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
-        public Task<int> GetParagraphsCountAsync(string bookId, int volumeNumber, int chapterNumber, string contentFilter)
+        public Task<int> GetParagraphsCountAsync(string bookId, int? volumeNumber, int? chapterNumber, string contentFilter)
         {
-            var query = R.Table(s_ParagraphTable).GetAll(bookId).OptArg("index", "BookId").Filter(row => row.G("VolumeNumber").Eq(volumeNumber).And(row.G("ChapterNumber").Eq(chapterNumber)));
+            var query = R.Table(s_ParagraphTable).GetAll(bookId).OptArg("index", "BookId").Filter(true);
+            if (volumeNumber.HasValue)
+            {
+                query = query.Filter(row => row.G("VolumeNumber").Eq(volumeNumber));
+            }
+            if (chapterNumber.HasValue)
+            {
+                query = query.Filter(row => row.G("ChapterNumber").Eq(chapterNumber));
+            }
             if (!contentFilter.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Content").Match(contentFilter));

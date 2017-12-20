@@ -221,6 +221,7 @@
     <Compile Include="Paragraphs\ParagraphAnnotationUpdate.cs" />
     <Compile Include="Paragraphs\ParagraphCreate.cs" />
     <Compile Include="Paragraphs\ParagraphDelete.cs" />
+    <Compile Include="Paragraphs\ParagraphSearch.cs" />
     <Compile Include="Paragraphs\ParagraphList.cs" />
     <Compile Include="Paragraphs\ParagraphShow.cs" />
     <Compile Include="Paragraphs\ParagraphUpdate.cs" />
@@ -233,6 +234,7 @@
     <Compile Include="Paragraphs\Validators\ParagraphAnnotationUpdateValidator.cs" />
     <Compile Include="Paragraphs\Validators\ParagraphCreateValidator.cs" />
     <Compile Include="Paragraphs\Validators\ParagraphDeleteValidator.cs" />
+    <Compile Include="Paragraphs\Validators\ParagraphSearchValidator.cs" />
     <Compile Include="Paragraphs\Validators\ParagraphListValidator.cs" />
     <Compile Include="Paragraphs\Validators\ParagraphShowValidator.cs" />
     <Compile Include="Paragraphs\Validators\ParagraphUpdateValidator.cs" />

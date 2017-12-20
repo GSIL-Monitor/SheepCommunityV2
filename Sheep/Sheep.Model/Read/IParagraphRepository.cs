@@ -73,7 +73,7 @@ namespace Sheep.Model.Read
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>节列表。</returns>
-        List<Paragraph> FindParagraphs(string bookId, int volumeNumber, int chapterNumber, string contentFilter, string orderBy, bool? descending, int? skip, int? limit);
+        List<Paragraph> FindParagraphs(string bookId, int? volumeNumber, int?chapterNumber, string contentFilter, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
         ///     异步查找节。
@@ -87,7 +87,7 @@ namespace Sheep.Model.Read
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>节列表。</returns>
-        Task<List<Paragraph>> FindParagraphsAsync(string bookId, int volumeNumber, int chapterNumber, string contentFilter, string orderBy, bool? descending, int? skip, int? limit);
+        Task<List<Paragraph>> FindParagraphsAsync(string bookId, int? volumeNumber, int? chapterNumber, string contentFilter, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
         ///     根据章查找节。
@@ -145,7 +145,7 @@ namespace Sheep.Model.Read
         /// <param name="chapterNumber">章的编号。</param>
         /// <param name="contentFilter">过滤内容的表达式。</param>
         /// <returns>节数量。</returns>
-        int GetParagraphsCount(string bookId, int volumeNumber, int chapterNumber, string contentFilter);
+        int GetParagraphsCount(string bookId, int? volumeNumber, int? chapterNumber, string contentFilter);
 
         /// <summary>
         ///     异步获取节数量。
@@ -155,7 +155,7 @@ namespace Sheep.Model.Read
         /// <param name="chapterNumber">章的编号。</param>
         /// <param name="contentFilter">过滤内容的表达式。</param>
         /// <returns>节数量。</returns>
-        Task<int> GetParagraphsCountAsync(string bookId, int volumeNumber, int chapterNumber, string contentFilter);
+        Task<int> GetParagraphsCountAsync(string bookId, int? volumeNumber, int? chapterNumber, string contentFilter);
 
         /// <summary>
         ///     根据章查找节。

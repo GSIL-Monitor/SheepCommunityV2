@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using ServiceStack;
 using ServiceStack.Auth;
@@ -7,6 +8,7 @@ using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using ServiceStack.Validation;
 using Sheep.Model.Read;
+using Sheep.Model.Read.Entities;
 using Sheep.ServiceInterface.Chapters.Mappers;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Chapters;
@@ -83,7 +85,7 @@ namespace Sheep.ServiceInterface.Chapters
             {
                 throw HttpError.NotFound(string.Format(Resources.ChaptersNotFound));
             }
-            var chapterAnnotationsMap = (await ChapterAnnotationRepo.FindChapterAnnotationsByChaptersAsync(existingChapters.Select(chapter => chapter.Id), "ChapterId", null, null, null)).GroupBy(chapterAnnotation => chapterAnnotation.ChapterId, chapterAnnotation => chapterAnnotation).ToDictionary(grouping => grouping.Key, grouping => grouping.OrderBy(g => g.Number).ToList());
+            var chapterAnnotationsMap = request.LoadAnnotations.HasValue && request.LoadAnnotations.Value ? (await ChapterAnnotationRepo.FindChapterAnnotationsByChaptersAsync(existingChapters.Select(chapter => chapter.Id), "ChapterId", null, null, null)).GroupBy(chapterAnnotation => chapterAnnotation.ChapterId, chapterAnnotation => chapterAnnotation).ToDictionary(grouping => grouping.Key, grouping => grouping.OrderBy(g => g.Number).ToList()) : new Dictionary<string, List<ChapterAnnotation>>();
             var chaptersDto = existingChapters.Select(chapter => chapter.MapToChapterDto(chapterAnnotationsMap.GetValueOrDefault(chapter.Id))).ToList();
             return new ChapterListResponse
                    {

@@ -17,16 +17,16 @@ using Sheep.ServiceModel.Paragraphs;
 namespace Sheep.ServiceInterface.Paragraphs
 {
     /// <summary>
-    ///     列举一组节服务接口。
+    ///     搜索一组节服务接口。
     /// </summary>
-    public class ListParagraphService : Service
+    public class SearchParagraphService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(ListParagraphService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(SearchParagraphService));
 
         #endregion
 
@@ -38,9 +38,9 @@ namespace Sheep.ServiceInterface.Paragraphs
         public IAppSettings AppSettings { get; set; }
 
         /// <summary>
-        ///     获取及设置列举一组节的校验器。
+        ///     获取及设置搜索一组节的校验器。
         /// </summary>
-        public IValidator<ParagraphList> ParagraphListValidator { get; set; }
+        public IValidator<ParagraphSearch> ParagraphSearchValidator { get; set; }
 
         /// <summary>
         ///     获取及设置用户身份的存储库。
@@ -84,17 +84,17 @@ namespace Sheep.ServiceInterface.Paragraphs
 
         #endregion
 
-        #region 列举一组节
+        #region 搜索一组节
 
         /// <summary>
-        ///     列举一组节。
+        ///     搜索一组节。
         /// </summary>
         [CacheResponse(Duration = 600)]
-        public async Task<object> Get(ParagraphList request)
+        public async Task<object> Get(ParagraphSearch request)
         {
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
-                ParagraphListValidator.ValidateAndThrow(request, ApplyTo.Get);
+                ParagraphSearchValidator.ValidateAndThrow(request, ApplyTo.Get);
             }
             var existingParagraphs = await ParagraphRepo.FindParagraphsAsync(request.BookId, request.VolumeNumber, request.ChapterNumber, request.ContentFilter, request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingParagraphs == null)
@@ -105,7 +105,7 @@ namespace Sheep.ServiceInterface.Paragraphs
             var currentUserId = GetSession().UserAuthId.ToInt(0);
             var commentsMap = (await CommentRepo.GetCommentsCountByParentsAsync(existingParagraphs.Select(paragraph => paragraph.Id), currentUserId, null, null, null, "审核通过")).ToDictionary(pair => pair.Key, pair => pair.Value);
             var paragraphsDto = existingParagraphs.Select(paragraph => paragraph.MapToParagraphDto(commentsMap.GetValueOrDefault(paragraph.Id) > 0, paragraphAnnotationsMap.GetValueOrDefault(paragraph.Id))).ToList();
-            return new ParagraphListResponse
+            return new ParagraphSearchResponse
                    {
                        Paragraphs = paragraphsDto
                    };

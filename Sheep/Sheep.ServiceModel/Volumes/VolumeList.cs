@@ -27,30 +27,37 @@ namespace Sheep.ServiceModel.Volumes
         public string TitleFilter { get; set; }
 
         /// <summary>
+        ///     是否加载注释。
+        /// </summary>
+        [DataMember(Order = 3, Name = "loadannotations")]
+        [ApiMember(Description = "是否加载注释")]
+        public bool? LoadAnnotations { get; set; }
+
+        /// <summary>
         ///     排序的字段。（可选值： Number, ChaptersCount, SubjectsCount 默认为 Number）
         /// </summary>
-        [DataMember(Order = 3, Name = "orderby")]
+        [DataMember(Order = 4, Name = "orderby")]
         [ApiMember(Description = "排序的字段（可选值： Number, ChaptersCount, SubjectsCount 默认为 Number）")]
         public string OrderBy { get; set; }
 
         /// <summary>
         ///     是否按降序排序。
         /// </summary>
-        [DataMember(Order = 4, Name = "descending")]
+        [DataMember(Order = 5, Name = "descending")]
         [ApiMember(Description = "是否按降序排序")]
         public bool? Descending { get; set; }
 
         /// <summary>
         ///     忽略的行数。
         /// </summary>
-        [DataMember(Order = 5, Name = "skip")]
+        [DataMember(Order = 6, Name = "skip")]
         [ApiMember(Description = "忽略的行数")]
         public int? Skip { get; set; }
 
         /// <summary>
         ///     获取的行数。
         /// </summary>
-        [DataMember(Order = 6, Name = "limit")]
+        [DataMember(Order = 7, Name = "limit")]
         [ApiMember(Description = "获取的行数")]
         public int? Limit { get; set; }
     }
