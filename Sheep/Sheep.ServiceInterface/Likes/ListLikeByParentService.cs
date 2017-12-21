@@ -8,6 +8,7 @@ using ServiceStack.Logging;
 using ServiceStack.Validation;
 using Sheep.Common.Auth;
 using Sheep.Model.Content;
+using Sheep.Model.Read;
 using Sheep.ServiceInterface.Likes.Mappers;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Likes;
@@ -28,7 +29,7 @@ namespace Sheep.ServiceInterface.Likes
 
         #endregion
 
-        #region 属性 
+        #region 属性
 
         /// <summary>
         ///     获取及设置相关的应用程序设置器。
@@ -46,9 +47,24 @@ namespace Sheep.ServiceInterface.Likes
         public IUserAuthRepository AuthRepo { get; set; }
 
         /// <summary>
+        ///     获取及设置帖子的存储库。
+        /// </summary>
+        public IPostRepository PostRepo { get; set; }
+
+        /// <summary>
         ///     获取及设置点赞的存储库。
         /// </summary>
         public ILikeRepository LikeRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置章的存储库。
+        /// </summary>
+        public IChapterRepository ChapterRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置节的存储库。
+        /// </summary>
+        public IParagraphRepository ParagraphRepo { get; set; }
 
         #endregion
 
@@ -69,8 +85,11 @@ namespace Sheep.ServiceInterface.Likes
             {
                 throw HttpError.NotFound(string.Format(Resources.LikesNotFound));
             }
+            var postTitlesMap = (await PostRepo.GetPostsAsync(existingLikes.Where(like => like.ParentType == "帖子").Select(like => like.ParentId).Distinct())).ToDictionary(post => post.Id, post => post.Title);
+            var chapterTitlesMap = (await ChapterRepo.GetChaptersAsync(existingLikes.Where(like => like.ParentType == "章").Select(like => like.ParentId).Distinct())).ToDictionary(chapter => chapter.Id, chapter => chapter.Title);
+            var paragraphTitlesMap = (await ParagraphRepo.GetParagraphsAsync(existingLikes.Where(like => like.ParentType == "节").Select(like => like.ParentId).Distinct())).ToDictionary(paragraph => paragraph.Id, paragraph => paragraph.Content);
             var usersMap = (await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthsAsync(existingLikes.Select(like => like.UserId.ToString()).Distinct())).ToDictionary(userAuth => userAuth.Id, userAuth => userAuth);
-            var likesDto = existingLikes.Select(like => like.MapToLikeDto(usersMap.GetValueOrDefault(like.UserId))).ToList();
+            var likesDto = existingLikes.Select(like => like.MapToLikeDto(usersMap.GetValueOrDefault(like.UserId), like.ParentType == "帖子" ? postTitlesMap.GetValueOrDefault(like.ParentId) : (like.ParentType == "章" ? chapterTitlesMap.GetValueOrDefault(like.ParentId) : paragraphTitlesMap.GetValueOrDefault(like.ParentId)))).ToList();
             return new LikeListResponse
                    {
                        Likes = likesDto

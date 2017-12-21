@@ -26,6 +26,20 @@ namespace Sheep.Model.Read
         Task<Paragraph> GetParagraphAsync(string paragraphId);
 
         /// <summary>
+        ///     获取节列表。
+        /// </summary>
+        /// <param name="paragraphIds">节的编号列表。</param>
+        /// <returns>节。</returns>
+        List<Paragraph> GetParagraphs(IEnumerable<string> paragraphIds);
+
+        /// <summary>
+        ///     异步获取节列表。
+        /// </summary>
+        /// <param name="paragraphIds">节的编号列表。</param>
+        /// <returns>节。</returns>
+        Task<List<Paragraph>> GetParagraphsAsync(IEnumerable<string> paragraphIds);
+
+        /// <summary>
         ///     根据章及序号获取节。
         /// </summary>
         /// <param name="chapterId">章的编号。</param>

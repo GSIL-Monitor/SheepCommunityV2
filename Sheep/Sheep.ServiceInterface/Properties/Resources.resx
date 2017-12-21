@@ -270,4 +270,10 @@
   <data name="ParagraphsNotFound" xml:space="preserve">
     <value>无法找到指定条件的节列表。</value>
   </data>
+  <data name="BookmarkNotFound" xml:space="preserve">
+    <value>无法找到指定的收藏{0}。</value>
+  </data>
+  <data name="BookmarksNotFound" xml:space="preserve">
+    <value>无法找到指定条件的收藏列表。</value>
+  </data>
 </root>

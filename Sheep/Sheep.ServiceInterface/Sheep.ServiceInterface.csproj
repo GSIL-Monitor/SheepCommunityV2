@@ -136,6 +136,13 @@
     <Compile Include="Accounts\BindAccountMobileService.cs" />
     <Compile Include="Accounts\BindAccountCredentialsService.cs" />
     <Compile Include="Accounts\LoginAccountByWeiboService.cs" />
+    <Compile Include="Bookmarks\ChangeBookmarkService.cs" />
+    <Compile Include="Bookmarks\CreateBookmarkService.cs" />
+    <Compile Include="Bookmarks\DeleteBookmarkService.cs" />
+    <Compile Include="Bookmarks\ListBookmarkByParentService.cs" />
+    <Compile Include="Bookmarks\ListBookmarkByUserService.cs" />
+    <Compile Include="Bookmarks\Mappers\BookmarkToBookmarkDtoMapper.cs" />
+    <Compile Include="Bookmarks\ShowBookmarkService.cs" />
     <Compile Include="Books\ChangeBookService.cs" />
     <Compile Include="Books\CreateBookService.cs" />
     <Compile Include="Books\DeleteBookService.cs" />
@@ -332,9 +339,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Bookmarks\Mappers\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

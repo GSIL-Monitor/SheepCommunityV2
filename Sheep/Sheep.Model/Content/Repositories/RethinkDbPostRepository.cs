@@ -139,6 +139,18 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
+        public List<Post> GetPosts(IEnumerable<string> postIds)
+        {
+            return R.Table(s_PostTable).GetAll(R.Args(postIds.ToArray())).RunResult<List<Post>>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<List<Post>> GetPostsAsync(IEnumerable<string> postIds)
+        {
+            return R.Table(s_PostTable).GetAll(R.Args(postIds.ToArray())).RunResultAsync<List<Post>>(_conn);
+        }
+
+        /// <inheritdoc />
         public List<Post> FindPosts(string titleFilter, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_PostTable).Filter(true);

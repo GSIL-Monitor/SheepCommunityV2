@@ -8,23 +8,23 @@ using ServiceStack.Validation;
 using Sheep.Common.Auth;
 using Sheep.Model.Content;
 using Sheep.Model.Read;
-using Sheep.ServiceInterface.Likes.Mappers;
+using Sheep.ServiceInterface.Bookmarks.Mappers;
 using Sheep.ServiceInterface.Properties;
-using Sheep.ServiceModel.Likes;
+using Sheep.ServiceModel.Bookmarks;
 
-namespace Sheep.ServiceInterface.Likes
+namespace Sheep.ServiceInterface.Bookmarks
 {
     /// <summary>
-    ///     显示一个点赞服务接口。
+    ///     显示一个收藏服务接口。
     /// </summary>
-    public class ShowLikeService : Service
+    public class ShowBookmarkService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(ShowLikeService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(ShowBookmarkService));
 
         #endregion
 
@@ -36,9 +36,9 @@ namespace Sheep.ServiceInterface.Likes
         public IAppSettings AppSettings { get; set; }
 
         /// <summary>
-        ///     获取及设置显示一个点赞的校验器。
+        ///     获取及设置显示一个收藏的校验器。
         /// </summary>
-        public IValidator<LikeShow> LikeShowValidator { get; set; }
+        public IValidator<BookmarkShow> BookmarkShowValidator { get; set; }
 
         /// <summary>
         ///     获取及设置用户身份的存储库。
@@ -51,9 +51,9 @@ namespace Sheep.ServiceInterface.Likes
         public IPostRepository PostRepo { get; set; }
 
         /// <summary>
-        ///     获取及设置点赞的存储库。
+        ///     获取及设置收藏的存储库。
         /// </summary>
-        public ILikeRepository LikeRepo { get; set; }
+        public IBookmarkRepository BookmarkRepo { get; set; }
 
         /// <summary>
         ///     获取及设置章的存储库。
@@ -67,16 +67,16 @@ namespace Sheep.ServiceInterface.Likes
 
         #endregion
 
-        #region 显示一个点赞
+        #region 显示一个收藏
 
         /// <summary>
-        ///     显示一个点赞。
+        ///     显示一个收藏。
         /// </summary>
-        public async Task<object> Get(LikeShow request)
+        public async Task<object> Get(BookmarkShow request)
         {
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
-                LikeShowValidator.ValidateAndThrow(request, ApplyTo.Get);
+                BookmarkShowValidator.ValidateAndThrow(request, ApplyTo.Get);
             }
             var user = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(request.UserId.ToString());
             if (user == null)
@@ -84,27 +84,27 @@ namespace Sheep.ServiceInterface.Likes
                 throw HttpError.NotFound(string.Format(Resources.UserNotFound, request.UserId));
             }
             var title = string.Empty;
-            var existingLike = await LikeRepo.GetLikeAsync(request.ParentId, request.UserId);
-            if (existingLike == null)
+            var existingBookmark = await BookmarkRepo.GetBookmarkAsync(request.ParentId, request.UserId);
+            if (existingBookmark == null)
             {
-                throw HttpError.NotFound(string.Format(Resources.LikeNotFound, request.ParentId));
+                throw HttpError.NotFound(string.Format(Resources.BookmarkNotFound, request.ParentId));
             }
-            switch (existingLike.ParentType)
+            switch (existingBookmark.ParentType)
             {
                 case "帖子":
-                    title = (await PostRepo.GetPostAsync(existingLike.ParentId))?.Title;
+                    title = (await PostRepo.GetPostAsync(existingBookmark.ParentId))?.Title;
                     break;
                 case "章":
-                    title = (await ChapterRepo.GetChapterAsync(existingLike.ParentId))?.Title;
+                    title = (await ChapterRepo.GetChapterAsync(existingBookmark.ParentId))?.Title;
                     break;
                 case "节":
-                    title = (await ParagraphRepo.GetParagraphAsync(existingLike.ParentId))?.Content;
+                    title = (await ParagraphRepo.GetParagraphAsync(existingBookmark.ParentId))?.Content;
                     break;
             }
-            var likeDto = existingLike.MapToLikeDto(user, title);
-            return new LikeShowResponse
+            var bookmarkDto = existingBookmark.MapToBookmarkDto(user, title);
+            return new BookmarkShowResponse
                    {
-                       Like = likeDto
+                       Bookmark = bookmarkDto
                    };
         }
 

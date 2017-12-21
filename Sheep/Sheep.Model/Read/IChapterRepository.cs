@@ -26,6 +26,20 @@ namespace Sheep.Model.Read
         Task<Chapter> GetChapterAsync(string chapterId);
 
         /// <summary>
+        ///     获取章列表。
+        /// </summary>
+        /// <param name="chapterIds">章的编号列表。</param>
+        /// <returns>章。</returns>
+        List<Chapter> GetChapters(IEnumerable<string> chapterIds);
+
+        /// <summary>
+        ///     异步获取章列表。
+        /// </summary>
+        /// <param name="chapterIds">章的编号列表。</param>
+        /// <returns>章。</returns>
+        Task<List<Chapter>> GetChaptersAsync(IEnumerable<string> chapterIds);
+
+        /// <summary>
         ///     根据卷及序号获取章。
         /// </summary>
         /// <param name="volumeId">卷的编号。</param>

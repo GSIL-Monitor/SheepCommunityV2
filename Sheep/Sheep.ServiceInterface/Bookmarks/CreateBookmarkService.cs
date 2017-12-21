@@ -10,23 +10,23 @@ using Sheep.Common.Auth;
 using Sheep.Model.Content;
 using Sheep.Model.Content.Entities;
 using Sheep.Model.Read;
-using Sheep.ServiceInterface.Likes.Mappers;
+using Sheep.ServiceInterface.Bookmarks.Mappers;
 using Sheep.ServiceInterface.Properties;
-using Sheep.ServiceModel.Likes;
+using Sheep.ServiceModel.Bookmarks;
 
-namespace Sheep.ServiceInterface.Likes
+namespace Sheep.ServiceInterface.Bookmarks
 {
     /// <summary>
-    ///     新建一个点赞服务接口。
+    ///     新建一个收藏服务接口。
     /// </summary>
-    public class CreateLikeService : ChangeLikeService
+    public class CreateBookmarkService : ChangeBookmarkService
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(CreateLikeService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(CreateBookmarkService));
 
         #endregion
 
@@ -43,9 +43,9 @@ namespace Sheep.ServiceInterface.Likes
         public INimClient NimClient { get; set; }
 
         /// <summary>
-        ///     获取及设置新建一个点赞的校验器。
+        ///     获取及设置新建一个收藏的校验器。
         /// </summary>
-        public IValidator<LikeCreate> LikeCreateValidator { get; set; }
+        public IValidator<BookmarkCreate> BookmarkCreateValidator { get; set; }
 
         /// <summary>
         ///     获取及设置用户身份的存储库。
@@ -58,9 +58,9 @@ namespace Sheep.ServiceInterface.Likes
         public IPostRepository PostRepo { get; set; }
 
         /// <summary>
-        ///     获取及设置点赞的存储库。
+        ///     获取及设置收藏的存储库。
         /// </summary>
-        public ILikeRepository LikeRepo { get; set; }
+        public IBookmarkRepository BookmarkRepo { get; set; }
 
         /// <summary>
         ///     获取及设置章的存储库。
@@ -74,12 +74,12 @@ namespace Sheep.ServiceInterface.Likes
 
         #endregion
 
-        #region 新建一个点赞
+        #region 新建一个收藏
 
         /// <summary>
-        ///     新建一个点赞。
+        ///     新建一个收藏。
         /// </summary>
-        public async Task<object> Post(LikeCreate request)
+        public async Task<object> Post(BookmarkCreate request)
         {
             if (!IsAuthenticated)
             {
@@ -87,7 +87,7 @@ namespace Sheep.ServiceInterface.Likes
             }
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
-                LikeCreateValidator.ValidateAndThrow(request, ApplyTo.Post);
+                BookmarkCreateValidator.ValidateAndThrow(request, ApplyTo.Post);
             }
             var userId = GetSession().UserAuthId.ToInt(0);
             var user = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(userId.ToString());
@@ -96,47 +96,47 @@ namespace Sheep.ServiceInterface.Likes
                 throw HttpError.NotFound(string.Format(Resources.UserNotFound, userId));
             }
             var title = string.Empty;
-            var existingLike = await LikeRepo.GetLikeAsync(request.ParentId, userId);
-            if (existingLike != null)
+            var existingBookmark = await BookmarkRepo.GetBookmarkAsync(request.ParentId, userId);
+            if (existingBookmark != null)
             {
-                switch (existingLike.ParentType)
+                switch (existingBookmark.ParentType)
                 {
                     case "帖子":
-                        title = (await PostRepo.GetPostAsync(existingLike.ParentId))?.Title;
+                        title = (await PostRepo.GetPostAsync(existingBookmark.ParentId))?.Title;
                         break;
                     case "章":
-                        title = (await ChapterRepo.GetChapterAsync(existingLike.ParentId))?.Title;
+                        title = (await ChapterRepo.GetChapterAsync(existingBookmark.ParentId))?.Title;
                         break;
                     case "节":
-                        title = (await ParagraphRepo.GetParagraphAsync(existingLike.ParentId))?.Content;
+                        title = (await ParagraphRepo.GetParagraphAsync(existingBookmark.ParentId))?.Content;
                         break;
                 }
-                return new LikeCreateResponse
+                return new BookmarkCreateResponse
                        {
-                           Like = existingLike.MapToLikeDto(user, title)
+                           Bookmark = existingBookmark.MapToBookmarkDto(user, title)
                        };
             }
-            var newLike = new Like
-                          {
-                              ParentType = request.ParentType,
-                              ParentId = request.ParentId,
-                              UserId = userId
-                          };
-            var like = await LikeRepo.CreateLikeAsync(newLike);
-            ResetCache(like);
-            switch (like.ParentType)
+            var newBookmark = new Bookmark
+                              {
+                                  ParentType = request.ParentType,
+                                  ParentId = request.ParentId,
+                                  UserId = userId
+                              };
+            var bookmark = await BookmarkRepo.CreateBookmarkAsync(newBookmark);
+            ResetCache(bookmark);
+            switch (bookmark.ParentType)
             {
                 case "帖子":
-                    title = (await PostRepo.GetPostAsync(like.ParentId))?.Title;
-                    await PostRepo.IncrementPostLikesCountAsync(like.ParentId, 1);
+                    title = (await PostRepo.GetPostAsync(bookmark.ParentId))?.Title;
+                    await PostRepo.IncrementPostBookmarksCountAsync(bookmark.ParentId, 1);
                     break;
                 case "章":
-                    title = (await ChapterRepo.GetChapterAsync(like.ParentId))?.Title;
-                    await ChapterRepo.IncrementChapterLikesCountAsync(like.ParentId, 1);
+                    title = (await ChapterRepo.GetChapterAsync(bookmark.ParentId))?.Title;
+                    await ChapterRepo.IncrementChapterBookmarksCountAsync(bookmark.ParentId, 1);
                     break;
                 case "节":
-                    title = (await ParagraphRepo.GetParagraphAsync(like.ParentId))?.Content;
-                    await ParagraphRepo.IncrementParagraphLikesCountAsync(like.ParentId, 1);
+                    title = (await ParagraphRepo.GetParagraphAsync(bookmark.ParentId))?.Content;
+                    await ParagraphRepo.IncrementParagraphBookmarksCountAsync(bookmark.ParentId, 1);
                     break;
             }
             //await NimClient.PostAsync(new FriendAddRequest
@@ -145,9 +145,9 @@ namespace Sheep.ServiceInterface.Likes
             //                              FriendAccountId = request.ParentId.ToString(),
             //                              Type = 1
             //                          });
-            return new LikeCreateResponse
+            return new BookmarkCreateResponse
                    {
-                       Like = like.MapToLikeDto(user, title)
+                       Bookmark = bookmark.MapToBookmarkDto(user, title)
                    };
         }
 

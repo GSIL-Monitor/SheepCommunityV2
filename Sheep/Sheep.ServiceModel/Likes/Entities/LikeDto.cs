@@ -22,15 +22,21 @@ namespace Sheep.ServiceModel.Likes.Entities
         public string ParentId { get; set; }
 
         /// <summary>
-        ///     用户。
+        ///     上级标题。
         /// </summary>
         [DataMember(Order = 3)]
+        public string ParentTitle { get; set; }
+
+        /// <summary>
+        ///     用户。
+        /// </summary>
+        [DataMember(Order = 4)]
         public BasicUserDto User { get; set; }
 
         /// <summary>
         ///     创建日期。
         /// </summary>
-        [DataMember(Order = 4)]
+        [DataMember(Order = 5)]
         public long CreatedDate { get; set; }
     }
 }

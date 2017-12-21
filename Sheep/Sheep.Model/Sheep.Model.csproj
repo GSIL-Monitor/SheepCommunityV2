@@ -133,6 +133,7 @@
     <Compile Include="Auth\Providers\WeiboAuthProvider.cs" />
     <Compile Include="Auth\Providers\MobileAuthProvider.cs" />
     <Compile Include="Auth\Providers\OAuthProvider.cs" />
+    <Compile Include="Content\Entities\Bookmark.cs" />
     <Compile Include="Content\Entities\ReplyExtensions.cs" />
     <Compile Include="Content\Entities\Reply.cs" />
     <Compile Include="Content\Entities\Comment.cs" />
@@ -141,11 +142,13 @@
     <Compile Include="Content\Entities\Like.cs" />
     <Compile Include="Content\Entities\Post.cs" />
     <Compile Include="Content\Entities\PostExtensions.cs" />
+    <Compile Include="Content\IBookmarkRepository.cs" />
     <Compile Include="Content\IReplyRepository.cs" />
     <Compile Include="Content\ICommentRepository.cs" />
     <Compile Include="Content\IVoteRepository.cs" />
     <Compile Include="Content\ILikeRepository.cs" />
     <Compile Include="Content\IPostRepository.cs" />
+    <Compile Include="Content\Repositories\RethinkDbBookmarkRepository.cs" />
     <Compile Include="Content\Repositories\RethinkDbReplyRepository.cs" />
     <Compile Include="Content\Repositories\RethinkDbCommentRepository.cs" />
     <Compile Include="Content\Repositories\RethinkDbVoteRepository.cs" />

@@ -27,6 +27,20 @@ namespace Sheep.Model.Content
         Task<Post> GetPostAsync(string postId);
 
         /// <summary>
+        ///     获取帖子列表。
+        /// </summary>
+        /// <param name="postIds">帖子的编号列表。</param>
+        /// <returns>帖子。</returns>
+        List<Post> GetPosts(IEnumerable<string> postIds);
+
+        /// <summary>
+        ///     异步获取帖子列表。
+        /// </summary>
+        /// <param name="postIds">帖子的编号列表。</param>
+        /// <returns>帖子。</returns>
+        Task<List<Post>> GetPostsAsync(IEnumerable<string> postIds);
+
+        /// <summary>
         ///     查找帖子。
         /// </summary>
         /// <param name="titleFilter">过滤标题及概要的表达式。</param>

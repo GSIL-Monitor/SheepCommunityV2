@@ -170,6 +170,18 @@ namespace Sheep.Model.Read.Repositories
         }
 
         /// <inheritdoc />
+        public List<Paragraph> GetParagraphs(IEnumerable<string> paragraphIds)
+        {
+            return R.Table(s_ParagraphTable).GetAll(R.Args(paragraphIds.ToArray())).RunResult<List<Paragraph>>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<List<Paragraph>> GetParagraphsAsync(IEnumerable<string> paragraphIds)
+        {
+            return R.Table(s_ParagraphTable).GetAll(R.Args(paragraphIds.ToArray())).RunResultAsync<List<Paragraph>>(_conn);
+        }
+
+        /// <inheritdoc />
         public Paragraph GetParagraph(string chapterId, int number)
         {
             return R.Table(s_ParagraphTable).GetAll(R.Array(chapterId, number)).OptArg("index", "ChapterId_Number").Nth(0).Default_(default(Paragraph)).RunResult<Paragraph>(_conn);

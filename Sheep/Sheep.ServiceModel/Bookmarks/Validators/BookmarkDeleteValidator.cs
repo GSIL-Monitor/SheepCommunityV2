@@ -3,12 +3,12 @@ using ServiceStack;
 using ServiceStack.FluentValidation;
 using Sheep.ServiceModel.Properties;
 
-namespace Sheep.ServiceModel.Likes.Validators
+namespace Sheep.ServiceModel.Bookmarks.Validators
 {
     /// <summary>
-    ///     取消一个点赞的校验器。
+    ///     取消一个收藏的校验器。
     /// </summary>
-    public class LikeDeleteValidator : AbstractValidator<LikeDelete>
+    public class BookmarkDeleteValidator : AbstractValidator<BookmarkDelete>
     {
         public static readonly HashSet<string> ParentTypes = new HashSet<string>
                                                              {
@@ -18,10 +18,10 @@ namespace Sheep.ServiceModel.Likes.Validators
                                                              };
 
         /// <summary>
-        ///     初始化一个新的<see cref="LikeDeleteValidator" />对象。
+        ///     初始化一个新的<see cref="BookmarkDeleteValidator" />对象。
         ///     创建规则集合。
         /// </summary>
-        public LikeDeleteValidator()
+        public BookmarkDeleteValidator()
         {
             RuleSet(ApplyTo.Delete, () =>
                                     {

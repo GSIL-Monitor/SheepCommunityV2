@@ -8,12 +8,13 @@ namespace Sheep.ServiceInterface.Likes.Mappers
 {
     public static class LikeToLikeDtoMapper
     {
-        public static LikeDto MapToLikeDto(this Like like, IUserAuth user)
+        public static LikeDto MapToLikeDto(this Like like, IUserAuth user, string title)
         {
             var likeDto = new LikeDto
                           {
                               ParentType = like.ParentType,
                               ParentId = like.ParentId,
+                              ParentTitle = title,
                               User = user?.MapToBasicUserDto(),
                               CreatedDate = like.CreatedDate.ToUnixTime()
                           };

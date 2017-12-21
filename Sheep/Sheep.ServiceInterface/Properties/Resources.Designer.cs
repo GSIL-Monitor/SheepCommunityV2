@@ -61,6 +61,24 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
+        ///   查找类似 无法找到指定的收藏{0}。 的本地化字符串。
+        /// </summary>
+        internal static string BookmarkNotFound {
+            get {
+                return ResourceManager.GetString("BookmarkNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定条件的收藏列表。 的本地化字符串。
+        /// </summary>
+        internal static string BookmarksNotFound {
+            get {
+                return ResourceManager.GetString("BookmarksNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 无法找到指定的书籍{0}。 的本地化字符串。
         /// </summary>
         internal static string BookNotFound {
