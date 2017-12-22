@@ -9,7 +9,7 @@ using ServiceStack.Validation;
 using Sheep.Common.Auth;
 using Sheep.Model.Content;
 using Sheep.Model.Content.Entities;
-using Sheep.Model.Read;
+using Sheep.Model.Bookstore;
 using Sheep.ServiceInterface.Comments.Mappers;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Comments;

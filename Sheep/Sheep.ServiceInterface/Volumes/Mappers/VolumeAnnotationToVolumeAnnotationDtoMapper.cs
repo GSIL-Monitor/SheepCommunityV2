@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Sheep.Model.Read.Entities;
+using Sheep.Model.Bookstore.Entities;
 using Sheep.ServiceModel.Volumes.Entities;
 
 namespace Sheep.ServiceInterface.Volumes.Mappers

@@ -5,7 +5,7 @@ using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using ServiceStack.Validation;
-using Sheep.Model.Read;
+using Sheep.Model.Bookstore;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceInterface.Subjects.Mappers;
 using Sheep.ServiceModel.Subjects;

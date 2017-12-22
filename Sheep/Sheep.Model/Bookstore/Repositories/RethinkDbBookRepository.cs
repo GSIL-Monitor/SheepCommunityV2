@@ -10,9 +10,9 @@ using RethinkDb.Driver.Net;
 using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Logging;
-using Sheep.Model.Read.Entities;
+using Sheep.Model.Bookstore.Entities;
 
-namespace Sheep.Model.Read.Repositories
+namespace Sheep.Model.Bookstore.Repositories
 {
     /// <summary>
     ///     基于RethinkDb的书籍的存储库。

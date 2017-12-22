@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using ServiceStack.Text;
-using Sheep.Model.Read.Entities;
+using Sheep.Model.Bookstore.Entities;
 using Sheep.ServiceModel.Books.Entities;
 
 namespace Sheep.ServiceInterface.Books.Mappers

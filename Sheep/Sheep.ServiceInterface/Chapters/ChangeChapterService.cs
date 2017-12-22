@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using ServiceStack;
-using Sheep.Model.Read.Entities;
+using Sheep.Model.Bookstore.Entities;
 
 namespace Sheep.ServiceInterface.Chapters
 {

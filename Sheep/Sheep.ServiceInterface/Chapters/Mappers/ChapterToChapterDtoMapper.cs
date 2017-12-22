@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Sheep.Model.Read.Entities;
+using Sheep.Model.Bookstore.Entities;
 using Sheep.ServiceInterface.Paragraphs.Mappers;
 using Sheep.ServiceModel.Chapters.Entities;
 using Sheep.ServiceModel.Paragraphs.Entities;

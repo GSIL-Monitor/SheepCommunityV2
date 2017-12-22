@@ -3,12 +3,12 @@ using ServiceStack;
 using ServiceStack.DataAnnotations;
 using ServiceStack.Model;
 
-namespace Sheep.Model.Read.Entities
+namespace Sheep.Model.Bookstore.Entities
 {
     /// <summary>
-    ///     节。
+    ///     章。
     /// </summary>
-    public class Paragraph : IHasStringId, IMeta
+    public class Chapter : IHasStringId, IMeta
     {
         /// <summary>
         ///     编号。
@@ -32,34 +32,24 @@ namespace Sheep.Model.Read.Entities
         public int VolumeNumber { get; set; }
 
         /// <summary>
-        ///     章编号。
-        /// </summary>
-        public string ChapterId { get; set; }
-
-        /// <summary>
-        ///     章序号。
-        /// </summary>
-        public int ChapterNumber { get; set; }
-
-        /// <summary>
-        ///     主题编号。
-        /// </summary>
-        public string SubjectId { get; set; }
-
-        /// <summary>
-        ///     主题序号。
-        /// </summary>
-        public int? SubjectNumber { get; set; }
-
-        /// <summary>
         ///     序号。
         /// </summary>
         public int Number { get; set; }
 
         /// <summary>
+        ///     标题。
+        /// </summary>
+        public string Title { get; set; }
+
+        /// <summary>
         ///     正文内容。
         /// </summary>
         public string Content { get; set; }
+
+        /// <summary>
+        ///     节数。
+        /// </summary>
+        public int ParagraphsCount { get; set; }
 
         /// <summary>
         ///     查看的次数。

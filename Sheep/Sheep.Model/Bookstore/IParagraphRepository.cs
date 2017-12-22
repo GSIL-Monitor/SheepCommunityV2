@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Sheep.Model.Read.Entities;
+using Sheep.Model.Bookstore.Entities;
 
-namespace Sheep.Model.Read
+namespace Sheep.Model.Bookstore
 {
     /// <summary>
     ///     节的存储库的接口定义。

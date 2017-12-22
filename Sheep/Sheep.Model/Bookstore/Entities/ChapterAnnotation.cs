@@ -3,7 +3,7 @@ using ServiceStack;
 using ServiceStack.DataAnnotations;
 using ServiceStack.Model;
 
-namespace Sheep.Model.Read.Entities
+namespace Sheep.Model.Bookstore.Entities
 {
     /// <summary>
     ///     章注释。

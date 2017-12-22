@@ -10,9 +10,9 @@ using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Logging;
 using Sheep.Model.Properties;
-using Sheep.Model.Read.Entities;
+using Sheep.Model.Bookstore.Entities;
 
-namespace Sheep.Model.Read.Repositories
+namespace Sheep.Model.Bookstore.Repositories
 {
     /// <summary>
     ///     基于RethinkDb的主题的存储库。
