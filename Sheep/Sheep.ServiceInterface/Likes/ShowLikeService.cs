@@ -6,8 +6,8 @@ using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using ServiceStack.Validation;
 using Sheep.Common.Auth;
-using Sheep.Model.Content;
 using Sheep.Model.Bookstore;
+using Sheep.Model.Content;
 using Sheep.ServiceInterface.Likes.Mappers;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Likes;
@@ -46,14 +46,14 @@ namespace Sheep.ServiceInterface.Likes
         public IUserAuthRepository AuthRepo { get; set; }
 
         /// <summary>
-        ///     获取及设置帖子的存储库。
-        /// </summary>
-        public IPostRepository PostRepo { get; set; }
-
-        /// <summary>
         ///     获取及设置点赞的存储库。
         /// </summary>
         public ILikeRepository LikeRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置帖子的存储库。
+        /// </summary>
+        public IPostRepository PostRepo { get; set; }
 
         /// <summary>
         ///     获取及设置章的存储库。
@@ -83,12 +83,12 @@ namespace Sheep.ServiceInterface.Likes
             {
                 throw HttpError.NotFound(string.Format(Resources.UserNotFound, request.UserId));
             }
-            var title = string.Empty;
             var existingLike = await LikeRepo.GetLikeAsync(request.ParentId, request.UserId);
             if (existingLike == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.LikeNotFound, request.ParentId));
             }
+            var title = string.Empty;
             switch (existingLike.ParentType)
             {
                 case "帖子":

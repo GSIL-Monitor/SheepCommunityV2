@@ -6,7 +6,7 @@ using Sheep.ServiceModel.Properties;
 namespace Sheep.ServiceModel.Views.Validators
 {
     /// <summary>
-    ///     根据上级列举一组查看的校验器。
+    ///     根据上级列举一组阅读的校验器。
     /// </summary>
     public class ViewListByParentValidator : AbstractValidator<ViewListByParent>
     {
@@ -30,7 +30,7 @@ namespace Sheep.ServiceModel.Views.Validators
     }
 
     /// <summary>
-    ///     根据用户列举一组查看的校验器。
+    ///     根据用户列举一组阅读的校验器。
     /// </summary>
     public class ViewListByUserValidator : AbstractValidator<ViewListByUser>
     {

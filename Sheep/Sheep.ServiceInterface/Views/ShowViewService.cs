@@ -1,29 +1,30 @@
 ﻿using System.Threading.Tasks;
-using Netease.Nim;
 using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using ServiceStack.Validation;
+using Sheep.Common.Auth;
 using Sheep.Model.Bookstore;
 using Sheep.Model.Content;
 using Sheep.ServiceInterface.Properties;
-using Sheep.ServiceModel.Likes;
+using Sheep.ServiceInterface.Views.Mappers;
+using Sheep.ServiceModel.Views;
 
-namespace Sheep.ServiceInterface.Likes
+namespace Sheep.ServiceInterface.Views
 {
     /// <summary>
-    ///     取消一个点赞服务接口。
+    ///     显示一个阅读服务接口。
     /// </summary>
-    public class DeleteLikeService : ChangeLikeService
+    public class ShowViewService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(DeleteLikeService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(ShowViewService));
 
         #endregion
 
@@ -35,14 +36,9 @@ namespace Sheep.ServiceInterface.Likes
         public IAppSettings AppSettings { get; set; }
 
         /// <summary>
-        ///     网易云通信服务客户端。
+        ///     获取及设置显示一个阅读的校验器。
         /// </summary>
-        public INimClient NimClient { get; set; }
-
-        /// <summary>
-        ///     获取及设置取消一个点赞的校验器。
-        /// </summary>
-        public IValidator<LikeDelete> LikeDeleteValidator { get; set; }
+        public IValidator<ViewShow> ViewShowValidator { get; set; }
 
         /// <summary>
         ///     获取及设置用户身份的存储库。
@@ -50,9 +46,9 @@ namespace Sheep.ServiceInterface.Likes
         public IUserAuthRepository AuthRepo { get; set; }
 
         /// <summary>
-        ///     获取及设置点赞的存储库。
+        ///     获取及设置阅读的存储库。
         /// </summary>
-        public ILikeRepository LikeRepo { get; set; }
+        public IViewRepository ViewRepo { get; set; }
 
         /// <summary>
         ///     获取及设置帖子的存储库。
@@ -71,46 +67,45 @@ namespace Sheep.ServiceInterface.Likes
 
         #endregion
 
-        #region 取消一个点赞
+        #region 显示一个阅读
 
         /// <summary>
-        ///     取消一个点赞。
+        ///     显示一个阅读。
         /// </summary>
-        public async Task<object> Delete(LikeDelete request)
+        public async Task<object> Get(ViewShow request)
         {
-            if (!IsAuthenticated)
-            {
-                throw HttpError.Unauthorized(Resources.LoginRequired);
-            }
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
-                LikeDeleteValidator.ValidateAndThrow(request, ApplyTo.Delete);
+                ViewShowValidator.ValidateAndThrow(request, ApplyTo.Get);
             }
-            var userId = GetSession().UserAuthId.ToInt(0);
-            var existingLike = await LikeRepo.GetLikeAsync(request.ParentId, userId);
-            if (existingLike == null)
+            var existingView = await ViewRepo.GetViewAsync(request.ViewId);
+            if (existingView == null)
             {
-                throw HttpError.NotFound(string.Format(Resources.LikeNotFound, request.ParentId));
+                throw HttpError.NotFound(string.Format(Resources.ViewNotFound, request.ViewId));
             }
-            if (existingLike.UserId != userId)
+            var user = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(existingView.UserId.ToString());
+            if (user == null)
             {
-                throw HttpError.Unauthorized(Resources.LoginAsAuthorRequired);
+                throw HttpError.NotFound(string.Format(Resources.UserNotFound, existingView.UserId));
             }
-            await LikeRepo.DeleteLikeAsync(request.ParentId, userId);
-            ResetCache(existingLike);
-            switch (existingLike.ParentType)
+            var title = string.Empty;
+            switch (existingView.ParentType)
             {
                 case "帖子":
-                    await PostRepo.IncrementPostLikesCountAsync(existingLike.ParentId, -1);
+                    title = (await PostRepo.GetPostAsync(existingView.ParentId))?.Title;
                     break;
                 case "章":
-                    await ChapterRepo.IncrementChapterLikesCountAsync(existingLike.ParentId, -1);
+                    title = (await ChapterRepo.GetChapterAsync(existingView.ParentId))?.Title;
                     break;
                 case "节":
-                    await ParagraphRepo.IncrementParagraphLikesCountAsync(existingLike.ParentId, -1);
+                    title = (await ParagraphRepo.GetParagraphAsync(existingView.ParentId))?.Content;
                     break;
             }
-            return new LikeDeleteResponse();
+            var viewDto = existingView.MapToViewDto(user, title);
+            return new ViewShowResponse
+                   {
+                       View = viewDto
+                   };
         }
 
         #endregion

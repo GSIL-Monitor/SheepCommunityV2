@@ -88,6 +88,24 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
+        ///   查找类似 起始章序号必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string BeginChapterNumberRequired {
+            get {
+                return ResourceManager.GetString("BeginChapterNumberRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 起始节序号必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string BeginParagraphNumberRequired {
+            get {
+                return ResourceManager.GetString("BeginParagraphNumberRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 出生日期的有效范围为{0}至{1}。 的本地化字符串。
         /// </summary>
         internal static string BirthDateRangeMismatch {
@@ -246,6 +264,24 @@ namespace Sheep.ServiceModel.Properties {
         internal static string EmailLengthMismatch {
             get {
                 return ResourceManager.GetString("EmailLengthMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 结束章序号必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string EndChapterNumberRequired {
+            get {
+                return ResourceManager.GetString("EndChapterNumberRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 结束节序号必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string EndParagraphNumberRequired {
+            get {
+                return ResourceManager.GetString("EndParagraphNumberRequired", resourceCulture);
             }
         }
         

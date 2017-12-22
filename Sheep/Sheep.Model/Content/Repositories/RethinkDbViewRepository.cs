@@ -15,7 +15,7 @@ using Sheep.Model.Content.Entities;
 namespace Sheep.Model.Content.Repositories
 {
     /// <summary>
-    ///     基于RethinkDb的查看的存储库。
+    ///     基于RethinkDb的阅读的存储库。
     /// </summary>
     public class RethinkDbViewRepository : IViewRepository, IClearable
     {
@@ -32,7 +32,7 @@ namespace Sheep.Model.Content.Repositories
         public static readonly RethinkDB R = RethinkDB.R;
 
         /// <summary>
-        ///     查看的数据表名。
+        ///     阅读的数据表名。
         /// </summary>
         private static readonly string s_ViewTable = typeof(View).Name;
 
@@ -120,11 +120,23 @@ namespace Sheep.Model.Content.Repositories
 
         #endregion
 
-        #region 检测查看是否存在
+        #region 检测阅读是否存在
 
         #endregion
 
         #region IViewRepository 接口实现
+
+        /// <inheritdoc />
+        public View GetView(string viewId)
+        {
+            return R.Table(s_ViewTable).Get(viewId).RunResult<View>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<View> GetViewAsync(string viewId)
+        {
+            return R.Table(s_ViewTable).Get(viewId).RunResultAsync<View>(_conn);
+        }
 
         /// <inheritdoc />
         public List<View> FindViewsByParent(string parentId, int? userId, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit)

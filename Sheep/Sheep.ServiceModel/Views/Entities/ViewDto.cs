@@ -4,7 +4,7 @@ using Sheep.ServiceModel.Users.Entities;
 namespace Sheep.ServiceModel.Views.Entities
 {
     /// <summary>
-    ///     查看信息。
+    ///     阅读信息。
     /// </summary>
     [DataContract]
     public class ViewDto

@@ -9,21 +9,21 @@ using ServiceStack.Validation;
 using Sheep.Model.Bookstore;
 using Sheep.Model.Content;
 using Sheep.ServiceInterface.Properties;
-using Sheep.ServiceModel.Likes;
+using Sheep.ServiceModel.Views;
 
-namespace Sheep.ServiceInterface.Likes
+namespace Sheep.ServiceInterface.Views
 {
     /// <summary>
-    ///     取消一个点赞服务接口。
+    ///     删除一个阅读服务接口。
     /// </summary>
-    public class DeleteLikeService : ChangeLikeService
+    public class DeleteViewService : ChangeViewService
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(DeleteLikeService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(DeleteViewService));
 
         #endregion
 
@@ -40,9 +40,9 @@ namespace Sheep.ServiceInterface.Likes
         public INimClient NimClient { get; set; }
 
         /// <summary>
-        ///     获取及设置取消一个点赞的校验器。
+        ///     获取及设置删除一个阅读的校验器。
         /// </summary>
-        public IValidator<LikeDelete> LikeDeleteValidator { get; set; }
+        public IValidator<ViewDelete> ViewDeleteValidator { get; set; }
 
         /// <summary>
         ///     获取及设置用户身份的存储库。
@@ -50,9 +50,9 @@ namespace Sheep.ServiceInterface.Likes
         public IUserAuthRepository AuthRepo { get; set; }
 
         /// <summary>
-        ///     获取及设置点赞的存储库。
+        ///     获取及设置阅读的存储库。
         /// </summary>
-        public ILikeRepository LikeRepo { get; set; }
+        public IViewRepository ViewRepo { get; set; }
 
         /// <summary>
         ///     获取及设置帖子的存储库。
@@ -71,12 +71,12 @@ namespace Sheep.ServiceInterface.Likes
 
         #endregion
 
-        #region 取消一个点赞
+        #region 删除一个阅读
 
         /// <summary>
-        ///     取消一个点赞。
+        ///     删除一个阅读。
         /// </summary>
-        public async Task<object> Delete(LikeDelete request)
+        public async Task<object> Delete(ViewDelete request)
         {
             if (!IsAuthenticated)
             {
@@ -84,33 +84,33 @@ namespace Sheep.ServiceInterface.Likes
             }
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
-                LikeDeleteValidator.ValidateAndThrow(request, ApplyTo.Delete);
+                ViewDeleteValidator.ValidateAndThrow(request, ApplyTo.Delete);
+            }
+            var existingView = await ViewRepo.GetViewAsync(request.ViewId);
+            if (existingView == null)
+            {
+                throw HttpError.NotFound(string.Format(Resources.ViewNotFound, request.ViewId));
             }
             var userId = GetSession().UserAuthId.ToInt(0);
-            var existingLike = await LikeRepo.GetLikeAsync(request.ParentId, userId);
-            if (existingLike == null)
-            {
-                throw HttpError.NotFound(string.Format(Resources.LikeNotFound, request.ParentId));
-            }
-            if (existingLike.UserId != userId)
+            if (existingView.UserId != userId)
             {
                 throw HttpError.Unauthorized(Resources.LoginAsAuthorRequired);
             }
-            await LikeRepo.DeleteLikeAsync(request.ParentId, userId);
-            ResetCache(existingLike);
-            switch (existingLike.ParentType)
+            await ViewRepo.DeleteViewAsync(request.ViewId);
+            ResetCache(existingView);
+            switch (existingView.ParentType)
             {
                 case "帖子":
-                    await PostRepo.IncrementPostLikesCountAsync(existingLike.ParentId, -1);
+                    await PostRepo.IncrementPostViewsCountAsync(existingView.ParentId, -1);
                     break;
                 case "章":
-                    await ChapterRepo.IncrementChapterLikesCountAsync(existingLike.ParentId, -1);
+                    await ChapterRepo.IncrementChapterViewsCountAsync(existingView.ParentId, -1);
                     break;
                 case "节":
-                    await ParagraphRepo.IncrementParagraphLikesCountAsync(existingLike.ParentId, -1);
+                    await ParagraphRepo.IncrementParagraphViewsCountAsync(existingView.ParentId, -1);
                     break;
             }
-            return new LikeDeleteResponse();
+            return new ViewDeleteResponse();
         }
 
         #endregion

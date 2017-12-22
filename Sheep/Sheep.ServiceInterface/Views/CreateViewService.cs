@@ -10,23 +10,23 @@ using Sheep.Common.Auth;
 using Sheep.Model.Bookstore;
 using Sheep.Model.Content;
 using Sheep.Model.Content.Entities;
-using Sheep.ServiceInterface.Bookmarks.Mappers;
 using Sheep.ServiceInterface.Properties;
-using Sheep.ServiceModel.Bookmarks;
+using Sheep.ServiceInterface.Views.Mappers;
+using Sheep.ServiceModel.Views;
 
-namespace Sheep.ServiceInterface.Bookmarks
+namespace Sheep.ServiceInterface.Views
 {
     /// <summary>
-    ///     新建一个收藏服务接口。
+    ///     新建一个阅读服务接口。
     /// </summary>
-    public class CreateBookmarkService : ChangeBookmarkService
+    public class CreateViewService : ChangeViewService
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(CreateBookmarkService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(CreateViewService));
 
         #endregion
 
@@ -43,9 +43,9 @@ namespace Sheep.ServiceInterface.Bookmarks
         public INimClient NimClient { get; set; }
 
         /// <summary>
-        ///     获取及设置新建一个收藏的校验器。
+        ///     获取及设置新建一个阅读的校验器。
         /// </summary>
-        public IValidator<BookmarkCreate> BookmarkCreateValidator { get; set; }
+        public IValidator<ViewCreate> ViewCreateValidator { get; set; }
 
         /// <summary>
         ///     获取及设置用户身份的存储库。
@@ -53,9 +53,9 @@ namespace Sheep.ServiceInterface.Bookmarks
         public IUserAuthRepository AuthRepo { get; set; }
 
         /// <summary>
-        ///     获取及设置收藏的存储库。
+        ///     获取及设置阅读的存储库。
         /// </summary>
-        public IBookmarkRepository BookmarkRepo { get; set; }
+        public IViewRepository ViewRepo { get; set; }
 
         /// <summary>
         ///     获取及设置帖子的存储库。
@@ -74,12 +74,12 @@ namespace Sheep.ServiceInterface.Bookmarks
 
         #endregion
 
-        #region 新建一个收藏
+        #region 新建一个阅读
 
         /// <summary>
-        ///     新建一个收藏。
+        ///     新建一个阅读。
         /// </summary>
-        public async Task<object> Post(BookmarkCreate request)
+        public async Task<object> Post(ViewCreate request)
         {
             if (!IsAuthenticated)
             {
@@ -87,7 +87,7 @@ namespace Sheep.ServiceInterface.Bookmarks
             }
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
-                BookmarkCreateValidator.ValidateAndThrow(request, ApplyTo.Post);
+                ViewCreateValidator.ValidateAndThrow(request, ApplyTo.Post);
             }
             var userId = GetSession().UserAuthId.ToInt(0);
             var user = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(userId.ToString());
@@ -95,48 +95,28 @@ namespace Sheep.ServiceInterface.Bookmarks
             {
                 throw HttpError.NotFound(string.Format(Resources.UserNotFound, userId));
             }
+            var newView = new View
+                          {
+                              ParentType = request.ParentType,
+                              ParentId = request.ParentId,
+                              UserId = userId
+                          };
+            var view = await ViewRepo.CreateViewAsync(newView);
+            ResetCache(view);
             var title = string.Empty;
-            var existingBookmark = await BookmarkRepo.GetBookmarkAsync(request.ParentId, userId);
-            if (existingBookmark != null)
-            {
-                switch (existingBookmark.ParentType)
-                {
-                    case "帖子":
-                        title = (await PostRepo.GetPostAsync(existingBookmark.ParentId))?.Title;
-                        break;
-                    case "章":
-                        title = (await ChapterRepo.GetChapterAsync(existingBookmark.ParentId))?.Title;
-                        break;
-                    case "节":
-                        title = (await ParagraphRepo.GetParagraphAsync(existingBookmark.ParentId))?.Content;
-                        break;
-                }
-                return new BookmarkCreateResponse
-                       {
-                           Bookmark = existingBookmark.MapToBookmarkDto(user, title)
-                       };
-            }
-            var newBookmark = new Bookmark
-                              {
-                                  ParentType = request.ParentType,
-                                  ParentId = request.ParentId,
-                                  UserId = userId
-                              };
-            var bookmark = await BookmarkRepo.CreateBookmarkAsync(newBookmark);
-            ResetCache(bookmark);
-            switch (bookmark.ParentType)
+            switch (view.ParentType)
             {
                 case "帖子":
-                    title = (await PostRepo.GetPostAsync(bookmark.ParentId))?.Title;
-                    await PostRepo.IncrementPostBookmarksCountAsync(bookmark.ParentId, 1);
+                    title = (await PostRepo.GetPostAsync(view.ParentId))?.Title;
+                    await PostRepo.IncrementPostViewsCountAsync(view.ParentId, 1);
                     break;
                 case "章":
-                    title = (await ChapterRepo.GetChapterAsync(bookmark.ParentId))?.Title;
-                    await ChapterRepo.IncrementChapterBookmarksCountAsync(bookmark.ParentId, 1);
+                    title = (await ChapterRepo.GetChapterAsync(view.ParentId))?.Title;
+                    await ChapterRepo.IncrementChapterViewsCountAsync(view.ParentId, 1);
                     break;
                 case "节":
-                    title = (await ParagraphRepo.GetParagraphAsync(bookmark.ParentId))?.Content;
-                    await ParagraphRepo.IncrementParagraphBookmarksCountAsync(bookmark.ParentId, 1);
+                    title = (await ParagraphRepo.GetParagraphAsync(view.ParentId))?.Content;
+                    await ParagraphRepo.IncrementParagraphViewsCountAsync(view.ParentId, 1);
                     break;
             }
             //await NimClient.PostAsync(new FriendAddRequest
@@ -145,9 +125,9 @@ namespace Sheep.ServiceInterface.Bookmarks
             //                              FriendAccountId = request.ParentId.ToString(),
             //                              Type = 1
             //                          });
-            return new BookmarkCreateResponse
+            return new ViewCreateResponse
                    {
-                       Bookmark = bookmark.MapToBookmarkDto(user, title)
+                       View = view.MapToViewDto(user, title)
                    };
         }
 

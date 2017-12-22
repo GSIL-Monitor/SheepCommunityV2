@@ -5,7 +5,7 @@ using Sheep.ServiceModel.Properties;
 namespace Sheep.ServiceModel.Views.Validators
 {
     /// <summary>
-    ///     显示一个查看的校验器。
+    ///     显示一个阅读的校验器。
     /// </summary>
     public class ViewShowValidator : AbstractValidator<ViewShow>
     {

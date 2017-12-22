@@ -272,6 +272,13 @@
     <Compile Include="Users\ShowUserByUserNameOrEmailService.cs" />
     <Compile Include="Users\ShowBasicUserService.cs" />
     <Compile Include="Users\ShowUserService.cs" />
+    <Compile Include="Views\ChangeViewService.cs" />
+    <Compile Include="Views\CreateViewService.cs" />
+    <Compile Include="Views\DeleteViewService.cs" />
+    <Compile Include="Views\ListViewByParentService.cs" />
+    <Compile Include="Views\ListViewByUserService.cs" />
+    <Compile Include="Views\Mappers\ViewToViewDtoMapper.cs" />
+    <Compile Include="Views\ShowViewService.cs" />
     <Compile Include="Volumes\ChangeVolumeAnnotationService.cs" />
     <Compile Include="Volumes\ChangeVolumeService.cs" />
     <Compile Include="Volumes\CreateVolumeAnnotationService.cs" />

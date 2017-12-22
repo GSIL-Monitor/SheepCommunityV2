@@ -6,8 +6,8 @@ using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using ServiceStack.Validation;
 using Sheep.Common.Auth;
-using Sheep.Model.Content;
 using Sheep.Model.Bookstore;
+using Sheep.Model.Content;
 using Sheep.ServiceInterface.Bookmarks.Mappers;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Bookmarks;
@@ -46,14 +46,14 @@ namespace Sheep.ServiceInterface.Bookmarks
         public IUserAuthRepository AuthRepo { get; set; }
 
         /// <summary>
-        ///     获取及设置帖子的存储库。
-        /// </summary>
-        public IPostRepository PostRepo { get; set; }
-
-        /// <summary>
         ///     获取及设置收藏的存储库。
         /// </summary>
         public IBookmarkRepository BookmarkRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置帖子的存储库。
+        /// </summary>
+        public IPostRepository PostRepo { get; set; }
 
         /// <summary>
         ///     获取及设置章的存储库。
@@ -83,12 +83,12 @@ namespace Sheep.ServiceInterface.Bookmarks
             {
                 throw HttpError.NotFound(string.Format(Resources.UserNotFound, request.UserId));
             }
-            var title = string.Empty;
             var existingBookmark = await BookmarkRepo.GetBookmarkAsync(request.ParentId, request.UserId);
             if (existingBookmark == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.BookmarkNotFound, request.ParentId));
             }
+            var title = string.Empty;
             switch (existingBookmark.ParentType)
             {
                 case "帖子":

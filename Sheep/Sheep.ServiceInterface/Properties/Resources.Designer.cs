@@ -484,6 +484,24 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
+        ///   查找类似 无法找到指定的阅读{0}。 的本地化字符串。
+        /// </summary>
+        internal static string ViewNotFound {
+            get {
+                return ResourceManager.GetString("ViewNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定条件的阅读列表。 的本地化字符串。
+        /// </summary>
+        internal static string ViewsNotFound {
+            get {
+                return ResourceManager.GetString("ViewsNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 无法找到指定的卷注释{0}。 的本地化字符串。
         /// </summary>
         internal static string VolumeAnnotationNotFound {

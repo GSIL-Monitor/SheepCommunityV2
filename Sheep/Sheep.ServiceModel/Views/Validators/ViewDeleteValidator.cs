@@ -5,7 +5,7 @@ using Sheep.ServiceModel.Properties;
 namespace Sheep.ServiceModel.Views.Validators
 {
     /// <summary>
-    ///     取消一个查看的校验器。
+    ///     取消一个阅读的校验器。
     /// </summary>
     public class ViewDeleteValidator : AbstractValidator<ViewDelete>
     {

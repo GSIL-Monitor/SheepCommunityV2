@@ -351,4 +351,16 @@
   <data name="ParentIdsRequired" xml:space="preserve">
     <value>上级编号列表必须输入。</value>
   </data>
+  <data name="BeginChapterNumberRequired" xml:space="preserve">
+    <value>起始章序号必须输入。</value>
+  </data>
+  <data name="BeginParagraphNumberRequired" xml:space="preserve">
+    <value>起始节序号必须输入。</value>
+  </data>
+  <data name="EndChapterNumberRequired" xml:space="preserve">
+    <value>结束章序号必须输入。</value>
+  </data>
+  <data name="EndParagraphNumberRequired" xml:space="preserve">
+    <value>结束节序号必须输入。</value>
+  </data>
 </root>

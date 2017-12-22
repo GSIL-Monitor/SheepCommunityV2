@@ -6,14 +6,28 @@ using Sheep.Model.Content.Entities;
 namespace Sheep.Model.Content
 {
     /// <summary>
-    ///     查看的存储库的接口定义。
+    ///     阅读的存储库的接口定义。
     /// </summary>
     public interface IViewRepository
     {
         #region 获取
 
         /// <summary>
-        ///     根据上级查找查看。
+        ///     根据编号获取阅读。
+        /// </summary>
+        /// <param name="viewId">阅读的编号。</param>
+        /// <returns>阅读。</returns>
+        View GetView(string viewId);
+
+        /// <summary>
+        ///     异步根据编号获取阅读。
+        /// </summary>
+        /// <param name="viewId">阅读的编号。</param>
+        /// <returns>阅读。</returns>
+        Task<View> GetViewAsync(string viewId);
+
+        /// <summary>
+        ///     根据上级查找阅读。
         /// </summary>
         /// <param name="parentId">上级的编号。（如帖子编号）</param>
         /// <param name="userId">用户的编号。</param>
@@ -22,11 +36,11 @@ namespace Sheep.Model.Content
         /// <param name="descending">是否按降序排序。</param>
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
-        /// <returns>查看列表。</returns>
+        /// <returns>阅读列表。</returns>
         List<View> FindViewsByParent(string parentId, int? userId, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
-        ///     异步根据上级查找查看。
+        ///     异步根据上级查找阅读。
         /// </summary>
         /// <param name="parentId">上级的编号。（如帖子编号）</param>
         /// <param name="userId">用户的编号。</param>
@@ -35,11 +49,11 @@ namespace Sheep.Model.Content
         /// <param name="descending">是否按降序排序。</param>
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
-        /// <returns>查看列表。</returns>
+        /// <returns>阅读列表。</returns>
         Task<List<View>> FindViewsByParentAsync(string parentId, int? userId, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
-        ///     根据用户查找查看。
+        ///     根据用户查找阅读。
         /// </summary>
         /// <param name="userId">用户的编号。</param>
         /// <param name="parentType">上级的类型。</param>
@@ -48,11 +62,11 @@ namespace Sheep.Model.Content
         /// <param name="descending">是否按降序排序。</param>
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
-        /// <returns>查看列表。</returns>
+        /// <returns>阅读列表。</returns>
         List<View> FindViewsByUser(int userId, string parentType, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
-        ///     异步根据用户查找查看。
+        ///     异步根据用户查找阅读。
         /// </summary>
         /// <param name="userId">用户的编号。</param>
         /// <param name="parentType">上级的类型。</param>
@@ -61,7 +75,7 @@ namespace Sheep.Model.Content
         /// <param name="descending">是否按降序排序。</param>
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
-        /// <returns>查看列表。</returns>
+        /// <returns>阅读列表。</returns>
         Task<List<View>> FindViewsByUserAsync(int userId, string parentType, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit);
 
         #endregion
@@ -69,39 +83,39 @@ namespace Sheep.Model.Content
         #region 统计
 
         /// <summary>
-        ///     根据上级获取查看数量。
+        ///     根据上级获取阅读数量。
         /// </summary>
         /// <param name="parentId">上级的编号。（如帖子编号）</param>
         /// <param name="userId">用户的编号。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
-        /// <returns>查看数量。</returns>
+        /// <returns>阅读数量。</returns>
         int GetViewsCountByParent(string parentId, int? userId, DateTime? createdSince);
 
         /// <summary>
-        ///     异步根据上级获取查看数量。
+        ///     异步根据上级获取阅读数量。
         /// </summary>
         /// <param name="parentId">上级的编号。（如帖子编号）</param>
         /// <param name="userId">用户的编号。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
-        /// <returns>查看数量。</returns>
+        /// <returns>阅读数量。</returns>
         Task<int> GetViewsCountByParentAsync(string parentId, int? userId, DateTime? createdSince);
 
         /// <summary>
-        ///     根据用户获取查看数量。
+        ///     根据用户获取阅读数量。
         /// </summary>
         /// <param name="userId">用户的编号。</param>
         /// <param name="parentType">上级的类型。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
-        /// <returns>查看数量。</returns>
+        /// <returns>阅读数量。</returns>
         int GetViewsCountByUser(int userId, string parentType, DateTime? createdSince);
 
         /// <summary>
-        ///     异步根据用户获取查看数量。
+        ///     异步根据用户获取阅读数量。
         /// </summary>
         /// <param name="userId">用户的编号。</param>
         /// <param name="parentType">上级的类型。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
-        /// <returns>查看数量。</returns>
+        /// <returns>阅读数量。</returns>
         Task<int> GetViewsCountByUserAsync(int userId, string parentType, DateTime? createdSince);
 
         /// <summary>
@@ -145,41 +159,41 @@ namespace Sheep.Model.Content
         #region 写入
 
         /// <summary>
-        ///     创建一个新的查看。
+        ///     创建一个新的阅读。
         /// </summary>
-        /// <param name="newView">新的查看。</param>
-        /// <returns>创建后的查看。</returns>
+        /// <param name="newView">新的阅读。</param>
+        /// <returns>创建后的阅读。</returns>
         View CreateView(View newView);
 
         /// <summary>
-        ///     异步创建一个新的查看。
+        ///     异步创建一个新的阅读。
         /// </summary>
-        /// <param name="newView">新的查看。</param>
-        /// <returns>创建后的查看。</returns>
+        /// <param name="newView">新的阅读。</param>
+        /// <returns>创建后的阅读。</returns>
         Task<View> CreateViewAsync(View newView);
 
         /// <summary>
-        ///     创建一组新的查看。
+        ///     创建一组新的阅读。
         /// </summary>
-        /// <param name="newViews">一组新的查看。</param>
+        /// <param name="newViews">一组新的阅读。</param>
         void CreateViews(List<View> newViews);
 
         /// <summary>
-        ///     异步创建一组新的查看。
+        ///     异步创建一组新的阅读。
         /// </summary>
-        /// <param name="newViews">一组新的查看。</param>
+        /// <param name="newViews">一组新的阅读。</param>
         Task CreateViewsAsync(List<View> newViews);
 
         /// <summary>
-        ///     取消一个查看。
+        ///     取消一个阅读。
         /// </summary>
-        /// <param name="viewId">查看的编号。</param>
+        /// <param name="viewId">阅读的编号。</param>
         void DeleteView(string viewId);
 
         /// <summary>
-        ///     异步取消一个查看。
+        ///     异步取消一个阅读。
         /// </summary>
-        /// <param name="viewId">查看的编号。</param>
+        /// <param name="viewId">阅读的编号。</param>
         Task DeleteViewAsync(string viewId);
 
         #endregion

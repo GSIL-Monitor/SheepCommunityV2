@@ -47,14 +47,14 @@ namespace Sheep.ServiceInterface.Bookmarks
         public IUserAuthRepository AuthRepo { get; set; }
 
         /// <summary>
-        ///     获取及设置帖子的存储库。
-        /// </summary>
-        public IPostRepository PostRepo { get; set; }
-
-        /// <summary>
         ///     获取及设置收藏的存储库。
         /// </summary>
         public IBookmarkRepository BookmarkRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置帖子的存储库。
+        /// </summary>
+        public IPostRepository PostRepo { get; set; }
 
         /// <summary>
         ///     获取及设置章的存储库。

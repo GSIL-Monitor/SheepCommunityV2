@@ -1,33 +1,60 @@
-﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 using ServiceStack;
 
 namespace Sheep.ServiceModel.Views
 {
     /// <summary>
-    ///     新建一组查看的请求。
+    ///     新建一组节阅读的请求。
     /// </summary>
-    [Route("/views/batch", HttpMethods.Post, Summary = "新建一组查看")]
+    [Route("/views/paragraphs", HttpMethods.Post, Summary = "新建一组节阅读")]
     [DataContract]
-    public class ViewBatchCreate : IReturn<ViewBatchCreateResponse>
+    public class ViewBatchCreateForParagraphs : IReturn<ViewBatchCreateResponse>
     {
         /// <summary>
-        ///     上级类型。（可选值：帖子, 章, 节）
+        ///     书籍编号。
         /// </summary>
         [DataMember(Order = 1, IsRequired = true)]
-        [ApiMember(Description = "上级类型（可选值：帖子, 章, 节）")]
-        public string ParentType { get; set; }
+        [ApiMember(Description = "书籍编号")]
+        public string BookId { get; set; }
 
         /// <summary>
-        ///     上级编号列表。（如帖子编号）
+        ///     卷序号。
         /// </summary>
         [DataMember(Order = 2, IsRequired = true)]
-        [ApiMember(Description = "上级编号列表（如帖子编号）")]
-        public List<string> ParentIds { get; set; }
+        [ApiMember(Description = "卷序号")]
+        public int VolumeNumber { get; set; }
+
+        /// <summary>
+        ///     起始章序号。
+        /// </summary>
+        [DataMember(Order = 3, IsRequired = true)]
+        [ApiMember(Description = "起始章序号")]
+        public int BeginChapterNumber { get; set; }
+
+        /// <summary>
+        ///     起始节序号。
+        /// </summary>
+        [DataMember(Order = 4, IsRequired = true)]
+        [ApiMember(Description = "起始节序号")]
+        public int BeginParagraphNumber { get; set; }
+
+        /// <summary>
+        ///     结束章序号。
+        /// </summary>
+        [DataMember(Order = 5, IsRequired = true)]
+        [ApiMember(Description = "结束章序号")]
+        public int EndChapterNumber { get; set; }
+
+        /// <summary>
+        ///     结束节序号。
+        /// </summary>
+        [DataMember(Order = 6, IsRequired = true)]
+        [ApiMember(Description = "结束节序号")]
+        public int EndParagraphNumber { get; set; }
     }
 
     /// <summary>
-    ///     新建一组查看的响应。
+    ///     新建一组阅读的响应。
     /// </summary>
     [DataContract]
     public class ViewBatchCreateResponse : IHasResponseStatus
