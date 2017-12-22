@@ -35,6 +35,12 @@ namespace Sheep.ServiceModel.Votes.Validators
     /// </summary>
     public class VoteListByUserValidator : AbstractValidator<VoteListByUser>
     {
+        public static readonly HashSet<string> ParentTypes = new HashSet<string>
+                                                             {
+                                                                 "评论",
+                                                                 "回复"
+                                                             };
+
         public static readonly HashSet<string> OrderBys = new HashSet<string>
                                                           {
                                                               "CreatedDate",
@@ -50,6 +56,7 @@ namespace Sheep.ServiceModel.Votes.Validators
             RuleSet(ApplyTo.Get, () =>
                                  {
                                      RuleFor(x => x.UserId).NotEmpty().WithMessage(Resources.UserIdRequired);
+                                     RuleFor(x => x.ParentType).Must(contentType => ParentTypes.Contains(contentType)).WithMessage(Resources.ParentTypeRangeMismatch, ParentTypes.Join(",")).When(x => !x.ParentType.IsNullOrEmpty());
                                      RuleFor(x => x.OrderBy).Must(orderBy => OrderBys.Contains(orderBy)).WithMessage(Resources.OrderByRangeMismatch, OrderBys.Join(",")).When(x => !x.OrderBy.IsNullOrEmpty());
                                  });
         }

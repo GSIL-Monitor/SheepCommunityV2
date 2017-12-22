@@ -197,9 +197,13 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public List<Bookmark> FindBookmarksByUser(int userId, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit)
+        public List<Bookmark> FindBookmarksByUser(int userId, string parentType, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_BookmarkTable).GetAll(userId).OptArg("index", "UserId").Filter(true);
+            if (!parentType.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ParentType").Eq(parentType));
+            }
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
@@ -217,9 +221,13 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public Task<List<Bookmark>> FindBookmarksByUserAsync(int userId, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit)
+        public Task<List<Bookmark>> FindBookmarksByUserAsync(int userId, string parentType, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_BookmarkTable).GetAll(userId).OptArg("index", "UserId").Filter(true);
+            if (!parentType.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ParentType").Eq(parentType));
+            }
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
@@ -259,9 +267,13 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public int GetBookmarksCountByUser(int userId, DateTime? createdSince)
+        public int GetBookmarksCountByUser(int userId, string parentType, DateTime? createdSince)
         {
             var query = R.Table(s_BookmarkTable).GetAll(userId).OptArg("index", "UserId").Filter(true);
+            if (!parentType.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ParentType").Eq(parentType));
+            }
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
@@ -270,9 +282,13 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public Task<int> GetBookmarksCountByUserAsync(int userId, DateTime? createdSince)
+        public Task<int> GetBookmarksCountByUserAsync(int userId, string parentType, DateTime? createdSince)
         {
             var query = R.Table(s_BookmarkTable).GetAll(userId).OptArg("index", "UserId").Filter(true);
+            if (!parentType.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ParentType").Eq(parentType));
+            }
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));

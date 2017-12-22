@@ -7,9 +7,9 @@ using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using ServiceStack.Validation;
-using Sheep.Model.Content;
 using Sheep.Model.Bookstore;
 using Sheep.Model.Bookstore.Entities;
+using Sheep.Model.Content;
 using Sheep.ServiceInterface.Chapters.Mappers;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Chapters;
@@ -105,7 +105,7 @@ namespace Sheep.ServiceInterface.Chapters
             var currentUserId = GetSession().UserAuthId.ToInt(0);
             var paragraphs = request.LoadParagraphs.HasValue && request.LoadParagraphs.Value ? await ParagraphRepo.FindParagraphsByChaptersAsync(existingChapters.Select(chapter => chapter.Id), "ChapterId", null, null, null) : new List<Paragraph>();
             var paragraphsMap = request.LoadParagraphs.HasValue && request.LoadParagraphs.Value ? paragraphs.GroupBy(paragraph => paragraph.ChapterId, paragraph => paragraph).ToDictionary(grouping => grouping.Key, grouping => grouping.OrderBy(g => g.Number).ToList()) : new Dictionary<string, List<Paragraph>>();
-            var paragraphCommentsMap = request.LoadParagraphs.HasValue && request.LoadParagraphs.Value ? (await CommentRepo.GetCommentsCountByParentsAsync(paragraphs.Select(paragraph => paragraph.Id), currentUserId, null, null, null, "审核通过")).ToDictionary(pair => pair.Key, pair => pair.Value) : new Dictionary<string, int>();
+            var paragraphCommentsMap = request.LoadParagraphs.HasValue && request.LoadParagraphs.Value ? (await CommentRepo.GetCommentsCountByParentsAsync(paragraphs.Select(paragraph => paragraph.Id).ToList(), currentUserId, null, null, null, "审核通过")).ToDictionary(pair => pair.Key, pair => pair.Value) : new Dictionary<string, int>();
             var chaptersDto = existingChapters.Select(chapter => chapter.MapToChapterDto(chapterAnnotationsMap.GetValueOrDefault(chapter.Id), paragraphsMap.GetValueOrDefault(chapter.Id), paragraphCommentsMap)).ToList();
             return new ChapterListResponse
                    {

@@ -70,7 +70,7 @@ namespace Sheep.ServiceInterface.Comments
             {
                 CommentListByUserValidator.ValidateAndThrow(request, ApplyTo.Get);
             }
-            var existingComments = await CommentRepo.FindCommentsByUserAsync(request.UserId, request.CreatedSince, request.ModifiedSince, request.IsFeatured, "审核通过", request.OrderBy, request.Descending, request.Skip, request.Limit);
+            var existingComments = await CommentRepo.FindCommentsByUserAsync(request.UserId, request.ParentType, request.CreatedSince, request.ModifiedSince, request.IsFeatured, "审核通过", request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingComments == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.CommentsNotFound));

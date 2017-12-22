@@ -7,8 +7,8 @@ using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using ServiceStack.Validation;
 using Sheep.Common.Auth;
-using Sheep.Model.Content;
 using Sheep.Model.Bookstore;
+using Sheep.Model.Content;
 using Sheep.ServiceInterface.Bookmarks.Mappers;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Bookmarks;
@@ -80,7 +80,7 @@ namespace Sheep.ServiceInterface.Bookmarks
             {
                 BookmarkListByUserValidator.ValidateAndThrow(request, ApplyTo.Get);
             }
-            var existingBookmarks = await BookmarkRepo.FindBookmarksByUserAsync(request.UserId, request.CreatedSince, request.OrderBy, request.Descending, request.Skip, request.Limit);
+            var existingBookmarks = await BookmarkRepo.FindBookmarksByUserAsync(request.UserId, request.ParentType, request.CreatedSince, request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingBookmarks == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.BookmarksNotFound));

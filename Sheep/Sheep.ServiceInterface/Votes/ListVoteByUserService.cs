@@ -64,7 +64,7 @@ namespace Sheep.ServiceInterface.Votes
             {
                 VoteListByUserValidator.ValidateAndThrow(request, ApplyTo.Get);
             }
-            var existingVotes = await VoteRepo.FindVotesByUserAsync(request.UserId, request.CreatedSince, request.ModifiedSince, request.OrderBy, request.Descending, request.Skip, request.Limit);
+            var existingVotes = await VoteRepo.FindVotesByUserAsync(request.UserId, request.ParentType, request.CreatedSince, request.ModifiedSince, request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingVotes == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.VotesNotFound));

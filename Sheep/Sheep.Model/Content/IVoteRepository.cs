@@ -72,6 +72,7 @@ namespace Sheep.Model.Content
         ///     根据用户查找投票。
         /// </summary>
         /// <param name="userId">用户的编号。</param>
+        /// <param name="parentType">上级的类型。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
         /// <param name="orderBy">排序的字段。</param>
@@ -79,12 +80,13 @@ namespace Sheep.Model.Content
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>投票列表。</returns>
-        List<Vote> FindVotesByUser(int userId, DateTime? createdSince, DateTime? modifiedSince, string orderBy, bool? descending, int? skip, int? limit);
+        List<Vote> FindVotesByUser(int userId, string parentType, DateTime? createdSince, DateTime? modifiedSince, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
         ///     异步根据用户查找投票。
         /// </summary>
         /// <param name="userId">用户的编号。</param>
+        /// <param name="parentType">上级的类型。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
         /// <param name="orderBy">排序的字段。</param>
@@ -92,7 +94,7 @@ namespace Sheep.Model.Content
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>投票列表。</returns>
-        Task<List<Vote>> FindVotesByUserAsync(int userId, DateTime? createdSince, DateTime? modifiedSince, string orderBy, bool? descending, int? skip, int? limit);
+        Task<List<Vote>> FindVotesByUserAsync(int userId, string parentType, DateTime? createdSince, DateTime? modifiedSince, string orderBy, bool? descending, int? skip, int? limit);
 
         #endregion
 
@@ -120,19 +122,21 @@ namespace Sheep.Model.Content
         ///     根据用户获取投票数量。
         /// </summary>
         /// <param name="userId">用户的编号。</param>
+        /// <param name="parentType">上级的类型。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
         /// <returns>投票数量。</returns>
-        int GetVotesCountByUser(int userId, DateTime? createdSince, DateTime? modifiedSince);
+        int GetVotesCountByUser(int userId, string parentType, DateTime? createdSince, DateTime? modifiedSince);
 
         /// <summary>
         ///     异步根据用户获取投票数量。
         /// </summary>
         /// <param name="userId">用户的编号。</param>
+        /// <param name="parentType">上级的类型。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
         /// <returns>投票数量。</returns>
-        Task<int> GetVotesCountByUserAsync(int userId, DateTime? createdSince, DateTime? modifiedSince);
+        Task<int> GetVotesCountByUserAsync(int userId, string parentType, DateTime? createdSince, DateTime? modifiedSince);
 
         #endregion
 

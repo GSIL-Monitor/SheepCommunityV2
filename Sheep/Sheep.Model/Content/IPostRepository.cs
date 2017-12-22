@@ -30,14 +30,14 @@ namespace Sheep.Model.Content
         ///     获取帖子列表。
         /// </summary>
         /// <param name="postIds">帖子的编号列表。</param>
-        /// <returns>帖子。</returns>
+        /// <returns>帖子列表。</returns>
         List<Post> GetPosts(IEnumerable<string> postIds);
 
         /// <summary>
         ///     异步获取帖子列表。
         /// </summary>
         /// <param name="postIds">帖子的编号列表。</param>
-        /// <returns>帖子。</returns>
+        /// <returns>帖子列表。</returns>
         Task<List<Post>> GetPostsAsync(IEnumerable<string> postIds);
 
         /// <summary>

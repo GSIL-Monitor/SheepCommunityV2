@@ -70,7 +70,7 @@ namespace Sheep.ServiceInterface.Replies
             {
                 ReplyListByUserValidator.ValidateAndThrow(request, ApplyTo.Get);
             }
-            var existingReplies = await ReplyRepo.FindRepliesByUserAsync(request.UserId, request.CreatedSince, request.ModifiedSince, "审核通过", request.OrderBy, request.Descending, request.Skip, request.Limit);
+            var existingReplies = await ReplyRepo.FindRepliesByUserAsync(request.UserId, request.ParentType, request.CreatedSince, request.ModifiedSince, "审核通过", request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingReplies == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.RepliesNotFound));

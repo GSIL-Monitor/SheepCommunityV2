@@ -56,25 +56,27 @@ namespace Sheep.Model.Content
         ///     根据用户查找点赞。
         /// </summary>
         /// <param name="userId">用户的编号。</param>
+        /// <param name="parentType">上级的类型。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="orderBy">排序的字段。</param>
         /// <param name="descending">是否按降序排序。</param>
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>点赞列表。</returns>
-        List<Like> FindLikesByUser(int userId, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit);
+        List<Like> FindLikesByUser(int userId, string parentType, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
         ///     异步根据用户查找点赞。
         /// </summary>
         /// <param name="userId">用户的编号。</param>
+        /// <param name="parentType">上级的类型。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="orderBy">排序的字段。</param>
         /// <param name="descending">是否按降序排序。</param>
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>点赞列表。</returns>
-        Task<List<Like>> FindLikesByUserAsync(int userId, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit);
+        Task<List<Like>> FindLikesByUserAsync(int userId, string parentType, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit);
 
         #endregion
 
@@ -100,17 +102,19 @@ namespace Sheep.Model.Content
         ///     根据用户获取点赞数量。
         /// </summary>
         /// <param name="userId">用户的编号。</param>
+        /// <param name="parentType">上级的类型。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <returns>点赞数量。</returns>
-        int GetLikesCountByUser(int userId, DateTime? createdSince);
+        int GetLikesCountByUser(int userId, string parentType, DateTime? createdSince);
 
         /// <summary>
         ///     异步根据用户获取点赞数量。
         /// </summary>
         /// <param name="userId">用户的编号。</param>
+        /// <param name="parentType">上级的类型。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <returns>点赞数量。</returns>
-        Task<int> GetLikesCountByUserAsync(int userId, DateTime? createdSince);
+        Task<int> GetLikesCountByUserAsync(int userId, string parentType, DateTime? createdSince);
 
         #endregion
 

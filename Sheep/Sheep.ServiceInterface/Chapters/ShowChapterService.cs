@@ -6,8 +6,8 @@ using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using ServiceStack.Validation;
-using Sheep.Model.Content;
 using Sheep.Model.Bookstore;
+using Sheep.Model.Content;
 using Sheep.ServiceInterface.Chapters.Mappers;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Chapters;
@@ -103,7 +103,7 @@ namespace Sheep.ServiceInterface.Chapters
             var chapterAnnotations = await ChapterAnnotationRepo.FindChapterAnnotationsByChapterAsync(existingChapter.Id, null, null, null, null);
             var currentUserId = GetSession().UserAuthId.ToInt(0);
             var paragraphs = await ParagraphRepo.FindParagraphsByChapterAsync(existingChapter.Id, null, null, null, null);
-            var paragraphCommentsMap = (await CommentRepo.GetCommentsCountByParentsAsync(paragraphs.Select(paragraph => paragraph.Id), currentUserId, null, null, null, "审核通过")).ToDictionary(pair => pair.Key, pair => pair.Value);
+            var paragraphCommentsMap = (await CommentRepo.GetCommentsCountByParentsAsync(paragraphs.Select(paragraph => paragraph.Id).ToList(), currentUserId, null, null, null, "审核通过")).ToDictionary(pair => pair.Key, pair => pair.Value);
             var chapterDto = existingChapter.MapToChapterDto(chapterAnnotations, paragraphs, paragraphCommentsMap);
             return new ChapterShowResponse
                    {

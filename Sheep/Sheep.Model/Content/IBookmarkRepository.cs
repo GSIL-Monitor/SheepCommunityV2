@@ -56,25 +56,27 @@ namespace Sheep.Model.Content
         ///     根据用户查找收藏。
         /// </summary>
         /// <param name="userId">用户的编号。</param>
+        /// <param name="parentType">上级的类型。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="orderBy">排序的字段。</param>
         /// <param name="descending">是否按降序排序。</param>
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>收藏列表。</returns>
-        List<Bookmark> FindBookmarksByUser(int userId, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit);
+        List<Bookmark> FindBookmarksByUser(int userId, string parentType, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
         ///     异步根据用户查找收藏。
         /// </summary>
         /// <param name="userId">用户的编号。</param>
+        /// <param name="parentType">上级的类型。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="orderBy">排序的字段。</param>
         /// <param name="descending">是否按降序排序。</param>
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>收藏列表。</returns>
-        Task<List<Bookmark>> FindBookmarksByUserAsync(int userId, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit);
+        Task<List<Bookmark>> FindBookmarksByUserAsync(int userId, string parentType, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit);
 
         #endregion
 
@@ -100,17 +102,19 @@ namespace Sheep.Model.Content
         ///     根据用户获取收藏数量。
         /// </summary>
         /// <param name="userId">用户的编号。</param>
+        /// <param name="parentType">上级的类型。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <returns>收藏数量。</returns>
-        int GetBookmarksCountByUser(int userId, DateTime? createdSince);
+        int GetBookmarksCountByUser(int userId, string parentType, DateTime? createdSince);
 
         /// <summary>
         ///     异步根据用户获取收藏数量。
         /// </summary>
         /// <param name="userId">用户的编号。</param>
+        /// <param name="parentType">上级的类型。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <returns>收藏数量。</returns>
-        Task<int> GetBookmarksCountByUserAsync(int userId, DateTime? createdSince);
+        Task<int> GetBookmarksCountByUserAsync(int userId, string parentType, DateTime? createdSince);
 
         #endregion
 

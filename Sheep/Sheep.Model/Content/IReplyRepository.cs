@@ -58,6 +58,7 @@ namespace Sheep.Model.Content
         ///     根据用户查找回复。
         /// </summary>
         /// <param name="userId">用户的编号。</param>
+        /// <param name="parentType">上级的类型。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
         /// <param name="status"> 过滤状态。</param>
@@ -66,12 +67,13 @@ namespace Sheep.Model.Content
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>回复列表。</returns>
-        List<Reply> FindRepliesByUser(int userId, DateTime? createdSince, DateTime? modifiedSince, string status, string orderBy, bool? descending, int? skip, int? limit);
+        List<Reply> FindRepliesByUser(int userId, string parentType, DateTime? createdSince, DateTime? modifiedSince, string status, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
         ///     异步根据用户查找回复。
         /// </summary>
         /// <param name="userId">用户的编号。</param>
+        /// <param name="parentType">上级的类型。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
         /// <param name="status"> 过滤状态。</param>
@@ -80,7 +82,7 @@ namespace Sheep.Model.Content
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>回复列表。</returns>
-        Task<List<Reply>> FindRepliesByUserAsync(int userId, DateTime? createdSince, DateTime? modifiedSince, string status, string orderBy, bool? descending, int? skip, int? limit);
+        Task<List<Reply>> FindRepliesByUserAsync(int userId, string parentType, DateTime? createdSince, DateTime? modifiedSince, string status, string orderBy, bool? descending, int? skip, int? limit);
 
         #endregion
 
@@ -110,21 +112,23 @@ namespace Sheep.Model.Content
         ///     根据用户获取回复数量。
         /// </summary>
         /// <param name="userId">用户的编号。</param>
+        /// <param name="parentType">上级的类型。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
         /// <param name="status"> 过滤状态。</param>
         /// <returns>回复数量。</returns>
-        int GetRepliesCountByUser(int userId, DateTime? createdSince, DateTime? modifiedSince, string status);
+        int GetRepliesCountByUser(int userId, string parentType, DateTime? createdSince, DateTime? modifiedSince, string status);
 
         /// <summary>
         ///     异步根据用户获取回复数量。
         /// </summary>
         /// <param name="userId">用户的编号。</param>
+        /// <param name="parentType">上级的类型。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
         /// <param name="status"> 过滤状态。</param>
         /// <returns>回复数量。</returns>
-        Task<int> GetRepliesCountByUserAsync(int userId, DateTime? createdSince, DateTime? modifiedSince, string status);
+        Task<int> GetRepliesCountByUserAsync(int userId, string parentType, DateTime? createdSince, DateTime? modifiedSince, string status);
 
         #endregion
 

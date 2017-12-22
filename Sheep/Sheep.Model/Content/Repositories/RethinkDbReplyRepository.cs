@@ -195,9 +195,13 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public List<Reply> FindRepliesByUser(int userId, DateTime? createdSince, DateTime? modifiedSince, string status, string orderBy, bool? descending, int? skip, int? limit)
+        public List<Reply> FindRepliesByUser(int userId, string parentType, DateTime? createdSince, DateTime? modifiedSince, string status, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_ReplyTable).GetAll(userId).OptArg("index", "UserId").Filter(true);
+            if (!parentType.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ParentType").Eq(parentType));
+            }
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
@@ -223,9 +227,13 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public Task<List<Reply>> FindRepliesByUserAsync(int userId, DateTime? createdSince, DateTime? modifiedSince, string status, string orderBy, bool? descending, int? skip, int? limit)
+        public Task<List<Reply>> FindRepliesByUserAsync(int userId, string parentType, DateTime? createdSince, DateTime? modifiedSince, string status, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_ReplyTable).GetAll(userId).OptArg("index", "UserId").Filter(true);
+            if (!parentType.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ParentType").Eq(parentType));
+            }
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
@@ -289,9 +297,13 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public int GetRepliesCountByUser(int userId, DateTime? createdSince, DateTime? modifiedSince, string status)
+        public int GetRepliesCountByUser(int userId, string parentType, DateTime? createdSince, DateTime? modifiedSince, string status)
         {
             var query = R.Table(s_ReplyTable).GetAll(userId).OptArg("index", "UserId").Filter(true);
+            if (!parentType.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ParentType").Eq(parentType));
+            }
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
@@ -308,9 +320,13 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public Task<int> GetRepliesCountByUserAsync(int userId, DateTime? createdSince, DateTime? modifiedSince, string status)
+        public Task<int> GetRepliesCountByUserAsync(int userId, string parentType, DateTime? createdSince, DateTime? modifiedSince, string status)
         {
             var query = R.Table(s_ReplyTable).GetAll(userId).OptArg("index", "UserId").Filter(true);
+            if (!parentType.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ParentType").Eq(parentType));
+            }
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));

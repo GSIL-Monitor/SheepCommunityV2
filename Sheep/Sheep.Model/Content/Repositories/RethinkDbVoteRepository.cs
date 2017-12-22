@@ -225,9 +225,13 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public List<Vote> FindVotesByUser(int userId, DateTime? createdSince, DateTime? modifiedSince, string orderBy, bool? descending, int? skip, int? limit)
+        public List<Vote> FindVotesByUser(int userId, string parentType, DateTime? createdSince, DateTime? modifiedSince, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_VoteTable).GetAll(userId).OptArg("index", "UserId").Filter(true);
+            if (!parentType.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ParentType").Eq(parentType));
+            }
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
@@ -249,9 +253,13 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public Task<List<Vote>> FindVotesByUserAsync(int userId, DateTime? createdSince, DateTime? modifiedSince, string orderBy, bool? descending, int? skip, int? limit)
+        public Task<List<Vote>> FindVotesByUserAsync(int userId, string parentType, DateTime? createdSince, DateTime? modifiedSince, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_VoteTable).GetAll(userId).OptArg("index", "UserId").Filter(true);
+            if (!parentType.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ParentType").Eq(parentType));
+            }
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
@@ -303,9 +311,13 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public int GetVotesCountByUser(int userId, DateTime? createdSince, DateTime? modifiedSince)
+        public int GetVotesCountByUser(int userId, string parentType, DateTime? createdSince, DateTime? modifiedSince)
         {
             var query = R.Table(s_VoteTable).GetAll(userId).OptArg("index", "UserId").Filter(true);
+            if (!parentType.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ParentType").Eq(parentType));
+            }
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
@@ -318,9 +330,13 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public Task<int> GetVotesCountByUserAsync(int userId, DateTime? createdSince, DateTime? modifiedSince)
+        public Task<int> GetVotesCountByUserAsync(int userId, string parentType, DateTime? createdSince, DateTime? modifiedSince)
         {
             var query = R.Table(s_VoteTable).GetAll(userId).OptArg("index", "UserId").Filter(true);
+            if (!parentType.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ParentType").Eq(parentType));
+            }
             if (createdSince.HasValue)
             {
                 query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));

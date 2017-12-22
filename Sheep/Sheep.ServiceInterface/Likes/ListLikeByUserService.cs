@@ -7,8 +7,8 @@ using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using ServiceStack.Validation;
 using Sheep.Common.Auth;
-using Sheep.Model.Content;
 using Sheep.Model.Bookstore;
+using Sheep.Model.Content;
 using Sheep.ServiceInterface.Likes.Mappers;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Likes;
@@ -80,7 +80,7 @@ namespace Sheep.ServiceInterface.Likes
             {
                 LikeListByUserValidator.ValidateAndThrow(request, ApplyTo.Get);
             }
-            var existingLikes = await LikeRepo.FindLikesByUserAsync(request.UserId, request.CreatedSince, request.OrderBy, request.Descending, request.Skip, request.Limit);
+            var existingLikes = await LikeRepo.FindLikesByUserAsync(request.UserId, request.ParentType, request.CreatedSince, request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingLikes == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.LikesNotFound));

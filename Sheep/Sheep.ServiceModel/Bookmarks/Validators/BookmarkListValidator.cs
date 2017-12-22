@@ -34,6 +34,13 @@ namespace Sheep.ServiceModel.Bookmarks.Validators
     /// </summary>
     public class BookmarkListByUserValidator : AbstractValidator<BookmarkListByUser>
     {
+        public static readonly HashSet<string> ParentTypes = new HashSet<string>
+                                                             {
+                                                                 "帖子",
+                                                                 "章",
+                                                                 "节"
+                                                             };
+
         public static readonly HashSet<string> OrderBys = new HashSet<string>
                                                           {
                                                               "CreatedDate"
@@ -48,6 +55,7 @@ namespace Sheep.ServiceModel.Bookmarks.Validators
             RuleSet(ApplyTo.Get, () =>
                                  {
                                      RuleFor(x => x.UserId).NotEmpty().WithMessage(Resources.UserIdRequired);
+                                     RuleFor(x => x.ParentType).Must(contentType => ParentTypes.Contains(contentType)).WithMessage(Resources.ParentTypeRangeMismatch, ParentTypes.Join(",")).When(x => !x.ParentType.IsNullOrEmpty());
                                      RuleFor(x => x.OrderBy).Must(orderBy => OrderBys.Contains(orderBy)).WithMessage(Resources.OrderByRangeMismatch, OrderBys.Join(",")).When(x => !x.OrderBy.IsNullOrEmpty());
                                  });
         }
