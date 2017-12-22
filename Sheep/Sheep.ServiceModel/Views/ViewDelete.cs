@@ -1,28 +1,28 @@
 ﻿using System.Runtime.Serialization;
 using ServiceStack;
 
-namespace Sheep.ServiceModel.Likes
+namespace Sheep.ServiceModel.Views
 {
     /// <summary>
-    ///     取消一个点赞的请求。
+    ///     删除一个查看的请求。
     /// </summary>
-    [Route("/likes", HttpMethods.Delete, Summary = "取消一个点赞")]
+    [Route("/views/{ViewId}", HttpMethods.Delete, Summary = "删除一个查看")]
     [DataContract]
-    public class LikeDelete : IReturn<LikeDeleteResponse>
+    public class ViewDelete : IReturn<ViewDeleteResponse>
     {
         /// <summary>
-        ///     上级编号。（如帖子编号）
+        ///     查看编号。
         /// </summary>
         [DataMember(Order = 1, IsRequired = true)]
-        [ApiMember(Description = "上级编号（如帖子编号）")]
-        public string ParentId { get; set; }
+        [ApiMember(Description = "查看编号")]
+        public string ViewId { get; set; }
     }
 
     /// <summary>
-    ///     取消一个点赞的响应。
+    ///     删除一个查看的响应。
     /// </summary>
     [DataContract]
-    public class LikeDeleteResponse : IHasResponseStatus
+    public class ViewDeleteResponse : IHasResponseStatus
     {
         /// <summary>
         ///     处理响应的状态。

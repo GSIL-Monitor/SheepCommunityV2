@@ -11,16 +11,9 @@ namespace Sheep.ServiceModel.Votes
     public class VoteDelete : IReturn<VoteDeleteResponse>
     {
         /// <summary>
-        ///     上级类型。（可选值：评论, 回复）
-        /// </summary>
-        [DataMember(Order = 1, IsRequired = true)]
-        [ApiMember(Description = "上级类型（可选值：评论, 回复）")]
-        public string ParentType { get; set; }
-
-        /// <summary>
         ///     上级编号。（如评论编号）
         /// </summary>
-        [DataMember(Order = 2, IsRequired = true)]
+        [DataMember(Order = 1, IsRequired = true)]
         [ApiMember(Description = "上级编号（如评论编号）")]
         public string ParentId { get; set; }
     }

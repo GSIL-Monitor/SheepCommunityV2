@@ -16,6 +16,8 @@ using ServiceStack.Validation;
 using Sheep.Common.Settings;
 using Sheep.Model.Auth.Events;
 using Sheep.Model.Auth.Providers;
+using Sheep.Model.Bookstore;
+using Sheep.Model.Bookstore.Repositories;
 using Sheep.Model.Content;
 using Sheep.Model.Content.Repositories;
 using Sheep.Model.Corp;
@@ -24,8 +26,6 @@ using Sheep.Model.Friendship;
 using Sheep.Model.Friendship.Repositories;
 using Sheep.Model.Geo;
 using Sheep.Model.Geo.Repositories;
-using Sheep.Model.Bookstore;
-using Sheep.Model.Bookstore.Repositories;
 using Sheep.Model.Security;
 using Sheep.Model.Security.Providers;
 using Sheep.Model.Security.Repositories;
@@ -370,8 +370,10 @@ namespace Sheep
         private void ConfigureContent(Container container)
         {
             container.Register<IPostRepository>(c => new RethinkDbPostRepository(c.Resolve<IConnection>(), AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true));
-            container.Register<ILikeRepository>(c => new RethinkDbLikeRepository(c.Resolve<IConnection>(), AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true));
             container.Register<ICommentRepository>(c => new RethinkDbCommentRepository(c.Resolve<IConnection>(), AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true));
+            container.Register<ILikeRepository>(c => new RethinkDbLikeRepository(c.Resolve<IConnection>(), AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true));
+            container.Register<IBookmarkRepository>(c => new RethinkDbBookmarkRepository(c.Resolve<IConnection>(), AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true));
+            container.Register<IViewRepository>(c => new RethinkDbViewRepository(c.Resolve<IConnection>(), AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true));
             container.Register<IReplyRepository>(c => new RethinkDbReplyRepository(c.Resolve<IConnection>(), AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true));
             container.Register<IVoteRepository>(c => new RethinkDbVoteRepository(c.Resolve<IConnection>(), AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true));
         }

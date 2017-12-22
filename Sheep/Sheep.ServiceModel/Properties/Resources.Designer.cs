@@ -367,6 +367,15 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
+        ///   查找类似 上级编号列表必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string ParentIdsRequired {
+            get {
+                return ResourceManager.GetString("ParentIdsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 上级类型的有效范围为:{0}。 的本地化字符串。
         /// </summary>
         internal static string ParentTypeRangeMismatch {
@@ -669,6 +678,15 @@ namespace Sheep.ServiceModel.Properties {
         internal static string ValueRequired {
             get {
                 return ResourceManager.GetString("ValueRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 查看编号必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string ViewIdRequired {
+            get {
+                return ResourceManager.GetString("ViewIdRequired", resourceCulture);
             }
         }
         

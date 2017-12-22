@@ -92,7 +92,7 @@ namespace Sheep.ServiceInterface.Votes
             }
             await VoteRepo.DeleteVoteAsync(request.ParentId, userId);
             ResetCache(existingVote);
-            switch (request.ParentType)
+            switch (existingVote.ParentType)
             {
                 case "评论":
                     if (existingVote.Value)

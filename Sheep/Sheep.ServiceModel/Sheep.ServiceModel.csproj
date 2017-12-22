@@ -340,6 +340,17 @@
     <Compile Include="Users\UserShow.cs" />
     <Compile Include="Users\Validators\UserListValidator.cs" />
     <Compile Include="Users\Validators\UserShowValidator.cs" />
+    <Compile Include="Views\Entities\ViewDto.cs" />
+    <Compile Include="Views\Validators\ViewBatchCreateValidator.cs" />
+    <Compile Include="Views\ViewBatchCreate.cs" />
+    <Compile Include="Views\ViewCreate.cs" />
+    <Compile Include="Views\ViewDelete.cs" />
+    <Compile Include="Views\ViewList.cs" />
+    <Compile Include="Views\ViewShow.cs" />
+    <Compile Include="Views\Validators\ViewCreateValidator.cs" />
+    <Compile Include="Views\Validators\ViewDeleteValidator.cs" />
+    <Compile Include="Views\Validators\ViewListValidator.cs" />
+    <Compile Include="Views\Validators\ViewShowValidator.cs" />
     <Compile Include="Volumes\Entities\VolumeAnnotationDto.cs" />
     <Compile Include="Volumes\Entities\VolumeDto.cs" />
     <Compile Include="Volumes\Validators\VolumeAnnotationCreateValidator.cs" />

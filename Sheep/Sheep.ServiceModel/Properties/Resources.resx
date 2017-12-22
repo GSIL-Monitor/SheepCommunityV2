@@ -345,4 +345,10 @@
   <data name="ParagraphNumberRequired" xml:space="preserve">
     <value>节序号必须输入。</value>
   </data>
+  <data name="ViewIdRequired" xml:space="preserve">
+    <value>查看编号必须输入。</value>
+  </data>
+  <data name="ParentIdsRequired" xml:space="preserve">
+    <value>上级编号列表必须输入。</value>
+  </data>
 </root>
