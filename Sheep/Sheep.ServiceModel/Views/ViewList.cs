@@ -35,7 +35,7 @@ namespace Sheep.ServiceModel.Views
         public DateTime? CreatedSince { get; set; }
 
         /// <summary>
-        ///     排序的字段。（可选值：CreatedDate 默认为 CreatedDate）
+        ///     排序的字段。（可选值：ParentId, CreatedDate 默认为 CreatedDate）
         /// </summary>
         [DataMember(Order = 4, Name = "orderby")]
         [ApiMember(Description = "排序的字段（可选值：CreatedDate 默认为 CreatedDate）")]

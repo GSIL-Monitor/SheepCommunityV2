@@ -100,6 +100,185 @@ namespace Sheep.ServiceModel.Posts
     }
 
     /// <summary>
+    ///     根据作者查询并列举一组帖子的请求。
+    /// </summary>
+    [Route("/posts/query/byauthor", HttpMethods.Get, Summary = "根据作者查询并列举一组帖子信息")]
+    [DataContract]
+    public class PostListByAuthor : IReturn<PostListResponse>
+    {
+        /// <summary>
+        ///     作者的用户编号。
+        /// </summary>
+        [DataMember(Order = 1, Name = "authorid", IsRequired = true)]
+        [ApiMember(Description = "作者的用户编号")]
+        public int AuthorId { get; set; }
+
+        /// <summary>
+        ///     分类的标签。
+        /// </summary>
+        [DataMember(Order = 2, Name = "tag")]
+        [ApiMember(Description = "分类的标签")]
+        public string Tag { get; set; }
+
+        /// <summary>
+        ///     内容的类型。（可选值：图文, 音频, 视频）
+        /// </summary>
+        [DataMember(Order = 3, Name = "contenttype")]
+        [ApiMember(Description = "内容的类型（可选值：图文, 音频, 视频）")]
+        public string ContentType { get; set; }
+
+        /// <summary>
+        ///     创建日期在指定的时间之后。
+        /// </summary>
+        [DataMember(Order = 4, Name = "createdsince")]
+        [ApiMember(Description = "创建日期在指定的时间之后")]
+        public DateTime? CreatedSince { get; set; }
+
+        /// <summary>
+        ///     修改日期在指定的时间之后。
+        /// </summary>
+        [DataMember(Order = 5, Name = "modifiedsince")]
+        [ApiMember(Description = "修改日期在指定的时间之后")]
+        public DateTime? ModifiedSince { get; set; }
+
+        /// <summary>
+        ///     发布日期在指定的时间之后。
+        /// </summary>
+        [DataMember(Order = 6, Name = "publishedsince")]
+        [ApiMember(Description = "发布日期在指定的时间之后")]
+        public DateTime? PublishedSince { get; set; }
+
+        /// <summary>
+        ///     是否已发布。
+        /// </summary>
+        [DataMember(Order = 7, Name = "ispublished")]
+        [ApiMember(Description = "是否已发布")]
+        public bool? IsPublished { get; set; }
+
+        /// <summary>
+        ///     是否标记为精选。
+        /// </summary>
+        [DataMember(Order = 8, Name = "isfeatured")]
+        [ApiMember(Description = "是否标记为精选")]
+        public bool? IsFeatured { get; set; }
+
+        /// <summary>
+        ///     排序的字段。（可选值： CreatedDate, ModifiedDate, PublishedDate, ViewsCount, BookmarksCount, CommentsCount, LikesCount,
+        ///     RatingsCount, RatingsAverageValue, SharesCount, AbuseReportsCount, ContentQuality 默认为 CreatedDate）
+        /// </summary>
+        [DataMember(Order = 9, Name = "orderby")]
+        [ApiMember(Description = "排序的字段（可选值：CreatedDate, ModifiedDate, PublishedDate, ViewsCount, BookmarksCount, CommentsCount, LikesCount, RatingsCount, RatingsAverageValue, SharesCount, AbuseReportsCount, ContentQuality 默认为 CreatedDate）")]
+        public string OrderBy { get; set; }
+
+        /// <summary>
+        ///     是否按降序排序。
+        /// </summary>
+        [DataMember(Order = 10, Name = "descending")]
+        [ApiMember(Description = "是否按降序排序")]
+        public bool? Descending { get; set; }
+
+        /// <summary>
+        ///     忽略的行数。
+        /// </summary>
+        [DataMember(Order = 11, Name = "skip")]
+        [ApiMember(Description = "忽略的行数")]
+        public int? Skip { get; set; }
+
+        /// <summary>
+        ///     获取的行数。
+        /// </summary>
+        [DataMember(Order = 12, Name = "limit")]
+        [ApiMember(Description = "获取的行数")]
+        public int? Limit { get; set; }
+    }
+
+    /// <summary>
+    ///     根据已关注的作者列表查询并列举一组帖子的请求。
+    /// </summary>
+    [Route("/posts/query/byfollowingowners", HttpMethods.Get, Summary = "根据已关注的作者列表查询并列举一组帖子信息")]
+    [DataContract]
+    public class PostListByFollowingOwners : IReturn<PostListResponse>
+    {
+        /// <summary>
+        ///     分类的标签。
+        /// </summary>
+        [DataMember(Order = 1, Name = "tag")]
+        [ApiMember(Description = "分类的标签")]
+        public string Tag { get; set; }
+
+        /// <summary>
+        ///     内容的类型。（可选值：图文, 音频, 视频）
+        /// </summary>
+        [DataMember(Order = 2, Name = "contenttype")]
+        [ApiMember(Description = "内容的类型（可选值：图文, 音频, 视频）")]
+        public string ContentType { get; set; }
+
+        /// <summary>
+        ///     创建日期在指定的时间之后。
+        /// </summary>
+        [DataMember(Order = 3, Name = "createdsince")]
+        [ApiMember(Description = "创建日期在指定的时间之后")]
+        public DateTime? CreatedSince { get; set; }
+
+        /// <summary>
+        ///     修改日期在指定的时间之后。
+        /// </summary>
+        [DataMember(Order = 4, Name = "modifiedsince")]
+        [ApiMember(Description = "修改日期在指定的时间之后")]
+        public DateTime? ModifiedSince { get; set; }
+
+        /// <summary>
+        ///     发布日期在指定的时间之后。
+        /// </summary>
+        [DataMember(Order = 5, Name = "publishedsince")]
+        [ApiMember(Description = "发布日期在指定的时间之后")]
+        public DateTime? PublishedSince { get; set; }
+
+        /// <summary>
+        ///     是否已发布。
+        /// </summary>
+        [DataMember(Order = 6, Name = "ispublished")]
+        [ApiMember(Description = "是否已发布")]
+        public bool? IsPublished { get; set; }
+
+        /// <summary>
+        ///     是否标记为精选。
+        /// </summary>
+        [DataMember(Order = 7, Name = "isfeatured")]
+        [ApiMember(Description = "是否标记为精选")]
+        public bool? IsFeatured { get; set; }
+
+        /// <summary>
+        ///     排序的字段。（可选值： CreatedDate, ModifiedDate, PublishedDate, ViewsCount, BookmarksCount, CommentsCount, LikesCount,
+        ///     RatingsCount, RatingsAverageValue, SharesCount, AbuseReportsCount, ContentQuality 默认为 CreatedDate）
+        /// </summary>
+        [DataMember(Order = 8, Name = "orderby")]
+        [ApiMember(Description = "排序的字段（可选值：CreatedDate, ModifiedDate, PublishedDate, ViewsCount, BookmarksCount, CommentsCount, LikesCount, RatingsCount, RatingsAverageValue, SharesCount, AbuseReportsCount, ContentQuality 默认为 CreatedDate）")]
+        public string OrderBy { get; set; }
+
+        /// <summary>
+        ///     是否按降序排序。
+        /// </summary>
+        [DataMember(Order = 9, Name = "descending")]
+        [ApiMember(Description = "是否按降序排序")]
+        public bool? Descending { get; set; }
+
+        /// <summary>
+        ///     忽略的行数。
+        /// </summary>
+        [DataMember(Order = 10, Name = "skip")]
+        [ApiMember(Description = "忽略的行数")]
+        public int? Skip { get; set; }
+
+        /// <summary>
+        ///     获取的行数。
+        /// </summary>
+        [DataMember(Order = 11, Name = "limit")]
+        [ApiMember(Description = "获取的行数")]
+        public int? Limit { get; set; }
+    }
+
+    /// <summary>
     ///     查询并列举一组帖子的响应。
     /// </summary>
     [DataContract]

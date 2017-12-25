@@ -69,7 +69,7 @@ namespace Sheep.ServiceInterface.Follows
             {
                 throw HttpError.NotFound(string.Format(Resources.FollowsNotFound));
             }
-            var followersMap = (await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthsAsync(existingFollows.Select(follow => follow.FollowerId.ToString()).Distinct())).ToDictionary(userAuth => userAuth.Id, userAuth => userAuth);
+            var followersMap = (await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthsAsync(existingFollows.Select(follow => follow.FollowerId.ToString()).Distinct().ToList())).ToDictionary(userAuth => userAuth.Id, userAuth => userAuth);
             var followsDto = existingFollows.Select(follow => follow.MapToFollowOfFollowerDto(followersMap.GetValueOrDefault(follow.FollowerId))).ToList();
             return new FollowListOfFollowerResponse
                    {

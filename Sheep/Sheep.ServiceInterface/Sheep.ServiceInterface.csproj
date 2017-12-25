@@ -230,7 +230,11 @@
     <Compile Include="Posts\ChangePostService.cs" />
     <Compile Include="Posts\CreatePostService.cs" />
     <Compile Include="Posts\DeletePostService.cs" />
+    <Compile Include="Posts\ListBasicPostByFollowingOwnersService.cs" />
+    <Compile Include="Posts\ListBasicPostByAuthorService.cs" />
     <Compile Include="Posts\ListBasicPostService.cs" />
+    <Compile Include="Posts\ListPostByFollowingOwnersService.cs" />
+    <Compile Include="Posts\ListPostByAuthorService.cs" />
     <Compile Include="Posts\ListPostService.cs" />
     <Compile Include="Posts\Mappers\PostToBasicPostDtoMapper.cs" />
     <Compile Include="Posts\Mappers\PostToPostDtoMapper.cs" />

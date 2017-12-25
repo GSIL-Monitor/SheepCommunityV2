@@ -75,7 +75,7 @@ namespace Sheep.ServiceInterface.Comments
             {
                 throw HttpError.NotFound(string.Format(Resources.CommentsNotFound));
             }
-            var usersMap = (await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthsAsync(existingComments.Select(comment => comment.UserId.ToString()).Distinct())).ToDictionary(userAuth => userAuth.Id, userAuth => userAuth);
+            var usersMap = (await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthsAsync(existingComments.Select(comment => comment.UserId.ToString()).Distinct().ToList())).ToDictionary(userAuth => userAuth.Id, userAuth => userAuth);
             var currentUserId = GetSession().UserAuthId.ToInt(0);
             var votesMap = (await VoteRepo.GetVotesAsync(existingComments.Select(comment => new Tuple<string, int>(comment.Id, currentUserId)).ToList())).ToDictionary(vote => vote.ParentId, vote => vote);
             var commentsDto = existingComments.Select(comment => comment.MapToCommentDto(usersMap.GetValueOrDefault(comment.UserId), votesMap.GetValueOrDefault(comment.Id)?.Value ?? false, !votesMap.GetValueOrDefault(comment.Id)?.Value ?? false)).ToList();

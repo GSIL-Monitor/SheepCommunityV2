@@ -8,6 +8,7 @@ using ServiceStack.Logging;
 using ServiceStack.Validation;
 using Sheep.Common.Auth;
 using Sheep.Model.Content;
+using Sheep.Model.Friendship;
 using Sheep.ServiceInterface.Posts.Mappers;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Posts;
@@ -15,16 +16,16 @@ using Sheep.ServiceModel.Posts;
 namespace Sheep.ServiceInterface.Posts
 {
     /// <summary>
-    ///     列举一组帖子基本信息服务接口。
+    ///     根据已关注的作者列表列举一组帖子基本信息服务接口。
     /// </summary>
-    public class ListBasicPostService : Service
+    public class ListBasicPostByFollowingOwnersService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(ListBasicPostService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(ListBasicPostByFollowingOwnersService));
 
         #endregion
 
@@ -36,14 +37,19 @@ namespace Sheep.ServiceInterface.Posts
         public IAppSettings AppSettings { get; set; }
 
         /// <summary>
-        ///     获取及设置列举一组帖子基本信息的校验器。
+        ///     获取及设置根据已关注的作者列表列举一组帖子基本信息的校验器。
         /// </summary>
-        public IValidator<BasicPostList> BasicPostListValidator { get; set; }
+        public IValidator<BasicPostListByFollowingOwners> BasicPostListByFollowingOwnersValidator { get; set; }
 
         /// <summary>
         ///     获取及设置用户身份的存储库。
         /// </summary>
         public IUserAuthRepository AuthRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置关注的存储库。
+        /// </summary>
+        public IFollowRepository FollowRepo { get; set; }
 
         /// <summary>
         ///     获取及设置帖子的存储库。
@@ -52,19 +58,29 @@ namespace Sheep.ServiceInterface.Posts
 
         #endregion
 
-        #region 列举一组帖子基本信息
+        #region 根据已关注的作者列表列举一组帖子基本信息
 
         /// <summary>
-        ///     列举一组帖子基本信息。
+        ///     根据已关注的作者列表列举一组帖子基本信息。
         /// </summary>
-        [CacheResponse(Duration = 600)]
-        public async Task<object> Get(BasicPostList request)
+        //[CacheResponse(Duration = 600)]
+        public async Task<object> Get(BasicPostListByFollowingOwners request)
         {
+            if (!IsAuthenticated)
+            {
+                throw HttpError.Unauthorized(Resources.LoginRequired);
+            }
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
-                BasicPostListValidator.ValidateAndThrow(request, ApplyTo.Get);
+                BasicPostListByFollowingOwnersValidator.ValidateAndThrow(request, ApplyTo.Get);
             }
-            var existingPosts = await PostRepo.FindPostsAsync(request.TitleFilter, request.Tag, request.ContentType, request.CreatedSince, request.ModifiedSince, request.PublishedSince, request.IsPublished, request.IsFeatured, "审核通过", request.OrderBy, request.Descending, request.Skip, request.Limit);
+            var currentUserId = GetSession().UserAuthId.ToInt(0);
+            var existingFollows = await FollowRepo.FindFollowsByFollowerAsync(currentUserId, null, null, null, null, null, null);
+            if (existingFollows == null)
+            {
+                throw HttpError.NotFound(string.Format(Resources.FollowsNotFound));
+            }
+            var existingPosts = await PostRepo.FindPostsByAuthorsAsync(existingFollows.Select(follow => follow.OwnerId).Distinct().ToList(), request.Tag, request.ContentType, request.CreatedSince, request.ModifiedSince, request.PublishedSince, request.IsPublished ?? true, request.IsFeatured, "审核通过", request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingPosts == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.PostsNotFound));

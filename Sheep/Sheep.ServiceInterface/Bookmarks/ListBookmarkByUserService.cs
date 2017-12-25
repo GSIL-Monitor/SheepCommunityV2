@@ -88,7 +88,7 @@ namespace Sheep.ServiceInterface.Bookmarks
             var postTitlesMap = (await PostRepo.GetPostsAsync(existingBookmarks.Where(bookmark => bookmark.ParentType == "帖子").Select(bookmark => bookmark.ParentId).Distinct().ToList())).ToDictionary(post => post.Id, post => post.Title);
             var chapterTitlesMap = (await ChapterRepo.GetChaptersAsync(existingBookmarks.Where(bookmark => bookmark.ParentType == "章").Select(bookmark => bookmark.ParentId).Distinct().ToList())).ToDictionary(chapter => chapter.Id, chapter => chapter.Title);
             var paragraphTitlesMap = (await ParagraphRepo.GetParagraphsAsync(existingBookmarks.Where(bookmark => bookmark.ParentType == "节").Select(bookmark => bookmark.ParentId).Distinct().ToList())).ToDictionary(paragraph => paragraph.Id, paragraph => paragraph.Content);
-            var usersMap = (await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthsAsync(existingBookmarks.Select(bookmark => bookmark.UserId.ToString()).Distinct())).ToDictionary(userAuth => userAuth.Id, userAuth => userAuth);
+            var usersMap = (await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthsAsync(existingBookmarks.Select(bookmark => bookmark.UserId.ToString()).Distinct().ToList())).ToDictionary(userAuth => userAuth.Id, userAuth => userAuth);
             var bookmarksDto = existingBookmarks.Select(bookmark => bookmark.MapToBookmarkDto(usersMap.GetValueOrDefault(bookmark.UserId), bookmark.ParentType == "帖子" ? postTitlesMap.GetValueOrDefault(bookmark.ParentId) : (bookmark.ParentType == "章" ? chapterTitlesMap.GetValueOrDefault(bookmark.ParentId) : paragraphTitlesMap.GetValueOrDefault(bookmark.ParentId)))).ToList();
             return new BookmarkListResponse
                    {

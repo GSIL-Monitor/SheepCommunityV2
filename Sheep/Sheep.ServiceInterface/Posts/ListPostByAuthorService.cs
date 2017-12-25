@@ -15,16 +15,16 @@ using Sheep.ServiceModel.Posts;
 namespace Sheep.ServiceInterface.Posts
 {
     /// <summary>
-    ///     列举一组帖子基本信息服务接口。
+    ///     根据作者列举一组帖子服务接口。
     /// </summary>
-    public class ListBasicPostService : Service
+    public class ListPostByAuthorService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(ListBasicPostService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(ListPostByAuthorService));
 
         #endregion
 
@@ -36,9 +36,9 @@ namespace Sheep.ServiceInterface.Posts
         public IAppSettings AppSettings { get; set; }
 
         /// <summary>
-        ///     获取及设置列举一组帖子基本信息的校验器。
+        ///     获取及设置根据作者列举一组帖子的校验器。
         /// </summary>
-        public IValidator<BasicPostList> BasicPostListValidator { get; set; }
+        public IValidator<PostListByAuthor> PostListByAuthorValidator { get; set; }
 
         /// <summary>
         ///     获取及设置用户身份的存储库。
@@ -50,28 +50,40 @@ namespace Sheep.ServiceInterface.Posts
         /// </summary>
         public IPostRepository PostRepo { get; set; }
 
-        #endregion
-
-        #region 列举一组帖子基本信息
+        /// <summary>
+        ///     获取及设置评论的存储库。
+        /// </summary>
+        public ICommentRepository CommentRepo { get; set; }
 
         /// <summary>
-        ///     列举一组帖子基本信息。
+        ///     获取及设置点赞的存储库。
         /// </summary>
-        [CacheResponse(Duration = 600)]
-        public async Task<object> Get(BasicPostList request)
+        public ILikeRepository LikeRepo { get; set; }
+
+        #endregion
+
+        #region 根据作者列举一组帖子
+
+        /// <summary>
+        ///     根据作者列举一组帖子。
+        /// </summary>
+        //[CacheResponse(Duration = 600)]
+        public async Task<object> Get(PostListByAuthor request)
         {
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
-                BasicPostListValidator.ValidateAndThrow(request, ApplyTo.Get);
+                PostListByAuthorValidator.ValidateAndThrow(request, ApplyTo.Get);
             }
-            var existingPosts = await PostRepo.FindPostsAsync(request.TitleFilter, request.Tag, request.ContentType, request.CreatedSince, request.ModifiedSince, request.PublishedSince, request.IsPublished, request.IsFeatured, "审核通过", request.OrderBy, request.Descending, request.Skip, request.Limit);
+            var existingPosts = await PostRepo.FindPostsByAuthorAsync(request.AuthorId, request.Tag, request.ContentType, request.CreatedSince, request.ModifiedSince, request.PublishedSince, request.IsPublished, request.IsFeatured, "审核通过", request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingPosts == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.PostsNotFound));
             }
             var authorsMap = (await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthsAsync(existingPosts.Select(post => post.AuthorId.ToString()).Distinct().ToList())).ToDictionary(author => author.Id, author => author);
-            var postsDto = existingPosts.Select(post => post.MapToBasicPostDto(authorsMap.GetValueOrDefault(post.AuthorId))).ToList();
-            return new BasicPostListResponse
+            var currentUserId = GetSession().UserAuthId.ToInt(0);
+            var commentsMap = (await CommentRepo.GetCommentsCountByParentsAsync(existingPosts.Select(post => post.Id).ToList(), currentUserId, null, null, null, "审核通过")).ToDictionary(pair => pair.Key, pair => pair.Value);
+            var postsDto = existingPosts.Select(post => post.MapToPostDto(authorsMap.GetValueOrDefault(post.AuthorId), commentsMap.GetValueOrDefault(post.Id) > 0)).ToList();
+            return new PostListResponse
                    {
                        Posts = postsDto
                    };

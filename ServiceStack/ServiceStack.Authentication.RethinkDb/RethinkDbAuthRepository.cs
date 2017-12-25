@@ -741,7 +741,7 @@ namespace ServiceStack.Authentication.RethinkDb
         }
 
         /// <inheritdoc />
-        public async Task<List<IUserAuth>> GetUserAuthsAsync(IEnumerable<string> userAuthIds)
+        public async Task<List<IUserAuth>> GetUserAuthsAsync(List<string> userAuthIds)
         {
             if (userAuthIds == null)
             {

@@ -21,7 +21,6 @@ namespace Sheep.Model.Corp.Entities
         /// <summary>
         ///     显示名称。
         /// </summary>
-        [Required]
         public string DisplayName { get; set; }
 
         /// <summary>

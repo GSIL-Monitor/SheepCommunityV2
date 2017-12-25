@@ -41,7 +41,7 @@ namespace Sheep.Model.Content
         Task<List<Post>> GetPostsAsync(List<string> postIds);
 
         /// <summary>
-        ///     查找帖子。
+        ///     查找帖子列表。
         /// </summary>
         /// <param name="titleFilter">过滤标题及概要的表达式。</param>
         /// <param name="tag">分类的标签。</param>
@@ -60,7 +60,7 @@ namespace Sheep.Model.Content
         List<Post> FindPosts(string titleFilter, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
-        ///     异步查找帖子。
+        ///     异步查找帖子列表。
         /// </summary>
         /// <param name="titleFilter">过滤标题及概要的表达式。</param>
         /// <param name="tag">分类的标签。</param>
@@ -79,7 +79,7 @@ namespace Sheep.Model.Content
         Task<List<Post>> FindPostsAsync(string titleFilter, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
-        ///     根据作者查找帖子。
+        ///     根据作者查找帖子列表。
         /// </summary>
         /// <param name="authorId">作者的用户编号。</param>
         /// <param name="contentType">内容的类型。</param>
@@ -98,7 +98,7 @@ namespace Sheep.Model.Content
         List<Post> FindPostsByAuthor(int authorId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
-        ///     异步根据作者查找帖子。
+        ///     异步根据作者查找帖子列表。
         /// </summary>
         /// <param name="authorId">作者的用户编号。</param>
         /// <param name="tag">分类的标签。</param>
@@ -117,7 +117,45 @@ namespace Sheep.Model.Content
         Task<List<Post>> FindPostsByAuthorAsync(int authorId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
-        ///     根据群组查找帖子。
+        ///     根据作者列表查找帖子列表。
+        /// </summary>
+        /// <param name="authorIds">作者的用户编号列表。</param>
+        /// <param name="contentType">内容的类型。</param>
+        /// <param name="tag">分类的标签。</param>
+        /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
+        /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
+        /// <param name="publishedSince">过滤发布日期在指定的时间之后。</param>
+        /// <param name="isPublished">是否已发布。</param>
+        /// <param name="isFeatured">是否标记为精选。</param>
+        /// <param name="status"> 过滤状态。</param>
+        /// <param name="orderBy">排序的字段。</param>
+        /// <param name="descending">是否按降序排序。</param>
+        /// <param name="skip">忽略的行数。</param>
+        /// <param name="limit">获取的行数。</param>
+        /// <returns>帖子列表。</returns>
+        List<Post> FindPostsByAuthors(List<int> authorIds, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status, string orderBy, bool? descending, int? skip, int? limit);
+
+        /// <summary>
+        ///     异步根据作者列表查找帖子列表。
+        /// </summary>
+        /// <param name="authorIds">作者的用户编号列表。</param>
+        /// <param name="tag">分类的标签。</param>
+        /// <param name="contentType">内容的类型。</param>
+        /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
+        /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
+        /// <param name="publishedSince">过滤发布日期在指定的时间之后。</param>
+        /// <param name="isPublished">是否已发布。</param>
+        /// <param name="isFeatured">是否标记为精选。</param>
+        /// <param name="status"> 过滤状态。</param>
+        /// <param name="orderBy">排序的字段。</param>
+        /// <param name="descending">是否按降序排序。</param>
+        /// <param name="skip">忽略的行数。</param>
+        /// <param name="limit">获取的行数。</param>
+        /// <returns>帖子列表。</returns>
+        Task<List<Post>> FindPostsByAuthorsAsync(List<int> authorIds, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status, string orderBy, bool? descending, int? skip, int? limit);
+
+        /// <summary>
+        ///     根据群组查找帖子列表。
         /// </summary>
         /// <param name="groupId">群组的编号。</param>
         /// <param name="tag">分类的标签。</param>
@@ -136,7 +174,7 @@ namespace Sheep.Model.Content
         List<Post> FindPostsByGroup(string groupId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
-        ///     异步根据群组查找帖子。
+        ///     异步根据群组查找帖子列表。
         /// </summary>
         /// <param name="groupId">群组的编号。</param>
         /// <param name="tag">分类的标签。</param>
@@ -189,7 +227,7 @@ namespace Sheep.Model.Content
         Task<int> GetPostsCountAsync(string titleFilter, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status);
 
         /// <summary>
-        ///     根据作者查找帖子。
+        ///     根据作者查找帖子数量。
         /// </summary>
         /// <param name="authorId">作者的用户编号。</param>
         /// <param name="contentType">内容的类型。</param>
@@ -217,6 +255,36 @@ namespace Sheep.Model.Content
         /// <param name="status"> 过滤状态。</param>
         /// <returns>帖子数量。</returns>
         Task<int> GetPostsCountByAuthorAsync(int authorId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status);
+
+        /// <summary>
+        ///     根据作者列表查找帖子数量。
+        /// </summary>
+        /// <param name="authorIds">作者的用户编号列表。</param>
+        /// <param name="contentType">内容的类型。</param>
+        /// <param name="tag">分类的标签。</param>
+        /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
+        /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
+        /// <param name="publishedSince">过滤发布日期在指定的时间之后。</param>
+        /// <param name="isPublished">是否已发布。</param>
+        /// <param name="isFeatured">是否标记为精选。</param>
+        /// <param name="status"> 过滤状态。</param>
+        /// <returns>帖子数量。</returns>
+        int GetPostsCountByAuthors(List<int> authorIds, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status);
+
+        /// <summary>
+        ///     异步根据作者获取帖子数量。
+        /// </summary>
+        /// <param name="authorIds">作者的用户编号列表。</param>
+        /// <param name="tag">分类的标签。</param>
+        /// <param name="contentType">内容的类型。</param>
+        /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
+        /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
+        /// <param name="publishedSince">过滤发布日期在指定的时间之后。</param>
+        /// <param name="isPublished">是否已发布。</param>
+        /// <param name="isFeatured">是否标记为精选。</param>
+        /// <param name="status"> 过滤状态。</param>
+        /// <returns>帖子数量。</returns>
+        Task<int> GetPostsCountByAuthorsAsync(List<int> authorIds, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status);
 
         /// <summary>
         ///     根据群组获取帖子数量。

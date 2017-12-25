@@ -89,7 +89,7 @@ namespace Sheep.ServiceInterface.Views
             var postTitlesMap = (await PostRepo.GetPostsAsync(existingViews.Where(view => view.ParentType == "帖子").Select(view => view.ParentId).Distinct().ToList())).ToDictionary(post => post.Id, post => post.Title);
             var chapterTitlesMap = (await ChapterRepo.GetChaptersAsync(existingViews.Where(view => view.ParentType == "章").Select(view => view.ParentId).Distinct().ToList())).ToDictionary(chapter => chapter.Id, chapter => chapter.Title);
             var paragraphTitlesMap = (await ParagraphRepo.GetParagraphsAsync(existingViews.Where(view => view.ParentType == "节").Select(view => view.ParentId).Distinct().ToList())).ToDictionary(paragraph => paragraph.Id, paragraph => paragraph.Content);
-            var usersMap = (await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthsAsync(existingViews.Select(view => view.UserId.ToString()).Distinct())).ToDictionary(userAuth => userAuth.Id, userAuth => userAuth);
+            var usersMap = (await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthsAsync(existingViews.Select(view => view.UserId.ToString()).Distinct().ToList())).ToDictionary(userAuth => userAuth.Id, userAuth => userAuth);
             var viewsDto = existingViews.Select(view => view.MapToViewDto(usersMap.GetValueOrDefault(view.UserId), view.ParentType == "帖子" ? postTitlesMap.GetValueOrDefault(view.ParentId) : (view.ParentType == "章" ? chapterTitlesMap.GetValueOrDefault(view.ParentId) : paragraphTitlesMap.GetValueOrDefault(view.ParentId)))).ToList();
             return new ViewListResponse
                    {

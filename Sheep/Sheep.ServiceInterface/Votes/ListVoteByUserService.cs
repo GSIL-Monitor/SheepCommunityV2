@@ -69,7 +69,7 @@ namespace Sheep.ServiceInterface.Votes
             {
                 throw HttpError.NotFound(string.Format(Resources.VotesNotFound));
             }
-            var usersMap = (await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthsAsync(existingVotes.Select(vote => vote.UserId.ToString()).Distinct())).ToDictionary(userAuth => userAuth.Id, userAuth => userAuth);
+            var usersMap = (await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthsAsync(existingVotes.Select(vote => vote.UserId.ToString()).Distinct().ToList())).ToDictionary(userAuth => userAuth.Id, userAuth => userAuth);
             var votesDto = existingVotes.Select(vote => vote.MapToVoteDto(usersMap.GetValueOrDefault(vote.UserId))).ToList();
             return new VoteListResponse
                    {
