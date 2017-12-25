@@ -30,14 +30,14 @@ namespace Sheep.Model.Bookstore
         /// </summary>
         /// <param name="paragraphIds">节的编号列表。</param>
         /// <returns>节。</returns>
-        List<Paragraph> GetParagraphs(IEnumerable<string> paragraphIds);
+        List<Paragraph> GetParagraphs(List<string> paragraphIds);
 
         /// <summary>
         ///     异步获取节列表。
         /// </summary>
         /// <param name="paragraphIds">节的编号列表。</param>
         /// <returns>节。</returns>
-        Task<List<Paragraph>> GetParagraphsAsync(IEnumerable<string> paragraphIds);
+        Task<List<Paragraph>> GetParagraphsAsync(List<string> paragraphIds);
 
         /// <summary>
         ///     根据章及序号获取节。
@@ -59,8 +59,8 @@ namespace Sheep.Model.Bookstore
         ///     根据书籍及章序号及序号获取节。
         /// </summary>
         /// <param name="bookId">书籍的编号。</param>
-        /// <param name="volumeNumber">卷的编号。</param>
-        /// <param name="chapterNumber">章的编号。</param>
+        /// <param name="volumeNumber">卷的序号。</param>
+        /// <param name="chapterNumber">章的序号。</param>
         /// <param name="number">序号。</param>
         /// <returns>节。</returns>
         Paragraph GetParagraph(string bookId, int volumeNumber, int chapterNumber, int number);
@@ -69,8 +69,8 @@ namespace Sheep.Model.Bookstore
         ///     异步根据书籍及章序号及序号获取节。
         /// </summary>
         /// <param name="bookId">书籍的编号。</param>
-        /// <param name="volumeNumber">卷的编号。</param>
-        /// <param name="chapterNumber">章的编号。</param>
+        /// <param name="volumeNumber">卷的序号。</param>
+        /// <param name="chapterNumber">章的序号。</param>
         /// <param name="number">序号。</param>
         /// <returns>节。</returns>
         Task<Paragraph> GetParagraphAsync(string bookId, int volumeNumber, int chapterNumber, int number);
@@ -79,8 +79,8 @@ namespace Sheep.Model.Bookstore
         ///     查找节。
         /// </summary>
         /// <param name="bookId">书籍的编号。</param>
-        /// <param name="volumeNumber">卷的编号。</param>
-        /// <param name="chapterNumber">章的编号。</param>
+        /// <param name="volumeNumber">卷的序号。</param>
+        /// <param name="chapterNumber">章的序号。</param>
         /// <param name="contentFilter">过滤内容的表达式。</param>
         /// <param name="orderBy">排序的字段。</param>
         /// <param name="descending">是否按降序排序。</param>
@@ -93,8 +93,8 @@ namespace Sheep.Model.Bookstore
         ///     异步查找节。
         /// </summary>
         /// <param name="bookId">书籍的编号。</param>
-        /// <param name="volumeNumber">卷的编号。</param>
-        /// <param name="chapterNumber">章的编号。</param>
+        /// <param name="volumeNumber">卷的序号。</param>
+        /// <param name="chapterNumber">章的序号。</param>
         /// <param name="contentFilter">过滤内容的表达式。</param>
         /// <param name="orderBy">排序的字段。</param>
         /// <param name="descending">是否按降序排序。</param>
@@ -134,7 +134,7 @@ namespace Sheep.Model.Bookstore
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>节列表。</returns>
-        List<Paragraph> FindParagraphsByChapters(IEnumerable<string> chapterIds, string orderBy, bool? descending, int? skip, int? limit);
+        List<Paragraph> FindParagraphsByChapters(List<string> chapterIds, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
         ///     异步根据章列表查找节。
@@ -145,7 +145,7 @@ namespace Sheep.Model.Bookstore
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>节列表。</returns>
-        Task<List<Paragraph>> FindParagraphsByChaptersAsync(IEnumerable<string> chapterIds, string orderBy, bool? descending, int? skip, int? limit);
+        Task<List<Paragraph>> FindParagraphsByChaptersAsync(List<string> chapterIds, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
         ///     根据主题查找节。
@@ -169,6 +169,38 @@ namespace Sheep.Model.Bookstore
         /// <returns>节列表。</returns>
         Task<List<Paragraph>> FindParagraphsBySubjectAsync(string subjectId, string orderBy, bool? descending, int? skip, int? limit);
 
+        /// <summary>
+        ///     根据章查找节。
+        /// </summary>
+        /// <param name="bookId">书籍的编号。</param>
+        /// <param name="volumeNumber">卷的序号。</param>
+        /// <param name="beginChapterNumber">起始的章的编号。</param>
+        /// <param name="beginNumber">起始的编号。</param>
+        /// <param name="endChapterNumber">结束的章的编号。</param>
+        /// <param name="endNumber">结束的编号。</param>
+        /// <param name="orderBy">排序的字段。</param>
+        /// <param name="descending">是否按降序排序。</param>
+        /// <param name="skip">忽略的行数。</param>
+        /// <param name="limit">获取的行数。</param>
+        /// <returns>节列表。</returns>
+        List<Paragraph> FindParagraphsInRange(string bookId, int volumeNumber, int beginChapterNumber, int beginNumber, int endChapterNumber, int endNumber, string orderBy, bool? descending, int? skip, int? limit);
+
+        /// <summary>
+        ///     异步根据章查找节。
+        /// </summary>
+        /// <param name="bookId">书籍的编号。</param>
+        /// <param name="volumeNumber">卷的序号。</param>
+        /// <param name="beginChapterNumber">起始的章的编号。</param>
+        /// <param name="beginNumber">起始的编号。</param>
+        /// <param name="endChapterNumber">结束的章的编号。</param>
+        /// <param name="endNumber">结束的编号。</param>
+        /// <param name="orderBy">排序的字段。</param>
+        /// <param name="descending">是否按降序排序。</param>
+        /// <param name="skip">忽略的行数。</param>
+        /// <param name="limit">获取的行数。</param>
+        /// <returns>节列表。</returns>
+        Task<List<Paragraph>> FindParagraphsInRangeAsync(string bookId, int volumeNumber, int beginChapterNumber, int beginNumber, int endChapterNumber, int endNumber, string orderBy, bool? descending, int? skip, int? limit);
+
         #endregion
 
         #region 统计
@@ -177,8 +209,8 @@ namespace Sheep.Model.Bookstore
         ///     查找获取节数量。
         /// </summary>
         /// <param name="bookId">书籍的编号。</param>
-        /// <param name="volumeNumber">卷的编号。</param>
-        /// <param name="chapterNumber">章的编号。</param>
+        /// <param name="volumeNumber">卷的序号。</param>
+        /// <param name="chapterNumber">章的序号。</param>
         /// <param name="contentFilter">过滤内容的表达式。</param>
         /// <returns>节数量。</returns>
         int GetParagraphsCount(string bookId, int? volumeNumber, int? chapterNumber, string contentFilter);
@@ -187,8 +219,8 @@ namespace Sheep.Model.Bookstore
         ///     异步获取节数量。
         /// </summary>
         /// <param name="bookId">书籍的编号。</param>
-        /// <param name="volumeNumber">卷的编号。</param>
-        /// <param name="chapterNumber">章的编号。</param>
+        /// <param name="volumeNumber">卷的序号。</param>
+        /// <param name="chapterNumber">章的序号。</param>
         /// <param name="contentFilter">过滤内容的表达式。</param>
         /// <returns>节数量。</returns>
         Task<int> GetParagraphsCountAsync(string bookId, int? volumeNumber, int? chapterNumber, string contentFilter);
@@ -280,6 +312,20 @@ namespace Sheep.Model.Bookstore
         /// <param name="paragraphId">节的编号。</param>
         /// <param name="count">增加的数量。</param>
         Task<Paragraph> IncrementParagraphViewsCountAsync(string paragraphId, int count);
+
+        /// <summary>
+        ///     增加一个节的查看的次数。
+        /// </summary>
+        /// <param name="paragraphIds">节的编号列表。</param>
+        /// <param name="count">增加的数量。</param>
+        void IncrementParagraphsViewsCount(List<string> paragraphIds, int count);
+
+        /// <summary>
+        ///     异步增加一个节的查看的次数。
+        /// </summary>
+        /// <param name="paragraphIds">节的编号列表。</param>
+        /// <param name="count">增加的数量。</param>
+        Task IncrementParagraphsViewsCountAsync(List<string> paragraphIds, int count);
 
         /// <summary>
         ///     增加一个节的收藏的次数。

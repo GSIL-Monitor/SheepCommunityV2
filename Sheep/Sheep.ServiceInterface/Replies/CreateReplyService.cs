@@ -78,17 +78,17 @@ namespace Sheep.ServiceInterface.Replies
             {
                 ReplyCreateValidator.ValidateAndThrow(request, ApplyTo.Post);
             }
-            var userId = GetSession().UserAuthId.ToInt(0);
-            var user = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(userId.ToString());
-            if (user == null)
+            var currentUserId = GetSession().UserAuthId.ToInt(0);
+            var currentUserAuth = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(currentUserId.ToString());
+            if (currentUserAuth == null)
             {
-                throw HttpError.NotFound(string.Format(Resources.UserNotFound, userId));
+                throw HttpError.NotFound(string.Format(Resources.UserNotFound, currentUserId));
             }
             var newReply = new Reply
                            {
                                ParentType = request.ParentType,
                                ParentId = request.ParentId,
-                               UserId = userId,
+                               UserId = currentUserId,
                                Content = request.Content?.Replace("\"", "'")
                            };
             var reply = await ReplyRepo.CreateReplyAsync(newReply);
@@ -101,13 +101,13 @@ namespace Sheep.ServiceInterface.Replies
             }
             //await NimClient.PostAsync(new FriendAddRequest
             //                          {
-            //                              AccountId = userId.ToString(),
+            //                              AccountId = currentUserId.ToString(),
             //                              FriendAccountId = request.ParentId.ToString(),
             //                              Type = 1
             //                          });
             return new ReplyCreateResponse
                    {
-                       Reply = reply.MapToReplyDto(user, false, false)
+                       Reply = reply.MapToReplyDto(currentUserAuth, false, false)
                    };
         }
 

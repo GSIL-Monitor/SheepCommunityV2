@@ -31,14 +31,14 @@ namespace Sheep.Model.Content
         /// </summary>
         /// <param name="postIds">帖子的编号列表。</param>
         /// <returns>帖子列表。</returns>
-        List<Post> GetPosts(IEnumerable<string> postIds);
+        List<Post> GetPosts(List<string> postIds);
 
         /// <summary>
         ///     异步获取帖子列表。
         /// </summary>
         /// <param name="postIds">帖子的编号列表。</param>
         /// <returns>帖子列表。</returns>
-        Task<List<Post>> GetPostsAsync(IEnumerable<string> postIds);
+        Task<List<Post>> GetPostsAsync(List<string> postIds);
 
         /// <summary>
         ///     查找帖子。

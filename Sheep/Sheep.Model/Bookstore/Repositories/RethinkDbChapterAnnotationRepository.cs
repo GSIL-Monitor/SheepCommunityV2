@@ -265,7 +265,7 @@ namespace Sheep.Model.Bookstore.Repositories
         }
 
         /// <inheritdoc />
-        public List<ChapterAnnotation> FindChapterAnnotationsByChapters(IEnumerable<string> chapterIds, string orderBy, bool? descending, int? skip, int? limit)
+        public List<ChapterAnnotation> FindChapterAnnotationsByChapters(List<string> chapterIds, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_ChapterAnnotationTable).GetAll(R.Args(chapterIds.ToArray())).OptArg("index", "ChapterId").Filter(true);
             OrderBy queryOrder;
@@ -281,7 +281,7 @@ namespace Sheep.Model.Bookstore.Repositories
         }
 
         /// <inheritdoc />
-        public Task<List<ChapterAnnotation>> FindChapterAnnotationsByChaptersAsync(IEnumerable<string> chapterIds, string orderBy, bool? descending, int? skip, int? limit)
+        public Task<List<ChapterAnnotation>> FindChapterAnnotationsByChaptersAsync(List<string> chapterIds, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_ChapterAnnotationTable).GetAll(R.Args(chapterIds.ToArray())).OptArg("index", "ChapterId").Filter(true);
             OrderBy queryOrder;

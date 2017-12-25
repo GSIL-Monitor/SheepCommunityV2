@@ -116,7 +116,7 @@ namespace Sheep.Model.Bookstore
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>卷注释列表。</returns>
-        List<VolumeAnnotation> FindVolumeAnnotationsByVolumes(IEnumerable<string> volumeIds, string orderBy, bool? descending, int? skip, int? limit);
+        List<VolumeAnnotation> FindVolumeAnnotationsByVolumes(List<string> volumeIds, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
         ///     异步根据卷列表查找卷注释。
@@ -127,7 +127,7 @@ namespace Sheep.Model.Bookstore
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>卷注释列表。</returns>
-        Task<List<VolumeAnnotation>> FindVolumeAnnotationsByVolumesAsync(IEnumerable<string> volumeIds, string orderBy, bool? descending, int? skip, int? limit);
+        Task<List<VolumeAnnotation>> FindVolumeAnnotationsByVolumesAsync(List<string> volumeIds, string orderBy, bool? descending, int? skip, int? limit);
 
         #endregion
 

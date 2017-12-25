@@ -7,9 +7,9 @@ using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using ServiceStack.Validation;
 using Sheep.Common.Auth;
+using Sheep.Model.Bookstore;
 using Sheep.Model.Content;
 using Sheep.Model.Content.Entities;
-using Sheep.Model.Bookstore;
 using Sheep.ServiceInterface.Comments.Mappers;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Comments;
@@ -89,17 +89,17 @@ namespace Sheep.ServiceInterface.Comments
             {
                 CommentCreateValidator.ValidateAndThrow(request, ApplyTo.Post);
             }
-            var userId = GetSession().UserAuthId.ToInt(0);
-            var user = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(userId.ToString());
-            if (user == null)
+            var currentUserId = GetSession().UserAuthId.ToInt(0);
+            var currentUserAuth = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(currentUserId.ToString());
+            if (currentUserAuth == null)
             {
-                throw HttpError.NotFound(string.Format(Resources.UserNotFound, userId));
+                throw HttpError.NotFound(string.Format(Resources.UserNotFound, currentUserId));
             }
             var newComment = new Comment
                              {
                                  ParentType = request.ParentType,
                                  ParentId = request.ParentId,
-                                 UserId = userId,
+                                 UserId = currentUserId,
                                  Content = request.Content?.Replace("\"", "'")
                              };
             var comment = await CommentRepo.CreateCommentAsync(newComment);
@@ -118,13 +118,13 @@ namespace Sheep.ServiceInterface.Comments
             }
             //await NimClient.PostAsync(new FriendAddRequest
             //                          {
-            //                              AccountId = userId.ToString(),
+            //                              AccountId = currentUserId.ToString(),
             //                              FriendAccountId = request.ParentId.ToString(),
             //                              Type = 1
             //                          });
             return new CommentCreateResponse
                    {
-                       Comment = comment.MapToCommentDto(user, false, false)
+                       Comment = comment.MapToCommentDto(currentUserAuth, false, false)
                    };
         }
 

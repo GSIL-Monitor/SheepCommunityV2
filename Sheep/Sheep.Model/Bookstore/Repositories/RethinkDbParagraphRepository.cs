@@ -9,8 +9,8 @@ using RethinkDb.Driver.Net;
 using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Logging;
-using Sheep.Model.Properties;
 using Sheep.Model.Bookstore.Entities;
+using Sheep.Model.Properties;
 
 namespace Sheep.Model.Bookstore.Repositories
 {
@@ -170,13 +170,13 @@ namespace Sheep.Model.Bookstore.Repositories
         }
 
         /// <inheritdoc />
-        public List<Paragraph> GetParagraphs(IEnumerable<string> paragraphIds)
+        public List<Paragraph> GetParagraphs(List<string> paragraphIds)
         {
             return R.Table(s_ParagraphTable).GetAll(R.Args(paragraphIds.ToArray())).RunResult<List<Paragraph>>(_conn);
         }
 
         /// <inheritdoc />
-        public Task<List<Paragraph>> GetParagraphsAsync(IEnumerable<string> paragraphIds)
+        public Task<List<Paragraph>> GetParagraphsAsync(List<string> paragraphIds)
         {
             return R.Table(s_ParagraphTable).GetAll(R.Args(paragraphIds.ToArray())).RunResultAsync<List<Paragraph>>(_conn);
         }
@@ -294,7 +294,7 @@ namespace Sheep.Model.Bookstore.Repositories
         }
 
         /// <inheritdoc />
-        public List<Paragraph> FindParagraphsByChapters(IEnumerable<string> chapterIds, string orderBy, bool? descending, int? skip, int? limit)
+        public List<Paragraph> FindParagraphsByChapters(List<string> chapterIds, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_ParagraphTable).GetAll(R.Args(chapterIds.ToArray())).OptArg("index", "ChapterId").Filter(true);
             OrderBy queryOrder;
@@ -310,7 +310,7 @@ namespace Sheep.Model.Bookstore.Repositories
         }
 
         /// <inheritdoc />
-        public Task<List<Paragraph>> FindParagraphsByChaptersAsync(IEnumerable<string> chapterIds, string orderBy, bool? descending, int? skip, int? limit)
+        public Task<List<Paragraph>> FindParagraphsByChaptersAsync(List<string> chapterIds, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_ParagraphTable).GetAll(R.Args(chapterIds.ToArray())).OptArg("index", "ChapterId").Filter(true);
             OrderBy queryOrder;
@@ -345,6 +345,38 @@ namespace Sheep.Model.Bookstore.Repositories
         public Task<List<Paragraph>> FindParagraphsBySubjectAsync(string subjectId, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_ParagraphTable).GetAll(subjectId).OptArg("index", "SubjectId").Filter(true);
+            OrderBy queryOrder;
+            if (!orderBy.IsNullOrEmpty())
+            {
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc(orderBy)) : query.OrderBy(orderBy);
+            }
+            else
+            {
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("Number")) : query.OrderBy("Number");
+            }
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 10000).RunResultAsync<List<Paragraph>>(_conn);
+        }
+
+        /// <inheritdoc />
+        public List<Paragraph> FindParagraphsInRange(string bookId, int volumeNumber, int beginChapterNumber, int beginNumber, int endChapterNumber, int endNumber, string orderBy, bool? descending, int? skip, int? limit)
+        {
+            var query = R.Table(s_ParagraphTable).Between(R.Array(bookId, volumeNumber, beginChapterNumber, beginNumber), R.Array(bookId, volumeNumber, endChapterNumber, endNumber)).OptArg("index", "BookId_VolumeNumber_ChapterNumber_Number").OptArg("right_bound", Bound.Closed).Filter(true);
+            OrderBy queryOrder;
+            if (!orderBy.IsNullOrEmpty())
+            {
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc(orderBy)) : query.OrderBy(orderBy);
+            }
+            else
+            {
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("Number")) : query.OrderBy("Number");
+            }
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 10000).RunResult<List<Paragraph>>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<List<Paragraph>> FindParagraphsInRangeAsync(string bookId, int volumeNumber, int beginChapterNumber, int beginNumber, int endChapterNumber, int endNumber, string orderBy, bool? descending, int? skip, int? limit)
+        {
+            var query = R.Table(s_ParagraphTable).Between(R.Array(bookId, volumeNumber, beginChapterNumber, beginNumber), R.Array(bookId, volumeNumber, endChapterNumber, endNumber)).OptArg("index", "BookId_VolumeNumber_ChapterNumber_Number").OptArg("right_bound", Bound.Closed).Filter(true);
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
             {
@@ -513,6 +545,18 @@ namespace Sheep.Model.Bookstore.Repositories
         {
             var result = (await R.Table(s_ParagraphTable).Get(paragraphId).Update(row => R.HashMap("ViewsCount", row.G("ViewsCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
             return result.ChangesAs<Paragraph>()[0].NewValue;
+        }
+
+        /// <inheritdoc />
+        public void IncrementParagraphsViewsCount(List<string> paragraphIds, int count)
+        {
+            R.Table(s_ParagraphTable).GetAll(R.Args(paragraphIds.ToArray())).Update(row => R.HashMap("ViewsCount", row.G("ViewsCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
+        }
+
+        /// <inheritdoc />
+        public async Task IncrementParagraphsViewsCountAsync(List<string> paragraphIds, int count)
+        {
+            (await R.Table(s_ParagraphTable).GetAll(R.Args(paragraphIds.ToArray())).Update(row => R.HashMap("ViewsCount", row.G("ViewsCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />

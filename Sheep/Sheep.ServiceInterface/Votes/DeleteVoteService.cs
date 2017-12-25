@@ -80,17 +80,17 @@ namespace Sheep.ServiceInterface.Votes
             {
                 VoteDeleteValidator.ValidateAndThrow(request, ApplyTo.Delete);
             }
-            var userId = GetSession().UserAuthId.ToInt(0);
-            var existingVote = await VoteRepo.GetVoteAsync(request.ParentId, userId);
+            var currentUserId = GetSession().UserAuthId.ToInt(0);
+            var existingVote = await VoteRepo.GetVoteAsync(request.ParentId, currentUserId);
             if (existingVote == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.VoteNotFound, request.ParentId));
             }
-            if (existingVote.UserId != userId)
+            if (existingVote.UserId != currentUserId)
             {
                 throw HttpError.Unauthorized(Resources.LoginAsAuthorRequired);
             }
-            await VoteRepo.DeleteVoteAsync(request.ParentId, userId);
+            await VoteRepo.DeleteVoteAsync(request.ParentId, currentUserId);
             ResetCache(existingVote);
             switch (existingVote.ParentType)
             {

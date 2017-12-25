@@ -77,7 +77,7 @@ namespace Sheep.ServiceInterface.Replies
             }
             var usersMap = (await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthsAsync(existingReplies.Select(reply => reply.UserId.ToString()).Distinct())).ToDictionary(userAuth => userAuth.Id, userAuth => userAuth);
             var currentUserId = GetSession().UserAuthId.ToInt(0);
-            var votesMap = (await VoteRepo.GetVotesAsync(existingReplies.Select(reply => new Tuple<string, int>(reply.Id, currentUserId)))).ToDictionary(vote => vote.ParentId, vote => vote);
+            var votesMap = (await VoteRepo.GetVotesAsync(existingReplies.Select(reply => new Tuple<string, int>(reply.Id, currentUserId)).ToList())).ToDictionary(vote => vote.ParentId, vote => vote);
             var repliesDto = existingReplies.Select(reply => reply.MapToReplyDto(usersMap.GetValueOrDefault(reply.UserId), votesMap.GetValueOrDefault(reply.Id)?.Value ?? false, !votesMap.GetValueOrDefault(reply.Id)?.Value ?? false)).ToList();
             return new ReplyListResponse
                    {

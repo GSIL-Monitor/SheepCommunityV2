@@ -264,7 +264,7 @@ namespace Sheep.Model.Bookstore.Repositories
         }
 
         /// <inheritdoc />
-        public List<VolumeAnnotation> FindVolumeAnnotationsByVolumes(IEnumerable<string> volumeIds, string orderBy, bool? descending, int? skip, int? limit)
+        public List<VolumeAnnotation> FindVolumeAnnotationsByVolumes(List<string> volumeIds, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_VolumeAnnotationTable).GetAll(R.Args(volumeIds.ToArray())).OptArg("index", "VolumeId").Filter(true);
             OrderBy queryOrder;
@@ -280,7 +280,7 @@ namespace Sheep.Model.Bookstore.Repositories
         }
 
         /// <inheritdoc />
-        public Task<List<VolumeAnnotation>> FindVolumeAnnotationsByVolumesAsync(IEnumerable<string> volumeIds, string orderBy, bool? descending, int? skip, int? limit)
+        public Task<List<VolumeAnnotation>> FindVolumeAnnotationsByVolumesAsync(List<string> volumeIds, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_VolumeAnnotationTable).GetAll(R.Args(volumeIds.ToArray())).OptArg("index", "VolumeId").Filter(true);
             OrderBy queryOrder;

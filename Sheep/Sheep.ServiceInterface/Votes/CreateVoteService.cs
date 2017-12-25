@@ -83,20 +83,20 @@ namespace Sheep.ServiceInterface.Votes
             {
                 VoteCreateValidator.ValidateAndThrow(request, ApplyTo.Post);
             }
-            var userId = GetSession().UserAuthId.ToInt(0);
-            var user = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(userId.ToString());
-            if (user == null)
+            var currentUserId = GetSession().UserAuthId.ToInt(0);
+            var currentUserAuth = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(currentUserId.ToString());
+            if (currentUserAuth == null)
             {
-                throw HttpError.NotFound(string.Format(Resources.UserNotFound, userId));
+                throw HttpError.NotFound(string.Format(Resources.UserNotFound, currentUserId));
             }
-            var existingVote = await VoteRepo.GetVoteAsync(request.ParentId, userId);
+            var existingVote = await VoteRepo.GetVoteAsync(request.ParentId, currentUserId);
             if (existingVote != null)
             {
                 if (existingVote.Value == request.Value)
                 {
                     return new VoteCreateResponse
                            {
-                               Vote = existingVote.MapToVoteDto(user)
+                               Vote = existingVote.MapToVoteDto(currentUserAuth)
                            };
                 }
                 var newVote = new Vote();
@@ -133,13 +133,13 @@ namespace Sheep.ServiceInterface.Votes
                 }
                 //await NimClient.PostAsync(new FriendAddRequest
                 //                          {
-                //                              AccountId = userId.ToString(),
+                //                              AccountId = currentUserId.ToString(),
                 //                              FriendAccountId = request.ParentId.ToString(),
                 //                              Type = 1
                 //                          });
                 return new VoteCreateResponse
                        {
-                           Vote = vote.MapToVoteDto(user)
+                           Vote = vote.MapToVoteDto(currentUserAuth)
                        };
             }
             else
@@ -149,7 +149,7 @@ namespace Sheep.ServiceInterface.Votes
                                   ParentType = request.ParentType,
                                   ParentId = request.ParentId,
                                   Value = request.Value,
-                                  UserId = userId
+                                  UserId = currentUserId
                               };
                 var vote = await VoteRepo.CreateVoteAsync(newVote);
                 ResetCache(vote);
@@ -178,13 +178,13 @@ namespace Sheep.ServiceInterface.Votes
                 }
                 //await NimClient.PostAsync(new FriendAddRequest
                 //                          {
-                //                              AccountId = userId.ToString(),
+                //                              AccountId = currentUserId.ToString(),
                 //                              FriendAccountId = request.ParentId.ToString(),
                 //                              Type = 1
                 //                          });
                 return new VoteCreateResponse
                        {
-                           Vote = vote.MapToVoteDto(user)
+                           Vote = vote.MapToVoteDto(currentUserAuth)
                        };
             }
         }

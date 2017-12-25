@@ -80,8 +80,8 @@ namespace Sheep.ServiceInterface.Replies
             {
                 throw HttpError.NotFound(string.Format(Resources.ReplyNotFound, request.ReplyId));
             }
-            var userId = GetSession().UserAuthId.ToInt(0);
-            if (existingReply.UserId != userId)
+            var currentUserId = GetSession().UserAuthId.ToInt(0);
+            if (existingReply.UserId != currentUserId)
             {
                 throw HttpError.Unauthorized(Resources.LoginAsAuthorRequired);
             }

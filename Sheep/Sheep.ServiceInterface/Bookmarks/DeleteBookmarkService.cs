@@ -86,17 +86,17 @@ namespace Sheep.ServiceInterface.Bookmarks
             {
                 BookmarkDeleteValidator.ValidateAndThrow(request, ApplyTo.Delete);
             }
-            var userId = GetSession().UserAuthId.ToInt(0);
-            var existingBookmark = await BookmarkRepo.GetBookmarkAsync(request.ParentId, userId);
+            var currentUserId = GetSession().UserAuthId.ToInt(0);
+            var existingBookmark = await BookmarkRepo.GetBookmarkAsync(request.ParentId, currentUserId);
             if (existingBookmark == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.BookmarkNotFound, request.ParentId));
             }
-            if (existingBookmark.UserId != userId)
+            if (existingBookmark.UserId != currentUserId)
             {
                 throw HttpError.Unauthorized(Resources.LoginAsAuthorRequired);
             }
-            await BookmarkRepo.DeleteBookmarkAsync(request.ParentId, userId);
+            await BookmarkRepo.DeleteBookmarkAsync(request.ParentId, currentUserId);
             ResetCache(existingBookmark);
             switch (existingBookmark.ParentType)
             {

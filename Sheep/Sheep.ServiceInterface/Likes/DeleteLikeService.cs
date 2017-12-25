@@ -86,17 +86,17 @@ namespace Sheep.ServiceInterface.Likes
             {
                 LikeDeleteValidator.ValidateAndThrow(request, ApplyTo.Delete);
             }
-            var userId = GetSession().UserAuthId.ToInt(0);
-            var existingLike = await LikeRepo.GetLikeAsync(request.ParentId, userId);
+            var currentUserId = GetSession().UserAuthId.ToInt(0);
+            var existingLike = await LikeRepo.GetLikeAsync(request.ParentId, currentUserId);
             if (existingLike == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.LikeNotFound, request.ParentId));
             }
-            if (existingLike.UserId != userId)
+            if (existingLike.UserId != currentUserId)
             {
                 throw HttpError.Unauthorized(Resources.LoginAsAuthorRequired);
             }
-            await LikeRepo.DeleteLikeAsync(request.ParentId, userId);
+            await LikeRepo.DeleteLikeAsync(request.ParentId, currentUserId);
             ResetCache(existingLike);
             switch (existingLike.ParentType)
             {

@@ -91,8 +91,8 @@ namespace Sheep.ServiceInterface.Comments
             {
                 throw HttpError.NotFound(string.Format(Resources.CommentNotFound, request.CommentId));
             }
-            var userId = GetSession().UserAuthId.ToInt(0);
-            if (existingComment.UserId != userId)
+            var currentUserId = GetSession().UserAuthId.ToInt(0);
+            if (existingComment.UserId != currentUserId)
             {
                 throw HttpError.Unauthorized(Resources.LoginAsAuthorRequired);
             }

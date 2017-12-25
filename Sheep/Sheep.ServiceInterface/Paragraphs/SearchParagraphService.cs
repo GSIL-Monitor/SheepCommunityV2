@@ -101,7 +101,7 @@ namespace Sheep.ServiceInterface.Paragraphs
             {
                 throw HttpError.NotFound(string.Format(Resources.ParagraphsNotFound));
             }
-            var paragraphAnnotationsMap = request.LoadAnnotations.HasValue && request.LoadAnnotations.Value ? (await ParagraphAnnotationRepo.FindParagraphAnnotationsByParagraphsAsync(existingParagraphs.Select(paragraph => paragraph.Id), "ParagraphId", null, null, null)).GroupBy(paragraphAnnotation => paragraphAnnotation.ParagraphId, paragraphAnnotation => paragraphAnnotation).ToDictionary(grouping => grouping.Key, grouping => grouping.OrderBy(g => g.Number).ToList()) : new Dictionary<string, List<ParagraphAnnotation>>();
+            var paragraphAnnotationsMap = request.LoadAnnotations.HasValue && request.LoadAnnotations.Value ? (await ParagraphAnnotationRepo.FindParagraphAnnotationsByParagraphsAsync(existingParagraphs.Select(paragraph => paragraph.Id).ToList(), "ParagraphId", null, null, null)).GroupBy(paragraphAnnotation => paragraphAnnotation.ParagraphId, paragraphAnnotation => paragraphAnnotation).ToDictionary(grouping => grouping.Key, grouping => grouping.OrderBy(g => g.Number).ToList()) : new Dictionary<string, List<ParagraphAnnotation>>();
             var currentUserId = GetSession().UserAuthId.ToInt(0);
             var commentsMap = (await CommentRepo.GetCommentsCountByParentsAsync(existingParagraphs.Select(paragraph => paragraph.Id).ToList(), currentUserId, null, null, null, "审核通过")).ToDictionary(pair => pair.Key, pair => pair.Value);
             var paragraphsDto = existingParagraphs.Select(paragraph => paragraph.MapToParagraphDto(commentsMap.GetValueOrDefault(paragraph.Id) > 0, paragraphAnnotationsMap.GetValueOrDefault(paragraph.Id))).ToList();

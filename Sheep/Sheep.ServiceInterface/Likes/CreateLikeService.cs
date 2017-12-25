@@ -89,14 +89,14 @@ namespace Sheep.ServiceInterface.Likes
             {
                 LikeCreateValidator.ValidateAndThrow(request, ApplyTo.Post);
             }
-            var userId = GetSession().UserAuthId.ToInt(0);
-            var user = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(userId.ToString());
-            if (user == null)
+            var currentUserId = GetSession().UserAuthId.ToInt(0);
+            var currentUserAuth = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(currentUserId.ToString());
+            if (currentUserAuth == null)
             {
-                throw HttpError.NotFound(string.Format(Resources.UserNotFound, userId));
+                throw HttpError.NotFound(string.Format(Resources.UserNotFound, currentUserId));
             }
             var title = string.Empty;
-            var existingLike = await LikeRepo.GetLikeAsync(request.ParentId, userId);
+            var existingLike = await LikeRepo.GetLikeAsync(request.ParentId, currentUserId);
             if (existingLike != null)
             {
                 switch (existingLike.ParentType)
@@ -113,14 +113,14 @@ namespace Sheep.ServiceInterface.Likes
                 }
                 return new LikeCreateResponse
                        {
-                           Like = existingLike.MapToLikeDto(user, title)
+                           Like = existingLike.MapToLikeDto(currentUserAuth, title)
                        };
             }
             var newLike = new Like
                           {
                               ParentType = request.ParentType,
                               ParentId = request.ParentId,
-                              UserId = userId
+                              UserId = currentUserId
                           };
             var like = await LikeRepo.CreateLikeAsync(newLike);
             ResetCache(like);
@@ -141,13 +141,13 @@ namespace Sheep.ServiceInterface.Likes
             }
             //await NimClient.PostAsync(new FriendAddRequest
             //                          {
-            //                              AccountId = userId.ToString(),
+            //                              AccountId = currentUserId.ToString(),
             //                              FriendAccountId = request.ParentId.ToString(),
             //                              Type = 1
             //                          });
             return new LikeCreateResponse
                    {
-                       Like = like.MapToLikeDto(user, title)
+                       Like = like.MapToLikeDto(currentUserAuth, title)
                    };
         }
 

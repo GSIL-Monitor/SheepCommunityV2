@@ -157,7 +157,7 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public List<Vote> GetVotes(IEnumerable<Tuple<string, int>> compositeIds)
+        public List<Vote> GetVotes(List<Tuple<string, int>> compositeIds)
         {
             if (compositeIds == null)
             {
@@ -167,7 +167,7 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public Task<List<Vote>> GetVotesAsync(IEnumerable<Tuple<string, int>> compositeIds)
+        public Task<List<Vote>> GetVotesAsync(List<Tuple<string, int>> compositeIds)
         {
             if (compositeIds == null)
             {

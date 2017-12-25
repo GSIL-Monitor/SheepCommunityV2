@@ -120,7 +120,7 @@ namespace Sheep.Model.Bookstore
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>章注释列表。</returns>
-        List<ChapterAnnotation> FindChapterAnnotationsByChapters(IEnumerable<string> chapterIds, string orderBy, bool? descending, int? skip, int? limit);
+        List<ChapterAnnotation> FindChapterAnnotationsByChapters(List<string> chapterIds, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
         ///     异步根据章列表查找章注释。
@@ -131,7 +131,7 @@ namespace Sheep.Model.Bookstore
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>章注释列表。</returns>
-        Task<List<ChapterAnnotation>> FindChapterAnnotationsByChaptersAsync(IEnumerable<string> chapterIds, string orderBy, bool? descending, int? skip, int? limit);
+        Task<List<ChapterAnnotation>> FindChapterAnnotationsByChaptersAsync(List<string> chapterIds, string orderBy, bool? descending, int? skip, int? limit);
 
         #endregion
 

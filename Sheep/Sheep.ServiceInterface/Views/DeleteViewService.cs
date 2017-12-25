@@ -91,8 +91,8 @@ namespace Sheep.ServiceInterface.Views
             {
                 throw HttpError.NotFound(string.Format(Resources.ViewNotFound, request.ViewId));
             }
-            var userId = GetSession().UserAuthId.ToInt(0);
-            if (existingView.UserId != userId)
+            var currentUserId = GetSession().UserAuthId.ToInt(0);
+            if (existingView.UserId != currentUserId)
             {
                 throw HttpError.Unauthorized(Resources.LoginAsAuthorRequired);
             }

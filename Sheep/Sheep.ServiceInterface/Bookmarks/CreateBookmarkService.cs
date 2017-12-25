@@ -89,14 +89,14 @@ namespace Sheep.ServiceInterface.Bookmarks
             {
                 BookmarkCreateValidator.ValidateAndThrow(request, ApplyTo.Post);
             }
-            var userId = GetSession().UserAuthId.ToInt(0);
-            var user = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(userId.ToString());
-            if (user == null)
+            var currentUserId = GetSession().UserAuthId.ToInt(0);
+            var currentUserAuth = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(currentUserId.ToString());
+            if (currentUserAuth == null)
             {
-                throw HttpError.NotFound(string.Format(Resources.UserNotFound, userId));
+                throw HttpError.NotFound(string.Format(Resources.UserNotFound, currentUserId));
             }
             var title = string.Empty;
-            var existingBookmark = await BookmarkRepo.GetBookmarkAsync(request.ParentId, userId);
+            var existingBookmark = await BookmarkRepo.GetBookmarkAsync(request.ParentId, currentUserId);
             if (existingBookmark != null)
             {
                 switch (existingBookmark.ParentType)
@@ -113,14 +113,14 @@ namespace Sheep.ServiceInterface.Bookmarks
                 }
                 return new BookmarkCreateResponse
                        {
-                           Bookmark = existingBookmark.MapToBookmarkDto(user, title)
+                           Bookmark = existingBookmark.MapToBookmarkDto(currentUserAuth, title)
                        };
             }
             var newBookmark = new Bookmark
                               {
                                   ParentType = request.ParentType,
                                   ParentId = request.ParentId,
-                                  UserId = userId
+                                  UserId = currentUserId
                               };
             var bookmark = await BookmarkRepo.CreateBookmarkAsync(newBookmark);
             ResetCache(bookmark);
@@ -141,13 +141,13 @@ namespace Sheep.ServiceInterface.Bookmarks
             }
             //await NimClient.PostAsync(new FriendAddRequest
             //                          {
-            //                              AccountId = userId.ToString(),
+            //                              AccountId = currentUserId.ToString(),
             //                              FriendAccountId = request.ParentId.ToString(),
             //                              Type = 1
             //                          });
             return new BookmarkCreateResponse
                    {
-                       Bookmark = bookmark.MapToBookmarkDto(user, title)
+                       Bookmark = bookmark.MapToBookmarkDto(currentUserAuth, title)
                    };
         }
 

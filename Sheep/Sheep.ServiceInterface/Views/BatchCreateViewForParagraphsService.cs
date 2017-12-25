@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Netease.Nim;
 using ServiceStack;
 using ServiceStack.Auth;
@@ -11,15 +12,14 @@ using Sheep.Model.Bookstore;
 using Sheep.Model.Content;
 using Sheep.Model.Content.Entities;
 using Sheep.ServiceInterface.Properties;
-using Sheep.ServiceInterface.Views.Mappers;
 using Sheep.ServiceModel.Views;
 
 namespace Sheep.ServiceInterface.Views
 {
     /// <summary>
-    ///     新建一个阅读服务接口。
+    ///     新建一组节阅读服务接口。
     /// </summary>
-    public class CreateViewService : ChangeViewService
+    public class BatchCreateViewForParagraphsService : ChangeViewService
     {
         #region 静态变量
 
@@ -43,9 +43,9 @@ namespace Sheep.ServiceInterface.Views
         public INimClient NimClient { get; set; }
 
         /// <summary>
-        ///     获取及设置新建一个阅读的校验器。
+        ///     获取及设置新建一组节阅读的校验器。
         /// </summary>
-        public IValidator<ViewCreate> ViewCreateValidator { get; set; }
+        public IValidator<ViewBatchCreateForParagraphs> ViewBatchCreateForParagraphsValidator { get; set; }
 
         /// <summary>
         ///     获取及设置用户身份的存储库。
@@ -74,12 +74,12 @@ namespace Sheep.ServiceInterface.Views
 
         #endregion
 
-        #region 新建一个阅读
+        #region 新建一组节阅读
 
         /// <summary>
-        ///     新建一个阅读。
+        ///     新建一组节阅读。
         /// </summary>
-        public async Task<object> Post(ViewCreate request)
+        public async Task<object> Post(ViewBatchCreateForParagraphs request)
         {
             if (!IsAuthenticated)
             {
@@ -87,7 +87,12 @@ namespace Sheep.ServiceInterface.Views
             }
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
-                ViewCreateValidator.ValidateAndThrow(request, ApplyTo.Post);
+                ViewBatchCreateForParagraphsValidator.ValidateAndThrow(request, ApplyTo.Post);
+            }
+            var existingParagraphs = await ParagraphRepo.FindParagraphsInRangeAsync(request.BookId, request.VolumeNumber, request.BeginChapterNumber, request.BeginParagraphNumber, request.EndChapterNumber, request.EndParagraphNumber, null, null, null, null);
+            if (existingParagraphs == null)
+            {
+                throw HttpError.NotFound(string.Format(Resources.ParagraphsNotFound));
             }
             var currentUserId = GetSession().UserAuthId.ToInt(0);
             var currentUserAuth = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(currentUserId.ToString());
@@ -95,40 +100,27 @@ namespace Sheep.ServiceInterface.Views
             {
                 throw HttpError.NotFound(string.Format(Resources.UserNotFound, currentUserId));
             }
-            var newView = new View
-                          {
-                              ParentType = request.ParentType,
-                              ParentId = request.ParentId,
-                              UserId = currentUserId
-                          };
-            var view = await ViewRepo.CreateViewAsync(newView);
-            ResetCache(view);
-            var title = string.Empty;
-            switch (view.ParentType)
-            {
-                case "帖子":
-                    title = (await PostRepo.GetPostAsync(view.ParentId))?.Title;
-                    await PostRepo.IncrementPostViewsCountAsync(view.ParentId, 1);
-                    break;
-                case "章":
-                    title = (await ChapterRepo.GetChapterAsync(view.ParentId))?.Title;
-                    await ChapterRepo.IncrementChapterViewsCountAsync(view.ParentId, 1);
-                    break;
-                case "节":
-                    title = (await ParagraphRepo.GetParagraphAsync(view.ParentId))?.Content;
-                    await ParagraphRepo.IncrementParagraphViewsCountAsync(view.ParentId, 1);
-                    break;
-            }
+            var newViews = existingParagraphs.Select(paragraph =>
+                                                     {
+                                                         var newView = new View
+                                                                       {
+                                                                           ParentType = "节",
+                                                                           ParentId = paragraph.Id,
+                                                                           UserId = currentUserId
+                                                                       };
+                                                         ResetCache(newView);
+                                                         return newView;
+                                                     })
+                                             .ToList();
+            await ViewRepo.CreateViewsAsync(newViews);
+            await ParagraphRepo.IncrementParagraphsViewsCountAsync(existingParagraphs.Select(paragraph => paragraph.Id).ToList(), 1);
             //await NimClient.PostAsync(new FriendAddRequest
             //                          {
             //                              AccountId = currentUserId.ToString(),
             //                              FriendAccountId = request.ParentId.ToString(),
             //                              Type = 1
             //                          });
-            return new ViewCreateResponse
-                   {
-                       View = view.MapToViewDto(currentUserAuth, title)
-                   };
+            return new ViewBatchCreateResponse();
         }
 
         #endregion

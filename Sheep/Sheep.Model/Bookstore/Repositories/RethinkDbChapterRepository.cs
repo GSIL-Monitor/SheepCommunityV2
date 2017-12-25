@@ -178,13 +178,13 @@ namespace Sheep.Model.Bookstore.Repositories
         }
 
         /// <inheritdoc />
-        public List<Chapter> GetChapters(IEnumerable<string> chapterIds)
+        public List<Chapter> GetChapters(List<string> chapterIds)
         {
             return R.Table(s_ChapterTable).GetAll(R.Args(chapterIds.ToArray())).RunResult<List<Chapter>>(_conn);
         }
 
         /// <inheritdoc />
-        public Task<List<Chapter>> GetChaptersAsync(IEnumerable<string> chapterIds)
+        public Task<List<Chapter>> GetChaptersAsync(List<string> chapterIds)
         {
             return R.Table(s_ChapterTable).GetAll(R.Args(chapterIds.ToArray())).RunResultAsync<List<Chapter>>(_conn);
         }

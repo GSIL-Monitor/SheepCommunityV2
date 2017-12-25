@@ -266,7 +266,7 @@ namespace Sheep.Model.Bookstore.Repositories
         }
 
         /// <inheritdoc />
-        public List<ParagraphAnnotation> FindParagraphAnnotationsByParagraphs(IEnumerable<string> paragraphIds, string orderBy, bool? descending, int? skip, int? limit)
+        public List<ParagraphAnnotation> FindParagraphAnnotationsByParagraphs(List<string> paragraphIds, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_ParagraphAnnotationTable).GetAll(R.Args(paragraphIds.ToArray())).OptArg("index", "ParagraphId").Filter(true);
             OrderBy queryOrder;
@@ -282,7 +282,7 @@ namespace Sheep.Model.Bookstore.Repositories
         }
 
         /// <inheritdoc />
-        public Task<List<ParagraphAnnotation>> FindParagraphAnnotationsByParagraphsAsync(IEnumerable<string> paragraphIds, string orderBy, bool? descending, int? skip, int? limit)
+        public Task<List<ParagraphAnnotation>> FindParagraphAnnotationsByParagraphsAsync(List<string> paragraphIds, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_ParagraphAnnotationTable).GetAll(R.Args(paragraphIds.ToArray())).OptArg("index", "ParagraphId").Filter(true);
             OrderBy queryOrder;
