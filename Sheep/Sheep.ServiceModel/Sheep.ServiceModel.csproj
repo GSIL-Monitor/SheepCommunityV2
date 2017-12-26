@@ -141,10 +141,12 @@
     <Compile Include="Bookmarks\BookmarkDelete.cs" />
     <Compile Include="Bookmarks\BookmarkList.cs" />
     <Compile Include="Bookmarks\BookmarkShow.cs" />
+    <Compile Include="Bookmarks\Validators\BookmarkBatchCreateValidator.cs" />
     <Compile Include="Bookmarks\Validators\BookmarkCreateValidator.cs" />
     <Compile Include="Bookmarks\Validators\BookmarkDeleteValidator.cs" />
     <Compile Include="Bookmarks\Validators\BookmarkListValidator.cs" />
     <Compile Include="Bookmarks\Validators\BookmarkShowValidator.cs" />
+    <Compile Include="Bookmarks\BookmarkBatchCreate.cs" />
     <Compile Include="Books\Entities\BookDto.cs" />
     <Compile Include="Books\BookCreate.cs" />
     <Compile Include="Books\BookDelete.cs" />

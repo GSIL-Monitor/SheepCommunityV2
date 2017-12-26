@@ -135,6 +135,18 @@ namespace Sheep.Model.Content
         Task<Bookmark> CreateBookmarkAsync(Bookmark newBookmark);
 
         /// <summary>
+        ///     创建一组新的收藏。
+        /// </summary>
+        /// <param name="newBookmarks">一组新的收藏。</param>
+        void CreateBookmarks(List<Bookmark> newBookmarks);
+
+        /// <summary>
+        ///     异步创建一组新的收藏。
+        /// </summary>
+        /// <param name="newBookmarks">一组新的收藏。</param>
+        Task CreateBookmarksAsync(List<Bookmark> newBookmarks);
+
+        /// <summary>
         ///     取消一个收藏。
         /// </summary>
         /// <param name="parentId">上级的编号。（如帖子编号）</param>

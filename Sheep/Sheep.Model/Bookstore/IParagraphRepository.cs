@@ -104,6 +104,28 @@ namespace Sheep.Model.Bookstore
         Task<List<Paragraph>> FindParagraphsAsync(string bookId, int? volumeNumber, int? chapterNumber, string contentFilter, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
+        ///     查找节。
+        /// </summary>
+        /// <param name="paragraphIds">节的编号列表。</param>
+        /// <param name="orderBy">排序的字段。</param>
+        /// <param name="descending">是否按降序排序。</param>
+        /// <param name="skip">忽略的行数。</param>
+        /// <param name="limit">获取的行数。</param>
+        /// <returns>节列表。</returns>
+        List<Paragraph> FindParagraphs(List<string> paragraphIds, string orderBy, bool? descending, int? skip, int? limit);
+
+        /// <summary>
+        ///     异步查找节。
+        /// </summary>
+        /// <param name="paragraphIds">节的编号列表。</param>
+        /// <param name="orderBy">排序的字段。</param>
+        /// <param name="descending">是否按降序排序。</param>
+        /// <param name="skip">忽略的行数。</param>
+        /// <param name="limit">获取的行数。</param>
+        /// <returns>节列表。</returns>
+        Task<List<Paragraph>> FindParagraphsAsync(List<string> paragraphIds, string orderBy, bool? descending, int? skip, int? limit);
+
+        /// <summary>
         ///     根据章查找节。
         /// </summary>
         /// <param name="chapterId">章的编号。</param>
@@ -170,7 +192,7 @@ namespace Sheep.Model.Bookstore
         Task<List<Paragraph>> FindParagraphsBySubjectAsync(string subjectId, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
-        ///     根据章查找节。
+        ///     根据范围查找节。
         /// </summary>
         /// <param name="bookId">书籍的编号。</param>
         /// <param name="volumeNumber">卷的序号。</param>
@@ -186,7 +208,7 @@ namespace Sheep.Model.Bookstore
         List<Paragraph> FindParagraphsInRange(string bookId, int volumeNumber, int beginChapterNumber, int beginNumber, int endChapterNumber, int endNumber, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
-        ///     异步根据章查找节。
+        ///     异步根据范围查找节。
         /// </summary>
         /// <param name="bookId">书籍的编号。</param>
         /// <param name="volumeNumber">卷的序号。</param>

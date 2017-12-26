@@ -363,4 +363,10 @@
   <data name="EndParagraphNumberRequired" xml:space="preserve">
     <value>结束节序号必须输入。</value>
   </data>
+  <data name="ParagraphIdsRequired" xml:space="preserve">
+    <value>节编号列表必须输入。</value>
+  </data>
+  <data name="ParagraphIdsValuesMismatch" xml:space="preserve">
+    <value>节编号列表不能包含空值。</value>
+  </data>
 </root>

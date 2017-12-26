@@ -267,6 +267,38 @@ namespace Sheep.Model.Bookstore.Repositories
         }
 
         /// <inheritdoc />
+        public List<Paragraph> FindParagraphs(List<string> paragraphIds, string orderBy, bool? descending, int? skip, int? limit)
+        {
+            var query = R.Table(s_ParagraphTable).GetAll(R.Args(paragraphIds.ToArray())).Filter(true);
+            OrderBy queryOrder;
+            if (!orderBy.IsNullOrEmpty())
+            {
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc(orderBy)) : query.OrderBy(orderBy);
+            }
+            else
+            {
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("Number")) : query.OrderBy("Number");
+            }
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 10000).RunResult<List<Paragraph>>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<List<Paragraph>> FindParagraphsAsync(List<string> paragraphIds, string orderBy, bool? descending, int? skip, int? limit)
+        {
+            var query = R.Table(s_ParagraphTable).GetAll(R.Args(paragraphIds.ToArray())).Filter(true);
+            OrderBy queryOrder;
+            if (!orderBy.IsNullOrEmpty())
+            {
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc(orderBy)) : query.OrderBy(orderBy);
+            }
+            else
+            {
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("Number")) : query.OrderBy("Number");
+            }
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 10000).RunResultAsync<List<Paragraph>>(_conn);
+        }
+
+        /// <inheritdoc />
         public List<Paragraph> FindParagraphsByChapter(string chapterId, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_ParagraphTable).GetAll(chapterId).OptArg("index", "ChapterId").Filter(true);

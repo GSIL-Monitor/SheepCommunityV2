@@ -137,6 +137,7 @@
     <Compile Include="Accounts\BindAccountCredentialsService.cs" />
     <Compile Include="Accounts\LoginAccountByWeiboService.cs" />
     <Compile Include="Bookmarks\ChangeBookmarkService.cs" />
+    <Compile Include="Bookmarks\BatchCreateBookmarkForParagraphsService.cs" />
     <Compile Include="Bookmarks\CreateBookmarkService.cs" />
     <Compile Include="Bookmarks\DeleteBookmarkService.cs" />
     <Compile Include="Bookmarks\ListBookmarkByParentService.cs" />

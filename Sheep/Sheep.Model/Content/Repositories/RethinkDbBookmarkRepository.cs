@@ -319,6 +319,32 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
+        public void CreateBookmarks(List<Bookmark> newBookmarks)
+        {
+            foreach (var newBookmark in newBookmarks)
+            {
+                newBookmark.ThrowIfNull(nameof(newBookmark));
+                newBookmark.Id = string.Format("{0}-{1}", newBookmark.ParentId, newBookmark.UserId);
+                newBookmark.CreatedDate = DateTime.UtcNow;
+            }
+            R.Table(s_BookmarkTable).GetAll(R.Args(newBookmarks.Select(bookmark => bookmark.Id).ToArray())).Delete().RunResult(_conn).AssertNoErrors();
+            R.Table(s_BookmarkTable).Insert(R.Array(newBookmarks.Select(newBookmark => (object) newBookmark).ToArray())).RunResult(_conn).AssertNoErrors();
+        }
+
+        /// <inheritdoc />
+        public async Task CreateBookmarksAsync(List<Bookmark> newBookmarks)
+        {
+            foreach (var newBookmark in newBookmarks)
+            {
+                newBookmark.ThrowIfNull(nameof(newBookmark));
+                newBookmark.Id = string.Format("{0}-{1}", newBookmark.ParentId, newBookmark.UserId);
+                newBookmark.CreatedDate = DateTime.UtcNow;
+            }
+            (await R.Table(s_BookmarkTable).GetAll(R.Args(newBookmarks.Select(bookmark => bookmark.Id).ToArray())).Delete().RunResultAsync(_conn)).AssertNoErrors();
+            (await R.Table(s_BookmarkTable).Insert(R.Array(newBookmarks.Select(newBookmark => (object) newBookmark).ToArray())).RunResultAsync(_conn)).AssertNoErrors();
+        }
+
+        /// <inheritdoc />
         public void DeleteBookmark(string parentId, int userId)
         {
             R.Table(s_BookmarkTable).GetAll(R.Array(parentId, userId)).OptArg("index", "ParentId_UserId").Delete().RunResult(_conn).AssertNoErrors();

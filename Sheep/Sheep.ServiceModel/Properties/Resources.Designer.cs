@@ -385,6 +385,24 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
+        ///   查找类似 节编号列表必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string ParagraphIdsRequired {
+            get {
+                return ResourceManager.GetString("ParagraphIdsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 节编号列表不能包含空值。 的本地化字符串。
+        /// </summary>
+        internal static string ParagraphIdsValuesMismatch {
+            get {
+                return ResourceManager.GetString("ParagraphIdsValuesMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 节序号必须输入。 的本地化字符串。
         /// </summary>
         internal static string ParagraphNumberRequired {

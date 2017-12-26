@@ -26,7 +26,7 @@ namespace Sheep.ServiceInterface.Views
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(CreateViewService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(BatchCreateViewForParagraphsService));
 
         #endregion
 
