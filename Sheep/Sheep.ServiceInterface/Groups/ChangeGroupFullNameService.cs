@@ -23,16 +23,16 @@ using Sheep.ServiceModel.Groups;
 namespace Sheep.ServiceInterface.Groups
 {
     /// <summary>
-    ///     更改图标服务接口。
+    ///     更改真实名称服务接口。
     /// </summary>
-    public class ChangeGroupIconService : ChangeGroupService
+    public class ChangeGroupFullNameService : ChangeGroupService
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(ChangeGroupIconService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(ChangeGroupFullNameService));
 
         #endregion
 
@@ -54,9 +54,9 @@ namespace Sheep.ServiceInterface.Groups
         public INimClient NimClient { get; set; }
 
         /// <summary>
-        ///     获取及设置更改图标的校验器。
+        ///     获取及设置更改真实名称的校验器。
         /// </summary>
-        public IValidator<GroupChangeIcon> GroupChangeIconValidator { get; set; }
+        public IValidator<GroupChangeFullName> GroupChangeFullNameValidator { get; set; }
 
         /// <summary>
         ///     获取及设置群组的存储库。
@@ -65,12 +65,12 @@ namespace Sheep.ServiceInterface.Groups
 
         #endregion
 
-        #region 更改图标
+        #region 更改真实名称
 
         /// <summary>
-        ///     更改图标。
+        ///     更改真实名称。
         /// </summary>
-        public async Task<object> Put(GroupChangeIcon request)
+        public async Task<object> Put(GroupChangeFullName request)
         {
             if (!IsAuthenticated)
             {
@@ -78,7 +78,7 @@ namespace Sheep.ServiceInterface.Groups
             }
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
-                GroupChangeIconValidator.ValidateAndThrow(request, ApplyTo.Put);
+                GroupChangeFullNameValidator.ValidateAndThrow(request, ApplyTo.Put);
             }
             var existingGroup = await GroupRepo.GetGroupAsync(request.GroupId);
             if (existingGroup == null)
@@ -91,27 +91,27 @@ namespace Sheep.ServiceInterface.Groups
                                 };
                 existingGroup.ModifiedDate = existingGroup.CreatedDate;
             }
-            string iconUrl = null;
-            if (!request.SourceIconUrl.IsNullOrEmpty())
+            string idimageUrl = null;
+            if (!request.SourceIdImageUrl.IsNullOrEmpty())
             {
-                var imageBuffer = await request.SourceIconUrl.GetBytesFromUrlAsync();
+                var imageBuffer = await request.SourceIdImageUrl.GetBytesFromUrlAsync();
                 if (imageBuffer != null && imageBuffer.Length > 0)
                 {
                     using (var imageStream = new MemoryStream(imageBuffer))
                     {
                         var md5Hash = OssUtils.ComputeContentMd5(imageStream, imageStream.Length);
-                        var path = $"groups/{request.GroupId}/icons/{Guid.NewGuid():N}.{request.SourceIconUrl.GetImageUrlExtension()}";
+                        var path = $"groups/{request.GroupId}/idimages/{Guid.NewGuid():N}.{request.SourceIdImageUrl.GetImageUrlExtension()}";
                         var objectMetadata = new ObjectMetadata
                                              {
                                                  ContentMd5 = md5Hash,
-                                                 ContentType = request.SourceIconUrl.GetImageUrlExtension().GetImageContentType(),
+                                                 ContentType = request.SourceIdImageUrl.GetImageUrlExtension().GetImageContentType(),
                                                  ContentLength = imageBuffer.Length,
                                                  CacheControl = "max-age=604800"
                                              };
                         try
                         {
                             await OssClient.PutObjectAsync(AppSettings.GetString(AppSettingsOssNames.OssBucket), path, imageStream, objectMetadata);
-                            iconUrl = $"{AppSettings.GetString(AppSettingsOssNames.OssUrl)}/{path}";
+                            idimageUrl = $"{AppSettings.GetString(AppSettingsOssNames.OssUrl)}/{path}";
                         }
                         catch (OssException ex)
                         {
@@ -134,7 +134,7 @@ namespace Sheep.ServiceInterface.Groups
                     using (var imageStream = imageFile.InputStream)
                     {
                         var md5Hash = OssUtils.ComputeContentMd5(imageStream, imageStream.Length);
-                        var path = $"groups/{request.GroupId}/icons/{Guid.NewGuid():N}.{imageFile.FileName.GetImageFileExtension()}";
+                        var path = $"groups/{request.GroupId}/idimages/{Guid.NewGuid():N}.{imageFile.FileName.GetImageFileExtension()}";
                         var objectMetadata = new ObjectMetadata
                                              {
                                                  ContentMd5 = md5Hash,
@@ -145,7 +145,7 @@ namespace Sheep.ServiceInterface.Groups
                         try
                         {
                             await OssClient.PutObjectAsync(AppSettings.GetString(AppSettingsOssNames.OssBucket), path, imageStream, objectMetadata);
-                            iconUrl = $"{AppSettings.GetString(AppSettingsOssNames.OssUrl)}/{path}";
+                            idimageUrl = $"{AppSettings.GetString(AppSettingsOssNames.OssUrl)}/{path}";
                         }
                         catch (OssException ex)
                         {
@@ -163,13 +163,12 @@ namespace Sheep.ServiceInterface.Groups
             var newGroup = new Group();
             newGroup.PopulateWith(existingGroup);
             newGroup.Meta = existingGroup.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingGroup.Meta);
-            newGroup.IconUrl = iconUrl;
+            newGroup.FullName = request.FullName?.Replace("\"", "'");
+            newGroup.FullNameVerified = false;
+            newGroup.Meta["IdImageUrl"] = idimageUrl;
             var group = await GroupRepo.UpdateGroupAsync(existingGroup, newGroup);
             ResetCache(group);
-            return new GroupChangeIconResponse
-                   {
-                       IconUrl = iconUrl
-                   };
+            return new GroupChangeFullNameResponse();
         }
 
         #endregion

@@ -7,29 +7,31 @@ namespace Sheep.ServiceModel.Groups
     /// <summary>
     ///     显示一个群组的请求。
     /// </summary>
-    [Route("/groups/{GroupId}", HttpMethods.Get)]
+    [Route("/groups/{GroupId}", HttpMethods.Get, Summary = "显示一个群组")]
     [DataContract]
     public class GroupShow : IReturn<GroupShowResponse>
     {
         /// <summary>
-        ///     群组的编号。
+        ///     群组编号。
         /// </summary>
         [DataMember(Order = 1, IsRequired = true)]
+        [ApiMember(Description = "群组编号")]
         public string GroupId { get; set; }
     }
 
     /// <summary>
-    ///     根据关联的第三方编号显示一个群组的请求。
+    ///     根据显示名称显示一个群组的请求。
     /// </summary>
-    [Route("/groups/show/{RefId}", HttpMethods.Get)]
+    [Route("/groups/showname/{DisplayName}", HttpMethods.Get, Summary = "根据显示名称显示一个群组")]
     [DataContract]
-    public class GroupShowByRefId : IReturn<GroupShowResponse>
+    public class GroupShowByDisplayName : IReturn<GroupShowResponse>
     {
         /// <summary>
-        ///     关联的第三方编号。
+        ///     显示名称。
         /// </summary>
         [DataMember(Order = 1, IsRequired = true)]
-        public string RefId { get; set; }
+        [ApiMember(Description = "显示名称")]
+        public string DisplayName { get; set; }
     }
 
     /// <summary>
@@ -42,12 +44,14 @@ namespace Sheep.ServiceModel.Groups
         ///     群组信息。
         /// </summary>
         [DataMember(Order = 1)]
+        [ApiMember(Description = "群组信息")]
         public GroupDto Group { get; set; }
 
         /// <summary>
         ///     处理响应的状态。
         /// </summary>
         [DataMember(Order = 2)]
+        [ApiMember(Description = "处理响应的状态")]
         public ResponseStatus ResponseStatus { get; set; }
     }
 }

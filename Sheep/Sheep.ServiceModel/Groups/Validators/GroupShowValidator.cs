@@ -23,19 +23,19 @@ namespace Sheep.ServiceModel.Groups.Validators
     }
 
     /// <summary>
-    ///     根据关联的第三方编号显示一个群组的校验器。
+    ///     根据显示名称显示一个群组的校验器。
     /// </summary>
-    public class GroupShowByRefIdValidator : AbstractValidator<GroupShowByRefId>
+    public class GroupShowByDisplayNameValidator : AbstractValidator<GroupShowByDisplayName>
     {
         /// <summary>
         ///     初始化一个新的<see cref="GroupShowValidator" />对象。
         ///     创建规则集合。
         /// </summary>
-        public GroupShowByRefIdValidator()
+        public GroupShowByDisplayNameValidator()
         {
             RuleSet(ApplyTo.Get, () =>
                                  {
-                                     RuleFor(x => x.RefId).NotEmpty().WithMessage(Resources.RefIdRequired);
+                                     RuleFor(x => x.DisplayName).NotEmpty().WithMessage(Resources.DisplayNameRequired);
                                  });
         }
     }

@@ -9,8 +9,8 @@ using RethinkDb.Driver.Net;
 using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Logging;
-using Sheep.Model.Properties;
 using Sheep.Model.Bookstore.Entities;
+using Sheep.Model.Properties;
 
 namespace Sheep.Model.Bookstore.Repositories
 {
@@ -45,6 +45,11 @@ namespace Sheep.Model.Bookstore.Repositories
         ///     节的数据表名。
         /// </summary>
         private static readonly string s_ParagraphTable = typeof(Paragraph).Name;
+
+        /// <summary>
+        ///     节注释的数据表名。
+        /// </summary>
+        private static readonly string s_ParagraphAnnotationTable = typeof(ParagraphAnnotation).Name;
 
         #endregion
 
@@ -405,6 +410,7 @@ namespace Sheep.Model.Bookstore.Repositories
             R.Table(s_ChapterTable).Get(chapterId).Delete().RunResult(_conn).AssertNoErrors();
             R.Table(s_ChapterAnnotationTable).GetAll(chapterId).OptArg("index", "ChapterId").Delete().RunResult(_conn).AssertNoErrors();
             R.Table(s_ParagraphTable).GetAll(chapterId).OptArg("index", "ChapterId").Delete().RunResult(_conn).AssertNoErrors();
+            R.Table(s_ParagraphAnnotationTable).GetAll(chapterId).OptArg("index", "ChapterId").Delete().RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
@@ -413,6 +419,7 @@ namespace Sheep.Model.Bookstore.Repositories
             (await R.Table(s_ChapterTable).Get(chapterId).Delete().RunResultAsync(_conn)).AssertNoErrors();
             (await R.Table(s_ChapterAnnotationTable).GetAll(chapterId).OptArg("index", "ChapterId").Delete().RunResultAsync(_conn)).AssertNoErrors();
             (await R.Table(s_ParagraphTable).GetAll(chapterId).OptArg("index", "ChapterId").Delete().RunResultAsync(_conn)).AssertNoErrors();
+            (await R.Table(s_ParagraphAnnotationTable).GetAll(chapterId).OptArg("index", "ChapterId").RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />

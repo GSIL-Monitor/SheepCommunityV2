@@ -1,28 +1,30 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Netease.Nim;
 using ServiceStack;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using ServiceStack.Validation;
-using Sheep.Model.Corp;
-using Sheep.Model.Corp.Entities;
+using Sheep.Model.Friendship;
+using Sheep.Model.Friendship.Entities;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Groups;
 
 namespace Sheep.ServiceInterface.Groups
 {
     /// <summary>
-    ///     更改所在地服务接口。
+    ///     更改简介服务接口。
     /// </summary>
-    public class ChangeGroupLocationService : ChangeGroupService
+    public class ChangeGroupDescriptionService : ChangeGroupService
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(ChangeGroupLocationService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(ChangeGroupDescriptionService));
 
         #endregion
 
@@ -34,9 +36,14 @@ namespace Sheep.ServiceInterface.Groups
         public IAppSettings AppSettings { get; set; }
 
         /// <summary>
-        ///     获取及设置更改所在地的校验器。
+        ///     网易云通信服务客户端。
         /// </summary>
-        public IValidator<GroupChangeLocation> GroupChangeLocationValidator { get; set; }
+        public INimClient NimClient { get; set; }
+
+        /// <summary>
+        ///     获取及设置更改简介的校验器。
+        /// </summary>
+        public IValidator<GroupChangeDescription> GroupChangeDescriptionValidator { get; set; }
 
         /// <summary>
         ///     获取及设置群组的存储库。
@@ -45,12 +52,12 @@ namespace Sheep.ServiceInterface.Groups
 
         #endregion
 
-        #region 更改所在地
+        #region 更改简介
 
         /// <summary>
-        ///     更改所在地。
+        ///     更改简介。
         /// </summary>
-        public async Task<object> Put(GroupChangeLocation request)
+        public async Task<object> Put(GroupChangeDescription request)
         {
             if (!IsAuthenticated)
             {
@@ -58,22 +65,26 @@ namespace Sheep.ServiceInterface.Groups
             }
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
-                GroupChangeLocationValidator.ValidateAndThrow(request, ApplyTo.Put);
+                GroupChangeDescriptionValidator.ValidateAndThrow(request, ApplyTo.Put);
             }
             var existingGroup = await GroupRepo.GetGroupAsync(request.GroupId);
             if (existingGroup == null)
             {
-                throw HttpError.NotFound(string.Format(Resources.GroupNotFound, request.GroupId));
+                existingGroup = new Group
+                                {
+                                    Id = request.GroupId,
+                                    DisplayName = $"Group{request.GroupId}",
+                                    CreatedDate = DateTime.UtcNow
+                                };
+                existingGroup.ModifiedDate = existingGroup.CreatedDate;
             }
             var newGroup = new Group();
             newGroup.PopulateWith(existingGroup);
             newGroup.Meta = existingGroup.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingGroup.Meta);
-            newGroup.Country = request.Country;
-            newGroup.State = request.State;
-            newGroup.City = request.City;
+            newGroup.Description = request.Description?.Replace("\"", "'");
             var group = await GroupRepo.UpdateGroupAsync(existingGroup, newGroup);
             ResetCache(group);
-            return new GroupChangeLocationResponse();
+            return new GroupChangeDescriptionResponse();
         }
 
         #endregion

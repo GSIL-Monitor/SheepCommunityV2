@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using ServiceStack;
-using Sheep.Model.Corp.Entities;
+using Sheep.Model.Friendship.Entities;
 
 namespace Sheep.ServiceInterface.Groups
 {
@@ -17,15 +17,6 @@ namespace Sheep.ServiceInterface.Groups
         {
             Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/groups/{0}", group.Id)).ToArray());
             Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/groups/{0}", group.Id)).ToArray());
-            Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/groups/basic/{0}", group.Id)).ToArray());
-            Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/groups/basic/{0}", group.Id)).ToArray());
-            if (!group.RefId.IsNullOrEmpty())
-            {
-                Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/groups/show/{0}", group.RefId)).ToArray());
-                Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/groups/show/{0}", group.RefId)).ToArray());
-                Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("date:res:/groups/basic/show/{0}", group.RefId)).ToArray());
-                Request.RemoveFromCache(Cache, Cache.GetKeysStartingWith(string.Format("res:/groups/basic/show/{0}", group.RefId)).ToArray());
-            }
         }
     }
 }

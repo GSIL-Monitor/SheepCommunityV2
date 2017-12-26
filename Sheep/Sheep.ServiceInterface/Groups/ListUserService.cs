@@ -5,7 +5,7 @@ using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using ServiceStack.Validation;
-using Sheep.Model.Corp;
+using Sheep.Model.Friendship;
 using Sheep.ServiceInterface.Groups.Mappers;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Groups;
@@ -57,12 +57,12 @@ namespace Sheep.ServiceInterface.Groups
             {
                 GroupListValidator.ValidateAndThrow(request, ApplyTo.Get);
             }
-            var existingGroups = await GroupRepo.FindGroupsAsync(request.NameFilter, request.CreatedSince, request.ModifiedSince, request.JoinMode, request.IsPublic, request.Status, request.OrderBy, request.Descending, request.Skip, request.Limit);
+            var existingGroups = await GroupRepo.FindGroupsAsync(request.NameFilter, request.CreatedSince, request.ModifiedSince, request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingGroups == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.GroupsNotFound));
             }
-            var groupsDto = existingGroups.Select(group => group.MapToGroupDto()).ToList();
+            var groupsDto = existingGroups.Select(groupAuth => groupAuth.MapToGroupDto()).ToList();
             return new GroupListResponse
                    {
                        Groups = groupsDto

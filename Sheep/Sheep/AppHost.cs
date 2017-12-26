@@ -20,8 +20,6 @@ using Sheep.Model.Bookstore;
 using Sheep.Model.Bookstore.Repositories;
 using Sheep.Model.Content;
 using Sheep.Model.Content.Repositories;
-using Sheep.Model.Corp;
-using Sheep.Model.Corp.Repositories;
 using Sheep.Model.Friendship;
 using Sheep.Model.Friendship.Repositories;
 using Sheep.Model.Geo;
@@ -108,8 +106,6 @@ namespace Sheep
             ConfigAuth(container);
             // 配置地理位置功能。
             ConfigureGeo(container);
-            // 配置团体功能。
-            ConfigureCorp(container);
             // 配置好友功能。
             ConfigureFriendship(container);
             // 配置内容功能。
@@ -349,18 +345,11 @@ namespace Sheep
         }
 
         /// <summary>
-        ///     配置团体功能。
-        /// </summary>
-        private void ConfigureCorp(Container container)
-        {
-            container.Register<IGroupRepository>(c => new RethinkDbGroupRepository(c.Resolve<IConnection>(), AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true));
-        }
-
-        /// <summary>
         ///     配置好友功能。
         /// </summary>
         private void ConfigureFriendship(Container container)
         {
+            container.Register<IGroupRepository>(c => new RethinkDbGroupRepository(c.Resolve<IConnection>(), AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true));
             container.Register<IFollowRepository>(c => new RethinkDbFollowRepository(c.Resolve<IConnection>(), AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true));
         }
 

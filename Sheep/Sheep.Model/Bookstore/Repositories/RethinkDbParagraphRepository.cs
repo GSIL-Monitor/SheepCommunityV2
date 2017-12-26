@@ -36,6 +36,11 @@ namespace Sheep.Model.Bookstore.Repositories
         /// </summary>
         private static readonly string s_ParagraphTable = typeof(Paragraph).Name;
 
+        /// <summary>
+        ///     节注释的数据表名。
+        /// </summary>
+        private static readonly string s_ParagraphAnnotationTable = typeof(ParagraphAnnotation).Name;
+
         #endregion
 
         #region 属性
@@ -525,12 +530,14 @@ namespace Sheep.Model.Bookstore.Repositories
         public void DeleteParagraph(string paragraphId)
         {
             R.Table(s_ParagraphTable).Get(paragraphId).Delete().RunResult(_conn).AssertNoErrors();
+            R.Table(s_ParagraphAnnotationTable).GetAll(paragraphId).OptArg("index", "ParagraphId").Delete().RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
         public async Task DeleteParagraphAsync(string paragraphId)
         {
             (await R.Table(s_ParagraphTable).Get(paragraphId).Delete().RunResultAsync(_conn)).AssertNoErrors();
+            (await R.Table(s_ParagraphAnnotationTable).GetAll(paragraphId).OptArg("index", "ParagraphId").RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />

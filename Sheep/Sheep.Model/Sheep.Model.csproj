@@ -157,7 +157,7 @@
     <Compile Include="Content\Repositories\RethinkDbVoteRepository.cs" />
     <Compile Include="Content\Repositories\RethinkDbLikeRepository.cs" />
     <Compile Include="Content\Repositories\RethinkDbPostRepository.cs" />
-    <Compile Include="Corp\Repositories\RethinkDbGroupRepository.cs" />
+    <Compile Include="Friendship\Repositories\RethinkDbGroupRepository.cs" />
     <Compile Include="Friendship\Entities\Follow.cs" />
     <Compile Include="Friendship\IFollowRepository.cs" />
     <Compile Include="Friendship\Repositories\RethinkDbFollowRepository.cs" />
@@ -170,8 +170,8 @@
     <Compile Include="Geo\Repositories\RethinkDbCityRepository.cs" />
     <Compile Include="Geo\Repositories\RethinkDbStateRepository.cs" />
     <Compile Include="Geo\Repositories\RethinkDbCountryRepository.cs" />
-    <Compile Include="Corp\Entities\Group.cs" />
-    <Compile Include="Corp\IGroupRepository.cs" />
+    <Compile Include="Friendship\Entities\Group.cs" />
+    <Compile Include="Friendship\IGroupRepository.cs" />
     <Compile Include="ModelAssembly.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

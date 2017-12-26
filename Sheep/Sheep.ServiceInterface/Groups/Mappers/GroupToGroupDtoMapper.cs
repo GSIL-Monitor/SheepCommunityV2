@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using ServiceStack.Text;
-using Sheep.Model.Corp.Entities;
+using Sheep.Model.Friendship.Entities;
 using Sheep.ServiceModel.Groups.Entities;
 
 namespace Sheep.ServiceInterface.Groups.Mappers
@@ -22,17 +22,8 @@ namespace Sheep.ServiceInterface.Groups.Mappers
                                Description = group.Description,
                                IconUrl = group.IconUrl,
                                CoverPhotoUrl = group.CoverPhotoUrl,
-                               RefId = group.RefId,
-                               Country = group.Country,
-                               State = group.State,
-                               City = group.City,
-                               JoinMode = group.JoinMode,
-                               IsPublic = group.IsPublic,
-                               EnableMessages = group.EnableMessages,
-                               Status = group.Status,
                                CreatedDate = group.CreatedDate.ToUnixTime(),
-                               ModifiedDate = group.ModifiedDate.ToUnixTime(),
-                               TotalMembers = 0
+                               ModifiedDate = group.ModifiedDate.ToUnixTime()
                            };
             return groupDto;
         }

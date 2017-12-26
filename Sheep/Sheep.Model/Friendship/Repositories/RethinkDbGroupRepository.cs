@@ -11,9 +11,9 @@ using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Logging;
 using Sheep.Model.Properties;
-using Group = Sheep.Model.Corp.Entities.Group;
+using Group = Sheep.Model.Friendship.Entities.Group;
 
-namespace Sheep.Model.Corp.Repositories
+namespace Sheep.Model.Friendship.Repositories
 {
     /// <summary>
     ///     基于RethinkDb的群组的存储库。
@@ -100,7 +100,6 @@ namespace Sheep.Model.Corp.Repositories
             {
                 R.TableCreate(s_GroupTable).OptArg("primary_key", "Id").OptArg("durability", Durability.Soft).OptArg("shards", _shards).OptArg("replicas", _replicas).RunResult(_conn).AssertNoErrors().AssertTablesCreated(1);
                 R.Table(s_GroupTable).IndexCreate("DisplayName").RunResult(_conn).AssertNoErrors();
-                R.Table(s_GroupTable).IndexCreate("RefId").RunResult(_conn).AssertNoErrors();
                 //R.Table(s_GroupTable).IndexWait().RunResult(_conn).AssertNoErrors();
             }
         }
@@ -132,14 +131,6 @@ namespace Sheep.Model.Corp.Repositories
                     throw new ArgumentException(string.Format(Resources.DisplayNameAlreadyExists, newGroup.DisplayName.SafeInput()));
                 }
             }
-            if (newGroup.RefId != null)
-            {
-                var existingGroup = GetGroupByRefId(newGroup.RefId);
-                if (existingGroup != null && (exceptForExistingGroup == null || existingGroup.Id != exceptForExistingGroup.Id))
-                {
-                    throw new ArgumentException(string.Format(Resources.RefIdAlreadyExists, newGroup.RefId.SafeInput()));
-                }
-            }
         }
 
         private async Task AssertNoExistingGroupAsync(Group newGroup, Group exceptForExistingGroup = null)
@@ -152,14 +143,6 @@ namespace Sheep.Model.Corp.Repositories
                     throw new ArgumentException(string.Format(Resources.DisplayNameAlreadyExists, newGroup.DisplayName.SafeInput()));
                 }
             }
-            if (newGroup.RefId != null)
-            {
-                var existingGroup = await GetGroupByRefIdAsync(newGroup.RefId);
-                if (existingGroup != null && (exceptForExistingGroup == null || existingGroup.Id != exceptForExistingGroup.Id))
-                {
-                    throw new ArgumentException(string.Format(Resources.RefIdAlreadyExists, newGroup.RefId.SafeInput()));
-                }
-            }
         }
 
         #endregion
@@ -169,65 +152,29 @@ namespace Sheep.Model.Corp.Repositories
         /// <inheritdoc />
         public Group GetGroup(string groupId)
         {
-            if (groupId.IsNullOrEmpty())
-            {
-                return null;
-            }
             return R.Table(s_GroupTable).Get(groupId).RunResult<Group>(_conn);
         }
 
         /// <inheritdoc />
         public Task<Group> GetGroupAsync(string groupId)
         {
-            if (groupId.IsNullOrEmpty())
-            {
-                return Task.FromResult<Group>(null);
-            }
             return R.Table(s_GroupTable).Get(groupId).RunResultAsync<Group>(_conn);
         }
 
         /// <inheritdoc />
         public Group GetGroupByDisplayName(string displayName)
         {
-            if (displayName.IsNullOrEmpty())
-            {
-                return null;
-            }
             return R.Table(s_GroupTable).GetAll(displayName).OptArg("index", "DisplayName").Nth(0).Default_(default(Group)).RunResult<Group>(_conn);
         }
 
         /// <inheritdoc />
         public Task<Group> GetGroupByDisplayNameAsync(string displayName)
         {
-            if (displayName.IsNullOrEmpty())
-            {
-                return Task.FromResult<Group>(null);
-            }
             return R.Table(s_GroupTable).GetAll(displayName).OptArg("index", "DisplayName").Nth(0).Default_(default(Group)).RunResultAsync<Group>(_conn);
         }
 
         /// <inheritdoc />
-        public Group GetGroupByRefId(string refId)
-        {
-            if (refId.IsNullOrEmpty())
-            {
-                return null;
-            }
-            return R.Table(s_GroupTable).GetAll(refId).OptArg("index", "RefId").Nth(0).Default_(default(Group)).RunResult<Group>(_conn);
-        }
-
-        /// <inheritdoc />
-        public Task<Group> GetGroupByRefIdAsync(string refId)
-        {
-            if (refId.IsNullOrEmpty())
-            {
-                return Task.FromResult<Group>(null);
-            }
-            return R.Table(s_GroupTable).GetAll(refId).OptArg("index", "RefId").Nth(0).Default_(default(Group)).RunResultAsync<Group>(_conn);
-        }
-
-        /// <inheritdoc />
-        public List<Group> FindGroups(string nameFilter, DateTime? createdSince, DateTime? modifiedSince, string joinMode, bool? isPublic, string status, string orderBy, bool? descending, int? skip, int? limit)
+        public List<Group> FindGroups(string nameFilter, DateTime? createdSince, DateTime? modifiedSince, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_GroupTable).Filter(true);
             if (!nameFilter.IsNullOrEmpty())
@@ -241,18 +188,6 @@ namespace Sheep.Model.Corp.Repositories
             if (modifiedSince.HasValue)
             {
                 query = query.Filter(row => row.G("ModifiedDate").Ge(modifiedSince.Value));
-            }
-            if (!joinMode.IsNullOrEmpty())
-            {
-                query = query.Filter(row => row.G("JoinMode").Eq(joinMode));
-            }
-            if (isPublic.HasValue)
-            {
-                query = query.Filter(row => row.G("IsPublic").Eq(isPublic.Value));
-            }
-            if (!status.IsNullOrEmpty())
-            {
-                query = query.Filter(row => row.G("Status").Eq(status));
             }
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
@@ -267,7 +202,7 @@ namespace Sheep.Model.Corp.Repositories
         }
 
         /// <inheritdoc />
-        public Task<List<Group>> FindGroupsAsync(string nameFilter, DateTime? createdSince, DateTime? modifiedSince, string joinMode, bool? isPublic, string status, string orderBy, bool? descending, int? skip, int? limit)
+        public Task<List<Group>> FindGroupsAsync(string nameFilter, DateTime? createdSince, DateTime? modifiedSince, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_GroupTable).Filter(true);
             if (!nameFilter.IsNullOrEmpty())
@@ -281,18 +216,6 @@ namespace Sheep.Model.Corp.Repositories
             if (modifiedSince.HasValue)
             {
                 query = query.Filter(row => row.G("ModifiedDate").Ge(modifiedSince.Value));
-            }
-            if (!joinMode.IsNullOrEmpty())
-            {
-                query = query.Filter(row => row.G("JoinMode").Eq(joinMode));
-            }
-            if (isPublic.HasValue)
-            {
-                query = query.Filter(row => row.G("IsPublic").Eq(isPublic.Value));
-            }
-            if (!status.IsNullOrEmpty())
-            {
-                query = query.Filter(row => row.G("Status").Eq(status));
             }
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
@@ -312,7 +235,7 @@ namespace Sheep.Model.Corp.Repositories
             newGroup.ThrowIfNull(nameof(newGroup));
             newGroup.DisplayName.ThrowIfNullOrEmpty(nameof(newGroup.DisplayName));
             AssertNoExistingGroup(newGroup);
-            newGroup.Id = new Base36IdGenerator(10, 4, 4).NewId().ToLower();
+            newGroup.Id = newGroup.Id.IsNullOrEmpty() ? new Base36IdGenerator(10, 4, 4).NewId().ToLower() : newGroup.Id;
             newGroup.CreatedDate = DateTime.UtcNow;
             newGroup.ModifiedDate = newGroup.CreatedDate;
             var result = R.Table(s_GroupTable).Get(newGroup.Id).Replace(newGroup).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
@@ -325,7 +248,7 @@ namespace Sheep.Model.Corp.Repositories
             newGroup.ThrowIfNull(nameof(newGroup));
             newGroup.DisplayName.ThrowIfNullOrEmpty(nameof(newGroup.DisplayName));
             await AssertNoExistingGroupAsync(newGroup);
-            newGroup.Id = new Base36IdGenerator(10, 4, 4).NewId().ToLower();
+            newGroup.Id = newGroup.Id.IsNullOrEmpty() ? new Base36IdGenerator(10, 4, 4).NewId().ToLower() : newGroup.Id;
             newGroup.CreatedDate = DateTime.UtcNow;
             newGroup.ModifiedDate = newGroup.CreatedDate;
             var result = (await R.Table(s_GroupTable).Get(newGroup.Id).Replace(newGroup).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
@@ -337,7 +260,6 @@ namespace Sheep.Model.Corp.Repositories
         {
             existingGroup.ThrowIfNull(nameof(existingGroup));
             newGroup.ThrowIfNull(nameof(newGroup));
-            newGroup.Id.ThrowIfNullOrEmpty(nameof(newGroup.Id));
             newGroup.DisplayName.ThrowIfNullOrEmpty(nameof(newGroup.DisplayName));
             AssertNoExistingGroup(newGroup, existingGroup);
             newGroup.Id = existingGroup.Id;
@@ -352,7 +274,6 @@ namespace Sheep.Model.Corp.Repositories
         {
             existingGroup.ThrowIfNull(nameof(existingGroup));
             newGroup.ThrowIfNull(nameof(newGroup));
-            newGroup.Id.ThrowIfNullOrEmpty(nameof(newGroup.Id));
             newGroup.DisplayName.ThrowIfNullOrEmpty(nameof(newGroup.DisplayName));
             await AssertNoExistingGroupAsync(newGroup, existingGroup);
             newGroup.Id = existingGroup.Id;
@@ -365,20 +286,12 @@ namespace Sheep.Model.Corp.Repositories
         /// <inheritdoc />
         public void DeleteGroup(string groupId)
         {
-            if (groupId.IsNullOrEmpty())
-            {
-                return;
-            }
             R.Table(s_GroupTable).Get(groupId).Delete().RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
         public async Task DeleteGroupAsync(string groupId)
         {
-            if (groupId.IsNullOrEmpty())
-            {
-                return;
-            }
             (await R.Table(s_GroupTable).Get(groupId).Delete().RunResultAsync(_conn)).AssertNoErrors();
         }
 

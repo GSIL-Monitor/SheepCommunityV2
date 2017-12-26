@@ -1,5 +1,4 @@
-﻿using System;
-using ServiceStack;
+﻿using ServiceStack;
 using ServiceStack.Extensions;
 using ServiceStack.FluentValidation;
 using Sheep.ServiceModel.Properties;

@@ -1,29 +1,30 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Netease.Nim;
 using ServiceStack;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using ServiceStack.Validation;
-using Sheep.Model.Corp;
-using Sheep.Model.Corp.Entities;
-using Sheep.ServiceInterface.Groups.Mappers;
+using Sheep.Model.Friendship;
+using Sheep.Model.Friendship.Entities;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Groups;
 
 namespace Sheep.ServiceInterface.Groups
 {
     /// <summary>
-    ///     更新群组服务接口。
+    ///     更改显示名称服务接口。
     /// </summary>
-    public class UpdateGroupService : ChangeGroupService
+    public class ChangeGroupDisplayNameService : ChangeGroupService
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(UpdateGroupService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(ChangeGroupDisplayNameService));
 
         #endregion
 
@@ -35,9 +36,14 @@ namespace Sheep.ServiceInterface.Groups
         public IAppSettings AppSettings { get; set; }
 
         /// <summary>
-        ///     获取及设置更新群组的校验器。
+        ///     网易云通信服务客户端。
         /// </summary>
-        public IValidator<GroupUpdate> GroupUpdateValidator { get; set; }
+        public INimClient NimClient { get; set; }
+
+        /// <summary>
+        ///     获取及设置更改显示名称的校验器。
+        /// </summary>
+        public IValidator<GroupChangeDisplayName> GroupChangeDisplayNameValidator { get; set; }
 
         /// <summary>
         ///     获取及设置群组的存储库。
@@ -46,12 +52,12 @@ namespace Sheep.ServiceInterface.Groups
 
         #endregion
 
-        #region 更新群组
+        #region 更改显示名称
 
         /// <summary>
-        ///     更新群组。
+        ///     更改显示名称。
         /// </summary>
-        public async Task<object> Put(GroupUpdate request)
+        public async Task<object> Put(GroupChangeDisplayName request)
         {
             if (!IsAuthenticated)
             {
@@ -59,30 +65,26 @@ namespace Sheep.ServiceInterface.Groups
             }
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
-                GroupUpdateValidator.ValidateAndThrow(request, ApplyTo.Put);
+                GroupChangeDisplayNameValidator.ValidateAndThrow(request, ApplyTo.Put);
             }
             var existingGroup = await GroupRepo.GetGroupAsync(request.GroupId);
             if (existingGroup == null)
             {
-                throw HttpError.NotFound(string.Format(Resources.GroupNotFound, request.GroupId));
+                existingGroup = new Group
+                                {
+                                    Id = request.GroupId,
+                                    DisplayName = $"Group{request.GroupId}",
+                                    CreatedDate = DateTime.UtcNow
+                                };
+                existingGroup.ModifiedDate = existingGroup.CreatedDate;
             }
             var newGroup = new Group();
             newGroup.PopulateWith(existingGroup);
             newGroup.Meta = existingGroup.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingGroup.Meta);
-            newGroup.DisplayName = request.DisplayName;
-            newGroup.Description = request.Description;
-            newGroup.Country = request.Country;
-            newGroup.State = request.State;
-            newGroup.City = request.City;
-            newGroup.JoinMode = !request.JoinMode.IsNullOrEmpty() ? request.JoinMode : "Direct";
-            newGroup.IsPublic = request.IsPublic.HasValue && request.IsPublic.Value;
-            newGroup.EnableMessages = request.EnableMessages.HasValue && request.EnableMessages.Value;
+            newGroup.DisplayName = request.DisplayName?.Replace("\"", "'");
             var group = await GroupRepo.UpdateGroupAsync(existingGroup, newGroup);
             ResetCache(group);
-            return new GroupUpdateResponse
-                   {
-                       Group = group.MapToGroupDto()
-                   };
+            return new GroupChangeDisplayNameResponse();
         }
 
         #endregion

@@ -75,7 +75,7 @@ namespace Sheep.ServiceInterface.Accounts
             var newUserAuth = AuthRepo is ICustomUserAuth customUserAuth ? customUserAuth.CreateUserAuth() : new UserAuth();
             newUserAuth.PopulateMissingExtended(existingUserAuth);
             newUserAuth.Meta = existingUserAuth.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingUserAuth.Meta);
-            newUserAuth.Meta["Description"] = request.Description;
+            newUserAuth.Meta["Description"] = request.Description?.Replace("\"", "'");
             var userAuth = await ((IUserAuthRepositoryExtended) AuthRepo).UpdateUserAuthAsync(existingUserAuth, newUserAuth);
             ResetCache(userAuth);
             await NimClient.PostAsync(new UserUpdateInfoRequest

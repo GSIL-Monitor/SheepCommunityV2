@@ -4,7 +4,7 @@ using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using ServiceStack.Validation;
-using Sheep.Model.Corp;
+using Sheep.Model.Friendship;
 using Sheep.ServiceInterface.Groups.Mappers;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Groups;
@@ -12,16 +12,16 @@ using Sheep.ServiceModel.Groups;
 namespace Sheep.ServiceInterface.Groups
 {
     /// <summary>
-    ///     显示一个群组基本信息服务接口。
+    ///     根据显示名称显示一个群组服务接口。
     /// </summary>
-    public class ShowBasicGroupService : Service
+    public class ShowGroupByDisplayNameService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(ShowBasicGroupService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(ShowGroupByDisplayNameService));
 
         #endregion
 
@@ -33,36 +33,36 @@ namespace Sheep.ServiceInterface.Groups
         public IAppSettings AppSettings { get; set; }
 
         /// <summary>
-        ///     获取及设置显示一个群组基本信息的校验器。
+        ///     获取及设置根据显示名称显示一个群组的校验器。
         /// </summary>
-        public IValidator<BasicGroupShow> BasicGroupShowValidator { get; set; }
+        public IValidator<GroupShowByDisplayName> GroupShowByDisplayNameValidator { get; set; }
 
         /// <summary>
-        ///     获取及设置群组基本信息的存储库。
+        ///     获取及设置群组的存储库。
         /// </summary>
         public IGroupRepository GroupRepo { get; set; }
 
         #endregion
 
-        #region 显示一个群组基本信息
+        #region 根据显示名称显示一个群组
 
         /// <summary>
-        ///     显示一个群组基本信息。
+        ///     根据显示名称显示一个群组。
         /// </summary>
         [CacheResponse(Duration = 600)]
-        public async Task<object> Get(BasicGroupShow request)
+        public async Task<object> Get(GroupShowByDisplayName request)
         {
             if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             {
-                BasicGroupShowValidator.ValidateAndThrow(request, ApplyTo.Get);
+                GroupShowByDisplayNameValidator.ValidateAndThrow(request, ApplyTo.Get);
             }
-            var existingGroup = await GroupRepo.GetGroupAsync(request.GroupId);
+            var existingGroup = await GroupRepo.GetGroupByDisplayNameAsync(request.DisplayName);
             if (existingGroup == null)
             {
-                throw HttpError.NotFound(string.Format(Resources.GroupNotFound, request.GroupId));
+                throw HttpError.NotFound(string.Format(Resources.GroupNotFound, request.DisplayName));
             }
-            var groupDto = existingGroup.MapToBasicGroupDto();
-            return new BasicGroupShowResponse
+            var groupDto = existingGroup.MapToGroupDto();
+            return new GroupShowResponse
                    {
                        Group = groupDto
                    };

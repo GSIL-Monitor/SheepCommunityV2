@@ -1,25 +1,24 @@
 ﻿using ServiceStack;
-using ServiceStack.Extensions;
 using ServiceStack.FluentValidation;
 using Sheep.ServiceModel.Properties;
 
 namespace Sheep.ServiceModel.Groups.Validators
 {
     /// <summary>
-    ///     更改图标的校验器。
+    ///     更改简介的校验器。
     /// </summary>
-    public class GroupChangeIconValidator : AbstractValidator<GroupChangeIcon>
+    public class GroupChangeDescriptionValidator : AbstractValidator<GroupChangeDescription>
     {
         /// <summary>
-        ///     初始化一个新的<see cref="GroupChangeIconValidator" />对象。
+        ///     初始化一个新的<see cref="GroupChangeDescriptionValidator" />对象。
         ///     创建规则集合。
         /// </summary>
-        public GroupChangeIconValidator()
+        public GroupChangeDescriptionValidator()
         {
             RuleSet(ApplyTo.Put, () =>
                                  {
                                      RuleFor(x => x.GroupId).NotEmpty().WithMessage(Resources.GroupIdRequired);
-                                     RuleFor(x => x.SourceIconUrl).Must(url => url.GetImageUrlExtension().IsImageExtension()).WithMessage(Resources.SourceIconUrlMismatch).When(x => !x.SourceIconUrl.IsNullOrEmpty());
+                                     RuleFor(x => x.Description).Length(4, 8192).WithMessage(Resources.DescriptionLengthMismatch, 4, 8192).When(x => !x.Description.IsNullOrEmpty());
                                  });
         }
     }

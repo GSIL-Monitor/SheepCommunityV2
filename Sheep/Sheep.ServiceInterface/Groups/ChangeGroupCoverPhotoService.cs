@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Aliyun.OSS;
 using Aliyun.OSS.Common;
 using Aliyun.OSS.Util;
+using Netease.Nim;
 using ServiceStack;
 using ServiceStack.Configuration;
 using ServiceStack.Extensions;
@@ -14,8 +15,8 @@ using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using ServiceStack.Validation;
 using Sheep.Common.Settings;
-using Sheep.Model.Corp;
-using Sheep.Model.Corp.Entities;
+using Sheep.Model.Friendship;
+using Sheep.Model.Friendship.Entities;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Groups;
 
@@ -48,6 +49,11 @@ namespace Sheep.ServiceInterface.Groups
         public IOss OssClient { get; set; }
 
         /// <summary>
+        ///     网易云通信服务客户端。
+        /// </summary>
+        public INimClient NimClient { get; set; }
+
+        /// <summary>
         ///     获取及设置更改封面图片的校验器。
         /// </summary>
         public IValidator<GroupChangeCoverPhoto> GroupChangeCoverPhotoValidator { get; set; }
@@ -77,7 +83,13 @@ namespace Sheep.ServiceInterface.Groups
             var existingGroup = await GroupRepo.GetGroupAsync(request.GroupId);
             if (existingGroup == null)
             {
-                throw HttpError.NotFound(string.Format(Resources.GroupNotFound, request.GroupId));
+                existingGroup = new Group
+                                {
+                                    Id = request.GroupId,
+                                    DisplayName = $"Group{request.GroupId}",
+                                    CreatedDate = DateTime.UtcNow
+                                };
+                existingGroup.ModifiedDate = existingGroup.CreatedDate;
             }
             string coverphotoUrl = null;
             if (!request.SourceCoverPhotoUrl.IsNullOrEmpty())

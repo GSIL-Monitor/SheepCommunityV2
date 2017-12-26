@@ -66,6 +66,11 @@ namespace Sheep.Model.Bookstore.Repositories
         /// </summary>
         private static readonly string s_ParagraphTable = typeof(Paragraph).Name;
 
+        /// <summary>
+        ///     节注释的数据表名。
+        /// </summary>
+        private static readonly string s_ParagraphAnnotationTable = typeof(ParagraphAnnotation).Name;
+
         #endregion
 
         #region 属性
@@ -332,6 +337,7 @@ namespace Sheep.Model.Bookstore.Repositories
             R.Table(s_ChapterTable).GetAll(bookId).OptArg("index", "BookId").Delete().RunResult(_conn).AssertNoErrors();
             R.Table(s_ChapterAnnotationTable).GetAll(bookId).OptArg("index", "BookId").Delete().RunResult(_conn).AssertNoErrors();
             R.Table(s_ParagraphTable).GetAll(bookId).OptArg("index", "BookId").Delete().RunResult(_conn).AssertNoErrors();
+            R.Table(s_ParagraphAnnotationTable).GetAll(bookId).OptArg("index", "BookId").Delete().RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
@@ -344,6 +350,7 @@ namespace Sheep.Model.Bookstore.Repositories
             (await R.Table(s_ChapterTable).GetAll(bookId).OptArg("index", "BookId").Delete().RunResultAsync(_conn)).AssertNoErrors();
             (await R.Table(s_ChapterAnnotationTable).GetAll(bookId).OptArg("index", "BookId").Delete().RunResultAsync(_conn)).AssertNoErrors();
             (await R.Table(s_ParagraphTable).GetAll(bookId).OptArg("index", "BookId").Delete().RunResultAsync(_conn)).AssertNoErrors();
+            (await R.Table(s_ParagraphAnnotationTable).GetAll(bookId).OptArg("index", "BookId").Delete().RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />

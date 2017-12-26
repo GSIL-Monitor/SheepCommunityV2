@@ -7,75 +7,64 @@ using Sheep.ServiceModel.Groups.Entities;
 namespace Sheep.ServiceModel.Groups
 {
     /// <summary>
-    ///     列举一组群组的请求。
+    ///     查询并列举一组群组的请求。
     /// </summary>
-    [Route("/groups/query", HttpMethods.Get)]
+    [Route("/groups/query", HttpMethods.Get, Summary = "查询并列举一组群组")]
     [DataContract]
     public class GroupList : IReturn<GroupListResponse>
     {
         /// <summary>
-        ///     群组名称。
+        ///     名称过滤（包括显示名称、名称全称）。
         /// </summary>
         [DataMember(Order = 1, Name = "namefilter")]
+        [ApiMember(Description = "名称过滤（包括显示名称、名称全称）")]
         public string NameFilter { get; set; }
 
         /// <summary>
         ///     创建日期在指定的时间之后。
         /// </summary>
         [DataMember(Order = 2, Name = "createdsince")]
+        [ApiMember(Description = "创建日期在指定的时间之后")]
         public DateTime? CreatedSince { get; set; }
 
         /// <summary>
         ///     修改日期在指定的时间之后。
         /// </summary>
         [DataMember(Order = 3, Name = "modifiedsince")]
+        [ApiMember(Description = "创建日期在指定的时间之后")]
         public DateTime? ModifiedSince { get; set; }
 
         /// <summary>
-        ///     加入群组的方式。（可选值：Direct, RequireVerification, Joinless）
+        ///     排序的字段。（可选值：DisplayName, FullName, CreatedDate, ModifiedDate, 默认为 CreatedDate）
         /// </summary>
-        [DataMember(Order = 4, Name = "joinmode")]
-        public string JoinMode { get; set; }
-
-        /// <summary>
-        ///     非群组成员是否可以访问群组内容。
-        /// </summary>
-        [DataMember(Order = 5, Name = "ispublic")]
-        public bool? IsPublic { get; set; }
-
-        /// <summary>
-        ///     状态。（可选值：待审核, 审核通过, 已禁止, 审核失败, 等待删除）
-        /// </summary>
-        [DataMember(Order = 6, Name = "status")]
-        public string Status { get; set; }
-
-        /// <summary>
-        ///     排序的字段。（可选值：DisplayName, FullName, RefId, JoinMode, Status, CreatedDate, ModifiedDate, TotalMembers 默认为 CreatedDate）
-        /// </summary>
-        [DataMember(Order = 7, Name = "orderby")]
+        [DataMember(Order = 4, Name = "orderby")]
+        [ApiMember(Description = "排序的字段（可选值：DisplayName, FullName, CreatedDate, ModifiedDate, 默认为 CreatedDate）")]
         public string OrderBy { get; set; }
 
         /// <summary>
         ///     是否按降序排序。
         /// </summary>
-        [DataMember(Order = 8, Name = "descending")]
+        [DataMember(Order = 5, Name = "descending")]
+        [ApiMember(Description = "是否按降序排序")]
         public bool? Descending { get; set; }
 
         /// <summary>
         ///     忽略的行数。
         /// </summary>
-        [DataMember(Order = 9, Name = "skip")]
+        [DataMember(Order = 6, Name = "skip")]
+        [ApiMember(Description = "忽略的行数")]
         public int? Skip { get; set; }
 
         /// <summary>
         ///     获取的行数。
         /// </summary>
-        [DataMember(Order = 10, Name = "limit")]
+        [DataMember(Order = 7, Name = "limit")]
+        [ApiMember(Description = "获取的行数")]
         public int? Limit { get; set; }
     }
 
     /// <summary>
-    ///     列举一组群组的响应。
+    ///     查询并列举一组群组的响应。
     /// </summary>
     [DataContract]
     public class GroupListResponse : IHasResponseStatus
@@ -84,12 +73,14 @@ namespace Sheep.ServiceModel.Groups
         ///     群组信息列表。
         /// </summary>
         [DataMember(Order = 1)]
+        [ApiMember(Description = "群组信息列表")]
         public List<GroupDto> Groups { get; set; }
 
         /// <summary>
         ///     处理响应的状态。
         /// </summary>
         [DataMember(Order = 2)]
+        [ApiMember(Description = "处理响应的状态")]
         public ResponseStatus ResponseStatus { get; set; }
     }
 }
