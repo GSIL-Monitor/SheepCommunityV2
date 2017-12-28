@@ -28,10 +28,10 @@ namespace Sheep.ServiceModel.Likes
         public DateTime? CreatedSince { get; set; }
 
         /// <summary>
-        ///     排序的字段。（可选值：CreatedDate 默认为 CreatedDate）
+        ///     排序的字段。（可选值：ParentId, CreatedDate 默认为 CreatedDate）
         /// </summary>
         [DataMember(Order = 3, Name = "orderby")]
-        [ApiMember(Description = "排序的字段（可选值：CreatedDate 默认为 CreatedDate）")]
+        [ApiMember(Description = "排序的字段（可选值：ParentId, CreatedDate 默认为 CreatedDate）")]
         public string OrderBy { get; set; }
 
         /// <summary>
@@ -85,10 +85,10 @@ namespace Sheep.ServiceModel.Likes
         public DateTime? CreatedSince { get; set; }
 
         /// <summary>
-        ///     排序的字段。（可选值：CreatedDate 默认为 CreatedDate）
+        ///     排序的字段。（可选值：ParentId, CreatedDate 默认为 CreatedDate）
         /// </summary>
         [DataMember(Order = 4, Name = "orderby")]
-        [ApiMember(Description = "排序的字段（可选值：CreatedDate 默认为 CreatedDate）")]
+        [ApiMember(Description = "排序的字段（可选值：ParentId, CreatedDate 默认为 CreatedDate）")]
         public string OrderBy { get; set; }
 
         /// <summary>

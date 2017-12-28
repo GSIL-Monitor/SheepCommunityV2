@@ -38,7 +38,7 @@ namespace Sheep.ServiceModel.Views
         ///     排序的字段。（可选值：ParentId, CreatedDate 默认为 CreatedDate）
         /// </summary>
         [DataMember(Order = 4, Name = "orderby")]
-        [ApiMember(Description = "排序的字段（可选值：CreatedDate 默认为 CreatedDate）")]
+        [ApiMember(Description = "排序的字段（可选值：ParentId, CreatedDate 默认为 CreatedDate）")]
         public string OrderBy { get; set; }
 
         /// <summary>
@@ -85,37 +85,44 @@ namespace Sheep.ServiceModel.Views
         public string ParentType { get; set; }
 
         /// <summary>
+        ///     上级编号的前缀。（如帖子编号）
+        /// </summary>
+        [DataMember(Order = 3, Name = "parentidprefix")]
+        [ApiMember(Description = "上级编号的前缀（如帖子编号）")]
+        public string ParentIdPrefix { get; set; }
+
+        /// <summary>
         ///     创建日期在指定的时间之后。
         /// </summary>
-        [DataMember(Order = 3, Name = "createdsince")]
+        [DataMember(Order = 4, Name = "createdsince")]
         [ApiMember(Description = "创建日期在指定的时间之后")]
         public DateTime? CreatedSince { get; set; }
 
         /// <summary>
-        ///     排序的字段。（可选值：CreatedDate 默认为 CreatedDate）
+        ///     排序的字段。（可选值：ParentId, CreatedDate 默认为 CreatedDate）
         /// </summary>
-        [DataMember(Order = 4, Name = "orderby")]
-        [ApiMember(Description = "排序的字段（可选值：CreatedDate 默认为 CreatedDate）")]
+        [DataMember(Order = 5, Name = "orderby")]
+        [ApiMember(Description = "排序的字段（可选值：ParentId, CreatedDate 默认为 CreatedDate）")]
         public string OrderBy { get; set; }
 
         /// <summary>
         ///     是否按降序排序。
         /// </summary>
-        [DataMember(Order = 5, Name = "descending")]
+        [DataMember(Order = 6, Name = "descending")]
         [ApiMember(Description = "是否按降序排序")]
         public bool? Descending { get; set; }
 
         /// <summary>
         ///     忽略的行数。
         /// </summary>
-        [DataMember(Order = 6, Name = "skip")]
+        [DataMember(Order = 7, Name = "skip")]
         [ApiMember(Description = "忽略的行数")]
         public int? Skip { get; set; }
 
         /// <summary>
         ///     获取的行数。
         /// </summary>
-        [DataMember(Order = 7, Name = "limit")]
+        [DataMember(Order = 8, Name = "limit")]
         [ApiMember(Description = "获取的行数")]
         public int? Limit { get; set; }
     }

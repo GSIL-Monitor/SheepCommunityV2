@@ -339,9 +339,11 @@
     <Compile Include="Users\Validators\UserShowValidator.cs" />
     <Compile Include="Views\Entities\ViewDto.cs" />
     <Compile Include="Views\Validators\ViewBatchCreateValidator.cs" />
+    <Compile Include="Views\Validators\ViewCountValidator.cs" />
     <Compile Include="Views\ViewBatchCreate.cs" />
     <Compile Include="Views\ViewCreate.cs" />
     <Compile Include="Views\ViewDelete.cs" />
+    <Compile Include="Views\ViewCount.cs" />
     <Compile Include="Views\ViewList.cs" />
     <Compile Include="Views\ViewShow.cs" />
     <Compile Include="Views\Validators\ViewCreateValidator.cs" />

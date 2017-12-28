@@ -57,102 +57,128 @@ namespace Sheep.Model.Content
         /// </summary>
         /// <param name="userId">用户的编号。</param>
         /// <param name="parentType">上级的类型。</param>
+        /// <param name="parentIdPrefix">上级的编号的前缀。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="orderBy">排序的字段。</param>
         /// <param name="descending">是否按降序排序。</param>
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>阅读列表。</returns>
-        List<View> FindViewsByUser(int userId, string parentType, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit);
+        List<View> FindViewsByUser(int userId, string parentType, string parentIdPrefix, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
         ///     异步根据用户查找阅读。
         /// </summary>
         /// <param name="userId">用户的编号。</param>
         /// <param name="parentType">上级的类型。</param>
+        /// <param name="parentIdPrefix">上级的编号的前缀。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="orderBy">排序的字段。</param>
         /// <param name="descending">是否按降序排序。</param>
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>阅读列表。</returns>
-        Task<List<View>> FindViewsByUserAsync(int userId, string parentType, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit);
+        Task<List<View>> FindViewsByUserAsync(int userId, string parentType, string parentIdPrefix, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit);
 
         #endregion
 
         #region 统计
 
         /// <summary>
-        ///     根据上级获取阅读数量。
+        ///     根据上级获取阅读次数。
         /// </summary>
         /// <param name="parentId">上级的编号。（如帖子编号）</param>
         /// <param name="userId">用户的编号。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
-        /// <returns>阅读数量。</returns>
+        /// <returns>阅读次数。</returns>
         int GetViewsCountByParent(string parentId, int? userId, DateTime? createdSince);
 
         /// <summary>
-        ///     异步根据上级获取阅读数量。
+        ///     异步根据上级获取阅读次数。
         /// </summary>
         /// <param name="parentId">上级的编号。（如帖子编号）</param>
         /// <param name="userId">用户的编号。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
-        /// <returns>阅读数量。</returns>
+        /// <returns>阅读次数。</returns>
         Task<int> GetViewsCountByParentAsync(string parentId, int? userId, DateTime? createdSince);
 
         /// <summary>
-        ///     根据用户获取阅读数量。
+        ///     根据上级获取阅读次数。
         /// </summary>
+        /// <param name="parentId">上级的编号。（如帖子编号）</param>
         /// <param name="userId">用户的编号。</param>
-        /// <param name="parentType">上级的类型。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
-        /// <returns>阅读数量。</returns>
-        int GetViewsCountByUser(int userId, string parentType, DateTime? createdSince);
+        /// <returns>天数。</returns>
+        int GetDaysCountByParent(string parentId, int? userId, DateTime? createdSince);
 
         /// <summary>
-        ///     异步根据用户获取阅读数量。
+        ///     异步根据上级获取阅读次数。
+        /// </summary>
+        /// <param name="parentId">上级的编号。（如帖子编号）</param>
+        /// <param name="userId">用户的编号。</param>
+        /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
+        /// <returns>天数。</returns>
+        Task<int> GetDaysCountByParentAsync(string parentId, int? userId, DateTime? createdSince);
+
+        /// <summary>
+        ///     根据用户获取阅读次数。
         /// </summary>
         /// <param name="userId">用户的编号。</param>
         /// <param name="parentType">上级的类型。</param>
+        /// <param name="parentIdPrefix">上级的编号的前缀。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
-        /// <returns>阅读数量。</returns>
-        Task<int> GetViewsCountByUserAsync(int userId, string parentType, DateTime? createdSince);
+        /// <returns>阅读次数。</returns>
+        int GetViewsCountByUser(int userId, string parentType, string parentIdPrefix, DateTime? createdSince);
+
+        /// <summary>
+        ///     异步根据用户获取阅读次数。
+        /// </summary>
+        /// <param name="userId">用户的编号。</param>
+        /// <param name="parentType">上级的类型。</param>
+        /// <param name="parentIdPrefix">上级的编号的前缀。</param>
+        /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
+        /// <returns>阅读次数。</returns>
+        Task<int> GetViewsCountByUserAsync(int userId, string parentType, string parentIdPrefix, DateTime? createdSince);
 
         /// <summary>
         ///     根据用户获取上级数量。
         /// </summary>
         /// <param name="userId">用户的编号。</param>
         /// <param name="parentType">上级的类型。</param>
+        /// <param name="parentIdPrefix">上级的编号的前缀。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <returns>上级数量。</returns>
-        int GetParentsCountByUser(int userId, string parentType, DateTime? createdSince);
+        int GetParentsCountByUser(int userId, string parentType, string parentIdPrefix, DateTime? createdSince);
 
         /// <summary>
         ///     异步根据用户获取上级数量。
         /// </summary>
         /// <param name="userId">用户的编号。</param>
         /// <param name="parentType">上级的类型。</param>
+        /// <param name="parentIdPrefix">上级的编号的前缀。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <returns>上级数量。</returns>
-        Task<int> GetParentsCountByUserAsync(int userId, string parentType, DateTime? createdSince);
+        Task<int> GetParentsCountByUserAsync(int userId, string parentType, string parentIdPrefix, DateTime? createdSince);
 
         /// <summary>
-        ///     根据用户获取天数量。
+        ///     根据用户获取天数。
         /// </summary>
         /// <param name="userId">用户的编号。</param>
         /// <param name="parentType">上级的类型。</param>
+        /// <param name="parentIdPrefix">上级的编号的前缀。</param>
         /// <param name="createdSince">过滤创建天在指定的时间之后。</param>
-        /// <returns>天数量。</returns>
-        int GetDaysCountByUser(int userId, string parentType, DateTime? createdSince);
+        /// <returns>天数。</returns>
+        int GetDaysCountByUser(int userId, string parentType, string parentIdPrefix, DateTime? createdSince);
 
         /// <summary>
-        ///     异步根据用户获取天数量。
+        ///     异步根据用户获取天数。
         /// </summary>
         /// <param name="userId">用户的编号。</param>
         /// <param name="parentType">上级的类型。</param>
+        /// <param name="parentIdPrefix">上级的编号的前缀。</param>
         /// <param name="createdSince">过滤创建天在指定的时间之后。</param>
-        /// <returns>天数量。</returns>
-        Task<int> GetDaysCountByUserAsync(int userId, string parentType, DateTime? createdSince);
+        /// <returns>天数。</returns>
+        Task<int> GetDaysCountByUserAsync(int userId, string parentType, string parentIdPrefix, DateTime? createdSince);
 
         #endregion
 

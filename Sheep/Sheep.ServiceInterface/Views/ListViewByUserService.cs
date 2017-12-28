@@ -80,7 +80,7 @@ namespace Sheep.ServiceInterface.Views
             {
                 ViewListByUserValidator.ValidateAndThrow(request, ApplyTo.Get);
             }
-            var existingViews = await ViewRepo.FindViewsByUserAsync(request.UserId, request.ParentType, request.CreatedSince, request.OrderBy, request.Descending, request.Skip, request.Limit);
+            var existingViews = await ViewRepo.FindViewsByUserAsync(request.UserId, request.ParentType, request.ParentIdPrefix, request.CreatedSince, request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingViews == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.ViewsNotFound));

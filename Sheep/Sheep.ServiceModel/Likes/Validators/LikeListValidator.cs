@@ -12,6 +12,7 @@ namespace Sheep.ServiceModel.Likes.Validators
     {
         public static readonly HashSet<string> OrderBys = new HashSet<string>
                                                           {
+                                                              "ParentId",
                                                               "CreatedDate"
                                                           };
 
@@ -43,6 +44,7 @@ namespace Sheep.ServiceModel.Likes.Validators
 
         public static readonly HashSet<string> OrderBys = new HashSet<string>
                                                           {
+                                                              "ParentId",
                                                               "CreatedDate"
                                                           };
 

@@ -278,7 +278,9 @@
     <Compile Include="Views\BatchCreateViewForParagraphsService.cs" />
     <Compile Include="Views\CreateViewService.cs" />
     <Compile Include="Views\DeleteViewService.cs" />
+    <Compile Include="Views\CountViewByParentService.cs" />
     <Compile Include="Views\ListViewByParentService.cs" />
+    <Compile Include="Views\CountViewByUserService.cs" />
     <Compile Include="Views\ListViewByUserService.cs" />
     <Compile Include="Views\Mappers\ViewToViewDtoMapper.cs" />
     <Compile Include="Views\ShowViewService.cs" />
