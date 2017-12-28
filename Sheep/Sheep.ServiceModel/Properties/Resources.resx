@@ -369,4 +369,7 @@
   <data name="ParagraphIdsValuesMismatch" xml:space="preserve">
     <value>节编号列表不能包含空值。</value>
   </data>
+  <data name="UserIdsRequired" xml:space="preserve">
+    <value>用户编号列表必须输入。</value>
+  </data>
 </root>

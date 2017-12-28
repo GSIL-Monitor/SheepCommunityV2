@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2002
+VisualStudioVersion = 15.0.27004.2008
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sheep", "Sheep", "{4A9A6F31-658B-438E-99EF-42892A05CCED}"
 EndProject
@@ -32,6 +32,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TencentSdk", "Social\TencentSdk\TencentSdk.csproj", "{B8D07B49-FDD2-49BB-BCEF-CA41AE415A5B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeteaseSDK", "Social\NeteaseSDK\NeteaseSDK.csproj", "{DDD5104A-5285-45B0-AA49-201E5FBED379}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SheepJob", "SheepJob", "{1B95ACA3-DE2D-48DA-ADAF-B2A25368E92B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

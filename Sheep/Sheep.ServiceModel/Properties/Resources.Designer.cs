@@ -691,6 +691,15 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
+        ///   查找类似 用户编号列表必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string UserIdsRequired {
+            get {
+                return ResourceManager.GetString("UserIdsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 用户名称已经存在。 的本地化字符串。
         /// </summary>
         internal static string UserNameAlreadyExists {

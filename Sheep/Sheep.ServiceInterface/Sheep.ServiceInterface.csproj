@@ -276,6 +276,7 @@
     <Compile Include="Users\ShowUserService.cs" />
     <Compile Include="Views\ChangeViewService.cs" />
     <Compile Include="Views\BatchCreateViewForParagraphsService.cs" />
+    <Compile Include="Views\CountViewByUsersService.cs" />
     <Compile Include="Views\CreateViewService.cs" />
     <Compile Include="Views\DeleteViewService.cs" />
     <Compile Include="Views\CountViewByParentService.cs" />

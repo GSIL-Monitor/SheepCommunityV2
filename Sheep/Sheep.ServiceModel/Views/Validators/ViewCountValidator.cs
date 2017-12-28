@@ -16,10 +16,7 @@ namespace Sheep.ServiceModel.Views.Validators
         /// </summary>
         public ViewCountByParentValidator()
         {
-            RuleSet(ApplyTo.Get, () =>
-                                 {
-                                     RuleFor(x => x.ParentId).NotEmpty().WithMessage(Resources.ParentIdRequired);
-                                 });
+            RuleSet(ApplyTo.Get, () => { RuleFor(x => x.ParentId).NotEmpty().WithMessage(Resources.ParentIdRequired); });
         }
     }
 
@@ -44,6 +41,32 @@ namespace Sheep.ServiceModel.Views.Validators
             RuleSet(ApplyTo.Get, () =>
                                  {
                                      RuleFor(x => x.UserId).NotEmpty().WithMessage(Resources.UserIdRequired);
+                                     RuleFor(x => x.ParentType).Must(contentType => ParentTypes.Contains(contentType)).WithMessage(Resources.ParentTypeRangeMismatch, ParentTypes.Join(",")).When(x => !x.ParentType.IsNullOrEmpty());
+                                 });
+        }
+    }
+
+    /// <summary>
+    ///     根据用户列表统计一组阅读数量的校验器。
+    /// </summary>
+    public class ViewCountByUsersValidator : AbstractValidator<ViewCountByUsers>
+    {
+        public static readonly HashSet<string> ParentTypes = new HashSet<string>
+                                                             {
+                                                                 "帖子",
+                                                                 "章",
+                                                                 "节"
+                                                             };
+
+        /// <summary>
+        ///     初始化一个新的<see cref="ViewCountByUserValidator" />对象。
+        ///     创建规则集合。
+        /// </summary>
+        public ViewCountByUsersValidator()
+        {
+            RuleSet(ApplyTo.Get, () =>
+                                 {
+                                     RuleFor(x => x.UserIds).NotEmpty().WithMessage(Resources.UserIdsRequired);
                                      RuleFor(x => x.ParentType).Must(contentType => ParentTypes.Contains(contentType)).WithMessage(Resources.ParentTypeRangeMismatch, ParentTypes.Join(",")).When(x => !x.ParentType.IsNullOrEmpty());
                                  });
         }

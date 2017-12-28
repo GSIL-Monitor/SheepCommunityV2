@@ -180,6 +180,66 @@ namespace Sheep.Model.Content
         /// <returns>天数。</returns>
         Task<int> GetDaysCountByUserAsync(int userId, string parentType, string parentIdPrefix, DateTime? createdSince);
 
+        /// <summary>
+        ///     根据用户列表获取阅读次数。
+        /// </summary>
+        /// <param name="userIds">用户的编号列表。</param>
+        /// <param name="parentType">上级的类型。</param>
+        /// <param name="parentIdPrefix">上级的编号的前缀。</param>
+        /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
+        /// <returns>阅读次数。</returns>
+        List<KeyValuePair<int, int>> GetViewsCountByUsers(List<int> userIds, string parentType, string parentIdPrefix, DateTime? createdSince);
+
+        /// <summary>
+        ///     异步根据用户列表获取阅读次数。
+        /// </summary>
+        /// <param name="userIds">用户的编号列表。</param>
+        /// <param name="parentType">上级的类型。</param>
+        /// <param name="parentIdPrefix">上级的编号的前缀。</param>
+        /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
+        /// <returns>阅读次数。</returns>
+        Task<List<KeyValuePair<int, int>>> GetViewsCountByUsersAsync(List<int> userIds, string parentType, string parentIdPrefix, DateTime? createdSince);
+
+        /// <summary>
+        ///     根据用户列表获取上级数量。
+        /// </summary>
+        /// <param name="userIds">用户的编号列表。</param>
+        /// <param name="parentType">上级的类型。</param>
+        /// <param name="parentIdPrefix">上级的编号的前缀。</param>
+        /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
+        /// <returns>上级数量。</returns>
+        List<KeyValuePair<int, int>> GetParentsCountByUsers(List<int> userIds, string parentType, string parentIdPrefix, DateTime? createdSince);
+
+        /// <summary>
+        ///     异步根据用户列表获取上级数量。
+        /// </summary>
+        /// <param name="userIds">用户的编号列表。</param>
+        /// <param name="parentType">上级的类型。</param>
+        /// <param name="parentIdPrefix">上级的编号的前缀。</param>
+        /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
+        /// <returns>上级数量。</returns>
+        Task<List<KeyValuePair<int, int>>> GetParentsCountByUsersAsync(List<int> userIds, string parentType, string parentIdPrefix, DateTime? createdSince);
+
+        /// <summary>
+        ///     根据用户列表获取天数。
+        /// </summary>
+        /// <param name="userIds">用户的编号列表。</param>
+        /// <param name="parentType">上级的类型。</param>
+        /// <param name="parentIdPrefix">上级的编号的前缀。</param>
+        /// <param name="createdSince">过滤创建天在指定的时间之后。</param>
+        /// <returns>天数。</returns>
+        List<KeyValuePair<int, int>> GetDaysCountByUsers(List<int> userIds, string parentType, string parentIdPrefix, DateTime? createdSince);
+
+        /// <summary>
+        ///     异步根据用户列表获取天数。
+        /// </summary>
+        /// <param name="userIds">用户的编号列表。</param>
+        /// <param name="parentType">上级的类型。</param>
+        /// <param name="parentIdPrefix">上级的编号的前缀。</param>
+        /// <param name="createdSince">过滤创建天在指定的时间之后。</param>
+        /// <returns>天数。</returns>
+        Task<List<KeyValuePair<int, int>>> GetDaysCountByUsersAsync(List<int> userIds, string parentType, string parentIdPrefix, DateTime? createdSince);
+
         #endregion
 
         #region 写入

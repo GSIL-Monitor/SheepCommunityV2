@@ -8,6 +8,7 @@ using ServiceStack.Validation;
 using Sheep.Model.Bookstore;
 using Sheep.Model.Content;
 using Sheep.ServiceModel.Views;
+using Sheep.ServiceModel.Views.Entities;
 
 namespace Sheep.ServiceInterface.Views
 {
@@ -81,9 +82,12 @@ namespace Sheep.ServiceInterface.Views
             var daysCount = await ViewRepo.GetDaysCountByUserAsync(request.UserId, request.ParentType, request.ParentIdPrefix, request.CreatedSince);
             return new ViewCountResponse
                    {
-                       ViewsCount = viewsCount,
-                       ParentsCount = parentsCount,
-                       DaysCount = daysCount
+                       Counts = new ViewCountsDto
+                                {
+                                    ViewsCount = viewsCount,
+                                    ParentsCount = parentsCount,
+                                    DaysCount = daysCount
+                                }
                    };
         }
 
