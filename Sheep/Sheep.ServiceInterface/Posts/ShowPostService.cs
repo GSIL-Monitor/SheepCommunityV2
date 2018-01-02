@@ -65,7 +65,7 @@ namespace Sheep.ServiceInterface.Posts
         /// <summary>
         ///     显示一个帖子。
         /// </summary>
-        //[CacheResponse(Duration = 600)]
+        //[CacheResponse(Duration = 3600)]
         public async Task<object> Get(PostShow request)
         {
             //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))

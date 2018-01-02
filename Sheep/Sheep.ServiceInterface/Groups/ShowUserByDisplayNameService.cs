@@ -48,7 +48,7 @@ namespace Sheep.ServiceInterface.Groups
         /// <summary>
         ///     根据显示名称显示一个群组。
         /// </summary>
-        [CacheResponse(Duration = 600)]
+        [CacheResponse(Duration = 3600)]
         public async Task<object> Get(GroupShowByDisplayName request)
         {
             //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))

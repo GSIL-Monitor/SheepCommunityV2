@@ -65,7 +65,7 @@ namespace Sheep.ServiceInterface.Subjects
         /// <summary>
         ///     列举一组主题。
         /// </summary>
-        [CacheResponse(Duration = 3600, MaxAge = 1800)]
+        [CacheResponse(Duration = 31536000, MaxAge = 86400)]
         public async Task<object> Get(SubjectList request)
         {
             //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))

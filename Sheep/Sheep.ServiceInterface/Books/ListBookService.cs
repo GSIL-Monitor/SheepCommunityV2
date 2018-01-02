@@ -55,7 +55,7 @@ namespace Sheep.ServiceInterface.Books
         /// <summary>
         ///     列举一组书籍。
         /// </summary>
-        [CacheResponse(Duration = 3600, MaxAge = 1800)]
+        [CacheResponse(Duration = 3600)]
         public async Task<object> Get(BookList request)
         {
             //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))

@@ -22,6 +22,7 @@ namespace Sheep.Common.Auth
         Task<IUserAuth> GetUserAuthByUserNameAsync(string userNameOrEmail);
         Task<IUserAuth> GetUserAuthByDisplayNameAsync(string displayName);
         Task<List<IUserAuth>> GetUserAuthsAsync(List<string> userAuthIds);
+        Task<List<IUserAuth>> FindUserAuthsAsync(List<string> userAuthIds, DateTime? createdSince, DateTime? modifiedSince, DateTime? lockedSince, string status, string orderBy, bool? descending, int? skip, int? limit);
         Task<List<IUserAuth>> FindUserAuthsAsync(string userNameFilter, string nameFilter, DateTime? createdSince, DateTime? modifiedSince, DateTime? lockedSince, string status, string orderBy, bool? descending, int? skip, int? limit);
         Task DeleteUserAuthAsync(string userAuthId);
         Task<IUserAuthDetails> GetUserAuthDetailsByProviderAsync(string provider, string userId);

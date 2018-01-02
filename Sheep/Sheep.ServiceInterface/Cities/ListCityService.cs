@@ -51,7 +51,7 @@ namespace Sheep.ServiceInterface.Cities
         /// <summary>
         ///     列举一组城市。
         /// </summary>
-        [CacheResponse(Duration = 3600, MaxAge = 1800)]
+        [CacheResponse(Duration = 31536000, MaxAge = 86400)]
         public async Task<object> Get(CityList request)
         {
             //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))

@@ -67,7 +67,7 @@ namespace Sheep.ServiceInterface.Volumes
         /// <summary>
         ///     列举一组卷。
         /// </summary>
-        [CacheResponse(Duration = 3600, MaxAge = 1800)]
+        [CacheResponse(Duration = 31536000, MaxAge = 86400)]
         public async Task<object> Get(VolumeList request)
         {
             //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))

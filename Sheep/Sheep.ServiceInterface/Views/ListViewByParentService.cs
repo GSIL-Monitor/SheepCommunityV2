@@ -72,7 +72,7 @@ namespace Sheep.ServiceInterface.Views
         /// <summary>
         ///     列举一组阅读。
         /// </summary>
-        //[CacheResponse(Duration = 600)]
+        //[CacheResponse(Duration = 3600)]
         public async Task<object> Get(ViewListByParent request)
         {
             //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))

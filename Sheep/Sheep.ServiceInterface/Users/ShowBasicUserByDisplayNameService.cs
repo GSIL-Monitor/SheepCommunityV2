@@ -49,7 +49,7 @@ namespace Sheep.ServiceInterface.Users
         /// <summary>
         ///     根据显示名称显示一个用户基本信息。
         /// </summary>
-        [CacheResponse(Duration = 600)]
+        [CacheResponse(Duration = 3600)]
         public async Task<object> Get(BasicUserShowByDisplayName request)
         {
             //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))

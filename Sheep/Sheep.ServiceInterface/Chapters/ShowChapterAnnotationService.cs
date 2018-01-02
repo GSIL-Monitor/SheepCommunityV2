@@ -64,7 +64,7 @@ namespace Sheep.ServiceInterface.Chapters
         /// <summary>
         ///     显示一条章注释。
         /// </summary>
-        [CacheResponse(Duration = 3600, MaxAge = 1800)]
+        [CacheResponse(Duration = 31536000, MaxAge = 86400)]
         public async Task<object> Get(ChapterAnnotationShow request)
         {
             //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))

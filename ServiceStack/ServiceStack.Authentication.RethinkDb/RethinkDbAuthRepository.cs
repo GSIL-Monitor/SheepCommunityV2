@@ -711,20 +711,12 @@ namespace ServiceStack.Authentication.RethinkDb
         /// <inheritdoc />
         public async Task<IUserAuth> GetUserAuthAsync(string userAuthId)
         {
-            if (userAuthId.IsNullOrEmpty())
-            {
-                return null;
-            }
             return await R.Table(s_UserAuthTable).Get(userAuthId.ToInt(0)).RunResultAsync<UserAuth>(_conn);
         }
 
         /// <inheritdoc />
         public async Task<IUserAuth> GetUserAuthByUserNameAsync(string userNameOrEmail)
         {
-            if (userNameOrEmail.IsNullOrEmpty())
-            {
-                return null;
-            }
             var isEmail = userNameOrEmail.Contains("@");
             var query = isEmail ? R.Table(s_UserAuthTable).GetAll(userNameOrEmail).OptArg("index", "Email") : R.Table(s_UserAuthTable).GetAll(userNameOrEmail).OptArg("index", "UserName");
             return await query.Nth(0).Default_(default(UserAuth)).RunResultAsync<UserAuth>(_conn);
@@ -733,21 +725,46 @@ namespace ServiceStack.Authentication.RethinkDb
         /// <inheritdoc />
         public async Task<IUserAuth> GetUserAuthByDisplayNameAsync(string displayName)
         {
-            if (displayName.IsNullOrEmpty())
-            {
-                return null;
-            }
             return await R.Table(s_UserAuthTable).GetAll(displayName).OptArg("index", "DisplayName").Nth(0).Default_(default(UserAuth)).RunResultAsync<UserAuth>(_conn);
         }
 
         /// <inheritdoc />
         public async Task<List<IUserAuth>> GetUserAuthsAsync(List<string> userAuthIds)
         {
-            if (userAuthIds == null)
-            {
-                return new List<IUserAuth>();
-            }
             var userAuthList = await R.Table(s_UserAuthTable).GetAll(R.Args(userAuthIds.Select(userId => userId.ToInt(0)).ToArray())).OptArg("index", "Id").RunResultAsync<List<UserAuth>>(_conn);
+            return userAuthList.Cast<IUserAuth>().ToList();
+        }
+
+        /// <inheritdoc />
+        public async Task<List<IUserAuth>> FindUserAuthsAsync(List<string> userAuthIds, DateTime? createdSince, DateTime? modifiedSince, DateTime? lockedSince, string status, string orderBy, bool? descending, int? skip, int? limit)
+        {
+            var query = R.Table(s_UserAuthTable).GetAll(R.Args(userAuthIds.Select(userId => userId.ToInt(0)).ToArray())).OptArg("index", "Id").Filter(true);
+            if (createdSince.HasValue)
+            {
+                query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
+            }
+            if (modifiedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("ModifiedDate").Ge(modifiedSince.Value));
+            }
+            if (lockedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("LockedDate").Ge(lockedSince.Value));
+            }
+            if (!status.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("Meta").G("Status").Eq(status));
+            }
+            OrderBy queryOrder;
+            if (!orderBy.IsNullOrEmpty())
+            {
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc(orderBy)) : query.OrderBy(orderBy);
+            }
+            else
+            {
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("CreatedDate")) : query.OrderBy("CreatedDate");
+            }
+            var userAuthList = await queryOrder.Skip(skip ?? 0).Limit(limit ?? 10000).RunResultAsync<List<UserAuth>>(_conn);
             return userAuthList.Cast<IUserAuth>().ToList();
         }
 
@@ -795,10 +812,6 @@ namespace ServiceStack.Authentication.RethinkDb
         /// <inheritdoc />
         public async Task DeleteUserAuthAsync(string userAuthId)
         {
-            if (userAuthId.IsNullOrEmpty())
-            {
-                return;
-            }
             (await R.Table(s_UserAuthTable).Get(userAuthId.ToInt(0)).Delete().RunResultAsync(_conn)).AssertNoErrors();
             (await R.Table(s_UserAuthDetailsTable).GetAll(userAuthId.ToInt(0)).OptArg("index", "UserAuthId").Delete().RunResultAsync(_conn)).AssertNoErrors();
         }
@@ -806,20 +819,12 @@ namespace ServiceStack.Authentication.RethinkDb
         /// <inheritdoc />
         public async Task<IUserAuthDetails> GetUserAuthDetailsByProviderAsync(string provider, string userId)
         {
-            if (provider.IsNullOrEmpty() || userId.IsNullOrEmpty())
-            {
-                return null;
-            }
             return await R.Table(s_UserAuthDetailsTable).GetAll(R.Array(provider, userId)).OptArg("index", "Provider_UserId").Nth(0).Default_(default(UserAuthDetails)).RunResultAsync<UserAuthDetails>(_conn);
         }
 
         /// <inheritdoc />
         public async Task<List<IUserAuthDetails>> GetUserAuthDetailsAsync(string userAuthId)
         {
-            if (userAuthId.IsNullOrEmpty())
-            {
-                return new List<IUserAuthDetails>();
-            }
             var userAuthDetailsList = await R.Table(s_UserAuthDetailsTable).GetAll(userAuthId.ToInt(0)).OptArg("index", "UserAuthId").RunResultAsync<List<UserAuthDetails>>(_conn);
             return userAuthDetailsList.Cast<IUserAuthDetails>().ToList();
         }
@@ -827,10 +832,6 @@ namespace ServiceStack.Authentication.RethinkDb
         /// <inheritdoc />
         public async Task DeleteUserAuthDetailsByProviderAsync(string provider, string userId)
         {
-            if (provider.IsNullOrEmpty() || userId.IsNullOrEmpty())
-            {
-                return;
-            }
             (await R.Table(s_UserAuthDetailsTable).GetAll(R.Array(provider, userId)).OptArg("index", "Provider_UserId").Delete().RunResultAsync(_conn)).AssertNoErrors();
         }
 

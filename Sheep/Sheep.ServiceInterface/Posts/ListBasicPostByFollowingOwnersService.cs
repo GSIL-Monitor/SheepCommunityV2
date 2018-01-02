@@ -62,7 +62,7 @@ namespace Sheep.ServiceInterface.Posts
         /// <summary>
         ///     根据已关注的作者列表列举一组帖子基本信息。
         /// </summary>
-        //[CacheResponse(Duration = 600)]
+        //[CacheResponse(Duration = 3600)]
         public async Task<object> Get(BasicPostListByFollowingOwners request)
         {
             if (!IsAuthenticated)

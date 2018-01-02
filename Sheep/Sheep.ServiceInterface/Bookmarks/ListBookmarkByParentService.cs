@@ -72,7 +72,7 @@ namespace Sheep.ServiceInterface.Bookmarks
         /// <summary>
         ///     列举一组收藏。
         /// </summary>
-        //[CacheResponse(Duration = 600)]
+        //[CacheResponse(Duration = 3600)]
         public async Task<object> Get(BookmarkListByParent request)
         {
             //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))

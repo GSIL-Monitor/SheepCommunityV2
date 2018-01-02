@@ -265,6 +265,7 @@
     <Compile Include="Subjects\Mappers\SubjectToSubjectDtoMapper.cs" />
     <Compile Include="Subjects\ShowSubjectService.cs" />
     <Compile Include="Subjects\UpdateSubjectService.cs" />
+    <Compile Include="Users\ListUserByIdsService.cs" />
     <Compile Include="Users\ListUserService.cs" />
     <Compile Include="Users\Mappers\UserAuthToBasicUserDtoMapper.cs" />
     <Compile Include="Users\Mappers\UserAuthToUserDtoMapper.cs" />

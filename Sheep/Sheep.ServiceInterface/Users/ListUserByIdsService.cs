@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Configuration;
@@ -12,16 +13,16 @@ using Sheep.ServiceModel.Users;
 namespace Sheep.ServiceInterface.Users
 {
     /// <summary>
-    ///     显示一个用户基本信息服务接口。
+    ///     根据编号列表列举一组用户服务接口。
     /// </summary>
-    public class ShowBasicUserService : Service
+    public class ListUserByIdsService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(ShowBasicUserService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(ListUserByIdsService));
 
         #endregion
 
@@ -33,9 +34,9 @@ namespace Sheep.ServiceInterface.Users
         public IAppSettings AppSettings { get; set; }
 
         /// <summary>
-        ///     获取及设置显示一个用户基本信息的校验器。
+        ///     获取及设置列举一组用户的校验器。
         /// </summary>
-        public IValidator<BasicUserShow> BasicUserShowValidator { get; set; }
+        public IValidator<UserListByIds> UserListByIdsValidator { get; set; }
 
         /// <summary>
         ///     获取及设置用户身份的存储库。
@@ -44,27 +45,27 @@ namespace Sheep.ServiceInterface.Users
 
         #endregion
 
-        #region 显示一个用户基本信息
+        #region 列举一组用户
 
         /// <summary>
-        ///     显示一个用户基本信息。
+        ///     列举一组用户。
         /// </summary>
         [CacheResponse(Duration = 3600)]
-        public async Task<object> Get(BasicUserShow request)
+        public async Task<object> Get(UserListByIds request)
         {
             //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             //{
-            //    BasicUserShowValidator.ValidateAndThrow(request, ApplyTo.Get);
+            //    UserListByIdsValidator.ValidateAndThrow(request, ApplyTo.Get);
             //}
-            var existingUserAuth = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(request.UserId.ToString());
-            if (existingUserAuth == null)
+            var existingUserAuths = await ((IUserAuthRepositoryExtended) AuthRepo).FindUserAuthsAsync(request.UserIds.Select(userId => userId.ToString()).ToList(), request.CreatedSince, request.ModifiedSince, request.LockedSince, null, request.OrderBy, request.Descending, request.Skip, request.Limit);
+            if (existingUserAuths == null)
             {
-                throw HttpError.NotFound(string.Format(Resources.UserNotFound, request.UserId));
+                throw HttpError.NotFound(string.Format(Resources.UsersNotFound));
             }
-            var userDto = existingUserAuth.MapToBasicUserDto();
-            return new BasicUserShowResponse
+            var usersDto = existingUserAuths.Select(userAuth => userAuth.MapToUserDto()).ToList();
+            return new UserListResponse
                    {
-                       User = userDto
+                       Users = usersDto
                    };
         }
 

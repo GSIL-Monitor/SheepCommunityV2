@@ -71,7 +71,7 @@ namespace Sheep.ServiceInterface.Views
         /// <summary>
         ///     统计一组阅读。
         /// </summary>
-        [CacheResponse(Duration = 600)]
+        [CacheResponse(Duration = 3600)]
         public async Task<object> Get(ViewCountByUsers request)
         {
             //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
@@ -87,6 +87,7 @@ namespace Sheep.ServiceInterface.Views
                                                                                                                        ParentsCount = parentsCountsMap.GetValueOrDefault(userId),
                                                                                                                        DaysCount = daysCountsMap.GetValueOrDefault(userId)
                                                                                                                    }))
+                                            .Where(kv => kv.Value.ViewsCount > 0 || kv.Value.ParentsCount > 0 || kv.Value.DaysCount > 0)
                                             .ToDictionary(pair => pair.Key, pair => pair.Value);
             return new ViewCountByUsersResponse
                    {

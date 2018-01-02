@@ -62,7 +62,7 @@ namespace Sheep.ServiceInterface.Comments
         /// <summary>
         ///     列举一组评论。
         /// </summary>
-        //[CacheResponse(Duration = 600)]
+        //[CacheResponse(Duration = 3600)]
         public async Task<object> Get(CommentListByParent request)
         {
             if (request.IsMine.HasValue && request.IsMine.Value && !IsAuthenticated)
