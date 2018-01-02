@@ -29,7 +29,7 @@ namespace Sheep.ServiceModel.Accounts.Validators
         {
             RuleSet(ApplyTo.Put, () =>
                                  {
-                                     RuleFor(x => x.Language).Must(language => Languages.Contains(language)).WithMessage(Resources.LanguageRangeMismatch, Languages.Join(",")).When(x => !x.Language.IsNullOrEmpty());
+                                     RuleFor(x => x.Language).Must(language => Languages.Contains(language)).WithMessage(x => string.Format(Resources.LanguageRangeMismatch, Languages.Join(","))).When(x => !x.Language.IsNullOrEmpty());
                                  });
         }
     }

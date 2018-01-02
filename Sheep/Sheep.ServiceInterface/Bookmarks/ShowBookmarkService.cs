@@ -4,7 +4,6 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Validation;
 using Sheep.Common.Auth;
 using Sheep.Model.Bookstore;
 using Sheep.Model.Content;
@@ -74,10 +73,10 @@ namespace Sheep.ServiceInterface.Bookmarks
         /// </summary>
         public async Task<object> Get(BookmarkShow request)
         {
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                BookmarkShowValidator.ValidateAndThrow(request, ApplyTo.Get);
-            }
+            //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            //{
+            //    BookmarkShowValidator.ValidateAndThrow(request, ApplyTo.Get);
+            //}
             var user = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(request.UserId.ToString());
             if (user == null)
             {

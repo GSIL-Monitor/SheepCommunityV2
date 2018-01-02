@@ -17,8 +17,8 @@ namespace Sheep.ServiceModel.Bookmarks.Validators
         {
             RuleSet(ApplyTo.Post, () =>
                                   {
-                                      RuleFor(x => x.ParagraphIds).NotNull().WithMessage(Resources.ParagraphIdsRequired);
-                                      RuleFor(x => x.ParagraphIds).Must(list => !list.Exists(id => id.IsNullOrEmpty())).WithMessage(Resources.ParagraphIdsValuesMismatch);
+                                      RuleFor(x => x.ParagraphIds).NotNull().WithMessage(x => string.Format(Resources.ParagraphIdsRequired));
+                                      RuleFor(x => x.ParagraphIds).Must(list => !list.Exists(id => id.IsNullOrEmpty())).WithMessage(x => string.Format(Resources.ParagraphIdsValuesMismatch));
                                   });
         }
     }

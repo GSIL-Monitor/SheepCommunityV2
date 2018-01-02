@@ -4,7 +4,6 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Validation;
 using Sheep.Model.Bookstore;
 using Sheep.ServiceInterface.Chapters.Mappers;
 using Sheep.ServiceInterface.Properties;
@@ -65,13 +64,13 @@ namespace Sheep.ServiceInterface.Chapters
         /// <summary>
         ///     显示一条章注释。
         /// </summary>
-        [CacheResponse(Duration = 600)]
+        [CacheResponse(Duration = 3600, MaxAge = 1800)]
         public async Task<object> Get(ChapterAnnotationShow request)
         {
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                ChapterAnnotationShowValidator.ValidateAndThrow(request, ApplyTo.Get);
-            }
+            //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            //{
+            //    ChapterAnnotationShowValidator.ValidateAndThrow(request, ApplyTo.Get);
+            //}
             var existingChapterAnnotation = await ChapterAnnotationRepo.GetChapterAnnotationAsync(request.BookId, request.VolumeNumber, request.ChapterNumber, request.AnnotationNumber);
             if (existingChapterAnnotation == null)
             {

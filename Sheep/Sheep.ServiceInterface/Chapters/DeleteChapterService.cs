@@ -5,7 +5,6 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Validation;
 using Sheep.Model.Bookstore;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Chapters;
@@ -81,10 +80,10 @@ namespace Sheep.ServiceInterface.Chapters
             {
                 throw HttpError.Unauthorized(Resources.LoginRequired);
             }
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                ChapterDeleteValidator.ValidateAndThrow(request, ApplyTo.Delete);
-            }
+            //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            //{
+            //    ChapterDeleteValidator.ValidateAndThrow(request, ApplyTo.Delete);
+            //}
             var existingChapter = await ChapterRepo.GetChapterAsync(request.BookId, request.VolumeNumber, request.ChapterNumber);
             if (existingChapter == null)
             {

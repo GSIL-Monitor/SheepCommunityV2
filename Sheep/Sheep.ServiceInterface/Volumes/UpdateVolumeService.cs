@@ -7,7 +7,6 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Validation;
 using Sheep.Model.Bookstore;
 using Sheep.Model.Bookstore.Entities;
 using Sheep.ServiceInterface.Properties;
@@ -85,10 +84,10 @@ namespace Sheep.ServiceInterface.Volumes
             {
                 throw HttpError.Unauthorized(Resources.LoginRequired);
             }
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                VolumeUpdateValidator.ValidateAndThrow(request, ApplyTo.Put);
-            }
+            //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            //{
+            //    VolumeUpdateValidator.ValidateAndThrow(request, ApplyTo.Put);
+            //}
             var existingVolume = await VolumeRepo.GetVolumeAsync(request.BookId, request.VolumeNumber);
             if (existingVolume == null)
             {

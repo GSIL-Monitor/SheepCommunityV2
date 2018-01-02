@@ -17,7 +17,7 @@ namespace Sheep.ServiceModel.Groups.Validators
         {
             RuleSet(ApplyTo.Get, () =>
                                  {
-                                     RuleFor(x => x.GroupId).NotEmpty().WithMessage(Resources.GroupIdRequired);
+                                     RuleFor(x => x.GroupId).NotEmpty().WithMessage(x => string.Format(Resources.GroupIdRequired));
                                  });
         }
     }
@@ -35,7 +35,7 @@ namespace Sheep.ServiceModel.Groups.Validators
         {
             RuleSet(ApplyTo.Get, () =>
                                  {
-                                     RuleFor(x => x.DisplayName).NotEmpty().WithMessage(Resources.DisplayNameRequired);
+                                     RuleFor(x => x.DisplayName).NotEmpty().WithMessage(x => string.Format(Resources.DisplayNameRequired));
                                  });
         }
     }

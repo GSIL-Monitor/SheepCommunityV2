@@ -6,7 +6,6 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Validation;
 using Sheep.Common.Auth;
 using Sheep.Model.Content;
 using Sheep.ServiceInterface.Properties;
@@ -66,10 +65,10 @@ namespace Sheep.ServiceInterface.Replies
         //[CacheResponse(Duration = 600)]
         public async Task<object> Get(ReplyListByParent request)
         {
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                ReplyListByParentValidator.ValidateAndThrow(request, ApplyTo.Get);
-            }
+            //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            //{
+            //    ReplyListByParentValidator.ValidateAndThrow(request, ApplyTo.Get);
+            //}
             var existingReplies = await ReplyRepo.FindRepliesByParentAsync(request.ParentId, request.CreatedSince, request.ModifiedSince, "审核通过", request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingReplies == null)
             {

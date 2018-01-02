@@ -17,10 +17,10 @@ namespace Sheep.ServiceModel.Chapters.Validators
         {
             RuleSet(ApplyTo.Post, () =>
                                   {
-                                      RuleFor(x => x.BookId).NotEmpty().WithMessage(Resources.BookIdRequired);
-                                      RuleFor(x => x.VolumeNumber).NotEmpty().WithMessage(Resources.VolumeNumberRequired);
-                                      RuleFor(x => x.ChapterNumber).NotEmpty().WithMessage(Resources.ChapterNumberRequired);
-                                      RuleFor(x => x.Title).NotEmpty().WithMessage(Resources.TitleRequired);
+                                      RuleFor(x => x.BookId).NotEmpty().WithMessage(x => string.Format(Resources.BookIdRequired));
+                                      RuleFor(x => x.VolumeNumber).NotEmpty().WithMessage(x => string.Format(Resources.VolumeNumberRequired));
+                                      RuleFor(x => x.ChapterNumber).NotEmpty().WithMessage(x => string.Format(Resources.ChapterNumberRequired));
+                                      RuleFor(x => x.Title).NotEmpty().WithMessage(x => string.Format(Resources.TitleRequired));
                                   });
         }
     }

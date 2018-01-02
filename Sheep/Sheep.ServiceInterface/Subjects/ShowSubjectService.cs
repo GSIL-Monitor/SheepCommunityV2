@@ -4,7 +4,6 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Validation;
 using Sheep.Model.Bookstore;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceInterface.Subjects.Mappers;
@@ -65,13 +64,13 @@ namespace Sheep.ServiceInterface.Subjects
         /// <summary>
         ///     显示一个主题。
         /// </summary>
-        [CacheResponse(Duration = 600)]
+        [CacheResponse(Duration = 3600, MaxAge = 1800)]
         public async Task<object> Get(SubjectShow request)
         {
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                SubjectShowValidator.ValidateAndThrow(request, ApplyTo.Get);
-            }
+            //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            //{
+            //    SubjectShowValidator.ValidateAndThrow(request, ApplyTo.Get);
+            //}
             var existingSubject = await SubjectRepo.GetSubjectAsync(request.BookId, request.VolumeNumber, request.SubjectNumber);
             if (existingSubject == null)
             {

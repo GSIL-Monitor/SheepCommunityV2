@@ -17,7 +17,7 @@ namespace Sheep.ServiceModel.Accounts.Validators
         {
             RuleSet(ApplyTo.Put, () =>
                                  {
-                                     RuleFor(x => x.Description).Length(4, 8192).WithMessage(Resources.DescriptionLengthMismatch, 4, 8192).When(x => !x.Description.IsNullOrEmpty());
+                                     RuleFor(x => x.Description).Length(4, 8192).WithMessage(x => string.Format(Resources.DescriptionLengthMismatch, 4, 8192)).When(x => !x.Description.IsNullOrEmpty());
                                  });
         }
     }

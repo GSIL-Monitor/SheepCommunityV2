@@ -5,7 +5,6 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Validation;
 using Sheep.Common.Auth;
 using Sheep.Model.Bookstore;
 using Sheep.Model.Content;
@@ -76,10 +75,10 @@ namespace Sheep.ServiceInterface.Views
         //[CacheResponse(Duration = 600)]
         public async Task<object> Get(ViewListByUser request)
         {
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                ViewListByUserValidator.ValidateAndThrow(request, ApplyTo.Get);
-            }
+            //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            //{
+            //    ViewListByUserValidator.ValidateAndThrow(request, ApplyTo.Get);
+            //}
             var existingViews = await ViewRepo.FindViewsByUserAsync(request.UserId, request.ParentType, request.ParentIdPrefix, request.CreatedSince, request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingViews == null)
             {

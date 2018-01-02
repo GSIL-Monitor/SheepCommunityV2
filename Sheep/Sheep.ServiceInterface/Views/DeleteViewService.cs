@@ -5,7 +5,6 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Validation;
 using Sheep.Model.Bookstore;
 using Sheep.Model.Content;
 using Sheep.ServiceInterface.Properties;
@@ -82,10 +81,10 @@ namespace Sheep.ServiceInterface.Views
             {
                 throw HttpError.Unauthorized(Resources.LoginRequired);
             }
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                ViewDeleteValidator.ValidateAndThrow(request, ApplyTo.Delete);
-            }
+            //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            //{
+            //    ViewDeleteValidator.ValidateAndThrow(request, ApplyTo.Delete);
+            //}
             var existingView = await ViewRepo.GetViewAsync(request.ViewId);
             if (existingView == null)
             {

@@ -19,7 +19,7 @@ namespace Sheep.ServiceModel.Accounts.Validators
         {
             RuleSet(ApplyTo.Put, () =>
                                  {
-                                     RuleFor(x => x.Country).Must(CountriesContains).WithMessage(Resources.CountryRangeMismatch).When(x => !x.Country.IsNullOrEmpty());
+                                     RuleFor(x => x.Country).Must(CountriesContains).WithMessage(x => string.Format(Resources.CountryRangeMismatch)).When(x => !x.Country.IsNullOrEmpty());
                                  });
         }
 

@@ -26,7 +26,7 @@ namespace Sheep.Model.Auth.Providers
             {
                 RuleFor(x => x.UserName).NotEmpty().WithMessage(Resources.PhoneNumberRequired).Matches("^1[3|4|5|7|8][0-9]{9}$").WithMessage(Resources.PhoneNumberFormatMismatch);
                 RuleFor(x => x.State).NotEmpty().WithMessage(Resources.PurposeRequired);
-                RuleFor(x => x.Password).NotEmpty().WithMessage(Resources.SecurityTokenRequired).Length(6).WithMessage(Resources.SecurityTokenLengthMismatch, 6);
+                RuleFor(x => x.Password).NotEmpty().WithMessage(Resources.SecurityTokenRequired).Length(6).WithMessage(x => string.Format(Resources.SecurityTokenLengthMismatch, 6));
             }
         }
 

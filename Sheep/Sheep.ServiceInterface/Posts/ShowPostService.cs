@@ -4,7 +4,6 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Validation;
 using Sheep.Common.Auth;
 using Sheep.Model.Content;
 using Sheep.ServiceInterface.Posts.Mappers;
@@ -66,13 +65,13 @@ namespace Sheep.ServiceInterface.Posts
         /// <summary>
         ///     显示一个帖子。
         /// </summary>
-        [CacheResponse(Duration = 600)]
+        //[CacheResponse(Duration = 600)]
         public async Task<object> Get(PostShow request)
         {
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                PostShowValidator.ValidateAndThrow(request, ApplyTo.Get);
-            }
+            //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            //{
+            //    PostShowValidator.ValidateAndThrow(request, ApplyTo.Get);
+            //}
             var existingPost = await PostRepo.GetPostAsync(request.PostId);
             if (existingPost == null)
             {

@@ -14,7 +14,6 @@ using ServiceStack.Configuration;
 using ServiceStack.Extensions;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Validation;
 using Sheep.Common.Auth;
 using Sheep.Common.Settings;
 using Sheep.ServiceInterface.Properties;
@@ -76,10 +75,10 @@ namespace Sheep.ServiceInterface.Accounts
             {
                 throw HttpError.Unauthorized(Resources.LoginRequired);
             }
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                AccountChangeCoverPhotoValidator.ValidateAndThrow(request, ApplyTo.Put);
-            }
+            //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            //{
+            //    AccountChangeCoverPhotoValidator.ValidateAndThrow(request, ApplyTo.Put);
+            //}
             var session = GetSession();
             var existingUserAuth = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(session, null);
             if (existingUserAuth == null)

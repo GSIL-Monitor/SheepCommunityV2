@@ -26,9 +26,9 @@ namespace Sheep.ServiceModel.SecurityTokens.Validators
         {
             RuleSet(ApplyTo.Post, () =>
                                   {
-                                      RuleFor(x => x.PhoneNumber).NotEmpty().WithMessage(Resources.PhoneNumberRequired).Matches("^1[3|4|5|7|8][0-9]{9}$").WithMessage(Resources.PhoneNumberFormatMismatch);
-                                      RuleFor(x => x.Purpose).NotEmpty().WithMessage(Resources.PurposeRequired);
-                                      RuleFor(x => x.Purpose).Must(purpose => Purposes.Contains(purpose)).WithMessage(Resources.PurposeRangeMismatch, Purposes.Join(",")).When(x => !x.Purpose.IsNullOrEmpty());
+                                      RuleFor(x => x.PhoneNumber).NotEmpty().WithMessage(x => string.Format(Resources.PhoneNumberRequired)).Matches("^1[3|4|5|7|8][0-9]{9}$").WithMessage(x => string.Format(Resources.PhoneNumberFormatMismatch));
+                                      RuleFor(x => x.Purpose).NotEmpty().WithMessage(x => string.Format(Resources.PurposeRequired));
+                                      RuleFor(x => x.Purpose).Must(purpose => Purposes.Contains(purpose)).WithMessage(x => string.Format(Resources.PurposeRangeMismatch, Purposes.Join(","))).When(x => !x.Purpose.IsNullOrEmpty());
                                   });
         }
     }

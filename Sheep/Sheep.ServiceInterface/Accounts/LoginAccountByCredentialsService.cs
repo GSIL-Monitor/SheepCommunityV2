@@ -4,7 +4,6 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Validation;
 using ServiceStack.Web;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Accounts;
@@ -61,10 +60,10 @@ namespace Sheep.ServiceInterface.Accounts
             {
                 return validateResponse;
             }
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                AccountLoginByCredentialsValidator.ValidateAndThrow(request, ApplyTo.Post);
-            }
+            //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            //{
+            //    AccountLoginByCredentialsValidator.ValidateAndThrow(request, ApplyTo.Post);
+            //}
             using (var authService = ResolveService<AuthenticateService>())
             {
                 var authResult = authService.Post(new Authenticate

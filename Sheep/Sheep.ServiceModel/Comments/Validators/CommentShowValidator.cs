@@ -17,7 +17,7 @@ namespace Sheep.ServiceModel.Comments.Validators
         {
             RuleSet(ApplyTo.Get, () =>
                                  {
-                                     RuleFor(x => x.CommentId).NotEmpty().WithMessage(Resources.CommentIdRequired);
+                                     RuleFor(x => x.CommentId).NotEmpty().WithMessage(x => string.Format(Resources.CommentIdRequired));
                                  });
         }
     }

@@ -3,7 +3,6 @@ using ServiceStack;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Validation;
 using Sheep.Model.Geo;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceInterface.States.Mappers;
@@ -52,10 +51,10 @@ namespace Sheep.ServiceInterface.States
         [CacheResponse(Duration = 86400, MaxAge = 43200)]
         public async Task<object> Get(StateShow request)
         {
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                StateShowValidator.ValidateAndThrow(request, ApplyTo.Get);
-            }
+            //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            //{
+            //    StateShowValidator.ValidateAndThrow(request, ApplyTo.Get);
+            //}
             var existingState = await StateRepo.GetStateAsync(request.StateId);
             if (existingState == null)
             {

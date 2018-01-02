@@ -17,8 +17,8 @@ namespace Sheep.ServiceModel.Votes.Validators
         {
             RuleSet(ApplyTo.Get, () =>
                                  {
-                                     RuleFor(x => x.ParentId).NotEmpty().WithMessage(Resources.ParentIdRequired);
-                                     RuleFor(x => x.UserId).NotEmpty().WithMessage(Resources.UserIdRequired);
+                                     RuleFor(x => x.ParentId).NotEmpty().WithMessage(x => string.Format(Resources.ParentIdRequired));
+                                     RuleFor(x => x.UserId).NotEmpty().WithMessage(x => string.Format(Resources.UserIdRequired));
                                  });
         }
     }

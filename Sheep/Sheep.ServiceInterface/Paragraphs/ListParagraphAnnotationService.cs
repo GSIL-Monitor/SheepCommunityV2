@@ -5,7 +5,6 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Validation;
 using Sheep.Model.Bookstore;
 using Sheep.ServiceInterface.Paragraphs.Mappers;
 using Sheep.ServiceInterface.Properties;
@@ -66,13 +65,13 @@ namespace Sheep.ServiceInterface.Paragraphs
         /// <summary>
         ///     列举一组节注释。
         /// </summary>
-        [CacheResponse(Duration = 600)]
+        [CacheResponse(Duration = 3600, MaxAge = 1800)]
         public async Task<object> Get(ParagraphAnnotationList request)
         {
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                ParagraphAnnotationListValidator.ValidateAndThrow(request, ApplyTo.Get);
-            }
+            //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            //{
+            //    ParagraphAnnotationListValidator.ValidateAndThrow(request, ApplyTo.Get);
+            //}
             var existingParagraphAnnotations = await ParagraphAnnotationRepo.FindParagraphAnnotationsAsync(request.BookId, request.VolumeNumber, request.ChapterNumber, request.ParagraphNumber, request.AnnotationFilter, request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingParagraphAnnotations == null)
             {

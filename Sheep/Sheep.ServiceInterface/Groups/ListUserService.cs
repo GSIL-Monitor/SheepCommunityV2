@@ -4,7 +4,6 @@ using ServiceStack;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Validation;
 using Sheep.Model.Friendship;
 using Sheep.ServiceInterface.Groups.Mappers;
 using Sheep.ServiceInterface.Properties;
@@ -53,10 +52,10 @@ namespace Sheep.ServiceInterface.Groups
         [CacheResponse(Duration = 600)]
         public async Task<object> Get(GroupList request)
         {
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                GroupListValidator.ValidateAndThrow(request, ApplyTo.Get);
-            }
+            //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            //{
+            //    GroupListValidator.ValidateAndThrow(request, ApplyTo.Get);
+            //}
             var existingGroups = await GroupRepo.FindGroupsAsync(request.NameFilter, request.CreatedSince, request.ModifiedSince, request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingGroups == null)
             {

@@ -17,7 +17,7 @@ namespace Sheep.ServiceModel.Books.Validators
         {
             RuleSet(ApplyTo.Delete, () =>
                                     {
-                                        RuleFor(x => x.BookId).NotEmpty().WithMessage(Resources.BookIdRequired);
+                                        RuleFor(x => x.BookId).NotEmpty().WithMessage(x => string.Format(Resources.BookIdRequired));
                                     });
         }
     }

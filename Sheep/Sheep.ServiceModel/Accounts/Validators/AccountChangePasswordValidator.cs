@@ -17,7 +17,7 @@ namespace Sheep.ServiceModel.Accounts.Validators
         {
             RuleSet(ApplyTo.Put, () =>
                                  {
-                                     RuleFor(x => x.Password).NotEmpty().WithMessage(Resources.PasswordRequired).Length(4, 256).WithMessage(Resources.PasswordLengthMismatch, 4, 256);
+                                     RuleFor(x => x.Password).NotEmpty().WithMessage(x => string.Format(Resources.PasswordRequired)).Length(4, 256).WithMessage(x => string.Format(Resources.PasswordLengthMismatch, 4, 256));
                                  });
         }
     }

@@ -24,7 +24,7 @@ namespace Sheep.ServiceModel.Accounts.Validators
         {
             RuleSet(ApplyTo.Put, () =>
                                  {
-                                     RuleFor(x => x.Gender).Must(gender => Genders.Contains(gender)).WithMessage(Resources.GenderRangeMismatch, Genders.Join(",")).When(x => !x.Gender.IsNullOrEmpty());
+                                     RuleFor(x => x.Gender).Must(gender => Genders.Contains(gender)).WithMessage(x => string.Format(Resources.GenderRangeMismatch, Genders.Join(","))).When(x => !x.Gender.IsNullOrEmpty());
                                  });
         }
     }

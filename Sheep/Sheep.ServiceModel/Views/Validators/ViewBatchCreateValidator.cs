@@ -17,12 +17,12 @@ namespace Sheep.ServiceModel.Views.Validators
         {
             RuleSet(ApplyTo.Post, () =>
                                   {
-                                      RuleFor(x => x.BookId).NotEmpty().WithMessage(Resources.BookIdRequired);
-                                      RuleFor(x => x.VolumeNumber).NotEmpty().WithMessage(Resources.VolumeNumberRequired);
-                                      RuleFor(x => x.BeginChapterNumber).NotEmpty().WithMessage(Resources.BeginChapterNumberRequired);
-                                      RuleFor(x => x.BeginParagraphNumber).NotEmpty().WithMessage(Resources.BeginParagraphNumberRequired);
-                                      RuleFor(x => x.EndChapterNumber).NotEmpty().WithMessage(Resources.EndChapterNumberRequired);
-                                      RuleFor(x => x.EndParagraphNumber).NotEmpty().WithMessage(Resources.EndParagraphNumberRequired);
+                                      RuleFor(x => x.BookId).NotEmpty().WithMessage(x => string.Format(Resources.BookIdRequired));
+                                      RuleFor(x => x.VolumeNumber).NotEmpty().WithMessage(x => string.Format(Resources.VolumeNumberRequired));
+                                      RuleFor(x => x.BeginChapterNumber).NotEmpty().WithMessage(x => string.Format(Resources.BeginChapterNumberRequired));
+                                      RuleFor(x => x.BeginParagraphNumber).NotEmpty().WithMessage(x => string.Format(Resources.BeginParagraphNumberRequired));
+                                      RuleFor(x => x.EndChapterNumber).NotEmpty().WithMessage(x => string.Format(Resources.EndChapterNumberRequired));
+                                      RuleFor(x => x.EndParagraphNumber).NotEmpty().WithMessage(x => string.Format(Resources.EndParagraphNumberRequired));
                                   });
         }
     }

@@ -17,7 +17,7 @@ namespace Sheep.ServiceModel.Accounts.Validators
         {
             RuleSet(ApplyTo.Get, () =>
                                  {
-                                     RuleFor(x => x.Code).NotEmpty().WithMessage(Resources.CodeRequired);
+                                     RuleFor(x => x.Code).NotEmpty().WithMessage(x => string.Format(Resources.CodeRequired));
                                  });
         }
     }

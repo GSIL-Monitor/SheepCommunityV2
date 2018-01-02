@@ -19,7 +19,7 @@ namespace Sheep.ServiceModel.Accounts.Validators
         {
             RuleSet(ApplyTo.Put, () =>
                                  {
-                                     RuleFor(x => x.SourceAvatarUrl).Must(url => url.GetImageUrlExtension().IsImageExtension()).WithMessage(Resources.SourceAvatarUrlMismatch).When(x => !x.SourceAvatarUrl.IsNullOrEmpty());
+                                     RuleFor(x => x.SourceAvatarUrl).Must(url => url.GetImageUrlExtension().IsImageExtension()).WithMessage(x => string.Format(Resources.SourceAvatarUrlMismatch)).When(x => !x.SourceAvatarUrl.IsNullOrEmpty());
                                  });
         }
     }

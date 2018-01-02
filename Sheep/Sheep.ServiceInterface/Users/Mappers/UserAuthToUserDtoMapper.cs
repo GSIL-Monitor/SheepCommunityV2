@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Text;

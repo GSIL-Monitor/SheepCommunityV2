@@ -17,7 +17,7 @@ namespace Sheep.ServiceModel.Replies.Validators
         {
             RuleSet(ApplyTo.Delete, () =>
                                     {
-                                        RuleFor(x => x.ReplyId).NotEmpty().WithMessage(Resources.ReplyIdRequired);
+                                        RuleFor(x => x.ReplyId).NotEmpty().WithMessage(x => string.Format(Resources.ReplyIdRequired));
                                     });
         }
     }

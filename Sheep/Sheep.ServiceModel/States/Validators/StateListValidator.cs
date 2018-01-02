@@ -17,7 +17,7 @@ namespace Sheep.ServiceModel.States.Validators
         {
             RuleSet(ApplyTo.Get, () =>
                                  {
-                                     RuleFor(x => x.CountryId).NotEmpty().WithMessage(Resources.CountryIdRequired);
+                                     RuleFor(x => x.CountryId).NotEmpty().WithMessage(x => string.Format(Resources.CountryIdRequired));
                                  });
         }
     }

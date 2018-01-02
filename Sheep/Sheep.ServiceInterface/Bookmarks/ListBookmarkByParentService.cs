@@ -5,7 +5,6 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Validation;
 using Sheep.Common.Auth;
 using Sheep.Model.Bookstore;
 using Sheep.Model.Content;
@@ -76,10 +75,10 @@ namespace Sheep.ServiceInterface.Bookmarks
         //[CacheResponse(Duration = 600)]
         public async Task<object> Get(BookmarkListByParent request)
         {
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                BookmarkListByParentValidator.ValidateAndThrow(request, ApplyTo.Get);
-            }
+            //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            //{
+            //    BookmarkListByParentValidator.ValidateAndThrow(request, ApplyTo.Get);
+            //}
             var existingBookmarks = await BookmarkRepo.FindBookmarksByParentAsync(request.ParentId, request.CreatedSince, request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingBookmarks == null)
             {

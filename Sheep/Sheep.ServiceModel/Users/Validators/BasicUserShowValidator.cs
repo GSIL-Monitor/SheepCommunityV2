@@ -17,7 +17,7 @@ namespace Sheep.ServiceModel.Users.Validators
         {
             RuleSet(ApplyTo.Get, () =>
                                  {
-                                     RuleFor(x => x.UserId).NotEmpty().WithMessage(Resources.UserIdRequired);
+                                     RuleFor(x => x.UserId).NotEmpty().WithMessage(x => string.Format(Resources.UserIdRequired));
                                  });
         }
     }
@@ -35,7 +35,7 @@ namespace Sheep.ServiceModel.Users.Validators
         {
             RuleSet(ApplyTo.Get, () =>
                                  {
-                                     RuleFor(x => x.UserNameOrEmail).NotEmpty().WithMessage(Resources.UserNameOrEmailRequired);
+                                     RuleFor(x => x.UserNameOrEmail).NotEmpty().WithMessage(x => string.Format(Resources.UserNameOrEmailRequired));
                                  });
         }
     }
@@ -53,7 +53,7 @@ namespace Sheep.ServiceModel.Users.Validators
         {
             RuleSet(ApplyTo.Get, () =>
                                  {
-                                     RuleFor(x => x.DisplayName).NotEmpty().WithMessage(Resources.DisplayNameRequired);
+                                     RuleFor(x => x.DisplayName).NotEmpty().WithMessage(x => string.Format(Resources.DisplayNameRequired));
                                  });
         }
     }

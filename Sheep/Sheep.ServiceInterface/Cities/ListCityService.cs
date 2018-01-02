@@ -5,7 +5,6 @@ using ServiceStack;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Validation;
 using Sheep.Model.Geo;
 using Sheep.Model.Geo.Entities;
 using Sheep.ServiceInterface.Cities.Mappers;
@@ -55,10 +54,10 @@ namespace Sheep.ServiceInterface.Cities
         [CacheResponse(Duration = 3600, MaxAge = 1800)]
         public async Task<object> Get(CityList request)
         {
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                CityListValidator.ValidateAndThrow(request, ApplyTo.Get);
-            }
+            //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            //{
+            //    CityListValidator.ValidateAndThrow(request, ApplyTo.Get);
+            //}
             List<City> existingCities;
             if (request.NameFilter.IsNullOrEmpty())
             {

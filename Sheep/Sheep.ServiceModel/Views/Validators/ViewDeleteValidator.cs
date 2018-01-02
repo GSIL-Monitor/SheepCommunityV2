@@ -17,7 +17,7 @@ namespace Sheep.ServiceModel.Views.Validators
         {
             RuleSet(ApplyTo.Delete, () =>
                                     {
-                                        RuleFor(x => x.ViewId).NotEmpty().WithMessage(Resources.ViewIdRequired);
+                                        RuleFor(x => x.ViewId).NotEmpty().WithMessage(x => string.Format(Resources.ViewIdRequired));
                                     });
         }
     }

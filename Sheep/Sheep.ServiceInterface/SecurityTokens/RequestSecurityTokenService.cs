@@ -4,7 +4,6 @@ using ServiceStack;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Validation;
 using Sheep.Model.Security;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.SecurityTokens;
@@ -61,10 +60,10 @@ namespace Sheep.ServiceInterface.SecurityTokens
         /// </summary>
         public async Task<object> Post(SecurityTokenRequest request)
         {
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                SecurityTokenRequestValidator.ValidateAndThrow(request, ApplyTo.Post);
-            }
+            //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            //{
+            //    SecurityTokenRequestValidator.ValidateAndThrow(request, ApplyTo.Post);
+            //}
             var securityToken = await SecurityTokenProvider.GenerateTokenAsync(request.PhoneNumber, request.Purpose);
             if (securityToken.IsNullOrEmpty())
             {

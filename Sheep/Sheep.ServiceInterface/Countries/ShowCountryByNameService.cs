@@ -3,7 +3,6 @@ using ServiceStack;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Validation;
 using Sheep.Model.Geo;
 using Sheep.ServiceInterface.Countries.Mappers;
 using Sheep.ServiceInterface.Properties;
@@ -52,10 +51,10 @@ namespace Sheep.ServiceInterface.Countries
         [CacheResponse(Duration = 86400, MaxAge = 43200)]
         public async Task<object> Get(CountryShowByName request)
         {
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                CountryShowByNameValidator.ValidateAndThrow(request, ApplyTo.Get);
-            }
+            //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            //{
+            //    CountryShowByNameValidator.ValidateAndThrow(request, ApplyTo.Get);
+            //}
             var existingCountry = await CountryRepo.GetCountryByNameAsync(request.Name);
             if (existingCountry == null)
             {

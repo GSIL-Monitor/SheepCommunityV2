@@ -7,7 +7,6 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Validation;
 using Sheep.Model.Bookstore;
 using Sheep.Model.Bookstore.Entities;
 using Sheep.ServiceInterface.Chapters.Mappers;
@@ -85,10 +84,10 @@ namespace Sheep.ServiceInterface.Chapters
             {
                 throw HttpError.Unauthorized(Resources.LoginRequired);
             }
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                ChapterAnnotationUpdateValidator.ValidateAndThrow(request, ApplyTo.Put);
-            }
+            //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            //{
+            //    ChapterAnnotationUpdateValidator.ValidateAndThrow(request, ApplyTo.Put);
+            //}
             var existingChapterAnnotation = await ChapterAnnotationRepo.GetChapterAnnotationAsync(request.BookId, request.VolumeNumber, request.ChapterNumber, request.AnnotationNumber);
             if (existingChapterAnnotation == null)
             {

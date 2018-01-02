@@ -20,8 +20,8 @@ namespace Sheep.ServiceModel.Accounts.Validators
         {
             RuleSet(ApplyTo.Delete, () =>
                                     {
-                                        RuleFor(x => x.PhoneNumber).NotEmpty().WithMessage(Resources.PhoneNumberRequired).Matches("^1[3|4|5|7|8][0-9]{9}$").WithMessage(Resources.PhoneNumberFormatMismatch);
-                                        RuleFor(x => x.PhoneNumber).Must(PhoneNumberExists).WithMessage(Resources.PhoneNumberNotExists).When(x => !x.PhoneNumber.IsNullOrEmpty());
+                                        RuleFor(x => x.PhoneNumber).NotEmpty().WithMessage(x => string.Format(Resources.PhoneNumberRequired)).Matches("^1[3|4|5|7|8][0-9]{9}$").WithMessage(x => string.Format(Resources.PhoneNumberFormatMismatch));
+                                        RuleFor(x => x.PhoneNumber).Must(PhoneNumberExists).WithMessage(x => string.Format(Resources.PhoneNumberNotExists)).When(x => !x.PhoneNumber.IsNullOrEmpty());
                                     });
         }
 
@@ -52,8 +52,8 @@ namespace Sheep.ServiceModel.Accounts.Validators
         {
             RuleSet(ApplyTo.Delete, () =>
                                     {
-                                        RuleFor(x => x.WeiboUserId).NotEmpty().WithMessage(Resources.WeiboUserIdRequired);
-                                        RuleFor(x => x.WeiboUserId).Must(WeiboUserIdExists).WithMessage(Resources.WeiboUserIdNotExists).When(x => !x.WeiboUserId.IsNullOrEmpty());
+                                        RuleFor(x => x.WeiboUserId).NotEmpty().WithMessage(x => string.Format(Resources.WeiboUserIdRequired));
+                                        RuleFor(x => x.WeiboUserId).Must(WeiboUserIdExists).WithMessage(x => string.Format(Resources.WeiboUserIdNotExists)).When(x => !x.WeiboUserId.IsNullOrEmpty());
                                     });
         }
 
@@ -82,7 +82,10 @@ namespace Sheep.ServiceModel.Accounts.Validators
         /// </summary>
         public AccountUnbindWeixinValidator()
         {
-            RuleSet(ApplyTo.Delete, () => { RuleFor(x => x.WeixinUserId).NotEmpty().WithMessage(Resources.WeixinUserIdRequired); });
+            RuleSet(ApplyTo.Delete, () =>
+                                    {
+                                        RuleFor(x => x.WeixinUserId).NotEmpty().WithMessage(x => string.Format(Resources.WeixinUserIdRequired));
+                                    });
         }
     }
 
@@ -97,7 +100,10 @@ namespace Sheep.ServiceModel.Accounts.Validators
         /// </summary>
         public AccountUnbindQQValidator()
         {
-            RuleSet(ApplyTo.Delete, () => { RuleFor(x => x.QQUserId).NotEmpty().WithMessage(Resources.QQUserIdRequired); });
+            RuleSet(ApplyTo.Delete, () =>
+                                    {
+                                        RuleFor(x => x.QQUserId).NotEmpty().WithMessage(x => string.Format(Resources.QQUserIdRequired));
+                                    });
         }
     }
 }

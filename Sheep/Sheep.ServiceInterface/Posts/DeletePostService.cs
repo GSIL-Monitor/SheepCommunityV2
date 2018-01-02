@@ -5,7 +5,6 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Validation;
 using Sheep.Model.Content;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Posts;
@@ -66,10 +65,10 @@ namespace Sheep.ServiceInterface.Posts
             {
                 throw HttpError.Unauthorized(Resources.LoginRequired);
             }
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                PostDeleteValidator.ValidateAndThrow(request, ApplyTo.Delete);
-            }
+            //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            //{
+            //    PostDeleteValidator.ValidateAndThrow(request, ApplyTo.Delete);
+            //}
             var existingPost = await PostRepo.GetPostAsync(request.PostId);
             if (existingPost == null)
             {

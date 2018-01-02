@@ -18,11 +18,11 @@ namespace Sheep.ServiceModel.Accounts.Validators
         {
             RuleSet(ApplyTo.Post, () =>
                                   {
-                                      RuleFor(x => x.UserName).NotEmpty().WithMessage(Resources.UserNameOrEmailRequired).Length(4, 256).WithMessage(Resources.UserNameLengthMismatch, 4, 256).When(x => x.Email.IsNullOrEmpty());
-                                      RuleFor(x => x.Email).NotEmpty().WithMessage(Resources.UserNameOrEmailRequired).Length(4, 256).WithMessage(Resources.EmailLengthMismatch, 4, 256).EmailAddress().WithMessage(Resources.EmailFormatMismatch).When(x => x.UserName.IsNullOrEmpty());
-                                      RuleFor(x => x.UserName).Must(UserNameOrEmailNotExists).WithMessage(Resources.UserNameAlreadyExists).When(x => !x.UserName.IsNullOrEmpty());
-                                      RuleFor(x => x.Email).Must(UserNameOrEmailNotExists).WithMessage(Resources.EmailAlreadyExists).When(x => !x.Email.IsNullOrEmpty());
-                                      RuleFor(x => x.Password).NotEmpty().WithMessage(Resources.PasswordRequired).Length(4, 256).WithMessage(Resources.PasswordLengthMismatch, 4, 256);
+                                      RuleFor(x => x.UserName).NotEmpty().WithMessage(x => string.Format(Resources.UserNameOrEmailRequired)).Length(4, 256).WithMessage(x => string.Format(Resources.UserNameLengthMismatch, 4, 256)).When(x => x.Email.IsNullOrEmpty());
+                                      RuleFor(x => x.Email).NotEmpty().WithMessage(x => string.Format(Resources.UserNameOrEmailRequired)).Length(4, 256).WithMessage(x => string.Format(Resources.EmailLengthMismatch, 4, 256)).EmailAddress().WithMessage(x => string.Format(Resources.EmailFormatMismatch)).When(x => x.UserName.IsNullOrEmpty());
+                                      RuleFor(x => x.UserName).Must(UserNameOrEmailNotExists).WithMessage(x => string.Format(Resources.UserNameAlreadyExists)).When(x => !x.UserName.IsNullOrEmpty());
+                                      RuleFor(x => x.Email).Must(UserNameOrEmailNotExists).WithMessage(x => string.Format(Resources.EmailAlreadyExists)).When(x => !x.Email.IsNullOrEmpty());
+                                      RuleFor(x => x.Password).NotEmpty().WithMessage(x => string.Format(Resources.PasswordRequired)).Length(4, 256).WithMessage(x => string.Format(Resources.PasswordLengthMismatch, 4, 256));
                                   });
         }
 

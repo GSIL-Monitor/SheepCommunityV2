@@ -18,9 +18,9 @@ namespace Sheep.ServiceModel.Groups.Validators
         {
             RuleSet(ApplyTo.Put, () =>
                                  {
-                                     RuleFor(x => x.GroupId).NotEmpty().WithMessage(Resources.GroupIdRequired);
-                                     RuleFor(x => x.FullName).Length(2, 64).WithMessage(Resources.FullNameLengthMismatch, 2, 64).When(x => !x.FullName.IsNullOrEmpty());
-                                     RuleFor(x => x.SourceIdImageUrl).Must(url => url.GetImageUrlExtension().IsImageExtension()).WithMessage(Resources.SourceIdImageUrlMismatch).When(x => !x.SourceIdImageUrl.IsNullOrEmpty());
+                                     RuleFor(x => x.GroupId).NotEmpty().WithMessage(x => string.Format(Resources.GroupIdRequired));
+                                     RuleFor(x => x.FullName).Length(2, 64).WithMessage(x => string.Format(Resources.FullNameLengthMismatch, 2, 64)).When(x => !x.FullName.IsNullOrEmpty());
+                                     RuleFor(x => x.SourceIdImageUrl).Must(url => url.GetImageUrlExtension().IsImageExtension()).WithMessage(x => string.Format(Resources.SourceIdImageUrlMismatch)).When(x => !x.SourceIdImageUrl.IsNullOrEmpty());
                                  });
         }
     }

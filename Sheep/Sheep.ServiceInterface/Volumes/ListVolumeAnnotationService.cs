@@ -5,7 +5,6 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Validation;
 using Sheep.Model.Bookstore;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceInterface.Volumes.Mappers;
@@ -66,13 +65,13 @@ namespace Sheep.ServiceInterface.Volumes
         /// <summary>
         ///     列举一组卷注释。
         /// </summary>
-        [CacheResponse(Duration = 600)]
+        [CacheResponse(Duration = 3600, MaxAge = 1800)]
         public async Task<object> Get(VolumeAnnotationList request)
         {
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                VolumeAnnotationListValidator.ValidateAndThrow(request, ApplyTo.Get);
-            }
+            //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            //{
+            //    VolumeAnnotationListValidator.ValidateAndThrow(request, ApplyTo.Get);
+            //}
             var existingVolumeAnnotations = await VolumeAnnotationRepo.FindVolumeAnnotationsAsync(request.BookId, request.VolumeNumber, request.AnnotationFilter, request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingVolumeAnnotations == null)
             {

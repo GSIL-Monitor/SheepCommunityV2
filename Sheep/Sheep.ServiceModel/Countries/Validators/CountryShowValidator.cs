@@ -17,7 +17,7 @@ namespace Sheep.ServiceModel.Countries.Validators
         {
             RuleSet(ApplyTo.Get, () =>
                                  {
-                                     RuleFor(x => x.CountryId).NotEmpty().WithMessage(Resources.CountryIdRequired);
+                                     RuleFor(x => x.CountryId).NotEmpty().WithMessage(x => string.Format(Resources.CountryIdRequired));
                                  });
         }
     }
@@ -35,7 +35,7 @@ namespace Sheep.ServiceModel.Countries.Validators
         {
             RuleSet(ApplyTo.Get, () =>
                                  {
-                                     RuleFor(x => x.Name).NotEmpty().WithMessage(Resources.NameRequired);
+                                     RuleFor(x => x.Name).NotEmpty().WithMessage(x => string.Format(Resources.NameRequired));
                                  });
         }
     }

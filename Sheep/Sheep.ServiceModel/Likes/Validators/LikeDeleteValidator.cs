@@ -17,7 +17,7 @@ namespace Sheep.ServiceModel.Likes.Validators
         {
             RuleSet(ApplyTo.Delete, () =>
                                     {
-                                        RuleFor(x => x.ParentId).NotEmpty().WithMessage(Resources.ParentIdRequired);
+                                        RuleFor(x => x.ParentId).NotEmpty().WithMessage(x => string.Format(Resources.ParentIdRequired));
                                     });
         }
     }

@@ -6,7 +6,6 @@ using ServiceStack;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Validation;
 using Sheep.Model.Friendship;
 using Sheep.Model.Friendship.Entities;
 using Sheep.ServiceInterface.Properties;
@@ -63,10 +62,10 @@ namespace Sheep.ServiceInterface.Groups
             {
                 throw HttpError.Unauthorized(Resources.LoginRequired);
             }
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                GroupChangeDescriptionValidator.ValidateAndThrow(request, ApplyTo.Put);
-            }
+            //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            //{
+            //    GroupChangeDescriptionValidator.ValidateAndThrow(request, ApplyTo.Put);
+            //}
             var existingGroup = await GroupRepo.GetGroupAsync(request.GroupId);
             if (existingGroup == null)
             {

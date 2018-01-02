@@ -5,7 +5,6 @@ using ServiceStack;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Validation;
 using Sheep.Model.Geo;
 using Sheep.Model.Geo.Entities;
 using Sheep.ServiceInterface.Properties;
@@ -55,10 +54,10 @@ namespace Sheep.ServiceInterface.States
         [CacheResponse(Duration = 3600, MaxAge = 1800)]
         public async Task<object> Get(StateList request)
         {
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                StateListValidator.ValidateAndThrow(request, ApplyTo.Get);
-            }
+            //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            //{
+            //    StateListValidator.ValidateAndThrow(request, ApplyTo.Get);
+            //}
             List<State> existingStates;
             if (request.NameFilter.IsNullOrEmpty())
             {

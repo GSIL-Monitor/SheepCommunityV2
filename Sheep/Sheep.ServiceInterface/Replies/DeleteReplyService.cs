@@ -5,7 +5,6 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Validation;
 using Sheep.Model.Content;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Replies;
@@ -71,10 +70,10 @@ namespace Sheep.ServiceInterface.Replies
             {
                 throw HttpError.Unauthorized(Resources.LoginRequired);
             }
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                ReplyDeleteValidator.ValidateAndThrow(request, ApplyTo.Delete);
-            }
+            //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            //{
+            //    ReplyDeleteValidator.ValidateAndThrow(request, ApplyTo.Delete);
+            //}
             var existingReply = await ReplyRepo.GetReplyAsync(request.ReplyId);
             if (existingReply == null)
             {

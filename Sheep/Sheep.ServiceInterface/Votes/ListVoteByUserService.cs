@@ -5,7 +5,6 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Validation;
 using Sheep.Common.Auth;
 using Sheep.Model.Content;
 using Sheep.ServiceInterface.Properties;
@@ -60,10 +59,10 @@ namespace Sheep.ServiceInterface.Votes
         //[CacheResponse(Duration = 600)]
         public async Task<object> Get(VoteListByUser request)
         {
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                VoteListByUserValidator.ValidateAndThrow(request, ApplyTo.Get);
-            }
+            //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            //{
+            //    VoteListByUserValidator.ValidateAndThrow(request, ApplyTo.Get);
+            //}
             var existingVotes = await VoteRepo.FindVotesByUserAsync(request.UserId, request.ParentType, request.CreatedSince, request.ModifiedSince, request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingVotes == null)
             {

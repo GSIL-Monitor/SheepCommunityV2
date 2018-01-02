@@ -4,7 +4,6 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Validation;
 using Sheep.Common.Auth;
 using Sheep.Model.Content;
 using Sheep.ServiceInterface.Comments.Mappers;
@@ -63,10 +62,10 @@ namespace Sheep.ServiceInterface.Comments
         /// </summary>
         public async Task<object> Get(CommentShow request)
         {
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                CommentShowValidator.ValidateAndThrow(request, ApplyTo.Get);
-            }
+            //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            //{
+            //    CommentShowValidator.ValidateAndThrow(request, ApplyTo.Get);
+            //}
             var existingComment = await CommentRepo.GetCommentAsync(request.CommentId);
             if (existingComment == null)
             {

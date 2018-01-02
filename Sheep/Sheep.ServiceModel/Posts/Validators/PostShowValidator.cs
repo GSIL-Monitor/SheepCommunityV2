@@ -17,7 +17,7 @@ namespace Sheep.ServiceModel.Posts.Validators
         {
             RuleSet(ApplyTo.Get, () =>
                                  {
-                                     RuleFor(x => x.PostId).NotEmpty().WithMessage(Resources.PostIdRequired);
+                                     RuleFor(x => x.PostId).NotEmpty().WithMessage(x => string.Format(Resources.PostIdRequired));
                                  });
         }
     }

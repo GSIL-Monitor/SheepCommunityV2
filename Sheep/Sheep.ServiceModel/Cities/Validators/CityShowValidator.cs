@@ -17,7 +17,7 @@ namespace Sheep.ServiceModel.Cities.Validators
         {
             RuleSet(ApplyTo.Get, () =>
                                  {
-                                     RuleFor(x => x.CityId).NotEmpty().WithMessage(Resources.CityIdRequired);
+                                     RuleFor(x => x.CityId).NotEmpty().WithMessage(x => string.Format(Resources.CityIdRequired));
                                  });
         }
     }
@@ -35,8 +35,8 @@ namespace Sheep.ServiceModel.Cities.Validators
         {
             RuleSet(ApplyTo.Get, () =>
                                  {
-                                     RuleFor(x => x.StateId).NotEmpty().WithMessage(Resources.StateIdRequired);
-                                     RuleFor(x => x.Name).NotEmpty().WithMessage(Resources.NameRequired);
+                                     RuleFor(x => x.StateId).NotEmpty().WithMessage(x => string.Format(Resources.StateIdRequired));
+                                     RuleFor(x => x.Name).NotEmpty().WithMessage(x => string.Format(Resources.NameRequired));
                                  });
         }
     }

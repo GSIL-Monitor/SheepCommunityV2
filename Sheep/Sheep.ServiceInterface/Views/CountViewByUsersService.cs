@@ -6,7 +6,6 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Validation;
 using Sheep.Model.Bookstore;
 using Sheep.Model.Content;
 using Sheep.ServiceModel.Views;
@@ -75,10 +74,10 @@ namespace Sheep.ServiceInterface.Views
         [CacheResponse(Duration = 600)]
         public async Task<object> Get(ViewCountByUsers request)
         {
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                ViewCountByUsersValidator.ValidateAndThrow(request, ApplyTo.Get);
-            }
+            //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            //{
+            //    ViewCountByUsersValidator.ValidateAndThrow(request, ApplyTo.Get);
+            //}
             var viewsCountsMap = (await ViewRepo.GetViewsCountByUsersAsync(request.UserIds, request.ParentType, request.ParentIdPrefix, request.CreatedSince)).ToDictionary(pair => pair.Key, pair => pair.Value);
             var parentsCountsMap = (await ViewRepo.GetParentsCountByUsersAsync(request.UserIds, request.ParentType, request.ParentIdPrefix, request.CreatedSince)).ToDictionary(pair => pair.Key, pair => pair.Value);
             var daysCountsMap = (await ViewRepo.GetDaysCountByUsersAsync(request.UserIds, request.ParentType, request.ParentIdPrefix, request.CreatedSince)).ToDictionary(pair => pair.Key, pair => pair.Value);

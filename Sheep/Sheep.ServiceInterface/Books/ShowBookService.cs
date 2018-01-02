@@ -4,7 +4,6 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Validation;
 using Sheep.Model.Bookstore;
 using Sheep.ServiceInterface.Books.Mappers;
 using Sheep.ServiceInterface.Properties;
@@ -55,13 +54,13 @@ namespace Sheep.ServiceInterface.Books
         /// <summary>
         ///     显示一本书籍。
         /// </summary>
-        [CacheResponse(Duration = 600)]
+        [CacheResponse(Duration = 3600, MaxAge = 1800)]
         public async Task<object> Get(BookShow request)
         {
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                BookShowValidator.ValidateAndThrow(request, ApplyTo.Get);
-            }
+            //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            //{
+            //    BookShowValidator.ValidateAndThrow(request, ApplyTo.Get);
+            //}
             var existingBook = await BookRepo.GetBookAsync(request.BookId);
             if (existingBook == null)
             {

@@ -5,7 +5,6 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Validation;
 using Sheep.Model.Content;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Votes;
@@ -76,10 +75,10 @@ namespace Sheep.ServiceInterface.Votes
             {
                 throw HttpError.Unauthorized(Resources.LoginRequired);
             }
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                VoteDeleteValidator.ValidateAndThrow(request, ApplyTo.Delete);
-            }
+            //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            //{
+            //    VoteDeleteValidator.ValidateAndThrow(request, ApplyTo.Delete);
+            //}
             var currentUserId = GetSession().UserAuthId.ToInt(0);
             var existingVote = await VoteRepo.GetVoteAsync(request.ParentId, currentUserId);
             if (existingVote == null)

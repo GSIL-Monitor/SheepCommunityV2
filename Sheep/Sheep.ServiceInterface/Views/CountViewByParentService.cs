@@ -4,7 +4,6 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Validation;
 using Sheep.Model.Bookstore;
 using Sheep.Model.Content;
 using Sheep.ServiceModel.Views;
@@ -73,10 +72,10 @@ namespace Sheep.ServiceInterface.Views
         [CacheResponse(Duration = 600)]
         public async Task<object> Get(ViewCountByParent request)
         {
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                ViewCountByParentValidator.ValidateAndThrow(request, ApplyTo.Get);
-            }
+            //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            //{
+            //    ViewCountByParentValidator.ValidateAndThrow(request, ApplyTo.Get);
+            //}
             var currentUserId = GetSession().UserAuthId.ToInt(0);
             var viewsCount = await ViewRepo.GetViewsCountByParentAsync(request.ParentId, request.IsMine.HasValue && request.IsMine.Value ? currentUserId : (int?) null, request.CreatedSince);
             var parentsCount = 1;

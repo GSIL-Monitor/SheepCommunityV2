@@ -20,7 +20,7 @@ namespace Sheep.ServiceModel.Accounts.Validators
             var maxDate = DateTime.Today;
             RuleSet(ApplyTo.Put, () =>
                                  {
-                                     RuleFor(x => x.BirthDate).InclusiveBetween(minDate, maxDate).WithMessage(Resources.BirthDateRangeMismatch, minDate, maxDate).When(x => x.BirthDate.HasValue);
+                                     RuleFor(x => x.BirthDate).InclusiveBetween(minDate, maxDate).WithMessage(x => string.Format(Resources.BirthDateRangeMismatch, minDate, maxDate)).When(x => x.BirthDate.HasValue);
                                  });
         }
     }

@@ -25,12 +25,12 @@ namespace Sheep.ServiceModel.Posts.Validators
         {
             RuleSet(ApplyTo.Put, () =>
                                  {
-                                     RuleFor(x => x.PostId).NotEmpty().WithMessage(Resources.PostIdRequired);
-                                     RuleFor(x => x.Title).NotEmpty().WithMessage(Resources.TitleRequired);
-                                     RuleFor(x => x.ContentType).NotEmpty().WithMessage(Resources.ContentTypeRequired);
-                                     RuleFor(x => x.ContentType).Must(contentType => ContentTypes.Contains(contentType)).WithMessage(Resources.ContentTypeRangeMismatch, ContentTypes.Join(",")).When(x => !x.ContentType.IsNullOrEmpty());
-                                     RuleFor(x => x.Content).NotEmpty().WithMessage(Resources.ContentRequired).When(x => x.ContentType == "图文");
-                                     RuleFor(x => x.ContentUrl).NotEmpty().WithMessage(Resources.ContentUrlRequired).When(x => x.ContentType == "音频" || x.ContentType == "视频");
+                                     RuleFor(x => x.PostId).NotEmpty().WithMessage(x => string.Format(Resources.PostIdRequired));
+                                     RuleFor(x => x.Title).NotEmpty().WithMessage(x => string.Format(Resources.TitleRequired));
+                                     RuleFor(x => x.ContentType).NotEmpty().WithMessage(x => string.Format(Resources.ContentTypeRequired));
+                                     RuleFor(x => x.ContentType).Must(contentType => ContentTypes.Contains(contentType)).WithMessage(x => string.Format(Resources.ContentTypeRangeMismatch, ContentTypes.Join(","))).When(x => !x.ContentType.IsNullOrEmpty());
+                                     RuleFor(x => x.Content).NotEmpty().WithMessage(x => string.Format(Resources.ContentRequired)).When(x => x.ContentType == "图文");
+                                     RuleFor(x => x.ContentUrl).NotEmpty().WithMessage(x => string.Format(Resources.ContentUrlRequired)).When(x => x.ContentType == "音频" || x.ContentType == "视频");
                                  });
         }
     }

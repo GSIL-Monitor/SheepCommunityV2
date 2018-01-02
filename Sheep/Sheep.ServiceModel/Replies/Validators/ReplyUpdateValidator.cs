@@ -17,8 +17,8 @@ namespace Sheep.ServiceModel.Replies.Validators
         {
             RuleSet(ApplyTo.Put, () =>
                                  {
-                                     RuleFor(x => x.ReplyId).NotEmpty().WithMessage(Resources.ReplyIdRequired);
-                                     RuleFor(x => x.Content).NotEmpty().WithMessage(Resources.ContentRequired);
+                                     RuleFor(x => x.ReplyId).NotEmpty().WithMessage(x => string.Format(Resources.ReplyIdRequired));
+                                     RuleFor(x => x.Content).NotEmpty().WithMessage(x => string.Format(Resources.ContentRequired));
                                  });
         }
     }

@@ -17,9 +17,9 @@ namespace Sheep.ServiceModel.Subjects.Validators
         {
             RuleSet(ApplyTo.Get, () =>
                                  {
-                                     RuleFor(x => x.BookId).NotEmpty().WithMessage(Resources.BookIdRequired);
-                                     RuleFor(x => x.VolumeNumber).NotEmpty().WithMessage(Resources.VolumeNumberRequired);
-                                     RuleFor(x => x.SubjectNumber).NotEmpty().WithMessage(Resources.SubjectNumberRequired);
+                                     RuleFor(x => x.BookId).NotEmpty().WithMessage(x => string.Format(Resources.BookIdRequired));
+                                     RuleFor(x => x.VolumeNumber).NotEmpty().WithMessage(x => string.Format(Resources.VolumeNumberRequired));
+                                     RuleFor(x => x.SubjectNumber).NotEmpty().WithMessage(x => string.Format(Resources.SubjectNumberRequired));
                                  });
         }
     }

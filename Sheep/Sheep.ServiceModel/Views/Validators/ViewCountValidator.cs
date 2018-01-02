@@ -16,7 +16,10 @@ namespace Sheep.ServiceModel.Views.Validators
         /// </summary>
         public ViewCountByParentValidator()
         {
-            RuleSet(ApplyTo.Get, () => { RuleFor(x => x.ParentId).NotEmpty().WithMessage(Resources.ParentIdRequired); });
+            RuleSet(ApplyTo.Get, () =>
+                                 {
+                                     RuleFor(x => x.ParentId).NotEmpty().WithMessage(x => string.Format(Resources.ParentIdRequired));
+                                 });
         }
     }
 
@@ -40,8 +43,8 @@ namespace Sheep.ServiceModel.Views.Validators
         {
             RuleSet(ApplyTo.Get, () =>
                                  {
-                                     RuleFor(x => x.UserId).NotEmpty().WithMessage(Resources.UserIdRequired);
-                                     RuleFor(x => x.ParentType).Must(contentType => ParentTypes.Contains(contentType)).WithMessage(Resources.ParentTypeRangeMismatch, ParentTypes.Join(",")).When(x => !x.ParentType.IsNullOrEmpty());
+                                     RuleFor(x => x.UserId).NotEmpty().WithMessage(x => string.Format(Resources.UserIdRequired));
+                                     RuleFor(x => x.ParentType).Must(contentType => ParentTypes.Contains(contentType)).WithMessage(x => string.Format(Resources.ParentTypeRangeMismatch, ParentTypes.Join(","))).When(x => !x.ParentType.IsNullOrEmpty());
                                  });
         }
     }
@@ -66,8 +69,8 @@ namespace Sheep.ServiceModel.Views.Validators
         {
             RuleSet(ApplyTo.Get, () =>
                                  {
-                                     RuleFor(x => x.UserIds).NotEmpty().WithMessage(Resources.UserIdsRequired);
-                                     RuleFor(x => x.ParentType).Must(contentType => ParentTypes.Contains(contentType)).WithMessage(Resources.ParentTypeRangeMismatch, ParentTypes.Join(",")).When(x => !x.ParentType.IsNullOrEmpty());
+                                     RuleFor(x => x.UserIds).NotEmpty().WithMessage(x => string.Format(Resources.UserIdsRequired));
+                                     RuleFor(x => x.ParentType).Must(contentType => ParentTypes.Contains(contentType)).WithMessage(x => string.Format(Resources.ParentTypeRangeMismatch, ParentTypes.Join(","))).When(x => !x.ParentType.IsNullOrEmpty());
                                  });
         }
     }

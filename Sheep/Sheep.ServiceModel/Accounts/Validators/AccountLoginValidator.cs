@@ -17,8 +17,8 @@ namespace Sheep.ServiceModel.Accounts.Validators
         {
             RuleSet(ApplyTo.Post, () =>
                                   {
-                                      RuleFor(x => x.UserNameOrEmail).NotEmpty().WithMessage(Resources.UserNameOrEmailRequired);
-                                      RuleFor(x => x.Password).NotEmpty().WithMessage(Resources.PasswordRequired).Length(4, 256).WithMessage(Resources.PasswordLengthMismatch, 4, 256);
+                                      RuleFor(x => x.UserNameOrEmail).NotEmpty().WithMessage(x => string.Format(Resources.UserNameOrEmailRequired));
+                                      RuleFor(x => x.Password).NotEmpty().WithMessage(x => string.Format(Resources.PasswordRequired)).Length(4, 256).WithMessage(x => string.Format(Resources.PasswordLengthMismatch, 4, 256));
                                   });
         }
     }
@@ -36,8 +36,8 @@ namespace Sheep.ServiceModel.Accounts.Validators
         {
             RuleSet(ApplyTo.Post, () =>
                                   {
-                                      RuleFor(x => x.PhoneNumber).NotEmpty().WithMessage(Resources.PhoneNumberRequired).Matches("^1[3|4|5|7|8][0-9]{9}$").WithMessage(Resources.PhoneNumberFormatMismatch);
-                                      RuleFor(x => x.Token).NotEmpty().WithMessage(Resources.SecurityTokenRequired).Length(6).WithMessage(Resources.SecurityTokenLengthMismatch, 6);
+                                      RuleFor(x => x.PhoneNumber).NotEmpty().WithMessage(x => string.Format(Resources.PhoneNumberRequired)).Matches("^1[3|4|5|7|8][0-9]{9}$").WithMessage(x => string.Format(Resources.PhoneNumberFormatMismatch));
+                                      RuleFor(x => x.Token).NotEmpty().WithMessage(x => string.Format(Resources.SecurityTokenRequired)).Length(6).WithMessage(x => string.Format(Resources.SecurityTokenLengthMismatch, 6));
                                   });
         }
     }
@@ -55,8 +55,8 @@ namespace Sheep.ServiceModel.Accounts.Validators
         {
             RuleSet(ApplyTo.Post, () =>
                                   {
-                                      RuleFor(x => x.WeiboUserId).NotEmpty().WithMessage(Resources.WeiboUserIdRequired);
-                                      RuleFor(x => x.AccessToken).NotEmpty().WithMessage(Resources.AccessTokenRequired);
+                                      RuleFor(x => x.WeiboUserId).NotEmpty().WithMessage(x => string.Format(Resources.WeiboUserIdRequired));
+                                      RuleFor(x => x.AccessToken).NotEmpty().WithMessage(x => string.Format(Resources.AccessTokenRequired));
                                   });
         }
     }
@@ -74,8 +74,8 @@ namespace Sheep.ServiceModel.Accounts.Validators
         {
             RuleSet(ApplyTo.Post, () =>
                                   {
-                                      RuleFor(x => x.WeixinUserId).NotEmpty().WithMessage(Resources.WeixinUserIdRequired);
-                                      RuleFor(x => x.AccessToken).NotEmpty().WithMessage(Resources.AccessTokenRequired);
+                                      RuleFor(x => x.WeixinUserId).NotEmpty().WithMessage(x => string.Format(Resources.WeixinUserIdRequired));
+                                      RuleFor(x => x.AccessToken).NotEmpty().WithMessage(x => string.Format(Resources.AccessTokenRequired));
                                   });
         }
     }
@@ -93,8 +93,8 @@ namespace Sheep.ServiceModel.Accounts.Validators
         {
             RuleSet(ApplyTo.Post, () =>
                                   {
-                                      RuleFor(x => x.QQUserId).NotEmpty().WithMessage(Resources.QQUserIdRequired);
-                                      RuleFor(x => x.AccessToken).NotEmpty().WithMessage(Resources.AccessTokenRequired);
+                                      RuleFor(x => x.QQUserId).NotEmpty().WithMessage(x => string.Format(Resources.QQUserIdRequired));
+                                      RuleFor(x => x.AccessToken).NotEmpty().WithMessage(x => string.Format(Resources.AccessTokenRequired));
                                   });
         }
     }

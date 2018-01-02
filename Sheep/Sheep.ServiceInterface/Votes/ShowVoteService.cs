@@ -4,11 +4,10 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Validation;
 using Sheep.Common.Auth;
 using Sheep.Model.Content;
-using Sheep.ServiceInterface.Votes.Mappers;
 using Sheep.ServiceInterface.Properties;
+using Sheep.ServiceInterface.Votes.Mappers;
 using Sheep.ServiceModel.Votes;
 
 namespace Sheep.ServiceInterface.Votes
@@ -58,10 +57,10 @@ namespace Sheep.ServiceInterface.Votes
         /// </summary>
         public async Task<object> Get(VoteShow request)
         {
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                VoteShowValidator.ValidateAndThrow(request, ApplyTo.Get);
-            }
+            //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            //{
+            //    VoteShowValidator.ValidateAndThrow(request, ApplyTo.Get);
+            //}
             var user = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(request.UserId.ToString());
             if (user == null)
             {

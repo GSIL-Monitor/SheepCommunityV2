@@ -5,9 +5,8 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Validation;
-using Sheep.Model.Content;
 using Sheep.Model.Bookstore;
+using Sheep.Model.Content;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Comments;
 
@@ -82,10 +81,10 @@ namespace Sheep.ServiceInterface.Comments
             {
                 throw HttpError.Unauthorized(Resources.LoginRequired);
             }
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                CommentDeleteValidator.ValidateAndThrow(request, ApplyTo.Delete);
-            }
+            //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            //{
+            //    CommentDeleteValidator.ValidateAndThrow(request, ApplyTo.Delete);
+            //}
             var existingComment = await CommentRepo.GetCommentAsync(request.CommentId);
             if (existingComment == null)
             {

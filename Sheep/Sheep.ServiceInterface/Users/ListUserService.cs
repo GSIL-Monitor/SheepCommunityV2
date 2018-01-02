@@ -5,7 +5,6 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Validation;
 using Sheep.Common.Auth;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceInterface.Users.Mappers;
@@ -54,10 +53,10 @@ namespace Sheep.ServiceInterface.Users
         [CacheResponse(Duration = 600)]
         public async Task<object> Get(UserList request)
         {
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                UserListValidator.ValidateAndThrow(request, ApplyTo.Get);
-            }
+            //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            //{
+            //    UserListValidator.ValidateAndThrow(request, ApplyTo.Get);
+            //}
             var existingUserAuths = await ((IUserAuthRepositoryExtended) AuthRepo).FindUserAuthsAsync(request.UserNameFilter, request.NameFilter, request.CreatedSince, request.ModifiedSince, request.LockedSince, null, request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingUserAuths == null)
             {

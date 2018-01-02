@@ -6,7 +6,6 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Validation;
 using Sheep.Common.Auth;
 using Sheep.Model.Bookstore;
 using Sheep.Model.Content;
@@ -85,10 +84,10 @@ namespace Sheep.ServiceInterface.Views
             {
                 throw HttpError.Unauthorized(Resources.LoginRequired);
             }
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                ViewBatchCreateForParagraphsValidator.ValidateAndThrow(request, ApplyTo.Post);
-            }
+            //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            //{
+            //    ViewBatchCreateForParagraphsValidator.ValidateAndThrow(request, ApplyTo.Post);
+            //}
             var existingParagraphs = await ParagraphRepo.FindParagraphsInRangeAsync(request.BookId, request.VolumeNumber, request.BeginChapterNumber, request.BeginParagraphNumber, request.EndChapterNumber, request.EndParagraphNumber, null, null, null, null);
             if (existingParagraphs == null)
             {

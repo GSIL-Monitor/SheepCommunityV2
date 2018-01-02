@@ -4,7 +4,6 @@ using ServiceStack;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Validation;
 using Sheep.ServiceModel.Accounts;
 using Sina.Weibo;
 
@@ -50,10 +49,10 @@ namespace Sheep.ServiceInterface.Accounts
         /// </summary>
         public async Task<object> Get(AccountGetAccessTokenForWeibo request)
         {
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                AccountAccessTokenForWeiboValidator.ValidateAndThrow(request, ApplyTo.Get);
-            }
+            //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            //{
+            //    AccountAccessTokenForWeiboValidator.ValidateAndThrow(request, ApplyTo.Get);
+            //}
             var accessTokenResponse = await WeiboClient.PostAsync(new AccessTokenRequest
                                                                   {
                                                                       Code = request.Code

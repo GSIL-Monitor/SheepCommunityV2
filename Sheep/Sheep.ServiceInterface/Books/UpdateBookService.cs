@@ -14,7 +14,6 @@ using ServiceStack.Configuration;
 using ServiceStack.Extensions;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Validation;
 using Sheep.Common.Settings;
 using Sheep.Model.Bookstore;
 using Sheep.Model.Bookstore.Entities;
@@ -83,10 +82,10 @@ namespace Sheep.ServiceInterface.Books
             {
                 throw HttpError.Unauthorized(Resources.LoginRequired);
             }
-            if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
-            {
-                BookUpdateValidator.ValidateAndThrow(request, ApplyTo.Put);
-            }
+            //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
+            //{
+            //    BookUpdateValidator.ValidateAndThrow(request, ApplyTo.Put);
+            //}
             var existingBook = await BookRepo.GetBookAsync(request.BookId);
             if (existingBook == null)
             {

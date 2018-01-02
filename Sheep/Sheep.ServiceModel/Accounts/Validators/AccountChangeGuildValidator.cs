@@ -17,7 +17,7 @@ namespace Sheep.ServiceModel.Accounts.Validators
         {
             RuleSet(ApplyTo.Put, () =>
                                  {
-                                     RuleFor(x => x.Guild).Length(2, 128).WithMessage(Resources.GuildLengthMismatch, 2, 128).When(x => !x.Guild.IsNullOrEmpty());
+                                     RuleFor(x => x.Guild).Length(2, 128).WithMessage(x => string.Format(Resources.GuildLengthMismatch, 2, 128)).When(x => !x.Guild.IsNullOrEmpty());
                                  });
         }
     }
