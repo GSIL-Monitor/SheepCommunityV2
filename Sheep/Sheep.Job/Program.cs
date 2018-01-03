@@ -1,6 +1,5 @@
-﻿using System;
-using Hangfire;
-using Hangfire.SqlServer;
+﻿using Hangfire.Logging;
+using Hangfire.Logging.LogProviders;
 using Topshelf;
 
 namespace Sheep.Job
@@ -9,10 +8,7 @@ namespace Sheep.Job
     {
         public static void Main(string[] args)
         {
-            GlobalConfiguration.Configuration.UseSqlServerStorage("SheepHangfireDB", new SqlServerStorageOptions
-                                                                                     {
-                                                                                         QueuePollInterval = TimeSpan.FromSeconds(5)
-                                                                                     });
+            LogProvider.SetCurrentLogProvider(new ColouredConsoleLogProvider());
             HostFactory.Run(x =>
                             {
                                 x.Service<HangfireService>(configurator =>

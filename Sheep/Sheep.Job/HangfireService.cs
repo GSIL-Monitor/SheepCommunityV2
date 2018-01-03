@@ -1,12 +1,19 @@
-﻿using Hangfire;
+﻿using System;
+using Microsoft.Owin.Hosting;
 
 namespace Sheep.Job
 {
     public class HangfireService
     {
+        #region 静态变量
+
+        public const string Endpoint = "http://localhost:54321";
+
+        #endregion
+
         #region 属性 
 
-        private BackgroundJobServer _server;
+        private IDisposable _host;
 
         #endregion
 
@@ -14,12 +21,12 @@ namespace Sheep.Job
 
         public void Start()
         {
-            _server = new BackgroundJobServer();
+            _host = WebApp.Start<Startup>(Endpoint);
         }
 
         public void Stop()
         {
-            _server?.Dispose();
+            _host.Dispose();
         }
 
         #endregion
