@@ -253,6 +253,7 @@
     <Compile Include="Posts\Entities\BasicPostDto.cs" />
     <Compile Include="Posts\Entities\PostDto.cs" />
     <Compile Include="Posts\BasicPostList.cs" />
+    <Compile Include="Posts\PostBatchCalculate.cs" />
     <Compile Include="Posts\PostList.cs" />
     <Compile Include="Posts\PostShow.cs" />
     <Compile Include="Posts\PostUpdate.cs" />
@@ -260,6 +261,7 @@
     <Compile Include="Posts\PostCreate.cs" />
     <Compile Include="Posts\Validators\PostDeleteValidator.cs" />
     <Compile Include="Posts\Validators\BasicPostListValidator.cs" />
+    <Compile Include="Posts\Validators\PostBatchCalculateValidator.cs" />
     <Compile Include="Posts\Validators\PostUpdateValidator.cs" />
     <Compile Include="Posts\Validators\PostCreateValidator.cs" />
     <Compile Include="Posts\Validators\PostListValidator.cs" />

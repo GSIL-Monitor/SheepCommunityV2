@@ -18,7 +18,14 @@ namespace Sheep.Job
                                                                                          QueuePollInterval = TimeSpan.FromSeconds(5)
                                                                                      });
             app.UseHangfireDashboard();
-            app.UseHangfireServer();
+            app.UseHangfireServer(new BackgroundJobServerOptions
+                                  {
+                                      Queues = new[]
+                                               {
+                                                   "Critical",
+                                                   "Default"
+                                               }
+                                  });
         }
     }
 }

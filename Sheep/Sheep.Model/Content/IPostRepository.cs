@@ -318,6 +318,166 @@ namespace Sheep.Model.Content
 
         #endregion
 
+        #region 计算
+
+        /// <summary>
+        ///     计算精选的得分。
+        /// </summary>
+        /// <param name="post">帖子。</param>
+        /// <returns>得分。</returns>
+        float CalculatePostFeaturedScore(Post post);
+
+        /// <summary>
+        ///     异步计算精选的得分。
+        /// </summary>
+        /// <param name="post">帖子。</param>
+        /// <returns>得分。</returns>
+        Task<float> CalculatePostFeaturedScoreAsync(Post post);
+
+        /// <summary>
+        ///     计算标签的得分。
+        /// </summary>
+        /// <returns>得分。</returns>
+        float CalculatePostTagsScore(Post post);
+
+        /// <summary>
+        ///     异步计算标签的得分。
+        /// </summary>
+        /// <returns>得分。</returns>
+        Task<float> CalculatePostTagsScoreAsync(Post post);
+
+        /// <summary>
+        ///     计算查看的得分。
+        /// </summary>
+        /// <param name="post">帖子。</param>
+        /// <returns>得分。</returns>
+        float CalculatePostViewsScore(Post post);
+
+        /// <summary>
+        ///     异步计算查看的得分。
+        /// </summary>
+        /// <param name="post">帖子。</param>
+        /// <returns>得分。</returns>
+        Task<float> CalculatePostViewsScoreAsync(Post post);
+
+        /// <summary>
+        ///     计算收藏的得分。
+        /// </summary>
+        /// <param name="post">帖子。</param>
+        /// <returns>得分。</returns>
+        float CalculatePostBookmarksScore(Post post);
+
+        /// <summary>
+        ///     异步计算收藏的得分。
+        /// </summary>
+        /// <param name="post">帖子。</param>
+        /// <returns>得分。</returns>
+        Task<float> CalculatePostBookmarksScoreAsync(Post post);
+
+        /// <summary>
+        ///     计算评论的得分。
+        /// </summary>
+        /// <param name="post">帖子。</param>
+        /// <returns>得分。</returns>
+        float CalculatePostCommentsScore(Post post);
+
+        /// <summary>
+        ///     异步计算评论的得分。
+        /// </summary>
+        /// <param name="post">帖子。</param>
+        /// <returns>得分。</returns>
+        Task<float> CalculatePostCommentsScoreAsync(Post post);
+
+        /// <summary>
+        ///     计算点赞的得分。
+        /// </summary>
+        /// <param name="post">帖子。</param>
+        /// <returns>得分。</returns>
+        float CalculatePostLikesScore(Post post);
+
+        /// <summary>
+        ///     异步计算点赞的得分。
+        /// </summary>
+        /// <param name="post">帖子。</param>
+        /// <returns>得分。</returns>
+        Task<float> CalculatePostLikesScoreAsync(Post post);
+
+        /// <summary>
+        ///     计算评分的得分。
+        /// </summary>
+        /// <param name="post">帖子。</param>
+        /// <returns>得分。</returns>
+        float CalculatePostRatingsScore(Post post);
+
+        /// <summary>
+        ///     异步计算评分的得分。
+        /// </summary>
+        /// <param name="post">帖子。</param>
+        /// <returns>得分。</returns>
+        Task<float> CalculatePostRatingsScoreAsync(Post post);
+
+        /// <summary>
+        ///     计算分享的得分。
+        /// </summary>
+        /// <param name="post">帖子。</param>
+        /// <returns>得分。</returns>
+        float CalculatePostSharesScore(Post post);
+
+        /// <summary>
+        ///     异步计算分享的得分。
+        /// </summary>
+        /// <param name="post">帖子。</param>
+        /// <returns>得分。</returns>
+        Task<float> CalculatePostSharesScoreAsync(Post post);
+
+        /// <summary>
+        ///     计算滥用举报的得分。
+        /// </summary>
+        /// <param name="post">帖子。</param>
+        /// <returns>得分。</returns>
+        float CalculatePostAbuseReportsScore(Post post);
+
+        /// <summary>
+        ///     异步计算滥用举报的得分。
+        /// </summary>
+        /// <param name="post">帖子。</param>
+        /// <returns>得分。</returns>
+        Task<float> CalculatePostAbuseReportsScoreAsync(Post post);
+
+        /// <summary>
+        ///     计算内容质量的得分。
+        /// </summary>
+        /// <param name="post">帖子。</param>
+        /// <param name="featuredWeight">精选的权重。</param>
+        /// <param name="tagsWeight">标签的权重。</param>
+        /// <param name="viewsWeight">查看的权重。</param>
+        /// <param name="bookmarksWeight">收藏的权重。</param>
+        /// <param name="commentsWeight">评论的权重。</param>
+        /// <param name="likesWeight">点赞的权重。</param>
+        /// <param name="ratingsWeight">评分的权重。</param>
+        /// <param name="sharesWeight">分享的权重。</param>
+        /// <param name="decayHalfLife">得分的半衰期。（天）</param>
+        /// <returns>得分。</returns>
+        float CalculatePostContentQuality(Post post, float featuredWeight = 1.0f, float tagsWeight = 1.0f, float viewsWeight = 1.0f, float bookmarksWeight = 1.0f, float commentsWeight = 1.0f, float likesWeight = 1.0f, float ratingsWeight = 1.0f, float sharesWeight = 1.0f, int decayHalfLife = 30);
+
+        /// <summary>
+        ///     异步计算内容质量的得分。
+        /// </summary>
+        /// <param name="post">帖子。</param>
+        /// <param name="featuredWeight">精选的权重。</param>
+        /// <param name="tagsWeight">标签的权重。</param>
+        /// <param name="viewsWeight">查看的权重。</param>
+        /// <param name="bookmarksWeight">收藏的权重。</param>
+        /// <param name="commentsWeight">评论的权重。</param>
+        /// <param name="likesWeight">点赞的权重。</param>
+        /// <param name="ratingsWeight">评分的权重。</param>
+        /// <param name="sharesWeight">分享的权重。</param>
+        /// <param name="decayHalfLife">得分的半衰期。（天）</param>
+        /// <returns>得分。</returns>
+        Task<float> CalculatePostContentQualityAsync(Post post, float featuredWeight = 1.0f, float tagsWeight = 1.0f, float viewsWeight = 1.0f, float bookmarksWeight = 1.0f, float commentsWeight = 1.0f, float likesWeight = 1.0f, float ratingsWeight = 1.0f, float sharesWeight = 1.0f, int decayHalfLife = 30);
+
+        #endregion
+
         #region 写入
 
         /// <summary>

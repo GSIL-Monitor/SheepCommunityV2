@@ -199,7 +199,7 @@ namespace Sheep.Model.Content.Repositories
             {
                 queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("CreatedDate")) : query.OrderBy("CreatedDate");
             }
-            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 10000).RunResult<List<Post>>(_conn);
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 100000).RunResult<List<Post>>(_conn);
         }
 
         /// <inheritdoc />
@@ -251,7 +251,7 @@ namespace Sheep.Model.Content.Repositories
             {
                 queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("CreatedDate")) : query.OrderBy("CreatedDate");
             }
-            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 10000).RunResultAsync<List<Post>>(_conn);
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 100000).RunResultAsync<List<Post>>(_conn);
         }
 
         /// <inheritdoc />
@@ -299,7 +299,7 @@ namespace Sheep.Model.Content.Repositories
             {
                 queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("CreatedDate")) : query.OrderBy("CreatedDate");
             }
-            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 10000).RunResult<List<Post>>(_conn);
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 100000).RunResult<List<Post>>(_conn);
         }
 
         /// <inheritdoc />
@@ -347,7 +347,7 @@ namespace Sheep.Model.Content.Repositories
             {
                 queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("CreatedDate")) : query.OrderBy("CreatedDate");
             }
-            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 10000).RunResultAsync<List<Post>>(_conn);
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 100000).RunResultAsync<List<Post>>(_conn);
         }
 
         /// <inheritdoc />
@@ -395,7 +395,7 @@ namespace Sheep.Model.Content.Repositories
             {
                 queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("CreatedDate")) : query.OrderBy("CreatedDate");
             }
-            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 10000).RunResult<List<Post>>(_conn);
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 100000).RunResult<List<Post>>(_conn);
         }
 
         /// <inheritdoc />
@@ -443,7 +443,7 @@ namespace Sheep.Model.Content.Repositories
             {
                 queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("CreatedDate")) : query.OrderBy("CreatedDate");
             }
-            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 10000).RunResultAsync<List<Post>>(_conn);
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 100000).RunResultAsync<List<Post>>(_conn);
         }
 
         /// <inheritdoc />
@@ -491,7 +491,7 @@ namespace Sheep.Model.Content.Repositories
             {
                 queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("CreatedDate")) : query.OrderBy("CreatedDate");
             }
-            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 10000).RunResult<List<Post>>(_conn);
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 100000).RunResult<List<Post>>(_conn);
         }
 
         /// <inheritdoc />
@@ -539,7 +539,7 @@ namespace Sheep.Model.Content.Repositories
             {
                 queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("CreatedDate")) : query.OrderBy("CreatedDate");
             }
-            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 10000).RunResultAsync<List<Post>>(_conn);
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 100000).RunResultAsync<List<Post>>(_conn);
         }
 
         /// <inheritdoc />
@@ -860,6 +860,140 @@ namespace Sheep.Model.Content.Repositories
                 query = query.Filter(row => row.G("Status").Eq(status));
             }
             return query.Count().RunResultAsync<int>(_conn);
+        }
+
+        /// <inheritdoc />
+        public float CalculatePostFeaturedScore(Post post)
+        {
+            return post.IsFeatured ? 1.0f : 0.0f;
+        }
+
+        /// <inheritdoc />
+        public Task<float> CalculatePostFeaturedScoreAsync(Post post)
+        {
+            return Task.FromResult(post.IsFeatured ? 1.0f : 0.0f);
+        }
+
+        /// <inheritdoc />
+        public float CalculatePostTagsScore(Post post)
+        {
+            return post.Tags == null ? 0.0f : 0.8f + 0.2f * (Math.Min(5.0f, post.Tags.Count) / 5.0f);
+        }
+
+        /// <inheritdoc />
+        public Task<float> CalculatePostTagsScoreAsync(Post post)
+        {
+            return Task.FromResult(post.Tags == null ? 0.0f : 0.8f + 0.2f * (Math.Min(5.0f, post.Tags.Count) / 5.0f));
+        }
+
+        /// <inheritdoc />
+        public float CalculatePostViewsScore(Post post)
+        {
+            return Math.Min(1.0f, post.ViewsCount / 1000.0f);
+        }
+
+        /// <inheritdoc />
+        public Task<float> CalculatePostViewsScoreAsync(Post post)
+        {
+            return Task.FromResult(Math.Min(1.0f, post.ViewsCount / 1000.0f));
+        }
+
+        /// <inheritdoc />
+        public float CalculatePostBookmarksScore(Post post)
+        {
+            return Math.Min(1.0f, post.BookmarksCount / 10.0f);
+        }
+
+        /// <inheritdoc />
+        public Task<float> CalculatePostBookmarksScoreAsync(Post post)
+        {
+            return Task.FromResult(Math.Min(1.0f, post.BookmarksCount / 10.0f));
+        }
+
+        /// <inheritdoc />
+        public float CalculatePostCommentsScore(Post post)
+        {
+            return Math.Min(1.0f, post.CommentsCount / 50.0f);
+        }
+
+        /// <inheritdoc />
+        public Task<float> CalculatePostCommentsScoreAsync(Post post)
+        {
+            return Task.FromResult(Math.Min(1.0f, post.CommentsCount / 50.0f));
+        }
+
+        /// <inheritdoc />
+        public float CalculatePostLikesScore(Post post)
+        {
+            return Math.Min(1.0f, post.LikesCount / 100.0f);
+        }
+
+        /// <inheritdoc />
+        public Task<float> CalculatePostLikesScoreAsync(Post post)
+        {
+            return Task.FromResult(Math.Min(1.0f, post.LikesCount / 100.0f));
+        }
+
+        /// <inheritdoc />
+        public float CalculatePostRatingsScore(Post post)
+        {
+            return post.RatingsCount >= 5 ? post.RatingsAverageValue : 0.6f;
+        }
+
+        /// <inheritdoc />
+        public Task<float> CalculatePostRatingsScoreAsync(Post post)
+        {
+            return Task.FromResult(post.RatingsCount >= 5 ? post.RatingsAverageValue : 0.6f);
+        }
+
+        /// <inheritdoc />
+        public float CalculatePostSharesScore(Post post)
+        {
+            return Math.Min(1.0f, post.SharesCount / 10.0f);
+        }
+
+        /// <inheritdoc />
+        public Task<float> CalculatePostSharesScoreAsync(Post post)
+        {
+            return Task.FromResult(Math.Min(1.0f, post.SharesCount / 10.0f));
+        }
+
+        /// <inheritdoc />
+        public float CalculatePostAbuseReportsScore(Post post)
+        {
+            return Math.Min(1.0f, post.AbuseReportsCount / 5.0f);
+        }
+
+        /// <inheritdoc />
+        public Task<float> CalculatePostAbuseReportsScoreAsync(Post post)
+        {
+            return Task.FromResult(Math.Min(1.0f, post.AbuseReportsCount / 5.0f));
+        }
+
+        /// <inheritdoc />
+        public float CalculatePostContentQuality(Post post, float featuredWeight = 1, float tagsWeight = 1, float viewsWeight = 1, float bookmarksWeight = 1, float commentsWeight = 1, float likesWeight = 1, float ratingsWeight = 1, float sharesWeight = 1, int decayHalfLife = 30)
+        {
+            var baseScore = CalculatePostFeaturedScore(post) * featuredWeight + CalculatePostTagsScore(post) * tagsWeight + CalculatePostViewsScore(post) * viewsWeight + CalculatePostBookmarksScore(post) * bookmarksWeight + CalculatePostCommentsScore(post) * commentsWeight + CalculatePostLikesScore(post) * likesWeight + CalculatePostRatingsScore(post) * ratingsWeight + CalculatePostSharesScore(post) * sharesWeight;
+            if (!post.PublishedDate.HasValue || post.PublishedDate.Value >= DateTime.UtcNow)
+            {
+                return baseScore;
+            }
+            var decayHalfLifeHours = decayHalfLife * 24.0;
+            var passedHours = DateTime.UtcNow.Subtract(post.PublishedDate.Value).TotalHours;
+            return (float) (baseScore * Math.Pow(0.5, passedHours / decayHalfLifeHours));
+        }
+
+        /// <inheritdoc />
+        public async Task<float> CalculatePostContentQualityAsync(Post post, float featuredWeight = 1, float tagsWeight = 1, float viewsWeight = 1, float bookmarksWeight = 1, float commentsWeight = 1, float likesWeight = 1, float ratingsWeight = 1, float sharesWeight = 1, int decayHalfLife = 30)
+        {
+            var baseScore = await CalculatePostFeaturedScoreAsync(post) * featuredWeight + await CalculatePostTagsScoreAsync(post) * tagsWeight + await CalculatePostViewsScoreAsync(post) * viewsWeight + await CalculatePostBookmarksScoreAsync(post) * bookmarksWeight + await CalculatePostCommentsScoreAsync(post) * commentsWeight + await CalculatePostLikesScoreAsync(post) * likesWeight + await CalculatePostRatingsScoreAsync(post) * ratingsWeight + await CalculatePostSharesScoreAsync(post) * sharesWeight;
+            if (!post.PublishedDate.HasValue || post.PublishedDate.Value >= DateTime.UtcNow)
+            {
+                return baseScore;
+            }
+            var decayHalfLifeHours = decayHalfLife * 24.0;
+            var passedHours = DateTime.UtcNow.Subtract(post.PublishedDate.Value).TotalHours;
+            return (float) (baseScore * Math.Pow(0.5, passedHours / decayHalfLifeHours));
         }
 
         /// <inheritdoc />

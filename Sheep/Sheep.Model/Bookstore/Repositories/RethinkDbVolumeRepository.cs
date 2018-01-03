@@ -214,7 +214,7 @@ namespace Sheep.Model.Bookstore.Repositories
             {
                 queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("Number")) : query.OrderBy("Number");
             }
-            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 10000).RunResult<List<Volume>>(_conn);
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 100000).RunResult<List<Volume>>(_conn);
         }
 
         /// <inheritdoc />
@@ -234,7 +234,7 @@ namespace Sheep.Model.Bookstore.Repositories
             {
                 queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("Number")) : query.OrderBy("Number");
             }
-            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 10000).RunResultAsync<List<Volume>>(_conn);
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 100000).RunResultAsync<List<Volume>>(_conn);
         }
 
         /// <inheritdoc />
@@ -250,7 +250,7 @@ namespace Sheep.Model.Bookstore.Repositories
             {
                 queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("Number")) : query.OrderBy("Number");
             }
-            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 10000).RunResult<List<Volume>>(_conn);
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 100000).RunResult<List<Volume>>(_conn);
         }
 
         /// <inheritdoc />
@@ -266,7 +266,7 @@ namespace Sheep.Model.Bookstore.Repositories
             {
                 queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("Number")) : query.OrderBy("Number");
             }
-            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 10000).RunResultAsync<List<Volume>>(_conn);
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 100000).RunResultAsync<List<Volume>>(_conn);
         }
 
         /// <inheritdoc />

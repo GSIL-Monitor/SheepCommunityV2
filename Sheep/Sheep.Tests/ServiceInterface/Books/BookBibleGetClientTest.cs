@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
+using ServiceStack.Text;
 using Sheep.ServiceModel.Chapters;
 using Sheep.ServiceModel.Paragraphs;
 using Sheep.ServiceModel.Volumes;
@@ -24,21 +26,35 @@ namespace Sheep.Tests.ServiceInterface.Books
                                                          });
                 foreach (var chapter in chaptersResponse.Chapters)
                 {
-                    var paragraphResponse = ServiceClient.Get(new ParagraphList
-                                                              {
-                                                                  BookId = "bible",
-                                                                  VolumeNumber = volume.Number,
-                                                                  ChapterNumber = chapter.Number
-                                                              });
-                    foreach (var paragraph in paragraphResponse.Paragraphs)
+                    try
                     {
-                        ServiceClient.Get(new ParagraphAnnotationList
-                                          {
-                                              BookId = "bible",
-                                              VolumeNumber = volume.Number,
-                                              ChapterNumber = chapter.Number,
-                                              ParagraphNumber = paragraph.Number
-                                          });
+                        var paragraphResponse = ServiceClient.Get(new ParagraphList
+                                                                  {
+                                                                      BookId = "bible",
+                                                                      VolumeNumber = volume.Number,
+                                                                      ChapterNumber = chapter.Number
+                                                                  });
+                        foreach (var paragraph in paragraphResponse.Paragraphs)
+                        {
+                            try
+                            {
+                                ServiceClient.Get(new ParagraphAnnotationList
+                                                  {
+                                                      BookId = "bible",
+                                                      VolumeNumber = volume.Number,
+                                                      ChapterNumber = chapter.Number,
+                                                      ParagraphNumber = paragraph.Number
+                                                  });
+                            }
+                            catch (Exception pex)
+                            {
+                                pex.Message.PrintDump();
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.Message.PrintDump();
                     }
                 }
             }
