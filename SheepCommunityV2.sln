@@ -37,8 +37,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SheepJob", "SheepJob", "{1B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sheep.Job", "Sheep\Sheep.Job\Sheep.Job.csproj", "{138BEF38-33DE-4517-93C4-3BD9DC5DB214}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceStack.Hangfire", "ServiceStack\ServiceStack.Hangfire\ServiceStack.Hangfire.csproj", "{5038BA0F-A817-41DB-80F6-3E1CD6050D16}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,10 +95,6 @@ Global
 		{138BEF38-33DE-4517-93C4-3BD9DC5DB214}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{138BEF38-33DE-4517-93C4-3BD9DC5DB214}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{138BEF38-33DE-4517-93C4-3BD9DC5DB214}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5038BA0F-A817-41DB-80F6-3E1CD6050D16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5038BA0F-A817-41DB-80F6-3E1CD6050D16}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5038BA0F-A817-41DB-80F6-3E1CD6050D16}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5038BA0F-A817-41DB-80F6-3E1CD6050D16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -119,7 +113,6 @@ Global
 		{B8D07B49-FDD2-49BB-BCEF-CA41AE415A5B} = {C74A8F3E-AB88-4698-B906-152C8B3405AD}
 		{DDD5104A-5285-45B0-AA49-201E5FBED379} = {C74A8F3E-AB88-4698-B906-152C8B3405AD}
 		{138BEF38-33DE-4517-93C4-3BD9DC5DB214} = {1B95ACA3-DE2D-48DA-ADAF-B2A25368E92B}
-		{5038BA0F-A817-41DB-80F6-3E1CD6050D16} = {5A54EF26-1A4B-45C8-AB1A-A718B15948D6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7EA7B3CD-2DC2-4D38-B797-83941A60A3AE}

@@ -107,7 +107,6 @@ namespace Sheep.ServiceInterface.Views
                                                                            ParentId = paragraph.Id,
                                                                            UserId = currentUserId
                                                                        };
-                                                         ResetCache(newView);
                                                          return newView;
                                                      })
                                              .ToList();
