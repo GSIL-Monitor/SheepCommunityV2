@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2008
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sheep", "Sheep", "{4A9A6F31-658B-438E-99EF-42892A05CCED}"
 EndProject
@@ -36,6 +36,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SheepJob", "SheepJob", "{1B95ACA3-DE2D-48DA-ADAF-B2A25368E92B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sheep.Job", "Sheep\Sheep.Job\Sheep.Job.csproj", "{138BEF38-33DE-4517-93C4-3BD9DC5DB214}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceStack.Quartz", "ServiceStack\ServiceStack.Quartz\ServiceStack.Quartz.csproj", "{1CF7A634-4D3B-43EF-9577-DD9E8424A5AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -95,6 +97,10 @@ Global
 		{138BEF38-33DE-4517-93C4-3BD9DC5DB214}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{138BEF38-33DE-4517-93C4-3BD9DC5DB214}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{138BEF38-33DE-4517-93C4-3BD9DC5DB214}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CF7A634-4D3B-43EF-9577-DD9E8424A5AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CF7A634-4D3B-43EF-9577-DD9E8424A5AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CF7A634-4D3B-43EF-9577-DD9E8424A5AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CF7A634-4D3B-43EF-9577-DD9E8424A5AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -113,6 +119,7 @@ Global
 		{B8D07B49-FDD2-49BB-BCEF-CA41AE415A5B} = {C74A8F3E-AB88-4698-B906-152C8B3405AD}
 		{DDD5104A-5285-45B0-AA49-201E5FBED379} = {C74A8F3E-AB88-4698-B906-152C8B3405AD}
 		{138BEF38-33DE-4517-93C4-3BD9DC5DB214} = {1B95ACA3-DE2D-48DA-ADAF-B2A25368E92B}
+		{1CF7A634-4D3B-43EF-9577-DD9E8424A5AB} = {5A54EF26-1A4B-45C8-AB1A-A718B15948D6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7EA7B3CD-2DC2-4D38-B797-83941A60A3AE}
