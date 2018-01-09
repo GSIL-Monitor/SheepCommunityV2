@@ -10,10 +10,12 @@ using ServiceStack.Api.Swagger;
 using ServiceStack.Auth;
 using ServiceStack.Authentication.RethinkDb;
 using ServiceStack.Logging;
-using ServiceStack.ProtoBuf;
+using ServiceStack.Quartz;
 using ServiceStack.Redis;
 using ServiceStack.Validation;
 using Sheep.Common.Settings;
+using Sheep.Job.ServiceInterface;
+using Sheep.Job.ServiceModel;
 using Sheep.Model.Auth.Events;
 using Sheep.Model.Auth.Providers;
 using Sheep.Model.Bookstore;
@@ -27,17 +29,15 @@ using Sheep.Model.Geo.Repositories;
 using Sheep.Model.Security;
 using Sheep.Model.Security.Providers;
 using Sheep.Model.Security.Repositories;
-using Sheep.ServiceInterface;
-using Sheep.ServiceModel;
 using Sina.Weibo;
 using Tencent.Cos;
 using Tencent.Weixin;
 using Top.Api;
 using CredentialsAuthProvider = Sheep.Model.Auth.Providers.CredentialsAuthProvider;
 
-namespace Sheep
+namespace Sheep.Job
 {
-    public class AppHost : AppHostBase
+    public class AppHost : AppSelfHostBase
     {
         #region 静态变量
 
@@ -60,7 +60,7 @@ namespace Sheep
         ///     需要传入名称和Web服务实现所在的程序集。
         /// </summary>
         public AppHost()
-            : base("Sheep", typeof(ServiceInterfaceAssembly).Assembly)
+            : base("Sheep Job", typeof(ServiceInterfaceAssembly).Assembly)
         {
         }
 
@@ -114,10 +114,8 @@ namespace Sheep
             ConfigBook(container);
             // 配置校验器。
             ConfigValidation(container);
-            // 配置跨域访问功能。
-            ConfigCors();
-            // 配置ProtoBuf序列化功能。
-            ConfigProtoBuf();
+            // 配置 Quartz 作业系统。
+            ConfigQuartz();
             // 配置Postman接口生成功能。
             ConfigPostman();
             // 配置 Swagger 功能。
@@ -396,21 +394,19 @@ namespace Sheep
         }
 
         /// <summary>
-        ///     配置跨域访问功能。
+        ///     配置 Quartz 作业系统。
         /// </summary>
-        private void ConfigCors()
+        private void ConfigQuartz()
         {
-            var feature = new CorsFeature(allowedHeaders: "Content-Type,Accept,X-ss-opt,X-ss-pid,X-ss-id");
+            var feature = new QuartzFeature
+                          {
+                              ScanAppHostAssemblies = false,
+                              JobAssemblies = new[]
+                                              {
+                                                  typeof(ServiceModelAssembly).Assembly
+                                              }
+                          };
             Plugins.Add(feature);
-        }
-
-        /// <summary>
-        ///     配置ProtoBuf序列化功能。
-        /// </summary>
-        private void ConfigProtoBuf()
-        {
-            var format = new ProtoBufFormat();
-            Plugins.Add(format);
         }
 
         /// <summary>
@@ -419,19 +415,6 @@ namespace Sheep
         private void ConfigPostman()
         {
             var feature = new PostmanFeature();
-            Plugins.Add(feature);
-        }
-
-        /// <summary>
-        ///     配置请求日志功能。
-        /// </summary>
-        private void ConfigureRequestLogs()
-        {
-            var feature = new RequestLogsFeature
-                                     {
-                                         EnableErrorTracking = false,
-                                         EnableResponseTracking = false
-                                     };
             Plugins.Add(feature);
         }
 

@@ -36,7 +36,7 @@ namespace ServiceStack.Quartz
         /// <summary>
         ///     初始化一个新的<see cref="FunqJobFactory" />对象。
         /// </summary>
-        /// <param name="container">Funq的IoC容器。</param>
+        /// <param name="container">Funq 的IoC容器。</param>
         public FunqJobFactory(Container container)
         {
             _container = container;
