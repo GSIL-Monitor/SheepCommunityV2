@@ -167,7 +167,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppHost.cs" />
-    <Compile Include="QuartzService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -211,6 +210,10 @@
     <ProjectReference Include="..\Sheep.Job.ServiceInterface\Sheep.Job.ServiceInterface.csproj">
       <Project>{2a8ee313-6b87-4a20-ace9-51c9e43c41c1}</Project>
       <Name>Sheep.Job.ServiceInterface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sheep.Job.ServiceJob\Sheep.Job.ServiceJob.csproj">
+      <Project>{1f3a3b73-8896-47ae-b0d2-eeb275b6aedb}</Project>
+      <Name>Sheep.Job.ServiceJob</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sheep.Job.ServiceModel\Sheep.Job.ServiceModel.csproj">
       <Project>{92b700ca-f736-4751-b626-7e0459196e1f}</Project>

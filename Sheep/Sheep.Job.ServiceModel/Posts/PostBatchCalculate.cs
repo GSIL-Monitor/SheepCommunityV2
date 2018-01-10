@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using ServiceStack;
 
-namespace Sheep.ServiceModel.Posts
+namespace Sheep.Job.ServiceModel.Posts
 {
     /// <summary>
     ///     查询并计算一组帖子分数的请求。

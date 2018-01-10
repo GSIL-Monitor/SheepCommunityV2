@@ -4,11 +4,11 @@ using ServiceStack.Quartz.Services.Models.Entities;
 namespace ServiceStack.Quartz.Services.Models
 {
     /// <summary>
-    ///     显示作业的请求。
+    ///     显示触发器的请求。
     /// </summary>
-    [Route("/quartz/jobs/{GroupName}/{JobName}", HttpMethods.Get, Summary = "显示一个作业")]
+    [Route("/quartz/triggers/{GroupName}/{TriggerName}", HttpMethods.Get, Summary = "显示一个触发器")]
     [DataContract]
-    public class QuartzJobShow : IReturn<QuartzJobShowResponse>
+    public class QuartzTriggerShow : IReturn<QuartzTriggerShowResponse>
     {
         /// <summary>
         ///     分组的名称。
@@ -18,25 +18,25 @@ namespace ServiceStack.Quartz.Services.Models
         public string GroupName { get; set; }
 
         /// <summary>
-        ///     作业的名称。
+        ///     触发器的名称。
         /// </summary>
         [DataMember(Order = 2, IsRequired = true)]
-        [ApiMember(Description = "作业的名称")]
-        public string JobName { get; set; }
+        [ApiMember(Description = "触发器的名称")]
+        public string TriggerName { get; set; }
     }
 
     /// <summary>
-    ///     显示作业的响应。
+    ///     显示触发器的响应。
     /// </summary>
     [DataContract]
-    public class QuartzJobShowResponse : IHasResponseStatus
+    public class QuartzTriggerShowResponse : IHasResponseStatus
     {
         /// <summary>
-        ///     作业。
+        ///     触发器。
         /// </summary>
         [DataMember(Order = 1)]
-        [ApiMember(Description = "作业")]
-        public JobDto Job { get; set; }
+        [ApiMember(Description = "触发器")]
+        public TriggerDto Trigger { get; set; }
 
         /// <summary>
         ///     处理响应的状态。

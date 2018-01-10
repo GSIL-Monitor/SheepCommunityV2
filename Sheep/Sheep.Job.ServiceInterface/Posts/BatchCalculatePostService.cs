@@ -4,11 +4,11 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
+using Sheep.Job.ServiceInterface.Properties;
+using Sheep.Job.ServiceModel.Posts;
 using Sheep.Model.Content;
-using Sheep.ServiceInterface.Properties;
-using Sheep.ServiceModel.Posts;
 
-namespace Sheep.ServiceInterface.Posts
+namespace Sheep.Job.ServiceInterface.Posts
 {
     /// <summary>
     ///     计算一组帖子分数服务接口。

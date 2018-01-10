@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using ServiceStack;
 using ServiceStack.FluentValidation;
-using Sheep.ServiceModel.Properties;
+using Sheep.Job.ServiceModel.Properties;
 
-namespace Sheep.ServiceModel.Posts.Validators
+namespace Sheep.Job.ServiceModel.Posts.Validators
 {
     /// <summary>
     ///     查询并计算一组帖子分数的校验器。

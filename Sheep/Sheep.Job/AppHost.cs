@@ -15,9 +15,8 @@ using ServiceStack.Redis;
 using ServiceStack.Validation;
 using Sheep.Common.Settings;
 using Sheep.Job.ServiceInterface;
+using Sheep.Job.ServiceJob;
 using Sheep.Job.ServiceModel;
-using Sheep.Model.Auth.Events;
-using Sheep.Model.Auth.Providers;
 using Sheep.Model.Bookstore;
 using Sheep.Model.Bookstore.Repositories;
 using Sheep.Model.Content;
@@ -33,7 +32,6 @@ using Sina.Weibo;
 using Tencent.Cos;
 using Tencent.Weixin;
 using Top.Api;
-using CredentialsAuthProvider = Sheep.Model.Auth.Providers.CredentialsAuthProvider;
 
 namespace Sheep.Job
 {
@@ -303,33 +301,33 @@ namespace Sheep.Job
         private void ConfigAuth(Container container)
         {
             container.Register<IUserAuthRepository>(c => new RethinkDbAuthRepository(c.Resolve<IConnection>(), AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true));
-            var authEvents = new IAuthEvents[]
-                             {
-                                 new SystemAuthEvents(),
-                                 new NeteaseImAuthEvents(container.Resolve<INimClient>())
-                             };
-            container.Register<IAuthEvents>(c => new MultiAuthEvents(authEvents));
-            var authProviders = new IAuthProvider[]
-                                {
-                                    new CredentialsAuthProvider(AppSettings),
-                                    new MobileAuthProvider(AppSettings, container.Resolve<ISecurityTokenProvider>()),
-                                    new WeiboAuthProvider(AppSettings, container.Resolve<IWeiboClient>())
-                                };
-            var feature = new AuthFeature(() => new AuthUserSession(), authProviders)
-                          {
-                              IncludeAssignRoleServices = false,
-                              IncludeAuthMetadataProvider = true,
-                              IncludeRegistrationService = false,
-                              ValidateUniqueUserNames = true,
-                              ValidateUniqueEmails = true,
-                              MaxLoginAttempts = 10,
-                              SessionExpiry = TimeSpan.FromDays(7),
-                              PermanentSessionExpiry = TimeSpan.FromDays(365),
-                              DeleteSessionCookiesOnLogout = true,
-                              GenerateNewSessionCookiesOnAuthentication = false,
-                              SaveUserNamesInLowerCase = false
-                          };
-            Plugins.Add(feature);
+            //var authEvents = new IAuthEvents[]
+            //                 {
+            //                     new SystemAuthEvents(),
+            //                     new NeteaseImAuthEvents(container.Resolve<INimClient>())
+            //                 };
+            //container.Register<IAuthEvents>(c => new MultiAuthEvents(authEvents));
+            //var authProviders = new IAuthProvider[]
+            //                    {
+            //                        new CredentialsAuthProvider(AppSettings),
+            //                        new MobileAuthProvider(AppSettings, container.Resolve<ISecurityTokenProvider>()),
+            //                        new WeiboAuthProvider(AppSettings, container.Resolve<IWeiboClient>())
+            //                    };
+            //var feature = new AuthFeature(() => new AuthUserSession(), authProviders)
+            //              {
+            //                  IncludeAssignRoleServices = false,
+            //                  IncludeAuthMetadataProvider = true,
+            //                  IncludeRegistrationService = false,
+            //                  ValidateUniqueUserNames = true,
+            //                  ValidateUniqueEmails = true,
+            //                  MaxLoginAttempts = 10,
+            //                  SessionExpiry = TimeSpan.FromDays(7),
+            //                  PermanentSessionExpiry = TimeSpan.FromDays(365),
+            //                  DeleteSessionCookiesOnLogout = true,
+            //                  GenerateNewSessionCookiesOnAuthentication = false,
+            //                  SaveUserNamesInLowerCase = false
+            //              };
+            //Plugins.Add(feature);
         }
 
         /// <summary>
@@ -403,7 +401,7 @@ namespace Sheep.Job
                               ScanAppHostAssemblies = false,
                               JobAssemblies = new[]
                                               {
-                                                  typeof(ServiceModelAssembly).Assembly
+                                                  typeof(ServiceJobAssembly).Assembly
                                               }
                           };
             Plugins.Add(feature);

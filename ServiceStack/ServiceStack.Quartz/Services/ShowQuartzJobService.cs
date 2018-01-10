@@ -61,10 +61,6 @@ namespace ServiceStack.Quartz.Services
                 throw HttpError.NotFound(string.Format(Resources.JobNotFound, string.Format("{0}:{1}", jobKey.Name, jobKey.Group)));
             }
             var existingTriggers = await Scheduler.GetTriggersOfJob(jobKey);
-            if (existingTriggers == null)
-            {
-                throw HttpError.NotFound(string.Format(Resources.TriggersNotFound));
-            }
             var jobDto = existingJob.MapToJobDto(existingTriggers.Select(trigger => trigger.MapToTriggerDto()).ToArray());
             return new QuartzJobShowResponse
                    {

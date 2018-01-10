@@ -120,6 +120,12 @@
   <data name="JobNotFound" xml:space="preserve">
     <value>无法找到指定的作业{0}。</value>
   </data>
+  <data name="JobsNotFound" xml:space="preserve">
+    <value>无法找到指定的作业列表。</value>
+  </data>
+  <data name="TriggerNotFound" xml:space="preserve">
+    <value>无法找到指定的触发器。</value>
+  </data>
   <data name="TriggersNotFound" xml:space="preserve">
     <value>无法找到指定的触发器列表。</value>
   </data>

@@ -59,7 +59,14 @@ namespace ServiceStack.Quartz
                 }
             }
             appHost.RegisterService<SummaryQuartzService>();
+            appHost.RegisterService<OperateQuartzService>();
+            appHost.RegisterService<ListQuartzJobExecutionHistoryService>();
             appHost.RegisterService<ShowQuartzJobService>();
+            appHost.RegisterService<ListQuartzJobService>();
+            appHost.RegisterService<ShowQuartzTriggerService>();
+            appHost.RegisterService<ListQuartzTriggerService>();
+
+            //appHost.GetPlugin<MetadataFeature>().AddPluginLink("quartz", "Quartz API");
             appHost.AfterInitCallbacks.Add(RegisterAndStartScheduler);
             appHost.OnDisposeCallbacks.Add(ShutdownScheduler);
         }
@@ -88,7 +95,7 @@ namespace ServiceStack.Quartz
                 scheduler.ScheduleJob(job.Value.JobDetail, new ReadOnlyCollection<ITrigger>(job.Value.Triggers), true).Wait();
             }
             scheduler.Start().Wait();
-            //scheduler.ListenerManager.AddJobListener();
+            scheduler.ListenerManager.AddJobListener(new InMemoryJobListener());
         }
 
         /// <summary>

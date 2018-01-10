@@ -12,17 +12,17 @@ namespace ServiceStack.Quartz.Services.Models
     public class QuartzJobList : IReturn<QuartzJobListResponse>
     {
         /// <summary>
-        ///     分组的编号。
+        ///     分组的名称。
         /// </summary>
         [DataMember(Order = 1, Name = "groupname")]
-        [ApiMember(Description = "分组的编号")]
+        [ApiMember(Description = "分组的名称")]
         public string GroupName { get; set; }
 
         /// <summary>
-        ///     作业的编号。
+        ///     作业的名称。
         /// </summary>
         [DataMember(Order = 2, Name = "jobname")]
-        [ApiMember(Description = "作业的编号")]
+        [ApiMember(Description = "作业的名称")]
         public string JobName { get; set; }
 
         /// <summary>

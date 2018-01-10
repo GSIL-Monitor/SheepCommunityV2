@@ -70,6 +70,24 @@ namespace ServiceStack.Quartz.Properties {
         }
         
         /// <summary>
+        ///   查找类似 无法找到指定的作业列表。 的本地化字符串。
+        /// </summary>
+        internal static string JobsNotFound {
+            get {
+                return ResourceManager.GetString("JobsNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定的触发器。 的本地化字符串。
+        /// </summary>
+        internal static string TriggerNotFound {
+            get {
+                return ResourceManager.GetString("TriggerNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 无法找到指定的触发器列表。 的本地化字符串。
         /// </summary>
         internal static string TriggersNotFound {

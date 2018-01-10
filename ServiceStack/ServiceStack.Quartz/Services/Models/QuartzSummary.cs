@@ -7,7 +7,7 @@ namespace ServiceStack.Quartz.Services.Models
     /// <summary>
     ///     作业系统概要的请求。
     /// </summary>
-    [Route("/quartz", HttpMethods.Get, Summary = "作业系统概要")]
+    [Route("/quartz/summary", HttpMethods.Get, Summary = "作业系统概要")]
     [DataContract]
     public class QuartzSummary : IReturn<QuartzSummaryResponse>
     {

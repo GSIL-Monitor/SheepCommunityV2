@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Sheep.Job.ServiceModel.Properties {
+namespace Sheep.Job.ServiceJob.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Sheep.Job.ServiceModel.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Sheep.Job.ServiceModel.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Sheep.Job.ServiceJob.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,24 +57,6 @@ namespace Sheep.Job.ServiceModel.Properties {
             }
             set {
                 resourceCulture = value;
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 内容类型的有效范围为:{0}。 的本地化字符串。
-        /// </summary>
-        internal static string ContentTypeRangeMismatch {
-            get {
-                return ResourceManager.GetString("ContentTypeRangeMismatch", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 排序的字段的有效范围为:{0}。 的本地化字符串。
-        /// </summary>
-        internal static string OrderByRangeMismatch {
-            get {
-                return ResourceManager.GetString("OrderByRangeMismatch", resourceCulture);
             }
         }
     }

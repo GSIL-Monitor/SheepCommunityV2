@@ -59,5 +59,23 @@ namespace Sheep.Job.ServiceInterface.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定的帖子{0}。 的本地化字符串。
+        /// </summary>
+        internal static string PostNotFound {
+            get {
+                return ResourceManager.GetString("PostNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定条件的帖子列表。 的本地化字符串。
+        /// </summary>
+        internal static string PostsNotFound {
+            get {
+                return ResourceManager.GetString("PostsNotFound", resourceCulture);
+            }
+        }
     }
 }
