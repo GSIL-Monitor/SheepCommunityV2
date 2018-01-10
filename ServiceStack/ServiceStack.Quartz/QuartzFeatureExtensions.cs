@@ -27,7 +27,8 @@ namespace ServiceStack.Quartz
         public static void RegisterJob<TJob>(this QuartzFeature quartzFeature, ITrigger trigger)
             where TJob : IJob
         {
-            quartzFeature.RegisterJob(trigger, JobBuilder.Create<TJob>().WithIdentity(quartzFeature.GetJobIdentity<TJob>()).Build());
+            var jobDetail = JobBuilder.Create<TJob>().WithIdentity(quartzFeature.GetJobIdentity<TJob>()).Build();
+            quartzFeature.RegisterJob(trigger, jobDetail);
         }
 
         /// <summary>
@@ -52,7 +53,9 @@ namespace ServiceStack.Quartz
         public static void RegisterJob<TJob>(this QuartzFeature quartzFeature, Func<TriggerBuilder, ITrigger> createTrigger)
             where TJob : IJob
         {
-            quartzFeature.RegisterJob(createTrigger.Invoke(TriggerBuilder.Create()), JobBuilder.Create<TJob>().WithIdentity(quartzFeature.GetJobIdentity<TJob>()).Build());
+            var trigger = createTrigger.Invoke(TriggerBuilder.Create().WithIdentity(quartzFeature.GetTriggerIdentity<TJob>()));
+            var jobDetail = JobBuilder.Create<TJob>().WithIdentity(quartzFeature.GetJobIdentity<TJob>()).Build();
+            quartzFeature.RegisterJob(trigger, jobDetail);
         }
 
         /// <summary>
@@ -65,8 +68,8 @@ namespace ServiceStack.Quartz
         public static void RegisterJob<TJob>(this QuartzFeature quartzFeature, Func<TriggerBuilder, ITrigger> createTrigger, Func<JobBuilder, IJobDetail> createJobDetail)
             where TJob : IJob
         {
-            var trigger = createTrigger.Invoke(TriggerBuilder.Create());
-            var jobDetail = createJobDetail.Invoke(JobBuilder.Create<TJob>());
+            var trigger = createTrigger.Invoke(TriggerBuilder.Create().WithIdentity(quartzFeature.GetTriggerIdentity<TJob>()));
+            var jobDetail = createJobDetail.Invoke(JobBuilder.Create<TJob>().WithIdentity(quartzFeature.GetJobIdentity<TJob>()));
             quartzFeature.RegisterJob(trigger, jobDetail);
         }
 

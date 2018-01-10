@@ -3,6 +3,7 @@ using Aliyun.OSS;
 using Funq;
 using Netease.Nim;
 using Polly;
+using Quartz;
 using RethinkDb.Driver;
 using RethinkDb.Driver.Net;
 using ServiceStack;
@@ -16,6 +17,7 @@ using ServiceStack.Validation;
 using Sheep.Common.Settings;
 using Sheep.Job.ServiceInterface;
 using Sheep.Job.ServiceJob;
+using Sheep.Job.ServiceJob.Posts;
 using Sheep.Job.ServiceModel;
 using Sheep.Model.Bookstore;
 using Sheep.Model.Bookstore.Repositories;
@@ -404,6 +406,10 @@ namespace Sheep.Job
                                                   typeof(ServiceJobAssembly).Assembly
                                               }
                           };
+            // 一月一次全范围。
+            feature.RegisterJob<BatchCalculatePostJob>(triggerBuilder => triggerBuilder.WithSchedule(CronScheduleBuilder.MonthlyOnDayAndHourAndMinute(1, 3, 0)).Build(), jobBuilder => jobBuilder.Build());
+            // 一天一次三个月之内。
+            feature.RegisterJob<BatchCalculatePostJob>(triggerBuilder => triggerBuilder.WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(1, 0)).Build(), jobBuilder => jobBuilder.UsingJobData("CreatedSince", DateTime.UtcNow.AddMonths(-3).ToString("yyyy-MM-dd")).Build());
             Plugins.Add(feature);
         }
 
