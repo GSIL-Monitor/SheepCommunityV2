@@ -407,9 +407,9 @@ namespace Sheep.Job
                                               }
                           };
             // 一月一次全范围。
-            feature.RegisterJob<BatchCalculatePostJob>(triggerBuilder => triggerBuilder.WithSchedule(CronScheduleBuilder.MonthlyOnDayAndHourAndMinute(1, 3, 0)).Build(), jobBuilder => jobBuilder.Build());
+            feature.RegisterJob<BatchCalculatePostJob>(triggerBuilder => triggerBuilder.WithIdentity("BatchCalculatePostsFull_MonthlyOnDay01AndHour03AndMinute00", "Posts").WithSchedule(CronScheduleBuilder.MonthlyOnDayAndHourAndMinute(1, 3, 0)).Build(), jobBuilder => jobBuilder.WithIdentity("BatchCalculatePostsFull", "Posts").Build());
             // 一天一次三个月之内。
-            feature.RegisterJob<BatchCalculatePostJob>(triggerBuilder => triggerBuilder.WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(1, 0)).Build(), jobBuilder => jobBuilder.UsingJobData("CreatedSince", DateTime.UtcNow.AddMonths(-3).ToString("yyyy-MM-dd")).Build());
+            feature.RegisterJob<BatchCalculatePostJob>(triggerBuilder => triggerBuilder.WithIdentity("BatchCalculatePostsCreatedIn3Months_DailyAtHour01AndMinute00", "Posts").WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(1, 0)).Build(), jobBuilder => jobBuilder.WithIdentity("BatchCalculatePostsCreatedIn3Months", "Posts").UsingJobData("CreatedSince", DateTime.UtcNow.AddMonths(-3).ToString("yyyy-MM-dd")).Build());
             Plugins.Add(feature);
         }
 

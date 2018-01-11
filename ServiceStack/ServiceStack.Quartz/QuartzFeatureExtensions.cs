@@ -68,8 +68,8 @@ namespace ServiceStack.Quartz
         public static void RegisterJob<TJob>(this QuartzFeature quartzFeature, Func<TriggerBuilder, ITrigger> createTrigger, Func<JobBuilder, IJobDetail> createJobDetail)
             where TJob : IJob
         {
-            var trigger = createTrigger.Invoke(TriggerBuilder.Create().WithIdentity(quartzFeature.GetTriggerIdentity<TJob>()));
-            var jobDetail = createJobDetail.Invoke(JobBuilder.Create<TJob>().WithIdentity(quartzFeature.GetJobIdentity<TJob>()));
+            var trigger = createTrigger.Invoke(TriggerBuilder.Create());
+            var jobDetail = createJobDetail.Invoke(JobBuilder.Create<TJob>());
             quartzFeature.RegisterJob(trigger, jobDetail);
         }
 
