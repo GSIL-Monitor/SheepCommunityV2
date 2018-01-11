@@ -139,6 +139,70 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
+        public List<Reply> FindReplies(string parentType, DateTime? createdSince, DateTime? modifiedSince, string status, string orderBy, bool? descending, int? skip, int? limit)
+        {
+            var query = R.Table(s_ReplyTable).Filter(true);
+            if (!parentType.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ParentType").Eq(parentType));
+            }
+            if (createdSince.HasValue)
+            {
+                query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
+            }
+            if (modifiedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("ModifiedDate").Ge(modifiedSince.Value));
+            }
+            if (!status.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("Status").Eq(status));
+            }
+            OrderBy queryOrder;
+            if (!orderBy.IsNullOrEmpty())
+            {
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc(orderBy)) : query.OrderBy(orderBy);
+            }
+            else
+            {
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("CreatedDate")) : query.OrderBy("CreatedDate");
+            }
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 100000).RunResult<List<Reply>>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<List<Reply>> FindRepliesAsync(string parentType, DateTime? createdSince, DateTime? modifiedSince, string status, string orderBy, bool? descending, int? skip, int? limit)
+        {
+            var query = R.Table(s_ReplyTable).Filter(true);
+            if (!parentType.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ParentType").Eq(parentType));
+            }
+            if (createdSince.HasValue)
+            {
+                query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
+            }
+            if (modifiedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("ModifiedDate").Ge(modifiedSince.Value));
+            }
+            if (!status.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("Status").Eq(status));
+            }
+            OrderBy queryOrder;
+            if (!orderBy.IsNullOrEmpty())
+            {
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc(orderBy)) : query.OrderBy(orderBy);
+            }
+            else
+            {
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("CreatedDate")) : query.OrderBy("CreatedDate");
+            }
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 100000).RunResultAsync<List<Reply>>(_conn);
+        }
+
+        /// <inheritdoc />
         public List<Reply> FindRepliesByParent(string parentId, DateTime? createdSince, DateTime? modifiedSince, string status, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_ReplyTable).GetAll(parentId).OptArg("index", "ParentId").Filter(true);
@@ -259,6 +323,52 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
+        public int GetRepliesCount(string parentType, DateTime? createdSince, DateTime? modifiedSince, string status)
+        {
+            var query = R.Table(s_ReplyTable).Filter(true);
+            if (!parentType.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ParentType").Eq(parentType));
+            }
+            if (createdSince.HasValue)
+            {
+                query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
+            }
+            if (modifiedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("ModifiedDate").Ge(modifiedSince.Value));
+            }
+            if (!status.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("Status").Eq(status));
+            }
+            return query.Count().RunResult<int>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<int> GetRepliesCountAsync(string parentType, DateTime? createdSince, DateTime? modifiedSince, string status)
+        {
+            var query = R.Table(s_ReplyTable).Filter(true);
+            if (!parentType.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ParentType").Eq(parentType));
+            }
+            if (createdSince.HasValue)
+            {
+                query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
+            }
+            if (modifiedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("ModifiedDate").Ge(modifiedSince.Value));
+            }
+            if (!status.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("Status").Eq(status));
+            }
+            return query.Count().RunResultAsync<int>(_conn);
+        }
+
+        /// <inheritdoc />
         public int GetRepliesCountByParent(string parentId, DateTime? createdSince, DateTime? modifiedSince, string status)
         {
             var query = R.Table(s_ReplyTable).GetAll(parentId).OptArg("index", "ParentId").Filter(true);
@@ -340,6 +450,30 @@ namespace Sheep.Model.Content.Repositories
                 query = query.Filter(row => row.G("Status").Eq(status));
             }
             return query.Count().RunResultAsync<int>(_conn);
+        }
+
+        /// <inheritdoc />
+        public float CalculateReplyVotesScore(Reply reply)
+        {
+            return Math.Min(1.0f, reply.YesVotesCount / 10.0f) - Math.Min(1.0f, reply.NoVotesCount / 10.0f);
+        }
+
+        /// <inheritdoc />
+        public Task<float> CalculateReplyVotesScoreAsync(Reply reply)
+        {
+            return Task.FromResult(Math.Min(1.0f, reply.YesVotesCount / 10.0f) - Math.Min(1.0f, reply.NoVotesCount / 10.0f));
+        }
+
+        /// <inheritdoc />
+        public float CalculateReplyContentQuality(Reply reply, float votesWeight = 1.0f)
+        {
+            return CalculateReplyVotesScore(reply) * votesWeight;
+        }
+
+        /// <inheritdoc />
+        public async Task<float> CalculateReplyContentQualityAsync(Reply reply, float votesWeight = 1.0f)
+        {
+            return await CalculateReplyVotesScoreAsync(reply) * votesWeight;
         }
 
         /// <inheritdoc />
@@ -475,6 +609,20 @@ namespace Sheep.Model.Content.Repositories
         public async Task<Reply> IncrementReplyVotesAndNoVotesCountAsync(string replyId, int count)
         {
             var result = (await R.Table(s_ReplyTable).Get(replyId).Update(row => R.HashMap("NoVotesCount", row.G("NoVotesCount").Default_(0).Add(count)).With("VotesCount", row.G("VotesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
+            return result.ChangesAs<Reply>()[0].NewValue;
+        }
+
+        /// <inheritdoc />
+        public Reply UpdateReplyContentQuality(string replyId, float value)
+        {
+            var result = R.Table(s_ReplyTable).Get(replyId).Update(row => R.HashMap("ContentQuality", value)).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
+            return result.ChangesAs<Reply>()[0].NewValue;
+        }
+
+        /// <inheritdoc />
+        public async Task<Reply> UpdateReplyContentQualityAsync(string replyId, float value)
+        {
+            var result = (await R.Table(s_ReplyTable).Get(replyId).Update(row => R.HashMap("ContentQuality", value)).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
             return result.ChangesAs<Reply>()[0].NewValue;
         }
 

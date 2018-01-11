@@ -9,7 +9,7 @@ namespace Sheep.Job.ServiceModel.Posts
     /// </summary>
     [Route("/posts/calculate", HttpMethods.Put, Summary = "查询并计算一组帖子分数信息")]
     [DataContract]
-    public class PostBatchCalculate : IReturn<PostBatchCalculateResponse>
+    public class PostCalculate : IReturn<PostCalculateResponse>
     {
         /// <summary>
         ///     过滤标题及概要。
@@ -101,7 +101,7 @@ namespace Sheep.Job.ServiceModel.Posts
     ///     查询并计算一组帖子分数的响应。
     /// </summary>
     [DataContract]
-    public class PostBatchCalculateResponse : IHasResponseStatus
+    public class PostCalculateResponse : IHasResponseStatus
     {
         /// <summary>
         ///     处理响应的状态。

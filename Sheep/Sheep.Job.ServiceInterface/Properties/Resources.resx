@@ -117,10 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CommentNotFound" xml:space="preserve">
+    <value>无法找到指定的评论{0}。</value>
+  </data>
+  <data name="CommentsNotFound" xml:space="preserve">
+    <value>无法找到指定的评论列表。</value>
+  </data>
   <data name="PostNotFound" xml:space="preserve">
     <value>无法找到指定的帖子{0}。</value>
   </data>
   <data name="PostsNotFound" xml:space="preserve">
     <value>无法找到指定条件的帖子列表。</value>
+  </data>
+  <data name="RepliesNotFound" xml:space="preserve">
+    <value>无法找到指定条件的回复列表。</value>
+  </data>
+  <data name="ReplyNotFound" xml:space="preserve">
+    <value>无法找到指定的回复{0}。</value>
   </data>
 </root>

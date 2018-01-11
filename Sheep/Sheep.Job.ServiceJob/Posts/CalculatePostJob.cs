@@ -12,14 +12,14 @@ namespace Sheep.Job.ServiceJob.Posts
     ///     计算一组帖子分数。
     /// </summary>
     [DisallowConcurrentExecution]
-    public class BatchCalculatePostJob : IJob
+    public class CalculatePostJob : IJob
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(BatchCalculatePostJob));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(CalculatePostJob));
 
         #endregion
 
@@ -28,17 +28,17 @@ namespace Sheep.Job.ServiceJob.Posts
         /// <summary>
         ///     获取及设置计算一组帖子分数的服务。
         /// </summary>
-        public BatchCalculatePostService Service { get; set; }
+        public CalculatePostService Service { get; set; }
 
         #endregion
 
         #region 构造器
 
         /// <summary>
-        ///     初始化一个新的<see cref="BatchCalculatePostJob" />对象。
+        ///     初始化一个新的<see cref="CalculatePostJob" />对象。
         /// </summary>
         /// <param name="service">计算一组帖子分数的服务。</param>
-        public BatchCalculatePostJob(BatchCalculatePostService service)
+        public CalculatePostJob(CalculatePostService service)
         {
             Service = service;
         }
@@ -53,7 +53,7 @@ namespace Sheep.Job.ServiceJob.Posts
             try
             {
                 var data = context.MergedJobDataMap;
-                var request = new PostBatchCalculate
+                var request = new PostCalculate
                               {
                                   TitleFilter = data.GetString("TitleFilter"),
                                   Tag = data.GetString("Tag"),

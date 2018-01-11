@@ -139,6 +139,78 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
+        public List<Comment> FindComments(string parentType, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status, string orderBy, bool? descending, int? skip, int? limit)
+        {
+            var query = R.Table(s_CommentTable).Filter(true);
+            if (!parentType.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ParentType").Eq(parentType));
+            }
+            if (createdSince.HasValue)
+            {
+                query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
+            }
+            if (modifiedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("ModifiedDate").Ge(modifiedSince.Value));
+            }
+            if (isFeatured.HasValue)
+            {
+                query = query.Filter(row => row.G("IsFeatured").Eq(isFeatured.Value));
+            }
+            if (!status.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("Status").Eq(status));
+            }
+            OrderBy queryOrder;
+            if (!orderBy.IsNullOrEmpty())
+            {
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc(orderBy)) : query.OrderBy(orderBy);
+            }
+            else
+            {
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("CreatedDate")) : query.OrderBy("CreatedDate");
+            }
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 100000).RunResult<List<Comment>>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<List<Comment>> FindCommentsAsync(string parentType, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status, string orderBy, bool? descending, int? skip, int? limit)
+        {
+            var query = R.Table(s_CommentTable).Filter(true);
+            if (!parentType.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ParentType").Eq(parentType));
+            }
+            if (createdSince.HasValue)
+            {
+                query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
+            }
+            if (modifiedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("ModifiedDate").Ge(modifiedSince.Value));
+            }
+            if (isFeatured.HasValue)
+            {
+                query = query.Filter(row => row.G("IsFeatured").Eq(isFeatured.Value));
+            }
+            if (!status.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("Status").Eq(status));
+            }
+            OrderBy queryOrder;
+            if (!orderBy.IsNullOrEmpty())
+            {
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc(orderBy)) : query.OrderBy(orderBy);
+            }
+            else
+            {
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("CreatedDate")) : query.OrderBy("CreatedDate");
+            }
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 100000).RunResultAsync<List<Comment>>(_conn);
+        }
+
+        /// <inheritdoc />
         public List<Comment> FindCommentsByParent(string parentId, int? userId, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_CommentTable).GetAll(parentId).OptArg("index", "ParentId").Filter(true);
@@ -280,6 +352,60 @@ namespace Sheep.Model.Content.Repositories
                 queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("CreatedDate")) : query.OrderBy("CreatedDate");
             }
             return queryOrder.Skip(skip ?? 0).Limit(limit ?? 100000).RunResultAsync<List<Comment>>(_conn);
+        }
+
+        /// <inheritdoc />
+        public int GetCommentsCount(string parentType, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status)
+        {
+            var query = R.Table(s_CommentTable).Filter(true);
+            if (!parentType.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ParentType").Eq(parentType));
+            }
+            if (createdSince.HasValue)
+            {
+                query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
+            }
+            if (modifiedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("ModifiedDate").Ge(modifiedSince.Value));
+            }
+            if (isFeatured.HasValue)
+            {
+                query = query.Filter(row => row.G("IsFeatured").Eq(isFeatured.Value));
+            }
+            if (!status.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("Status").Eq(status));
+            }
+            return query.Count().RunResult<int>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<int> GetCommentsCountAsync(string parentType, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status)
+        {
+            var query = R.Table(s_CommentTable).Filter(true);
+            if (!parentType.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ParentType").Eq(parentType));
+            }
+            if (createdSince.HasValue)
+            {
+                query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
+            }
+            if (modifiedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("ModifiedDate").Ge(modifiedSince.Value));
+            }
+            if (isFeatured.HasValue)
+            {
+                query = query.Filter(row => row.G("IsFeatured").Eq(isFeatured.Value));
+            }
+            if (!status.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("Status").Eq(status));
+            }
+            return query.Count().RunResultAsync<int>(_conn);
         }
 
         /// <inheritdoc />
@@ -449,6 +575,54 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
+        public float CalculateCommentFeaturedScore(Comment comment)
+        {
+            return comment.IsFeatured ? 1.0f : 0.0f;
+        }
+
+        /// <inheritdoc />
+        public Task<float> CalculateCommentFeaturedScoreAsync(Comment comment)
+        {
+            return Task.FromResult(comment.IsFeatured ? 1.0f : 0.0f);
+        }
+
+        /// <inheritdoc />
+        public float CalculateCommentRepliesScore(Comment comment)
+        {
+            return Math.Min(1.0f, comment.RepliesCount / 5.0f);
+        }
+
+        /// <inheritdoc />
+        public Task<float> CalculateCommentRepliesScoreAsync(Comment comment)
+        {
+            return Task.FromResult(Math.Min(1.0f, comment.RepliesCount / 5.0f));
+        }
+
+        /// <inheritdoc />
+        public float CalculateCommentVotesScore(Comment comment)
+        {
+            return Math.Min(1.0f, comment.YesVotesCount / 10.0f) - Math.Min(1.0f, comment.NoVotesCount / 10.0f);
+        }
+
+        /// <inheritdoc />
+        public Task<float> CalculateCommentVotesScoreAsync(Comment comment)
+        {
+            return Task.FromResult(Math.Min(1.0f, comment.YesVotesCount / 10.0f) - Math.Min(1.0f, comment.NoVotesCount / 10.0f));
+        }
+
+        /// <inheritdoc />
+        public float CalculateCommentContentQuality(Comment comment, float featuredWeight = 1.0f, float repliesWeight = 1.0f, float votesWeight = 1.0f)
+        {
+            return CalculateCommentFeaturedScore(comment) * featuredWeight + CalculateCommentRepliesScore(comment) * repliesWeight + CalculateCommentVotesScore(comment) * votesWeight;
+        }
+
+        /// <inheritdoc />
+        public async Task<float> CalculateCommentContentQualityAsync(Comment comment, float featuredWeight = 1.0f, float repliesWeight = 1.0f, float votesWeight = 1.0f)
+        {
+            return await CalculateCommentFeaturedScoreAsync(comment) * featuredWeight + await CalculateCommentRepliesScoreAsync(comment) * repliesWeight + await CalculateCommentVotesScoreAsync(comment) * votesWeight;
+        }
+
+        /// <inheritdoc />
         public Comment CreateComment(Comment newComment)
         {
             newComment.ThrowIfNull(nameof(newComment));
@@ -599,6 +773,20 @@ namespace Sheep.Model.Content.Repositories
         public async Task<Comment> IncrementCommentVotesAndNoVotesCountAsync(string commentId, int count)
         {
             var result = (await R.Table(s_CommentTable).Get(commentId).Update(row => R.HashMap("NoVotesCount", row.G("NoVotesCount").Default_(0).Add(count)).With("VotesCount", row.G("VotesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
+            return result.ChangesAs<Comment>()[0].NewValue;
+        }
+
+        /// <inheritdoc />
+        public Comment UpdateCommentContentQuality(string commentId, float value)
+        {
+            var result = R.Table(s_CommentTable).Get(commentId).Update(row => R.HashMap("ContentQuality", value)).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
+            return result.ChangesAs<Comment>()[0].NewValue;
+        }
+
+        /// <inheritdoc />
+        public async Task<Comment> UpdateCommentContentQualityAsync(string commentId, float value)
+        {
+            var result = (await R.Table(s_CommentTable).Get(commentId).Update(row => R.HashMap("ContentQuality", value)).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
             return result.ChangesAs<Comment>()[0].NewValue;
         }
 

@@ -123,4 +123,10 @@
   <data name="OrderByRangeMismatch" xml:space="preserve">
     <value>排序的字段的有效范围为:{0}。</value>
   </data>
+  <data name="ParentTypeRangeMismatch" xml:space="preserve">
+    <value>上级类型的有效范围为:{0}。</value>
+  </data>
+  <data name="ParentTypeRequired" xml:space="preserve">
+    <value>上级类型必须输入。</value>
+  </data>
 </root>

@@ -8,7 +8,7 @@ namespace Sheep.Job.ServiceModel.Posts.Validators
     /// <summary>
     ///     查询并计算一组帖子分数的校验器。
     /// </summary>
-    public class PostBatchCalculateValidator : AbstractValidator<PostBatchCalculate>
+    public class PostCalculateValidator : AbstractValidator<PostCalculate>
     {
         public static readonly HashSet<string> ContentTypes = new HashSet<string>
                                                               {
@@ -34,10 +34,10 @@ namespace Sheep.Job.ServiceModel.Posts.Validators
                                                           };
 
         /// <summary>
-        ///     初始化一个新的<see cref="PostBatchCalculateValidator" />对象。
+        ///     初始化一个新的<see cref="PostCalculateValidator" />对象。
         ///     创建规则集合。
         /// </summary>
-        public PostBatchCalculateValidator()
+        public PostCalculateValidator()
         {
             RuleSet(ApplyTo.Put, () =>
                                  {

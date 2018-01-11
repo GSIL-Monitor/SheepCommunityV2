@@ -61,6 +61,24 @@ namespace Sheep.Job.ServiceInterface.Properties {
         }
         
         /// <summary>
+        ///   查找类似 无法找到指定的评论{0}。 的本地化字符串。
+        /// </summary>
+        internal static string CommentNotFound {
+            get {
+                return ResourceManager.GetString("CommentNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定的评论列表。 的本地化字符串。
+        /// </summary>
+        internal static string CommentsNotFound {
+            get {
+                return ResourceManager.GetString("CommentsNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 无法找到指定的帖子{0}。 的本地化字符串。
         /// </summary>
         internal static string PostNotFound {
@@ -75,6 +93,24 @@ namespace Sheep.Job.ServiceInterface.Properties {
         internal static string PostsNotFound {
             get {
                 return ResourceManager.GetString("PostsNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定条件的回复列表。 的本地化字符串。
+        /// </summary>
+        internal static string RepliesNotFound {
+            get {
+                return ResourceManager.GetString("RepliesNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定的回复{0}。 的本地化字符串。
+        /// </summary>
+        internal static string ReplyNotFound {
+            get {
+                return ResourceManager.GetString("ReplyNotFound", resourceCulture);
             }
         }
     }

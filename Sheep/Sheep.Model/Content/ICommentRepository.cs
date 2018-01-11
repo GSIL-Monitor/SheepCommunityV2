@@ -27,6 +27,36 @@ namespace Sheep.Model.Content
         Task<Comment> GetCommentAsync(string commentId);
 
         /// <summary>
+        ///     查找评论。
+        /// </summary>
+        /// <param name="parentType">上级的类型。</param>
+        /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
+        /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
+        /// <param name="isFeatured">是否标记为精选。</param>
+        /// <param name="status"> 过滤状态。</param>
+        /// <param name="orderBy">排序的字段。</param>
+        /// <param name="descending">是否按降序排序。</param>
+        /// <param name="skip">忽略的行数。</param>
+        /// <param name="limit">获取的行数。</param>
+        /// <returns>评论列表。</returns>
+        List<Comment> FindComments(string parentType, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status, string orderBy, bool? descending, int? skip, int? limit);
+
+        /// <summary>
+        ///     异步查找评论。
+        /// </summary>
+        /// <param name="parentType">上级的类型。</param>
+        /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
+        /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
+        /// <param name="isFeatured">是否标记为精选。</param>
+        /// <param name="status"> 过滤状态。</param>
+        /// <param name="orderBy">排序的字段。</param>
+        /// <param name="descending">是否按降序排序。</param>
+        /// <param name="skip">忽略的行数。</param>
+        /// <param name="limit">获取的行数。</param>
+        /// <returns>评论列表。</returns>
+        Task<List<Comment>> FindCommentsAsync(string parentType, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status, string orderBy, bool? descending, int? skip, int? limit);
+
+        /// <summary>
         ///     根据上级查找评论。
         /// </summary>
         /// <param name="parentId">上级的编号。（如帖子编号）</param>
@@ -93,6 +123,28 @@ namespace Sheep.Model.Content
         #endregion
 
         #region 统计
+
+        /// <summary>
+        ///     获取评论数量。
+        /// </summary>
+        /// <param name="parentType">上级的类型。</param>
+        /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
+        /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
+        /// <param name="isFeatured">是否标记为精选。</param>
+        /// <param name="status"> 过滤状态。</param>
+        /// <returns>评论数量。</returns>
+        int GetCommentsCount(string parentType, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status);
+
+        /// <summary>
+        ///     异步获取评论数量。
+        /// </summary>
+        /// <param name="parentType">上级的类型。</param>
+        /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
+        /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
+        /// <param name="isFeatured">是否标记为精选。</param>
+        /// <param name="status"> 过滤状态。</param>
+        /// <returns>评论数量。</returns>
+        Task<int> GetCommentsCountAsync(string parentType, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status);
 
         /// <summary>
         ///     根据上级获取评论数量。
@@ -165,6 +217,72 @@ namespace Sheep.Model.Content
         /// <param name="status"> 过滤状态。</param>
         /// <returns>评论数量。</returns>
         Task<int> GetCommentsCountByUserAsync(int userId, string parentType, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status);
+
+        #endregion
+
+        #region 计算
+
+        /// <summary>
+        ///     计算精选的得分。
+        /// </summary>
+        /// <param name="comment">评论。</param>
+        /// <returns>得分。</returns>
+        float CalculateCommentFeaturedScore(Comment comment);
+
+        /// <summary>
+        ///     异步计算精选的得分。
+        /// </summary>
+        /// <param name="comment">评论。</param>
+        /// <returns>得分。</returns>
+        Task<float> CalculateCommentFeaturedScoreAsync(Comment comment);
+
+        /// <summary>
+        ///     计算回复的得分。
+        /// </summary>
+        /// <param name="comment">评论。</param>
+        /// <returns>得分。</returns>
+        float CalculateCommentRepliesScore(Comment comment);
+
+        /// <summary>
+        ///     异步计算回复的得分。
+        /// </summary>
+        /// <param name="comment">评论。</param>
+        /// <returns>得分。</returns>
+        Task<float> CalculateCommentRepliesScoreAsync(Comment comment);
+
+        /// <summary>
+        ///     计算投票的得分。
+        /// </summary>
+        /// <param name="comment">评论。</param>
+        /// <returns>得分。</returns>
+        float CalculateCommentVotesScore(Comment comment);
+
+        /// <summary>
+        ///     异步计算投票的得分。
+        /// </summary>
+        /// <param name="comment">评论。</param>
+        /// <returns>得分。</returns>
+        Task<float> CalculateCommentVotesScoreAsync(Comment comment);
+
+        /// <summary>
+        ///     计算内容质量的得分。
+        /// </summary>
+        /// <param name="comment">评论。</param>
+        /// <param name="featuredWeight">精选的权重。</param>
+        /// <param name="repliesWeight">回复的权重。</param>
+        /// <param name="votesWeight">投票的权重。</param>
+        /// <returns>得分。</returns>
+        float CalculateCommentContentQuality(Comment comment, float featuredWeight = 1.0f, float repliesWeight = 1.0f, float votesWeight = 1.0f);
+
+        /// <summary>
+        ///     异步计算内容质量的得分。
+        /// </summary>
+        /// <param name="comment">评论。</param>
+        /// <param name="featuredWeight">精选的权重。</param>
+        /// <param name="repliesWeight">回复的权重。</param>
+        /// <param name="votesWeight">投票的权重。</param>
+        /// <returns>得分。</returns>
+        Task<float> CalculateCommentContentQualityAsync(Comment comment, float featuredWeight = 1.0f, float repliesWeight = 1.0f, float votesWeight = 1.0f);
 
         #endregion
 
@@ -295,6 +413,20 @@ namespace Sheep.Model.Content
         /// <param name="commentId">评论的编号。</param>
         /// <param name="count">增加的数量。</param>
         Task<Comment> IncrementCommentVotesAndNoVotesCountAsync(string commentId, int count);
+
+        /// <summary>
+        ///     更新一个评论的内容质量的评分。
+        /// </summary>
+        /// <param name="commentId">评论的编号。</param>
+        /// <param name="value">更新的数值。</param>
+        Comment UpdateCommentContentQuality(string commentId, float value);
+
+        /// <summary>
+        ///     异步更新一个评论的内容质量的评分。
+        /// </summary>
+        /// <param name="commentId">评论的编号。</param>
+        /// <param name="value">更新的数值。</param>
+        Task<Comment> UpdateCommentContentQualityAsync(string commentId, float value);
 
         #endregion
     }

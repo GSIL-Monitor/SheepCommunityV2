@@ -13,14 +13,14 @@ namespace Sheep.Job.ServiceInterface.Posts
     /// <summary>
     ///     计算一组帖子分数服务接口。
     /// </summary>
-    public class BatchCalculatePostService : Service
+    public class CalculatePostService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(BatchCalculatePostService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(CalculatePostService));
 
         #endregion
 
@@ -34,7 +34,7 @@ namespace Sheep.Job.ServiceInterface.Posts
         /// <summary>
         ///     获取及设置计算一组帖子分数的校验器。
         /// </summary>
-        public IValidator<PostBatchCalculate> PostBatchCalculateValidator { get; set; }
+        public IValidator<PostCalculate> PostCalculateValidator { get; set; }
 
         /// <summary>
         ///     获取及设置用户身份的存储库。
@@ -46,16 +46,6 @@ namespace Sheep.Job.ServiceInterface.Posts
         /// </summary>
         public IPostRepository PostRepo { get; set; }
 
-        /// <summary>
-        ///     获取及设置评论的存储库。
-        /// </summary>
-        public ICommentRepository CommentRepo { get; set; }
-
-        /// <summary>
-        ///     获取及设置点赞的存储库。
-        /// </summary>
-        public ILikeRepository LikeRepo { get; set; }
-
         #endregion
 
         #region 计算一组帖子分数
@@ -63,11 +53,11 @@ namespace Sheep.Job.ServiceInterface.Posts
         /// <summary>
         ///     计算一组帖子分数。
         /// </summary>
-        public async Task<object> Put(PostBatchCalculate request)
+        public async Task<object> Put(PostCalculate request)
         {
             //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             //{
-            //    PostBatchCalculateValidator.ValidateAndThrow(request, ApplyTo.Put);
+            //    PostCalculateValidator.ValidateAndThrow(request, ApplyTo.Put);
             //}
             var existingPosts = await PostRepo.FindPostsAsync(request.TitleFilter, request.Tag, request.ContentType, request.CreatedSince, request.ModifiedSince, request.PublishedSince, request.IsPublished ?? true, request.IsFeatured, "审核通过", request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingPosts == null)
@@ -78,7 +68,7 @@ namespace Sheep.Job.ServiceInterface.Posts
             {
                 await PostRepo.UpdatePostContentQualityAsync(existingPost.Id, PostRepo.CalculatePostContentQuality(existingPost));
             }
-            return new PostBatchCalculateResponse();
+            return new PostCalculateResponse();
         }
 
         #endregion

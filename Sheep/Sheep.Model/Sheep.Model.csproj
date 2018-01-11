@@ -135,14 +135,11 @@
     <Compile Include="Auth\Providers\OAuthProvider.cs" />
     <Compile Include="Content\Entities\Bookmark.cs" />
     <Compile Include="Content\Entities\View.cs" />
-    <Compile Include="Content\Entities\ReplyExtensions.cs" />
     <Compile Include="Content\Entities\Reply.cs" />
     <Compile Include="Content\Entities\Comment.cs" />
-    <Compile Include="Content\Entities\CommentExtensions.cs" />
     <Compile Include="Content\Entities\Vote.cs" />
     <Compile Include="Content\Entities\Like.cs" />
     <Compile Include="Content\Entities\Post.cs" />
-    <Compile Include="Content\Entities\PostExtensions.cs" />
     <Compile Include="Content\IBookmarkRepository.cs" />
     <Compile Include="Content\IViewRepository.cs" />
     <Compile Include="Content\IReplyRepository.cs" />

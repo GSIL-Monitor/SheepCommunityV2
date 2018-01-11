@@ -77,5 +77,23 @@ namespace Sheep.Job.ServiceModel.Properties {
                 return ResourceManager.GetString("OrderByRangeMismatch", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似 上级类型的有效范围为:{0}。 的本地化字符串。
+        /// </summary>
+        internal static string ParentTypeRangeMismatch {
+            get {
+                return ResourceManager.GetString("ParentTypeRangeMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 上级类型必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string ParentTypeRequired {
+            get {
+                return ResourceManager.GetString("ParentTypeRequired", resourceCulture);
+            }
+        }
     }
 }

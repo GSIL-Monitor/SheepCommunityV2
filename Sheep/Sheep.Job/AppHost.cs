@@ -17,7 +17,9 @@ using ServiceStack.Validation;
 using Sheep.Common.Settings;
 using Sheep.Job.ServiceInterface;
 using Sheep.Job.ServiceJob;
+using Sheep.Job.ServiceJob.Comments;
 using Sheep.Job.ServiceJob.Posts;
+using Sheep.Job.ServiceJob.Replies;
 using Sheep.Job.ServiceModel;
 using Sheep.Model.Bookstore;
 using Sheep.Model.Bookstore.Repositories;
@@ -406,10 +408,20 @@ namespace Sheep.Job
                                                   typeof(ServiceJobAssembly).Assembly
                                               }
                           };
-            // 一月一次全范围。
-            feature.RegisterJob<BatchCalculatePostJob>(triggerBuilder => triggerBuilder.WithIdentity("BatchCalculatePostsFull_MonthlyOnDay01AndHour03AndMinute00", "Posts").WithSchedule(CronScheduleBuilder.MonthlyOnDayAndHourAndMinute(1, 3, 0)).Build(), jobBuilder => jobBuilder.WithIdentity("BatchCalculatePostsFull", "Posts").Build());
-            // 一天一次三个月之内。
-            feature.RegisterJob<BatchCalculatePostJob>(triggerBuilder => triggerBuilder.WithIdentity("BatchCalculatePostsCreatedIn3Months_DailyAtHour01AndMinute00", "Posts").WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(1, 0)).Build(), jobBuilder => jobBuilder.WithIdentity("BatchCalculatePostsCreatedIn3Months", "Posts").UsingJobData("CreatedSince", DateTime.UtcNow.AddMonths(-3).ToString("yyyy-MM-dd")).Build());
+            // 一月一次所有的帖子。
+            feature.RegisterJob<CalculatePostJob>(triggerBuilder => triggerBuilder.WithIdentity("CalculatePostsFull_MonthlyOnDay01AndHour02AndMinute00", "Posts").WithSchedule(CronScheduleBuilder.MonthlyOnDayAndHourAndMinute(1, 2, 0)).Build(), jobBuilder => jobBuilder.WithIdentity("CalculatePostsFull", "Posts").Build());
+            // 一天一次一个月之内的帖子。
+            feature.RegisterJob<CalculatePostJob>(triggerBuilder => triggerBuilder.WithIdentity("CalculatePostsCreatedIn1Months_DailyAtHour01AndMinute00", "Posts").WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(1, 0)).Build(), jobBuilder => jobBuilder.WithIdentity("CalculatePostsCreatedIn1Months", "Posts").UsingJobData("CreatedSince", DateTime.UtcNow.AddMonths(-1).ToString("yyyy-MM-dd")).Build());
+            // 一月一次所有的评论。
+            feature.RegisterJob<CalculateCommentJob>(triggerBuilder => triggerBuilder.WithIdentity("CalculateCommentsFull_MonthlyOnDay01AndHour03AndMinute00", "Comments").WithSchedule(CronScheduleBuilder.MonthlyOnDayAndHourAndMinute(1, 3, 0)).Build(), jobBuilder => jobBuilder.WithIdentity("CalculateCommentsFull", "Comments").Build());
+            // 一天一次一个月之内的帖子的评论。
+            feature.RegisterJob<CalculateCommentJob>(triggerBuilder => triggerBuilder.WithIdentity("CalculateCommentsOfPostCreatedIn1Months_DailyAtHour01AndMinute30", "Comments").WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(1, 30)).Build(), jobBuilder => jobBuilder.WithIdentity("CalculateCommentsOfPostCreatedIn1Months", "Comments").UsingJobData("ParentType", "帖子").UsingJobData("CreatedSince", DateTime.UtcNow.AddMonths(-1).ToString("yyyy-MM-dd")).Build());
+            // 一天一次一个月之内的节的评论。
+            feature.RegisterJob<CalculateCommentJob>(triggerBuilder => triggerBuilder.WithIdentity("CalculateCommentsOfParagraphCreatedIn1Months_DailyAtHour02AndMinute30", "Comments").WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(2, 30)).Build(), jobBuilder => jobBuilder.WithIdentity("CalculateCommentsOfParagraphCreatedIn1Months", "Comments").UsingJobData("ParentType", "节").UsingJobData("CreatedSince", DateTime.UtcNow.AddMonths(-1).ToString("yyyy-MM-dd")).Build());
+            // 一月一次所有的回复。
+            feature.RegisterJob<CalculateReplyJob>(triggerBuilder => triggerBuilder.WithIdentity("CalculateRepliesFull_MonthlyOnDay01AndHour04AndMinute00", "Replies").WithSchedule(CronScheduleBuilder.MonthlyOnDayAndHourAndMinute(1, 4, 0)).Build(), jobBuilder => jobBuilder.WithIdentity("CalculateRepliesFull", "Replies").Build());
+            // 一天一次一个月之内的帖子的回复。
+            feature.RegisterJob<CalculateReplyJob>(triggerBuilder => triggerBuilder.WithIdentity("CalculateRepliesOfCommentCreatedIn1Months_DailyAtHour01AndMinute45", "Replies").WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(1, 45)).Build(), jobBuilder => jobBuilder.WithIdentity("CalculateRepliesOfCommentCreatedIn1Months", "Replies").UsingJobData("ParentType", "评论").UsingJobData("CreatedSince", DateTime.UtcNow.AddMonths(-1).ToString("yyyy-MM-dd")).Build());
             Plugins.Add(feature);
         }
 
