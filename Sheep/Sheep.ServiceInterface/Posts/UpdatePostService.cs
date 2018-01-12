@@ -118,7 +118,7 @@ namespace Sheep.ServiceInterface.Posts
             newPost.AuthorId = authorId;
             newPost.GroupId = request.GroupId;
             newPost.Title = request.Title?.Replace("\"", "'");
-            newPost.Summary = request.Summary.Replace("\"", "'");
+            newPost.Summary = request.Summary?.Replace("\"", "'");
             newPost.ContentType = request.ContentType;
             newPost.Content = request.Content?.Replace("\"", "'");
             newPost.ContentUrl = request.ContentUrl;

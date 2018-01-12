@@ -111,7 +111,7 @@ namespace Sheep.ServiceInterface.Posts
                               AuthorId = authorId,
                               GroupId = request.GroupId,
                               Title = request.Title?.Replace("\"", "'"),
-                              Summary = request.Summary.Replace("\"", "'"),
+                              Summary = request.Summary?.Replace("\"", "'"),
                               ContentType = request.ContentType,
                               Content = request.Content?.Replace("\"", "'"),
                               ContentUrl = request.ContentUrl,
