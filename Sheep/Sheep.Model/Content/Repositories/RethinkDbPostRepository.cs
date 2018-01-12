@@ -1077,129 +1077,111 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public Post IncrementPostViewsCount(string postId, int count)
+        public void IncrementPostViewsCount(string postId, int count)
         {
-            var result = R.Table(s_PostTable).Get(postId).Update(row => R.HashMap("ViewsCount", row.G("ViewsCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Post>()[0].NewValue;
+            R.Table(s_PostTable).Get(postId).Update(row => R.HashMap("ViewsCount", row.G("ViewsCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Post> IncrementPostViewsCountAsync(string postId, int count)
+        public async Task IncrementPostViewsCountAsync(string postId, int count)
         {
-            var result = (await R.Table(s_PostTable).Get(postId).Update(row => R.HashMap("ViewsCount", row.G("ViewsCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Post>()[0].NewValue;
+            (await R.Table(s_PostTable).Get(postId).Update(row => R.HashMap("ViewsCount", row.G("ViewsCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public Post IncrementPostBookmarksCount(string postId, int count)
+        public void IncrementPostBookmarksCount(string postId, int count)
         {
-            var result = R.Table(s_PostTable).Get(postId).Update(row => R.HashMap("BookmarksCount", row.G("BookmarksCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Post>()[0].NewValue;
+            R.Table(s_PostTable).Get(postId).Update(row => R.HashMap("BookmarksCount", row.G("BookmarksCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Post> IncrementPostBookmarksCountAsync(string postId, int count)
+        public async Task IncrementPostBookmarksCountAsync(string postId, int count)
         {
-            var result = (await R.Table(s_PostTable).Get(postId).Update(row => R.HashMap("BookmarksCount", row.G("BookmarksCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Post>()[0].NewValue;
+            (await R.Table(s_PostTable).Get(postId).Update(row => R.HashMap("BookmarksCount", row.G("BookmarksCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public Post IncrementPostCommentsCount(string postId, int count)
+        public void IncrementPostCommentsCount(string postId, int count)
         {
-            var result = R.Table(s_PostTable).Get(postId).Update(row => R.HashMap("CommentsCount", row.G("CommentsCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Post>()[0].NewValue;
+            R.Table(s_PostTable).Get(postId).Update(row => R.HashMap("CommentsCount", row.G("CommentsCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Post> IncrementPostCommentsCountAsync(string postId, int count)
+        public async Task IncrementPostCommentsCountAsync(string postId, int count)
         {
-            var result = (await R.Table(s_PostTable).Get(postId).Update(row => R.HashMap("CommentsCount", row.G("CommentsCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Post>()[0].NewValue;
+            (await R.Table(s_PostTable).Get(postId).Update(row => R.HashMap("CommentsCount", row.G("CommentsCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public Post IncrementPostLikesCount(string postId, int count)
+        public void IncrementPostLikesCount(string postId, int count)
         {
-            var result = R.Table(s_PostTable).Get(postId).Update(row => R.HashMap("LikesCount", row.G("LikesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Post>()[0].NewValue;
+            R.Table(s_PostTable).Get(postId).Update(row => R.HashMap("LikesCount", row.G("LikesCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Post> IncrementPostLikesCountAsync(string postId, int count)
+        public async Task IncrementPostLikesCountAsync(string postId, int count)
         {
-            var result = (await R.Table(s_PostTable).Get(postId).Update(row => R.HashMap("LikesCount", row.G("LikesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Post>()[0].NewValue;
+            (await R.Table(s_PostTable).Get(postId).Update(row => R.HashMap("LikesCount", row.G("LikesCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public Post IncrementPostRatingsCount(string postId, int count)
+        public void IncrementPostRatingsCount(string postId, int count)
         {
-            var result = R.Table(s_PostTable).Get(postId).Update(row => R.HashMap("RatingsCount", row.G("RatingsCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Post>()[0].NewValue;
+            R.Table(s_PostTable).Get(postId).Update(row => R.HashMap("RatingsCount", row.G("RatingsCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Post> IncrementPostRatingsCountAsync(string postId, int count)
+        public async Task IncrementPostRatingsCountAsync(string postId, int count)
         {
-            var result = (await R.Table(s_PostTable).Get(postId).Update(row => R.HashMap("RatingsCount", row.G("RatingsCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Post>()[0].NewValue;
+            (await R.Table(s_PostTable).Get(postId).Update(row => R.HashMap("RatingsCount", row.G("RatingsCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public Post IncrementPostSharesCount(string postId, int count)
+        public void IncrementPostSharesCount(string postId, int count)
         {
-            var result = R.Table(s_PostTable).Get(postId).Update(row => R.HashMap("SharesCount", row.G("SharesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Post>()[0].NewValue;
+            R.Table(s_PostTable).Get(postId).Update(row => R.HashMap("SharesCount", row.G("SharesCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Post> IncrementPostSharesCountAsync(string postId, int count)
+        public async Task IncrementPostSharesCountAsync(string postId, int count)
         {
-            var result = (await R.Table(s_PostTable).Get(postId).Update(row => R.HashMap("SharesCount", row.G("SharesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Post>()[0].NewValue;
+            (await R.Table(s_PostTable).Get(postId).Update(row => R.HashMap("SharesCount", row.G("SharesCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public Post IncrementPostAbuseReportsCount(string postId, int count)
+        public void IncrementPostAbuseReportsCount(string postId, int count)
         {
-            var result = R.Table(s_PostTable).Get(postId).Update(row => R.HashMap("AbuseReportsCount", row.G("AbuseReportsCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Post>()[0].NewValue;
+            R.Table(s_PostTable).Get(postId).Update(row => R.HashMap("AbuseReportsCount", row.G("AbuseReportsCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Post> IncrementPostAbuseReportsCountAsync(string postId, int count)
+        public async Task IncrementPostAbuseReportsCountAsync(string postId, int count)
         {
-            var result = (await R.Table(s_PostTable).Get(postId).Update(row => R.HashMap("AbuseReportsCount", row.G("AbuseReportsCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Post>()[0].NewValue;
+            (await R.Table(s_PostTable).Get(postId).Update(row => R.HashMap("AbuseReportsCount", row.G("AbuseReportsCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public Post UpdatePostRatingsAverageValue(string postId, float value)
+        public void UpdatePostRatingsAverageValue(string postId, float value)
         {
-            var result = R.Table(s_PostTable).Get(postId).Update(row => R.HashMap("RatingsAverageValue", value)).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Post>()[0].NewValue;
+            R.Table(s_PostTable).Get(postId).Update(row => R.HashMap("RatingsAverageValue", value)).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Post> UpdatePostRatingsAverageValueAsync(string postId, float value)
+        public async Task UpdatePostRatingsAverageValueAsync(string postId, float value)
         {
-            var result = (await R.Table(s_PostTable).Get(postId).Update(row => R.HashMap("RatingsAverageValue", value)).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Post>()[0].NewValue;
+            (await R.Table(s_PostTable).Get(postId).Update(row => R.HashMap("RatingsAverageValue", value)).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public Post UpdatePostContentQuality(string postId, float value)
+        public void UpdatePostContentQuality(string postId, float value)
         {
-            var result = R.Table(s_PostTable).Get(postId).Update(row => R.HashMap("ContentQuality", value)).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Post>()[0].NewValue;
+            R.Table(s_PostTable).Get(postId).Update(row => R.HashMap("ContentQuality", value)).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Post> UpdatePostContentQualityAsync(string postId, float value)
+        public async Task UpdatePostContentQualityAsync(string postId, float value)
         {
-            var result = (await R.Table(s_PostTable).Get(postId).Update(row => R.HashMap("ContentQuality", value)).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Post>()[0].NewValue;
+            (await R.Table(s_PostTable).Get(postId).Update(row => R.HashMap("ContentQuality", value)).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         #endregion

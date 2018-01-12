@@ -129,70 +129,70 @@ namespace Sheep.Model.Bookstore
         /// </summary>
         /// <param name="bookId">书籍的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Book IncrementBookVolumesCount(string bookId, int count);
+        void IncrementBookVolumesCount(string bookId, int count);
 
         /// <summary>
         ///     异步增加一本书籍的卷数。
         /// </summary>
         /// <param name="bookId">书籍的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Task<Book> IncrementBookVolumesCountAsync(string bookId, int count);
+        Task IncrementBookVolumesCountAsync(string bookId, int count);
 
         /// <summary>
         ///     增加一本书籍的收藏的次数。
         /// </summary>
         /// <param name="bookId">书籍的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Book IncrementBookBookmarksCount(string bookId, int count);
+        void IncrementBookBookmarksCount(string bookId, int count);
 
         /// <summary>
         ///     异步增加一本书籍的收藏的次数。
         /// </summary>
         /// <param name="bookId">书籍的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Task<Book> IncrementBookBookmarksCountAsync(string bookId, int count);
+        Task IncrementBookBookmarksCountAsync(string bookId, int count);
 
         /// <summary>
         ///     增加一本书籍的评分的次数。
         /// </summary>
         /// <param name="bookId">书籍的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Book IncrementBookRatingsCount(string bookId, int count);
+        void IncrementBookRatingsCount(string bookId, int count);
 
         /// <summary>
         ///     异步增加一本书籍的评分的次数。
         /// </summary>
         /// <param name="bookId">书籍的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Task<Book> IncrementBookRatingsCountAsync(string bookId, int count);
+        Task IncrementBookRatingsCountAsync(string bookId, int count);
 
         /// <summary>
         ///     增加一本书籍的分享的次数。
         /// </summary>
         /// <param name="bookId">书籍的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Book IncrementBookSharesCount(string bookId, int count);
+        void IncrementBookSharesCount(string bookId, int count);
 
         /// <summary>
         ///     异步增加一本书籍的分享的次数。
         /// </summary>
         /// <param name="bookId">书籍的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Task<Book> IncrementBookSharesCountAsync(string bookId, int count);
+        Task IncrementBookSharesCountAsync(string bookId, int count);
 
         /// <summary>
         ///     更新一本书籍的评分的平均值。
         /// </summary>
         /// <param name="bookId">书籍的编号。</param>
         /// <param name="value">更新的数值。</param>
-        Book UpdateBookRatingsAverageValue(string bookId, float value);
+        void UpdateBookRatingsAverageValue(string bookId, float value);
 
         /// <summary>
         ///     异步更新一本书籍的评分的平均值。
         /// </summary>
         /// <param name="bookId">书籍的编号。</param>
         /// <param name="value">更新的数值。</param>
-        Task<Book> UpdateBookRatingsAverageValueAsync(string bookId, float value);
+        Task UpdateBookRatingsAverageValueAsync(string bookId, float value);
 
         #endregion
     }

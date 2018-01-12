@@ -172,28 +172,28 @@ namespace Sheep.Model.Bookstore
         /// </summary>
         /// <param name="volumeId">卷的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Volume IncrementVolumeChaptersCount(string volumeId, int count);
+        void IncrementVolumeChaptersCount(string volumeId, int count);
 
         /// <summary>
         ///     异步增加一卷的章数。
         /// </summary>
         /// <param name="volumeId">卷的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Task<Volume> IncrementVolumeChaptersCountAsync(string volumeId, int count);
+        Task IncrementVolumeChaptersCountAsync(string volumeId, int count);
 
         /// <summary>
         ///     增加一卷的主题数。
         /// </summary>
         /// <param name="volumeId">卷的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Volume IncrementVolumeSubjectsCount(string volumeId, int count);
+        void IncrementVolumeSubjectsCount(string volumeId, int count);
 
         /// <summary>
         ///     异步增加一卷的主题数。
         /// </summary>
         /// <param name="volumeId">卷的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Task<Volume> IncrementVolumeSubjectsCountAsync(string volumeId, int count);
+        Task IncrementVolumeSubjectsCountAsync(string volumeId, int count);
 
         #endregion
     }

@@ -335,98 +335,98 @@ namespace Sheep.Model.Content
         /// </summary>
         /// <param name="commentId">评论的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Comment IncrementCommentRepliesCount(string commentId, int count);
+        void IncrementCommentRepliesCount(string commentId, int count);
 
         /// <summary>
         ///     异步增加一个评论的回复的次数。
         /// </summary>
         /// <param name="commentId">评论的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Task<Comment> IncrementCommentRepliesCountAsync(string commentId, int count);
+        Task IncrementCommentRepliesCountAsync(string commentId, int count);
 
         /// <summary>
         ///     增加一个评论的投票的次数。
         /// </summary>
         /// <param name="commentId">评论的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Comment IncrementCommentVotesCount(string commentId, int count);
+        void IncrementCommentVotesCount(string commentId, int count);
 
         /// <summary>
         ///     异步增加一个评论的投票的次数。
         /// </summary>
         /// <param name="commentId">评论的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Task<Comment> IncrementCommentVotesCountAsync(string commentId, int count);
+        Task IncrementCommentVotesCountAsync(string commentId, int count);
 
         /// <summary>
         ///     增加一个评论的赞成投票的次数。
         /// </summary>
         /// <param name="commentId">评论的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Comment IncrementCommentYesVotesCount(string commentId, int count);
+        void IncrementCommentYesVotesCount(string commentId, int count);
 
         /// <summary>
         ///     异步增加一个评论的赞成投票的次数。
         /// </summary>
         /// <param name="commentId">评论的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Task<Comment> IncrementCommentYesVotesCountAsync(string commentId, int count);
+        Task IncrementCommentYesVotesCountAsync(string commentId, int count);
 
         /// <summary>
         ///     增加一个评论的反对投票的次数。
         /// </summary>
         /// <param name="commentId">评论的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Comment IncrementCommentNoVotesCount(string commentId, int count);
+        void IncrementCommentNoVotesCount(string commentId, int count);
 
         /// <summary>
         ///     异步增加一个评论的反对投票的次数。
         /// </summary>
         /// <param name="commentId">评论的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Task<Comment> IncrementCommentNoVotesCountAsync(string commentId, int count);
+        Task IncrementCommentNoVotesCountAsync(string commentId, int count);
 
         /// <summary>
         ///     增加一个评论的赞成投票的次数及总投票的次数。
         /// </summary>
         /// <param name="commentId">评论的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Comment IncrementCommentVotesAndYesVotesCount(string commentId, int count);
+        void IncrementCommentVotesAndYesVotesCount(string commentId, int count);
 
         /// <summary>
         ///     异步增加一个评论的赞成投票的次数及总投票的次数。
         /// </summary>
         /// <param name="commentId">评论的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Task<Comment> IncrementCommentVotesAndYesVotesCountAsync(string commentId, int count);
+        Task IncrementCommentVotesAndYesVotesCountAsync(string commentId, int count);
 
         /// <summary>
         ///     增加一个评论的反对投票的次数及总投票的次数。
         /// </summary>
         /// <param name="commentId">评论的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Comment IncrementCommentVotesAndNoVotesCount(string commentId, int count);
+        void IncrementCommentVotesAndNoVotesCount(string commentId, int count);
 
         /// <summary>
         ///     异步增加一个评论的反对投票的次数及总投票的次数。
         /// </summary>
         /// <param name="commentId">评论的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Task<Comment> IncrementCommentVotesAndNoVotesCountAsync(string commentId, int count);
+        Task IncrementCommentVotesAndNoVotesCountAsync(string commentId, int count);
 
         /// <summary>
         ///     更新一个评论的内容质量的评分。
         /// </summary>
         /// <param name="commentId">评论的编号。</param>
         /// <param name="value">更新的数值。</param>
-        Comment UpdateCommentContentQuality(string commentId, float value);
+        void UpdateCommentContentQuality(string commentId, float value);
 
         /// <summary>
         ///     异步更新一个评论的内容质量的评分。
         /// </summary>
         /// <param name="commentId">评论的编号。</param>
         /// <param name="value">更新的数值。</param>
-        Task<Comment> UpdateCommentContentQualityAsync(string commentId, float value);
+        Task UpdateCommentContentQualityAsync(string commentId, float value);
 
         #endregion
     }

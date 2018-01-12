@@ -527,126 +527,126 @@ namespace Sheep.Model.Content
         /// </summary>
         /// <param name="postId">帖子的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Post IncrementPostViewsCount(string postId, int count);
+        void IncrementPostViewsCount(string postId, int count);
 
         /// <summary>
         ///     异步增加一个帖子的查看的次数。
         /// </summary>
         /// <param name="postId">帖子的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Task<Post> IncrementPostViewsCountAsync(string postId, int count);
+        Task IncrementPostViewsCountAsync(string postId, int count);
 
         /// <summary>
         ///     增加一个帖子的收藏的次数。
         /// </summary>
         /// <param name="postId">帖子的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Post IncrementPostBookmarksCount(string postId, int count);
+        void IncrementPostBookmarksCount(string postId, int count);
 
         /// <summary>
         ///     异步增加一个帖子的收藏的次数。
         /// </summary>
         /// <param name="postId">帖子的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Task<Post> IncrementPostBookmarksCountAsync(string postId, int count);
+        Task IncrementPostBookmarksCountAsync(string postId, int count);
 
         /// <summary>
         ///     增加一个帖子的评论的次数。
         /// </summary>
         /// <param name="postId">帖子的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Post IncrementPostCommentsCount(string postId, int count);
+        void IncrementPostCommentsCount(string postId, int count);
 
         /// <summary>
         ///     异步增加一个帖子的评论的次数。
         /// </summary>
         /// <param name="postId">帖子的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Task<Post> IncrementPostCommentsCountAsync(string postId, int count);
+        Task IncrementPostCommentsCountAsync(string postId, int count);
 
         /// <summary>
         ///     增加一个帖子的点赞的次数。
         /// </summary>
         /// <param name="postId">帖子的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Post IncrementPostLikesCount(string postId, int count);
+        void IncrementPostLikesCount(string postId, int count);
 
         /// <summary>
         ///     异步增加一个帖子的点赞的次数。
         /// </summary>
         /// <param name="postId">帖子的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Task<Post> IncrementPostLikesCountAsync(string postId, int count);
+        Task IncrementPostLikesCountAsync(string postId, int count);
 
         /// <summary>
         ///     增加一个帖子的评分的次数。
         /// </summary>
         /// <param name="postId">帖子的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Post IncrementPostRatingsCount(string postId, int count);
+        void IncrementPostRatingsCount(string postId, int count);
 
         /// <summary>
         ///     异步增加一个帖子的评分的次数。
         /// </summary>
         /// <param name="postId">帖子的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Task<Post> IncrementPostRatingsCountAsync(string postId, int count);
+        Task IncrementPostRatingsCountAsync(string postId, int count);
 
         /// <summary>
         ///     增加一个帖子的分享的次数。
         /// </summary>
         /// <param name="postId">帖子的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Post IncrementPostSharesCount(string postId, int count);
+        void IncrementPostSharesCount(string postId, int count);
 
         /// <summary>
         ///     异步增加一个帖子的分享的次数。
         /// </summary>
         /// <param name="postId">帖子的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Task<Post> IncrementPostSharesCountAsync(string postId, int count);
+        Task IncrementPostSharesCountAsync(string postId, int count);
 
         /// <summary>
         ///     增加一个帖子的滥用举报的次数。
         /// </summary>
         /// <param name="postId">帖子的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Post IncrementPostAbuseReportsCount(string postId, int count);
+        void IncrementPostAbuseReportsCount(string postId, int count);
 
         /// <summary>
         ///     异步增加一个帖子的滥用举报的次数。
         /// </summary>
         /// <param name="postId">帖子的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Task<Post> IncrementPostAbuseReportsCountAsync(string postId, int count);
+        Task IncrementPostAbuseReportsCountAsync(string postId, int count);
 
         /// <summary>
         ///     更新一个帖子的评分的平均值。
         /// </summary>
         /// <param name="postId">帖子的编号。</param>
         /// <param name="value">更新的数值。</param>
-        Post UpdatePostRatingsAverageValue(string postId, float value);
+        void UpdatePostRatingsAverageValue(string postId, float value);
 
         /// <summary>
         ///     异步更新一个帖子的评分的平均值。
         /// </summary>
         /// <param name="postId">帖子的编号。</param>
         /// <param name="value">更新的数值。</param>
-        Task<Post> UpdatePostRatingsAverageValueAsync(string postId, float value);
+        Task UpdatePostRatingsAverageValueAsync(string postId, float value);
 
         /// <summary>
         ///     更新一个帖子的内容质量的评分。
         /// </summary>
         /// <param name="postId">帖子的编号。</param>
         /// <param name="value">更新的数值。</param>
-        Post UpdatePostContentQuality(string postId, float value);
+        void UpdatePostContentQuality(string postId, float value);
 
         /// <summary>
         ///     异步更新一个帖子的内容质量的评分。
         /// </summary>
         /// <param name="postId">帖子的编号。</param>
         /// <param name="value">更新的数值。</param>
-        Task<Post> UpdatePostContentQualityAsync(string postId, float value);
+        Task UpdatePostContentQualityAsync(string postId, float value);
 
         #endregion
     }

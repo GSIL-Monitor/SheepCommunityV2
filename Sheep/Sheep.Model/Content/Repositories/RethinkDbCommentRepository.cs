@@ -693,101 +693,87 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public Comment IncrementCommentRepliesCount(string commentId, int count)
+        public void IncrementCommentRepliesCount(string commentId, int count)
         {
-            var result = R.Table(s_CommentTable).Get(commentId).Update(row => R.HashMap("RepliesCount", row.G("RepliesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Comment>()[0].NewValue;
+            R.Table(s_CommentTable).Get(commentId).Update(row => R.HashMap("RepliesCount", row.G("RepliesCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Comment> IncrementCommentRepliesCountAsync(string commentId, int count)
+        public async Task IncrementCommentRepliesCountAsync(string commentId, int count)
         {
-            var result = (await R.Table(s_CommentTable).Get(commentId).Update(row => R.HashMap("RepliesCount", row.G("RepliesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Comment>()[0].NewValue;
+            (await R.Table(s_CommentTable).Get(commentId).Update(row => R.HashMap("RepliesCount", row.G("RepliesCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public Comment IncrementCommentVotesCount(string commentId, int count)
+        public void IncrementCommentVotesCount(string commentId, int count)
         {
-            var result = R.Table(s_CommentTable).Get(commentId).Update(row => R.HashMap("VotesCount", row.G("VotesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Comment>()[0].NewValue;
+            R.Table(s_CommentTable).Get(commentId).Update(row => R.HashMap("VotesCount", row.G("VotesCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Comment> IncrementCommentVotesCountAsync(string commentId, int count)
+        public async Task IncrementCommentVotesCountAsync(string commentId, int count)
         {
-            var result = (await R.Table(s_CommentTable).Get(commentId).Update(row => R.HashMap("VotesCount", row.G("VotesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Comment>()[0].NewValue;
+            (await R.Table(s_CommentTable).Get(commentId).Update(row => R.HashMap("VotesCount", row.G("VotesCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public Comment IncrementCommentYesVotesCount(string commentId, int count)
+        public void IncrementCommentYesVotesCount(string commentId, int count)
         {
-            var result = R.Table(s_CommentTable).Get(commentId).Update(row => R.HashMap("YesVotesCount", row.G("YesVotesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Comment>()[0].NewValue;
+            R.Table(s_CommentTable).Get(commentId).Update(row => R.HashMap("YesVotesCount", row.G("YesVotesCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Comment> IncrementCommentYesVotesCountAsync(string commentId, int count)
+        public async Task IncrementCommentYesVotesCountAsync(string commentId, int count)
         {
-            var result = (await R.Table(s_CommentTable).Get(commentId).Update(row => R.HashMap("YesVotesCount", row.G("YesVotesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Comment>()[0].NewValue;
+            (await R.Table(s_CommentTable).Get(commentId).Update(row => R.HashMap("YesVotesCount", row.G("YesVotesCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public Comment IncrementCommentNoVotesCount(string commentId, int count)
+        public void IncrementCommentNoVotesCount(string commentId, int count)
         {
-            var result = R.Table(s_CommentTable).Get(commentId).Update(row => R.HashMap("NoVotesCount", row.G("NoVotesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Comment>()[0].NewValue;
+            R.Table(s_CommentTable).Get(commentId).Update(row => R.HashMap("NoVotesCount", row.G("NoVotesCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Comment> IncrementCommentNoVotesCountAsync(string commentId, int count)
+        public async Task IncrementCommentNoVotesCountAsync(string commentId, int count)
         {
-            var result = (await R.Table(s_CommentTable).Get(commentId).Update(row => R.HashMap("NoVotesCount", row.G("NoVotesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Comment>()[0].NewValue;
+            (await R.Table(s_CommentTable).Get(commentId).Update(row => R.HashMap("NoVotesCount", row.G("NoVotesCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public Comment IncrementCommentVotesAndYesVotesCount(string commentId, int count)
+        public void IncrementCommentVotesAndYesVotesCount(string commentId, int count)
         {
-            var result = R.Table(s_CommentTable).Get(commentId).Update(row => R.HashMap("YesVotesCount", row.G("YesVotesCount").Default_(0).Add(count)).With("VotesCount", row.G("VotesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Comment>()[0].NewValue;
+            R.Table(s_CommentTable).Get(commentId).Update(row => R.HashMap("YesVotesCount", row.G("YesVotesCount").Default_(0).Add(count)).With("VotesCount", row.G("VotesCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Comment> IncrementCommentVotesAndYesVotesCountAsync(string commentId, int count)
+        public async Task IncrementCommentVotesAndYesVotesCountAsync(string commentId, int count)
         {
-            var result = (await R.Table(s_CommentTable).Get(commentId).Update(row => R.HashMap("YesVotesCount", row.G("YesVotesCount").Default_(0).Add(count)).With("VotesCount", row.G("VotesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Comment>()[0].NewValue;
+            (await R.Table(s_CommentTable).Get(commentId).Update(row => R.HashMap("YesVotesCount", row.G("YesVotesCount").Default_(0).Add(count)).With("VotesCount", row.G("VotesCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public Comment IncrementCommentVotesAndNoVotesCount(string commentId, int count)
+        public void IncrementCommentVotesAndNoVotesCount(string commentId, int count)
         {
-            var result = R.Table(s_CommentTable).Get(commentId).Update(row => R.HashMap("NoVotesCount", row.G("NoVotesCount").Default_(0).Add(count)).With("VotesCount", row.G("VotesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Comment>()[0].NewValue;
+            R.Table(s_CommentTable).Get(commentId).Update(row => R.HashMap("NoVotesCount", row.G("NoVotesCount").Default_(0).Add(count)).With("VotesCount", row.G("VotesCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Comment> IncrementCommentVotesAndNoVotesCountAsync(string commentId, int count)
+        public async Task IncrementCommentVotesAndNoVotesCountAsync(string commentId, int count)
         {
-            var result = (await R.Table(s_CommentTable).Get(commentId).Update(row => R.HashMap("NoVotesCount", row.G("NoVotesCount").Default_(0).Add(count)).With("VotesCount", row.G("VotesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Comment>()[0].NewValue;
+            (await R.Table(s_CommentTable).Get(commentId).Update(row => R.HashMap("NoVotesCount", row.G("NoVotesCount").Default_(0).Add(count)).With("VotesCount", row.G("VotesCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public Comment UpdateCommentContentQuality(string commentId, float value)
+        public void UpdateCommentContentQuality(string commentId, float value)
         {
-            var result = R.Table(s_CommentTable).Get(commentId).Update(row => R.HashMap("ContentQuality", value)).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Comment>()[0].NewValue;
+            R.Table(s_CommentTable).Get(commentId).Update(row => R.HashMap("ContentQuality", value)).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Comment> UpdateCommentContentQualityAsync(string commentId, float value)
+        public async Task UpdateCommentContentQualityAsync(string commentId, float value)
         {
-            var result = (await R.Table(s_CommentTable).Get(commentId).Update(row => R.HashMap("ContentQuality", value)).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Comment>()[0].NewValue;
+            (await R.Table(s_CommentTable).Get(commentId).Update(row => R.HashMap("ContentQuality", value)).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         #endregion

@@ -354,73 +354,63 @@ namespace Sheep.Model.Bookstore.Repositories
         }
 
         /// <inheritdoc />
-        public Book IncrementBookVolumesCount(string bookId, int count)
+        public void IncrementBookVolumesCount(string bookId, int count)
         {
-            var result = R.Table(s_BookTable).Get(bookId).Update(row => R.HashMap("VolumesCount", row.G("VolumesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Book>()[0].NewValue;
+            R.Table(s_BookTable).Get(bookId).Update(row => R.HashMap("VolumesCount", row.G("VolumesCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Book> IncrementBookVolumesCountAsync(string bookId, int count)
+        public async Task IncrementBookVolumesCountAsync(string bookId, int count)
         {
-            var result = (await R.Table(s_BookTable).Get(bookId).Update(row => R.HashMap("VolumesCount", row.G("VolumesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Book>()[0].NewValue;
+            (await R.Table(s_BookTable).Get(bookId).Update(row => R.HashMap("VolumesCount", row.G("VolumesCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public Book IncrementBookBookmarksCount(string bookId, int count)
+        public void IncrementBookBookmarksCount(string bookId, int count)
         {
-            var result = R.Table(s_BookTable).Get(bookId).Update(row => R.HashMap("BookmarksCount", row.G("BookmarksCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Book>()[0].NewValue;
+            R.Table(s_BookTable).Get(bookId).Update(row => R.HashMap("BookmarksCount", row.G("BookmarksCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Book> IncrementBookBookmarksCountAsync(string bookId, int count)
+        public async Task IncrementBookBookmarksCountAsync(string bookId, int count)
         {
-            var result = (await R.Table(s_BookTable).Get(bookId).Update(row => R.HashMap("BookmarksCount", row.G("BookmarksCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Book>()[0].NewValue;
+            (await R.Table(s_BookTable).Get(bookId).Update(row => R.HashMap("BookmarksCount", row.G("BookmarksCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public Book IncrementBookRatingsCount(string bookId, int count)
+        public void IncrementBookRatingsCount(string bookId, int count)
         {
-            var result = R.Table(s_BookTable).Get(bookId).Update(row => R.HashMap("RatingsCount", row.G("RatingsCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Book>()[0].NewValue;
+            R.Table(s_BookTable).Get(bookId).Update(row => R.HashMap("RatingsCount", row.G("RatingsCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Book> IncrementBookRatingsCountAsync(string bookId, int count)
+        public async Task IncrementBookRatingsCountAsync(string bookId, int count)
         {
-            var result = (await R.Table(s_BookTable).Get(bookId).Update(row => R.HashMap("RatingsCount", row.G("RatingsCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Book>()[0].NewValue;
+            (await R.Table(s_BookTable).Get(bookId).Update(row => R.HashMap("RatingsCount", row.G("RatingsCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public Book IncrementBookSharesCount(string bookId, int count)
+        public void IncrementBookSharesCount(string bookId, int count)
         {
-            var result = R.Table(s_BookTable).Get(bookId).Update(row => R.HashMap("SharesCount", row.G("SharesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Book>()[0].NewValue;
+            R.Table(s_BookTable).Get(bookId).Update(row => R.HashMap("SharesCount", row.G("SharesCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Book> IncrementBookSharesCountAsync(string bookId, int count)
+        public async Task IncrementBookSharesCountAsync(string bookId, int count)
         {
-            var result = (await R.Table(s_BookTable).Get(bookId).Update(row => R.HashMap("SharesCount", row.G("SharesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Book>()[0].NewValue;
+            (await R.Table(s_BookTable).Get(bookId).Update(row => R.HashMap("SharesCount", row.G("SharesCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public Book UpdateBookRatingsAverageValue(string bookId, float value)
+        public void UpdateBookRatingsAverageValue(string bookId, float value)
         {
-            var result = R.Table(s_BookTable).Get(bookId).Update(row => R.HashMap("RatingsAverageValue", value)).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Book>()[0].NewValue;
+            R.Table(s_BookTable).Get(bookId).Update(row => R.HashMap("RatingsAverageValue", value)).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Book> UpdateBookRatingsAverageValueAsync(string bookId, float value)
+        public async Task UpdateBookRatingsAverageValueAsync(string bookId, float value)
         {
-            var result = (await R.Table(s_BookTable).Get(bookId).Update(row => R.HashMap("RatingsAverageValue", value)).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Book>()[0].NewValue;
+            (await R.Table(s_BookTable).Get(bookId).Update(row => R.HashMap("RatingsAverageValue", value)).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         #endregion

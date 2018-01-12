@@ -543,87 +543,75 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public Reply IncrementReplyVotesCount(string replyId, int count)
+        public void IncrementReplyVotesCount(string replyId, int count)
         {
-            var result = R.Table(s_ReplyTable).Get(replyId).Update(row => R.HashMap("VotesCount", row.G("VotesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Reply>()[0].NewValue;
+            R.Table(s_ReplyTable).Get(replyId).Update(row => R.HashMap("VotesCount", row.G("VotesCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Reply> IncrementReplyVotesCountAsync(string replyId, int count)
+        public async Task IncrementReplyVotesCountAsync(string replyId, int count)
         {
-            var result = (await R.Table(s_ReplyTable).Get(replyId).Update(row => R.HashMap("VotesCount", row.G("VotesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Reply>()[0].NewValue;
+            (await R.Table(s_ReplyTable).Get(replyId).Update(row => R.HashMap("VotesCount", row.G("VotesCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public Reply IncrementReplyYesVotesCount(string replyId, int count)
+        public void IncrementReplyYesVotesCount(string replyId, int count)
         {
-            var result = R.Table(s_ReplyTable).Get(replyId).Update(row => R.HashMap("YesVotesCount", row.G("YesVotesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Reply>()[0].NewValue;
+            R.Table(s_ReplyTable).Get(replyId).Update(row => R.HashMap("YesVotesCount", row.G("YesVotesCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Reply> IncrementReplyYesVotesCountAsync(string replyId, int count)
+        public async Task IncrementReplyYesVotesCountAsync(string replyId, int count)
         {
-            var result = (await R.Table(s_ReplyTable).Get(replyId).Update(row => R.HashMap("YesVotesCount", row.G("YesVotesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Reply>()[0].NewValue;
+            (await R.Table(s_ReplyTable).Get(replyId).Update(row => R.HashMap("YesVotesCount", row.G("YesVotesCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public Reply IncrementReplyNoVotesCount(string replyId, int count)
+        public void IncrementReplyNoVotesCount(string replyId, int count)
         {
-            var result = R.Table(s_ReplyTable).Get(replyId).Update(row => R.HashMap("NoVotesCount", row.G("NoVotesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Reply>()[0].NewValue;
+            R.Table(s_ReplyTable).Get(replyId).Update(row => R.HashMap("NoVotesCount", row.G("NoVotesCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Reply> IncrementReplyNoVotesCountAsync(string replyId, int count)
+        public async Task IncrementReplyNoVotesCountAsync(string replyId, int count)
         {
-            var result = (await R.Table(s_ReplyTable).Get(replyId).Update(row => R.HashMap("NoVotesCount", row.G("NoVotesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Reply>()[0].NewValue;
+            (await R.Table(s_ReplyTable).Get(replyId).Update(row => R.HashMap("NoVotesCount", row.G("NoVotesCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public Reply IncrementReplyVotesAndYesVotesCount(string replyId, int count)
+        public void IncrementReplyVotesAndYesVotesCount(string replyId, int count)
         {
-            var result = R.Table(s_ReplyTable).Get(replyId).Update(row => R.HashMap("YesVotesCount", row.G("YesVotesCount").Default_(0).Add(count)).With("VotesCount", row.G("VotesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Reply>()[0].NewValue;
+            R.Table(s_ReplyTable).Get(replyId).Update(row => R.HashMap("YesVotesCount", row.G("YesVotesCount").Default_(0).Add(count)).With("VotesCount", row.G("VotesCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Reply> IncrementReplyVotesAndYesVotesCountAsync(string replyId, int count)
+        public async Task IncrementReplyVotesAndYesVotesCountAsync(string replyId, int count)
         {
-            var result = (await R.Table(s_ReplyTable).Get(replyId).Update(row => R.HashMap("YesVotesCount", row.G("YesVotesCount").Default_(0).Add(count)).With("VotesCount", row.G("VotesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Reply>()[0].NewValue;
+            (await R.Table(s_ReplyTable).Get(replyId).Update(row => R.HashMap("YesVotesCount", row.G("YesVotesCount").Default_(0).Add(count)).With("VotesCount", row.G("VotesCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public Reply IncrementReplyVotesAndNoVotesCount(string replyId, int count)
+        public void IncrementReplyVotesAndNoVotesCount(string replyId, int count)
         {
-            var result = R.Table(s_ReplyTable).Get(replyId).Update(row => R.HashMap("NoVotesCount", row.G("NoVotesCount").Default_(0).Add(count)).With("VotesCount", row.G("VotesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Reply>()[0].NewValue;
+            R.Table(s_ReplyTable).Get(replyId).Update(row => R.HashMap("NoVotesCount", row.G("NoVotesCount").Default_(0).Add(count)).With("VotesCount", row.G("VotesCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Reply> IncrementReplyVotesAndNoVotesCountAsync(string replyId, int count)
+        public async Task IncrementReplyVotesAndNoVotesCountAsync(string replyId, int count)
         {
-            var result = (await R.Table(s_ReplyTable).Get(replyId).Update(row => R.HashMap("NoVotesCount", row.G("NoVotesCount").Default_(0).Add(count)).With("VotesCount", row.G("VotesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Reply>()[0].NewValue;
+            (await R.Table(s_ReplyTable).Get(replyId).Update(row => R.HashMap("NoVotesCount", row.G("NoVotesCount").Default_(0).Add(count)).With("VotesCount", row.G("VotesCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public Reply UpdateReplyContentQuality(string replyId, float value)
+        public void UpdateReplyContentQuality(string replyId, float value)
         {
-            var result = R.Table(s_ReplyTable).Get(replyId).Update(row => R.HashMap("ContentQuality", value)).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Reply>()[0].NewValue;
+            R.Table(s_ReplyTable).Get(replyId).Update(row => R.HashMap("ContentQuality", value)).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Reply> UpdateReplyContentQualityAsync(string replyId, float value)
+        public async Task UpdateReplyContentQualityAsync(string replyId, float value)
         {
-            var result = (await R.Table(s_ReplyTable).Get(replyId).Update(row => R.HashMap("ContentQuality", value)).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Reply>()[0].NewValue;
+            (await R.Table(s_ReplyTable).Get(replyId).Update(row => R.HashMap("ContentQuality", value)).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         #endregion

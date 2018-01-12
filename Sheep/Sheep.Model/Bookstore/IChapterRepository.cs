@@ -208,112 +208,112 @@ namespace Sheep.Model.Bookstore
         /// </summary>
         /// <param name="chapterId">章的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Chapter IncrementChapterParagraphsCount(string chapterId, int count);
+        void IncrementChapterParagraphsCount(string chapterId, int count);
 
         /// <summary>
         ///     异步增加一个章的节数。
         /// </summary>
         /// <param name="chapterId">章的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Task<Chapter> IncrementChapterParagraphsCountAsync(string chapterId, int count);
+        Task IncrementChapterParagraphsCountAsync(string chapterId, int count);
 
         /// <summary>
         ///     增加一个章的查看的次数。
         /// </summary>
         /// <param name="chapterId">章的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Chapter IncrementChapterViewsCount(string chapterId, int count);
+        void IncrementChapterViewsCount(string chapterId, int count);
 
         /// <summary>
         ///     异步增加一个章的查看的次数。
         /// </summary>
         /// <param name="chapterId">章的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Task<Chapter> IncrementChapterViewsCountAsync(string chapterId, int count);
+        Task IncrementChapterViewsCountAsync(string chapterId, int count);
 
         /// <summary>
         ///     增加一个章的收藏的次数。
         /// </summary>
         /// <param name="chapterId">章的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Chapter IncrementChapterBookmarksCount(string chapterId, int count);
+        void IncrementChapterBookmarksCount(string chapterId, int count);
 
         /// <summary>
         ///     异步增加一个章的收藏的次数。
         /// </summary>
         /// <param name="chapterId">章的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Task<Chapter> IncrementChapterBookmarksCountAsync(string chapterId, int count);
+        Task IncrementChapterBookmarksCountAsync(string chapterId, int count);
 
         /// <summary>
         ///     增加一个章的评论的次数。
         /// </summary>
         /// <param name="chapterId">章的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Chapter IncrementChapterCommentsCount(string chapterId, int count);
+        void IncrementChapterCommentsCount(string chapterId, int count);
 
         /// <summary>
         ///     异步增加一个章的评论的次数。
         /// </summary>
         /// <param name="chapterId">章的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Task<Chapter> IncrementChapterCommentsCountAsync(string chapterId, int count);
+        Task IncrementChapterCommentsCountAsync(string chapterId, int count);
 
         /// <summary>
         ///     增加一个章的点赞的次数。
         /// </summary>
         /// <param name="chapterId">章的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Chapter IncrementChapterLikesCount(string chapterId, int count);
+        void IncrementChapterLikesCount(string chapterId, int count);
 
         /// <summary>
         ///     异步增加一个章的点赞的次数。
         /// </summary>
         /// <param name="chapterId">章的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Task<Chapter> IncrementChapterLikesCountAsync(string chapterId, int count);
+        Task IncrementChapterLikesCountAsync(string chapterId, int count);
 
         /// <summary>
         ///     增加一个章的评分的次数。
         /// </summary>
         /// <param name="chapterId">章的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Chapter IncrementChapterRatingsCount(string chapterId, int count);
+        void IncrementChapterRatingsCount(string chapterId, int count);
 
         /// <summary>
         ///     异步增加一个章的评分的次数。
         /// </summary>
         /// <param name="chapterId">章的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Task<Chapter> IncrementChapterRatingsCountAsync(string chapterId, int count);
+        Task IncrementChapterRatingsCountAsync(string chapterId, int count);
 
         /// <summary>
         ///     增加一个章的分享的次数。
         /// </summary>
         /// <param name="chapterId">章的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Chapter IncrementChapterSharesCount(string chapterId, int count);
+        void IncrementChapterSharesCount(string chapterId, int count);
 
         /// <summary>
         ///     异步增加一个章的分享的次数。
         /// </summary>
         /// <param name="chapterId">章的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Task<Chapter> IncrementChapterSharesCountAsync(string chapterId, int count);
+        Task IncrementChapterSharesCountAsync(string chapterId, int count);
 
         /// <summary>
         ///     更新一个章的评分的平均值。
         /// </summary>
         /// <param name="chapterId">章的编号。</param>
         /// <param name="value">更新的数值。</param>
-        Chapter UpdateChapterRatingsAverageValue(string chapterId, float value);
+        void UpdateChapterRatingsAverageValue(string chapterId, float value);
 
         /// <summary>
         ///     异步更新一个章的评分的平均值。
         /// </summary>
         /// <param name="chapterId">章的编号。</param>
         /// <param name="value">更新的数值。</param>
-        Task<Chapter> UpdateChapterRatingsAverageValueAsync(string chapterId, float value);
+        Task UpdateChapterRatingsAverageValueAsync(string chapterId, float value);
 
         #endregion
     }

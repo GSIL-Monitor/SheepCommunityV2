@@ -423,115 +423,99 @@ namespace Sheep.Model.Bookstore.Repositories
         }
 
         /// <inheritdoc />
-        public Chapter IncrementChapterParagraphsCount(string chapterId, int count)
+        public void IncrementChapterParagraphsCount(string chapterId, int count)
         {
-            var result = R.Table(s_ChapterTable).Get(chapterId).Update(row => R.HashMap("ParagraphsCount", row.G("ParagraphsCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Chapter>()[0].NewValue;
+            R.Table(s_ChapterTable).Get(chapterId).Update(row => R.HashMap("ParagraphsCount", row.G("ParagraphsCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Chapter> IncrementChapterParagraphsCountAsync(string chapterId, int count)
+        public async Task IncrementChapterParagraphsCountAsync(string chapterId, int count)
         {
-            var result = (await R.Table(s_ChapterTable).Get(chapterId).Update(row => R.HashMap("ParagraphsCount", row.G("ParagraphsCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Chapter>()[0].NewValue;
+            (await R.Table(s_ChapterTable).Get(chapterId).Update(row => R.HashMap("ParagraphsCount", row.G("ParagraphsCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public Chapter IncrementChapterViewsCount(string chapterId, int count)
+        public void IncrementChapterViewsCount(string chapterId, int count)
         {
-            var result = R.Table(s_ChapterTable).Get(chapterId).Update(row => R.HashMap("ViewsCount", row.G("ViewsCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Chapter>()[0].NewValue;
+            R.Table(s_ChapterTable).Get(chapterId).Update(row => R.HashMap("ViewsCount", row.G("ViewsCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Chapter> IncrementChapterViewsCountAsync(string chapterId, int count)
+        public async Task IncrementChapterViewsCountAsync(string chapterId, int count)
         {
-            var result = (await R.Table(s_ChapterTable).Get(chapterId).Update(row => R.HashMap("ViewsCount", row.G("ViewsCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Chapter>()[0].NewValue;
+            (await R.Table(s_ChapterTable).Get(chapterId).Update(row => R.HashMap("ViewsCount", row.G("ViewsCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public Chapter IncrementChapterBookmarksCount(string chapterId, int count)
+        public void IncrementChapterBookmarksCount(string chapterId, int count)
         {
-            var result = R.Table(s_ChapterTable).Get(chapterId).Update(row => R.HashMap("BookmarksCount", row.G("BookmarksCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Chapter>()[0].NewValue;
+            R.Table(s_ChapterTable).Get(chapterId).Update(row => R.HashMap("BookmarksCount", row.G("BookmarksCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Chapter> IncrementChapterBookmarksCountAsync(string chapterId, int count)
+        public async Task IncrementChapterBookmarksCountAsync(string chapterId, int count)
         {
-            var result = (await R.Table(s_ChapterTable).Get(chapterId).Update(row => R.HashMap("BookmarksCount", row.G("BookmarksCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Chapter>()[0].NewValue;
+            (await R.Table(s_ChapterTable).Get(chapterId).Update(row => R.HashMap("BookmarksCount", row.G("BookmarksCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public Chapter IncrementChapterCommentsCount(string chapterId, int count)
+        public void IncrementChapterCommentsCount(string chapterId, int count)
         {
-            var result = R.Table(s_ChapterTable).Get(chapterId).Update(row => R.HashMap("CommentsCount", row.G("CommentsCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Chapter>()[0].NewValue;
+            R.Table(s_ChapterTable).Get(chapterId).Update(row => R.HashMap("CommentsCount", row.G("CommentsCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Chapter> IncrementChapterCommentsCountAsync(string chapterId, int count)
+        public async Task IncrementChapterCommentsCountAsync(string chapterId, int count)
         {
-            var result = (await R.Table(s_ChapterTable).Get(chapterId).Update(row => R.HashMap("CommentsCount", row.G("CommentsCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Chapter>()[0].NewValue;
+            (await R.Table(s_ChapterTable).Get(chapterId).Update(row => R.HashMap("CommentsCount", row.G("CommentsCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public Chapter IncrementChapterLikesCount(string chapterId, int count)
+        public void IncrementChapterLikesCount(string chapterId, int count)
         {
-            var result = R.Table(s_ChapterTable).Get(chapterId).Update(row => R.HashMap("LikesCount", row.G("LikesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Chapter>()[0].NewValue;
+            R.Table(s_ChapterTable).Get(chapterId).Update(row => R.HashMap("LikesCount", row.G("LikesCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Chapter> IncrementChapterLikesCountAsync(string chapterId, int count)
+        public async Task IncrementChapterLikesCountAsync(string chapterId, int count)
         {
-            var result = (await R.Table(s_ChapterTable).Get(chapterId).Update(row => R.HashMap("LikesCount", row.G("LikesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Chapter>()[0].NewValue;
+            (await R.Table(s_ChapterTable).Get(chapterId).Update(row => R.HashMap("LikesCount", row.G("LikesCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public Chapter IncrementChapterRatingsCount(string chapterId, int count)
+        public void IncrementChapterRatingsCount(string chapterId, int count)
         {
-            var result = R.Table(s_ChapterTable).Get(chapterId).Update(row => R.HashMap("RatingsCount", row.G("RatingsCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Chapter>()[0].NewValue;
+            R.Table(s_ChapterTable).Get(chapterId).Update(row => R.HashMap("RatingsCount", row.G("RatingsCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Chapter> IncrementChapterRatingsCountAsync(string chapterId, int count)
+        public async Task IncrementChapterRatingsCountAsync(string chapterId, int count)
         {
-            var result = (await R.Table(s_ChapterTable).Get(chapterId).Update(row => R.HashMap("RatingsCount", row.G("RatingsCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Chapter>()[0].NewValue;
+            (await R.Table(s_ChapterTable).Get(chapterId).Update(row => R.HashMap("RatingsCount", row.G("RatingsCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public Chapter IncrementChapterSharesCount(string chapterId, int count)
+        public void IncrementChapterSharesCount(string chapterId, int count)
         {
-            var result = R.Table(s_ChapterTable).Get(chapterId).Update(row => R.HashMap("SharesCount", row.G("SharesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Chapter>()[0].NewValue;
+            R.Table(s_ChapterTable).Get(chapterId).Update(row => R.HashMap("SharesCount", row.G("SharesCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Chapter> IncrementChapterSharesCountAsync(string chapterId, int count)
+        public async Task IncrementChapterSharesCountAsync(string chapterId, int count)
         {
-            var result = (await R.Table(s_ChapterTable).Get(chapterId).Update(row => R.HashMap("SharesCount", row.G("SharesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Chapter>()[0].NewValue;
+            (await R.Table(s_ChapterTable).Get(chapterId).Update(row => R.HashMap("SharesCount", row.G("SharesCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public Chapter UpdateChapterRatingsAverageValue(string chapterId, float value)
+        public void UpdateChapterRatingsAverageValue(string chapterId, float value)
         {
-            var result = R.Table(s_ChapterTable).Get(chapterId).Update(row => R.HashMap("RatingsAverageValue", value)).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Chapter>()[0].NewValue;
+            R.Table(s_ChapterTable).Get(chapterId).Update(row => R.HashMap("RatingsAverageValue", value)).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Chapter> UpdateChapterRatingsAverageValueAsync(string chapterId, float value)
+        public async Task UpdateChapterRatingsAverageValueAsync(string chapterId, float value)
         {
-            var result = (await R.Table(s_ChapterTable).Get(chapterId).Update(row => R.HashMap("RatingsAverageValue", value)).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Chapter>()[0].NewValue;
+            (await R.Table(s_ChapterTable).Get(chapterId).Update(row => R.HashMap("RatingsAverageValue", value)).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         #endregion

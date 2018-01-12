@@ -263,84 +263,84 @@ namespace Sheep.Model.Content
         /// </summary>
         /// <param name="replyId">回复的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Reply IncrementReplyVotesCount(string replyId, int count);
+        void IncrementReplyVotesCount(string replyId, int count);
 
         /// <summary>
         ///     异步增加一个回复的投票的次数。
         /// </summary>
         /// <param name="replyId">回复的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Task<Reply> IncrementReplyVotesCountAsync(string replyId, int count);
+        Task IncrementReplyVotesCountAsync(string replyId, int count);
 
         /// <summary>
         ///     增加一个回复的赞成投票的次数。
         /// </summary>
         /// <param name="replyId">回复的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Reply IncrementReplyYesVotesCount(string replyId, int count);
+        void IncrementReplyYesVotesCount(string replyId, int count);
 
         /// <summary>
         ///     异步增加一个回复的赞成投票的次数。
         /// </summary>
         /// <param name="replyId">回复的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Task<Reply> IncrementReplyYesVotesCountAsync(string replyId, int count);
+        Task IncrementReplyYesVotesCountAsync(string replyId, int count);
 
         /// <summary>
         ///     增加一个回复的反对投票的次数。
         /// </summary>
         /// <param name="replyId">回复的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Reply IncrementReplyNoVotesCount(string replyId, int count);
+        void IncrementReplyNoVotesCount(string replyId, int count);
 
         /// <summary>
         ///     异步增加一个回复的反对投票的次数。
         /// </summary>
         /// <param name="replyId">回复的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Task<Reply> IncrementReplyNoVotesCountAsync(string replyId, int count);
+        Task IncrementReplyNoVotesCountAsync(string replyId, int count);
 
         /// <summary>
         ///     增加一个回复的赞成投票的次数及总投票的次数。
         /// </summary>
         /// <param name="replyId">回复的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Reply IncrementReplyVotesAndYesVotesCount(string replyId, int count);
+        void IncrementReplyVotesAndYesVotesCount(string replyId, int count);
 
         /// <summary>
         ///     异步增加一个回复的赞成投票的次数及总投票的次数。
         /// </summary>
         /// <param name="replyId">回复的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Task<Reply> IncrementReplyVotesAndYesVotesCountAsync(string replyId, int count);
+        Task IncrementReplyVotesAndYesVotesCountAsync(string replyId, int count);
 
         /// <summary>
         ///     增加一个回复的反对投票的次数及总投票的次数。
         /// </summary>
         /// <param name="replyId">回复的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Reply IncrementReplyVotesAndNoVotesCount(string replyId, int count);
+        void IncrementReplyVotesAndNoVotesCount(string replyId, int count);
 
         /// <summary>
         ///     异步增加一个回复的反对投票的次数及总投票的次数。
         /// </summary>
         /// <param name="replyId">回复的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Task<Reply> IncrementReplyVotesAndNoVotesCountAsync(string replyId, int count);
+        Task IncrementReplyVotesAndNoVotesCountAsync(string replyId, int count);
 
         /// <summary>
         ///     更新一个回复的内容质量的评分。
         /// </summary>
         /// <param name="replyId">回复的编号。</param>
         /// <param name="value">更新的数值。</param>
-        Reply UpdateReplyContentQuality(string replyId, float value);
+        void UpdateReplyContentQuality(string replyId, float value);
 
         /// <summary>
         ///     异步更新一个回复的内容质量的评分。
         /// </summary>
         /// <param name="replyId">回复的编号。</param>
         /// <param name="value">更新的数值。</param>
-        Task<Reply> UpdateReplyContentQualityAsync(string replyId, float value);
+        Task UpdateReplyContentQualityAsync(string replyId, float value);
 
         #endregion
     }

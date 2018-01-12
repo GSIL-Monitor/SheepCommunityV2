@@ -326,14 +326,14 @@ namespace Sheep.Model.Bookstore
         /// </summary>
         /// <param name="paragraphId">节的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Paragraph IncrementParagraphViewsCount(string paragraphId, int count);
+        void IncrementParagraphViewsCount(string paragraphId, int count);
 
         /// <summary>
         ///     异步增加一个节的查看的次数。
         /// </summary>
         /// <param name="paragraphId">节的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Task<Paragraph> IncrementParagraphViewsCountAsync(string paragraphId, int count);
+        Task IncrementParagraphViewsCountAsync(string paragraphId, int count);
 
         /// <summary>
         ///     增加一个节的查看的次数。
@@ -354,84 +354,84 @@ namespace Sheep.Model.Bookstore
         /// </summary>
         /// <param name="paragraphId">节的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Paragraph IncrementParagraphBookmarksCount(string paragraphId, int count);
+        void IncrementParagraphBookmarksCount(string paragraphId, int count);
 
         /// <summary>
         ///     异步增加一个节的收藏的次数。
         /// </summary>
         /// <param name="paragraphId">节的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Task<Paragraph> IncrementParagraphBookmarksCountAsync(string paragraphId, int count);
+        Task IncrementParagraphBookmarksCountAsync(string paragraphId, int count);
 
         /// <summary>
         ///     增加一个节的评论的次数。
         /// </summary>
         /// <param name="paragraphId">节的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Paragraph IncrementParagraphCommentsCount(string paragraphId, int count);
+        void IncrementParagraphCommentsCount(string paragraphId, int count);
 
         /// <summary>
         ///     异步增加一个节的评论的次数。
         /// </summary>
         /// <param name="paragraphId">节的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Task<Paragraph> IncrementParagraphCommentsCountAsync(string paragraphId, int count);
+        Task IncrementParagraphCommentsCountAsync(string paragraphId, int count);
 
         /// <summary>
         ///     增加一个节的点赞的次数。
         /// </summary>
         /// <param name="paragraphId">节的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Paragraph IncrementParagraphLikesCount(string paragraphId, int count);
+        void IncrementParagraphLikesCount(string paragraphId, int count);
 
         /// <summary>
         ///     异步增加一个节的点赞的次数。
         /// </summary>
         /// <param name="paragraphId">节的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Task<Paragraph> IncrementParagraphLikesCountAsync(string paragraphId, int count);
+        Task IncrementParagraphLikesCountAsync(string paragraphId, int count);
 
         /// <summary>
         ///     增加一个节的评分的次数。
         /// </summary>
         /// <param name="paragraphId">节的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Paragraph IncrementParagraphRatingsCount(string paragraphId, int count);
+        void IncrementParagraphRatingsCount(string paragraphId, int count);
 
         /// <summary>
         ///     异步增加一个节的评分的次数。
         /// </summary>
         /// <param name="paragraphId">节的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Task<Paragraph> IncrementParagraphRatingsCountAsync(string paragraphId, int count);
+        Task IncrementParagraphRatingsCountAsync(string paragraphId, int count);
 
         /// <summary>
         ///     增加一个节的分享的次数。
         /// </summary>
         /// <param name="paragraphId">节的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Paragraph IncrementParagraphSharesCount(string paragraphId, int count);
+        void IncrementParagraphSharesCount(string paragraphId, int count);
 
         /// <summary>
         ///     异步增加一个节的分享的次数。
         /// </summary>
         /// <param name="paragraphId">节的编号。</param>
         /// <param name="count">增加的数量。</param>
-        Task<Paragraph> IncrementParagraphSharesCountAsync(string paragraphId, int count);
+        Task IncrementParagraphSharesCountAsync(string paragraphId, int count);
 
         /// <summary>
         ///     更新一个节的评分的平均值。
         /// </summary>
         /// <param name="paragraphId">节的编号。</param>
         /// <param name="value">更新的数值。</param>
-        Paragraph UpdateParagraphRatingsAverageValue(string paragraphId, float value);
+        void UpdateParagraphRatingsAverageValue(string paragraphId, float value);
 
         /// <summary>
         ///     异步更新一个节的评分的平均值。
         /// </summary>
         /// <param name="paragraphId">节的编号。</param>
         /// <param name="value">更新的数值。</param>
-        Task<Paragraph> UpdateParagraphRatingsAverageValueAsync(string paragraphId, float value);
+        Task UpdateParagraphRatingsAverageValueAsync(string paragraphId, float value);
 
         #endregion
     }

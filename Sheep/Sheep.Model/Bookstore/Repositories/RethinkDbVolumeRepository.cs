@@ -376,31 +376,27 @@ namespace Sheep.Model.Bookstore.Repositories
         }
 
         /// <inheritdoc />
-        public Volume IncrementVolumeChaptersCount(string volumeId, int count)
+        public void IncrementVolumeChaptersCount(string volumeId, int count)
         {
-            var result = R.Table(s_VolumeTable).Get(volumeId).Update(row => R.HashMap("ChaptersCount", row.G("ChaptersCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Volume>()[0].NewValue;
+            R.Table(s_VolumeTable).Get(volumeId).Update(row => R.HashMap("ChaptersCount", row.G("ChaptersCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Volume> IncrementVolumeChaptersCountAsync(string volumeId, int count)
+        public async Task IncrementVolumeChaptersCountAsync(string volumeId, int count)
         {
-            var result = (await R.Table(s_VolumeTable).Get(volumeId).Update(row => R.HashMap("ChaptersCount", row.G("ChaptersCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Volume>()[0].NewValue;
+            (await R.Table(s_VolumeTable).Get(volumeId).Update(row => R.HashMap("ChaptersCount", row.G("ChaptersCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public Volume IncrementVolumeSubjectsCount(string volumeId, int count)
+        public void IncrementVolumeSubjectsCount(string volumeId, int count)
         {
-            var result = R.Table(s_VolumeTable).Get(volumeId).Update(row => R.HashMap("SubjectsCount", row.G("SubjectsCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Volume>()[0].NewValue;
+            R.Table(s_VolumeTable).Get(volumeId).Update(row => R.HashMap("SubjectsCount", row.G("SubjectsCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Volume> IncrementVolumeSubjectsCountAsync(string volumeId, int count)
+        public async Task IncrementVolumeSubjectsCountAsync(string volumeId, int count)
         {
-            var result = (await R.Table(s_VolumeTable).Get(volumeId).Update(row => R.HashMap("SubjectsCount", row.G("SubjectsCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Volume>()[0].NewValue;
+            (await R.Table(s_VolumeTable).Get(volumeId).Update(row => R.HashMap("SubjectsCount", row.G("SubjectsCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         #endregion

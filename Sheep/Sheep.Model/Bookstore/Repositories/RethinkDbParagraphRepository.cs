@@ -573,113 +573,99 @@ namespace Sheep.Model.Bookstore.Repositories
         }
 
         /// <inheritdoc />
-        public Paragraph IncrementParagraphViewsCount(string paragraphId, int count)
+        public void IncrementParagraphViewsCount(string paragraphId, int count)
         {
-            var result = R.Table(s_ParagraphTable).Get(paragraphId).Update(row => R.HashMap("ViewsCount", row.G("ViewsCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Paragraph>()[0].NewValue;
+            R.Table(s_ParagraphTable).Get(paragraphId).Update(row => R.HashMap("ViewsCount", row.G("ViewsCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Paragraph> IncrementParagraphViewsCountAsync(string paragraphId, int count)
+        public async Task IncrementParagraphViewsCountAsync(string paragraphId, int count)
         {
-            var result = (await R.Table(s_ParagraphTable).Get(paragraphId).Update(row => R.HashMap("ViewsCount", row.G("ViewsCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Paragraph>()[0].NewValue;
+            (await R.Table(s_ParagraphTable).Get(paragraphId).Update(row => R.HashMap("ViewsCount", row.G("ViewsCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
         public void IncrementParagraphsViewsCount(List<string> paragraphIds, int count)
         {
-            R.Table(s_ParagraphTable).GetAll(R.Args(paragraphIds.ToArray())).Update(row => R.HashMap("ViewsCount", row.G("ViewsCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
+            R.Table(s_ParagraphTable).GetAll(R.Args(paragraphIds.ToArray())).Update(row => R.HashMap("ViewsCount", row.G("ViewsCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
         public async Task IncrementParagraphsViewsCountAsync(List<string> paragraphIds, int count)
         {
-            (await R.Table(s_ParagraphTable).GetAll(R.Args(paragraphIds.ToArray())).Update(row => R.HashMap("ViewsCount", row.G("ViewsCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
+            (await R.Table(s_ParagraphTable).GetAll(R.Args(paragraphIds.ToArray())).Update(row => R.HashMap("ViewsCount", row.G("ViewsCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public Paragraph IncrementParagraphBookmarksCount(string paragraphId, int count)
+        public void IncrementParagraphBookmarksCount(string paragraphId, int count)
         {
-            var result = R.Table(s_ParagraphTable).Get(paragraphId).Update(row => R.HashMap("BookmarksCount", row.G("BookmarksCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Paragraph>()[0].NewValue;
+            R.Table(s_ParagraphTable).Get(paragraphId).Update(row => R.HashMap("BookmarksCount", row.G("BookmarksCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Paragraph> IncrementParagraphBookmarksCountAsync(string paragraphId, int count)
+        public async Task IncrementParagraphBookmarksCountAsync(string paragraphId, int count)
         {
-            var result = (await R.Table(s_ParagraphTable).Get(paragraphId).Update(row => R.HashMap("BookmarksCount", row.G("BookmarksCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Paragraph>()[0].NewValue;
+            (await R.Table(s_ParagraphTable).Get(paragraphId).Update(row => R.HashMap("BookmarksCount", row.G("BookmarksCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public Paragraph IncrementParagraphCommentsCount(string paragraphId, int count)
+        public void IncrementParagraphCommentsCount(string paragraphId, int count)
         {
-            var result = R.Table(s_ParagraphTable).Get(paragraphId).Update(row => R.HashMap("CommentsCount", row.G("CommentsCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Paragraph>()[0].NewValue;
+            R.Table(s_ParagraphTable).Get(paragraphId).Update(row => R.HashMap("CommentsCount", row.G("CommentsCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Paragraph> IncrementParagraphCommentsCountAsync(string paragraphId, int count)
+        public async Task IncrementParagraphCommentsCountAsync(string paragraphId, int count)
         {
-            var result = (await R.Table(s_ParagraphTable).Get(paragraphId).Update(row => R.HashMap("CommentsCount", row.G("CommentsCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Paragraph>()[0].NewValue;
+            (await R.Table(s_ParagraphTable).Get(paragraphId).Update(row => R.HashMap("CommentsCount", row.G("CommentsCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public Paragraph IncrementParagraphLikesCount(string paragraphId, int count)
+        public void IncrementParagraphLikesCount(string paragraphId, int count)
         {
-            var result = R.Table(s_ParagraphTable).Get(paragraphId).Update(row => R.HashMap("LikesCount", row.G("LikesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Paragraph>()[0].NewValue;
+            R.Table(s_ParagraphTable).Get(paragraphId).Update(row => R.HashMap("LikesCount", row.G("LikesCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Paragraph> IncrementParagraphLikesCountAsync(string paragraphId, int count)
+        public async Task IncrementParagraphLikesCountAsync(string paragraphId, int count)
         {
-            var result = (await R.Table(s_ParagraphTable).Get(paragraphId).Update(row => R.HashMap("LikesCount", row.G("LikesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Paragraph>()[0].NewValue;
+            (await R.Table(s_ParagraphTable).Get(paragraphId).Update(row => R.HashMap("LikesCount", row.G("LikesCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public Paragraph IncrementParagraphRatingsCount(string paragraphId, int count)
+        public void IncrementParagraphRatingsCount(string paragraphId, int count)
         {
-            var result = R.Table(s_ParagraphTable).Get(paragraphId).Update(row => R.HashMap("RatingsCount", row.G("RatingsCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Paragraph>()[0].NewValue;
+            R.Table(s_ParagraphTable).Get(paragraphId).Update(row => R.HashMap("RatingsCount", row.G("RatingsCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Paragraph> IncrementParagraphRatingsCountAsync(string paragraphId, int count)
+        public async Task IncrementParagraphRatingsCountAsync(string paragraphId, int count)
         {
-            var result = (await R.Table(s_ParagraphTable).Get(paragraphId).Update(row => R.HashMap("RatingsCount", row.G("RatingsCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Paragraph>()[0].NewValue;
+            (await R.Table(s_ParagraphTable).Get(paragraphId).Update(row => R.HashMap("RatingsCount", row.G("RatingsCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public Paragraph IncrementParagraphSharesCount(string paragraphId, int count)
+        public void IncrementParagraphSharesCount(string paragraphId, int count)
         {
-            var result = R.Table(s_ParagraphTable).Get(paragraphId).Update(row => R.HashMap("SharesCount", row.G("SharesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Paragraph>()[0].NewValue;
+            R.Table(s_ParagraphTable).Get(paragraphId).Update(row => R.HashMap("SharesCount", row.G("SharesCount").Default_(0).Add(count))).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Paragraph> IncrementParagraphSharesCountAsync(string paragraphId, int count)
+        public async Task IncrementParagraphSharesCountAsync(string paragraphId, int count)
         {
-            var result = (await R.Table(s_ParagraphTable).Get(paragraphId).Update(row => R.HashMap("SharesCount", row.G("SharesCount").Default_(0).Add(count))).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Paragraph>()[0].NewValue;
+            (await R.Table(s_ParagraphTable).Get(paragraphId).Update(row => R.HashMap("SharesCount", row.G("SharesCount").Default_(0).Add(count))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public Paragraph UpdateParagraphRatingsAverageValue(string paragraphId, float value)
+        public void UpdateParagraphRatingsAverageValue(string paragraphId, float value)
         {
-            var result = R.Table(s_ParagraphTable).Get(paragraphId).Update(row => R.HashMap("RatingsAverageValue", value)).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Paragraph>()[0].NewValue;
+            R.Table(s_ParagraphTable).Get(paragraphId).Update(row => R.HashMap("RatingsAverageValue", value)).RunResult(_conn).AssertNoErrors();
         }
 
         /// <inheritdoc />
-        public async Task<Paragraph> UpdateParagraphRatingsAverageValueAsync(string paragraphId, float value)
+        public async Task UpdateParagraphRatingsAverageValueAsync(string paragraphId, float value)
         {
-            var result = (await R.Table(s_ParagraphTable).Get(paragraphId).Update(row => R.HashMap("RatingsAverageValue", value)).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Paragraph>()[0].NewValue;
+            (await R.Table(s_ParagraphTable).Get(paragraphId).Update(row => R.HashMap("RatingsAverageValue", value)).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         #endregion
