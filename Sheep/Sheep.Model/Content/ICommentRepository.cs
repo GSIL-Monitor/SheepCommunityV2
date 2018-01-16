@@ -271,8 +271,9 @@ namespace Sheep.Model.Content
         /// <param name="featuredWeight">精选的权重。</param>
         /// <param name="repliesWeight">回复的权重。</param>
         /// <param name="votesWeight">投票的权重。</param>
+        /// <param name="decayHalfLife">得分的半衰期。（天）</param>
         /// <returns>得分。</returns>
-        float CalculateCommentContentQuality(Comment comment, float featuredWeight = 1.0f, float repliesWeight = 1.0f, float votesWeight = 1.0f);
+        float CalculateCommentContentQuality(Comment comment, float featuredWeight = 1.0f, float repliesWeight = 1.0f, float votesWeight = 1.0f, int decayHalfLife = 180);
 
         /// <summary>
         ///     异步计算内容质量的得分。
@@ -281,8 +282,9 @@ namespace Sheep.Model.Content
         /// <param name="featuredWeight">精选的权重。</param>
         /// <param name="repliesWeight">回复的权重。</param>
         /// <param name="votesWeight">投票的权重。</param>
+        /// <param name="decayHalfLife">得分的半衰期。（天）</param>
         /// <returns>得分。</returns>
-        Task<float> CalculateCommentContentQualityAsync(Comment comment, float featuredWeight = 1.0f, float repliesWeight = 1.0f, float votesWeight = 1.0f);
+        Task<float> CalculateCommentContentQualityAsync(Comment comment, float featuredWeight = 1.0f, float repliesWeight = 1.0f, float votesWeight = 1.0f, int decayHalfLife = 180);
 
         #endregion
 

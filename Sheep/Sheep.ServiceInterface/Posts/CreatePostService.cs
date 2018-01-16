@@ -189,6 +189,7 @@ namespace Sheep.ServiceInterface.Posts
             }
             newPost.PictureUrl = pictureUrl;
             var post = await PostRepo.CreatePostAsync(newPost);
+            await PostRepo.UpdatePostContentQualityAsync(post.Id, PostRepo.CalculatePostContentQuality(post));
             ResetCache(post);
             //await NimClient.PostAsync(new FriendAddRequest
             //                          {

@@ -611,15 +611,29 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public float CalculateCommentContentQuality(Comment comment, float featuredWeight = 1.0f, float repliesWeight = 1.0f, float votesWeight = 1.0f)
+        public float CalculateCommentContentQuality(Comment comment, float featuredWeight = 1.0f, float repliesWeight = 1.0f, float votesWeight = 1.0f, int decayHalfLife = 180)
         {
-            return CalculateCommentFeaturedScore(comment) * featuredWeight + CalculateCommentRepliesScore(comment) * repliesWeight + CalculateCommentVotesScore(comment) * votesWeight;
+            var baseScore = CalculateCommentFeaturedScore(comment) * featuredWeight + CalculateCommentRepliesScore(comment) * repliesWeight + CalculateCommentVotesScore(comment) * votesWeight;
+            if (comment.CreatedDate >= DateTime.UtcNow)
+            {
+                return baseScore;
+            }
+            var decayHalfLifeHours = decayHalfLife * 24.0;
+            var passedHours = DateTime.UtcNow.Subtract(comment.CreatedDate).TotalHours;
+            return (float) (baseScore * Math.Pow(0.5, passedHours / decayHalfLifeHours));
         }
 
         /// <inheritdoc />
-        public async Task<float> CalculateCommentContentQualityAsync(Comment comment, float featuredWeight = 1.0f, float repliesWeight = 1.0f, float votesWeight = 1.0f)
+        public async Task<float> CalculateCommentContentQualityAsync(Comment comment, float featuredWeight = 1.0f, float repliesWeight = 1.0f, float votesWeight = 1.0f, int decayHalfLife = 180)
         {
-            return await CalculateCommentFeaturedScoreAsync(comment) * featuredWeight + await CalculateCommentRepliesScoreAsync(comment) * repliesWeight + await CalculateCommentVotesScoreAsync(comment) * votesWeight;
+            var baseScore = await CalculateCommentFeaturedScoreAsync(comment) * featuredWeight + await CalculateCommentRepliesScoreAsync(comment) * repliesWeight + await CalculateCommentVotesScoreAsync(comment) * votesWeight;
+            if (comment.CreatedDate >= DateTime.UtcNow)
+            {
+                return baseScore;
+            }
+            var decayHalfLifeHours = decayHalfLife * 24.0;
+            var passedHours = DateTime.UtcNow.Subtract(comment.CreatedDate).TotalHours;
+            return (float) (baseScore * Math.Pow(0.5, passedHours / decayHalfLifeHours));
         }
 
         /// <inheritdoc />

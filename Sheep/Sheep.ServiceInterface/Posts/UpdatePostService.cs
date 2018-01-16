@@ -195,6 +195,7 @@ namespace Sheep.ServiceInterface.Posts
             }
             newPost.PictureUrl = pictureUrl.IsNullOrEmpty() ? existingPost.PictureUrl : pictureUrl;
             var post = await PostRepo.UpdatePostAsync(existingPost, newPost);
+            await PostRepo.UpdatePostContentQualityAsync(post.Id, PostRepo.CalculatePostContentQuality(post));
             var commentsCount = await CommentRepo.GetCommentsCountByParentAsync(post.Id, authorId, null, null, null, "审核通过");
             ResetCache(post);
             return new PostUpdateResponse

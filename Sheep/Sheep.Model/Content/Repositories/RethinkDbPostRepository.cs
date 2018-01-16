@@ -863,6 +863,38 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
+        public float CalculatePostContentScore(Post post)
+        {
+            switch (post.ContentType)
+            {
+                case "图文":
+                    return Math.Min(1.0f, post.Content.Length / 10000.0f);
+                case "音频":
+                    return 0.25f;
+                case "视频":
+                    return 0.5f;
+                default:
+                    return 0.0f;
+            }
+        }
+
+        /// <inheritdoc />
+        public Task<float> CalculatePostContentScoreAsync(Post post)
+        {
+            switch (post.ContentType)
+            {
+                case "图文":
+                    return Task.FromResult(Math.Min(1.0f, post.Content.Length / 10000.0f));
+                case "音频":
+                    return Task.FromResult(0.25f);
+                case "视频":
+                    return Task.FromResult(0.5f);
+                default:
+                    return Task.FromResult(0.0f);
+            }
+        }
+
+        /// <inheritdoc />
         public float CalculatePostFeaturedScore(Post post)
         {
             return post.IsFeatured ? 1.0f : 0.0f;
@@ -971,9 +1003,9 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public float CalculatePostContentQuality(Post post, float featuredWeight = 1.0f, float tagsWeight = 1.0f, float viewsWeight = 1.0f, float bookmarksWeight = 1.0f, float commentsWeight = 1.0f, float likesWeight = 1.0f, float ratingsWeight = 1.0f, float sharesWeight = 1.0f, int decayHalfLife = 30)
+        public float CalculatePostContentQuality(Post post, float contentWeight = 1.0f, float featuredWeight = 1.0f, float tagsWeight = 1.0f, float viewsWeight = 1.0f, float bookmarksWeight = 1.0f, float commentsWeight = 1.0f, float likesWeight = 1.0f, float ratingsWeight = 1.0f, float sharesWeight = 1.0f, int decayHalfLife = 30)
         {
-            var baseScore = CalculatePostFeaturedScore(post) * featuredWeight + CalculatePostTagsScore(post) * tagsWeight + CalculatePostViewsScore(post) * viewsWeight + CalculatePostBookmarksScore(post) * bookmarksWeight + CalculatePostCommentsScore(post) * commentsWeight + CalculatePostLikesScore(post) * likesWeight + CalculatePostRatingsScore(post) * ratingsWeight + CalculatePostSharesScore(post) * sharesWeight;
+            var baseScore = CalculatePostContentScore(post) * contentWeight + CalculatePostFeaturedScore(post) * featuredWeight + CalculatePostTagsScore(post) * tagsWeight + CalculatePostViewsScore(post) * viewsWeight + CalculatePostBookmarksScore(post) * bookmarksWeight + CalculatePostCommentsScore(post) * commentsWeight + CalculatePostLikesScore(post) * likesWeight + CalculatePostRatingsScore(post) * ratingsWeight + CalculatePostSharesScore(post) * sharesWeight;
             if (!post.PublishedDate.HasValue || post.PublishedDate.Value >= DateTime.UtcNow)
             {
                 return baseScore;
@@ -984,9 +1016,9 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public async Task<float> CalculatePostContentQualityAsync(Post post, float featuredWeight = 1.0f, float tagsWeight = 1.0f, float viewsWeight = 1.0f, float bookmarksWeight = 1.0f, float commentsWeight = 1.0f, float likesWeight = 1.0f, float ratingsWeight = 1.0f, float sharesWeight = 1.0f, int decayHalfLife = 30)
+        public async Task<float> CalculatePostContentQualityAsync(Post post, float contentWeight = 1.0f, float featuredWeight = 1.0f, float tagsWeight = 1.0f, float viewsWeight = 1.0f, float bookmarksWeight = 1.0f, float commentsWeight = 1.0f, float likesWeight = 1.0f, float ratingsWeight = 1.0f, float sharesWeight = 1.0f, int decayHalfLife = 30)
         {
-            var baseScore = await CalculatePostFeaturedScoreAsync(post) * featuredWeight + await CalculatePostTagsScoreAsync(post) * tagsWeight + await CalculatePostViewsScoreAsync(post) * viewsWeight + await CalculatePostBookmarksScoreAsync(post) * bookmarksWeight + await CalculatePostCommentsScoreAsync(post) * commentsWeight + await CalculatePostLikesScoreAsync(post) * likesWeight + await CalculatePostRatingsScoreAsync(post) * ratingsWeight + await CalculatePostSharesScoreAsync(post) * sharesWeight;
+            var baseScore = await CalculatePostContentScoreAsync(post) * contentWeight + await CalculatePostFeaturedScoreAsync(post) * featuredWeight + await CalculatePostTagsScoreAsync(post) * tagsWeight + await CalculatePostViewsScoreAsync(post) * viewsWeight + await CalculatePostBookmarksScoreAsync(post) * bookmarksWeight + await CalculatePostCommentsScoreAsync(post) * commentsWeight + await CalculatePostLikesScoreAsync(post) * likesWeight + await CalculatePostRatingsScoreAsync(post) * ratingsWeight + await CalculatePostSharesScoreAsync(post) * sharesWeight;
             if (!post.PublishedDate.HasValue || post.PublishedDate.Value >= DateTime.UtcNow)
             {
                 return baseScore;

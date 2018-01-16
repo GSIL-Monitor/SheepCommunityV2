@@ -297,6 +297,20 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
+        public float CalculateUserBookmarksScore(int userId, string parentType, DateTime? createdSince)
+        {
+            var count = GetBookmarksCountByUser(userId, parentType, createdSince);
+            return Math.Min(1.0f, count / 10.0f);
+        }
+
+        /// <inheritdoc />
+        public async Task<float> CalculateUserBookmarksScoreAsync(int userId, string parentType, DateTime? createdSince)
+        {
+            var count = await GetBookmarksCountByUserAsync(userId, parentType, createdSince);
+            return Math.Min(1.0f, count / 10.0f);
+        }
+
+        /// <inheritdoc />
         public Bookmark CreateBookmark(Bookmark newBookmark)
         {
             newBookmark.ThrowIfNull(nameof(newBookmark));

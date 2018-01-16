@@ -321,6 +321,20 @@ namespace Sheep.Model.Content
         #region 计算
 
         /// <summary>
+        ///     计算内容的得分。
+        /// </summary>
+        /// <param name="post">帖子。</param>
+        /// <returns>得分。</returns>
+        float CalculatePostContentScore(Post post);
+
+        /// <summary>
+        ///     异步计算内容的得分。
+        /// </summary>
+        /// <param name="post">帖子。</param>
+        /// <returns>得分。</returns>
+        Task<float> CalculatePostContentScoreAsync(Post post);
+
+        /// <summary>
         ///     计算精选的得分。
         /// </summary>
         /// <param name="post">帖子。</param>
@@ -448,6 +462,7 @@ namespace Sheep.Model.Content
         ///     计算内容质量的得分。
         /// </summary>
         /// <param name="post">帖子。</param>
+        /// <param name="contentWeight">内容的权重。</param>
         /// <param name="featuredWeight">精选的权重。</param>
         /// <param name="tagsWeight">标签的权重。</param>
         /// <param name="viewsWeight">查看的权重。</param>
@@ -458,12 +473,13 @@ namespace Sheep.Model.Content
         /// <param name="sharesWeight">分享的权重。</param>
         /// <param name="decayHalfLife">得分的半衰期。（天）</param>
         /// <returns>得分。</returns>
-        float CalculatePostContentQuality(Post post, float featuredWeight = 1.0f, float tagsWeight = 1.0f, float viewsWeight = 1.0f, float bookmarksWeight = 1.0f, float commentsWeight = 1.0f, float likesWeight = 1.0f, float ratingsWeight = 1.0f, float sharesWeight = 1.0f, int decayHalfLife = 30);
+        float CalculatePostContentQuality(Post post, float contentWeight = 1.0f, float featuredWeight = 1.0f, float tagsWeight = 1.0f, float viewsWeight = 1.0f, float bookmarksWeight = 1.0f, float commentsWeight = 1.0f, float likesWeight = 1.0f, float ratingsWeight = 1.0f, float sharesWeight = 1.0f, int decayHalfLife = 30);
 
         /// <summary>
         ///     异步计算内容质量的得分。
         /// </summary>
         /// <param name="post">帖子。</param>
+        /// <param name="contentWeight">内容的权重。</param>
         /// <param name="featuredWeight">精选的权重。</param>
         /// <param name="tagsWeight">标签的权重。</param>
         /// <param name="viewsWeight">查看的权重。</param>
@@ -474,7 +490,7 @@ namespace Sheep.Model.Content
         /// <param name="sharesWeight">分享的权重。</param>
         /// <param name="decayHalfLife">得分的半衰期。（天）</param>
         /// <returns>得分。</returns>
-        Task<float> CalculatePostContentQualityAsync(Post post, float featuredWeight = 1.0f, float tagsWeight = 1.0f, float viewsWeight = 1.0f, float bookmarksWeight = 1.0f, float commentsWeight = 1.0f, float likesWeight = 1.0f, float ratingsWeight = 1.0f, float sharesWeight = 1.0f, int decayHalfLife = 30);
+        Task<float> CalculatePostContentQualityAsync(Post post, float contentWeight = 1.0f, float featuredWeight = 1.0f, float tagsWeight = 1.0f, float viewsWeight = 1.0f, float bookmarksWeight = 1.0f, float commentsWeight = 1.0f, float likesWeight = 1.0f, float ratingsWeight = 1.0f, float sharesWeight = 1.0f, int decayHalfLife = 30);
 
         #endregion
 

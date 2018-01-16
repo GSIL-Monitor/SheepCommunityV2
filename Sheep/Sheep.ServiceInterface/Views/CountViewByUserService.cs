@@ -69,7 +69,7 @@ namespace Sheep.ServiceInterface.Views
         /// <summary>
         ///     统计一组阅读。
         /// </summary>
-        [CacheResponse(Duration = 3600)]
+        //[CacheResponse(Duration = 3600)]
         public async Task<object> Get(ViewCountByUser request)
         {
             //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))

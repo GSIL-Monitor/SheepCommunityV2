@@ -297,6 +297,20 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
+        public float CalculateUserLikesScore(int userId, string parentType, DateTime? createdSince)
+        {
+            var count = GetLikesCountByUser(userId, parentType, createdSince);
+            return Math.Min(1.0f, count / 50.0f);
+        }
+
+        /// <inheritdoc />
+        public async Task<float> CalculateUserLikesScoreAsync(int userId, string parentType, DateTime? createdSince)
+        {
+            var count = await GetLikesCountByUserAsync(userId, parentType, createdSince);
+            return Math.Min(1.0f, count / 50.0f);
+        }
+
+        /// <inheritdoc />
         public Like CreateLike(Like newLike)
         {
             newLike.ThrowIfNull(nameof(newLike));
