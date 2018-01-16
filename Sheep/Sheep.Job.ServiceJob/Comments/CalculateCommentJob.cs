@@ -56,8 +56,8 @@ namespace Sheep.Job.ServiceJob.Comments
                 var request = new CommentCalculate
                               {
                                   ParentType = data.GetString("ParentType"),
-                                  CreatedSince = data.GetString("CreatedSince").IsNullOrEmpty() ? (DateTime?) null : data.GetDateTimeValueFromString("CreatedSince"),
-                                  ModifiedSince = data.GetString("ModifiedSince").IsNullOrEmpty() ? (DateTime?) null : data.GetDateTimeValueFromString("ModifiedSince"),
+                                  CreatedSince = data.GetString("CreatedSinceDays").IsNullOrEmpty() ? (DateTime?) null : DateTime.UtcNow.Date.AddDays(-data.GetIntValueFromString("CreatedSinceDays")),
+                                  ModifiedSince = data.GetString("ModifiedSinceDays").IsNullOrEmpty() ? (DateTime?) null : DateTime.UtcNow.Date.AddDays(-data.GetIntValueFromString("ModifiedSinceDays")),
                                   IsFeatured = data.GetString("IsFeatured").IsNullOrEmpty() ? (bool?) null : data.GetBooleanValueFromString("IsFeatured"),
                                   OrderBy = data.GetString("OrderBy"),
                                   Descending = data.GetString("Descending").IsNullOrEmpty() ? (bool?) null : data.GetBooleanValueFromString("Descending"),
