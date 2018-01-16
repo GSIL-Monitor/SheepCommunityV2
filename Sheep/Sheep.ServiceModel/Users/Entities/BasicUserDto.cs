@@ -28,15 +28,21 @@ namespace Sheep.ServiceModel.Users.Entities
         public string DisplayName { get; set; }
 
         /// <summary>
-        ///     头像地址。
+        ///     签名。
         /// </summary>
         [DataMember(Order = 4)]
+        public string Signature { get; set; }
+
+        /// <summary>
+        ///     头像地址。
+        /// </summary>
+        [DataMember(Order = 5)]
         public string AvatarUrl { get; set; }
 
         /// <summary>
         ///     性别。
         /// </summary>
-        [DataMember(Order = 5)]
+        [DataMember(Order = 6)]
         public string Gender { get; set; }
     }
 }

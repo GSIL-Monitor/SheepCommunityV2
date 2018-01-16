@@ -17,6 +17,7 @@ namespace Sheep.ServiceInterface.Users.Mappers
                               Id = userAuth.Id,
                               UserName = userAuth.UserName,
                               DisplayName = userAuth.DisplayName,
+                              Signature = userAuth.Meta.GetValueOrDefault("Signature"),
                               AvatarUrl = userAuth.Meta.GetValueOrDefault("AvatarUrl"),
                               Gender = userAuth.Gender
                           };
