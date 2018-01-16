@@ -742,7 +742,7 @@ namespace Sheep.Model.Content.Repositories
             {
                 query = query.Filter(row => row.G("Status").Eq(status));
             }
-            return query.Avg(row => row.G("ContentQuality")).RunResult<float>(_conn);
+            return query.Avg("ContentQuality").Default_(0).RunResult<float>(_conn);
         }
 
         /// <inheritdoc />
@@ -781,7 +781,7 @@ namespace Sheep.Model.Content.Repositories
             {
                 query = query.Filter(row => row.G("Status").Eq(status));
             }
-            return query.Avg(row => row.G("ContentQuality")).RunResultAsync<float>(_conn);
+            return query.Avg("ContentQuality").Default_(0).RunResultAsync<float>(_conn);
         }
 
         /// <inheritdoc />

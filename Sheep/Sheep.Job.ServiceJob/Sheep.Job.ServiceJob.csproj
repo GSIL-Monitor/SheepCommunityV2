@@ -103,6 +103,7 @@
     </Compile>
     <Compile Include="Replies\CalculateReplyJob.cs" />
     <Compile Include="ServiceJobAssembly.cs" />
+    <Compile Include="Users\CalculateUserJob.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -114,9 +115,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Users\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Sheep.Job.ServiceInterface\Sheep.Job.ServiceInterface.csproj">
       <Project>{2a8ee313-6b87-4a20-ace9-51c9e43c41c1}</Project>

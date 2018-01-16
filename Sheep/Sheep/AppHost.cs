@@ -12,7 +12,6 @@ using ServiceStack.Authentication.RethinkDb;
 using ServiceStack.Logging;
 using ServiceStack.ProtoBuf;
 using ServiceStack.Redis;
-using ServiceStack.Text;
 using ServiceStack.Validation;
 using Sheep.Common.Settings;
 using Sheep.Model.Auth.Events;
@@ -84,8 +83,8 @@ namespace Sheep
                                  ApiVersion = "2.0.0"
                              };
             SetConfig(hostConfig);
-            JsConfig.ExcludeDefaultValues = false;
-            JsConfig.IncludeNullValues = true;
+            //JsConfig.ExcludeDefaultValues = false;
+            //JsConfig.IncludeNullValues = true;
 
             // 配置 RethinkDB 数据库。
             ConfigRethinkDb(container);

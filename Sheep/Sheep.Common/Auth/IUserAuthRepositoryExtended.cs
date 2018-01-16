@@ -28,5 +28,6 @@ namespace Sheep.Common.Auth
         Task<IUserAuthDetails> GetUserAuthDetailsByProviderAsync(string provider, string userId);
         Task<List<IUserAuthDetails>> GetUserAuthDetailsAsync(string userAuthId);
         Task DeleteUserAuthDetailsByProviderAsync(string provider, string userId);
+        Task UpdateUserAuthReputationAsync(string userAuthId, float value);
     }
 }

@@ -583,7 +583,14 @@ namespace ServiceStack.Authentication.RethinkDb
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
             {
-                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc(orderBy)) : query.OrderBy(orderBy);
+                if (orderBy == "Reputation")
+                {
+                    queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc(row => row.G("Meta").G("Reputation"))) : query.OrderBy(row => row.G("Meta").G("Reputation"));
+                }
+                else
+                {
+                    queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc(orderBy)) : query.OrderBy(orderBy);
+                }
             }
             else
             {
@@ -758,7 +765,14 @@ namespace ServiceStack.Authentication.RethinkDb
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
             {
-                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc(orderBy)) : query.OrderBy(orderBy);
+                if (orderBy == "Reputation")
+                {
+                    queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc(row => row.G("Meta").G("Reputation"))) : query.OrderBy(row => row.G("Meta").G("Reputation"));
+                }
+                else
+                {
+                    queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc(orderBy)) : query.OrderBy(orderBy);
+                }
             }
             else
             {
@@ -799,7 +813,14 @@ namespace ServiceStack.Authentication.RethinkDb
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
             {
-                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc(orderBy)) : query.OrderBy(orderBy);
+                if (orderBy == "Reputation")
+                {
+                    queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc(row => row.G("Meta").G("Reputation"))) : query.OrderBy(row => row.G("Meta").G("Reputation"));
+                }
+                else
+                {
+                    queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc(orderBy)) : query.OrderBy(orderBy);
+                }
             }
             else
             {
@@ -833,6 +854,12 @@ namespace ServiceStack.Authentication.RethinkDb
         public async Task DeleteUserAuthDetailsByProviderAsync(string provider, string userId)
         {
             (await R.Table(s_UserAuthDetailsTable).GetAll(R.Array(provider, userId)).OptArg("index", "Provider_UserId").Delete().RunResultAsync(_conn)).AssertNoErrors();
+        }
+
+        /// <inheritdoc />
+        public async Task UpdateUserAuthReputationAsync(string userAuthId, float value)
+        {
+            (await R.Table(s_UserAuthTable).Get(userAuthId.ToInt(0)).Update(row => R.HashMap("Meta", R.HashMap("Reputation", value))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
         #endregion

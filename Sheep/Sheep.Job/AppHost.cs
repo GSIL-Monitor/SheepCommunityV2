@@ -20,6 +20,7 @@ using Sheep.Job.ServiceJob;
 using Sheep.Job.ServiceJob.Comments;
 using Sheep.Job.ServiceJob.Posts;
 using Sheep.Job.ServiceJob.Replies;
+using Sheep.Job.ServiceJob.Users;
 using Sheep.Job.ServiceModel;
 using Sheep.Model.Bookstore;
 using Sheep.Model.Bookstore.Repositories;
@@ -422,6 +423,8 @@ namespace Sheep.Job
             feature.RegisterJob<CalculateReplyJob>(triggerBuilder => triggerBuilder.WithIdentity("CalculateRepliesFull_MonthlyOnDay01AndHour04AndMinute00", "Replies").WithSchedule(CronScheduleBuilder.MonthlyOnDayAndHourAndMinute(1, 4, 0)).Build(), jobBuilder => jobBuilder.WithIdentity("CalculateRepliesFull", "Replies").Build());
             // 一天一次一个月之内的帖子的回复。
             feature.RegisterJob<CalculateReplyJob>(triggerBuilder => triggerBuilder.WithIdentity("CalculateRepliesOfCommentCreatedIn1Months_DailyAtHour01AndMinute45", "Replies").WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(1, 45)).Build(), jobBuilder => jobBuilder.WithIdentity("CalculateRepliesOfCommentCreatedIn1Months", "Replies").UsingJobData("ParentType", "评论").UsingJobData("CreatedSinceDays", "30").Build());
+            // 一天一次所有的用户。
+            feature.RegisterJob<CalculateUserJob>(triggerBuilder => triggerBuilder.WithIdentity("CalculateUsersFull_DailyAtHour04AndMinute00", "Users").WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(4, 0)).Build(), jobBuilder => jobBuilder.WithIdentity("CalculateUsersFull", "Users").Build());
             Plugins.Add(feature);
         }
 

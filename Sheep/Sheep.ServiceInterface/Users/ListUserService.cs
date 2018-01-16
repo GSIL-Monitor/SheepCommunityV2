@@ -50,7 +50,7 @@ namespace Sheep.ServiceInterface.Users
         /// <summary>
         ///     列举一组用户。
         /// </summary>
-        [CacheResponse(Duration = 3600)]
+        //[CacheResponse(Duration = 3600)]
         public async Task<object> Get(UserList request)
         {
             //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))

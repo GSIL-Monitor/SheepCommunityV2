@@ -113,5 +113,23 @@ namespace Sheep.Job.ServiceInterface.Properties {
                 return ResourceManager.GetString("ReplyNotFound", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定的用户{0}。 的本地化字符串。
+        /// </summary>
+        internal static string UserNotFound {
+            get {
+                return ResourceManager.GetString("UserNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定条件的用户列表。 的本地化字符串。
+        /// </summary>
+        internal static string UsersNotFound {
+            get {
+                return ResourceManager.GetString("UsersNotFound", resourceCulture);
+            }
+        }
     }
 }

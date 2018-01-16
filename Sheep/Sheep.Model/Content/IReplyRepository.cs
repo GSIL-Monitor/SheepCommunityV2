@@ -228,6 +228,28 @@ namespace Sheep.Model.Content
         /// <returns>得分。</returns>
         Task<float> CalculateReplyContentQualityAsync(Reply reply, float contentWeight = 1.0f, float votesWeight = 1.0f);
 
+        /// <summary>
+        ///     计算用户回复的得分。
+        /// </summary>
+        /// <param name="userId">用户的编号。</param>
+        /// <param name="parentType">上级的类型。</param>
+        /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
+        /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
+        /// <param name="status"> 过滤状态。</param>
+        /// <returns>得分。</returns>
+        float CalculateUserRepliesScore(int userId, string parentType, DateTime? createdSince, DateTime? modifiedSince, string status);
+
+        /// <summary>
+        ///     异步计算用户回复的得分。
+        /// </summary>
+        /// <param name="userId">用户的编号。</param>
+        /// <param name="parentType">上级的类型。</param>
+        /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
+        /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
+        /// <param name="status"> 过滤状态。</param>
+        /// <returns>得分。</returns>
+        Task<float> CalculateUserRepliesScoreAsync(int userId, string parentType, DateTime? createdSince, DateTime? modifiedSince, string status);
+
         #endregion
 
         #region 写入

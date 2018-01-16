@@ -49,10 +49,11 @@ namespace Sheep.ServiceModel.Users
         public DateTime? LockedSince { get; set; }
 
         /// <summary>
-        ///     排序的字段。（可选值：UserName, Email, DisplayName, CreatedDate, ModifiedDate, 默认为 CreatedDate）
+        ///     排序的字段。（可选值：UserName, Email, DisplayName, FullName, BirthDate, TimeZone, Language, Status, CreatedDate,
+        ///     ModifiedDate, Reputation 默认为 CreatedDate）
         /// </summary>
         [DataMember(Order = 6, Name = "orderby")]
-        [ApiMember(Description = "排序的字段（可选值：UserName, Email, DisplayName, CreatedDate, ModifiedDate, 默认为 CreatedDate）")]
+        [ApiMember(Description = "排序的字段（可选值：UserName, Email, DisplayName, FullName, BirthDate, TimeZone, Language, Status, CreatedDate, ModifiedDate, Reputation 默认为 CreatedDate）")]
         public string OrderBy { get; set; }
 
         /// <summary>

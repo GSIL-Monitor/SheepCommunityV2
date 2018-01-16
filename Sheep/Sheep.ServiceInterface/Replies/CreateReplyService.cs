@@ -91,6 +91,7 @@ namespace Sheep.ServiceInterface.Replies
                                Content = request.Content?.Replace("\"", "'")
                            };
             var reply = await ReplyRepo.CreateReplyAsync(newReply);
+            await ReplyRepo.UpdateReplyContentQualityAsync(reply.Id, ReplyRepo.CalculateReplyContentQuality(reply));
             ResetCache(reply);
             switch (reply.ParentType)
             {

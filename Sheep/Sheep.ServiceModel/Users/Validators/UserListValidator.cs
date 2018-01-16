@@ -22,7 +22,8 @@ namespace Sheep.ServiceModel.Users.Validators
                                                               "Status",
                                                               "CreatedDate",
                                                               "ModifiedDate",
-                                                              "Points"
+                                                              "Points",
+                                                              "Reputation"
                                                           };
 
         /// <summary>
@@ -55,7 +56,8 @@ namespace Sheep.ServiceModel.Users.Validators
                                                               "Status",
                                                               "CreatedDate",
                                                               "ModifiedDate",
-                                                              "Points"
+                                                              "Points",
+                                                              "Reputation"
                                                           };
 
         /// <summary>

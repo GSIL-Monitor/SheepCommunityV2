@@ -102,6 +102,7 @@ namespace Sheep.ServiceInterface.Comments
                                  Content = request.Content?.Replace("\"", "'")
                              };
             var comment = await CommentRepo.CreateCommentAsync(newComment);
+            await CommentRepo.UpdateCommentContentQualityAsync(comment.Id, CommentRepo.CalculateCommentContentQuality(comment));
             ResetCache(comment);
             switch (comment.ParentType)
             {

@@ -489,6 +489,20 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
+        public float CalculateUserRepliesScore(int userId, string parentType, DateTime? createdSince, DateTime? modifiedSince, string status)
+        {
+            var count = GetRepliesCountByUser(userId, parentType, createdSince, modifiedSince, status);
+            return Math.Min(1.0f, count / 30.0f);
+        }
+
+        /// <inheritdoc />
+        public async Task<float> CalculateUserRepliesScoreAsync(int userId, string parentType, DateTime? createdSince, DateTime? modifiedSince, string status)
+        {
+            var count = await GetRepliesCountByUserAsync(userId, parentType, createdSince, modifiedSince, status);
+            return Math.Min(1.0f, count / 30.0f);
+        }
+
+        /// <inheritdoc />
         public Reply CreateReply(Reply newReply)
         {
             newReply.ThrowIfNull(nameof(newReply));
