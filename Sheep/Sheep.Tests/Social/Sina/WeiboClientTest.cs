@@ -106,5 +106,16 @@ namespace Sheep.Tests.Social.Sina
                 }
             }
         }
+
+        [Test]
+        public void GetUser()
+        {
+            var response = WeiboClient.Get(new ShowUserRequest
+                                           {
+                                               AccessToken = "2.00WZqRJG3udz3D7452ba63660T_zbJ",
+                                               UserId = "1905070401"
+                                           });
+            response.PrintDump();
+        }
     }
 }

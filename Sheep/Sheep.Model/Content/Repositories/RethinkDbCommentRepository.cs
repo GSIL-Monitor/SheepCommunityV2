@@ -575,6 +575,18 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
+        public float CalculateCommentContentScore(Comment comment)
+        {
+            return Math.Min(1.0f, comment.Content.Length / 1000.0f);
+        }
+
+        /// <inheritdoc />
+        public Task<float> CalculateCommentContentScoreAsync(Comment comment)
+        {
+            return Task.FromResult(Math.Min(1.0f, comment.Content.Length / 1000.0f));
+        }
+
+        /// <inheritdoc />
         public float CalculateCommentFeaturedScore(Comment comment)
         {
             return comment.IsFeatured ? 1.0f : 0.0f;
@@ -611,9 +623,9 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public float CalculateCommentContentQuality(Comment comment, float featuredWeight = 1.0f, float repliesWeight = 1.0f, float votesWeight = 1.0f, int decayHalfLife = 180)
+        public float CalculateCommentContentQuality(Comment comment, float contentWeight = 1.0f, float featuredWeight = 1.0f, float repliesWeight = 1.0f, float votesWeight = 1.0f, int decayHalfLife = 180)
         {
-            var baseScore = CalculateCommentFeaturedScore(comment) * featuredWeight + CalculateCommentRepliesScore(comment) * repliesWeight + CalculateCommentVotesScore(comment) * votesWeight;
+            var baseScore = CalculateCommentContentScore(comment) * contentWeight + CalculateCommentFeaturedScore(comment) * featuredWeight + CalculateCommentRepliesScore(comment) * repliesWeight + CalculateCommentVotesScore(comment) * votesWeight;
             if (comment.CreatedDate >= DateTime.UtcNow)
             {
                 return baseScore;
@@ -624,9 +636,9 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public async Task<float> CalculateCommentContentQualityAsync(Comment comment, float featuredWeight = 1.0f, float repliesWeight = 1.0f, float votesWeight = 1.0f, int decayHalfLife = 180)
+        public async Task<float> CalculateCommentContentQualityAsync(Comment comment, float contentWeight = 1.0f, float featuredWeight = 1.0f, float repliesWeight = 1.0f, float votesWeight = 1.0f, int decayHalfLife = 180)
         {
-            var baseScore = await CalculateCommentFeaturedScoreAsync(comment) * featuredWeight + await CalculateCommentRepliesScoreAsync(comment) * repliesWeight + await CalculateCommentVotesScoreAsync(comment) * votesWeight;
+            var baseScore = await CalculateCommentContentScoreAsync(comment) * contentWeight + await CalculateCommentFeaturedScoreAsync(comment) * featuredWeight + await CalculateCommentRepliesScoreAsync(comment) * repliesWeight + await CalculateCommentVotesScoreAsync(comment) * votesWeight;
             if (comment.CreatedDate >= DateTime.UtcNow)
             {
                 return baseScore;
@@ -634,6 +646,20 @@ namespace Sheep.Model.Content.Repositories
             var decayHalfLifeHours = decayHalfLife * 24.0;
             var passedHours = DateTime.UtcNow.Subtract(comment.CreatedDate).TotalHours;
             return (float) (baseScore * Math.Pow(0.5, passedHours / decayHalfLifeHours));
+        }
+
+        /// <inheritdoc />
+        public float CalculateUserCommentsScore(int userId, string parentType, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status)
+        {
+            var count = GetCommentsCountByUser(userId, parentType, createdSince, modifiedSince, isFeatured, status);
+            return Math.Min(1.0f, count / 20.0f);
+        }
+
+        /// <inheritdoc />
+        public async Task<float> CalculateUserCommentsScoreAsync(int userId, string parentType, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status)
+        {
+            var count = await GetCommentsCountByUserAsync(userId, parentType, createdSince, modifiedSince, isFeatured, status);
+            return Math.Min(1.0f, count / 20.0f);
         }
 
         /// <inheritdoc />

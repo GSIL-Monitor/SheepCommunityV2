@@ -257,6 +257,36 @@ namespace Sheep.Model.Content
         Task<int> GetPostsCountByAuthorAsync(int authorId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status);
 
         /// <summary>
+        ///     根据作者查找帖子平均内容质量的得分。
+        /// </summary>
+        /// <param name="authorId">作者的用户编号。</param>
+        /// <param name="contentType">内容的类型。</param>
+        /// <param name="tag">分类的标签。</param>
+        /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
+        /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
+        /// <param name="publishedSince">过滤发布日期在指定的时间之后。</param>
+        /// <param name="isPublished">是否已发布。</param>
+        /// <param name="isFeatured">是否标记为精选。</param>
+        /// <param name="status"> 过滤状态。</param>
+        /// <returns>帖子平均内容质量的得分。</returns>
+        float GetPostsAverageContentScoreByAuthor(int authorId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status);
+
+        /// <summary>
+        ///     异步根据作者获取帖子平均内容质量的得分。
+        /// </summary>
+        /// <param name="authorId">作者的用户编号。</param>
+        /// <param name="tag">分类的标签。</param>
+        /// <param name="contentType">内容的类型。</param>
+        /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
+        /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
+        /// <param name="publishedSince">过滤发布日期在指定的时间之后。</param>
+        /// <param name="isPublished">是否已发布。</param>
+        /// <param name="isFeatured">是否标记为精选。</param>
+        /// <param name="status"> 过滤状态。</param>
+        /// <returns>帖子平均内容质量的得分。</returns>
+        Task<float> GetPostsAverageContentScoreByAuthorAsync(int authorId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status);
+
+        /// <summary>
         ///     根据作者列表查找帖子数量。
         /// </summary>
         /// <param name="authorIds">作者的用户编号列表。</param>
@@ -491,6 +521,36 @@ namespace Sheep.Model.Content
         /// <param name="decayHalfLife">得分的半衰期。（天）</param>
         /// <returns>得分。</returns>
         Task<float> CalculatePostContentQualityAsync(Post post, float contentWeight = 1.0f, float featuredWeight = 1.0f, float tagsWeight = 1.0f, float viewsWeight = 1.0f, float bookmarksWeight = 1.0f, float commentsWeight = 1.0f, float likesWeight = 1.0f, float ratingsWeight = 1.0f, float sharesWeight = 1.0f, int decayHalfLife = 30);
+
+        /// <summary>
+        ///     计算用户帖子的得分。
+        /// </summary>
+        /// <param name="authorId">作者的用户编号。</param>
+        /// <param name="contentType">内容的类型。</param>
+        /// <param name="tag">分类的标签。</param>
+        /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
+        /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
+        /// <param name="publishedSince">过滤发布日期在指定的时间之后。</param>
+        /// <param name="isPublished">是否已发布。</param>
+        /// <param name="isFeatured">是否标记为精选。</param>
+        /// <param name="status"> 过滤状态。</param>
+        /// <returns>得分。</returns>
+        float CalculateAuthorPostsScore(int authorId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status);
+
+        /// <summary>
+        ///     异步计算用户帖子的得分。
+        /// </summary>
+        /// <param name="authorId">作者的用户编号。</param>
+        /// <param name="contentType">内容的类型。</param>
+        /// <param name="tag">分类的标签。</param>
+        /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
+        /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
+        /// <param name="publishedSince">过滤发布日期在指定的时间之后。</param>
+        /// <param name="isPublished">是否已发布。</param>
+        /// <param name="isFeatured">是否标记为精选。</param>
+        /// <param name="status"> 过滤状态。</param>
+        /// <returns>得分。</returns>
+        Task<float> CalculateAuthorPostsScoreAsync(int authorId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status);
 
         #endregion
 

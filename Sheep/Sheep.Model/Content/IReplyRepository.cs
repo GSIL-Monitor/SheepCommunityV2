@@ -183,6 +183,20 @@ namespace Sheep.Model.Content
         #region 计算
 
         /// <summary>
+        ///     计算内容的得分。
+        /// </summary>
+        /// <param name="reply">回复。</param>
+        /// <returns>得分。</returns>
+        float CalculateReplyContentScore(Reply reply);
+
+        /// <summary>
+        ///     异步计算内容的得分。
+        /// </summary>
+        /// <param name="reply">回复。</param>
+        /// <returns>得分。</returns>
+        Task<float> CalculateReplyContentScoreAsync(Reply reply);
+
+        /// <summary>
         ///     计算投票的得分。
         /// </summary>
         /// <param name="reply">回复。</param>
@@ -200,17 +214,19 @@ namespace Sheep.Model.Content
         ///     计算内容质量的得分。
         /// </summary>
         /// <param name="reply">回复。</param>
+        /// <param name="contentWeight">内容的权重。</param>
         /// <param name="votesWeight">投票的权重。</param>
         /// <returns>得分。</returns>
-        float CalculateReplyContentQuality(Reply reply, float votesWeight = 1.0f);
+        float CalculateReplyContentQuality(Reply reply, float contentWeight = 1.0f, float votesWeight = 1.0f);
 
         /// <summary>
         ///     异步计算内容质量的得分。
         /// </summary>
         /// <param name="reply">回复。</param>
+        /// <param name="contentWeight">内容的权重。</param>
         /// <param name="votesWeight">投票的权重。</param>
         /// <returns>得分。</returns>
-        Task<float> CalculateReplyContentQualityAsync(Reply reply, float votesWeight = 1.0f);
+        Task<float> CalculateReplyContentQualityAsync(Reply reply, float contentWeight = 1.0f, float votesWeight = 1.0f);
 
         #endregion
 

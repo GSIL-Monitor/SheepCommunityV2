@@ -223,6 +223,20 @@ namespace Sheep.Model.Content
         #region 计算
 
         /// <summary>
+        ///     计算内容的得分。
+        /// </summary>
+        /// <param name="comment">评论。</param>
+        /// <returns>得分。</returns>
+        float CalculateCommentContentScore(Comment comment);
+
+        /// <summary>
+        ///     异步计算内容的得分。
+        /// </summary>
+        /// <param name="comment">评论。</param>
+        /// <returns>得分。</returns>
+        Task<float> CalculateCommentContentScoreAsync(Comment comment);
+
+        /// <summary>
         ///     计算精选的得分。
         /// </summary>
         /// <param name="comment">评论。</param>
@@ -268,23 +282,49 @@ namespace Sheep.Model.Content
         ///     计算内容质量的得分。
         /// </summary>
         /// <param name="comment">评论。</param>
+        /// <param name="contentWeight">内容的权重。</param>
         /// <param name="featuredWeight">精选的权重。</param>
         /// <param name="repliesWeight">回复的权重。</param>
         /// <param name="votesWeight">投票的权重。</param>
         /// <param name="decayHalfLife">得分的半衰期。（天）</param>
         /// <returns>得分。</returns>
-        float CalculateCommentContentQuality(Comment comment, float featuredWeight = 1.0f, float repliesWeight = 1.0f, float votesWeight = 1.0f, int decayHalfLife = 180);
+        float CalculateCommentContentQuality(Comment comment, float contentWeight = 1.0f, float featuredWeight = 1.0f, float repliesWeight = 1.0f, float votesWeight = 1.0f, int decayHalfLife = 180);
 
         /// <summary>
         ///     异步计算内容质量的得分。
         /// </summary>
         /// <param name="comment">评论。</param>
+        /// <param name="contentWeight">内容的权重。</param>
         /// <param name="featuredWeight">精选的权重。</param>
         /// <param name="repliesWeight">回复的权重。</param>
         /// <param name="votesWeight">投票的权重。</param>
         /// <param name="decayHalfLife">得分的半衰期。（天）</param>
         /// <returns>得分。</returns>
-        Task<float> CalculateCommentContentQualityAsync(Comment comment, float featuredWeight = 1.0f, float repliesWeight = 1.0f, float votesWeight = 1.0f, int decayHalfLife = 180);
+        Task<float> CalculateCommentContentQualityAsync(Comment comment, float contentWeight = 1.0f, float featuredWeight = 1.0f, float repliesWeight = 1.0f, float votesWeight = 1.0f, int decayHalfLife = 180);
+
+        /// <summary>
+        ///     计算用户评论的得分。
+        /// </summary>
+        /// <param name="userId">用户的编号。</param>
+        /// <param name="parentType">上级的类型。</param>
+        /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
+        /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
+        /// <param name="isFeatured">是否标记为精选。</param>
+        /// <param name="status"> 过滤状态。</param>
+        /// <returns>得分。</returns>
+        float CalculateUserCommentsScore(int userId, string parentType, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status);
+
+        /// <summary>
+        ///     异步计算用户评论的得分。
+        /// </summary>
+        /// <param name="userId">用户的编号。</param>
+        /// <param name="parentType">上级的类型。</param>
+        /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
+        /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
+        /// <param name="isFeatured">是否标记为精选。</param>
+        /// <param name="status"> 过滤状态。</param>
+        /// <returns>得分。</returns>
+        Task<float> CalculateUserCommentsScoreAsync(int userId, string parentType, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status);
 
         #endregion
 

@@ -707,6 +707,84 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
+        public float GetPostsAverageContentScoreByAuthor(int authorId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status)
+        {
+            var query = R.Table(s_PostTable).GetAll(authorId).OptArg("index", "AuthorId").Filter(true);
+            if (!contentType.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ContentType").Eq(contentType));
+            }
+            if (!tag.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("Tags").Contains(tag));
+            }
+            if (createdSince.HasValue)
+            {
+                query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
+            }
+            if (modifiedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("ModifiedDate").Ge(modifiedSince.Value));
+            }
+            if (publishedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("PublishedDate").Ge(publishedSince.Value));
+            }
+            if (isPublished.HasValue)
+            {
+                query = query.Filter(row => row.G("IsPublished").Eq(isPublished.Value));
+            }
+            if (isFeatured.HasValue)
+            {
+                query = query.Filter(row => row.G("IsFeatured").Eq(isFeatured.Value));
+            }
+            if (!status.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("Status").Eq(status));
+            }
+            return query.Avg(row => row.G("ContentQuality")).RunResult<float>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<float> GetPostsAverageContentScoreByAuthorAsync(int authorId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status)
+        {
+            var query = R.Table(s_PostTable).GetAll(authorId).OptArg("index", "AuthorId").Filter(true);
+            if (!contentType.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ContentType").Eq(contentType));
+            }
+            if (!tag.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("Tags").Contains(tag));
+            }
+            if (createdSince.HasValue)
+            {
+                query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
+            }
+            if (modifiedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("ModifiedDate").Ge(modifiedSince.Value));
+            }
+            if (publishedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("PublishedDate").Ge(publishedSince.Value));
+            }
+            if (isPublished.HasValue)
+            {
+                query = query.Filter(row => row.G("IsPublished").Eq(isPublished.Value));
+            }
+            if (isFeatured.HasValue)
+            {
+                query = query.Filter(row => row.G("IsFeatured").Eq(isFeatured.Value));
+            }
+            if (!status.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("Status").Eq(status));
+            }
+            return query.Avg(row => row.G("ContentQuality")).RunResultAsync<float>(_conn);
+        }
+
+        /// <inheritdoc />
         public int GetPostsCountByAuthors(List<int> authorIds, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status)
         {
             var query = R.Table(s_PostTable).GetAll(R.Args(authorIds.ToArray())).OptArg("index", "AuthorId").Filter(true);
@@ -1026,6 +1104,22 @@ namespace Sheep.Model.Content.Repositories
             var decayHalfLifeHours = decayHalfLife * 24.0;
             var passedHours = DateTime.UtcNow.Subtract(post.PublishedDate.Value).TotalHours;
             return (float) (baseScore * Math.Pow(0.5, passedHours / decayHalfLifeHours));
+        }
+
+        /// <inheritdoc />
+        public float CalculateAuthorPostsScore(int authorId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status)
+        {
+            var score = GetPostsAverageContentScoreByAuthor(authorId, tag, contentType, createdSince, modifiedSince, publishedSince, isPublished, isFeatured, status);
+            var count = GetPostsCountByAuthor(authorId, tag, contentType, createdSince, modifiedSince, publishedSince, isPublished, isFeatured, status);
+            return (float) (score * (Math.Atan(4 * (count / 5.0) - 2) / Math.PI + 0.5));
+        }
+
+        /// <inheritdoc />
+        public async Task<float> CalculateAuthorPostsScoreAsync(int authorId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status)
+        {
+            var score = await GetPostsAverageContentScoreByAuthorAsync(authorId, tag, contentType, createdSince, modifiedSince, publishedSince, isPublished, isFeatured, status);
+            var count = await GetPostsCountByAuthorAsync(authorId, tag, contentType, createdSince, modifiedSince, publishedSince, isPublished, isFeatured, status);
+            return (float) (score * (Math.Atan(4 * (count / 5.0) - 2) / Math.PI + 0.5));
         }
 
         /// <inheritdoc />

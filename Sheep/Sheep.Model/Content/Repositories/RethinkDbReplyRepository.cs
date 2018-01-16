@@ -453,6 +453,18 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
+        public float CalculateReplyContentScore(Reply reply)
+        {
+            return Math.Min(1.0f, reply.Content.Length / 1000.0f);
+        }
+
+        /// <inheritdoc />
+        public Task<float> CalculateReplyContentScoreAsync(Reply reply)
+        {
+            return Task.FromResult(Math.Min(1.0f, reply.Content.Length / 1000.0f));
+        }
+
+        /// <inheritdoc />
         public float CalculateReplyVotesScore(Reply reply)
         {
             return Math.Min(1.0f, reply.YesVotesCount / 10.0f) - Math.Min(1.0f, reply.NoVotesCount / 10.0f);
@@ -465,15 +477,15 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public float CalculateReplyContentQuality(Reply reply, float votesWeight = 1.0f)
+        public float CalculateReplyContentQuality(Reply reply, float contentWeight = 1.0f, float votesWeight = 1.0f)
         {
-            return CalculateReplyVotesScore(reply) * votesWeight;
+            return CalculateReplyContentScore(reply) * contentWeight + CalculateReplyVotesScore(reply) * votesWeight;
         }
 
         /// <inheritdoc />
-        public async Task<float> CalculateReplyContentQualityAsync(Reply reply, float votesWeight = 1.0f)
+        public async Task<float> CalculateReplyContentQualityAsync(Reply reply, float contentWeight = 1.0f, float votesWeight = 1.0f)
         {
-            return await CalculateReplyVotesScoreAsync(reply) * votesWeight;
+            return await CalculateReplyContentScoreAsync(reply) * contentWeight + await CalculateReplyVotesScoreAsync(reply) * votesWeight;
         }
 
         /// <inheritdoc />

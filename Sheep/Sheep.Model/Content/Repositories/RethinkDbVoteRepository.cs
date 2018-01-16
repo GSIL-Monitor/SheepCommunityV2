@@ -349,6 +349,20 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
+        public float CalculateUserVotesScore(int userId, string parentType, DateTime? createdSince, DateTime? modifiedSince)
+        {
+            var count = GetVotesCountByUser(userId, parentType, createdSince, modifiedSince);
+            return Math.Min(1.0f, count / 50.0f);
+        }
+
+        /// <inheritdoc />
+        public async Task<float> CalculateUserVotesScoreAsync(int userId, string parentType, DateTime? createdSince, DateTime? modifiedSince)
+        {
+            var count = await GetVotesCountByUserAsync(userId, parentType, createdSince, modifiedSince);
+            return Math.Min(1.0f, count / 50.0f);
+        }
+
+        /// <inheritdoc />
         public Vote CreateVote(Vote newVote)
         {
             newVote.ThrowIfNull(nameof(newVote));

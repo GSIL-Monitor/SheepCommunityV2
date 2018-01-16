@@ -140,6 +140,30 @@ namespace Sheep.Model.Content
 
         #endregion
 
+        #region 计算
+
+        /// <summary>
+        ///     计算用户投票的得分。
+        /// </summary>
+        /// <param name="userId">用户的编号。</param>
+        /// <param name="parentType">上级的类型。</param>
+        /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
+        /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
+        /// <returns>得分。</returns>
+        float CalculateUserVotesScore(int userId, string parentType, DateTime? createdSince, DateTime? modifiedSince);
+
+        /// <summary>
+        ///     异步计算用户投票的得分。
+        /// </summary>
+        /// <param name="userId">用户的编号。</param>
+        /// <param name="parentType">上级的类型。</param>
+        /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
+        /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
+        /// <returns>得分。</returns>
+        Task<float> CalculateUserVotesScoreAsync(int userId, string parentType, DateTime? createdSince, DateTime? modifiedSince);
+
+        #endregion
+
         #region 写入
 
         /// <summary>
