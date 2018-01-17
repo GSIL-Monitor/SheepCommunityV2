@@ -10,6 +10,15 @@ namespace Sheep.ServiceModel.AbuseReports.Validators
     /// </summary>
     public class AbuseReportListByParentValidator : AbstractValidator<AbuseReportListByParent>
     {
+        public static readonly HashSet<string> Statuses = new HashSet<string>
+                                                          {
+                                                              "待处理",
+                                                              "处理中",
+                                                              "已处理",
+                                                              "处理失败",
+                                                              "等待删除"
+                                                          };
+
         public static readonly HashSet<string> OrderBys = new HashSet<string>
                                                           {
                                                               "CreatedDate",
@@ -25,6 +34,7 @@ namespace Sheep.ServiceModel.AbuseReports.Validators
             RuleSet(ApplyTo.Get, () =>
                                  {
                                      RuleFor(x => x.ParentId).NotEmpty().WithMessage(x => string.Format(Resources.ParentIdRequired));
+                                     RuleFor(x => x.Status).Must(status => Statuses.Contains(status)).WithMessage(x => string.Format(Resources.StatusRangeMismatch, Statuses.Join(","))).When(x => !x.Status.IsNullOrEmpty());
                                      RuleFor(x => x.OrderBy).Must(orderBy => OrderBys.Contains(orderBy)).WithMessage(x => string.Format(Resources.OrderByRangeMismatch, OrderBys.Join(","))).When(x => !x.OrderBy.IsNullOrEmpty());
                                  });
         }
@@ -43,6 +53,15 @@ namespace Sheep.ServiceModel.AbuseReports.Validators
                                                                  "回复"
                                                              };
 
+        public static readonly HashSet<string> Statuses = new HashSet<string>
+                                                          {
+                                                              "待处理",
+                                                              "处理中",
+                                                              "已处理",
+                                                              "处理失败",
+                                                              "等待删除"
+                                                          };
+
         public static readonly HashSet<string> OrderBys = new HashSet<string>
                                                           {
                                                               "CreatedDate",
@@ -59,6 +78,7 @@ namespace Sheep.ServiceModel.AbuseReports.Validators
                                  {
                                      RuleFor(x => x.UserId).NotEmpty().WithMessage(x => string.Format(Resources.UserIdRequired));
                                      RuleFor(x => x.ParentType).Must(contentType => ParentTypes.Contains(contentType)).WithMessage(x => string.Format(Resources.ParentTypeRangeMismatch, ParentTypes.Join(","))).When(x => !x.ParentType.IsNullOrEmpty());
+                                     RuleFor(x => x.Status).Must(status => Statuses.Contains(status)).WithMessage(x => string.Format(Resources.StatusRangeMismatch, Statuses.Join(","))).When(x => !x.Status.IsNullOrEmpty());
                                      RuleFor(x => x.OrderBy).Must(orderBy => OrderBys.Contains(orderBy)).WithMessage(x => string.Format(Resources.OrderByRangeMismatch, OrderBys.Join(","))).When(x => !x.OrderBy.IsNullOrEmpty());
                                  });
         }

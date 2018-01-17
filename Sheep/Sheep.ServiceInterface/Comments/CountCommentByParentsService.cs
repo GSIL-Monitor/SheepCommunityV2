@@ -68,7 +68,6 @@ namespace Sheep.ServiceInterface.Comments
                                                                                                                                     {
                                                                                                                                         CommentsCount = commentsCountsMap.GetValueOrDefault(parentId)
                                                                                                                                     }))
-                                                 .Where(kv => kv.Value.CommentsCount > 0)
                                                  .ToDictionary(pair => pair.Key, pair => pair.Value);
             return new CommentCountByParentsResponse
                    {
