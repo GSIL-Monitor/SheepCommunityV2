@@ -99,6 +99,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbuseReports\AbuseReportCreate.cs" />
+    <Compile Include="AbuseReports\AbuseReportDelete.cs" />
+    <Compile Include="AbuseReports\AbuseReportList.cs" />
+    <Compile Include="AbuseReports\AbuseReportShow.cs" />
+    <Compile Include="AbuseReports\AbuseReportUpdate.cs" />
+    <Compile Include="AbuseReports\Entities\AbuseReportDto.cs" />
+    <Compile Include="AbuseReports\Validators\AbuseReportCreateValidator.cs" />
+    <Compile Include="AbuseReports\Validators\AbuseReportDeleteValidator.cs" />
+    <Compile Include="AbuseReports\Validators\AbuseReportListValidator.cs" />
+    <Compile Include="AbuseReports\Validators\AbuseReportShowValidator.cs" />
+    <Compile Include="AbuseReports\Validators\AbuseReportUpdateValidator.cs" />
     <Compile Include="Accounts\AccountChangeCoverPhoto.cs" />
     <Compile Include="Accounts\AccountChangeBirthDate.cs" />
     <Compile Include="Accounts\AccountChangeAvartar.cs" />
@@ -187,11 +198,14 @@
     <Compile Include="Comments\CommentList.cs" />
     <Compile Include="Comments\CommentShow.cs" />
     <Compile Include="Comments\CommentUpdate.cs" />
+    <Compile Include="Comments\Entities\CommentCountsDto.cs" />
     <Compile Include="Comments\Validators\CommentCreateValidator.cs" />
     <Compile Include="Comments\Validators\CommentDeleteValidator.cs" />
     <Compile Include="Comments\Validators\CommentListValidator.cs" />
     <Compile Include="Comments\Validators\CommentShowValidator.cs" />
     <Compile Include="Comments\Validators\CommentUpdateValidator.cs" />
+    <Compile Include="Comments\CommentCount.cs" />
+    <Compile Include="Comments\Validators\CommentCountValidator.cs" />
     <Compile Include="Files\FileUploadImage.cs" />
     <Compile Include="Follows\Entities\FollowOfFollowerDto.cs" />
     <Compile Include="Follows\Entities\FollowOfOwnerDto.cs" />

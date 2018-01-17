@@ -114,6 +114,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbuseReports\ChangeAbuseReportService.cs" />
+    <Compile Include="AbuseReports\CreateAbuseReportService.cs" />
+    <Compile Include="AbuseReports\DeleteAbuseReportService.cs" />
+    <Compile Include="AbuseReports\ListAbuseReportByParentService.cs" />
+    <Compile Include="AbuseReports\ListAbuseReportByUserService.cs" />
+    <Compile Include="AbuseReports\Mappers\AbuseReportToAbuseReportDtoMapper.cs" />
+    <Compile Include="AbuseReports\ShowAbuseReportService.cs" />
     <Compile Include="Accounts\ChangeAccountCoverPhotoService.cs" />
     <Compile Include="Accounts\ChangeAccountBirthDateService.cs" />
     <Compile Include="Accounts\ChangeAccountAvatarService.cs" />
@@ -171,6 +178,8 @@
     <Compile Include="Cities\ShowCityByNameService.cs" />
     <Compile Include="Cities\ShowCityService.cs" />
     <Compile Include="Comments\ChangeCommentService.cs" />
+    <Compile Include="Comments\CountCommentByParentService.cs" />
+    <Compile Include="Comments\CountCommentByParentsService.cs" />
     <Compile Include="Comments\CreateCommentService.cs" />
     <Compile Include="Comments\DeleteCommentService.cs" />
     <Compile Include="Comments\ListCommentByParentService.cs" />

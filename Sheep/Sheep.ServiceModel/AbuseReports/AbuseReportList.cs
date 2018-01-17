@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using ServiceStack;
-using Sheep.ServiceModel.Comments.Entities;
+using Sheep.ServiceModel.AbuseReports.Entities;
 
-namespace Sheep.ServiceModel.Comments
+namespace Sheep.ServiceModel.AbuseReports
 {
     /// <summary>
-    ///     根据上级查询并列举一组评论的请求。
+    ///     根据上级查询并列举一组举报的请求。
     /// </summary>
-    [Route("/comments/query/byparent", HttpMethods.Get, Summary = "根据上级查询并列举一组评论信息")]
+    [Route("/abusereports/query/byparent", HttpMethods.Get, Summary = "根据上级查询并列举一组举报信息")]
     [DataContract]
-    public class CommentListByParent : IReturn<CommentListResponse>
+    public class AbuseReportListByParent : IReturn<AbuseReportListResponse>
     {
         /// <summary>
         ///     上级编号。（如帖子编号）
@@ -42,18 +42,17 @@ namespace Sheep.ServiceModel.Comments
         public DateTime? ModifiedSince { get; set; }
 
         /// <summary>
-        ///     是否标记为精选。
+        ///     状态。（可选值：待处理, 处理中, 已处理, 处理失败, 等待删除）
         /// </summary>
-        [DataMember(Order = 5, Name = "isfeatured")]
-        [ApiMember(Description = "是否标记为精选")]
-        public bool? IsFeatured { get; set; }
+        [DataMember(Order = 5, Name = "status")]
+        [ApiMember(Description = "状态（可选值：待处理, 处理中, 已处理, 处理失败, 等待删除）")]
+        public string Status { get; set; }
 
         /// <summary>
-        ///     排序的字段。（可选值：CreatedDate, ModifiedDate, RepliesCount, VotesCount, YesVotesCount, NoVotesCount,
-        ///     ContentQuality 默认为 CreatedDate）
+        ///     排序的字段。（可选值：CreatedDate, ModifiedDate 默认为 CreatedDate）
         /// </summary>
         [DataMember(Order = 6, Name = "orderby")]
-        [ApiMember(Description = "排序的字段（可选值：CreatedDate, ModifiedDate, RepliesCount, VotesCount, YesVotesCount, NoVotesCount, ContentQuality 默认为 CreatedDate）")]
+        [ApiMember(Description = "排序的字段（可选值：CreatedDate, ModifiedDate 默认为 CreatedDate）")]
         public string OrderBy { get; set; }
 
         /// <summary>
@@ -79,11 +78,11 @@ namespace Sheep.ServiceModel.Comments
     }
 
     /// <summary>
-    ///     根据用户查询并列举一组评论的请求。
+    ///     根据用户查询并列举一组举报的请求。
     /// </summary>
-    [Route("/comments/query/byuser", HttpMethods.Get, Summary = "根据用户查询并列举一组评论信息")]
+    [Route("/abusereports/query/byuser", HttpMethods.Get, Summary = "根据用户查询并列举一组举报信息")]
     [DataContract]
-    public class CommentListByUser : IReturn<CommentListResponse>
+    public class AbuseReportListByUser : IReturn<AbuseReportListResponse>
     {
         /// <summary>
         ///     用户编号。
@@ -93,10 +92,10 @@ namespace Sheep.ServiceModel.Comments
         public int UserId { get; set; }
 
         /// <summary>
-        ///     上级类型。（可选值：帖子, 章, 节）
+        ///     上级类型。（可选值：用户, 帖子, 评论, 回复）
         /// </summary>
         [DataMember(Order = 2, Name = "parenttype")]
-        [ApiMember(Description = "上级类型（可选值：帖子, 章, 节）")]
+        [ApiMember(Description = "上级类型（可选值：用户, 帖子, 评论, 回复）")]
         public string ParentType { get; set; }
 
         /// <summary>
@@ -114,18 +113,17 @@ namespace Sheep.ServiceModel.Comments
         public DateTime? ModifiedSince { get; set; }
 
         /// <summary>
-        ///     是否标记为精选。
+        ///     状态。（可选值：待处理, 处理中, 已处理, 处理失败, 等待删除）
         /// </summary>
-        [DataMember(Order = 5, Name = "isfeatured")]
-        [ApiMember(Description = "是否标记为精选")]
-        public bool? IsFeatured { get; set; }
+        [DataMember(Order = 5, Name = "status")]
+        [ApiMember(Description = "状态（可选值：待处理, 处理中, 已处理, 处理失败, 等待删除）")]
+        public string Status { get; set; }
 
         /// <summary>
-        ///     排序的字段。（可选值：CreatedDate, ModifiedDate, RepliesCount, VotesCount, YesVotesCount, NoVotesCount,
-        ///     ContentQuality 默认为 CreatedDate）
+        ///     排序的字段。（可选值：CreatedDate, ModifiedDate 默认为 CreatedDate）
         /// </summary>
         [DataMember(Order = 6, Name = "orderby")]
-        [ApiMember(Description = "排序的字段（可选值：CreatedDate, ModifiedDate, RepliesCount, VotesCount, YesVotesCount, NoVotesCount, ContentQuality 默认为 CreatedDate）")]
+        [ApiMember(Description = "排序的字段（可选值：CreatedDate, ModifiedDate 默认为 CreatedDate）")]
         public string OrderBy { get; set; }
 
         /// <summary>
@@ -151,17 +149,17 @@ namespace Sheep.ServiceModel.Comments
     }
 
     /// <summary>
-    ///     查询并列举一组评论的响应。
+    ///     查询并列举一组举报的响应。
     /// </summary>
     [DataContract]
-    public class CommentListResponse : IHasResponseStatus
+    public class AbuseReportListResponse : IHasResponseStatus
     {
         /// <summary>
-        ///     评论信息列表。
+        ///     举报信息列表。
         /// </summary>
         [DataMember(Order = 1)]
-        [ApiMember(Description = "评论信息列表")]
-        public List<CommentDto> Comments { get; set; }
+        [ApiMember(Description = "举报信息列表")]
+        public List<AbuseReportDto> AbuseReports { get; set; }
 
         /// <summary>
         ///     处理响应的状态。

@@ -556,6 +556,15 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
+        ///   查找类似 理由必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string ReasonRequired {
+            get {
+                return ResourceManager.GetString("ReasonRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 关联的第三方编号必须输入。 的本地化字符串。
         /// </summary>
         internal static string RefIdRequired {
@@ -570,6 +579,15 @@ namespace Sheep.ServiceModel.Properties {
         internal static string ReplyIdRequired {
             get {
                 return ResourceManager.GetString("ReplyIdRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 举报编号必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string ReportIdRequired {
+            get {
+                return ResourceManager.GetString("ReportIdRequired", resourceCulture);
             }
         }
         

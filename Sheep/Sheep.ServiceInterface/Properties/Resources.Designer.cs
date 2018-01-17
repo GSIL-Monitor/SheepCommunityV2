@@ -61,6 +61,24 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
+        ///   查找类似 无法找到指定的举报{0}。 的本地化字符串。
+        /// </summary>
+        internal static string AbuseReportNotFound {
+            get {
+                return ResourceManager.GetString("AbuseReportNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定的举报列表。 的本地化字符串。
+        /// </summary>
+        internal static string AbuseReportsNotFound {
+            get {
+                return ResourceManager.GetString("AbuseReportsNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 无法找到指定的收藏{0}。 的本地化字符串。
         /// </summary>
         internal static string BookmarkNotFound {

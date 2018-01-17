@@ -282,4 +282,10 @@
   <data name="ViewsNotFound" xml:space="preserve">
     <value>无法找到指定条件的阅读列表。</value>
   </data>
+  <data name="AbuseReportNotFound" xml:space="preserve">
+    <value>无法找到指定的举报{0}。</value>
+  </data>
+  <data name="AbuseReportsNotFound" xml:space="preserve">
+    <value>无法找到指定的举报列表。</value>
+  </data>
 </root>
