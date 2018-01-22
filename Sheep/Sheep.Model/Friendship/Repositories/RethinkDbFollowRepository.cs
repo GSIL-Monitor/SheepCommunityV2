@@ -162,11 +162,11 @@ namespace Sheep.Model.Friendship.Repositories
             var query = R.Table(s_FollowTable).GetAll(ownerId).OptArg("index", "OwnerId").Filter(true);
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value));
             }
             if (modifiedSince.HasValue)
             {
-                query = query.Filter(row => row.G("ModifiedDate").Ge(modifiedSince.Value));
+                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value));
             }
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
@@ -186,11 +186,11 @@ namespace Sheep.Model.Friendship.Repositories
             var query = R.Table(s_FollowTable).GetAll(ownerId).OptArg("index", "OwnerId").Filter(true);
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value));
             }
             if (modifiedSince.HasValue)
             {
-                query = query.Filter(row => row.G("ModifiedDate").Ge(modifiedSince.Value));
+                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value));
             }
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
@@ -210,11 +210,11 @@ namespace Sheep.Model.Friendship.Repositories
             var query = R.Table(s_FollowTable).GetAll(followerId).OptArg("index", "FollowerId").Filter(true);
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value));
             }
             if (modifiedSince.HasValue)
             {
-                query = query.Filter(row => row.G("ModifiedDate").Ge(modifiedSince.Value));
+                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value));
             }
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
@@ -234,11 +234,11 @@ namespace Sheep.Model.Friendship.Repositories
             var query = R.Table(s_FollowTable).GetAll(followerId).OptArg("index", "FollowerId").Filter(true);
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Ge(createdSince.Value));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value));
             }
             if (modifiedSince.HasValue)
             {
-                query = query.Filter(row => row.G("ModifiedDate").Ge(modifiedSince.Value));
+                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value));
             }
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())

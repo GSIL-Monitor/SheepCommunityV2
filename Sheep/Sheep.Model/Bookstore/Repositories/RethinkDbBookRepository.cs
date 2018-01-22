@@ -185,7 +185,7 @@ namespace Sheep.Model.Bookstore.Repositories
             }
             if (publishedSince.HasValue)
             {
-                query = query.Filter(row => row.G("PublishedDate").Ge(publishedSince.Value));
+                query = query.Filter(row => row.G("PublishedDate").Gt(publishedSince.Value));
             }
             if (isPublished.HasValue)
             {
@@ -217,7 +217,7 @@ namespace Sheep.Model.Bookstore.Repositories
             }
             if (publishedSince.HasValue)
             {
-                query = query.Filter(row => row.G("PublishedDate").Ge(publishedSince.Value));
+                query = query.Filter(row => row.G("PublishedDate").Gt(publishedSince.Value));
             }
             if (isPublished.HasValue)
             {
@@ -249,7 +249,7 @@ namespace Sheep.Model.Bookstore.Repositories
             }
             if (publishedSince.HasValue)
             {
-                query = query.Filter(row => row.G("PublishedDate").Ge(publishedSince.Value));
+                query = query.Filter(row => row.G("PublishedDate").Gt(publishedSince.Value));
             }
             if (isPublished.HasValue)
             {
@@ -272,7 +272,7 @@ namespace Sheep.Model.Bookstore.Repositories
             }
             if (publishedSince.HasValue)
             {
-                query = query.Filter(row => row.G("PublishedDate").Ge(publishedSince.Value));
+                query = query.Filter(row => row.G("PublishedDate").Gt(publishedSince.Value));
             }
             if (isPublished.HasValue)
             {
