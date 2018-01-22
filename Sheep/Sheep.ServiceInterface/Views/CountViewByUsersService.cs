@@ -6,6 +6,7 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
+using ServiceStack.Text;
 using Sheep.Model.Bookstore;
 using Sheep.Model.Content;
 using Sheep.ServiceModel.Views;
@@ -78,9 +79,9 @@ namespace Sheep.ServiceInterface.Views
             //{
             //    ViewCountByUsersValidator.ValidateAndThrow(request, ApplyTo.Get);
             //}
-            var viewsCountsMap = (await ViewRepo.GetViewsCountByUsersAsync(request.UserIds, request.ParentType, request.ParentIdPrefix, request.CreatedSince)).ToDictionary(pair => pair.Key, pair => pair.Value);
-            var parentsCountsMap = (await ViewRepo.GetParentsCountByUsersAsync(request.UserIds, request.ParentType, request.ParentIdPrefix, request.CreatedSince)).ToDictionary(pair => pair.Key, pair => pair.Value);
-            var daysCountsMap = (await ViewRepo.GetDaysCountByUsersAsync(request.UserIds, request.ParentType, request.ParentIdPrefix, request.CreatedSince)).ToDictionary(pair => pair.Key, pair => pair.Value);
+            var viewsCountsMap = (await ViewRepo.GetViewsCountByUsersAsync(request.UserIds, request.ParentType, request.ParentIdPrefix, request.CreatedSince?.FromUnixTime())).ToDictionary(pair => pair.Key, pair => pair.Value);
+            var parentsCountsMap = (await ViewRepo.GetParentsCountByUsersAsync(request.UserIds, request.ParentType, request.ParentIdPrefix, request.CreatedSince?.FromUnixTime())).ToDictionary(pair => pair.Key, pair => pair.Value);
+            var daysCountsMap = (await ViewRepo.GetDaysCountByUsersAsync(request.UserIds, request.ParentType, request.ParentIdPrefix, request.CreatedSince?.FromUnixTime())).ToDictionary(pair => pair.Key, pair => pair.Value);
             var usersViewCountsDto = request.UserIds.Select(userId => new KeyValuePair<int, ViewCountsDto>(userId, new ViewCountsDto
                                                                                                                    {
                                                                                                                        ViewsCount = viewsCountsMap.GetValueOrDefault(userId),

@@ -313,12 +313,7 @@
     <Compile Include="Countries\CountryList.cs" />
     <Compile Include="Countries\CountryShow.cs" />
     <Compile Include="Countries\Validators\CountryShowValidator.cs" />
-    <Compile Include="GroupUsers\Entities\GroupUserDto.cs" />
     <Compile Include="Groups\Entities\GroupDto.cs" />
-    <Compile Include="GroupUsers\GroupUserList.cs" />
-    <Compile Include="GroupUsers\GroupUserShow.cs" />
-    <Compile Include="GroupUsers\GroupUserDelete.cs" />
-    <Compile Include="GroupUsers\GroupUserCreate.cs" />
     <Compile Include="Accounts\AccountBind.cs" />
     <Compile Include="Accounts\AccountRegister.cs" />
     <Compile Include="Accounts\Validators\AccountRegisterValidator.cs" />

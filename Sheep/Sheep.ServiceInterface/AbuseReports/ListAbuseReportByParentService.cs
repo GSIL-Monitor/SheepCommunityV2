@@ -5,6 +5,7 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
+using ServiceStack.Text;
 using Sheep.Common.Auth;
 using Sheep.Model.Content;
 using Sheep.ServiceInterface.AbuseReports.Mappers;
@@ -73,7 +74,7 @@ namespace Sheep.ServiceInterface.AbuseReports
             //    AbuseReportListByParentValidator.ValidateAndThrow(request, ApplyTo.Get);
             //}
             var currentUserId = GetSession().UserAuthId.ToInt(0);
-            var existingAbuseReports = await AbuseReportRepo.FindAbuseReportsByParentAsync(request.ParentId, request.IsMine.HasValue && request.IsMine.Value ? currentUserId : (int?) null, request.CreatedSince, request.ModifiedSince, request.Status, request.OrderBy, request.Descending, request.Skip, request.Limit);
+            var existingAbuseReports = await AbuseReportRepo.FindAbuseReportsByParentAsync(request.ParentId, request.IsMine.HasValue && request.IsMine.Value ? currentUserId : (int?) null, request.CreatedSince?.FromUnixTime(), request.ModifiedSince?.FromUnixTime(), request.Status, request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingAbuseReports == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.AbuseReportsNotFound));

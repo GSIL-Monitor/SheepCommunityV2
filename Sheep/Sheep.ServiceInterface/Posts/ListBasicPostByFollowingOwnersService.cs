@@ -5,6 +5,7 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
+using ServiceStack.Text;
 using Sheep.Common.Auth;
 using Sheep.Model.Content;
 using Sheep.Model.Friendship;
@@ -79,7 +80,7 @@ namespace Sheep.ServiceInterface.Posts
             {
                 throw HttpError.NotFound(string.Format(Resources.FollowsNotFound));
             }
-            var existingPosts = await PostRepo.FindPostsByAuthorsAsync(existingFollows.Select(follow => follow.OwnerId).Distinct().ToList(), request.Tag, request.ContentType, request.CreatedSince, request.ModifiedSince, request.PublishedSince, request.IsPublished ?? true, request.IsFeatured, "审核通过", request.OrderBy, request.Descending, request.Skip, request.Limit);
+            var existingPosts = await PostRepo.FindPostsByAuthorsAsync(existingFollows.Select(follow => follow.OwnerId).Distinct().ToList(), request.Tag, request.ContentType, request.CreatedSince?.FromUnixTime(), request.ModifiedSince?.FromUnixTime(), request.PublishedSince?.FromUnixTime(), request.IsPublished ?? true, request.IsFeatured, "审核通过", request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingPosts == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.PostsNotFound));

@@ -32,7 +32,7 @@ namespace Sheep.ServiceModel.Views
         /// </summary>
         [DataMember(Order = 3, Name = "createdsince")]
         [ApiMember(Description = "创建日期在指定的时间之后")]
-        public DateTime? CreatedSince { get; set; }
+        public long? CreatedSince { get; set; }
 
         /// <summary>
         ///     排序的字段。（可选值：ParentId, CreatedDate 默认为 CreatedDate）
@@ -96,7 +96,7 @@ namespace Sheep.ServiceModel.Views
         /// </summary>
         [DataMember(Order = 4, Name = "createdsince")]
         [ApiMember(Description = "创建日期在指定的时间之后")]
-        public DateTime? CreatedSince { get; set; }
+        public long? CreatedSince { get; set; }
 
         /// <summary>
         ///     排序的字段。（可选值：ParentId, CreatedDate 默认为 CreatedDate）

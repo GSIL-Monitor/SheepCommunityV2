@@ -25,14 +25,14 @@ namespace Sheep.ServiceModel.Replies
         /// </summary>
         [DataMember(Order = 2, Name = "createdsince")]
         [ApiMember(Description = "创建日期在指定的时间之后")]
-        public DateTime? CreatedSince { get; set; }
+        public long? CreatedSince { get; set; }
 
         /// <summary>
         ///     修改日期在指定的时间之后。
         /// </summary>
         [DataMember(Order = 3, Name = "modifiedsince")]
         [ApiMember(Description = "修改日期在指定的时间之后")]
-        public DateTime? ModifiedSince { get; set; }
+        public long? ModifiedSince { get; set; }
 
         /// <summary>
         ///     排序的字段。（可选值：CreatedDate, ModifiedDate, VotesCount, YesVotesCount, NoVotesCount,
@@ -90,14 +90,14 @@ namespace Sheep.ServiceModel.Replies
         /// </summary>
         [DataMember(Order = 3, Name = "createdsince")]
         [ApiMember(Description = "创建日期在指定的时间之后")]
-        public DateTime? CreatedSince { get; set; }
+        public long? CreatedSince { get; set; }
 
         /// <summary>
         ///     修改日期在指定的时间之后。
         /// </summary>
         [DataMember(Order = 4, Name = "modifiedsince")]
         [ApiMember(Description = "修改日期在指定的时间之后")]
-        public DateTime? ModifiedSince { get; set; }
+        public long? ModifiedSince { get; set; }
 
         /// <summary>
         ///     排序的字段。（可选值：CreatedDate, ModifiedDate, VotesCount, YesVotesCount, NoVotesCount,

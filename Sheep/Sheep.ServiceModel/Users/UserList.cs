@@ -32,21 +32,21 @@ namespace Sheep.ServiceModel.Users
         /// </summary>
         [DataMember(Order = 3, Name = "createdsince")]
         [ApiMember(Description = "创建日期在指定的时间之后")]
-        public DateTime? CreatedSince { get; set; }
+        public long? CreatedSince { get; set; }
 
         /// <summary>
         ///     修改日期在指定的时间之后。
         /// </summary>
         [DataMember(Order = 4, Name = "modifiedsince")]
         [ApiMember(Description = "创建日期在指定的时间之后")]
-        public DateTime? ModifiedSince { get; set; }
+        public long? ModifiedSince { get; set; }
 
         /// <summary>
         ///     锁定日期在指定的时间之后。
         /// </summary>
         [DataMember(Order = 5, Name = "lockedsince")]
         [ApiMember(Description = "锁定日期在指定的时间之后")]
-        public DateTime? LockedSince { get; set; }
+        public long? LockedSince { get; set; }
 
         /// <summary>
         ///     排序的字段。（可选值：UserName, Email, DisplayName, FullName, BirthDate, TimeZone, Language, Status, CreatedDate,
@@ -97,21 +97,21 @@ namespace Sheep.ServiceModel.Users
         /// </summary>
         [DataMember(Order = 2, Name = "createdsince")]
         [ApiMember(Description = "创建日期在指定的时间之后")]
-        public DateTime? CreatedSince { get; set; }
+        public long? CreatedSince { get; set; }
 
         /// <summary>
         ///     修改日期在指定的时间之后。
         /// </summary>
         [DataMember(Order = 3, Name = "modifiedsince")]
         [ApiMember(Description = "创建日期在指定的时间之后")]
-        public DateTime? ModifiedSince { get; set; }
+        public long? ModifiedSince { get; set; }
 
         /// <summary>
         ///     锁定日期在指定的时间之后。
         /// </summary>
         [DataMember(Order = 4, Name = "lockedsince")]
         [ApiMember(Description = "锁定日期在指定的时间之后")]
-        public DateTime? LockedSince { get; set; }
+        public long? LockedSince { get; set; }
 
         /// <summary>
         ///     排序的字段。（可选值：UserName, Email, DisplayName, CreatedDate, ModifiedDate, 默认为 CreatedDate）

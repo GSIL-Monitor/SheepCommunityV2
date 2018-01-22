@@ -4,6 +4,7 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
+using ServiceStack.Text;
 using Sheep.Model.Bookstore;
 using Sheep.Model.Content;
 using Sheep.ServiceModel.Views;
@@ -77,9 +78,9 @@ namespace Sheep.ServiceInterface.Views
             //    ViewCountByParentValidator.ValidateAndThrow(request, ApplyTo.Get);
             //}
             var currentUserId = GetSession().UserAuthId.ToInt(0);
-            var viewsCount = await ViewRepo.GetViewsCountByParentAsync(request.ParentId, request.IsMine.HasValue && request.IsMine.Value ? currentUserId : (int?) null, request.CreatedSince);
+            var viewsCount = await ViewRepo.GetViewsCountByParentAsync(request.ParentId, request.IsMine.HasValue && request.IsMine.Value ? currentUserId : (int?) null, request.CreatedSince?.FromUnixTime());
             var parentsCount = 1;
-            var daysCount = await ViewRepo.GetDaysCountByParentAsync(request.ParentId, request.IsMine.HasValue && request.IsMine.Value ? currentUserId : (int?) null, request.CreatedSince);
+            var daysCount = await ViewRepo.GetDaysCountByParentAsync(request.ParentId, request.IsMine.HasValue && request.IsMine.Value ? currentUserId : (int?) null, request.CreatedSince?.FromUnixTime());
             return new ViewCountResponse
                    {
                        Counts = new ViewCountsDto

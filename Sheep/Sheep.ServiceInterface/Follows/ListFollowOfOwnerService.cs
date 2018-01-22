@@ -5,6 +5,7 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
+using ServiceStack.Text;
 using Sheep.Common.Auth;
 using Sheep.Model.Friendship;
 using Sheep.ServiceInterface.Follows.Mappers;
@@ -63,7 +64,7 @@ namespace Sheep.ServiceInterface.Follows
             //{
             //    FollowListOfOwnerValidator.ValidateAndThrow(request, ApplyTo.Get);
             //}
-            var existingFollows = await FollowRepo.FindFollowsByFollowerAsync(request.FollowerId, request.CreatedSince, request.ModifiedSince, request.OrderBy, request.Descending, request.Skip, request.Limit);
+            var existingFollows = await FollowRepo.FindFollowsByFollowerAsync(request.FollowerId, request.CreatedSince?.FromUnixTime(), request.ModifiedSince?.FromUnixTime(), request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingFollows == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.FollowsNotFound));

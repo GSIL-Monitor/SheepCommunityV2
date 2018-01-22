@@ -32,7 +32,7 @@ namespace Sheep.ServiceModel.Books
         /// </summary>
         [DataMember(Order = 3, Name = "publishedsince")]
         [ApiMember(Description = "发布日期在指定的时间之后")]
-        public DateTime? PublishedSince { get; set; }
+        public long? PublishedSince { get; set; }
 
         /// <summary>
         ///     是否已发布。

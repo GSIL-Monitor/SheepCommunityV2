@@ -4,6 +4,7 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
+using ServiceStack.Text;
 using Sheep.Model.Content;
 using Sheep.ServiceModel.Comments;
 using Sheep.ServiceModel.Comments.Entities;
@@ -61,7 +62,7 @@ namespace Sheep.ServiceInterface.Comments
             //    CommentCountByParentValidator.ValidateAndThrow(request, ApplyTo.Get);
             //}
             var currentUserId = GetSession().UserAuthId.ToInt(0);
-            var commentsCount = await CommentRepo.GetCommentsCountByParentAsync(request.ParentId, request.IsMine.HasValue && request.IsMine.Value ? currentUserId : (int?) null, request.CreatedSince, request.ModifiedSince, request.IsFeatured, "审核通过");
+            var commentsCount = await CommentRepo.GetCommentsCountByParentAsync(request.ParentId, request.IsMine.HasValue && request.IsMine.Value ? currentUserId : (int?) null, request.CreatedSince?.FromUnixTime(), request.ModifiedSince?.FromUnixTime(), request.IsFeatured, "审核通过");
             return new CommentCountResponse
                    {
                        Counts = new CommentCountsDto

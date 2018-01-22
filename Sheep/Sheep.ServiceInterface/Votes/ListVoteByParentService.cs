@@ -5,6 +5,7 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
+using ServiceStack.Text;
 using Sheep.Common.Auth;
 using Sheep.Model.Content;
 using Sheep.ServiceInterface.Properties;
@@ -63,7 +64,7 @@ namespace Sheep.ServiceInterface.Votes
             //{
             //    VoteListByParentValidator.ValidateAndThrow(request, ApplyTo.Get);
             //}
-            var existingVotes = await VoteRepo.FindVotesByParentAsync(request.ParentId, request.CreatedSince, request.ModifiedSince, request.OrderBy, request.Descending, request.Skip, request.Limit);
+            var existingVotes = await VoteRepo.FindVotesByParentAsync(request.ParentId, request.CreatedSince?.FromUnixTime(), request.ModifiedSince?.FromUnixTime(), request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingVotes == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.VotesNotFound));

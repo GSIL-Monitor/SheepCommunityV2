@@ -5,6 +5,7 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
+using ServiceStack.Text;
 using Sheep.Model.Bookstore;
 using Sheep.ServiceInterface.Books.Mappers;
 using Sheep.ServiceInterface.Properties;
@@ -62,7 +63,7 @@ namespace Sheep.ServiceInterface.Books
             //{
             //    BookListValidator.ValidateAndThrow(request, ApplyTo.Get);
             //}
-            var existingBooks = await BookRepo.FindBooksAsync(request.TitleFilter, request.Tag, request.PublishedSince, request.IsPublished, request.OrderBy, request.Descending, request.Skip, request.Limit);
+            var existingBooks = await BookRepo.FindBooksAsync(request.TitleFilter, request.Tag, request.PublishedSince?.FromUnixTime(), request.IsPublished, request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingBooks == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.BooksNotFound));
