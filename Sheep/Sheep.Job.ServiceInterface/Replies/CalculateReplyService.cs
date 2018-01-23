@@ -4,6 +4,7 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
+using ServiceStack.Text;
 using Sheep.Job.ServiceInterface.Properties;
 using Sheep.Job.ServiceModel.Replies;
 using Sheep.Model.Content;
@@ -59,7 +60,7 @@ namespace Sheep.Job.ServiceInterface.Replies
             //{
             //    ReplyCalculateValidator.ValidateAndThrow(request, ApplyTo.Put);
             //}
-            var existingReplies = await ReplyRepo.FindRepliesAsync(request.ParentType, request.CreatedSince, request.ModifiedSince, "审核通过", request.OrderBy, request.Descending, request.Skip, request.Limit);
+            var existingReplies = await ReplyRepo.FindRepliesAsync(request.ParentType, request.CreatedSince?.FromUnixTime(), request.ModifiedSince?.FromUnixTime(), "审核通过", request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingReplies == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.RepliesNotFound));

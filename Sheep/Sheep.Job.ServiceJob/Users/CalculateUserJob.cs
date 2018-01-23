@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Quartz;
 using ServiceStack;
 using ServiceStack.Logging;
+using ServiceStack.Text;
 using Sheep.Job.ServiceInterface.Users;
 using Sheep.Job.ServiceModel.Users;
 
@@ -57,9 +58,9 @@ namespace Sheep.Job.ServiceJob.Users
                               {
                                   UserNameFilter = data.GetString("UserNameFilter"),
                                   NameFilter = data.GetString("NameFilter"),
-                                  CreatedSince = data.GetString("CreatedSinceDays").IsNullOrEmpty() ? (DateTime?) null : DateTime.UtcNow.Date.AddDays(-data.GetIntValueFromString("CreatedSinceDays")),
-                                  ModifiedSince = data.GetString("ModifiedSinceDays").IsNullOrEmpty() ? (DateTime?) null : DateTime.UtcNow.Date.AddDays(-data.GetIntValueFromString("ModifiedSinceDays")),
-                                  LockedSince = data.GetString("LockedSinceDays").IsNullOrEmpty() ? (DateTime?) null : DateTime.UtcNow.Date.AddDays(-data.GetIntValueFromString("LockedSinceDays")),
+                                  CreatedSince = data.GetString("CreatedSinceDays").IsNullOrEmpty() ? (long?) null : DateTime.UtcNow.Date.AddDays(-data.GetIntValueFromString("CreatedSinceDays")).ToUnixTime(),
+                                  ModifiedSince = data.GetString("ModifiedSinceDays").IsNullOrEmpty() ? (long?) null : DateTime.UtcNow.Date.AddDays(-data.GetIntValueFromString("ModifiedSinceDays")).ToUnixTime(),
+                                  LockedSince = data.GetString("LockedSinceDays").IsNullOrEmpty() ? (long?) null : DateTime.UtcNow.Date.AddDays(-data.GetIntValueFromString("LockedSinceDays")).ToUnixTime(),
                                   OrderBy = data.GetString("OrderBy"),
                                   Descending = data.GetString("Descending").IsNullOrEmpty() ? (bool?) null : data.GetBooleanValueFromString("Descending"),
                                   Skip = data.GetString("Skip").IsNullOrEmpty() ? (int?) null : data.GetIntValueFromString("Skip"),

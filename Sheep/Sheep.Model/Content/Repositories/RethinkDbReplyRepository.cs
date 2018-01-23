@@ -148,11 +148,11 @@ namespace Sheep.Model.Content.Repositories
             }
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddMilliseconds(1)));
             }
             if (modifiedSince.HasValue)
             {
-                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value));
+                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value.AddMilliseconds(1)));
             }
             if (!status.IsNullOrEmpty())
             {
@@ -180,11 +180,11 @@ namespace Sheep.Model.Content.Repositories
             }
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddMilliseconds(1)));
             }
             if (modifiedSince.HasValue)
             {
-                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value));
+                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value.AddMilliseconds(1)));
             }
             if (!status.IsNullOrEmpty())
             {
@@ -208,11 +208,11 @@ namespace Sheep.Model.Content.Repositories
             var query = R.Table(s_ReplyTable).GetAll(parentId).OptArg("index", "ParentId").Filter(true);
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddMilliseconds(1)));
             }
             if (modifiedSince.HasValue)
             {
-                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value));
+                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value.AddMilliseconds(1)));
             }
             if (!status.IsNullOrEmpty())
             {
@@ -236,11 +236,11 @@ namespace Sheep.Model.Content.Repositories
             var query = R.Table(s_ReplyTable).GetAll(parentId).OptArg("index", "ParentId").Filter(true);
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddMilliseconds(1)));
             }
             if (modifiedSince.HasValue)
             {
-                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value));
+                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value.AddMilliseconds(1)));
             }
             if (!status.IsNullOrEmpty())
             {
@@ -268,11 +268,11 @@ namespace Sheep.Model.Content.Repositories
             }
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddMilliseconds(1)));
             }
             if (modifiedSince.HasValue)
             {
-                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value));
+                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value.AddMilliseconds(1)));
             }
             if (!status.IsNullOrEmpty())
             {
@@ -300,11 +300,11 @@ namespace Sheep.Model.Content.Repositories
             }
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddMilliseconds(1)));
             }
             if (modifiedSince.HasValue)
             {
-                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value));
+                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value.AddMilliseconds(1)));
             }
             if (!status.IsNullOrEmpty())
             {
@@ -332,11 +332,11 @@ namespace Sheep.Model.Content.Repositories
             }
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddMilliseconds(1)));
             }
             if (modifiedSince.HasValue)
             {
-                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value));
+                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value.AddMilliseconds(1)));
             }
             if (!status.IsNullOrEmpty())
             {
@@ -355,11 +355,11 @@ namespace Sheep.Model.Content.Repositories
             }
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddMilliseconds(1)));
             }
             if (modifiedSince.HasValue)
             {
-                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value));
+                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value.AddMilliseconds(1)));
             }
             if (!status.IsNullOrEmpty())
             {
@@ -374,11 +374,11 @@ namespace Sheep.Model.Content.Repositories
             var query = R.Table(s_ReplyTable).GetAll(parentId).OptArg("index", "ParentId").Filter(true);
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddMilliseconds(1)));
             }
             if (modifiedSince.HasValue)
             {
-                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value));
+                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value.AddMilliseconds(1)));
             }
             if (!status.IsNullOrEmpty())
             {
@@ -393,11 +393,11 @@ namespace Sheep.Model.Content.Repositories
             var query = R.Table(s_ReplyTable).GetAll(parentId).OptArg("index", "ParentId").Filter(true);
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddMilliseconds(1)));
             }
             if (modifiedSince.HasValue)
             {
-                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value));
+                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value.AddMilliseconds(1)));
             }
             if (!status.IsNullOrEmpty())
             {
@@ -416,11 +416,11 @@ namespace Sheep.Model.Content.Repositories
             }
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddMilliseconds(1)));
             }
             if (modifiedSince.HasValue)
             {
-                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value));
+                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value.AddMilliseconds(1)));
             }
             if (!status.IsNullOrEmpty())
             {
@@ -439,11 +439,11 @@ namespace Sheep.Model.Content.Repositories
             }
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddMilliseconds(1)));
             }
             if (modifiedSince.HasValue)
             {
-                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value));
+                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value.AddMilliseconds(1)));
             }
             if (!status.IsNullOrEmpty())
             {

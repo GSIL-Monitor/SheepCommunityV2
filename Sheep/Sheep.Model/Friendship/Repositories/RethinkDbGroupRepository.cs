@@ -183,11 +183,11 @@ namespace Sheep.Model.Friendship.Repositories
             }
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddMilliseconds(1)));
             }
             if (modifiedSince.HasValue)
             {
-                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value));
+                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value.AddMilliseconds(1)));
             }
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
@@ -211,11 +211,11 @@ namespace Sheep.Model.Friendship.Repositories
             }
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddMilliseconds(1)));
             }
             if (modifiedSince.HasValue)
             {
-                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value));
+                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value.AddMilliseconds(1)));
             }
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Quartz;
 using ServiceStack;
 using ServiceStack.Logging;
+using ServiceStack.Text;
 using Sheep.Job.ServiceInterface.Replies;
 using Sheep.Job.ServiceModel.Replies;
 
@@ -56,8 +57,8 @@ namespace Sheep.Job.ServiceJob.Replies
                 var request = new ReplyCalculate
                               {
                                   ParentType = data.GetString("ParentType"),
-                                  CreatedSince = data.GetString("CreatedSinceDays").IsNullOrEmpty() ? (DateTime?) null : DateTime.UtcNow.Date.AddDays(-data.GetIntValueFromString("CreatedSinceDays")),
-                                  ModifiedSince = data.GetString("ModifiedSinceDays").IsNullOrEmpty() ? (DateTime?) null : DateTime.UtcNow.Date.AddDays(-data.GetIntValueFromString("ModifiedSinceDays")),
+                                  CreatedSince = data.GetString("CreatedSinceDays").IsNullOrEmpty() ? (long?) null : DateTime.UtcNow.Date.AddDays(-data.GetIntValueFromString("CreatedSinceDays")).ToUnixTime(),
+                                  ModifiedSince = data.GetString("ModifiedSinceDays").IsNullOrEmpty() ? (long?) null : DateTime.UtcNow.Date.AddDays(-data.GetIntValueFromString("ModifiedSinceDays")).ToUnixTime(),
                                   OrderBy = data.GetString("OrderBy"),
                                   Descending = data.GetString("Descending").IsNullOrEmpty() ? (bool?) null : data.GetBooleanValueFromString("Descending"),
                                   Skip = data.GetString("Skip").IsNullOrEmpty() ? (int?) null : data.GetIntValueFromString("Skip"),

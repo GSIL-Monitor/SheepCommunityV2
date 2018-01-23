@@ -23,14 +23,14 @@ namespace Sheep.Job.ServiceModel.Comments
         /// </summary>
         [DataMember(Order = 2)]
         [ApiMember(Description = "创建日期在指定的时间之后")]
-        public DateTime? CreatedSince { get; set; }
+        public long? CreatedSince { get; set; }
 
         /// <summary>
         ///     修改日期在指定的时间之后。
         /// </summary>
         [DataMember(Order = 3)]
         [ApiMember(Description = "修改日期在指定的时间之后")]
-        public DateTime? ModifiedSince { get; set; }
+        public long? ModifiedSince { get; set; }
 
         /// <summary>
         ///     是否标记为精选。

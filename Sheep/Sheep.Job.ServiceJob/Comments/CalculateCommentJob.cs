@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Quartz;
 using ServiceStack;
 using ServiceStack.Logging;
+using ServiceStack.Text;
 using Sheep.Job.ServiceInterface.Comments;
 using Sheep.Job.ServiceModel.Comments;
 
@@ -56,8 +57,8 @@ namespace Sheep.Job.ServiceJob.Comments
                 var request = new CommentCalculate
                               {
                                   ParentType = data.GetString("ParentType"),
-                                  CreatedSince = data.GetString("CreatedSinceDays").IsNullOrEmpty() ? (DateTime?) null : DateTime.UtcNow.Date.AddDays(-data.GetIntValueFromString("CreatedSinceDays")),
-                                  ModifiedSince = data.GetString("ModifiedSinceDays").IsNullOrEmpty() ? (DateTime?) null : DateTime.UtcNow.Date.AddDays(-data.GetIntValueFromString("ModifiedSinceDays")),
+                                  CreatedSince = data.GetString("CreatedSinceDays").IsNullOrEmpty() ? (long?) null : DateTime.UtcNow.Date.AddDays(-data.GetIntValueFromString("CreatedSinceDays")).ToUnixTime(),
+                                  ModifiedSince = data.GetString("ModifiedSinceDays").IsNullOrEmpty() ? (long?) null : DateTime.UtcNow.Date.AddDays(-data.GetIntValueFromString("ModifiedSinceDays")).ToUnixTime(),
                                   IsFeatured = data.GetString("IsFeatured").IsNullOrEmpty() ? (bool?) null : data.GetBooleanValueFromString("IsFeatured"),
                                   OrderBy = data.GetString("OrderBy"),
                                   Descending = data.GetString("Descending").IsNullOrEmpty() ? (bool?) null : data.GetBooleanValueFromString("Descending"),

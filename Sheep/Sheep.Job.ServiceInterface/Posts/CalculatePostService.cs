@@ -4,6 +4,7 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
+using ServiceStack.Text;
 using Sheep.Job.ServiceInterface.Properties;
 using Sheep.Job.ServiceModel.Posts;
 using Sheep.Model.Content;
@@ -59,7 +60,7 @@ namespace Sheep.Job.ServiceInterface.Posts
             //{
             //    PostCalculateValidator.ValidateAndThrow(request, ApplyTo.Put);
             //}
-            var existingPosts = await PostRepo.FindPostsAsync(request.TitleFilter, request.Tag, request.ContentType, request.CreatedSince, request.ModifiedSince, request.PublishedSince, request.IsPublished ?? true, request.IsFeatured, "审核通过", request.OrderBy, request.Descending, request.Skip, request.Limit);
+            var existingPosts = await PostRepo.FindPostsAsync(request.TitleFilter, request.Tag, request.ContentType, request.CreatedSince?.FromUnixTime(), request.ModifiedSince?.FromUnixTime(), request.PublishedSince?.FromUnixTime(), request.IsPublished ?? true, request.IsFeatured, "审核通过", request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingPosts == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.PostsNotFound));

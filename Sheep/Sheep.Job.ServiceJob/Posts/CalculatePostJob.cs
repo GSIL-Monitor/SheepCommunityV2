@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Quartz;
 using ServiceStack;
 using ServiceStack.Logging;
+using ServiceStack.Text;
 using Sheep.Job.ServiceInterface.Posts;
 using Sheep.Job.ServiceModel.Posts;
 
@@ -58,9 +59,9 @@ namespace Sheep.Job.ServiceJob.Posts
                                   TitleFilter = data.GetString("TitleFilter"),
                                   Tag = data.GetString("Tag"),
                                   ContentType = data.GetString("ContentType"),
-                                  CreatedSince = data.GetString("CreatedSinceDays").IsNullOrEmpty() ? (DateTime?) null : DateTime.UtcNow.Date.AddDays(-data.GetIntValueFromString("CreatedSinceDays")),
-                                  ModifiedSince = data.GetString("ModifiedSinceDays").IsNullOrEmpty() ? (DateTime?) null : DateTime.UtcNow.Date.AddDays(-data.GetIntValueFromString("ModifiedSinceDays")),
-                                  PublishedSince = data.GetString("PublishedSinceDays").IsNullOrEmpty() ? (DateTime?) null : DateTime.UtcNow.Date.AddDays(-data.GetIntValueFromString("PublishedSinceDays")),
+                                  CreatedSince = data.GetString("CreatedSinceDays").IsNullOrEmpty() ? (long?) null : DateTime.UtcNow.Date.AddDays(-data.GetIntValueFromString("CreatedSinceDays")).ToUnixTime(),
+                                  ModifiedSince = data.GetString("ModifiedSinceDays").IsNullOrEmpty() ? (long?) null : DateTime.UtcNow.Date.AddDays(-data.GetIntValueFromString("ModifiedSinceDays")).ToUnixTime(),
+                                  PublishedSince = data.GetString("PublishedSinceDays").IsNullOrEmpty() ? (long?) null : DateTime.UtcNow.Date.AddDays(-data.GetIntValueFromString("PublishedSinceDays")).ToUnixTime(),
                                   IsPublished = data.GetString("IsPublished").IsNullOrEmpty() ? (bool?) null : data.GetBooleanValueFromString("IsPublished"),
                                   IsFeatured = data.GetString("IsFeatured").IsNullOrEmpty() ? (bool?) null : data.GetBooleanValueFromString("IsFeatured"),
                                   OrderBy = data.GetString("OrderBy"),

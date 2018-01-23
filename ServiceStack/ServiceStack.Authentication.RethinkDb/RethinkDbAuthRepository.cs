@@ -566,15 +566,15 @@ namespace ServiceStack.Authentication.RethinkDb
             }
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddMilliseconds(1)));
             }
             if (modifiedSince.HasValue)
             {
-                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value));
+                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value.AddMilliseconds(1)));
             }
             if (lockedSince.HasValue)
             {
-                query = query.Filter(row => row.G("LockedDate").Gt(lockedSince.Value));
+                query = query.Filter(row => row.G("LockedDate").Gt(lockedSince.Value.AddMilliseconds(1)));
             }
             if (!status.IsNullOrEmpty())
             {
@@ -748,15 +748,15 @@ namespace ServiceStack.Authentication.RethinkDb
             var query = R.Table(s_UserAuthTable).GetAll(R.Args(userAuthIds.Select(userId => userId.ToInt(0)).ToArray())).OptArg("index", "Id").Filter(true);
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddMilliseconds(1)));
             }
             if (modifiedSince.HasValue)
             {
-                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value));
+                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value.AddMilliseconds(1)));
             }
             if (lockedSince.HasValue)
             {
-                query = query.Filter(row => row.G("LockedDate").Gt(lockedSince.Value));
+                query = query.Filter(row => row.G("LockedDate").Gt(lockedSince.Value.AddMilliseconds(1)));
             }
             if (!status.IsNullOrEmpty())
             {
@@ -796,15 +796,15 @@ namespace ServiceStack.Authentication.RethinkDb
             }
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddMilliseconds(1)));
             }
             if (modifiedSince.HasValue)
             {
-                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value));
+                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value.AddMilliseconds(1)));
             }
             if (lockedSince.HasValue)
             {
-                query = query.Filter(row => row.G("LockedDate").Gt(lockedSince.Value));
+                query = query.Filter(row => row.G("LockedDate").Gt(lockedSince.Value.AddMilliseconds(1)));
             }
             if (!status.IsNullOrEmpty())
             {
