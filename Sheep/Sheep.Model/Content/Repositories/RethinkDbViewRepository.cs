@@ -148,7 +148,7 @@ namespace Sheep.Model.Content.Repositories
             }
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddMilliseconds(1)));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddSeconds(1)));
             }
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
@@ -172,7 +172,7 @@ namespace Sheep.Model.Content.Repositories
             }
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddMilliseconds(1)));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddSeconds(1)));
             }
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
@@ -200,7 +200,7 @@ namespace Sheep.Model.Content.Repositories
             }
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddMilliseconds(1)));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddSeconds(1)));
             }
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
@@ -228,7 +228,7 @@ namespace Sheep.Model.Content.Repositories
             }
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddMilliseconds(1)));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddSeconds(1)));
             }
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
@@ -252,7 +252,7 @@ namespace Sheep.Model.Content.Repositories
             }
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddMilliseconds(1)));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddSeconds(1)));
             }
             return query.Count().RunResult<int>(_conn);
         }
@@ -267,7 +267,7 @@ namespace Sheep.Model.Content.Repositories
             }
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddMilliseconds(1)));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddSeconds(1)));
             }
             return query.Count().RunResultAsync<int>(_conn);
         }
@@ -282,7 +282,7 @@ namespace Sheep.Model.Content.Repositories
             }
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddMilliseconds(1)));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddSeconds(1)));
             }
             return query.Map(row => row.G("CreatedDate").Date()).Distinct().Count().RunResult<int>(_conn);
         }
@@ -297,7 +297,7 @@ namespace Sheep.Model.Content.Repositories
             }
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddMilliseconds(1)));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddSeconds(1)));
             }
             return query.Map(row => row.G("CreatedDate").Date()).Distinct().Count().RunResultAsync<int>(_conn);
         }
@@ -316,7 +316,7 @@ namespace Sheep.Model.Content.Repositories
             }
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddMilliseconds(1)));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddSeconds(1)));
             }
             return query.Count().RunResult<int>(_conn);
         }
@@ -335,7 +335,7 @@ namespace Sheep.Model.Content.Repositories
             }
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddMilliseconds(1)));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddSeconds(1)));
             }
             return query.Count().RunResultAsync<int>(_conn);
         }
@@ -354,7 +354,7 @@ namespace Sheep.Model.Content.Repositories
             }
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddMilliseconds(1)));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddSeconds(1)));
             }
             return query.WithFields("ParentId").Distinct().Count().RunResult<int>(_conn);
         }
@@ -373,7 +373,7 @@ namespace Sheep.Model.Content.Repositories
             }
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddMilliseconds(1)));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddSeconds(1)));
             }
             return query.WithFields("ParentId").Distinct().Count().RunResultAsync<int>(_conn);
         }
@@ -392,7 +392,7 @@ namespace Sheep.Model.Content.Repositories
             }
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddMilliseconds(1)));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddSeconds(1)));
             }
             return query.Map(row => row.G("CreatedDate").Date()).Distinct().Count().RunResult<int>(_conn);
         }
@@ -411,7 +411,7 @@ namespace Sheep.Model.Content.Repositories
             }
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddMilliseconds(1)));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddSeconds(1)));
             }
             return query.Map(row => row.G("CreatedDate").Date()).Distinct().Count().RunResultAsync<int>(_conn);
         }
@@ -430,7 +430,7 @@ namespace Sheep.Model.Content.Repositories
             }
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddMilliseconds(1)));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddSeconds(1)));
             }
             return query.Group(row => row.G("UserId")).Count().Ungroup().Map(row => R.HashMap("Key", row.G("group")).With("Value", row.G("reduction"))).RunResult<List<KeyValuePair<int, int>>>(_conn);
         }
@@ -449,7 +449,7 @@ namespace Sheep.Model.Content.Repositories
             }
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddMilliseconds(1)));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddSeconds(1)));
             }
             return query.Group(row => row.G("UserId")).Count().Ungroup().Map(row => R.HashMap("Key", row.G("group")).With("Value", row.G("reduction"))).RunResultAsync<List<KeyValuePair<int, int>>>(_conn);
         }
@@ -468,7 +468,7 @@ namespace Sheep.Model.Content.Repositories
             }
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddMilliseconds(1)));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddSeconds(1)));
             }
             return query.WithFields("UserId", "ParentId").Distinct().Group(row => row.G("UserId")).Count().Ungroup().Map(row => R.HashMap("Key", row.G("group")).With("Value", row.G("reduction"))).RunResult<List<KeyValuePair<int, int>>>(_conn);
         }
@@ -487,7 +487,7 @@ namespace Sheep.Model.Content.Repositories
             }
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddMilliseconds(1)));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddSeconds(1)));
             }
             return query.WithFields("UserId", "ParentId").Distinct().Group(row => row.G("UserId")).Count().Ungroup().Map(row => R.HashMap("Key", row.G("group")).With("Value", row.G("reduction"))).RunResultAsync<List<KeyValuePair<int, int>>>(_conn);
         }
@@ -506,7 +506,7 @@ namespace Sheep.Model.Content.Repositories
             }
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddMilliseconds(1)));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddSeconds(1)));
             }
             return query.Map(row => R.HashMap("UserId", row.G("UserId")).With("CreatedDate", row.G("CreatedDate").Date())).Distinct().Group(row => row.G("UserId")).Count().Ungroup().Map(row => R.HashMap("Key", row.G("group")).With("Value", row.G("reduction"))).RunResult<List<KeyValuePair<int, int>>>(_conn);
         }
@@ -525,7 +525,7 @@ namespace Sheep.Model.Content.Repositories
             }
             if (createdSince.HasValue)
             {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddMilliseconds(1)));
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddSeconds(1)));
             }
             return query.Map(row => R.HashMap("UserId", row.G("UserId")).With("CreatedDate", row.G("CreatedDate").Date())).Distinct().Group(row => row.G("UserId")).Count().Ungroup().Map(row => R.HashMap("Key", row.G("group")).With("Value", row.G("reduction"))).RunResultAsync<List<KeyValuePair<int, int>>>(_conn);
         }
