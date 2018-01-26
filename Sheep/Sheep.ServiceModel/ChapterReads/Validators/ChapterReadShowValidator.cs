@@ -23,6 +23,23 @@ namespace Sheep.ServiceModel.ChapterReads.Validators
     }
 
     /// <summary>
+    ///     显示最后一个阅读的校验器。
+    /// </summary>
+    public class ChapterReadShowLastValidator : AbstractValidator<ChapterReadShowLast>
+    {
+        /// <summary>
+        ///     初始化一个新的<see cref="Sheep.ServiceModel.ChapterReads.Validators.ChapterReadShowLastValidator" />对象。
+        ///     创建规则集合。
+        /// </summary>
+        public ChapterReadShowLastValidator()
+        {
+            RuleSet(ApplyTo.Get, () =>
+                                 {
+                                 });
+        }
+    }
+
+    /// <summary>
     ///     根据章显示最后一个阅读的校验器。
     /// </summary>
     public class ChapterReadShowLastByChapterValidator : AbstractValidator<ChapterReadShowLastByChapter>
@@ -36,24 +53,6 @@ namespace Sheep.ServiceModel.ChapterReads.Validators
             RuleSet(ApplyTo.Get, () =>
                                  {
                                      RuleFor(x => x.ChapterId).NotEmpty().WithMessage(x => string.Format(Resources.ChapterIdRequired));
-                                 });
-        }
-    }
-
-    /// <summary>
-    ///     根据用户显示最后一个阅读的校验器。
-    /// </summary>
-    public class ChapterReadShowLastByUserValidator : AbstractValidator<ChapterReadShowLastByUser>
-    {
-        /// <summary>
-        ///     初始化一个新的<see cref="Sheep.ServiceModel.ChapterReads.Validators.ChapterReadShowLastByUserValidator" />对象。
-        ///     创建规则集合。
-        /// </summary>
-        public ChapterReadShowLastByUserValidator()
-        {
-            RuleSet(ApplyTo.Get, () =>
-                                 {
-                                     RuleFor(x => x.UserId).NotEmpty().WithMessage(x => string.Format(Resources.UserIdRequired));
                                  });
         }
     }

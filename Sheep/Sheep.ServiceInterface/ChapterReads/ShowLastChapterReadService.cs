@@ -13,16 +13,16 @@ using Sheep.ServiceModel.ChapterReads;
 namespace Sheep.ServiceInterface.ChapterReads
 {
     /// <summary>
-    ///     根据用户显示最后一个阅读服务接口。
+    ///     显示最后一个阅读服务接口。
     /// </summary>
-    public class ShowLastChapterReadByUserService : Service
+    public class ShowLastChapterReadService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(ShowLastChapterReadByUserService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(ShowLastChapterReadService));
 
         #endregion
 
@@ -34,9 +34,9 @@ namespace Sheep.ServiceInterface.ChapterReads
         public IAppSettings AppSettings { get; set; }
 
         /// <summary>
-        ///     获取及设置根据用户显示最后一个阅读的校验器。
+        ///     获取及设置显示最后一个阅读的校验器。
         /// </summary>
-        public IValidator<ChapterReadShowLastByUser> ChapterReadShowLastByUserValidator { get; set; }
+        public IValidator<ChapterReadShowLast> ChapterReadShowLastValidator { get; set; }
 
         /// <summary>
         ///     获取及设置用户身份的存储库。
@@ -65,18 +65,19 @@ namespace Sheep.ServiceInterface.ChapterReads
 
         #endregion
 
-        #region 根据用户显示最后一个阅读
+        #region 显示最后一个阅读
 
         /// <summary>
-        ///     根据用户显示最后一个阅读。
+        ///     显示最后一个阅读。
         /// </summary>
-        public async Task<object> Get(ChapterReadShowLastByUser request)
+        public async Task<object> Get(ChapterReadShowLast request)
         {
             //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             //{
-            //    ChapterReadShowLastByUserValidator.ValidateAndThrow(request, ApplyTo.Get);
+            //    ChapterReadShowLastValidator.ValidateAndThrow(request, ApplyTo.Get);
             //}
-            var existingChapterReads = await ChapterReadRepo.FindChapterReadsByUserAsync(request.UserId, request.BookId, null, "CreatedDate", true, 0, 1);
+            var currentUserId = GetSession().UserAuthId.ToInt(0);
+            var existingChapterReads = await ChapterReadRepo.FindChapterReadsByUserAsync(currentUserId, request.BookId, null, "CreatedDate", true, 0, 1);
             if (existingChapterReads == null || existingChapterReads.Count == 0)
             {
                 throw HttpError.NotFound(string.Format(Resources.ChapterReadsNotFound));

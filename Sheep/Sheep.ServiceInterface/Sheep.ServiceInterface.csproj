@@ -165,7 +165,7 @@
     <Compile Include="ChapterReads\ListChapterReadByChapterService.cs" />
     <Compile Include="ChapterReads\ListChapterReadByUserService.cs" />
     <Compile Include="ChapterReads\Mappers\ChapterReadToChapterReadDtoMapper.cs" />
-    <Compile Include="ChapterReads\ShowLastChapterReadByUserService.cs" />
+    <Compile Include="ChapterReads\ShowLastChapterReadService.cs" />
     <Compile Include="ChapterReads\ShowLastChapterReadByChapterService.cs" />
     <Compile Include="ChapterReads\ShowChapterReadService.cs" />
     <Compile Include="Chapters\ChangeChapterService.cs" />

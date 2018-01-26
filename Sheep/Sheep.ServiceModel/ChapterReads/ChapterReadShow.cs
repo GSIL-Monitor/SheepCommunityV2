@@ -20,6 +20,21 @@ namespace Sheep.ServiceModel.ChapterReads
     }
 
     /// <summary>
+    ///     显示最后一个阅读的请求。
+    /// </summary>
+    [Route("/chapterreads/last", HttpMethods.Get, Summary = "显示最后一个阅读")]
+    [DataContract]
+    public class ChapterReadShowLast : IReturn<ChapterReadShowResponse>
+    {
+        /// <summary>
+        ///     书籍编号。
+        /// </summary>
+        [DataMember(Order = 1, Name = "bookid")]
+        [ApiMember(Description = "书籍编号")]
+        public string BookId { get; set; }
+    }
+
+    /// <summary>
     ///     根据章显示最后一个阅读的请求。
     /// </summary>
     [Route("/chapterreads/last/bychapter", HttpMethods.Get, Summary = "根据章显示最后一个阅读")]
@@ -39,28 +54,6 @@ namespace Sheep.ServiceModel.ChapterReads
         [DataMember(Order = 2, Name = "ismine")]
         [ApiMember(Description = "是否为我的")]
         public bool? IsMine { get; set; }
-    }
-
-    /// <summary>
-    ///     根据用户显示最后一个阅读的请求。
-    /// </summary>
-    [Route("/chapterreads/last/byuser", HttpMethods.Get, Summary = "根据用户显示最后一个阅读")]
-    [DataContract]
-    public class ChapterReadShowLastByUser : IReturn<ChapterReadShowResponse>
-    {
-        /// <summary>
-        ///     用户编号。
-        /// </summary>
-        [DataMember(Order = 1, Name = "userid", IsRequired = true)]
-        [ApiMember(Description = "用户编号")]
-        public int UserId { get; set; }
-
-        /// <summary>
-        ///     书籍编号。
-        /// </summary>
-        [DataMember(Order = 2, Name = "bookid")]
-        [ApiMember(Description = "书籍编号")]
-        public string BookId { get; set; }
     }
 
     /// <summary>

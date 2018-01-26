@@ -98,16 +98,6 @@ namespace Sheep.ServiceInterface.ChapterReads
             {
                 throw HttpError.NotFound(string.Format(Resources.ChapterNotFound, request.ChapterId));
             }
-            var book = await BookRepo.GetBookAsync(chapter.BookId);
-            if (book == null)
-            {
-                throw HttpError.NotFound(string.Format(Resources.BookNotFound, chapter.BookId));
-            }
-            var volume = await VolumeRepo.GetVolumeAsync(chapter.VolumeId);
-            if (volume == null)
-            {
-                throw HttpError.NotFound(string.Format(Resources.VolumeNotFound, chapter.VolumeId));
-            }
             var newChapterRead = new ChapterRead
                                  {
                                      BookId = chapter.BookId,
@@ -119,7 +109,7 @@ namespace Sheep.ServiceInterface.ChapterReads
             ResetCache(chapterRead);
             return new ChapterReadCreateResponse
                    {
-                       ChapterRead = chapterRead.MapToChapterReadDto(book, volume, chapter, currentUserAuth)
+                       ChapterRead = chapterRead.MapToChapterReadDto(null, null, chapter, currentUserAuth)
                    };
         }
 
