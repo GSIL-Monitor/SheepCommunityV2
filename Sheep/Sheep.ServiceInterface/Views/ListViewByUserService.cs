@@ -16,7 +16,7 @@ using Sheep.ServiceModel.Views;
 namespace Sheep.ServiceInterface.Views
 {
     /// <summary>
-    ///     根据用户列举一组阅读信息服务接口。
+    ///     根据用户列举一组查看信息服务接口。
     /// </summary>
     public class ListViewByUserService : Service
     {
@@ -37,7 +37,7 @@ namespace Sheep.ServiceInterface.Views
         public IAppSettings AppSettings { get; set; }
 
         /// <summary>
-        ///     获取及设置列举一组阅读的校验器。
+        ///     获取及设置列举一组查看的校验器。
         /// </summary>
         public IValidator<ViewListByUser> ViewListByUserValidator { get; set; }
 
@@ -47,7 +47,7 @@ namespace Sheep.ServiceInterface.Views
         public IUserAuthRepository AuthRepo { get; set; }
 
         /// <summary>
-        ///     获取及设置阅读的存储库。
+        ///     获取及设置查看的存储库。
         /// </summary>
         public IViewRepository ViewRepo { get; set; }
 
@@ -68,10 +68,10 @@ namespace Sheep.ServiceInterface.Views
 
         #endregion
 
-        #region 列举一组阅读
+        #region 列举一组查看
 
         /// <summary>
-        ///     列举一组阅读。
+        ///     列举一组查看。
         /// </summary>
         //[CacheResponse(Duration = 3600)]
         public async Task<object> Get(ViewListByUser request)

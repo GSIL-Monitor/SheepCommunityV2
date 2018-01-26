@@ -7,9 +7,9 @@ using Sheep.ServiceModel.Views.Entities;
 namespace Sheep.ServiceModel.Views
 {
     /// <summary>
-    ///     根据上级查询并列举一组阅读信息的请求。
+    ///     根据上级查询并列举一组查看信息的请求。
     /// </summary>
-    [Route("/views/query/byparent", HttpMethods.Get, Summary = "根据上级查询并列举一组阅读信息")]
+    [Route("/views/query/byparent", HttpMethods.Get, Summary = "根据上级查询并列举一组查看信息")]
     [DataContract]
     public class ViewListByParent : IReturn<ViewListResponse>
     {
@@ -58,15 +58,15 @@ namespace Sheep.ServiceModel.Views
         /// <summary>
         ///     获取的行数。
         /// </summary>
-        [DataMember(Order = 6, Name = "limit")]
+        [DataMember(Order = 7, Name = "limit")]
         [ApiMember(Description = "获取的行数")]
         public int? Limit { get; set; }
     }
 
     /// <summary>
-    ///     根据用户查询并列举一组阅读信息的请求。
+    ///     根据用户查询并列举一组查看信息的请求。
     /// </summary>
-    [Route("/views/query/byuser", HttpMethods.Get, Summary = "根据用户查询并列举一组阅读信息")]
+    [Route("/views/query/byuser", HttpMethods.Get, Summary = "根据用户查询并列举一组查看信息")]
     [DataContract]
     public class ViewListByUser : IReturn<ViewListResponse>
     {
@@ -128,16 +128,16 @@ namespace Sheep.ServiceModel.Views
     }
 
     /// <summary>
-    ///     列举一组阅读信息的响应。
+    ///     列举一组查看信息的响应。
     /// </summary>
     [DataContract]
     public class ViewListResponse : IHasResponseStatus
     {
         /// <summary>
-        ///     阅读信息列表。
+        ///     查看信息列表。
         /// </summary>
         [DataMember(Order = 1)]
-        [ApiMember(Description = "阅读信息列表")]
+        [ApiMember(Description = "查看信息列表")]
         public List<ViewDto> Views { get; set; }
 
         /// <summary>

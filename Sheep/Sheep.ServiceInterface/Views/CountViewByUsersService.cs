@@ -15,7 +15,7 @@ using Sheep.ServiceModel.Views.Entities;
 namespace Sheep.ServiceInterface.Views
 {
     /// <summary>
-    ///     根据用户列表统计一组阅读数量服务接口。
+    ///     根据用户列表统计一组查看数量服务接口。
     /// </summary>
     public class CountViewByUsersService : Service
     {
@@ -36,7 +36,7 @@ namespace Sheep.ServiceInterface.Views
         public IAppSettings AppSettings { get; set; }
 
         /// <summary>
-        ///     获取及设置统计一组阅读的校验器。
+        ///     获取及设置统计一组查看的校验器。
         /// </summary>
         public IValidator<ViewCountByUsers> ViewCountByUsersValidator { get; set; }
 
@@ -46,7 +46,7 @@ namespace Sheep.ServiceInterface.Views
         public IUserAuthRepository AuthRepo { get; set; }
 
         /// <summary>
-        ///     获取及设置阅读的存储库。
+        ///     获取及设置查看的存储库。
         /// </summary>
         public IViewRepository ViewRepo { get; set; }
 
@@ -67,10 +67,10 @@ namespace Sheep.ServiceInterface.Views
 
         #endregion
 
-        #region 统计一组阅读
+        #region 统计一组查看
 
         /// <summary>
-        ///     统计一组阅读。
+        ///     统计一组查看。
         /// </summary>
         //[CacheResponse(Duration = 3600)]
         public async Task<object> Get(ViewCountByUsers request)

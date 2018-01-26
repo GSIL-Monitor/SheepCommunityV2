@@ -142,6 +142,24 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
+        ///   查找类似 无法找到指定的章阅读{0}。 的本地化字符串。
+        /// </summary>
+        internal static string ChapterReadNotFound {
+            get {
+                return ResourceManager.GetString("ChapterReadNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定条件的章阅读列表。 的本地化字符串。
+        /// </summary>
+        internal static string ChapterReadsNotFound {
+            get {
+                return ResourceManager.GetString("ChapterReadsNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 无法找到指定条件的章列表。 的本地化字符串。
         /// </summary>
         internal static string ChaptersNotFound {
@@ -502,7 +520,7 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
-        ///   查找类似 无法找到指定的阅读{0}。 的本地化字符串。
+        ///   查找类似 无法找到指定的查看{0}。 的本地化字符串。
         /// </summary>
         internal static string ViewNotFound {
             get {
@@ -511,7 +529,7 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
-        ///   查找类似 无法找到指定条件的阅读列表。 的本地化字符串。
+        ///   查找类似 无法找到指定条件的查看列表。 的本地化字符串。
         /// </summary>
         internal static string ViewsNotFound {
             get {

@@ -13,7 +13,7 @@ using Sheep.ServiceModel.Views;
 namespace Sheep.ServiceInterface.Views
 {
     /// <summary>
-    ///     删除一个阅读服务接口。
+    ///     删除一个查看服务接口。
     /// </summary>
     public class DeleteViewService : ChangeViewService
     {
@@ -39,7 +39,7 @@ namespace Sheep.ServiceInterface.Views
         public INimClient NimClient { get; set; }
 
         /// <summary>
-        ///     获取及设置删除一个阅读的校验器。
+        ///     获取及设置删除一个查看的校验器。
         /// </summary>
         public IValidator<ViewDelete> ViewDeleteValidator { get; set; }
 
@@ -49,7 +49,7 @@ namespace Sheep.ServiceInterface.Views
         public IUserAuthRepository AuthRepo { get; set; }
 
         /// <summary>
-        ///     获取及设置阅读的存储库。
+        ///     获取及设置查看的存储库。
         /// </summary>
         public IViewRepository ViewRepo { get; set; }
 
@@ -70,10 +70,10 @@ namespace Sheep.ServiceInterface.Views
 
         #endregion
 
-        #region 删除一个阅读
+        #region 删除一个查看
 
         /// <summary>
-        ///     删除一个阅读。
+        ///     删除一个查看。
         /// </summary>
         public async Task<object> Delete(ViewDelete request)
         {

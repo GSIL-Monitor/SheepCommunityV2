@@ -6,7 +6,7 @@ using Sheep.ServiceModel.Properties;
 namespace Sheep.ServiceModel.Views.Validators
 {
     /// <summary>
-    ///     根据上级统计一组阅读数量的校验器。
+    ///     根据上级统计一组查看数量的校验器。
     /// </summary>
     public class ViewCountByParentValidator : AbstractValidator<ViewCountByParent>
     {
@@ -24,7 +24,7 @@ namespace Sheep.ServiceModel.Views.Validators
     }
 
     /// <summary>
-    ///     根据用户统计一组阅读数量的校验器。
+    ///     根据用户统计一组查看数量的校验器。
     /// </summary>
     public class ViewCountByUserValidator : AbstractValidator<ViewCountByUser>
     {
@@ -50,7 +50,7 @@ namespace Sheep.ServiceModel.Views.Validators
     }
 
     /// <summary>
-    ///     根据用户列表统计一组阅读数量的校验器。
+    ///     根据用户列表统计一组查看数量的校验器。
     /// </summary>
     public class ViewCountByUsersValidator : AbstractValidator<ViewCountByUsers>
     {

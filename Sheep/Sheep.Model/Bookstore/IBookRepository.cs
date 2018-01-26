@@ -27,6 +27,20 @@ namespace Sheep.Model.Bookstore
         Task<Book> GetBookAsync(string bookId);
 
         /// <summary>
+        ///     获取书籍列表。
+        /// </summary>
+        /// <param name="bookIds">书籍的编号列表。</param>
+        /// <returns>书籍。</returns>
+        List<Book> GetBooks(List<string> bookIds);
+
+        /// <summary>
+        ///     异步获取书籍列表。
+        /// </summary>
+        /// <param name="bookIds">书籍的编号列表。</param>
+        /// <returns>书籍。</returns>
+        Task<List<Book>> GetBooksAsync(List<string> bookIds);
+
+        /// <summary>
         ///     查找书籍。
         /// </summary>
         /// <param name="titleFilter">过滤标题及概要的表达式。</param>

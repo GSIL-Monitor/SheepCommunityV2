@@ -5,7 +5,7 @@ using Sheep.ServiceModel.Properties;
 namespace Sheep.ServiceModel.Views.Validators
 {
     /// <summary>
-    ///     新建一组节阅读的校验器。
+    ///     新建一组节查看的校验器。
     /// </summary>
     public class ViewBatchCreateForParagraphsValidator : AbstractValidator<ViewBatchCreateForParagraphs>
     {

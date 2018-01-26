@@ -7,9 +7,9 @@ using Sheep.ServiceModel.Views.Entities;
 namespace Sheep.ServiceModel.Views
 {
     /// <summary>
-    ///     根据上级统计一组阅读数量的请求。
+    ///     根据上级统计一组查看数量的请求。
     /// </summary>
-    [Route("/views/count/byparent", HttpMethods.Get, Summary = "根据上级统计一组阅读数量")]
+    [Route("/views/count/byparent", HttpMethods.Get, Summary = "根据上级统计一组查看数量")]
     [DataContract]
     public class ViewCountByParent : IReturn<ViewCountResponse>
     {
@@ -36,9 +36,9 @@ namespace Sheep.ServiceModel.Views
     }
 
     /// <summary>
-    ///     根据用户统计一组阅读数量的请求。
+    ///     根据用户统计一组查看数量的请求。
     /// </summary>
-    [Route("/views/count/byuser", HttpMethods.Get, Summary = "根据用户统计一组阅读数量")]
+    [Route("/views/count/byuser", HttpMethods.Get, Summary = "根据用户统计一组查看数量")]
     [DataContract]
     public class ViewCountByUser : IReturn<ViewCountResponse>
     {
@@ -72,9 +72,9 @@ namespace Sheep.ServiceModel.Views
     }
 
     /// <summary>
-    ///     根据用户列表统计一组阅读数量的请求。
+    ///     根据用户列表统计一组查看数量的请求。
     /// </summary>
-    [Route("/views/count/byusers", HttpMethods.Get, Summary = "根据用户列表统计一组阅读数量")]
+    [Route("/views/count/byusers", HttpMethods.Get, Summary = "根据用户列表统计一组查看数量")]
     [DataContract]
     public class ViewCountByUsers : IReturn<ViewCountByUsersResponse>
     {
@@ -108,16 +108,16 @@ namespace Sheep.ServiceModel.Views
     }
 
     /// <summary>
-    ///     统计一组阅读数量的响应。
+    ///     统计一组查看数量的响应。
     /// </summary>
     [DataContract]
     public class ViewCountResponse : IHasResponseStatus
     {
         /// <summary>
-        ///     阅读数量。
+        ///     查看数量。
         /// </summary>
         [DataMember(Order = 1)]
-        [ApiMember(Description = "阅读数量")]
+        [ApiMember(Description = "查看数量")]
         public ViewCountsDto Counts { get; set; }
 
         /// <summary>
@@ -129,16 +129,16 @@ namespace Sheep.ServiceModel.Views
     }
 
     /// <summary>
-    ///     根据用户列表统计一组阅读数量的响应。
+    ///     根据用户列表统计一组查看数量的响应。
     /// </summary>
     [DataContract]
     public class ViewCountByUsersResponse : IHasResponseStatus
     {
         /// <summary>
-        ///     一组用户的阅读数量。
+        ///     一组用户的查看数量。
         /// </summary>
         [DataMember(Order = 1)]
-        [ApiMember(Description = "一组用户的阅读数量")]
+        [ApiMember(Description = "一组用户的查看数量")]
         public Dictionary<int, ViewCountsDto> UsersCounts { get; set; }
 
         /// <summary>

@@ -158,6 +158,7 @@
     <Compile Include="Bookmarks\Validators\BookmarkListValidator.cs" />
     <Compile Include="Bookmarks\Validators\BookmarkShowValidator.cs" />
     <Compile Include="Bookmarks\BookmarkBatchCreate.cs" />
+    <Compile Include="Books\Entities\BasicBookDto.cs" />
     <Compile Include="Books\Entities\BookDto.cs" />
     <Compile Include="Books\BookCreate.cs" />
     <Compile Include="Books\BookDelete.cs" />
@@ -169,7 +170,17 @@
     <Compile Include="Books\Validators\BookListValidator.cs" />
     <Compile Include="Books\Validators\BookShowValidator.cs" />
     <Compile Include="Books\Validators\BookUpdateValidator.cs" />
+    <Compile Include="ChapterReads\ChapterReadCreate.cs" />
+    <Compile Include="ChapterReads\ChapterReadDelete.cs" />
+    <Compile Include="ChapterReads\ChapterReadList.cs" />
+    <Compile Include="ChapterReads\ChapterReadShow.cs" />
+    <Compile Include="ChapterReads\Entities\ChapterReadDto.cs" />
+    <Compile Include="ChapterReads\Validators\ChapterReadCreateValidator.cs" />
+    <Compile Include="ChapterReads\Validators\ChapterReadDeleteValidator.cs" />
+    <Compile Include="ChapterReads\Validators\ChapterReadListValidator.cs" />
+    <Compile Include="ChapterReads\Validators\ChapterReadShowValidator.cs" />
     <Compile Include="Chapters\ChapterSearch.cs" />
+    <Compile Include="Chapters\Entities\BasicChapterDto.cs" />
     <Compile Include="Chapters\Entities\ChapterDto.cs" />
     <Compile Include="Chapters\ChapterCreate.cs" />
     <Compile Include="Chapters\ChapterDelete.cs" />
@@ -360,7 +371,9 @@
     <Compile Include="Views\Validators\ViewDeleteValidator.cs" />
     <Compile Include="Views\Validators\ViewListValidator.cs" />
     <Compile Include="Views\Validators\ViewShowValidator.cs" />
+    <Compile Include="Volumes\Entities\BasicVolumeAnnotationDto.cs" />
     <Compile Include="Volumes\Entities\VolumeAnnotationDto.cs" />
+    <Compile Include="Volumes\Entities\BasicVolumeDto.cs" />
     <Compile Include="Volumes\Entities\VolumeDto.cs" />
     <Compile Include="Volumes\Validators\VolumeAnnotationCreateValidator.cs" />
     <Compile Include="Volumes\Validators\VolumeAnnotationDeleteValidator.cs" />

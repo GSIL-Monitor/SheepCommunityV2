@@ -172,6 +172,18 @@ namespace Sheep.Model.Bookstore.Repositories
         }
 
         /// <inheritdoc />
+        public List<Book> GetBooks(List<string> bookIds)
+        {
+            return R.Table(s_BookTable).GetAll(R.Args(bookIds.ToArray())).RunResult<List<Book>>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<List<Book>> GetBooksAsync(List<string> bookIds)
+        {
+            return R.Table(s_BookTable).GetAll(R.Args(bookIds.ToArray())).RunResultAsync<List<Book>>(_conn);
+        }
+
+        /// <inheritdoc />
         public List<Book> FindBooks(string titleFilter, string tag, DateTime? publishedSince, bool? isPublished, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_BookTable).Filter(true);

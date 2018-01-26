@@ -14,7 +14,7 @@ using Sheep.ServiceModel.Views;
 namespace Sheep.ServiceInterface.Views
 {
     /// <summary>
-    ///     显示一个阅读服务接口。
+    ///     显示一个查看服务接口。
     /// </summary>
     public class ShowViewService : Service
     {
@@ -35,7 +35,7 @@ namespace Sheep.ServiceInterface.Views
         public IAppSettings AppSettings { get; set; }
 
         /// <summary>
-        ///     获取及设置显示一个阅读的校验器。
+        ///     获取及设置显示一个查看的校验器。
         /// </summary>
         public IValidator<ViewShow> ViewShowValidator { get; set; }
 
@@ -45,7 +45,7 @@ namespace Sheep.ServiceInterface.Views
         public IUserAuthRepository AuthRepo { get; set; }
 
         /// <summary>
-        ///     获取及设置阅读的存储库。
+        ///     获取及设置查看的存储库。
         /// </summary>
         public IViewRepository ViewRepo { get; set; }
 
@@ -66,10 +66,10 @@ namespace Sheep.ServiceInterface.Views
 
         #endregion
 
-        #region 显示一个阅读
+        #region 显示一个查看
 
         /// <summary>
-        ///     显示一个阅读。
+        ///     显示一个查看。
         /// </summary>
         public async Task<object> Get(ViewShow request)
         {

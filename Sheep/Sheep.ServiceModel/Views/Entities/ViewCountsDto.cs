@@ -3,13 +3,13 @@
 namespace Sheep.ServiceModel.Views.Entities
 {
     /// <summary>
-    ///     阅读数量信息。
+    ///     查看数量信息。
     /// </summary>
     [DataContract]
     public class ViewCountsDto
     {
         /// <summary>
-        ///     阅读次数。
+        ///     查看次数。
         /// </summary>
         [DataMember(Order = 1)]
         public int ViewsCount { get; set; }

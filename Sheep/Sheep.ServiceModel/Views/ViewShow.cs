@@ -5,31 +5,31 @@ using Sheep.ServiceModel.Views.Entities;
 namespace Sheep.ServiceModel.Views
 {
     /// <summary>
-    ///     显示一个阅读的请求。
+    ///     显示一个查看的请求。
     /// </summary>
-    [Route("/views/{ViewId}", HttpMethods.Get, Summary = "显示一个阅读")]
+    [Route("/views/{ViewId}", HttpMethods.Get, Summary = "显示一个查看")]
     [DataContract]
     public class ViewShow : IReturn<ViewShowResponse>
     {
         /// <summary>
-        ///     阅读的编号。
+        ///     查看的编号。
         /// </summary>
         [DataMember(Order = 1, IsRequired = true)]
-        [ApiMember(Description = "阅读编号")]
+        [ApiMember(Description = "查看编号")]
         public string ViewId { get; set; }
     }
 
     /// <summary>
-    ///     显示一个阅读的响应。
+    ///     显示一个查看的响应。
     /// </summary>
     [DataContract]
     public class ViewShowResponse : IHasResponseStatus
     {
         /// <summary>
-        ///     阅读信息。
+        ///     查看信息。
         /// </summary>
         [DataMember(Order = 1)]
-        [ApiMember(Description = "阅读信息")]
+        [ApiMember(Description = "查看信息")]
         public ViewDto View { get; set; }
 
         /// <summary>

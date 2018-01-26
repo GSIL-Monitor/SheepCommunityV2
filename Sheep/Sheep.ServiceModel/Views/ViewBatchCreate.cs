@@ -4,9 +4,9 @@ using ServiceStack;
 namespace Sheep.ServiceModel.Views
 {
     /// <summary>
-    ///     新建一组节阅读的请求。
+    ///     新建一组节查看的请求。
     /// </summary>
-    [Route("/views/paragraphs", HttpMethods.Post, Summary = "新建一组节阅读")]
+    [Route("/views/paragraphs", HttpMethods.Post, Summary = "新建一组节查看")]
     [DataContract]
     public class ViewBatchCreateForParagraphs : IReturn<ViewBatchCreateResponse>
     {
@@ -54,7 +54,7 @@ namespace Sheep.ServiceModel.Views
     }
 
     /// <summary>
-    ///     新建一组阅读的响应。
+    ///     新建一组查看的响应。
     /// </summary>
     [DataContract]
     public class ViewBatchCreateResponse : IHasResponseStatus

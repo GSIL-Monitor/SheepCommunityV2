@@ -5,7 +5,7 @@ using ServiceStack.Model;
 namespace Sheep.Model.Content.Entities
 {
     /// <summary>
-    ///     阅读。
+    ///     查看。
     /// </summary>
     public class View : IHasStringId
     {

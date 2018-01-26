@@ -26,6 +26,20 @@ namespace Sheep.Model.Bookstore
         Task<Volume> GetVolumeAsync(string volumeId);
 
         /// <summary>
+        ///     获取卷列表。
+        /// </summary>
+        /// <param name="volumeIds">卷的编号列表。</param>
+        /// <returns>卷。</returns>
+        List<Volume> GetVolumes(List<string> volumeIds);
+
+        /// <summary>
+        ///     异步获取卷列表。
+        /// </summary>
+        /// <param name="volumeIds">卷的编号列表。</param>
+        /// <returns>卷。</returns>
+        Task<List<Volume>> GetVolumesAsync(List<string> volumeIds);
+
+        /// <summary>
         ///     根据书籍及序号获取卷。
         /// </summary>
         /// <param name="bookId">书籍的编号。</param>

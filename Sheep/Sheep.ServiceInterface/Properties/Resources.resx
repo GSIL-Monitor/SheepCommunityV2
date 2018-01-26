@@ -277,15 +277,21 @@
     <value>无法找到指定条件的收藏列表。</value>
   </data>
   <data name="ViewNotFound" xml:space="preserve">
-    <value>无法找到指定的阅读{0}。</value>
+    <value>无法找到指定的查看{0}。</value>
   </data>
   <data name="ViewsNotFound" xml:space="preserve">
-    <value>无法找到指定条件的阅读列表。</value>
+    <value>无法找到指定条件的查看列表。</value>
   </data>
   <data name="AbuseReportNotFound" xml:space="preserve">
     <value>无法找到指定的举报{0}。</value>
   </data>
   <data name="AbuseReportsNotFound" xml:space="preserve">
     <value>无法找到指定的举报列表。</value>
+  </data>
+  <data name="ChapterReadNotFound" xml:space="preserve">
+    <value>无法找到指定的章阅读{0}。</value>
+  </data>
+  <data name="ChapterReadsNotFound" xml:space="preserve">
+    <value>无法找到指定条件的章阅读列表。</value>
   </data>
 </root>

@@ -6,7 +6,7 @@ using Sheep.ServiceModel.Properties;
 namespace Sheep.ServiceModel.Views.Validators
 {
     /// <summary>
-    ///     新建一个阅读的校验器。
+    ///     新建一个查看的校验器。
     /// </summary>
     public class ViewCreateValidator : AbstractValidator<ViewCreate>
     {

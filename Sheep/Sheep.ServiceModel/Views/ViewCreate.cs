@@ -5,9 +5,9 @@ using Sheep.ServiceModel.Views.Entities;
 namespace Sheep.ServiceModel.Views
 {
     /// <summary>
-    ///     新建一个阅读的请求。
+    ///     新建一个查看的请求。
     /// </summary>
-    [Route("/views", HttpMethods.Post, Summary = "新建一个阅读")]
+    [Route("/views", HttpMethods.Post, Summary = "新建一个查看")]
     [DataContract]
     public class ViewCreate : IReturn<ViewCreateResponse>
     {
@@ -27,16 +27,16 @@ namespace Sheep.ServiceModel.Views
     }
 
     /// <summary>
-    ///     新建一个阅读的响应。
+    ///     新建一个查看的响应。
     /// </summary>
     [DataContract]
     public class ViewCreateResponse : IHasResponseStatus
     {
         /// <summary>
-        ///     阅读信息。
+        ///     查看信息。
         /// </summary>
         [DataMember(Order = 1)]
-        [ApiMember(Description = "阅读信息")]
+        [ApiMember(Description = "查看信息")]
         public ViewDto View { get; set; }
 
         /// <summary>

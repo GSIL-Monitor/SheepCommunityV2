@@ -378,4 +378,10 @@
   <data name="ReportIdRequired" xml:space="preserve">
     <value>举报编号必须输入。</value>
   </data>
+  <data name="ChapterIdRequired" xml:space="preserve">
+    <value>章编号必须输入。</value>
+  </data>
+  <data name="ChapterReadIdRequired" xml:space="preserve">
+    <value>章阅读编号必须输入。</value>
+  </data>
 </root>
