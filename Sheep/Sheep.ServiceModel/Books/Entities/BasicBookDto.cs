@@ -20,5 +20,11 @@ namespace Sheep.ServiceModel.Books.Entities
         /// </summary>
         [DataMember(Order = 2)]
         public string Title { get; set; }
+
+        /// <summary>
+        ///     卷数。
+        /// </summary>
+        [DataMember(Order = 3)]
+        public int VolumesCount { get; set; }
     }
 }

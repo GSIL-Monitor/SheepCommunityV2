@@ -26,5 +26,11 @@ namespace Sheep.ServiceModel.Chapters.Entities
         /// </summary>
         [DataMember(Order = 3)]
         public string Title { get; set; }
+
+        /// <summary>
+        ///     节数。
+        /// </summary>
+        [DataMember(Order = 4)]
+        public int ParagraphsCount { get; set; }
     }
 }

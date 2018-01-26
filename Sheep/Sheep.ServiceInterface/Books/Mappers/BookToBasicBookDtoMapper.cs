@@ -15,7 +15,8 @@ namespace Sheep.ServiceInterface.Books.Mappers
             var bookDto = new BasicBookDto
                           {
                               Id = book.Id,
-                              Title = book.Title
+                              Title = book.Title,
+                              VolumesCount = book.VolumesCount
                           };
             return bookDto;
         }

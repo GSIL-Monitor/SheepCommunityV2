@@ -16,7 +16,8 @@ namespace Sheep.ServiceInterface.Chapters.Mappers
                              {
                                  Id = chapter.Id,
                                  Number = chapter.Number,
-                                 Title = chapter.Title
+                                 Title = chapter.Title,
+                                 ParagraphsCount = chapter.ParagraphsCount
                              };
             return chapterDto;
         }

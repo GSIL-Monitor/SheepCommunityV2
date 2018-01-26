@@ -16,7 +16,8 @@ namespace Sheep.ServiceInterface.Volumes.Mappers
                             {
                                 Id = volume.Id,
                                 Number = volume.Number,
-                                Title = volume.Title
+                                Title = volume.Title,
+                                ChaptersCount = volume.ChaptersCount
                             };
             return volumeDto;
         }
