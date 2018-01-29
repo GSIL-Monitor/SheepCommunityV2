@@ -384,4 +384,13 @@
   <data name="ChapterReadIdRequired" xml:space="preserve">
     <value>章阅读编号必须输入。</value>
   </data>
+  <data name="ContentIdRequired" xml:space="preserve">
+    <value>内容编号必须输入。</value>
+  </data>
+  <data name="PositionRequired" xml:space="preserve">
+    <value>位置必须输入。</value>
+  </data>
+  <data name="RecommendationIdRequired" xml:space="preserve">
+    <value>推荐编号必须输入。</value>
+  </data>
 </root>

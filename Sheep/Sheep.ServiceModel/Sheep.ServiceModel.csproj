@@ -289,6 +289,17 @@
     <Compile Include="Posts\Validators\PostCreateValidator.cs" />
     <Compile Include="Posts\Validators\PostListValidator.cs" />
     <Compile Include="Posts\Validators\PostShowValidator.cs" />
+    <Compile Include="Recommendations\RecommendationCreate.cs" />
+    <Compile Include="Recommendations\RecommendationDelete.cs" />
+    <Compile Include="Recommendations\RecommendationList.cs" />
+    <Compile Include="Recommendations\RecommendationShow.cs" />
+    <Compile Include="Recommendations\RecommendationUpdate.cs" />
+    <Compile Include="Recommendations\Entities\RecommendationDto.cs" />
+    <Compile Include="Recommendations\Validators\RecommendationCreateValidator.cs" />
+    <Compile Include="Recommendations\Validators\RecommendationDeleteValidator.cs" />
+    <Compile Include="Recommendations\Validators\RecommendationListValidator.cs" />
+    <Compile Include="Recommendations\Validators\RecommendationShowValidator.cs" />
+    <Compile Include="Recommendations\Validators\RecommendationUpdateValidator.cs" />
     <Compile Include="Replies\ReplyCreate.cs" />
     <Compile Include="Replies\ReplyDelete.cs" />
     <Compile Include="Replies\ReplyList.cs" />
@@ -413,7 +424,6 @@
     <Folder Include="UserAchievements\Validators\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

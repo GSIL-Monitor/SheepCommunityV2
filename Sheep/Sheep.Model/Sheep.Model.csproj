@@ -141,6 +141,7 @@
     <Compile Include="Content\Entities\View.cs" />
     <Compile Include="Content\Entities\Reply.cs" />
     <Compile Include="Content\Entities\Comment.cs" />
+    <Compile Include="Content\Entities\Recommendation.cs" />
     <Compile Include="Content\Entities\Vote.cs" />
     <Compile Include="Content\Entities\Like.cs" />
     <Compile Include="Content\Entities\Post.cs" />
@@ -149,6 +150,7 @@
     <Compile Include="Content\IViewRepository.cs" />
     <Compile Include="Content\IReplyRepository.cs" />
     <Compile Include="Content\ICommentRepository.cs" />
+    <Compile Include="Content\IRecommendationRepository.cs" />
     <Compile Include="Content\IVoteRepository.cs" />
     <Compile Include="Content\ILikeRepository.cs" />
     <Compile Include="Content\IPostRepository.cs" />
@@ -157,6 +159,7 @@
     <Compile Include="Content\Repositories\RethinkDbViewRepository.cs" />
     <Compile Include="Content\Repositories\RethinkDbReplyRepository.cs" />
     <Compile Include="Content\Repositories\RethinkDbCommentRepository.cs" />
+    <Compile Include="Content\Repositories\RethinkDbRecommendationRepository.cs" />
     <Compile Include="Content\Repositories\RethinkDbVoteRepository.cs" />
     <Compile Include="Content\Repositories\RethinkDbLikeRepository.cs" />
     <Compile Include="Content\Repositories\RethinkDbPostRepository.cs" />

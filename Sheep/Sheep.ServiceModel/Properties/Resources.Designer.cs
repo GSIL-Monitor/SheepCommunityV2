@@ -178,6 +178,15 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
+        ///   查找类似 内容编号必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string ContentIdRequired {
+            get {
+                return ResourceManager.GetString("ContentIdRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 正文内容必须输入。 的本地化字符串。
         /// </summary>
         internal static string ContentRequired {
@@ -520,6 +529,15 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
+        ///   查找类似 位置必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string PositionRequired {
+            get {
+                return ResourceManager.GetString("PositionRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 帖子编号必须输入。 的本地化字符串。
         /// </summary>
         internal static string PostIdRequired {
@@ -579,6 +597,15 @@ namespace Sheep.ServiceModel.Properties {
         internal static string ReasonRequired {
             get {
                 return ResourceManager.GetString("ReasonRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 推荐编号必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string RecommendationIdRequired {
+            get {
+                return ResourceManager.GetString("RecommendationIdRequired", resourceCulture);
             }
         }
         
