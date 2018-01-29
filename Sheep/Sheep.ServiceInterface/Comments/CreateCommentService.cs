@@ -5,6 +5,7 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
+using ServiceStack.Text;
 using Sheep.Common.Auth;
 using Sheep.Model.Bookstore;
 using Sheep.Model.Content;
@@ -108,6 +109,24 @@ namespace Sheep.ServiceInterface.Comments
             {
                 case "帖子":
                     await PostRepo.IncrementPostCommentsCountAsync(comment.ParentId, 1);
+                    var post = await PostRepo.GetPostAsync(comment.ParentId);
+                    if (post != null)
+                    {
+                        await NimClient.PostAsync(new MessageSendAttachRequest
+                                                  {
+                                                      FromAccountId = currentUserId.ToString(),
+                                                      MessageType = 0,
+                                                      ToId = post.AuthorId.ToString(),
+                                                      Attach = string.Format("{{\"Type\" : \"Comment\", \"UserId\" : \"{0}\", \"UserDisplayName\" : \"{1}\", \"UserAvatarUrl\" : \"{2}\", \"PostId\" : \"{3}\", \"PostTitle\" : \"{4}\", \"PostPictureUrl\" : \"{5}\", \"PostContentType\" : \"{6}\", \"CommentId\" : \"{7}\", \"CommentContent\" : \"{8}\", \"CommentCreatedDate\" : \"{9}\"}}", currentUserId, currentUserAuth.DisplayName, currentUserAuth.Meta?.GetValueOrDefault("AvatarUrl"), post.Id, post.Title, post.PictureUrl, post.ContentType, comment.Id, comment.Content, comment.CreatedDate.ToUnixTime()),
+                                                      PushContent = string.Format("{0}评论了你的帖子《{1}》", currentUserAuth.DisplayName, post.Title),
+                                                      Option = new MessageSendAttachOption
+                                                               {
+                                                                   Badge = true,
+                                                                   NeedPushNick = false,
+                                                                   Route = false
+                                                               }
+                                                  });
+                    }
                     break;
                 case "章":
                     await ChapterRepo.IncrementChapterCommentsCountAsync(comment.ParentId, 1);
@@ -116,12 +135,6 @@ namespace Sheep.ServiceInterface.Comments
                     await ParagraphRepo.IncrementParagraphCommentsCountAsync(comment.ParentId, 1);
                     break;
             }
-            //await NimClient.PostAsync(new FriendAddRequest
-            //                          {
-            //                              AccountId = currentUserId.ToString(),
-            //                              FriendAccountId = request.ParentId.ToString(),
-            //                              Type = 1
-            //                          });
             return new CommentCreateResponse
                    {
                        Comment = comment.MapToCommentDto(currentUserAuth, false, false)

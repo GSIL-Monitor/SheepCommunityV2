@@ -5,6 +5,7 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
+using ServiceStack.Text;
 using Sheep.Common.Auth;
 using Sheep.Model.Bookstore;
 using Sheep.Model.Content;
@@ -101,13 +102,25 @@ namespace Sheep.ServiceInterface.Likes
                 switch (existingLike.ParentType)
                 {
                     case "帖子":
-                        title = (await PostRepo.GetPostAsync(existingLike.ParentId))?.Title;
+                        var post = await PostRepo.GetPostAsync(existingLike.ParentId);
+                        if (post != null)
+                        {
+                            title = post.Title;
+                        }
                         break;
                     case "章":
-                        title = (await ChapterRepo.GetChapterAsync(existingLike.ParentId))?.Title;
+                        var chapter = await ChapterRepo.GetChapterAsync(existingLike.ParentId);
+                        if (chapter != null)
+                        {
+                            title = chapter.Title;
+                        }
                         break;
                     case "节":
-                        title = (await ParagraphRepo.GetParagraphAsync(existingLike.ParentId))?.Content;
+                        var paragraph = await ParagraphRepo.GetParagraphAsync(existingLike.ParentId);
+                        if (paragraph != null)
+                        {
+                            title = paragraph.Content;
+                        }
                         break;
                 }
                 return new LikeCreateResponse
@@ -126,24 +139,44 @@ namespace Sheep.ServiceInterface.Likes
             switch (like.ParentType)
             {
                 case "帖子":
-                    title = (await PostRepo.GetPostAsync(like.ParentId))?.Title;
                     await PostRepo.IncrementPostLikesCountAsync(like.ParentId, 1);
+                    var post = await PostRepo.GetPostAsync(like.ParentId);
+                    if (post != null)
+                    {
+                        title = post.Title;
+                        await NimClient.PostAsync(new MessageSendAttachRequest
+                                                  {
+                                                      FromAccountId = currentUserId.ToString(),
+                                                      MessageType = 0,
+                                                      ToId = post.AuthorId.ToString(),
+                                                      Attach = string.Format("{{\"Type\" : \"Like\", \"UserId\" : \"{0}\", \"UserDisplayName\" : \"{1}\", \"UserAvatarUrl\" : \"{2}\", \"PostId\" : \"{3}\", \"PostTitle\" : \"{4}\", \"PostPictureUrl\" : \"{5}\", \"PostContentType\" : \"{6}\", \"LikeId\" : \"{7}\", \"LikeCreatedDate\" : \"{8}\"}}", currentUserId, currentUserAuth.DisplayName, currentUserAuth.Meta?.GetValueOrDefault("AvatarUrl"), post.Id, post.Title, post.PictureUrl, post.ContentType, like.Id, like.CreatedDate.ToUnixTime()),
+                                                      PushContent = string.Format("{0}赞了你的帖子《{1}》", currentUserAuth.DisplayName, post.Title),
+                                                      Option = new MessageSendAttachOption
+                                                               {
+                                                                   Badge = true,
+                                                                   NeedPushNick = false,
+                                                                   Route = false
+                                                               }
+                                                  });
+                    }
                     break;
                 case "章":
-                    title = (await ChapterRepo.GetChapterAsync(like.ParentId))?.Title;
                     await ChapterRepo.IncrementChapterLikesCountAsync(like.ParentId, 1);
+                    var chapter = await ChapterRepo.GetChapterAsync(like.ParentId);
+                    if (chapter != null)
+                    {
+                        title = chapter.Title;
+                    }
                     break;
                 case "节":
-                    title = (await ParagraphRepo.GetParagraphAsync(like.ParentId))?.Content;
                     await ParagraphRepo.IncrementParagraphLikesCountAsync(like.ParentId, 1);
+                    var paragraph = await ParagraphRepo.GetParagraphAsync(like.ParentId);
+                    if (paragraph != null)
+                    {
+                        title = paragraph.Content;
+                    }
                     break;
             }
-            //await NimClient.PostAsync(new FriendAddRequest
-            //                          {
-            //                              AccountId = currentUserId.ToString(),
-            //                              FriendAccountId = request.ParentId.ToString(),
-            //                              Type = 1
-            //                          });
             return new LikeCreateResponse
                    {
                        Like = like.MapToLikeDto(currentUserAuth, title)
