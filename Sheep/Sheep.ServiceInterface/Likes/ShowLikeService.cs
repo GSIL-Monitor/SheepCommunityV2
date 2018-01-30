@@ -88,19 +88,33 @@ namespace Sheep.ServiceInterface.Likes
                 throw HttpError.NotFound(string.Format(Resources.LikeNotFound, request.ParentId));
             }
             var title = string.Empty;
+            var pictureUrl = string.Empty;
             switch (existingLike.ParentType)
             {
                 case "帖子":
-                    title = (await PostRepo.GetPostAsync(existingLike.ParentId))?.Title;
+                    var post = await PostRepo.GetPostAsync(existingLike.ParentId);
+                    if (post != null)
+                    {
+                        title = post.Title;
+                        pictureUrl = post.PictureUrl;
+                    }
                     break;
                 case "章":
-                    title = (await ChapterRepo.GetChapterAsync(existingLike.ParentId))?.Title;
+                    var chapter = await ChapterRepo.GetChapterAsync(existingLike.ParentId);
+                    if (chapter != null)
+                    {
+                        title = chapter.Title;
+                    }
                     break;
                 case "节":
-                    title = (await ParagraphRepo.GetParagraphAsync(existingLike.ParentId))?.Content;
+                    var paragraph = await ParagraphRepo.GetParagraphAsync(existingLike.ParentId);
+                    if (paragraph != null)
+                    {
+                        title = paragraph.Content;
+                    }
                     break;
             }
-            var likeDto = existingLike.MapToLikeDto(user, title);
+            var likeDto = existingLike.MapToLikeDto(user, title, pictureUrl);
             return new LikeShowResponse
                    {
                        Like = likeDto

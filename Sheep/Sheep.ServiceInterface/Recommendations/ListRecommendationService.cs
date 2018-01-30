@@ -68,7 +68,7 @@ namespace Sheep.ServiceInterface.Recommendations
                 throw HttpError.NotFound(string.Format(Resources.RecommendationsNotFound));
             }
             var postsMap = (await PostRepo.GetPostsAsync(existingRecommendations.Where(recommendation => recommendation.ContentType == "帖子").Select(recommendation => recommendation.ContentId.ToString()).Distinct().ToList())).ToDictionary(post => post.Id, post => post);
-            var recommendationsDto = existingRecommendations.Select(recommendation => recommendation.MapToRecommendationDto(postsMap.GetValueOrDefault(recommendation.ContentId))).ToList();
+            var recommendationsDto = existingRecommendations.Select(recommendation => recommendation.ContentType == "帖子" ? recommendation.MapToRecommendationDto(postsMap.GetValueOrDefault(recommendation.ContentId)) : null).ToList();
             return new RecommendationListResponse
                    {
                        Recommendations = recommendationsDto

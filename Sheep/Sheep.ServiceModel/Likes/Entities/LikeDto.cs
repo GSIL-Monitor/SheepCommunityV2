@@ -28,15 +28,21 @@ namespace Sheep.ServiceModel.Likes.Entities
         public string ParentTitle { get; set; }
 
         /// <summary>
-        ///     用户。
+        ///     上级图片的地址。
         /// </summary>
         [DataMember(Order = 4)]
+        public string ParentPictureUrl { get; set; }
+
+        /// <summary>
+        ///     用户。
+        /// </summary>
+        [DataMember(Order = 5)]
         public BasicUserDto User { get; set; }
 
         /// <summary>
         ///     创建日期。
         /// </summary>
-        [DataMember(Order = 5)]
+        [DataMember(Order = 6)]
         public long CreatedDate { get; set; }
     }
 }

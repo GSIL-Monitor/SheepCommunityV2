@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 using ServiceStack;
 using Sheep.ServiceModel.Likes.Entities;
@@ -109,6 +108,35 @@ namespace Sheep.ServiceModel.Likes
         ///     获取的行数。
         /// </summary>
         [DataMember(Order = 7, Name = "limit")]
+        [ApiMember(Description = "获取的行数")]
+        public int? Limit { get; set; }
+    }
+
+    /// <summary>
+    ///     根据作者帖子列表查询并列举一组点赞信息的请求。
+    /// </summary>
+    [Route("/likes/query/bypostsofauthor", HttpMethods.Get, Summary = "根据作者帖子列表查询并列举一组点赞信息")]
+    [DataContract]
+    public class LikeListByPostsOfAuthor : IReturn<LikeListResponse>
+    {
+        /// <summary>
+        ///     是否仅列举已关注的用户的点赞。
+        /// </summary>
+        [DataMember(Order = 1, Name = "following")]
+        [ApiMember(Description = "是否仅列举已关注的用户的点赞")]
+        public bool? Following { get; set; }
+
+        /// <summary>
+        ///     忽略的行数。
+        /// </summary>
+        [DataMember(Order = 2, Name = "skip")]
+        [ApiMember(Description = "忽略的行数")]
+        public int? Skip { get; set; }
+
+        /// <summary>
+        ///     获取的行数。
+        /// </summary>
+        [DataMember(Order = 3, Name = "limit")]
         [ApiMember(Description = "获取的行数")]
         public int? Limit { get; set; }
     }

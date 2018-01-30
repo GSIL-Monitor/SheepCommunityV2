@@ -53,6 +53,26 @@ namespace Sheep.Model.Content
         Task<List<Like>> FindLikesByParentAsync(string parentId, DateTime? createdSince, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
+        ///     根据作者的帖子列表查找点赞。
+        /// </summary>
+        /// <param name="postAuthorId">帖子列表的作者的编号。</param>
+        /// <param name="userIds">用户的编号列表。</param>
+        /// <param name="skip">忽略的行数。</param>
+        /// <param name="limit">获取的行数。</param>
+        /// <returns>点赞列表。</returns>
+        List<Like> FindLikesByPostsOfAuthor(int postAuthorId, List<int> userIds, int? skip, int? limit);
+
+        /// <summary>
+        ///     异步根据作者的帖子列表查找点赞。
+        /// </summary>
+        /// <param name="postAuthorId">帖子列表的作者的编号。</param>
+        /// <param name="userIds">用户的编号列表。</param>
+        /// <param name="skip">忽略的行数。</param>
+        /// <param name="limit">获取的行数。</param>
+        /// <returns>点赞列表。</returns>
+        Task<List<Like>> FindLikesByPostsOfAuthorAsync(int postAuthorId, List<int> userIds, int? skip, int? limit);
+
+        /// <summary>
         ///     根据用户查找点赞。
         /// </summary>
         /// <param name="userId">用户的编号。</param>

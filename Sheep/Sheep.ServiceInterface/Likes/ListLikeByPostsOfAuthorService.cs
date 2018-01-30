@@ -1,14 +1,15 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Text;
 using Sheep.Common.Auth;
-using Sheep.Model.Bookstore;
 using Sheep.Model.Content;
+using Sheep.Model.Content.Entities;
+using Sheep.Model.Friendship;
 using Sheep.ServiceInterface.Likes.Mappers;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Likes;
@@ -16,16 +17,16 @@ using Sheep.ServiceModel.Likes;
 namespace Sheep.ServiceInterface.Likes
 {
     /// <summary>
-    ///     根据用户列举一组点赞信息服务接口。
+    ///     根据作者帖子列表列举一组点赞信息服务接口。
     /// </summary>
-    public class ListLikeByUserService : Service
+    public class ListLikeByPostsOfAuthorService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(ListLikeByUserService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(ListLikeByPostsOfAuthorService));
 
         #endregion
 
@@ -39,12 +40,17 @@ namespace Sheep.ServiceInterface.Likes
         /// <summary>
         ///     获取及设置列举一组点赞的校验器。
         /// </summary>
-        public IValidator<LikeListByUser> LikeListByUserValidator { get; set; }
+        public IValidator<LikeListByPostsOfAuthor> LikeListByPostsOfAuthorValidator { get; set; }
 
         /// <summary>
         ///     获取及设置用户身份的存储库。
         /// </summary>
         public IUserAuthRepository AuthRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置关注的存储库。
+        /// </summary>
+        public IFollowRepository FollowRepo { get; set; }
 
         /// <summary>
         ///     获取及设置点赞的存储库。
@@ -56,16 +62,6 @@ namespace Sheep.ServiceInterface.Likes
         /// </summary>
         public IPostRepository PostRepo { get; set; }
 
-        /// <summary>
-        ///     获取及设置章的存储库。
-        /// </summary>
-        public IChapterRepository ChapterRepo { get; set; }
-
-        /// <summary>
-        ///     获取及设置节的存储库。
-        /// </summary>
-        public IParagraphRepository ParagraphRepo { get; set; }
-
         #endregion
 
         #region 列举一组点赞
@@ -74,22 +70,34 @@ namespace Sheep.ServiceInterface.Likes
         ///     列举一组点赞。
         /// </summary>
         //[CacheResponse(Duration = 3600)]
-        public async Task<object> Get(LikeListByUser request)
+        public async Task<object> Get(LikeListByPostsOfAuthor request)
         {
             //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             //{
-            //    LikeListByUserValidator.ValidateAndThrow(request, ApplyTo.Get);
+            //    LikeListByPostsOfAuthorValidator.ValidateAndThrow(request, ApplyTo.Get);
             //}
-            var existingLikes = await LikeRepo.FindLikesByUserAsync(request.UserId, request.ParentType, request.CreatedSince?.FromUnixTime(), request.OrderBy, request.Descending, request.Skip, request.Limit);
+            var currentUserId = GetSession().UserAuthId.ToInt(0);
+            List<Like> existingLikes;
+            if (request.Following.HasValue && request.Following.Value)
+            {
+                var existingFollows = await FollowRepo.FindFollowsByFollowerAsync(currentUserId, null, null, null, null, null, null);
+                if (existingFollows == null)
+                {
+                    throw HttpError.NotFound(string.Format(Resources.FollowsNotFound));
+                }
+                existingLikes = await LikeRepo.FindLikesByPostsOfAuthorAsync(currentUserId, existingFollows.Select(follow => follow.OwnerId).Distinct().ToList(), request.Skip, request.Limit);
+            }
+            else
+            {
+                existingLikes = await LikeRepo.FindLikesByPostsOfAuthorAsync(currentUserId, null, request.Skip, request.Limit);
+            }
             if (existingLikes == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.LikesNotFound));
             }
             var postsMap = (await PostRepo.GetPostsAsync(existingLikes.Where(like => like.ParentType == "帖子").Select(like => like.ParentId).Distinct().ToList())).ToDictionary(post => post.Id, post => post);
-            var chaptersMap = (await ChapterRepo.GetChaptersAsync(existingLikes.Where(like => like.ParentType == "章").Select(like => like.ParentId).Distinct().ToList())).ToDictionary(chapter => chapter.Id, chapter => chapter);
-            var paragraphsMap = (await ParagraphRepo.GetParagraphsAsync(existingLikes.Where(like => like.ParentType == "节").Select(like => like.ParentId).Distinct().ToList())).ToDictionary(paragraph => paragraph.Id, paragraph => paragraph);
             var usersMap = (await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthsAsync(existingLikes.Select(like => like.UserId.ToString()).Distinct().ToList())).ToDictionary(userAuth => userAuth.Id, userAuth => userAuth);
-            var likesDto = existingLikes.Select(like => like.MapToLikeDto(usersMap.GetValueOrDefault(like.UserId), like.ParentType == "帖子" ? postsMap.GetValueOrDefault(like.ParentId)?.Title : (like.ParentType == "章" ? chaptersMap.GetValueOrDefault(like.ParentId)?.Title : paragraphsMap.GetValueOrDefault(like.ParentId)?.Content), like.ParentType == "帖子" ? postsMap.GetValueOrDefault(like.ParentId)?.PictureUrl : null)).ToList();
+            var likesDto = existingLikes.Select(like => like.MapToLikeDto(usersMap.GetValueOrDefault(like.UserId), like.ParentType == "帖子" ? postsMap.GetValueOrDefault(like.ParentId)?.Title : null, like.ParentType == "帖子" ? postsMap.GetValueOrDefault(like.ParentId)?.PictureUrl : null)).ToList();
             return new LikeListResponse
                    {
                        Likes = likesDto

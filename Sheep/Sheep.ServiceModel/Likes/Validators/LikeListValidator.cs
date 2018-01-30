@@ -62,4 +62,19 @@ namespace Sheep.ServiceModel.Likes.Validators
                                  });
         }
     }
+
+    /// <summary>
+    ///     根据作者帖子列表列举一组点赞的校验器。
+    /// </summary>
+    public class LikeListByPostsOfAuthorValidator : AbstractValidator<LikeListByPostsOfAuthor>
+    {
+        /// <summary>
+        ///     初始化一个新的<see cref="LikeListByPostsOfAuthorValidator" />对象。
+        ///     创建规则集合。
+        /// </summary>
+        public LikeListByPostsOfAuthorValidator()
+        {
+            RuleSet(ApplyTo.Get, () => { });
+        }
+    }
 }

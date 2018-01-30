@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using ServiceStack.Text;
 using Sheep.ServiceModel.Books;
 using Sheep.ServiceModel.Chapters;
@@ -10,6 +11,12 @@ namespace Sheep.Tests.ServiceInterface.Books
     [TestFixture]
     public class BookLaoziClientTest : BookClientTestBase
     {
+        [Test]
+        public void OK()
+        {
+            DateTime.UtcNow.ToUnixTime().PrintDump();
+        }
+
         [Test]
         public void CreateBook()
         {

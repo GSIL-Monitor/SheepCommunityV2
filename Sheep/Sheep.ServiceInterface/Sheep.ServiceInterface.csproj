@@ -226,6 +226,7 @@
     <Compile Include="Likes\ChangeLikeService.cs" />
     <Compile Include="Likes\CreateLikeService.cs" />
     <Compile Include="Likes\DeleteLikeService.cs" />
+    <Compile Include="Likes\ListLikeByPostsOfAuthorService.cs" />
     <Compile Include="Likes\ListLikeByUserService.cs" />
     <Compile Include="Likes\ListLikeByParentService.cs" />
     <Compile Include="Likes\Mappers\LikeToLikeDtoMapper.cs" />
