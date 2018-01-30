@@ -28,21 +28,33 @@ namespace Sheep.ServiceModel.Recommendations.Entities
         public string ContentId { get; set; }
 
         /// <summary>
-        ///     位置。
+        ///     标题。
         /// </summary>
         [DataMember(Order = 4)]
+        public string Title { get; set; }
+
+        /// <summary>
+        ///     概要。
+        /// </summary>
+        [DataMember(Order = 5)]
+        public string Summary { get; set; }
+
+        /// <summary>
+        ///     图片的地址。
+        /// </summary>
+        [DataMember(Order = 6)]
+        public string PictureUrl { get; set; }
+
+        /// <summary>
+        ///     位置。
+        /// </summary>
+        [DataMember(Order = 7)]
         public int Position { get; set; }
 
         /// <summary>
         ///     创建日期。
         /// </summary>
-        [DataMember(Order = 5)]
+        [DataMember(Order = 8)]
         public long CreatedDate { get; set; }
-
-        /// <summary>
-        ///     更新日期。
-        /// </summary>
-        [DataMember(Order = 6)]
-        public long ModifiedDate { get; set; }
     }
 }

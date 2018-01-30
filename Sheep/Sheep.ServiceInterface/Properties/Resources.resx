@@ -294,4 +294,10 @@
   <data name="ChapterReadsNotFound" xml:space="preserve">
     <value>无法找到指定条件的章阅读列表。</value>
   </data>
+  <data name="RecommendationNotFound" xml:space="preserve">
+    <value>无法找到指定的推荐{0}。</value>
+  </data>
+  <data name="RecommendationsNotFound" xml:space="preserve">
+    <value>无法找到指定条件的推荐列表。</value>
+  </data>
 </root>

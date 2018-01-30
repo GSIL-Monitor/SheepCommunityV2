@@ -27,56 +27,20 @@ namespace Sheep.Model.Content
         Task<Recommendation> GetRecommendationAsync(string recommendationId);
 
         /// <summary>
-        ///     查找推荐。
+        ///     查找最新的位置推荐。
         /// </summary>
         /// <param name="contentType">内容的类型。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
-        /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
-        /// <param name="position">位置。</param>
-        /// <param name="orderBy">排序的字段。</param>
-        /// <param name="descending">是否按降序排序。</param>
-        /// <param name="skip">忽略的行数。</param>
-        /// <param name="limit">获取的行数。</param>
         /// <returns>推荐列表。</returns>
-        List<Recommendation> FindRecommendations(string contentType, DateTime? createdSince, DateTime? modifiedSince, int? position, string orderBy, bool? descending, int? skip, int? limit);
+        List<Recommendation> FindLatestPositionRecommendations(string contentType, DateTime? createdSince);
 
         /// <summary>
-        ///     异步查找推荐。
+        ///     异步查找最新的位置推荐。
         /// </summary>
         /// <param name="contentType">内容的类型。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
-        /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
-        /// <param name="position">位置。</param>
-        /// <param name="orderBy">排序的字段。</param>
-        /// <param name="descending">是否按降序排序。</param>
-        /// <param name="skip">忽略的行数。</param>
-        /// <param name="limit">获取的行数。</param>
         /// <returns>推荐列表。</returns>
-        Task<List<Recommendation>> FindRecommendationsAsync(string contentType, DateTime? createdSince, DateTime? modifiedSince, int? position, string orderBy, bool? descending, int? skip, int? limit);
-
-        #endregion
-
-        #region 统计
-
-        /// <summary>
-        ///     获取推荐数量。
-        /// </summary>
-        /// <param name="contentType">内容的类型。</param>
-        /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
-        /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
-        /// <param name="position">位置。</param>
-        /// <returns>推荐数量。</returns>
-        int GetRecommendationsCount(string contentType, DateTime? createdSince, DateTime? modifiedSince, int? position);
-
-        /// <summary>
-        ///     异步获取推荐数量。
-        /// </summary>
-        /// <param name="contentType">内容的类型。</param>
-        /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
-        /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
-        /// <param name="position">位置。</param>
-        /// <returns>推荐数量。</returns>
-        Task<int> GetRecommendationsCountAsync(string contentType, DateTime? createdSince, DateTime? modifiedSince, int? position);
+        Task<List<Recommendation>> FindLatestPositionRecommendationsAsync(string contentType, DateTime? createdSince);
 
         #endregion
 
@@ -95,22 +59,6 @@ namespace Sheep.Model.Content
         /// <param name="newRecommendation">新的推荐。</param>
         /// <returns>创建后的推荐。</returns>
         Task<Recommendation> CreateRecommendationAsync(Recommendation newRecommendation);
-
-        /// <summary>
-        ///     更新一个推荐。
-        /// </summary>
-        /// <param name="existingRecommendation">原有的推荐。</param>
-        /// <param name="newRecommendation">新的推荐。</param>
-        /// <returns>更新后的推荐。</returns>
-        Recommendation UpdateRecommendation(Recommendation existingRecommendation, Recommendation newRecommendation);
-
-        /// <summary>
-        ///     异步更新一个推荐。
-        /// </summary>
-        /// <param name="existingRecommendation">原有的推荐。</param>
-        /// <param name="newRecommendation">新的推荐。</param>
-        /// <returns>更新后的推荐。</returns>
-        Task<Recommendation> UpdateRecommendationAsync(Recommendation existingRecommendation, Recommendation newRecommendation);
 
         /// <summary>
         ///     删除一个推荐。

@@ -403,6 +403,24 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
+        ///   查找类似 无法找到指定的推荐{0}。 的本地化字符串。
+        /// </summary>
+        internal static string RecommendationNotFound {
+            get {
+                return ResourceManager.GetString("RecommendationNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定条件的推荐列表。 的本地化字符串。
+        /// </summary>
+        internal static string RecommendationsNotFound {
+            get {
+                return ResourceManager.GetString("RecommendationsNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 在已登录的状态下不允许进行重复登录，请先退出登录。 的本地化字符串。
         /// </summary>
         internal static string ReLoginNotAllowed {

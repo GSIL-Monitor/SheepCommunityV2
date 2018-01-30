@@ -15,13 +15,6 @@ namespace Sheep.ServiceModel.Recommendations.Validators
                                                                   "帖子"
                                                               };
 
-        public static readonly HashSet<string> OrderBys = new HashSet<string>
-                                                          {
-                                                              "Position",
-                                                              "CreatedDate",
-                                                              "ModifiedDate"
-                                                          };
-
         /// <summary>
         ///     初始化一个新的<see cref="RecommendationListValidator" />对象。
         ///     创建规则集合。
@@ -31,7 +24,6 @@ namespace Sheep.ServiceModel.Recommendations.Validators
             RuleSet(ApplyTo.Get, () =>
                                  {
                                      RuleFor(x => x.ContentType).Must(contentType => ContentTypes.Contains(contentType)).WithMessage(x => string.Format(Resources.ContentTypeRangeMismatch, ContentTypes.Join(","))).When(x => !x.ContentType.IsNullOrEmpty());
-                                     RuleFor(x => x.OrderBy).Must(orderBy => OrderBys.Contains(orderBy)).WithMessage(x => string.Format(Resources.OrderByRangeMismatch, OrderBys.Join(","))).When(x => !x.OrderBy.IsNullOrEmpty());
                                  });
         }
     }

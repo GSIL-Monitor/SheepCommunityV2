@@ -29,16 +29,11 @@ namespace Sheep.Model.Content.Entities
         /// <summary>
         ///     位置。
         /// </summary>
-        public int Positiion { get; set; }
+        public int Position { get; set; }
 
         /// <summary>
         ///     创建日期。
         /// </summary>
         public DateTime CreatedDate { get; set; }
-
-        /// <summary>
-        ///     更新日期。
-        /// </summary>
-        public DateTime ModifiedDate { get; set; }
     }
 }

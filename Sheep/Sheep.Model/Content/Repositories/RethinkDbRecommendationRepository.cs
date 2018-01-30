@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Funcular.IdGenerators.Base36;
 using RethinkDb.Driver;
-using RethinkDb.Driver.Ast;
 using RethinkDb.Driver.Model;
 using RethinkDb.Driver.Net;
 using ServiceStack;
@@ -136,7 +135,7 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public List<Recommendation> FindRecommendations(string contentType, DateTime? createdSince, DateTime? modifiedSince, int? position, string orderBy, bool? descending, int? skip, int? limit)
+        public List<Recommendation> FindLatestPositionRecommendations(string contentType, DateTime? createdSince)
         {
             var query = R.Table(s_RecommendationTable).Filter(true);
             if (!contentType.IsNullOrEmpty())
@@ -147,28 +146,11 @@ namespace Sheep.Model.Content.Repositories
             {
                 query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddSeconds(1)));
             }
-            if (modifiedSince.HasValue)
-            {
-                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value.AddSeconds(1)));
-            }
-            if (position.HasValue)
-            {
-                query = query.Filter(row => row.G("Position").Eq(position.Value));
-            }
-            OrderBy queryOrder;
-            if (!orderBy.IsNullOrEmpty())
-            {
-                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc(orderBy)) : query.OrderBy(orderBy);
-            }
-            else
-            {
-                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("CreatedDate")) : query.OrderBy("CreatedDate");
-            }
-            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 100000).RunResult<List<Recommendation>>(_conn);
+            return query.Group(row => row.G("Position")).Max(row => row.G("CreatedDate")).Ungroup().G("reduction").RunResult<List<Recommendation>>(_conn);
         }
 
         /// <inheritdoc />
-        public Task<List<Recommendation>> FindRecommendationsAsync(string contentType, DateTime? createdSince, DateTime? modifiedSince, int? position, string orderBy, bool? descending, int? skip, int? limit)
+        public Task<List<Recommendation>> FindLatestPositionRecommendationsAsync(string contentType, DateTime? createdSince)
         {
             var query = R.Table(s_RecommendationTable).Filter(true);
             if (!contentType.IsNullOrEmpty())
@@ -179,70 +161,7 @@ namespace Sheep.Model.Content.Repositories
             {
                 query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddSeconds(1)));
             }
-            if (modifiedSince.HasValue)
-            {
-                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value.AddSeconds(1)));
-            }
-            if (position.HasValue)
-            {
-                query = query.Filter(row => row.G("Position").Eq(position.Value));
-            }
-            OrderBy queryOrder;
-            if (!orderBy.IsNullOrEmpty())
-            {
-                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc(orderBy)) : query.OrderBy(orderBy);
-            }
-            else
-            {
-                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("CreatedDate")) : query.OrderBy("CreatedDate");
-            }
-            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 100000).RunResultAsync<List<Recommendation>>(_conn);
-        }
-
-        /// <inheritdoc />
-        public int GetRecommendationsCount(string contentType, DateTime? createdSince, DateTime? modifiedSince, int? position)
-        {
-            var query = R.Table(s_RecommendationTable).Filter(true);
-            if (!contentType.IsNullOrEmpty())
-            {
-                query = query.Filter(row => row.G("ContentType").Eq(contentType));
-            }
-            if (createdSince.HasValue)
-            {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddSeconds(1)));
-            }
-            if (modifiedSince.HasValue)
-            {
-                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value.AddSeconds(1)));
-            }
-            if (position.HasValue)
-            {
-                query = query.Filter(row => row.G("Position").Eq(position.Value));
-            }
-            return query.Count().RunResult<int>(_conn);
-        }
-
-        /// <inheritdoc />
-        public Task<int> GetRecommendationsCountAsync(string contentType, DateTime? createdSince, DateTime? modifiedSince, int? position)
-        {
-            var query = R.Table(s_RecommendationTable).Filter(true);
-            if (!contentType.IsNullOrEmpty())
-            {
-                query = query.Filter(row => row.G("ContentType").Eq(contentType));
-            }
-            if (createdSince.HasValue)
-            {
-                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddSeconds(1)));
-            }
-            if (modifiedSince.HasValue)
-            {
-                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value.AddSeconds(1)));
-            }
-            if (position.HasValue)
-            {
-                query = query.Filter(row => row.G("Position").Eq(position.Value));
-            }
-            return query.Count().RunResultAsync<int>(_conn);
+            return query.Group(row => row.G("Position")).Max(row => row.G("CreatedDate")).Ungroup().G("reduction").RunResultAsync<List<Recommendation>>(_conn);
         }
 
         /// <inheritdoc />
@@ -251,7 +170,6 @@ namespace Sheep.Model.Content.Repositories
             newRecommendation.ThrowIfNull(nameof(newRecommendation));
             newRecommendation.Id = newRecommendation.Id.IsNullOrEmpty() ? new Base36IdGenerator().NewId().ToLower() : newRecommendation.Id;
             newRecommendation.CreatedDate = DateTime.UtcNow;
-            newRecommendation.ModifiedDate = newRecommendation.CreatedDate;
             var result = R.Table(s_RecommendationTable).Get(newRecommendation.Id).Replace(newRecommendation).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
             return result.ChangesAs<Recommendation>()[0].NewValue;
         }
@@ -262,29 +180,6 @@ namespace Sheep.Model.Content.Repositories
             newRecommendation.ThrowIfNull(nameof(newRecommendation));
             newRecommendation.Id = newRecommendation.Id.IsNullOrEmpty() ? new Base36IdGenerator().NewId().ToLower() : newRecommendation.Id;
             newRecommendation.CreatedDate = DateTime.UtcNow;
-            newRecommendation.ModifiedDate = newRecommendation.CreatedDate;
-            var result = (await R.Table(s_RecommendationTable).Get(newRecommendation.Id).Replace(newRecommendation).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Recommendation>()[0].NewValue;
-        }
-
-        /// <inheritdoc />
-        public Recommendation UpdateRecommendation(Recommendation existingRecommendation, Recommendation newRecommendation)
-        {
-            existingRecommendation.ThrowIfNull(nameof(existingRecommendation));
-            newRecommendation.Id = existingRecommendation.Id;
-            newRecommendation.CreatedDate = existingRecommendation.CreatedDate;
-            newRecommendation.ModifiedDate = DateTime.UtcNow;
-            var result = R.Table(s_RecommendationTable).Get(newRecommendation.Id).Replace(newRecommendation).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Recommendation>()[0].NewValue;
-        }
-
-        /// <inheritdoc />
-        public async Task<Recommendation> UpdateRecommendationAsync(Recommendation existingRecommendation, Recommendation newRecommendation)
-        {
-            existingRecommendation.ThrowIfNull(nameof(existingRecommendation));
-            newRecommendation.Id = existingRecommendation.Id;
-            newRecommendation.CreatedDate = existingRecommendation.CreatedDate;
-            newRecommendation.ModifiedDate = DateTime.UtcNow;
             var result = (await R.Table(s_RecommendationTable).Get(newRecommendation.Id).Replace(newRecommendation).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
             return result.ChangesAs<Recommendation>()[0].NewValue;
         }
