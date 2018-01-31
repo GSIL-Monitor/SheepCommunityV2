@@ -5,6 +5,7 @@ using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using Sheep.Common.Auth;
+using Sheep.Model.Bookstore;
 using Sheep.Model.Content;
 using Sheep.ServiceInterface.Comments.Mappers;
 using Sheep.ServiceInterface.Properties;
@@ -44,9 +45,24 @@ namespace Sheep.ServiceInterface.Comments
         public IUserAuthRepository AuthRepo { get; set; }
 
         /// <summary>
+        ///     获取及设置帖子的存储库。
+        /// </summary>
+        public IPostRepository PostRepo { get; set; }
+
+        /// <summary>
         ///     获取及设置评论的存储库。
         /// </summary>
         public ICommentRepository CommentRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置章的存储库。
+        /// </summary>
+        public IChapterRepository ChapterRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置节的存储库。
+        /// </summary>
+        public IParagraphRepository ParagraphRepo { get; set; }
 
         /// <summary>
         ///     获取及设置投票的存储库。
@@ -76,9 +92,36 @@ namespace Sheep.ServiceInterface.Comments
             {
                 throw HttpError.NotFound(string.Format(Resources.UserNotFound, existingComment.UserId));
             }
+            var title = string.Empty;
+            var pictureUrl = string.Empty;
+            switch (existingComment.ParentType)
+            {
+                case "帖子":
+                    var post = await PostRepo.GetPostAsync(existingComment.ParentId);
+                    if (post != null)
+                    {
+                        title = post.Title;
+                        pictureUrl = post.PictureUrl;
+                    }
+                    break;
+                case "章":
+                    var chapter = await ChapterRepo.GetChapterAsync(existingComment.ParentId);
+                    if (chapter != null)
+                    {
+                        title = chapter.Title;
+                    }
+                    break;
+                case "节":
+                    var paragraph = await ParagraphRepo.GetParagraphAsync(existingComment.ParentId);
+                    if (paragraph != null)
+                    {
+                        title = paragraph.Content;
+                    }
+                    break;
+            }
             var currentUserId = GetSession().UserAuthId.ToInt(0);
             var vote = await VoteRepo.GetVoteAsync(existingComment.Id, currentUserId);
-            var commentDto = existingComment.MapToCommentDto(user, vote?.Value ?? false, !vote?.Value ?? false);
+            var commentDto = existingComment.MapToCommentDto(title, pictureUrl, user, vote?.Value ?? false, !vote?.Value ?? false);
             return new CommentShowResponse
                    {
                        Comment = commentDto

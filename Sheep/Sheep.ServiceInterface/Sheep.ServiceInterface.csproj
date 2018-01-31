@@ -195,6 +195,7 @@
     <Compile Include="Comments\DeleteCommentService.cs" />
     <Compile Include="Comments\ListCommentByParentService.cs" />
     <Compile Include="Comments\ListCommentByUserService.cs" />
+    <Compile Include="Comments\ListCommentByPostsOfAuthorService.cs" />
     <Compile Include="Comments\Mappers\CommentToCommentDtoMapper.cs" />
     <Compile Include="Comments\ShowCommentService.cs" />
     <Compile Include="Countries\Mappers\CountryToCountryDtoMapper.cs" />

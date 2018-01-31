@@ -95,8 +95,8 @@ namespace Sheep.ServiceInterface.Likes
             {
                 throw HttpError.NotFound(string.Format(Resources.UserNotFound, currentUserId));
             }
-            var title = string.Empty;
-            var pictureUrl = string.Empty;
+            string title = null;
+            string pictureUrl = null;
             var existingLike = await LikeRepo.GetLikeAsync(request.ParentId, currentUserId);
             if (existingLike != null)
             {

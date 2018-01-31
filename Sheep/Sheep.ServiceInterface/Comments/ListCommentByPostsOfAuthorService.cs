@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ServiceStack;
@@ -6,10 +7,10 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
-using ServiceStack.Text;
 using Sheep.Common.Auth;
-using Sheep.Model.Bookstore;
 using Sheep.Model.Content;
+using Sheep.Model.Content.Entities;
+using Sheep.Model.Friendship;
 using Sheep.ServiceInterface.Comments.Mappers;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Comments;
@@ -17,16 +18,16 @@ using Sheep.ServiceModel.Comments;
 namespace Sheep.ServiceInterface.Comments
 {
     /// <summary>
-    ///     根据上级列举一组评论信息服务接口。
+    ///     根据作者帖子列表列举一组评论信息服务接口。
     /// </summary>
-    public class ListCommentByParentService : Service
+    public class ListCommentByPostsOfAuthorService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(ListCommentByParentService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(ListCommentByPostsOfAuthorService));
 
         #endregion
 
@@ -40,12 +41,17 @@ namespace Sheep.ServiceInterface.Comments
         /// <summary>
         ///     获取及设置列举一组评论的校验器。
         /// </summary>
-        public IValidator<CommentListByParent> CommentListByParentValidator { get; set; }
+        public IValidator<CommentListByPostsOfAuthor> CommentListByPostsOfAuthorValidator { get; set; }
 
         /// <summary>
         ///     获取及设置用户身份的存储库。
         /// </summary>
         public IUserAuthRepository AuthRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置关注的存储库。
+        /// </summary>
+        public IFollowRepository FollowRepo { get; set; }
 
         /// <summary>
         ///     获取及设置帖子的存储库。
@@ -56,16 +62,6 @@ namespace Sheep.ServiceInterface.Comments
         ///     获取及设置评论的存储库。
         /// </summary>
         public ICommentRepository CommentRepo { get; set; }
-
-        /// <summary>
-        ///     获取及设置章的存储库。
-        /// </summary>
-        public IChapterRepository ChapterRepo { get; set; }
-
-        /// <summary>
-        ///     获取及设置节的存储库。
-        /// </summary>
-        public IParagraphRepository ParagraphRepo { get; set; }
 
         /// <summary>
         ///     获取及设置投票的存储库。
@@ -80,29 +76,39 @@ namespace Sheep.ServiceInterface.Comments
         ///     列举一组评论。
         /// </summary>
         //[CacheResponse(Duration = 3600)]
-        public async Task<object> Get(CommentListByParent request)
+        public async Task<object> Get(CommentListByPostsOfAuthor request)
         {
-            if (request.IsMine.HasValue && request.IsMine.Value && !IsAuthenticated)
+            if (!IsAuthenticated)
             {
                 throw HttpError.Unauthorized(Resources.LoginRequired);
             }
             //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             //{
-            //    CommentListByParentValidator.ValidateAndThrow(request, ApplyTo.Get);
+            //    CommentListByPostsOfAuthorValidator.ValidateAndThrow(request, ApplyTo.Get);
             //}
             var currentUserId = GetSession().UserAuthId.ToInt(0);
-            var existingComments = await CommentRepo.FindCommentsByParentAsync(request.ParentId, request.IsMine.HasValue && request.IsMine.Value ? currentUserId : (int?) null, request.CreatedSince?.FromUnixTime(), request.ModifiedSince?.FromUnixTime(), request.IsFeatured, "审核通过", request.OrderBy, request.Descending, request.Skip, request.Limit);
+            List<Comment> existingComments;
+            if (request.Following.HasValue && request.Following.Value)
+            {
+                var existingFollows = await FollowRepo.FindFollowsByFollowerAsync(currentUserId, null, null, null, null, null, null);
+                if (existingFollows == null)
+                {
+                    throw HttpError.NotFound(string.Format(Resources.FollowsNotFound));
+                }
+                existingComments = await CommentRepo.FindCommentsByPostsOfAuthorAsync(currentUserId, existingFollows.Select(follow => follow.OwnerId).Distinct().ToList(), request.Skip, request.Limit);
+            }
+            else
+            {
+                existingComments = await CommentRepo.FindCommentsByPostsOfAuthorAsync(currentUserId, null, request.Skip, request.Limit);
+            }
             if (existingComments == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.CommentsNotFound));
             }
-            var postsMap = (await PostRepo.GetPostsAsync(existingComments.Where(like => like.ParentType == "帖子").Select(like => like.ParentId).Distinct().ToList())).ToDictionary(post => post.Id, post => post);
-            var chaptersMap = (await ChapterRepo.GetChaptersAsync(existingComments.Where(like => like.ParentType == "章").Select(like => like.ParentId).Distinct().ToList())).ToDictionary(chapter => chapter.Id, chapter => chapter);
-            var paragraphsMap = (await ParagraphRepo.GetParagraphsAsync(existingComments.Where(like => like.ParentType == "节").Select(like => like.ParentId).Distinct().ToList())).ToDictionary(paragraph => paragraph.Id, paragraph => paragraph);
+            var postsMap = (await PostRepo.GetPostsAsync(existingComments.Where(comment => comment.ParentType == "帖子").Select(comment => comment.ParentId).Distinct().ToList())).ToDictionary(post => post.Id, post => post);
             var usersMap = (await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthsAsync(existingComments.Select(comment => comment.UserId.ToString()).Distinct().ToList())).ToDictionary(userAuth => userAuth.Id, userAuth => userAuth);
-            //var currentUserId = GetSession().UserAuthId.ToInt(0);
             var votesMap = (await VoteRepo.GetVotesAsync(existingComments.Select(comment => new Tuple<string, int>(comment.Id, currentUserId)).ToList())).ToDictionary(vote => vote.ParentId, vote => vote);
-            var commentsDto = existingComments.Select(comment => comment.MapToCommentDto(comment.ParentType == "帖子" ? postsMap.GetValueOrDefault(comment.ParentId)?.Title : (comment.ParentType == "章" ? chaptersMap.GetValueOrDefault(comment.ParentId)?.Title : paragraphsMap.GetValueOrDefault(comment.ParentId)?.Content), comment.ParentType == "帖子" ? postsMap.GetValueOrDefault(comment.ParentId)?.PictureUrl : null, usersMap.GetValueOrDefault(comment.UserId), votesMap.GetValueOrDefault(comment.Id)?.Value ?? false, !votesMap.GetValueOrDefault(comment.Id)?.Value ?? false)).ToList();
+            var commentsDto = existingComments.Select(comment => comment.MapToCommentDto(comment.ParentType == "帖子" ? postsMap.GetValueOrDefault(comment.ParentId)?.Title : null, comment.ParentType == "帖子" ? postsMap.GetValueOrDefault(comment.ParentId)?.PictureUrl : null, usersMap.GetValueOrDefault(comment.UserId), votesMap.GetValueOrDefault(comment.Id)?.Value ?? false, !votesMap.GetValueOrDefault(comment.Id)?.Value ?? false)).ToList();
             return new CommentListResponse
                    {
                        Comments = commentsDto

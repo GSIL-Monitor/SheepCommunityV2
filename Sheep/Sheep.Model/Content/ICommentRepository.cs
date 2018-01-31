@@ -89,6 +89,26 @@ namespace Sheep.Model.Content
         Task<List<Comment>> FindCommentsByParentAsync(string parentId, int? userId, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
+        ///     根据作者的帖子列表查找评论。
+        /// </summary>
+        /// <param name="postAuthorId">帖子列表的作者的编号。</param>
+        /// <param name="userIds">用户的编号列表。</param>
+        /// <param name="skip">忽略的行数。</param>
+        /// <param name="limit">获取的行数。</param>
+        /// <returns>评论列表。</returns>
+        List<Comment> FindCommentsByPostsOfAuthor(int postAuthorId, List<int> userIds, int? skip, int? limit);
+
+        /// <summary>
+        ///     异步根据作者的帖子列表查找评论。
+        /// </summary>
+        /// <param name="postAuthorId">帖子列表的作者的编号。</param>
+        /// <param name="userIds">用户的编号列表。</param>
+        /// <param name="skip">忽略的行数。</param>
+        /// <param name="limit">获取的行数。</param>
+        /// <returns>评论列表。</returns>
+        Task<List<Comment>> FindCommentsByPostsOfAuthorAsync(int postAuthorId, List<int> userIds, int? skip, int? limit);
+
+        /// <summary>
         ///     根据用户查找评论。
         /// </summary>
         /// <param name="userId">用户的编号。</param>

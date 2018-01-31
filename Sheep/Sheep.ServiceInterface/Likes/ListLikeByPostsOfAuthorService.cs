@@ -72,6 +72,10 @@ namespace Sheep.ServiceInterface.Likes
         //[CacheResponse(Duration = 3600)]
         public async Task<object> Get(LikeListByPostsOfAuthor request)
         {
+            if (!IsAuthenticated)
+            {
+                throw HttpError.Unauthorized(Resources.LoginRequired);
+            }
             //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             //{
             //    LikeListByPostsOfAuthorValidator.ValidateAndThrow(request, ApplyTo.Get);

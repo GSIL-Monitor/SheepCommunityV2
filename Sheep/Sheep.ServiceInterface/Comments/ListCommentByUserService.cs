@@ -8,6 +8,7 @@ using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using ServiceStack.Text;
 using Sheep.Common.Auth;
+using Sheep.Model.Bookstore;
 using Sheep.Model.Content;
 using Sheep.ServiceInterface.Comments.Mappers;
 using Sheep.ServiceInterface.Properties;
@@ -47,9 +48,24 @@ namespace Sheep.ServiceInterface.Comments
         public IUserAuthRepository AuthRepo { get; set; }
 
         /// <summary>
+        ///     获取及设置帖子的存储库。
+        /// </summary>
+        public IPostRepository PostRepo { get; set; }
+
+        /// <summary>
         ///     获取及设置评论的存储库。
         /// </summary>
         public ICommentRepository CommentRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置章的存储库。
+        /// </summary>
+        public IChapterRepository ChapterRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置节的存储库。
+        /// </summary>
+        public IParagraphRepository ParagraphRepo { get; set; }
 
         /// <summary>
         ///     获取及设置投票的存储库。
@@ -75,10 +91,13 @@ namespace Sheep.ServiceInterface.Comments
             {
                 throw HttpError.NotFound(string.Format(Resources.CommentsNotFound));
             }
+            var postsMap = (await PostRepo.GetPostsAsync(existingComments.Where(like => like.ParentType == "帖子").Select(like => like.ParentId).Distinct().ToList())).ToDictionary(post => post.Id, post => post);
+            var chaptersMap = (await ChapterRepo.GetChaptersAsync(existingComments.Where(like => like.ParentType == "章").Select(like => like.ParentId).Distinct().ToList())).ToDictionary(chapter => chapter.Id, chapter => chapter);
+            var paragraphsMap = (await ParagraphRepo.GetParagraphsAsync(existingComments.Where(like => like.ParentType == "节").Select(like => like.ParentId).Distinct().ToList())).ToDictionary(paragraph => paragraph.Id, paragraph => paragraph);
             var usersMap = (await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthsAsync(existingComments.Select(comment => comment.UserId.ToString()).Distinct().ToList())).ToDictionary(userAuth => userAuth.Id, userAuth => userAuth);
             var currentUserId = GetSession().UserAuthId.ToInt(0);
             var votesMap = (await VoteRepo.GetVotesAsync(existingComments.Select(comment => new Tuple<string, int>(comment.Id, currentUserId)).ToList())).ToDictionary(vote => vote.ParentId, vote => vote);
-            var commentsDto = existingComments.Select(comment => comment.MapToCommentDto(usersMap.GetValueOrDefault(comment.UserId), votesMap.GetValueOrDefault(comment.Id)?.Value ?? false, !votesMap.GetValueOrDefault(comment.Id)?.Value ?? false)).ToList();
+            var commentsDto = existingComments.Select(comment => comment.MapToCommentDto(comment.ParentType == "帖子" ? postsMap.GetValueOrDefault(comment.ParentId)?.Title : (comment.ParentType == "章" ? chaptersMap.GetValueOrDefault(comment.ParentId)?.Title : paragraphsMap.GetValueOrDefault(comment.ParentId)?.Content), comment.ParentType == "帖子" ? postsMap.GetValueOrDefault(comment.ParentId)?.PictureUrl : null, usersMap.GetValueOrDefault(comment.UserId), votesMap.GetValueOrDefault(comment.Id)?.Value ?? false, !votesMap.GetValueOrDefault(comment.Id)?.Value ?? false)).ToList();
             return new CommentListResponse
                    {
                        Comments = commentsDto

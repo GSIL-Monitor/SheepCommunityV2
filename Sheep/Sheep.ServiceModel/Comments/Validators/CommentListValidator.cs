@@ -71,5 +71,20 @@ namespace Sheep.ServiceModel.Comments.Validators
                                      RuleFor(x => x.OrderBy).Must(orderBy => OrderBys.Contains(orderBy)).WithMessage(x => string.Format(Resources.OrderByRangeMismatch, OrderBys.Join(","))).When(x => !x.OrderBy.IsNullOrEmpty());
                                  });
         }
+
+        /// <summary>
+        ///     根据作者帖子列表列举一组评论的校验器。
+        /// </summary>
+        public class CommentListByPostsOfAuthorValidator : AbstractValidator<CommentListByPostsOfAuthor>
+        {
+            /// <summary>
+            ///     初始化一个新的<see cref="CommentListByPostsOfAuthorValidator" />对象。
+            ///     创建规则集合。
+            /// </summary>
+            public CommentListByPostsOfAuthorValidator()
+            {
+                RuleSet(ApplyTo.Get, () => { });
+            }
+        }
     }
 }

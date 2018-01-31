@@ -95,6 +95,8 @@ namespace Sheep.ServiceInterface.Comments
             {
                 throw HttpError.NotFound(string.Format(Resources.UserNotFound, currentUserId));
             }
+            string title = null;
+            string pictureUrl = null;
             var newComment = new Comment
                              {
                                  ParentType = request.ParentType,
@@ -112,6 +114,8 @@ namespace Sheep.ServiceInterface.Comments
                     var post = await PostRepo.GetPostAsync(comment.ParentId);
                     if (post != null)
                     {
+                        title = post.Title;
+                        pictureUrl = post.PictureUrl;
                         await NimClient.PostAsync(new MessageSendAttachRequest
                                                   {
                                                       FromAccountId = currentUserId.ToString(),
@@ -130,14 +134,24 @@ namespace Sheep.ServiceInterface.Comments
                     break;
                 case "章":
                     await ChapterRepo.IncrementChapterCommentsCountAsync(comment.ParentId, 1);
+                    var chapter = await ChapterRepo.GetChapterAsync(comment.ParentId);
+                    if (chapter != null)
+                    {
+                        title = chapter.Title;
+                    }
                     break;
                 case "节":
                     await ParagraphRepo.IncrementParagraphCommentsCountAsync(comment.ParentId, 1);
+                    var paragraph = await ParagraphRepo.GetParagraphAsync(comment.ParentId);
+                    if (paragraph != null)
+                    {
+                        title = paragraph.Content;
+                    }
                     break;
             }
             return new CommentCreateResponse
                    {
-                       Comment = comment.MapToCommentDto(currentUserAuth, false, false)
+                       Comment = comment.MapToCommentDto(title, pictureUrl, currentUserAuth, false, false)
                    };
         }
 

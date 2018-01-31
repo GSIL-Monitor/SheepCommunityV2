@@ -36,6 +36,11 @@ namespace Sheep.Model.Content.Repositories
         /// </summary>
         private static readonly string s_CommentTable = typeof(Comment).Name;
 
+        /// <summary>
+        ///     帖子的数据表名。
+        /// </summary>
+        private static readonly string s_PostTable = typeof(Post).Name;
+
         #endregion
 
         #region 属性
@@ -280,6 +285,26 @@ namespace Sheep.Model.Content.Repositories
                 queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("CreatedDate")) : query.OrderBy("CreatedDate");
             }
             return queryOrder.Skip(skip ?? 0).Limit(limit ?? 100000).RunResultAsync<List<Comment>>(_conn);
+        }
+
+        /// <inheritdoc />
+        public List<Comment> FindCommentsByPostsOfAuthor(int postAuthorId, List<int> userIds, int? skip, int? limit)
+        {
+            if (userIds != null)
+            {
+                return R.Do_(R.Table(s_PostTable).GetAll(postAuthorId).OptArg("index", "AuthorId").G("Id").CoerceTo("array"), postIds => R.Table(s_CommentTable).GetAll(R.Args(postIds)).OptArg("index", "ParentId").Filter(row => R.Expr(userIds.ToArray()).Contains(row.G("UserId"))).OrderBy(R.Desc("CreatedDate")).Skip(skip ?? 0).Limit(limit ?? 100000)).RunResult<List<Comment>>(_conn);
+            }
+            return R.Do_(R.Table(s_PostTable).GetAll(postAuthorId).OptArg("index", "AuthorId").G("Id").CoerceTo("array"), postIds => R.Table(s_CommentTable).GetAll(R.Args(postIds)).OptArg("index", "ParentId").OrderBy(R.Desc("CreatedDate")).Skip(skip ?? 0).Limit(limit ?? 100000)).RunResult<List<Comment>>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<List<Comment>> FindCommentsByPostsOfAuthorAsync(int postAuthorId, List<int> userIds, int? skip, int? limit)
+        {
+            if (userIds != null)
+            {
+                return R.Do_(R.Table(s_PostTable).GetAll(postAuthorId).OptArg("index", "AuthorId").G("Id").CoerceTo("array"), postIds => R.Table(s_CommentTable).GetAll(R.Args(postIds)).OptArg("index", "ParentId").Filter(row => R.Expr(userIds.ToArray()).Contains(row.G("UserId"))).OrderBy(R.Desc("CreatedDate")).Skip(skip ?? 0).Limit(limit ?? 100000)).RunResultAsync<List<Comment>>(_conn);
+            }
+            return R.Do_(R.Table(s_PostTable).GetAll(postAuthorId).OptArg("index", "AuthorId").G("Id").CoerceTo("array"), postIds => R.Table(s_CommentTable).GetAll(R.Args(postIds)).OptArg("index", "ParentId").OrderBy(R.Desc("CreatedDate")).Skip(skip ?? 0).Limit(limit ?? 100000)).RunResultAsync<List<Comment>>(_conn);
         }
 
         /// <inheritdoc />
