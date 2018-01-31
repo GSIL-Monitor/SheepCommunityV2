@@ -92,8 +92,9 @@ namespace Sheep.ServiceInterface.Comments
             {
                 throw HttpError.NotFound(string.Format(Resources.UserNotFound, existingComment.UserId));
             }
-            var title = string.Empty;
-            var pictureUrl = string.Empty;
+            string title = null;
+            string pictureUrl = null;
+            string contentType = null;
             switch (existingComment.ParentType)
             {
                 case "帖子":
@@ -102,6 +103,7 @@ namespace Sheep.ServiceInterface.Comments
                     {
                         title = post.Title;
                         pictureUrl = post.PictureUrl;
+                        contentType = post.ContentType;
                     }
                     break;
                 case "章":
@@ -121,7 +123,7 @@ namespace Sheep.ServiceInterface.Comments
             }
             var currentUserId = GetSession().UserAuthId.ToInt(0);
             var vote = await VoteRepo.GetVoteAsync(existingComment.Id, currentUserId);
-            var commentDto = existingComment.MapToCommentDto(title, pictureUrl, user, vote?.Value ?? false, !vote?.Value ?? false);
+            var commentDto = existingComment.MapToCommentDto(title, pictureUrl, contentType, user, vote?.Value ?? false, !vote?.Value ?? false);
             return new CommentShowResponse
                    {
                        Comment = commentDto

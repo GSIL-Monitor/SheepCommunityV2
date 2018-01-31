@@ -8,7 +8,7 @@ namespace Sheep.ServiceInterface.Comments.Mappers
 {
     public static class CommentToCommentDtoMapper
     {
-        public static CommentDto MapToCommentDto(this Comment comment, string title, string pictureUrl, IUserAuth user, bool yesVoted, bool noVoted)
+        public static CommentDto MapToCommentDto(this Comment comment, string title, string pictureUrl, string contentType, IUserAuth user, bool yesVoted, bool noVoted)
         {
             var commentDto = new CommentDto
                              {
@@ -17,6 +17,7 @@ namespace Sheep.ServiceInterface.Comments.Mappers
                                  ParentId = comment.ParentId,
                                  ParentTitle = title,
                                  ParentPictureUrl = pictureUrl,
+                                 ParentContentType = contentType,
                                  Content = comment.Content,
                                  Status = comment.Status,
                                  User = user?.MapToBasicUserDto(),

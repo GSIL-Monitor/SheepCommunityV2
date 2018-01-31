@@ -97,6 +97,7 @@ namespace Sheep.ServiceInterface.Comments
             }
             string title = null;
             string pictureUrl = null;
+            string contentType = null;
             var newComment = new Comment
                              {
                                  ParentType = request.ParentType,
@@ -116,6 +117,7 @@ namespace Sheep.ServiceInterface.Comments
                     {
                         title = post.Title;
                         pictureUrl = post.PictureUrl;
+                        contentType = post.ContentType;
                         await NimClient.PostAsync(new MessageSendAttachRequest
                                                   {
                                                       FromAccountId = currentUserId.ToString(),
@@ -151,7 +153,7 @@ namespace Sheep.ServiceInterface.Comments
             }
             return new CommentCreateResponse
                    {
-                       Comment = comment.MapToCommentDto(title, pictureUrl, currentUserAuth, false, false)
+                       Comment = comment.MapToCommentDto(title, pictureUrl, contentType, currentUserAuth, false, false)
                    };
         }
 

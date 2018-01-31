@@ -41,75 +41,81 @@ namespace Sheep.ServiceModel.Comments.Entities
         public string ParentPictureUrl { get; set; }
 
         /// <summary>
-        ///     正文内容。
+        ///     上级的内容类型。
         /// </summary>
         [DataMember(Order = 6)]
+        public string ParentContentType { get; set; }
+
+        /// <summary>
+        ///     正文内容。
+        /// </summary>
+        [DataMember(Order = 7)]
         public string Content { get; set; }
 
         /// <summary>
         ///     状态。（可选值：待审核, 审核通过, 已禁止, 审核失败, 等待删除）
         /// </summary>
-        [DataMember(Order = 7)]
+        [DataMember(Order = 8)]
         public string Status { get; set; }
 
         /// <summary>
         ///     创建日期。
         /// </summary>
-        [DataMember(Order = 8)]
+        [DataMember(Order = 9)]
         public long CreatedDate { get; set; }
 
         /// <summary>
         ///     更新日期。
         /// </summary>
-        [DataMember(Order = 9)]
+        [DataMember(Order = 10)]
         public long ModifiedDate { get; set; }
 
         /// <summary>
         ///     是否为精选。
         /// </summary>
-        [DataMember(Order = 10)]
+        [DataMember(Order = 11)]
         public bool IsFeatured { get; set; }
 
         /// <summary>
         ///     评论的用户。
         /// </summary>
-        [DataMember(Order = 11)]
+        [DataMember(Order = 12)]
         public BasicUserDto User { get; set; }
 
         /// <summary>
         ///     回复的次数。
         /// </summary>
-        [DataMember(Order = 12)]
+        [DataMember(Order = 13)]
         public int RepliesCount { get; set; }
 
         /// <summary>
         ///     所有的投票的次数。
         /// </summary>
-        [DataMember(Order = 13)]
+        [DataMember(Order = 14)]
         public int VotesCount { get; set; }
 
         /// <summary>
         ///     赞成的投票的次数。
         /// </summary>
-        [DataMember(Order = 14)]
+        [DataMember(Order = 15)]
         public int YesVotesCount { get; set; }
 
         /// <summary>
         ///     反对的投票的次数。
         /// </summary>
-        [DataMember(Order = 15)]
+        [DataMember(Order = 16)]
         public int NoVotesCount { get; set; }
 
         /// <summary>
         ///     当前用户是否已投赞成票。
         /// </summary>
-        [DataMember(Order = 16)]
+        [DataMember(Order = 17)]
         public bool YesVoted { get; set; }
 
         /// <summary>
         ///     当前用户是否已投反对票。
         /// </summary>
-        [DataMember(Order = 17)]
+        [DataMember(Order = 18)]
         public bool NoVoted { get; set; }
     }
 }
