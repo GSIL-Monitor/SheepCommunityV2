@@ -101,7 +101,7 @@ namespace Sheep.ServiceInterface.Likes
             }
             var postsMap = (await PostRepo.GetPostsAsync(existingLikes.Where(like => like.ParentType == "帖子").Select(like => like.ParentId).Distinct().ToList())).ToDictionary(post => post.Id, post => post);
             var usersMap = (await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthsAsync(existingLikes.Select(like => like.UserId.ToString()).Distinct().ToList())).ToDictionary(userAuth => userAuth.Id, userAuth => userAuth);
-            var likesDto = existingLikes.Select(like => like.MapToLikeDto(usersMap.GetValueOrDefault(like.UserId), like.ParentType == "帖子" ? postsMap.GetValueOrDefault(like.ParentId)?.Title : null, like.ParentType == "帖子" ? postsMap.GetValueOrDefault(like.ParentId)?.PictureUrl : null)).ToList();
+            var likesDto = existingLikes.Select(like => like.MapToLikeDto(like.ParentType == "帖子" ? postsMap.GetValueOrDefault(like.ParentId)?.Title : null, like.ParentType == "帖子" ? postsMap.GetValueOrDefault(like.ParentId)?.PictureUrl : null, like.ParentType == "帖子" ? postsMap.GetValueOrDefault(like.ParentId)?.ContentType : null, usersMap.GetValueOrDefault(like.UserId))).ToList();
             return new LikeListResponse
                    {
                        Likes = likesDto

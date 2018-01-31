@@ -97,6 +97,7 @@ namespace Sheep.ServiceInterface.Likes
             }
             string title = null;
             string pictureUrl = null;
+            string contentType = null;
             var existingLike = await LikeRepo.GetLikeAsync(request.ParentId, currentUserId);
             if (existingLike != null)
             {
@@ -108,6 +109,7 @@ namespace Sheep.ServiceInterface.Likes
                         {
                             title = post.Title;
                             pictureUrl = post.PictureUrl;
+                            contentType = post.ContentType;
                         }
                         break;
                     case "章":
@@ -127,7 +129,7 @@ namespace Sheep.ServiceInterface.Likes
                 }
                 return new LikeCreateResponse
                        {
-                           Like = existingLike.MapToLikeDto(currentUserAuth, title, pictureUrl)
+                           Like = existingLike.MapToLikeDto(title, pictureUrl, contentType, currentUserAuth)
                        };
             }
             var newLike = new Like
@@ -147,6 +149,7 @@ namespace Sheep.ServiceInterface.Likes
                     {
                         title = post.Title;
                         pictureUrl = post.PictureUrl;
+                        contentType = post.ContentType;
                         await NimClient.PostAsync(new MessageSendAttachRequest
                                                   {
                                                       FromAccountId = currentUserId.ToString(),
@@ -182,7 +185,7 @@ namespace Sheep.ServiceInterface.Likes
             }
             return new LikeCreateResponse
                    {
-                       Like = like.MapToLikeDto(currentUserAuth, title, pictureUrl)
+                       Like = like.MapToLikeDto(title, pictureUrl, contentType, currentUserAuth)
                    };
         }
 

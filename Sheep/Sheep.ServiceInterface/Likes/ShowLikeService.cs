@@ -87,8 +87,9 @@ namespace Sheep.ServiceInterface.Likes
             {
                 throw HttpError.NotFound(string.Format(Resources.LikeNotFound, request.ParentId));
             }
-            var title = string.Empty;
-            var pictureUrl = string.Empty;
+            string title = null;
+            string pictureUrl = null;
+            string contentType = null;
             switch (existingLike.ParentType)
             {
                 case "帖子":
@@ -97,6 +98,7 @@ namespace Sheep.ServiceInterface.Likes
                     {
                         title = post.Title;
                         pictureUrl = post.PictureUrl;
+                        contentType = post.ContentType;
                     }
                     break;
                 case "章":
@@ -114,7 +116,7 @@ namespace Sheep.ServiceInterface.Likes
                     }
                     break;
             }
-            var likeDto = existingLike.MapToLikeDto(user, title, pictureUrl);
+            var likeDto = existingLike.MapToLikeDto(title, pictureUrl, contentType, user);
             return new LikeShowResponse
                    {
                        Like = likeDto
