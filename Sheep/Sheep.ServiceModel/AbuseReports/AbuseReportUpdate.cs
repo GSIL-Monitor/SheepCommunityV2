@@ -19,10 +19,10 @@ namespace Sheep.ServiceModel.AbuseReports
         public string ReportId { get; set; }
 
         /// <summary>
-        ///     理由。
+        ///     原因。
         /// </summary>
         [DataMember(Order = 2, IsRequired = true)]
-        [ApiMember(Description = "理由")]
+        [ApiMember(Description = "原因")]
         public string Reason { get; set; }
     }
 

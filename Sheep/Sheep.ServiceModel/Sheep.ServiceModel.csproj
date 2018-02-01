@@ -217,6 +217,17 @@
     <Compile Include="Comments\Validators\CommentUpdateValidator.cs" />
     <Compile Include="Comments\CommentCount.cs" />
     <Compile Include="Comments\Validators\CommentCountValidator.cs" />
+    <Compile Include="Feedbacks\FeedbackCreate.cs" />
+    <Compile Include="Feedbacks\FeedbackDelete.cs" />
+    <Compile Include="Feedbacks\FeedbackList.cs" />
+    <Compile Include="Feedbacks\FeedbackShow.cs" />
+    <Compile Include="Feedbacks\FeedbackUpdate.cs" />
+    <Compile Include="Feedbacks\Entities\FeedbackDto.cs" />
+    <Compile Include="Feedbacks\Validators\FeedbackCreateValidator.cs" />
+    <Compile Include="Feedbacks\Validators\FeedbackDeleteValidator.cs" />
+    <Compile Include="Feedbacks\Validators\FeedbackListValidator.cs" />
+    <Compile Include="Feedbacks\Validators\FeedbackShowValidator.cs" />
+    <Compile Include="Feedbacks\Validators\FeedbackUpdateValidator.cs" />
     <Compile Include="Files\FileUploadImage.cs" />
     <Compile Include="Follows\Entities\FollowOfFollowerDto.cs" />
     <Compile Include="Follows\Entities\FollowOfOwnerDto.cs" />

@@ -202,6 +202,15 @@
     <Compile Include="Countries\ShowCountryByNameService.cs" />
     <Compile Include="Countries\ListCountryService.cs" />
     <Compile Include="Countries\ShowCountryService.cs" />
+    <Compile Include="Feedbacks\ChangeFeedbackService.cs" />
+    <Compile Include="Feedbacks\CreateFeedbackService.cs" />
+    <Compile Include="Feedbacks\DeleteFeedbackService.cs" />
+    <Compile Include="Feedbacks\ListFeedbackService.cs" />
+    <Compile Include="Feedbacks\ListFeedbackByUserService.cs" />
+    <Compile Include="Feedbacks\Mappers\FeedbackToFeedbackDtoMapper.cs" />
+    <Compile Include="Feedbacks\ShowFeedbackService.cs" />
+    <Compile Include="Feedbacks\UpdateFeedbackStatusService.cs" />
+    <Compile Include="Feedbacks\UpdateFeedbackService.cs" />
     <Compile Include="Files\UploadFileImageService.cs" />
     <Compile Include="Follows\ChangeFollowService.cs" />
     <Compile Include="Follows\DeleteFollowService.cs" />

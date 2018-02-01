@@ -373,7 +373,7 @@
     <value>用户编号列表必须输入。</value>
   </data>
   <data name="ReasonRequired" xml:space="preserve">
-    <value>理由必须输入。</value>
+    <value>原因必须输入。</value>
   </data>
   <data name="ReportIdRequired" xml:space="preserve">
     <value>举报编号必须输入。</value>
@@ -392,5 +392,8 @@
   </data>
   <data name="RecommendationIdRequired" xml:space="preserve">
     <value>推荐编号必须输入。</value>
+  </data>
+  <data name="FeedbackIdRequired" xml:space="preserve">
+    <value>反馈编号必须输入。</value>
   </data>
 </root>

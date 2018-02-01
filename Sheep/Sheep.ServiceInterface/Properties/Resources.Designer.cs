@@ -232,6 +232,24 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
+        ///   查找类似 无法找到指定的反馈{0}。 的本地化字符串。
+        /// </summary>
+        internal static string FeedbackNotFound {
+            get {
+                return ResourceManager.GetString("FeedbackNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定条件的反馈列表。 的本地化字符串。
+        /// </summary>
+        internal static string FeedbacksNotFound {
+            get {
+                return ResourceManager.GetString("FeedbacksNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 无法找到指定的关注{0}。 的本地化字符串。
         /// </summary>
         internal static string FollowNotFound {

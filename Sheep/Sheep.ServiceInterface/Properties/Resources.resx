@@ -300,4 +300,10 @@
   <data name="RecommendationsNotFound" xml:space="preserve">
     <value>无法找到指定条件的推荐列表。</value>
   </data>
+  <data name="FeedbackNotFound" xml:space="preserve">
+    <value>无法找到指定的反馈{0}。</value>
+  </data>
+  <data name="FeedbacksNotFound" xml:space="preserve">
+    <value>无法找到指定条件的反馈列表。</value>
+  </data>
 </root>

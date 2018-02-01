@@ -102,20 +102,20 @@ namespace Sheep.ServiceInterface.Posts
             {
                 throw HttpError.NotFound(string.Format(Resources.PostNotFound, request.PostId));
             }
-            var authorId = GetSession().UserAuthId.ToInt(0);
-            if (existingPost.AuthorId != authorId)
+            var currentUserId = GetSession().UserAuthId.ToInt(0);
+            if (existingPost.AuthorId != currentUserId)
             {
                 throw HttpError.Unauthorized(Resources.LoginAsAuthorRequired);
             }
-            var author = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(authorId.ToString());
-            if (author == null)
+            var currentUserAuth = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(currentUserId.ToString());
+            if (currentUserAuth == null)
             {
-                throw HttpError.NotFound(string.Format(Resources.UserNotFound, authorId));
+                throw HttpError.NotFound(string.Format(Resources.UserNotFound, currentUserId));
             }
             var newPost = new Post();
             newPost.PopulateWith(existingPost);
             newPost.Meta = existingPost.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingPost.Meta);
-            newPost.AuthorId = authorId;
+            newPost.AuthorId = currentUserId;
             newPost.GroupId = request.GroupId;
             newPost.Title = request.Title?.Replace("\"", "'");
             newPost.Summary = request.Summary?.Replace("\"", "'");
@@ -196,11 +196,11 @@ namespace Sheep.ServiceInterface.Posts
             newPost.PictureUrl = pictureUrl.IsNullOrEmpty() ? existingPost.PictureUrl : pictureUrl;
             var post = await PostRepo.UpdatePostAsync(existingPost, newPost);
             await PostRepo.UpdatePostContentQualityAsync(post.Id, PostRepo.CalculatePostContentQuality(post));
-            var commentsCount = await CommentRepo.GetCommentsCountByParentAsync(post.Id, authorId, null, null, null, "审核通过");
+            var commentsCount = await CommentRepo.GetCommentsCountByParentAsync(post.Id, currentUserId, null, null, null, "审核通过");
             ResetCache(post);
             return new PostUpdateResponse
                    {
-                       Post = post.MapToPostDto(author, commentsCount > 0)
+                       Post = post.MapToPostDto(currentUserAuth, commentsCount > 0)
                    };
         }
 
