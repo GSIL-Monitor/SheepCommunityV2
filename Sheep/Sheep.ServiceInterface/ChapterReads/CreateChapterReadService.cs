@@ -88,8 +88,8 @@ namespace Sheep.ServiceInterface.ChapterReads
             //    ChapterReadCreateValidator.ValidateAndThrow(request, ApplyTo.Post);
             //}
             var currentUserId = GetSession().UserAuthId.ToInt(0);
-            var currentUserAuth = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(currentUserId.ToString());
-            if (currentUserAuth == null)
+            var currentUser = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(currentUserId.ToString());
+            if (currentUser == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.UserNotFound, currentUserId));
             }
@@ -109,7 +109,7 @@ namespace Sheep.ServiceInterface.ChapterReads
             ResetCache(chapterRead);
             return new ChapterReadCreateResponse
                    {
-                       ChapterRead = chapterRead.MapToChapterReadDto(null, null, chapter, currentUserAuth)
+                       ChapterRead = chapterRead.MapToChapterReadDto(null, null, chapter, currentUser)
                    };
         }
 

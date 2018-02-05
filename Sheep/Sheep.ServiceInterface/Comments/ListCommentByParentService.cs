@@ -96,9 +96,9 @@ namespace Sheep.ServiceInterface.Comments
             {
                 throw HttpError.NotFound(string.Format(Resources.CommentsNotFound));
             }
-            var postsMap = (await PostRepo.GetPostsAsync(existingComments.Where(like => like.ParentType == "帖子").Select(like => like.ParentId).Distinct().ToList())).ToDictionary(post => post.Id, post => post);
-            var chaptersMap = (await ChapterRepo.GetChaptersAsync(existingComments.Where(like => like.ParentType == "章").Select(like => like.ParentId).Distinct().ToList())).ToDictionary(chapter => chapter.Id, chapter => chapter);
-            var paragraphsMap = (await ParagraphRepo.GetParagraphsAsync(existingComments.Where(like => like.ParentType == "节").Select(like => like.ParentId).Distinct().ToList())).ToDictionary(paragraph => paragraph.Id, paragraph => paragraph);
+            var postsMap = (await PostRepo.GetPostsAsync(existingComments.Where(comment => comment.ParentType == "帖子").Select(comment => comment.ParentId).Distinct().ToList())).ToDictionary(post => post.Id, post => post);
+            var chaptersMap = (await ChapterRepo.GetChaptersAsync(existingComments.Where(comment => comment.ParentType == "章").Select(comment => comment.ParentId).Distinct().ToList())).ToDictionary(chapter => chapter.Id, chapter => chapter);
+            var paragraphsMap = (await ParagraphRepo.GetParagraphsAsync(existingComments.Where(comment => comment.ParentType == "节").Select(comment => comment.ParentId).Distinct().ToList())).ToDictionary(paragraph => paragraph.Id, paragraph => paragraph);
             var usersMap = (await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthsAsync(existingComments.Select(comment => comment.UserId.ToString()).Distinct().ToList())).ToDictionary(userAuth => userAuth.Id, userAuth => userAuth);
             //var currentUserId = GetSession().UserAuthId.ToInt(0);
             var votesMap = (await VoteRepo.GetVotesAsync(existingComments.Select(comment => new Tuple<string, int>(comment.Id, currentUserId)).ToList())).ToDictionary(vote => vote.ParentId, vote => vote);

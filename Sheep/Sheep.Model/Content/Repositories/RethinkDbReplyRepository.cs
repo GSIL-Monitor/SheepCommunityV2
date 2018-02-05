@@ -139,6 +139,18 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
+        public List<Reply> GetReplies(List<string> replyIds)
+        {
+            return R.Table(s_ReplyTable).GetAll(R.Args(replyIds.ToArray())).RunResult<List<Reply>>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<List<Reply>> GetRepliesAsync(List<string> replyIds)
+        {
+            return R.Table(s_ReplyTable).GetAll(R.Args(replyIds.ToArray())).RunResultAsync<List<Reply>>(_conn);
+        }
+
+        /// <inheritdoc />
         public List<Reply> FindReplies(string parentType, DateTime? createdSince, DateTime? modifiedSince, string status, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_ReplyTable).Filter(true);

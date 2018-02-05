@@ -27,6 +27,20 @@ namespace Sheep.Model.Content
         Task<Comment> GetCommentAsync(string commentId);
 
         /// <summary>
+        ///     获取评论列表。
+        /// </summary>
+        /// <param name="commentIds">评论的编号列表。</param>
+        /// <returns>评论列表。</returns>
+        List<Comment> GetComments(List<string> commentIds);
+
+        /// <summary>
+        ///     异步获取评论列表。
+        /// </summary>
+        /// <param name="commentIds">评论的编号列表。</param>
+        /// <returns>评论列表。</returns>
+        Task<List<Comment>> GetCommentsAsync(List<string> commentIds);
+
+        /// <summary>
         ///     查找评论。
         /// </summary>
         /// <param name="parentType">上级的类型。</param>

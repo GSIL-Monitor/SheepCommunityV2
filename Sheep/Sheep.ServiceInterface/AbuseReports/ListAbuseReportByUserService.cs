@@ -46,6 +46,21 @@ namespace Sheep.ServiceInterface.AbuseReports
         public IUserAuthRepository AuthRepo { get; set; }
 
         /// <summary>
+        ///     获取及设置帖子的存储库。
+        /// </summary>
+        public IPostRepository PostRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置评论的存储库。
+        /// </summary>
+        public ICommentRepository CommentRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置回复的存储库。
+        /// </summary>
+        public IReplyRepository ReplyRepo { get; set; }
+
+        /// <summary>
         ///     获取及设置举报的存储库。
         /// </summary>
         public IAbuseReportRepository AbuseReportRepo { get; set; }
@@ -74,8 +89,12 @@ namespace Sheep.ServiceInterface.AbuseReports
             {
                 throw HttpError.NotFound(string.Format(Resources.AbuseReportsNotFound));
             }
+            var postsMap = (await PostRepo.GetPostsAsync(existingAbuseReports.Where(report => report.ParentType == "帖子").Select(report => report.ParentId).Distinct().ToList())).ToDictionary(post => post.Id, post => post);
+            var commentsMap = (await CommentRepo.GetCommentsAsync(existingAbuseReports.Where(report => report.ParentType == "评论").Select(report => report.ParentId).Distinct().ToList())).ToDictionary(comment => comment.Id, comment => comment);
+            var repliesMap = (await ReplyRepo.GetRepliesAsync(existingAbuseReports.Where(report => report.ParentType == "回复").Select(report => report.ParentId).Distinct().ToList())).ToDictionary(reply => reply.Id, reply => reply);
+            var abuseUsersMap = (await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthsAsync(existingAbuseReports.Where(report => report.ParentType == "用户").Select(report => report.ParentId).Union(postsMap.Select(post => post.Value.AuthorId.ToString())).Union(commentsMap.Select(comment => comment.Value.UserId.ToString())).Union(repliesMap.Select(reply => reply.Value.UserId.ToString())).Distinct().ToList())).ToDictionary(userAuth => userAuth.Id.ToString(), userAuth => userAuth);
             var usersMap = (await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthsAsync(existingAbuseReports.Select(report => report.UserId.ToString()).Distinct().ToList())).ToDictionary(userAuth => userAuth.Id, userAuth => userAuth);
-            var reportsDto = existingAbuseReports.Select(report => report.MapToAbuseReportDto(usersMap.GetValueOrDefault(report.UserId))).ToList();
+            var reportsDto = existingAbuseReports.Select(report => report.MapToAbuseReportDto(report.ParentType == "用户" ? abuseUsersMap.GetValueOrDefault(report.ParentId)?.DisplayName : (report.ParentType == "帖子" ? postsMap.GetValueOrDefault(report.ParentId)?.Title : (report.ParentType == "评论" ? commentsMap.GetValueOrDefault(report.ParentId)?.Content : repliesMap.GetValueOrDefault(report.ParentId)?.Content)), report.ParentType == "用户" ? abuseUsersMap.GetValueOrDefault(report.ParentId)?.Meta?.GetValueOrDefault("AvatarUrl") : (report.ParentType == "帖子" ? postsMap.GetValueOrDefault(report.ParentId)?.PictureUrl : null), report.ParentType == "用户" ? abuseUsersMap.GetValueOrDefault(report.ParentId) : (report.ParentType == "帖子" ? abuseUsersMap.GetValueOrDefault(postsMap.GetValueOrDefault(report.ParentId)?.AuthorId.ToString()) : (report.ParentType == "评论" ? abuseUsersMap.GetValueOrDefault(commentsMap.GetValueOrDefault(report.ParentId)?.UserId.ToString()) : abuseUsersMap.GetValueOrDefault(repliesMap.GetValueOrDefault(report.ParentId)?.UserId.ToString()))), usersMap.GetValueOrDefault(report.UserId))).ToList();
             return new AbuseReportListResponse
                    {
                        AbuseReports = reportsDto

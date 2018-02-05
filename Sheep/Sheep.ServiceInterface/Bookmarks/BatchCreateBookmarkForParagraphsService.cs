@@ -94,8 +94,8 @@ namespace Sheep.ServiceInterface.Bookmarks
                 throw HttpError.NotFound(string.Format(Resources.ParagraphsNotFound));
             }
             var currentUserId = GetSession().UserAuthId.ToInt(0);
-            var currentUserAuth = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(currentUserId.ToString());
-            if (currentUserAuth == null)
+            var currentUser = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(currentUserId.ToString());
+            if (currentUser == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.UserNotFound, currentUserId));
             }

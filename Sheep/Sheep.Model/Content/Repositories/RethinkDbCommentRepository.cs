@@ -144,6 +144,18 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
+        public List<Comment> GetComments(List<string> commentIds)
+        {
+            return R.Table(s_CommentTable).GetAll(R.Args(commentIds.ToArray())).RunResult<List<Comment>>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<List<Comment>> GetCommentsAsync(List<string> commentIds)
+        {
+            return R.Table(s_CommentTable).GetAll(R.Args(commentIds.ToArray())).RunResultAsync<List<Comment>>(_conn);
+        }
+
+        /// <inheritdoc />
         public List<Comment> FindComments(string parentType, DateTime? createdSince, DateTime? modifiedSince, bool? isFeatured, string status, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_CommentTable).Filter(true);

@@ -78,8 +78,8 @@ namespace Sheep.ServiceInterface.Feedbacks
             {
                 throw HttpError.NotFound(string.Format(Resources.FeedbackNotFound, request.FeedbackId));
             }
-            var currentUserAuth = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(existingFeedback.UserId.ToString());
-            if (currentUserAuth == null)
+            var currentUser = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(existingFeedback.UserId.ToString());
+            if (currentUser == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.UserNotFound, existingFeedback.UserId));
             }
@@ -91,7 +91,7 @@ namespace Sheep.ServiceInterface.Feedbacks
             ResetCache(feedback);
             return new FeedbackUpdateResponse
                    {
-                       Feedback = feedback.MapToFeedbackDto(currentUserAuth)
+                       Feedback = feedback.MapToFeedbackDto(currentUser)
                    };
         }
 

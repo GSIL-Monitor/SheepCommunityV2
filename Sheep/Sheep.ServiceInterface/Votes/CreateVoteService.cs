@@ -83,8 +83,8 @@ namespace Sheep.ServiceInterface.Votes
             //    VoteCreateValidator.ValidateAndThrow(request, ApplyTo.Post);
             //}
             var currentUserId = GetSession().UserAuthId.ToInt(0);
-            var currentUserAuth = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(currentUserId.ToString());
-            if (currentUserAuth == null)
+            var currentUser = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(currentUserId.ToString());
+            if (currentUser == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.UserNotFound, currentUserId));
             }
@@ -95,7 +95,7 @@ namespace Sheep.ServiceInterface.Votes
                 {
                     return new VoteCreateResponse
                            {
-                               Vote = existingVote.MapToVoteDto(currentUserAuth)
+                               Vote = existingVote.MapToVoteDto(currentUser)
                            };
                 }
                 var newVote = new Vote();
@@ -138,7 +138,7 @@ namespace Sheep.ServiceInterface.Votes
                 //                          });
                 return new VoteCreateResponse
                        {
-                           Vote = vote.MapToVoteDto(currentUserAuth)
+                           Vote = vote.MapToVoteDto(currentUser)
                        };
             }
             else
@@ -183,7 +183,7 @@ namespace Sheep.ServiceInterface.Votes
                 //                          });
                 return new VoteCreateResponse
                        {
-                           Vote = vote.MapToVoteDto(currentUserAuth)
+                           Vote = vote.MapToVoteDto(currentUser)
                        };
             }
         }

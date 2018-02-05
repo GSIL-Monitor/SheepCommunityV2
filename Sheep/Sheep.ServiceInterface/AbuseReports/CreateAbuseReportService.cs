@@ -51,11 +51,6 @@ namespace Sheep.ServiceInterface.AbuseReports
         public IUserAuthRepository AuthRepo { get; set; }
 
         /// <summary>
-        ///     获取及设置举报的存储库。
-        /// </summary>
-        public IAbuseReportRepository AbuseReportRepo { get; set; }
-
-        /// <summary>
         ///     获取及设置帖子的存储库。
         /// </summary>
         public IPostRepository PostRepo { get; set; }
@@ -69,6 +64,11 @@ namespace Sheep.ServiceInterface.AbuseReports
         ///     获取及设置回复的存储库。
         /// </summary>
         public IReplyRepository ReplyRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置举报的存储库。
+        /// </summary>
+        public IAbuseReportRepository AbuseReportRepo { get; set; }
 
         #endregion
 
@@ -88,8 +88,8 @@ namespace Sheep.ServiceInterface.AbuseReports
             //    AbuseReportCreateValidator.ValidateAndThrow(request, ApplyTo.Post);
             //}
             var currentUserId = GetSession().UserAuthId.ToInt(0);
-            var currentUserAuth = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(currentUserId.ToString());
-            if (currentUserAuth == null)
+            var currentUser = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(currentUserId.ToString());
+            if (currentUser == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.UserNotFound, currentUserId));
             }
@@ -102,21 +102,49 @@ namespace Sheep.ServiceInterface.AbuseReports
                                  };
             var report = await AbuseReportRepo.CreateAbuseReportAsync(newAbuseReport);
             ResetCache(report);
+            string title = null;
+            string pictureUrl = null;
+            IUserAuth abuseUser = null;
             switch (report.ParentType)
             {
+                case "用户":
+                    abuseUser = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(report.ParentId);
+                    if (abuseUser != null)
+                    {
+                        title = abuseUser.DisplayName;
+                        pictureUrl = abuseUser.Meta.GetValueOrDefault("AvatarUrl");
+                    }
+                    break;
                 case "帖子":
                     await PostRepo.IncrementPostAbuseReportsCountAsync(report.ParentId, 1);
+                    var post = await PostRepo.GetPostAsync(report.ParentId);
+                    if (post != null)
+                    {
+                        title = post.Title;
+                        pictureUrl = post.PictureUrl;
+                        abuseUser = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(post.AuthorId.ToString());
+                    }
+                    break;
+                case "评论":
+                    var comment = await CommentRepo.GetCommentAsync(report.ParentId);
+                    if (comment != null)
+                    {
+                        title = comment.Content;
+                        abuseUser = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(comment.UserId.ToString());
+                    }
+                    break;
+                case "回复":
+                    var reply = await ReplyRepo.GetReplyAsync(report.ParentId);
+                    if (reply != null)
+                    {
+                        title = reply.Content;
+                        abuseUser = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(reply.UserId.ToString());
+                    }
                     break;
             }
-            //await NimClient.PostAsync(new FriendAddRequest
-            //                          {
-            //                              AccountId = currentUserId.ToString(),
-            //                              FriendAccountId = request.ParentId.ToString(),
-            //                              Type = 1
-            //                          });
             return new AbuseReportCreateResponse
                    {
-                       AbuseReport = report.MapToAbuseReportDto(currentUserAuth)
+                       AbuseReport = report.MapToAbuseReportDto(title, pictureUrl, abuseUser, currentUser)
                    };
         }
 

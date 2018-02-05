@@ -78,8 +78,8 @@ namespace Sheep.ServiceInterface.Replies
             //    ReplyCreateValidator.ValidateAndThrow(request, ApplyTo.Post);
             //}
             var currentUserId = GetSession().UserAuthId.ToInt(0);
-            var currentUserAuth = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(currentUserId.ToString());
-            if (currentUserAuth == null)
+            var currentUser = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(currentUserId.ToString());
+            if (currentUser == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.UserNotFound, currentUserId));
             }
@@ -107,7 +107,7 @@ namespace Sheep.ServiceInterface.Replies
             //                          });
             return new ReplyCreateResponse
                    {
-                       Reply = reply.MapToReplyDto(currentUserAuth, false, false)
+                       Reply = reply.MapToReplyDto(currentUser, false, false)
                    };
         }
 

@@ -73,8 +73,8 @@ namespace Sheep.ServiceInterface.Feedbacks
             //    FeedbackCreateValidator.ValidateAndThrow(request, ApplyTo.Post);
             //}
             var currentUserId = GetSession().UserAuthId.ToInt(0);
-            var currentUserAuth = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(currentUserId.ToString());
-            if (currentUserAuth == null)
+            var currentUser = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(currentUserId.ToString());
+            if (currentUser == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.UserNotFound, currentUserId));
             }
@@ -87,7 +87,7 @@ namespace Sheep.ServiceInterface.Feedbacks
             ResetCache(feedback);
             return new FeedbackCreateResponse
                    {
-                       Feedback = feedback.MapToFeedbackDto(currentUserAuth)
+                       Feedback = feedback.MapToFeedbackDto(currentUser)
                    };
         }
 

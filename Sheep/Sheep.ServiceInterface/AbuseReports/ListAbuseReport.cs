@@ -15,16 +15,16 @@ using Sheep.ServiceModel.AbuseReports;
 namespace Sheep.ServiceInterface.AbuseReports
 {
     /// <summary>
-    ///     根据上级列举一组举报信息服务接口。
+    ///     列举一组举报信息服务接口。
     /// </summary>
-    public class ListAbuseReportByParentService : Service
+    public class ListAbuseReportService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(ListAbuseReportByParentService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(ListAbuseReportService));
 
         #endregion
 
@@ -38,7 +38,7 @@ namespace Sheep.ServiceInterface.AbuseReports
         /// <summary>
         ///     获取及设置列举一组举报的校验器。
         /// </summary>
-        public IValidator<AbuseReportListByParent> AbuseReportListByParentValidator { get; set; }
+        public IValidator<AbuseReportList> AbuseReportListValidator { get; set; }
 
         /// <summary>
         ///     获取及设置用户身份的存储库。
@@ -78,18 +78,17 @@ namespace Sheep.ServiceInterface.AbuseReports
         ///     列举一组举报。
         /// </summary>
         //[CacheResponse(Duration = 3600)]
-        public async Task<object> Get(AbuseReportListByParent request)
+        public async Task<object> Get(AbuseReportList request)
         {
-            if (request.IsMine.HasValue && request.IsMine.Value && !IsAuthenticated)
+            if (!IsAuthenticated)
             {
                 throw HttpError.Unauthorized(Resources.LoginRequired);
             }
             //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             //{
-            //    AbuseReportListByParentValidator.ValidateAndThrow(request, ApplyTo.Get);
+            //    AbuseReportListValidator.ValidateAndThrow(request, ApplyTo.Get);
             //}
-            var currentUserId = GetSession().UserAuthId.ToInt(0);
-            var existingAbuseReports = await AbuseReportRepo.FindAbuseReportsByParentAsync(request.ParentId, request.IsMine.HasValue && request.IsMine.Value ? currentUserId : (int?) null, request.CreatedSince?.FromUnixTime(), request.ModifiedSince?.FromUnixTime(), request.Status, request.OrderBy, request.Descending, request.Skip, request.Limit);
+            var existingAbuseReports = await AbuseReportRepo.FindAbuseReportsAsync(request.ParentType, request.CreatedSince?.FromUnixTime(), request.ModifiedSince?.FromUnixTime(), request.Status, request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingAbuseReports == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.AbuseReportsNotFound));

@@ -89,8 +89,8 @@ namespace Sheep.ServiceInterface.Bookmarks
             //    BookmarkCreateValidator.ValidateAndThrow(request, ApplyTo.Post);
             //}
             var currentUserId = GetSession().UserAuthId.ToInt(0);
-            var currentUserAuth = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(currentUserId.ToString());
-            if (currentUserAuth == null)
+            var currentUser = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(currentUserId.ToString());
+            if (currentUser == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.UserNotFound, currentUserId));
             }
@@ -112,7 +112,7 @@ namespace Sheep.ServiceInterface.Bookmarks
                 }
                 return new BookmarkCreateResponse
                        {
-                           Bookmark = existingBookmark.MapToBookmarkDto(currentUserAuth, title)
+                           Bookmark = existingBookmark.MapToBookmarkDto(currentUser, title)
                        };
             }
             var newBookmark = new Bookmark
@@ -146,7 +146,7 @@ namespace Sheep.ServiceInterface.Bookmarks
             //                          });
             return new BookmarkCreateResponse
                    {
-                       Bookmark = bookmark.MapToBookmarkDto(currentUserAuth, title)
+                       Bookmark = bookmark.MapToBookmarkDto(currentUser, title)
                    };
         }
 

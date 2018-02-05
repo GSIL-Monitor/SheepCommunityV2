@@ -117,10 +117,13 @@
     <Compile Include="AbuseReports\ChangeAbuseReportService.cs" />
     <Compile Include="AbuseReports\CreateAbuseReportService.cs" />
     <Compile Include="AbuseReports\DeleteAbuseReportService.cs" />
+    <Compile Include="AbuseReports\ListAbuseReport.cs" />
     <Compile Include="AbuseReports\ListAbuseReportByParentService.cs" />
     <Compile Include="AbuseReports\ListAbuseReportByUserService.cs" />
     <Compile Include="AbuseReports\Mappers\AbuseReportToAbuseReportDtoMapper.cs" />
     <Compile Include="AbuseReports\ShowAbuseReportService.cs" />
+    <Compile Include="AbuseReports\UpdateAbuseReportService.cs" />
+    <Compile Include="AbuseReports\UpdateAbuseReportStatusService.cs" />
     <Compile Include="Accounts\ChangeAccountCoverPhotoService.cs" />
     <Compile Include="Accounts\ChangeAccountBirthDateService.cs" />
     <Compile Include="Accounts\ChangeAccountAvatarService.cs" />

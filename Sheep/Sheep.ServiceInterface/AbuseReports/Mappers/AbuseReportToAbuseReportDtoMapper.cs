@@ -8,13 +8,16 @@ namespace Sheep.ServiceInterface.AbuseReports.Mappers
 {
     public static class AbuseReportToAbuseReportDtoMapper
     {
-        public static AbuseReportDto MapToAbuseReportDto(this AbuseReport report, IUserAuth user)
+        public static AbuseReportDto MapToAbuseReportDto(this AbuseReport report, string title, string pictureUrl, IUserAuth abuseUser, IUserAuth user)
         {
             var reportDto = new AbuseReportDto
                             {
                                 Id = report.Id,
                                 ParentType = report.ParentType,
                                 ParentId = report.ParentId,
+                                ParentTitle = title,
+                                ParentPictureUrl = pictureUrl,
+                                ParentUser = abuseUser?.MapToBasicUserDto(),
                                 Status = report.Status,
                                 Reason = report.Reason,
                                 User = user?.MapToBasicUserDto(),

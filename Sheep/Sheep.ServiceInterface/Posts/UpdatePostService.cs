@@ -107,8 +107,8 @@ namespace Sheep.ServiceInterface.Posts
             {
                 throw HttpError.Unauthorized(Resources.LoginAsAuthorRequired);
             }
-            var currentUserAuth = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(currentUserId.ToString());
-            if (currentUserAuth == null)
+            var currentUser = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(currentUserId.ToString());
+            if (currentUser == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.UserNotFound, currentUserId));
             }
@@ -200,7 +200,7 @@ namespace Sheep.ServiceInterface.Posts
             ResetCache(post);
             return new PostUpdateResponse
                    {
-                       Post = post.MapToPostDto(currentUserAuth, commentsCount > 0)
+                       Post = post.MapToPostDto(currentUser, commentsCount > 0)
                    };
         }
 

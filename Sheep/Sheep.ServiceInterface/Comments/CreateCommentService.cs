@@ -90,8 +90,8 @@ namespace Sheep.ServiceInterface.Comments
             //    CommentCreateValidator.ValidateAndThrow(request, ApplyTo.Post);
             //}
             var currentUserId = GetSession().UserAuthId.ToInt(0);
-            var currentUserAuth = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(currentUserId.ToString());
-            if (currentUserAuth == null)
+            var currentUser = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(currentUserId.ToString());
+            if (currentUser == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.UserNotFound, currentUserId));
             }
@@ -123,8 +123,8 @@ namespace Sheep.ServiceInterface.Comments
                                                       FromAccountId = currentUserId.ToString(),
                                                       MessageType = 0,
                                                       ToId = post.AuthorId.ToString(),
-                                                      Attach = string.Format("{{\"Type\" : \"Comment\", \"UserId\" : \"{0}\", \"UserDisplayName\" : \"{1}\", \"UserAvatarUrl\" : \"{2}\", \"PostId\" : \"{3}\", \"PostTitle\" : \"{4}\", \"PostPictureUrl\" : \"{5}\", \"PostContentType\" : \"{6}\", \"CommentId\" : \"{7}\", \"CommentContent\" : \"{8}\", \"CommentCreatedDate\" : \"{9}\"}}", currentUserId, currentUserAuth.DisplayName, currentUserAuth.Meta?.GetValueOrDefault("AvatarUrl"), post.Id, post.Title, post.PictureUrl, post.ContentType, comment.Id, comment.Content, comment.CreatedDate.ToUnixTime()),
-                                                      PushContent = string.Format("{0}评论了你的帖子《{1}》", currentUserAuth.DisplayName, post.Title),
+                                                      Attach = string.Format("{{\"Type\" : \"Comment\", \"UserId\" : \"{0}\", \"UserDisplayName\" : \"{1}\", \"UserAvatarUrl\" : \"{2}\", \"PostId\" : \"{3}\", \"PostTitle\" : \"{4}\", \"PostPictureUrl\" : \"{5}\", \"PostContentType\" : \"{6}\", \"CommentId\" : \"{7}\", \"CommentContent\" : \"{8}\", \"CommentCreatedDate\" : \"{9}\"}}", currentUserId, currentUser.DisplayName, currentUser.Meta?.GetValueOrDefault("AvatarUrl"), post.Id, post.Title, post.PictureUrl, post.ContentType, comment.Id, comment.Content, comment.CreatedDate.ToUnixTime()),
+                                                      PushContent = string.Format("{0}评论了你的帖子《{1}》", currentUser.DisplayName, post.Title),
                                                       Option = new MessageSendAttachOption
                                                                {
                                                                    Badge = true,
@@ -153,7 +153,7 @@ namespace Sheep.ServiceInterface.Comments
             }
             return new CommentCreateResponse
                    {
-                       Comment = comment.MapToCommentDto(title, pictureUrl, contentType, currentUserAuth, false, false)
+                       Comment = comment.MapToCommentDto(title, pictureUrl, contentType, currentUser, false, false)
                    };
         }
 

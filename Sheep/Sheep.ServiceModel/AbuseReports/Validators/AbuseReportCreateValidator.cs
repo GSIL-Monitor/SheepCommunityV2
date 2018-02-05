@@ -27,7 +27,7 @@ namespace Sheep.ServiceModel.AbuseReports.Validators
             RuleSet(ApplyTo.Post, () =>
                                   {
                                       RuleFor(x => x.ParentType).NotEmpty().WithMessage(x => string.Format(Resources.ParentTypeRequired));
-                                      RuleFor(x => x.ParentType).Must(contentType => ParentTypes.Contains(contentType)).WithMessage(x => string.Format(Resources.ParentTypeRangeMismatch, ParentTypes.Join(","))).When(x => !x.ParentType.IsNullOrEmpty());
+                                      RuleFor(x => x.ParentType).Must(parentType => ParentTypes.Contains(parentType)).WithMessage(x => string.Format(Resources.ParentTypeRangeMismatch, ParentTypes.Join(","))).When(x => !x.ParentType.IsNullOrEmpty());
                                       RuleFor(x => x.ParentId).NotEmpty().WithMessage(x => string.Format(Resources.ParentIdRequired));
                                       RuleFor(x => x.Reason).NotEmpty().WithMessage(x => string.Format(Resources.ReasonRequired));
                                   });

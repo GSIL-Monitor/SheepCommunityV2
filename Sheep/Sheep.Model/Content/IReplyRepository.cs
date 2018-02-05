@@ -27,6 +27,20 @@ namespace Sheep.Model.Content
         Task<Reply> GetReplyAsync(string replyId);
 
         /// <summary>
+        ///     获取回复列表。
+        /// </summary>
+        /// <param name="replyIds">回复的编号列表。</param>
+        /// <returns>回复列表。</returns>
+        List<Reply> GetReplies(List<string> replyIds);
+
+        /// <summary>
+        ///     异步获取回复列表。
+        /// </summary>
+        /// <param name="replyIds">回复的编号列表。</param>
+        /// <returns>回复列表。</returns>
+        Task<List<Reply>> GetRepliesAsync(List<string> replyIds);
+
+        /// <summary>
         ///     查找回复。
         /// </summary>
         /// <param name="parentType">上级的类型。</param>

@@ -7,7 +7,7 @@ namespace Sheep.ServiceModel.AbuseReports
     /// <summary>
     ///     更新一个举报的请求。
     /// </summary>
-    [Route("/abusereports/{AbuseReportId}", HttpMethods.Put, Summary = "更新一个举报")]
+    [Route("/abusereports/{ReportId}", HttpMethods.Put, Summary = "更新一个举报")]
     [DataContract]
     public class AbuseReportUpdate : IReturn<AbuseReportUpdateResponse>
     {
@@ -24,6 +24,28 @@ namespace Sheep.ServiceModel.AbuseReports
         [DataMember(Order = 2, IsRequired = true)]
         [ApiMember(Description = "原因")]
         public string Reason { get; set; }
+    }
+
+    /// <summary>
+    ///     更新一个举报的状态的请求。
+    /// </summary>
+    [Route("/abusereports/{ReportId}/status", HttpMethods.Put, Summary = "更新一个举报的状态")]
+    [DataContract]
+    public class AbuseReportUpdateStatus : IReturn<AbuseReportUpdateResponse>
+    {
+        /// <summary>
+        ///     举报编号。
+        /// </summary>
+        [DataMember(Order = 1, IsRequired = true)]
+        [ApiMember(Description = "举报编号")]
+        public string ReportId { get; set; }
+
+        /// <summary>
+        ///     状态。（可选值：待处理, 正常, 删除内容, 封禁用户, 等待删除）
+        /// </summary>
+        [DataMember(Order = 2, IsRequired = true)]
+        [ApiMember(Description = "状态（可选值：待处理, 正常, 删除内容, 封禁用户, 等待删除）")]
+        public string Status { get; set; }
     }
 
     /// <summary>
