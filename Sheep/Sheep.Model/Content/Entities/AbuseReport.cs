@@ -33,7 +33,7 @@ namespace Sheep.Model.Content.Entities
         public int UserId { get; set; }
 
         /// <summary>
-        ///     状态。（可选值：待处理, 处理中, 已处理, 处理失败, 等待删除）
+        ///     状态。（可选值：待处理, 正常, 删除内容, 封禁用户, 等待删除）
         /// </summary>
         public string Status { get; set; }
 

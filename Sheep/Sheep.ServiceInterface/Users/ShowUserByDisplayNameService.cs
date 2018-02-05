@@ -14,6 +14,7 @@ namespace Sheep.ServiceInterface.Users
     /// <summary>
     ///     根据显示名称显示一个用户服务接口。
     /// </summary>
+    [CompressResponse]
     public class ShowUserByDisplayNameService : Service
     {
         #region 静态变量

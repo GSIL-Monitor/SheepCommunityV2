@@ -17,6 +17,7 @@ namespace Sheep.ServiceInterface.Feedbacks
     /// <summary>
     ///     根据上级列举一组举报信息服务接口。
     /// </summary>
+    [CompressResponse]
     public class ListFeedbackService : Service
     {
         #region 静态变量

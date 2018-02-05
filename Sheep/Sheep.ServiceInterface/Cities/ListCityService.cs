@@ -16,6 +16,7 @@ namespace Sheep.ServiceInterface.Cities
     /// <summary>
     ///     列举一组城市服务接口。
     /// </summary>
+    [CompressResponse]
     public class ListCityService : Service
     {
         #region 静态变量

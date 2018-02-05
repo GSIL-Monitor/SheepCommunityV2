@@ -19,6 +19,7 @@ namespace Sheep.ServiceInterface.Comments
     /// <summary>
     ///     根据上级列举一组评论信息服务接口。
     /// </summary>
+    [CompressResponse]
     public class ListCommentByParentService : Service
     {
         #region 静态变量

@@ -17,6 +17,7 @@ namespace Sheep.ServiceInterface.Posts
     /// <summary>
     ///     列举一组帖子基本信息服务接口。
     /// </summary>
+    [CompressResponse]
     public class ListBasicPostService : Service
     {
         #region 静态变量

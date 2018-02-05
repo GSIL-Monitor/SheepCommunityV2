@@ -20,6 +20,7 @@ namespace Sheep.ServiceInterface.Chapters
     /// <summary>
     ///     更新一章服务接口。
     /// </summary>
+    [CompressResponse]
     public class UpdateChapterService : ChangeChapterService
     {
         #region 静态变量

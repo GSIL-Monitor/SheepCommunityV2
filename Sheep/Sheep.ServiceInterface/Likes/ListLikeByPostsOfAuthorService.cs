@@ -19,6 +19,7 @@ namespace Sheep.ServiceInterface.Likes
     /// <summary>
     ///     根据作者帖子列表列举一组点赞信息服务接口。
     /// </summary>
+    [CompressResponse]
     public class ListLikeByPostsOfAuthorService : Service
     {
         #region 静态变量

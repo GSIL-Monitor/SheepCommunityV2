@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Netease.Nim;
 using ServiceStack;
@@ -10,8 +11,14 @@ using Sheep.Common.Auth;
 using Sheep.Model.Content;
 using Sheep.Model.Content.Entities;
 using Sheep.ServiceInterface.AbuseReports.Mappers;
+using Sheep.ServiceInterface.Comments;
+using Sheep.ServiceInterface.Posts;
 using Sheep.ServiceInterface.Properties;
+using Sheep.ServiceInterface.Replies;
 using Sheep.ServiceModel.AbuseReports;
+using Sheep.ServiceModel.Comments;
+using Sheep.ServiceModel.Posts;
+using Sheep.ServiceModel.Replies;
 
 namespace Sheep.ServiceInterface.AbuseReports
 {
@@ -125,6 +132,21 @@ namespace Sheep.ServiceInterface.AbuseReports
                         title = post.Title;
                         pictureUrl = post.PictureUrl;
                         abuseUser = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(post.AuthorId.ToString());
+                        switch (report.Status)
+                        {
+                            case "删除内容":
+                                using (var deletePostService = ResolveService<DeletePostService>())
+                                {
+                                    await deletePostService.Delete(new PostDelete
+                                                                   {
+                                                                       PostId = post.Id
+                                                                   });
+                                }
+                                break;
+                            case "封禁用户":
+                                await ((IUserAuthRepositoryExtended) AuthRepo).UpdateUserAuthLockedDateAsync(post.AuthorId.ToString(), DateTime.UtcNow);
+                                break;
+                        }
                     }
                     break;
                 case "评论":
@@ -133,6 +155,21 @@ namespace Sheep.ServiceInterface.AbuseReports
                     {
                         title = comment.Content;
                         abuseUser = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(comment.UserId.ToString());
+                        switch (report.Status)
+                        {
+                            case "删除内容":
+                                using (var deleteCommentService = ResolveService<DeleteCommentService>())
+                                {
+                                    await deleteCommentService.Delete(new CommentDelete
+                                                                      {
+                                                                          CommentId = comment.Id
+                                                                      });
+                                }
+                                break;
+                            case "封禁用户":
+                                await ((IUserAuthRepositoryExtended) AuthRepo).UpdateUserAuthLockedDateAsync(comment.UserId.ToString(), DateTime.UtcNow);
+                                break;
+                        }
                     }
                     break;
                 case "回复":
@@ -141,6 +178,21 @@ namespace Sheep.ServiceInterface.AbuseReports
                     {
                         title = reply.Content;
                         abuseUser = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(reply.UserId.ToString());
+                        switch (report.Status)
+                        {
+                            case "删除内容":
+                                using (var deleteReplyService = ResolveService<DeleteReplyService>())
+                                {
+                                    await deleteReplyService.Delete(new ReplyDelete
+                                                                    {
+                                                                        ReplyId = reply.Id
+                                                                    });
+                                }
+                                break;
+                            case "封禁用户":
+                                await ((IUserAuthRepositoryExtended) AuthRepo).UpdateUserAuthLockedDateAsync(reply.UserId.ToString(), DateTime.UtcNow);
+                                break;
+                        }
                     }
                     break;
             }

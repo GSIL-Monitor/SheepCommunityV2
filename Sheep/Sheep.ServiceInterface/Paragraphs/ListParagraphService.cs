@@ -18,6 +18,7 @@ namespace Sheep.ServiceInterface.Paragraphs
     /// <summary>
     ///     列举一组节服务接口。
     /// </summary>
+    [CompressResponse]
     public class ListParagraphService : Service
     {
         #region 静态变量

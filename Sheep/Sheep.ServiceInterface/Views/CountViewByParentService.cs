@@ -15,6 +15,7 @@ namespace Sheep.ServiceInterface.Views
     /// <summary>
     ///     根据上级统计一组查看数量服务接口。
     /// </summary>
+    [CompressResponse]
     public class CountViewByParentService : Service
     {
         #region 静态变量

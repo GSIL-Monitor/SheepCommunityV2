@@ -17,6 +17,7 @@ namespace Sheep.ServiceInterface.Follows
     /// <summary>
     ///     列举一组关注者的关注信息服务接口。
     /// </summary>
+    [CompressResponse]
     public class ListFollowOfFollowerService : Service
     {
         #region 静态变量

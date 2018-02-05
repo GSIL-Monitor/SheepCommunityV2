@@ -18,6 +18,7 @@ namespace Sheep.ServiceInterface.Views
     /// <summary>
     ///     根据上级列举一组查看信息服务接口。
     /// </summary>
+    [CompressResponse]
     public class ListViewByParentService : Service
     {
         #region 静态变量

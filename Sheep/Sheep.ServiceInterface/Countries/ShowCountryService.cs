@@ -13,6 +13,7 @@ namespace Sheep.ServiceInterface.Countries
     /// <summary>
     ///     显示一个国家服务接口。
     /// </summary>
+    [CompressResponse]
     public class ShowCountryService : Service
     {
         #region 静态变量

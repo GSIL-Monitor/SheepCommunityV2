@@ -16,6 +16,7 @@ namespace Sheep.ServiceInterface.Users
     /// <summary>
     ///     根据编号列表列举一组用户服务接口。
     /// </summary>
+    [CompressResponse]
     public class ListUserByIdsService : Service
     {
         #region 静态变量

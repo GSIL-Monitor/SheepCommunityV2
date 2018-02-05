@@ -13,6 +13,7 @@ namespace Sheep.ServiceInterface.Groups
     /// <summary>
     ///     显示一个群组服务接口。
     /// </summary>
+    [CompressResponse]
     public class ShowGroupService : Service
     {
         #region 静态变量

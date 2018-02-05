@@ -14,6 +14,7 @@ namespace Sheep.ServiceInterface.Paragraphs
     /// <summary>
     ///     显示一条节注释服务接口。
     /// </summary>
+    [CompressResponse]
     public class ShowParagraphAnnotationService : Service
     {
         #region 静态变量

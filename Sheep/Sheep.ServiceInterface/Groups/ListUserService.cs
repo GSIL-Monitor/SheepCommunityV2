@@ -15,6 +15,7 @@ namespace Sheep.ServiceInterface.Groups
     /// <summary>
     ///     列举一组群组服务接口。
     /// </summary>
+    [CompressResponse]
     public class ListGroupService : Service
     {
         #region 静态变量

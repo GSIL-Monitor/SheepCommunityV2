@@ -14,6 +14,7 @@ namespace Sheep.ServiceInterface.Subjects
     /// <summary>
     ///     显示一个主题服务接口。
     /// </summary>
+    [CompressResponse]
     public class ShowSubjectService : Service
     {
         #region 静态变量

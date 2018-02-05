@@ -18,6 +18,7 @@ namespace Sheep.ServiceInterface.Chapters
     /// <summary>
     ///     搜索一组章服务接口。
     /// </summary>
+    [CompressResponse]
     public class SearchChapterService : Service
     {
         #region 静态变量

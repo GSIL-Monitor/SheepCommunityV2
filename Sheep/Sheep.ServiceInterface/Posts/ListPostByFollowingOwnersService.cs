@@ -18,6 +18,7 @@ namespace Sheep.ServiceInterface.Posts
     /// <summary>
     ///     根据已关注的作者列表列举一组帖子服务接口。
     /// </summary>
+    [CompressResponse]
     public class ListPostByFollowingOwnersService : Service
     {
         #region 静态变量

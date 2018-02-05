@@ -13,6 +13,7 @@ namespace Sheep.ServiceInterface.Recommendations
     /// <summary>
     ///     显示一个推荐 服务接口。
     /// </summary>
+    [CompressResponse]
     public class ShowRecommendationService : Service
     {
         #region 静态变量

@@ -15,6 +15,7 @@ namespace Sheep.ServiceInterface.ChapterReads
     /// <summary>
     ///     显示一个阅读服务接口。
     /// </summary>
+    [CompressResponse]
     public class ShowChapterReadService : Service
     {
         #region 静态变量

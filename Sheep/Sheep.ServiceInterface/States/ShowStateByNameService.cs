@@ -13,6 +13,7 @@ namespace Sheep.ServiceInterface.States
     /// <summary>
     ///     根据省份名称显示一个省份服务接口。
     /// </summary>
+    [CompressResponse]
     public class ShowStateByNameService : Service
     {
         #region 静态变量

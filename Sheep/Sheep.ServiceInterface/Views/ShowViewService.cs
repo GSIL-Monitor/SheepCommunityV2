@@ -16,6 +16,7 @@ namespace Sheep.ServiceInterface.Views
     /// <summary>
     ///     显示一个查看服务接口。
     /// </summary>
+    [CompressResponse]
     public class ShowViewService : Service
     {
         #region 静态变量

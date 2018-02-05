@@ -17,6 +17,7 @@ namespace Sheep.ServiceInterface.Votes
     /// <summary>
     ///     根据上级列举一组投票信息服务接口。
     /// </summary>
+    [CompressResponse]
     public class ListVoteByParentService : Service
     {
         #region 静态变量

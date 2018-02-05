@@ -15,6 +15,7 @@ namespace Sheep.ServiceInterface.Replies
     /// <summary>
     ///     显示一个回复服务接口。
     /// </summary>
+    [CompressResponse]
     public class ShowReplyService : Service
     {
         #region 静态变量

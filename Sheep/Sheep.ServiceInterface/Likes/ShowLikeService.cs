@@ -16,6 +16,7 @@ namespace Sheep.ServiceInterface.Likes
     /// <summary>
     ///     显示一个点赞服务接口。
     /// </summary>
+    [CompressResponse]
     public class ShowLikeService : Service
     {
         #region 静态变量

@@ -16,6 +16,7 @@ namespace Sheep.ServiceInterface.Books
     /// <summary>
     ///     列举一组书籍服务接口。
     /// </summary>
+    [CompressResponse]
     public class ListBookService : Service
     {
         #region 静态变量

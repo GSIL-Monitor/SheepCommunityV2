@@ -14,6 +14,7 @@ namespace Sheep.ServiceInterface.Chapters
     /// <summary>
     ///     显示一条章注释服务接口。
     /// </summary>
+    [CompressResponse]
     public class ShowChapterAnnotationService : Service
     {
         #region 静态变量

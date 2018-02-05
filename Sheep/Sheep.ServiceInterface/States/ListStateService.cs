@@ -16,6 +16,7 @@ namespace Sheep.ServiceInterface.States
     /// <summary>
     ///     列举一组省份服务接口。
     /// </summary>
+    [CompressResponse]
     public class ListStateService : Service
     {
         #region 静态变量

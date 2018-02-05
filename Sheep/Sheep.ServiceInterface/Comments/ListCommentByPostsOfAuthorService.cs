@@ -20,6 +20,7 @@ namespace Sheep.ServiceInterface.Comments
     /// <summary>
     ///     根据作者帖子列表列举一组评论信息服务接口。
     /// </summary>
+    [CompressResponse]
     public class ListCommentByPostsOfAuthorService : Service
     {
         #region 静态变量

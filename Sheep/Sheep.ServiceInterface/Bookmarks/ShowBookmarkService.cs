@@ -16,6 +16,7 @@ namespace Sheep.ServiceInterface.Bookmarks
     /// <summary>
     ///     显示一个收藏服务接口。
     /// </summary>
+    [CompressResponse]
     public class ShowBookmarkService : Service
     {
         #region 静态变量

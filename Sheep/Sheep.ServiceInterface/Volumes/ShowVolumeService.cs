@@ -14,6 +14,7 @@ namespace Sheep.ServiceInterface.Volumes
     /// <summary>
     ///     显示一卷服务接口。
     /// </summary>
+    [CompressResponse]
     public class ShowVolumeService : Service
     {
         #region 静态变量

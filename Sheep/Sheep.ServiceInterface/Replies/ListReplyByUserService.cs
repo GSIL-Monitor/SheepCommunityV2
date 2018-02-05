@@ -18,6 +18,7 @@ namespace Sheep.ServiceInterface.Replies
     /// <summary>
     ///     根据用户列举一组回复信息服务接口。
     /// </summary>
+    [CompressResponse]
     public class ListReplyByUserService : Service
     {
         #region 静态变量

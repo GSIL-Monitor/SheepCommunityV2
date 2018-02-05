@@ -14,6 +14,7 @@ namespace Sheep.ServiceInterface.Users
     /// <summary>
     ///     根据用户名称或电子邮件地址显示一个用户基本信息服务接口。
     /// </summary>
+    [CompressResponse]
     public class ShowBasicUserByUserNameOrEmailService : Service
     {
         #region 静态变量

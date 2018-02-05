@@ -862,6 +862,12 @@ namespace ServiceStack.Authentication.RethinkDb
             (await R.Table(s_UserAuthTable).Get(userAuthId.ToInt(0)).Update(row => R.HashMap("Meta", R.HashMap("Reputation", value))).RunResultAsync(_conn)).AssertNoErrors();
         }
 
+        /// <inheritdoc />
+        public async Task UpdateUserAuthLockedDateAsync(string userAuthId, DateTime? value)
+        {
+            (await R.Table(s_UserAuthTable).Get(userAuthId.ToInt(0)).Update(row => R.HashMap("LockedDate", value)).RunResultAsync(_conn)).AssertNoErrors();
+        }
+
         #endregion
 
         #region IClearable 接口实现

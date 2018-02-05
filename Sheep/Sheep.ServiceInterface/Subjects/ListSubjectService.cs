@@ -15,6 +15,7 @@ namespace Sheep.ServiceInterface.Subjects
     /// <summary>
     ///     列举一组主题服务接口。
     /// </summary>
+    [CompressResponse]
     public class ListSubjectService : Service
     {
         #region 静态变量

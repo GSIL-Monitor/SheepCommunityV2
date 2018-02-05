@@ -15,6 +15,7 @@ namespace Sheep.ServiceInterface.Votes
     /// <summary>
     ///     显示一个投票服务接口。
     /// </summary>
+    [CompressResponse]
     public class ShowVoteService : Service
     {
         #region 静态变量

@@ -15,6 +15,7 @@ namespace Sheep.ServiceInterface.AbuseReports
     /// <summary>
     ///     显示一个举报服务接口。
     /// </summary>
+    [CompressResponse]
     public class ShowAbuseReportService : Service
     {
         #region 静态变量

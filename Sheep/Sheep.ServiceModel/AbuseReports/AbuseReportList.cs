@@ -15,7 +15,7 @@ namespace Sheep.ServiceModel.AbuseReports
         /// <summary>
         ///     上级类型。（可选值：用户, 帖子, 评论, 回复）
         /// </summary>
-        [DataMember(Order = 1, Name = "parentyype")]
+        [DataMember(Order = 1, Name = "parenttype")]
         [ApiMember(Description = "上级类型（可选值：用户, 帖子, 评论, 回复）")]
         public string ParentType { get; set; }
 
