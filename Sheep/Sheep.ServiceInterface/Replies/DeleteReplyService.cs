@@ -79,11 +79,11 @@ namespace Sheep.ServiceInterface.Replies
             {
                 throw HttpError.NotFound(string.Format(Resources.ReplyNotFound, request.ReplyId));
             }
-            var currentUserId = GetSession().UserAuthId.ToInt(0);
-            if (existingReply.UserId != currentUserId)
-            {
-                throw HttpError.Unauthorized(Resources.LoginAsAuthorRequired);
-            }
+            //var currentUserId = GetSession().UserAuthId.ToInt(0);
+            //if (existingReply.UserId != currentUserId)
+            //{
+            //    throw HttpError.Unauthorized(Resources.LoginAsAuthorRequired);
+            //}
             await ReplyRepo.DeleteReplyAsync(request.ReplyId);
             ResetCache(existingReply);
             switch (existingReply.ParentType)

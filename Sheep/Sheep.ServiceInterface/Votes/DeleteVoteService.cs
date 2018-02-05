@@ -85,10 +85,10 @@ namespace Sheep.ServiceInterface.Votes
             {
                 throw HttpError.NotFound(string.Format(Resources.VoteNotFound, request.ParentId));
             }
-            if (existingVote.UserId != currentUserId)
-            {
-                throw HttpError.Unauthorized(Resources.LoginAsAuthorRequired);
-            }
+            //if (existingVote.UserId != currentUserId)
+            //{
+            //    throw HttpError.Unauthorized(Resources.LoginAsAuthorRequired);
+            //}
             await VoteRepo.DeleteVoteAsync(request.ParentId, currentUserId);
             ResetCache(existingVote);
             switch (existingVote.ParentType)

@@ -79,11 +79,11 @@ namespace Sheep.ServiceInterface.ChapterReads
             {
                 throw HttpError.NotFound(string.Format(Resources.ChapterReadNotFound, request.ChapterReadId));
             }
-            var currentUserId = GetSession().UserAuthId.ToInt(0);
-            if (existingChapterRead.UserId != currentUserId)
-            {
-                throw HttpError.Unauthorized(Resources.LoginAsAuthorRequired);
-            }
+            //var currentUserId = GetSession().UserAuthId.ToInt(0);
+            //if (existingChapterRead.UserId != currentUserId)
+            //{
+            //    throw HttpError.Unauthorized(Resources.LoginAsAuthorRequired);
+            //}
             await ChapterReadRepo.DeleteChapterReadAsync(request.ChapterReadId);
             ResetCache(existingChapterRead);
             return new ChapterReadDeleteResponse();

@@ -103,10 +103,10 @@ namespace Sheep.ServiceInterface.Posts
                 throw HttpError.NotFound(string.Format(Resources.PostNotFound, request.PostId));
             }
             var currentUserId = GetSession().UserAuthId.ToInt(0);
-            if (existingPost.AuthorId != currentUserId)
-            {
-                throw HttpError.Unauthorized(Resources.LoginAsAuthorRequired);
-            }
+            //if (existingPost.AuthorId != currentUserId)
+            //{
+            //    throw HttpError.Unauthorized(Resources.LoginAsAuthorRequired);
+            //}
             var currentUser = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(currentUserId.ToString());
             if (currentUser == null)
             {

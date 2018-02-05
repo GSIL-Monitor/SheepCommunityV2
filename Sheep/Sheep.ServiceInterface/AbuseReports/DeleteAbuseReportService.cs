@@ -89,11 +89,11 @@ namespace Sheep.ServiceInterface.AbuseReports
             {
                 throw HttpError.NotFound(string.Format(Resources.AbuseReportNotFound, request.ReportId));
             }
-            var currentUserId = GetSession().UserAuthId.ToInt(0);
-            if (existingAbuseReport.UserId != currentUserId)
-            {
-                throw HttpError.Unauthorized(Resources.LoginAsAuthorRequired);
-            }
+            //var currentUserId = GetSession().UserAuthId.ToInt(0);
+            //if (existingAbuseReport.UserId != currentUserId)
+            //{
+            //    throw HttpError.Unauthorized(Resources.LoginAsAuthorRequired);
+            //}
             await AbuseReportRepo.DeleteAbuseReportAsync(request.ReportId);
             ResetCache(existingAbuseReport);
             switch (existingAbuseReport.ParentType)

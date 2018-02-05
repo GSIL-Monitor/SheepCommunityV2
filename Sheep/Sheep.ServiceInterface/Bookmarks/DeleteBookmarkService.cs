@@ -91,10 +91,10 @@ namespace Sheep.ServiceInterface.Bookmarks
             {
                 throw HttpError.NotFound(string.Format(Resources.BookmarkNotFound, request.ParentId));
             }
-            if (existingBookmark.UserId != currentUserId)
-            {
-                throw HttpError.Unauthorized(Resources.LoginAsAuthorRequired);
-            }
+            //if (existingBookmark.UserId != currentUserId)
+            //{
+            //    throw HttpError.Unauthorized(Resources.LoginAsAuthorRequired);
+            //}
             await BookmarkRepo.DeleteBookmarkAsync(request.ParentId, currentUserId);
             ResetCache(existingBookmark);
             switch (existingBookmark.ParentType)

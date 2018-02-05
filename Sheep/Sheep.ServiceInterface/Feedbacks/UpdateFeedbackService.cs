@@ -79,10 +79,10 @@ namespace Sheep.ServiceInterface.Feedbacks
                 throw HttpError.NotFound(string.Format(Resources.FeedbackNotFound, request.FeedbackId));
             }
             var currentUserId = GetSession().UserAuthId.ToInt(0);
-            if (existingFeedback.UserId != currentUserId)
-            {
-                throw HttpError.Unauthorized(Resources.LoginAsAuthorRequired);
-            }
+            //if (existingFeedback.UserId != currentUserId)
+            //{
+            //    throw HttpError.Unauthorized(Resources.LoginAsAuthorRequired);
+            //}
             var currentUser = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(currentUserId.ToString());
             if (currentUser == null)
             {

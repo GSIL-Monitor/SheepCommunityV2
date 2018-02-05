@@ -90,11 +90,11 @@ namespace Sheep.ServiceInterface.Comments
             {
                 throw HttpError.NotFound(string.Format(Resources.CommentNotFound, request.CommentId));
             }
-            var currentUserId = GetSession().UserAuthId.ToInt(0);
-            if (existingComment.UserId != currentUserId)
-            {
-                throw HttpError.Unauthorized(Resources.LoginAsAuthorRequired);
-            }
+            //var currentUserId = GetSession().UserAuthId.ToInt(0);
+            //if (existingComment.UserId != currentUserId)
+            //{
+            //    throw HttpError.Unauthorized(Resources.LoginAsAuthorRequired);
+            //}
             await CommentRepo.DeleteCommentAsync(request.CommentId);
             ResetCache(existingComment);
             switch (existingComment.ParentType)

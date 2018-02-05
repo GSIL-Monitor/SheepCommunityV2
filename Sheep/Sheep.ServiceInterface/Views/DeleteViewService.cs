@@ -90,11 +90,11 @@ namespace Sheep.ServiceInterface.Views
             {
                 throw HttpError.NotFound(string.Format(Resources.ViewNotFound, request.ViewId));
             }
-            var currentUserId = GetSession().UserAuthId.ToInt(0);
-            if (existingView.UserId != currentUserId)
-            {
-                throw HttpError.Unauthorized(Resources.LoginAsAuthorRequired);
-            }
+            //var currentUserId = GetSession().UserAuthId.ToInt(0);
+            //if (existingView.UserId != currentUserId)
+            //{
+            //    throw HttpError.Unauthorized(Resources.LoginAsAuthorRequired);
+            //}
             await ViewRepo.DeleteViewAsync(request.ViewId);
             ResetCache(existingView);
             switch (existingView.ParentType)

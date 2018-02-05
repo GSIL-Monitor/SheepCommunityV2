@@ -91,10 +91,10 @@ namespace Sheep.ServiceInterface.Likes
             {
                 throw HttpError.NotFound(string.Format(Resources.LikeNotFound, request.ParentId));
             }
-            if (existingLike.UserId != currentUserId)
-            {
-                throw HttpError.Unauthorized(Resources.LoginAsAuthorRequired);
-            }
+            //if (existingLike.UserId != currentUserId)
+            //{
+            //    throw HttpError.Unauthorized(Resources.LoginAsAuthorRequired);
+            //}
             await LikeRepo.DeleteLikeAsync(request.ParentId, currentUserId);
             ResetCache(existingLike);
             switch (existingLike.ParentType)

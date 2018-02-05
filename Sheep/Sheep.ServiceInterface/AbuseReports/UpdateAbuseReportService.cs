@@ -94,10 +94,10 @@ namespace Sheep.ServiceInterface.AbuseReports
                 throw HttpError.NotFound(string.Format(Resources.AbuseReportNotFound, request.ReportId));
             }
             var currentUserId = GetSession().UserAuthId.ToInt(0);
-            if (existingAbuseReport.UserId != currentUserId)
-            {
-                throw HttpError.Unauthorized(Resources.LoginAsAuthorRequired);
-            }
+            //if (existingAbuseReport.UserId != currentUserId)
+            //{
+            //    throw HttpError.Unauthorized(Resources.LoginAsAuthorRequired);
+            //}
             var currentUser = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(currentUserId.ToString());
             if (currentUser == null)
             {

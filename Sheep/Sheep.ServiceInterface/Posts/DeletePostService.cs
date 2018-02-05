@@ -74,11 +74,11 @@ namespace Sheep.ServiceInterface.Posts
             {
                 throw HttpError.NotFound(string.Format(Resources.PostNotFound, request.PostId));
             }
-            var authorId = GetSession().UserAuthId.ToInt(0);
-            if (existingPost.AuthorId != authorId)
-            {
-                throw HttpError.Unauthorized(Resources.LoginAsAuthorRequired);
-            }
+            //var authorId = GetSession().UserAuthId.ToInt(0);
+            //if (existingPost.AuthorId != authorId)
+            //{
+            //    throw HttpError.Unauthorized(Resources.LoginAsAuthorRequired);
+            //}
             await PostRepo.DeletePostAsync(request.PostId);
             ResetCache(existingPost);
             //await NimClient.PostAsync(new FriendDeleteRequest
