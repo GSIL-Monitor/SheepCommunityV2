@@ -8,13 +8,16 @@ namespace Sheep.ServiceInterface.Bookmarks.Mappers
 {
     public static class BookmarkToBookmarkDtoMapper
     {
-        public static BookmarkDto MapToBookmarkDto(this Bookmark bookmark, IUserAuth user, string title)
+        public static BookmarkDto MapToBookmarkDto(this Bookmark bookmark, string catalog, string category, string title, string pictureUrl, IUserAuth user)
         {
             var bookmarkDto = new BookmarkDto
                               {
                                   ParentType = bookmark.ParentType,
                                   ParentId = bookmark.ParentId,
+                                  ParentCatalog = catalog,
+                                  ParentCategory = category,
                                   ParentTitle = title,
+                                  ParentPictureUrl = pictureUrl,
                                   User = user?.MapToBasicUserDto(),
                                   CreatedDate = bookmark.CreatedDate.ToUnixTime()
                               };

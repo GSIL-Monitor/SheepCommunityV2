@@ -22,21 +22,39 @@ namespace Sheep.ServiceModel.Bookmarks.Entities
         public string ParentId { get; set; }
 
         /// <summary>
-        ///     上级标题。
+        ///     上级目录。
         /// </summary>
         [DataMember(Order = 3)]
+        public string ParentCatalog { get; set; }
+
+        /// <summary>
+        ///     上级分类。
+        /// </summary>
+        [DataMember(Order = 4)]
+        public string ParentCategory { get; set; }
+
+        /// <summary>
+        ///     上级标题。
+        /// </summary>
+        [DataMember(Order = 5)]
         public string ParentTitle { get; set; }
+
+        /// <summary>
+        ///     上级图片的地址。
+        /// </summary>
+        [DataMember(Order = 6)]
+        public string ParentPictureUrl { get; set; }
 
         /// <summary>
         ///     用户。
         /// </summary>
-        [DataMember(Order = 4)]
+        [DataMember(Order = 7)]
         public BasicUserDto User { get; set; }
 
         /// <summary>
         ///     创建日期。
         /// </summary>
-        [DataMember(Order = 5)]
+        [DataMember(Order = 8)]
         public long CreatedDate { get; set; }
     }
 }

@@ -57,9 +57,14 @@ namespace Sheep.ServiceInterface.Bookmarks
         public IBookmarkRepository BookmarkRepo { get; set; }
 
         /// <summary>
-        ///     获取及设置帖子的存储库。
+        ///     获取及设置书籍的存储库。
         /// </summary>
-        public IPostRepository PostRepo { get; set; }
+        public IBookRepository BookRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置卷的存储库。
+        /// </summary>
+        public IVolumeRepository VolumeRepo { get; set; }
 
         /// <summary>
         ///     获取及设置章的存储库。
@@ -70,6 +75,11 @@ namespace Sheep.ServiceInterface.Bookmarks
         ///     获取及设置节的存储库。
         /// </summary>
         public IParagraphRepository ParagraphRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置帖子的存储库。
+        /// </summary>
+        public IPostRepository PostRepo { get; set; }
 
         #endregion
 
@@ -94,25 +104,45 @@ namespace Sheep.ServiceInterface.Bookmarks
             {
                 throw HttpError.NotFound(string.Format(Resources.UserNotFound, currentUserId));
             }
-            var title = string.Empty;
+            string catalog = null;
+            string category = null;
+            string title = null;
+            string pictureUrl = null;
             var existingBookmark = await BookmarkRepo.GetBookmarkAsync(request.ParentId, currentUserId);
             if (existingBookmark != null)
             {
                 switch (existingBookmark.ParentType)
                 {
                     case "帖子":
-                        title = (await PostRepo.GetPostAsync(existingBookmark.ParentId))?.Title;
+                        var post = await PostRepo.GetPostAsync(existingBookmark.ParentId);
+                        if (post != null)
+                        {
+                            title = post.Title;
+                            pictureUrl = post.PictureUrl;
+                        }
                         break;
                     case "章":
-                        title = (await ChapterRepo.GetChapterAsync(existingBookmark.ParentId))?.Title;
+                        var chapter = await ChapterRepo.GetChapterAsync(existingBookmark.ParentId);
+                        if (chapter != null)
+                        {
+                            catalog = (await BookRepo.GetBookAsync(chapter.BookId))?.Title;
+                            category = (await VolumeRepo.GetVolumeAsync(chapter.VolumeId))?.Title;
+                            title = chapter.Title;
+                        }
                         break;
                     case "节":
-                        title = (await ParagraphRepo.GetParagraphAsync(existingBookmark.ParentId))?.Content;
+                        var paragraph = await ParagraphRepo.GetParagraphAsync(existingBookmark.ParentId);
+                        if (paragraph != null)
+                        {
+                            catalog = (await BookRepo.GetBookAsync(paragraph.BookId))?.Title;
+                            category = string.Format("{0} {1}", (await VolumeRepo.GetVolumeAsync(paragraph.VolumeId))?.Title, (await ChapterRepo.GetChapterAsync(paragraph.ChapterId))?.Title);
+                            title = paragraph.Content;
+                        }
                         break;
                 }
                 return new BookmarkCreateResponse
                        {
-                           Bookmark = existingBookmark.MapToBookmarkDto(currentUser, title)
+                           Bookmark = existingBookmark.MapToBookmarkDto(catalog, category, title, pictureUrl, currentUser)
                        };
             }
             var newBookmark = new Bookmark
@@ -126,27 +156,38 @@ namespace Sheep.ServiceInterface.Bookmarks
             switch (bookmark.ParentType)
             {
                 case "帖子":
-                    title = (await PostRepo.GetPostAsync(bookmark.ParentId))?.Title;
                     await PostRepo.IncrementPostBookmarksCountAsync(bookmark.ParentId, 1);
+                    var post = await PostRepo.GetPostAsync(bookmark.ParentId);
+                    if (post != null)
+                    {
+                        title = post.Title;
+                        pictureUrl = post.PictureUrl;
+                    }
                     break;
                 case "章":
-                    title = (await ChapterRepo.GetChapterAsync(bookmark.ParentId))?.Title;
                     await ChapterRepo.IncrementChapterBookmarksCountAsync(bookmark.ParentId, 1);
+                    var chapter = await ChapterRepo.GetChapterAsync(bookmark.ParentId);
+                    if (chapter != null)
+                    {
+                        catalog = (await BookRepo.GetBookAsync(chapter.BookId))?.Title;
+                        category = (await VolumeRepo.GetVolumeAsync(chapter.VolumeId))?.Title;
+                        title = chapter.Title;
+                    }
                     break;
                 case "节":
-                    title = (await ParagraphRepo.GetParagraphAsync(bookmark.ParentId))?.Content;
                     await ParagraphRepo.IncrementParagraphBookmarksCountAsync(bookmark.ParentId, 1);
+                    var paragraph = await ParagraphRepo.GetParagraphAsync(bookmark.ParentId);
+                    if (paragraph != null)
+                    {
+                        catalog = (await BookRepo.GetBookAsync(paragraph.BookId))?.Title;
+                        category = string.Format("{0} {1}", (await VolumeRepo.GetVolumeAsync(paragraph.VolumeId))?.Title, (await ChapterRepo.GetChapterAsync(paragraph.ChapterId))?.Title);
+                        title = paragraph.Content;
+                    }
                     break;
             }
-            //await NimClient.PostAsync(new FriendAddRequest
-            //                          {
-            //                              AccountId = currentUserId.ToString(),
-            //                              FriendAccountId = request.ParentId.ToString(),
-            //                              Type = 1
-            //                          });
             return new BookmarkCreateResponse
                    {
-                       Bookmark = bookmark.MapToBookmarkDto(currentUser, title)
+                       Bookmark = bookmark.MapToBookmarkDto(catalog, category, title, pictureUrl, currentUser)
                    };
         }
 

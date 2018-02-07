@@ -53,9 +53,14 @@ namespace Sheep.ServiceInterface.Bookmarks
         public IBookmarkRepository BookmarkRepo { get; set; }
 
         /// <summary>
-        ///     获取及设置帖子的存储库。
+        ///     获取及设置书籍的存储库。
         /// </summary>
-        public IPostRepository PostRepo { get; set; }
+        public IBookRepository BookRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置卷的存储库。
+        /// </summary>
+        public IVolumeRepository VolumeRepo { get; set; }
 
         /// <summary>
         ///     获取及设置章的存储库。
@@ -66,6 +71,11 @@ namespace Sheep.ServiceInterface.Bookmarks
         ///     获取及设置节的存储库。
         /// </summary>
         public IParagraphRepository ParagraphRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置帖子的存储库。
+        /// </summary>
+        public IPostRepository PostRepo { get; set; }
 
         #endregion
 
@@ -86,11 +96,13 @@ namespace Sheep.ServiceInterface.Bookmarks
             {
                 throw HttpError.NotFound(string.Format(Resources.BookmarksNotFound));
             }
-            var postTitlesMap = (await PostRepo.GetPostsAsync(existingBookmarks.Where(bookmark => bookmark.ParentType == "帖子").Select(bookmark => bookmark.ParentId).Distinct().ToList())).ToDictionary(post => post.Id, post => post.Title);
-            var chapterTitlesMap = (await ChapterRepo.GetChaptersAsync(existingBookmarks.Where(bookmark => bookmark.ParentType == "章").Select(bookmark => bookmark.ParentId).Distinct().ToList())).ToDictionary(chapter => chapter.Id, chapter => chapter.Title);
-            var paragraphTitlesMap = (await ParagraphRepo.GetParagraphsAsync(existingBookmarks.Where(bookmark => bookmark.ParentType == "节").Select(bookmark => bookmark.ParentId).Distinct().ToList())).ToDictionary(paragraph => paragraph.Id, paragraph => paragraph.Content);
+            var postsMap = (await PostRepo.GetPostsAsync(existingBookmarks.Where(bookmark => bookmark.ParentType == "帖子").Select(bookmark => bookmark.ParentId).Distinct().ToList())).ToDictionary(post => post.Id, post => post);
+            var paragraphsMap = (await ParagraphRepo.GetParagraphsAsync(existingBookmarks.Where(bookmark => bookmark.ParentType == "节").Select(bookmark => bookmark.ParentId).Distinct().ToList())).ToDictionary(paragraph => paragraph.Id, paragraph => paragraph);
+            var chaptersMap = (await ChapterRepo.GetChaptersAsync(existingBookmarks.Where(bookmark => bookmark.ParentType == "章").Select(bookmark => bookmark.ParentId).Union(paragraphsMap.Select(paragraphPair => paragraphPair.Value.ChapterId)).Distinct().ToList())).ToDictionary(chapter => chapter.Id, chapter => chapter);
+            var booksMap = (await BookRepo.GetBooksAsync(chaptersMap.Select(chapterPair => chapterPair.Value.BookId).Union(paragraphsMap.Select(paragraphPair => paragraphPair.Value.BookId)).Distinct().ToList())).ToDictionary(book => book.Id, book => book);
+            var volumesMap = (await VolumeRepo.GetVolumesAsync(chaptersMap.Select(chapterPair => chapterPair.Value.VolumeId).Union(paragraphsMap.Select(paragraphPair => paragraphPair.Value.VolumeId)).Distinct().ToList())).ToDictionary(volume => volume.Id, volume => volume);
             var usersMap = (await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthsAsync(existingBookmarks.Select(bookmark => bookmark.UserId.ToString()).Distinct().ToList())).ToDictionary(userAuth => userAuth.Id, userAuth => userAuth);
-            var bookmarksDto = existingBookmarks.Select(bookmark => bookmark.MapToBookmarkDto(usersMap.GetValueOrDefault(bookmark.UserId), bookmark.ParentType == "帖子" ? postTitlesMap.GetValueOrDefault(bookmark.ParentId) : (bookmark.ParentType == "章" ? chapterTitlesMap.GetValueOrDefault(bookmark.ParentId) : paragraphTitlesMap.GetValueOrDefault(bookmark.ParentId)))).ToList();
+            var bookmarksDto = existingBookmarks.Select(bookmark => bookmark.MapToBookmarkDto(bookmark.ParentType == "帖子" ? null : (bookmark.ParentType == "章" ? booksMap.GetValueOrDefault(chaptersMap.GetValueOrDefault(bookmark.ParentId)?.BookId ?? "--")?.Title : booksMap.GetValueOrDefault(paragraphsMap.GetValueOrDefault(bookmark.ParentId)?.BookId ?? "--")?.Title), bookmark.ParentType == "帖子" ? null : (bookmark.ParentType == "章" ? volumesMap.GetValueOrDefault(chaptersMap.GetValueOrDefault(bookmark.ParentId)?.VolumeId ?? "--")?.Title : string.Format("{0} {1}", volumesMap.GetValueOrDefault(paragraphsMap.GetValueOrDefault(bookmark.ParentId)?.VolumeId ?? "--")?.Title, chaptersMap.GetValueOrDefault(paragraphsMap.GetValueOrDefault(bookmark.ParentId)?.ChapterId ?? "--")?.Title)), bookmark.ParentType == "帖子" ? postsMap.GetValueOrDefault(bookmark.ParentId)?.Title : (bookmark.ParentType == "章" ? chaptersMap.GetValueOrDefault(bookmark.ParentId)?.Title : paragraphsMap.GetValueOrDefault(bookmark.ParentId)?.Content), bookmark.ParentType == "帖子" ? postsMap.GetValueOrDefault(bookmark.ParentId)?.PictureUrl : null, usersMap.GetValueOrDefault(bookmark.UserId))).ToList();
             return new BookmarkListResponse
                    {
                        Bookmarks = bookmarksDto
