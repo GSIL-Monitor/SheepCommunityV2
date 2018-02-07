@@ -262,6 +262,7 @@
     <Compile Include="Likes\Validators\LikeDeleteValidator.cs" />
     <Compile Include="Likes\Validators\LikeListValidator.cs" />
     <Compile Include="Likes\Validators\LikeShowValidator.cs" />
+    <Compile Include="Paragraphs\Entities\BasicParagraphDto.cs" />
     <Compile Include="Paragraphs\ParagraphAnnotationCreate.cs" />
     <Compile Include="Paragraphs\ParagraphAnnotationDelete.cs" />
     <Compile Include="Paragraphs\ParagraphAnnotationList.cs" />

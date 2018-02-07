@@ -17,7 +17,7 @@ namespace Sheep.ServiceInterface.ChapterReads.Mappers
                                  {
                                      Book = book?.MapToBasicBookDto(),
                                      Volume = volume?.MapToBasicVolumeDto(),
-                                     Chapter = chapter?.MapToBasicChapterDto(),
+                                     Chapter = chapter?.MapToBasicChapterDto(volume),
                                      User = user?.MapToBasicUserDto(),
                                      CreatedDate = chapterRead.CreatedDate.ToUnixTime()
                                  };

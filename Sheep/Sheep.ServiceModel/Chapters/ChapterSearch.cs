@@ -34,16 +34,9 @@ namespace Sheep.ServiceModel.Chapters
         public string ContentFilter { get; set; }
 
         /// <summary>
-        ///     是否加载注释。
-        /// </summary>
-        [DataMember(Order = 4, Name = "loadannotations")]
-        [ApiMember(Description = "是否加载注释")]
-        public bool? LoadAnnotations { get; set; }
-
-        /// <summary>
         ///     是否加载节。
         /// </summary>
-        [DataMember(Order = 5, Name = "loadparagraphs")]
+        [DataMember(Order = 4, Name = "loadparagraphs")]
         [ApiMember(Description = "是否加载节")]
         public bool? LoadParagraphs { get; set; }
 
@@ -51,28 +44,28 @@ namespace Sheep.ServiceModel.Chapters
         ///     排序的字段。（可选值： Number, ParagraphsCount, ViewsCount, BookmarksCount, CommentsCount, LikesCount, RatingsCount,
         ///     RatingsAverageValue, SharesCount 默认为 Number）
         /// </summary>
-        [DataMember(Order = 6, Name = "orderby")]
+        [DataMember(Order = 5, Name = "orderby")]
         [ApiMember(Description = "排序的字段（可选值： Number, ParagraphsCount, ViewsCount, BookmarksCount, CommentsCount, LikesCount, RatingsCount, RatingsAverageValue, SharesCount 默认为 Number）")]
         public string OrderBy { get; set; }
 
         /// <summary>
         ///     是否按降序排序。
         /// </summary>
-        [DataMember(Order = 7, Name = "descending")]
+        [DataMember(Order = 6, Name = "descending")]
         [ApiMember(Description = "是否按降序排序")]
         public bool? Descending { get; set; }
 
         /// <summary>
         ///     忽略的行数。
         /// </summary>
-        [DataMember(Order = 8, Name = "skip")]
+        [DataMember(Order = 7, Name = "skip")]
         [ApiMember(Description = "忽略的行数")]
         public int? Skip { get; set; }
 
         /// <summary>
         ///     获取的行数。
         /// </summary>
-        [DataMember(Order = 9, Name = "limit")]
+        [DataMember(Order = 8, Name = "limit")]
         [ApiMember(Description = "获取的行数")]
         public int? Limit { get; set; }
     }
@@ -88,7 +81,7 @@ namespace Sheep.ServiceModel.Chapters
         /// </summary>
         [DataMember(Order = 1)]
         [ApiMember(Description = "章信息列表")]
-        public List<ChapterDto> Chapters { get; set; }
+        public List<BasicChapterDto> Chapters { get; set; }
 
         /// <summary>
         ///     处理响应的状态。

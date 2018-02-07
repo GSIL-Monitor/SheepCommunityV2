@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using ServiceStack;
 using ServiceStack.Auth;
@@ -7,7 +6,6 @@ using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using Sheep.Model.Bookstore;
-using Sheep.Model.Bookstore.Entities;
 using Sheep.Model.Content;
 using Sheep.ServiceInterface.Paragraphs.Mappers;
 using Sheep.ServiceInterface.Properties;
@@ -53,6 +51,11 @@ namespace Sheep.ServiceInterface.Paragraphs
         public IBookRepository BookRepo { get; set; }
 
         /// <summary>
+        ///     获取及设置卷的存储库。
+        /// </summary>
+        public IVolumeRepository VolumeRepo { get; set; }
+
+        /// <summary>
         ///     获取及设置章的存储库。
         /// </summary>
         public IChapterRepository ChapterRepo { get; set; }
@@ -89,7 +92,7 @@ namespace Sheep.ServiceInterface.Paragraphs
         /// <summary>
         ///     搜索一组节。
         /// </summary>
-        [CacheResponse(Duration = 31536000, MaxAge = 86400)]
+        //[CacheResponse(Duration = 31536000, MaxAge = 86400)]
         public async Task<object> Get(ParagraphSearch request)
         {
             //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
@@ -101,11 +104,9 @@ namespace Sheep.ServiceInterface.Paragraphs
             {
                 throw HttpError.NotFound(string.Format(Resources.ParagraphsNotFound));
             }
-            var paragraphAnnotationsMap = request.LoadAnnotations.HasValue && request.LoadAnnotations.Value ? (await ParagraphAnnotationRepo.FindParagraphAnnotationsByParagraphsAsync(existingParagraphs.Select(paragraph => paragraph.Id).ToList(), "ParagraphId", null, null, null)).GroupBy(paragraphAnnotation => paragraphAnnotation.ParagraphId, paragraphAnnotation => paragraphAnnotation).ToDictionary(grouping => grouping.Key, grouping => grouping.OrderBy(g => g.Number).ToList()) : new Dictionary<string, List<ParagraphAnnotation>>();
-            //var currentUserId = GetSession().UserAuthId.ToInt(0);
-            //var commentsMap = (await CommentRepo.GetCommentsCountByParentsAsync(existingParagraphs.Select(paragraph => paragraph.Id).ToList(), currentUserId, null, null, null, "审核通过")).ToDictionary(pair => pair.Key, pair => pair.Value);
-            //var paragraphsDto = existingParagraphs.Select(paragraph => paragraph.MapToParagraphDto(commentsMap.GetValueOrDefault(paragraph.Id) > 0, paragraphAnnotationsMap.GetValueOrDefault(paragraph.Id))).ToList();
-            var paragraphsDto = existingParagraphs.Select(paragraph => paragraph.MapToParagraphDto(false, paragraphAnnotationsMap.GetValueOrDefault(paragraph.Id))).ToList();
+            var volumesMap = (await VolumeRepo.GetVolumesAsync(existingParagraphs.Select(paragraph => paragraph.VolumeId).Distinct().ToList())).ToDictionary(volume => volume.Id, volume => volume);
+            var chaptersMap = (await ChapterRepo.GetChaptersAsync(existingParagraphs.Select(paragraph => paragraph.ChapterId).Distinct().ToList())).ToDictionary(chapter => chapter.Id, chapter => chapter);
+            var paragraphsDto = existingParagraphs.Select(paragraph => paragraph.MapToBasicParagraphDto(volumesMap.GetValueOrDefault(paragraph.VolumeId), chaptersMap.GetValueOrDefault(paragraph.ChapterId))).ToList();
             return new ParagraphSearchResponse
                    {
                        Paragraphs = paragraphsDto

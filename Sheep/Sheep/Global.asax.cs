@@ -2,6 +2,7 @@
 using System.Web;
 using ServiceStack.Logging;
 using ServiceStack.Logging.EventLog;
+using ServiceStack.MiniProfiler;
 
 namespace Sheep
 {
@@ -22,6 +23,19 @@ namespace Sheep
             LogManager.LogFactory = new EventLogFactory(EventLogName, EventLogSource);
             // 初始化主机。
             new AppHost().Init();
+        }
+
+        protected void Application_BeginRequest(object src, EventArgs e)
+        {
+            if (Request.IsLocal)
+            {
+                Profiler.Start();
+            }
+        }
+
+        protected void Application_EndRequest(object src, EventArgs e)
+        {
+            Profiler.Stop();
         }
 
         #endregion

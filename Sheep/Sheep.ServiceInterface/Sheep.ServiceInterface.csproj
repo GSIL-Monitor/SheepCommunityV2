@@ -251,6 +251,7 @@
     <Compile Include="Paragraphs\DeleteParagraphAnnotationService.cs" />
     <Compile Include="Paragraphs\DeleteParagraphService.cs" />
     <Compile Include="Paragraphs\ListParagraphAnnotationService.cs" />
+    <Compile Include="Paragraphs\Mappers\ParagraphToBasicParagraphDtoMapper.cs" />
     <Compile Include="Paragraphs\SearchParagraphService.cs" />
     <Compile Include="Paragraphs\ListParagraphService.cs" />
     <Compile Include="Paragraphs\Mappers\ParagraphAnnotationToParagraphAnnotationDtoMapper.cs" />
