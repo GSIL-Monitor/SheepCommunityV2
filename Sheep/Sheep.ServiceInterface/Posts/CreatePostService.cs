@@ -191,12 +191,6 @@ namespace Sheep.ServiceInterface.Posts
             var post = await PostRepo.CreatePostAsync(newPost);
             await PostRepo.UpdatePostContentQualityAsync(post.Id, PostRepo.CalculatePostContentQuality(post));
             ResetCache(post);
-            //await NimClient.PostAsync(new FriendAddRequest
-            //                          {
-            //                              AccountId = authorId.ToString(),
-            //                              FriendAccountId = request.OwnerId.ToString(),
-            //                              Type = 1
-            //                          });
             return new PostCreateResponse
                    {
                        Post = post.MapToPostDto(author, false)

@@ -116,6 +116,19 @@ namespace Sheep.ServiceInterface.Follows
                                           FriendAccountId = request.OwnerId.ToString(),
                                           Type = 1
                                       });
+            await NimClient.PostAsync(new MessageSendAttachRequest
+                                      {
+                                          FromAccountId = followerId.ToString(),
+                                          MessageType = 0,
+                                          ToId = request.OwnerId.ToString(),
+                                          Attach = string.Format("{{\"Type\" : \"FollowCreate\", \"FollowerId\" : \"{0}\", \"FollowerDisplayName\" : \"{1}\", \"FollowerAvatarUrl\" : \"{2}\"}}", followerId, follower.DisplayName, follower.Meta?.GetValueOrDefault("AvatarUrl")),
+                                          Option = new MessageSendAttachOption
+                                                   {
+                                                       Badge = false,
+                                                       NeedPushNick = false,
+                                                       Route = false
+                                                   }
+                                      });
             return new FollowCreateResponse
                    {
                        Follow = follow.MapToFollowDto(owner, follower)

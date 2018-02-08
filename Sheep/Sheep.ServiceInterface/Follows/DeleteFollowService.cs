@@ -6,6 +6,7 @@ using ServiceStack.Auth;
 using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
+using Sheep.Common.Auth;
 using Sheep.Model.Friendship;
 using Sheep.Model.Friendship.Entities;
 using Sheep.ServiceInterface.Properties;
@@ -72,6 +73,11 @@ namespace Sheep.ServiceInterface.Follows
             //    FollowDeleteValidator.ValidateAndThrow(request, ApplyTo.Delete);
             //}
             var followerId = GetSession().UserAuthId.ToInt(0);
+            var follower = await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthAsync(followerId.ToString());
+            if (follower == null)
+            {
+                throw HttpError.NotFound(string.Format(Resources.UserNotFound, followerId));
+            }
             var existingFollow = await FollowRepo.GetFollowAsync(request.OwnerId, followerId);
             if (existingFollow == null)
             {
@@ -79,10 +85,18 @@ namespace Sheep.ServiceInterface.Follows
             }
             await FollowRepo.DeleteFollowAsync(request.OwnerId, followerId);
             ResetCache(existingFollow);
-            await NimClient.PostAsync(new FriendDeleteRequest
+            await NimClient.PostAsync(new MessageSendAttachRequest
                                       {
-                                          AccountId = followerId.ToString(),
-                                          FriendAccountId = request.OwnerId.ToString()
+                                          FromAccountId = followerId.ToString(),
+                                          MessageType = 0,
+                                          ToId = request.OwnerId.ToString(),
+                                          Attach = string.Format("{{\"Type\" : \"FollowDelete\", \"FollowerId\" : \"{0}\", \"FollowerDisplayName\" : \"{1}\", \"FollowerAvatarUrl\" : \"{2}\"}}", followerId, follower.DisplayName, follower.Meta?.GetValueOrDefault("AvatarUrl")),
+                                          Option = new MessageSendAttachOption
+                                                   {
+                                                       Badge = false,
+                                                       NeedPushNick = false,
+                                                       Route = false
+                                                   }
                                       });
             var existingReversedFollow = await FollowRepo.GetFollowAsync(followerId, request.OwnerId);
             if (existingReversedFollow != null)
@@ -92,6 +106,14 @@ namespace Sheep.ServiceInterface.Follows
                 newReversedFollow.Meta = existingReversedFollow.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingReversedFollow.Meta);
                 newReversedFollow.IsBidirectional = false;
                 await FollowRepo.UpdateFollowAsync(existingReversedFollow, newReversedFollow);
+            }
+            else
+            {
+                await NimClient.PostAsync(new FriendDeleteRequest
+                                          {
+                                              AccountId = followerId.ToString(),
+                                              FriendAccountId = request.OwnerId.ToString()
+                                          });
             }
             return new FollowDeleteResponse();
         }
