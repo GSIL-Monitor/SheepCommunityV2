@@ -90,7 +90,7 @@ namespace Sheep.ServiceInterface.Follows
                                           FromAccountId = followerId.ToString(),
                                           MessageType = 0,
                                           ToId = request.OwnerId.ToString(),
-                                          Attach = string.Format("{{\"Type\" : \"FollowDelete\", \"FollowerId\" : \"{0}\", \"FollowerDisplayName\" : \"{1}\", \"FollowerAvatarUrl\" : \"{2}\"}}", followerId, follower.DisplayName, follower.Meta?.GetValueOrDefault("AvatarUrl")),
+                                          Attach = string.Format("{{\"Type\" : \"FollowDelete\", \"UserId\" : \"{0}\", \"UserDisplayName\" : \"{1}\", \"UserAvatarUrl\" : \"{2}\"}}", followerId, follower.DisplayName, follower.Meta?.GetValueOrDefault("AvatarUrl")),
                                           Option = new MessageSendAttachOption
                                                    {
                                                        Badge = false,
