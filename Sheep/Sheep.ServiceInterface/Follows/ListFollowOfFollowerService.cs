@@ -58,7 +58,7 @@ namespace Sheep.ServiceInterface.Follows
         /// <summary>
         ///     列举一组关注者。
         /// </summary>
-        [CacheResponse(Duration = 3600)]
+        //[CacheResponse(Duration = 3600)]
         public async Task<object> Get(FollowListOfFollower request)
         {
             //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
