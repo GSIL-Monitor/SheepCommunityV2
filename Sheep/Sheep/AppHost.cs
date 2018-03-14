@@ -1,6 +1,7 @@
 ﻿using System;
 using Aliyun.OSS;
 using Funq;
+using JPush.Push;
 using Netease.Nim;
 using Polly;
 using RethinkDb.Driver;
@@ -102,6 +103,8 @@ namespace Sheep
             ConfigTencentCosClient(container);
             // 配置网易云通讯客户端。
             ConfigNetneaseNimClient(container);
+            // 配置极光推送客户端。
+            ConfigJPushClient(container);
             // 配置安全验证码提供程序。
             ConfigSecurityTokenProviders(container);
             // 配置身份验证功能。
@@ -290,6 +293,19 @@ namespace Sheep
                                                     TeamMuteUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamMuteUrl),
                                                     TeamGetMutedMembersUrl = AppSettings.GetString(AppSettingsNeteaseNimNames.TeamGetMutedMembersUrl)
                                                 });
+        }
+
+        /// <summary>
+        ///     配置极光推送客户端。
+        /// </summary>
+        private void ConfigJPushClient(Container container)
+        {
+            container.Register<IPushClient>(c => new PushClient
+                                                 {
+                                                     AppKey = AppSettings.GetString(AppSettingsJPushNames.AppKey),
+                                                     MasterSecret = AppSettings.GetString(AppSettingsJPushNames.MasterSecret),
+                                                     PushUrl = AppSettings.GetString(AppSettingsJPushNames.PushUrl)
+                                                 });
         }
 
         /// <summary>

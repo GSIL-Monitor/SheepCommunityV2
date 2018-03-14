@@ -194,6 +194,14 @@
       <Project>{1cf7a634-4d3b-43ef-9577-dd9e8424a5ab}</Project>
       <Name>ServiceStack.Quartz</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Social\AliyunSdk\AliyunSdk.csproj">
+      <Project>{910aebb8-e482-424b-8df4-b8e94a585cc9}</Project>
+      <Name>AliyunSdk</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Social\JPushSdk\JPushSdk.csproj">
+      <Project>{a39e2cff-86c8-4811-a432-808b814da3db}</Project>
+      <Name>JPushSdk</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Social\NeteaseSDK\NeteaseSdk.csproj">
       <Project>{ddd5104a-5285-45b0-aa49-201e5fbed379}</Project>
       <Name>NeteaseSdk</Name>
