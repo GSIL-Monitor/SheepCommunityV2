@@ -743,6 +743,19 @@ namespace ServiceStack.Authentication.RethinkDb
         }
 
         /// <inheritdoc />
+        public async Task<List<IUserAuth>> GetAllUserAuthsAsync()
+        {
+            var userAuthList = await R.Table(s_UserAuthTable).RunResultAsync<List<UserAuth>>(_conn);
+            return userAuthList.Cast<IUserAuth>().ToList();
+        }
+
+        /// <inheritdoc />
+        public async Task<List<int>> GetAllUserAuthIdsAsync()
+        {
+            return await R.Table(s_UserAuthTable).Map(row => row.G("Id")).RunResultAsync<List<int>>(_conn);
+        }
+
+        /// <inheritdoc />
         public async Task<List<IUserAuth>> FindUserAuthsAsync(List<string> userAuthIds, DateTime? createdSince, DateTime? modifiedSince, DateTime? lockedSince, string status, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_UserAuthTable).GetAll(R.Args(userAuthIds.Select(userId => userId.ToInt(0)).ToArray())).OptArg("index", "Id").Filter(true);

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 using ServiceStack;
 using Sheep.ServiceModel.Views.Entities;
@@ -108,6 +107,35 @@ namespace Sheep.ServiceModel.Views
     }
 
     /// <summary>
+    ///     根据所有用户列表统计一组查看数量的请求。
+    /// </summary>
+    [Route("/views/count/byallusers", HttpMethods.Get, Summary = "根据所有用户列表统计一组查看数量")]
+    [DataContract]
+    public class ViewCountByAllUsers : IReturn<ViewCountByAllUsersResponse>
+    {
+        /// <summary>
+        ///     上级类型。（可选值：帖子, 章, 节）
+        /// </summary>
+        [DataMember(Order = 1, Name = "parenttype")]
+        [ApiMember(Description = "上级类型（可选值：帖子, 章, 节）")]
+        public string ParentType { get; set; }
+
+        /// <summary>
+        ///     上级编号的前缀。（如帖子编号）
+        /// </summary>
+        [DataMember(Order = 2, Name = "parentidprefix")]
+        [ApiMember(Description = "上级编号的前缀（如帖子编号）")]
+        public string ParentIdPrefix { get; set; }
+
+        /// <summary>
+        ///     创建日期在指定的时间之后。
+        /// </summary>
+        [DataMember(Order = 3, Name = "createdsince")]
+        [ApiMember(Description = "创建日期在指定的时间之后")]
+        public long? CreatedSince { get; set; }
+    }
+
+    /// <summary>
     ///     统计一组查看数量的响应。
     /// </summary>
     [DataContract]
@@ -139,6 +167,27 @@ namespace Sheep.ServiceModel.Views
         /// </summary>
         [DataMember(Order = 1)]
         [ApiMember(Description = "一组用户的查看数量")]
+        public Dictionary<int, ViewCountsDto> UsersCounts { get; set; }
+
+        /// <summary>
+        ///     处理响应的状态。
+        /// </summary>
+        [DataMember(Order = 2)]
+        [ApiMember(Description = "处理响应的状态")]
+        public ResponseStatus ResponseStatus { get; set; }
+    }
+
+    /// <summary>
+    ///     根据所有用户列表统计一组查看数量的响应。
+    /// </summary>
+    [DataContract]
+    public class ViewCountByAllUsersResponse : IHasResponseStatus
+    {
+        /// <summary>
+        ///     一组所有用户的查看数量。
+        /// </summary>
+        [DataMember(Order = 1)]
+        [ApiMember(Description = "一组所有用户的查看数量")]
         public Dictionary<int, ViewCountsDto> UsersCounts { get; set; }
 
         /// <summary>

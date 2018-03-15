@@ -7,6 +7,7 @@ using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using ServiceStack.Text;
+using Sheep.Common.Auth;
 using Sheep.Model.Bookstore;
 using Sheep.Model.Content;
 using Sheep.ServiceModel.Views;
@@ -15,17 +16,17 @@ using Sheep.ServiceModel.Views.Entities;
 namespace Sheep.ServiceInterface.Views
 {
     /// <summary>
-    ///     根据用户列表统计一组查看数量服务接口。
+    ///     根据所有用户列表统计一组查看数量服务接口。
     /// </summary>
     [CompressResponse]
-    public class CountViewByUsersService : Service
+    public class CountViewByAllUsersService : Service
     {
         #region 静态变量
 
         /// <summary>
         ///     相关的日志记录器。
         /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(CountViewByUsersService));
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(CountViewByAllUsersService));
 
         #endregion
 
@@ -39,10 +40,10 @@ namespace Sheep.ServiceInterface.Views
         /// <summary>
         ///     获取及设置统计一组查看的校验器。
         /// </summary>
-        public IValidator<ViewCountByUsers> ViewCountByUsersValidator { get; set; }
+        public IValidator<ViewCountByAllUsers> ViewCountByAllUsersValidator { get; set; }
 
         /// <summary>
-        ///     获取及设置用户身份的存储库。
+        ///     获取及设置所有用户身份的存储库。
         /// </summary>
         public IUserAuthRepository AuthRepo { get; set; }
 
@@ -74,24 +75,25 @@ namespace Sheep.ServiceInterface.Views
         ///     统计一组查看。
         /// </summary>
         //[CacheResponse(Duration = 3600)]
-        public async Task<object> Get(ViewCountByUsers request)
+        public async Task<object> Get(ViewCountByAllUsers request)
         {
             //if (HostContext.GlobalRequestFilters == null || !HostContext.GlobalRequestFilters.Contains(ValidationFilters.RequestFilter))
             //{
-            //    ViewCountByUsersValidator.ValidateAndThrow(request, ApplyTo.Get);
+            //    ViewCountByAllUsersValidator.ValidateAndThrow(request, ApplyTo.Get);
             //}
-            var viewsCountsMap = (await ViewRepo.GetViewsCountByUsersAsync(request.UserIds, request.ParentType, request.ParentIdPrefix, request.CreatedSince?.FromUnixTime())).ToDictionary(pair => pair.Key, pair => pair.Value);
-            var parentsCountsMap = (await ViewRepo.GetParentsCountByUsersAsync(request.UserIds, request.ParentType, request.ParentIdPrefix, request.CreatedSince?.FromUnixTime())).ToDictionary(pair => pair.Key, pair => pair.Value);
-            var daysCountsMap = (await ViewRepo.GetDaysCountByUsersAsync(request.UserIds, request.ParentType, request.ParentIdPrefix, request.CreatedSince?.FromUnixTime())).ToDictionary(pair => pair.Key, pair => pair.Value);
-            var usersViewCountsDto = request.UserIds.Select(userId => new KeyValuePair<int, ViewCountsDto>(userId, new ViewCountsDto
-                                                                                                                   {
-                                                                                                                       ViewsCount = viewsCountsMap.GetValueOrDefault(userId),
-                                                                                                                       ParentsCount = parentsCountsMap.GetValueOrDefault(userId),
-                                                                                                                       DaysCount = daysCountsMap.GetValueOrDefault(userId)
-                                                                                                                   }))
+            var userIds = await ((IUserAuthRepositoryExtended) AuthRepo).GetAllUserAuthIdsAsync();
+            var viewsCountsMap = (await ViewRepo.GetViewsCountByAllUsersAsync(request.ParentType, request.ParentIdPrefix, request.CreatedSince?.FromUnixTime())).ToDictionary(pair => pair.Key, pair => pair.Value);
+            var parentsCountsMap = (await ViewRepo.GetParentsCountByAllUsersAsync(request.ParentType, request.ParentIdPrefix, request.CreatedSince?.FromUnixTime())).ToDictionary(pair => pair.Key, pair => pair.Value);
+            var daysCountsMap = (await ViewRepo.GetDaysCountByAllUsersAsync(request.ParentType, request.ParentIdPrefix, request.CreatedSince?.FromUnixTime())).ToDictionary(pair => pair.Key, pair => pair.Value);
+            var usersViewCountsDto = userIds.Select(userId => new KeyValuePair<int, ViewCountsDto>(userId, new ViewCountsDto
+                                                                                                           {
+                                                                                                               ViewsCount = viewsCountsMap.GetValueOrDefault(userId),
+                                                                                                               ParentsCount = parentsCountsMap.GetValueOrDefault(userId),
+                                                                                                               DaysCount = daysCountsMap.GetValueOrDefault(userId)
+                                                                                                           }))
                                             //.Where(kv => kv.Value.ViewsCount > 0 || kv.Value.ParentsCount > 0 || kv.Value.DaysCount > 0)
                                             .ToDictionary(pair => pair.Key, pair => pair.Value);
-            return new ViewCountByUsersResponse
+            return new ViewCountByAllUsersResponse
                    {
                        UsersCounts = usersViewCountsDto
                    };

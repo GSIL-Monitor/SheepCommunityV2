@@ -531,6 +531,120 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
+        public List<KeyValuePair<int, int>> GetViewsCountByAllUsers(string parentType, string parentIdPrefix, DateTime? createdSince)
+        {
+            var query = R.Table(s_ViewTable).Filter(true);
+            if (!parentType.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ParentType").Eq(parentType));
+            }
+            if (!parentIdPrefix.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ParentId").Match($"^{parentIdPrefix}"));
+            }
+            if (createdSince.HasValue)
+            {
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddSeconds(1)));
+            }
+            return query.Group(row => row.G("UserId")).Count().Ungroup().Map(row => R.HashMap("Key", row.G("group")).With("Value", row.G("reduction"))).RunResult<List<KeyValuePair<int, int>>>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<List<KeyValuePair<int, int>>> GetViewsCountByAllUsersAsync(string parentType, string parentIdPrefix, DateTime? createdSince)
+        {
+            var query = R.Table(s_ViewTable).Filter(true);
+            if (!parentType.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ParentType").Eq(parentType));
+            }
+            if (!parentIdPrefix.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ParentId").Match($"^{parentIdPrefix}"));
+            }
+            if (createdSince.HasValue)
+            {
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddSeconds(1)));
+            }
+            return query.Group(row => row.G("UserId")).Count().Ungroup().Map(row => R.HashMap("Key", row.G("group")).With("Value", row.G("reduction"))).RunResultAsync<List<KeyValuePair<int, int>>>(_conn);
+        }
+
+        /// <inheritdoc />
+        public List<KeyValuePair<int, int>> GetParentsCountByAllUsers(string parentType, string parentIdPrefix, DateTime? createdSince)
+        {
+            var query = R.Table(s_ViewTable).Filter(true);
+            if (!parentType.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ParentType").Eq(parentType));
+            }
+            if (!parentIdPrefix.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ParentId").Match($"^{parentIdPrefix}"));
+            }
+            if (createdSince.HasValue)
+            {
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddSeconds(1)));
+            }
+            return query.WithFields("UserId", "ParentId").Distinct().Group(row => row.G("UserId")).Count().Ungroup().Map(row => R.HashMap("Key", row.G("group")).With("Value", row.G("reduction"))).RunResult<List<KeyValuePair<int, int>>>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<List<KeyValuePair<int, int>>> GetParentsCountByAllUsersAsync(string parentType, string parentIdPrefix, DateTime? createdSince)
+        {
+            var query = R.Table(s_ViewTable).Filter(true);
+            if (!parentType.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ParentType").Eq(parentType));
+            }
+            if (!parentIdPrefix.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ParentId").Match($"^{parentIdPrefix}"));
+            }
+            if (createdSince.HasValue)
+            {
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddSeconds(1)));
+            }
+            return query.WithFields("UserId", "ParentId").Distinct().Group(row => row.G("UserId")).Count().Ungroup().Map(row => R.HashMap("Key", row.G("group")).With("Value", row.G("reduction"))).RunResultAsync<List<KeyValuePair<int, int>>>(_conn);
+        }
+
+        /// <inheritdoc />
+        public List<KeyValuePair<int, int>> GetDaysCountByAllUsers(string parentType, string parentIdPrefix, DateTime? createdSince)
+        {
+            var query = R.Table(s_ViewTable).Filter(true);
+            if (!parentType.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ParentType").Eq(parentType));
+            }
+            if (!parentIdPrefix.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ParentId").Match($"^{parentIdPrefix}"));
+            }
+            if (createdSince.HasValue)
+            {
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddSeconds(1)));
+            }
+            return query.Map(row => R.HashMap("UserId", row.G("UserId")).With("CreatedDate", row.G("CreatedDate").Date())).Distinct().Group(row => row.G("UserId")).Count().Ungroup().Map(row => R.HashMap("Key", row.G("group")).With("Value", row.G("reduction"))).RunResult<List<KeyValuePair<int, int>>>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<List<KeyValuePair<int, int>>> GetDaysCountByAllUsersAsync(string parentType, string parentIdPrefix, DateTime? createdSince)
+        {
+            var query = R.Table(s_ViewTable).Filter(true);
+            if (!parentType.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ParentType").Eq(parentType));
+            }
+            if (!parentIdPrefix.IsNullOrEmpty())
+            {
+                query = query.Filter(row => row.G("ParentId").Match($"^{parentIdPrefix}"));
+            }
+            if (createdSince.HasValue)
+            {
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddSeconds(1)));
+            }
+            return query.Map(row => R.HashMap("UserId", row.G("UserId")).With("CreatedDate", row.G("CreatedDate").Date())).Distinct().Group(row => row.G("UserId")).Count().Ungroup().Map(row => R.HashMap("Key", row.G("group")).With("Value", row.G("reduction"))).RunResultAsync<List<KeyValuePair<int, int>>>(_conn);
+        }
+
+        /// <inheritdoc />
         public View CreateView(View newView)
         {
             newView.ThrowIfNull(nameof(newView));
