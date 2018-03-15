@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Sheep.Tests</RootNamespace>
     <AssemblyName>Sheep.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -73,8 +73,8 @@
     <Reference Include="Polly, Version=5.8.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Polly.5.8.0\lib\net45\Polly.dll</HintPath>
     </Reference>
-    <Reference Include="RethinkDb.Driver, Version=2.3.20.0, Culture=neutral, PublicKeyToken=289e75d5145ae4e6, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\RethinkDb.Driver.2.3.20\lib\net45\RethinkDb.Driver.dll</HintPath>
+    <Reference Include="RethinkDb.Driver, Version=2.3.22.0, Culture=neutral, PublicKeyToken=289e75d5145ae4e6, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\RethinkDb.Driver.2.3.22\lib\net45\RethinkDb.Driver.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack, Version=5.0.0.0, Culture=neutral, PublicKeyToken=02c12cbda47e6587, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ServiceStack.5.0.2\lib\net45\ServiceStack.dll</HintPath>
@@ -138,6 +138,8 @@
     <Compile Include="ServiceInterface\Books\BookBibleClientTest.cs" />
     <Compile Include="ServiceInterface\Files\FileClientTest.cs" />
     <Compile Include="ServiceInterface\Files\FileClientTestBase.cs" />
+    <Compile Include="Social\Nim\NimClientTestBase.cs" />
+    <Compile Include="Social\Nim\NimClientTest.cs" />
     <Compile Include="Social\Sina\WeiboClientTest.cs" />
     <Compile Include="Social\Sina\WeiboClientTestBase.cs" />
     <Compile Include="Social\Tencent\CosClientTestBase.cs" />
@@ -187,7 +189,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

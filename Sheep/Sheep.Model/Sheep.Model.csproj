@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Sheep.Model</RootNamespace>
     <AssemblyName>Sheep.Model</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -63,8 +63,8 @@
     <Reference Include="Nito.AsyncEx.Enlightenment, Version=4.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Nito.AsyncEx.4.0.1\lib\net45\Nito.AsyncEx.Enlightenment.dll</HintPath>
     </Reference>
-    <Reference Include="RethinkDb.Driver, Version=2.3.20.0, Culture=neutral, PublicKeyToken=289e75d5145ae4e6, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\RethinkDb.Driver.2.3.20\lib\net45\RethinkDb.Driver.dll</HintPath>
+    <Reference Include="RethinkDb.Driver, Version=2.3.22.0, Culture=neutral, PublicKeyToken=289e75d5145ae4e6, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\RethinkDb.Driver.2.3.22\lib\net45\RethinkDb.Driver.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack, Version=5.0.0.0, Culture=neutral, PublicKeyToken=02c12cbda47e6587, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ServiceStack.5.0.2\lib\net45\ServiceStack.dll</HintPath>
@@ -167,6 +167,7 @@
     <Compile Include="Content\Repositories\RethinkDbVoteRepository.cs" />
     <Compile Include="Content\Repositories\RethinkDbLikeRepository.cs" />
     <Compile Include="Content\Repositories\RethinkDbPostRepository.cs" />
+    <Compile Include="Friendship\Entities\GroupMember.cs" />
     <Compile Include="Friendship\Repositories\RethinkDbGroupRepository.cs" />
     <Compile Include="Friendship\Entities\Follow.cs" />
     <Compile Include="Friendship\IFollowRepository.cs" />
