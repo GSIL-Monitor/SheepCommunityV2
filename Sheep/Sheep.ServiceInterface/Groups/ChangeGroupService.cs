@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using ServiceStack;
 using Sheep.Model.Friendship.Entities;
+using Sheep.Model.Membership.Entities;
 
 namespace Sheep.ServiceInterface.Groups
 {

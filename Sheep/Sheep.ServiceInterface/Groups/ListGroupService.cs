@@ -6,6 +6,7 @@ using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using ServiceStack.Text;
 using Sheep.Model.Friendship;
+using Sheep.Model.Membership;
 using Sheep.ServiceInterface.Groups.Mappers;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Groups;

@@ -101,6 +101,8 @@
   <ItemGroup>
     <Compile Include="Comments\CommentCalculate.cs" />
     <Compile Include="Comments\Validators\CommentCalculateValidator.cs" />
+    <Compile Include="Groups\GroupImport.cs" />
+    <Compile Include="Groups\Validators\GroupImportValidator.cs" />
     <Compile Include="Posts\PostCalculate.cs" />
     <Compile Include="Posts\Validators\PostCalculateValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

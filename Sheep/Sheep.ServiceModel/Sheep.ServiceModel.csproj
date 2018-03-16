@@ -335,6 +335,7 @@
     <Compile Include="Subjects\SubjectShow.cs" />
     <Compile Include="Subjects\SubjectUpdate.cs" />
     <Compile Include="Users\BasicUserShow.cs" />
+    <Compile Include="Users\UserRank.cs" />
     <Compile Include="Users\Validators\BasicUserShowValidator.cs" />
     <Compile Include="Bookmarks\Entities\BookmarkDto.cs" />
     <Compile Include="Cities\Entities\CityDto.cs" />

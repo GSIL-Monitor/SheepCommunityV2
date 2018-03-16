@@ -204,4 +204,7 @@
   <data name="BookWithVolumeAndChapterAndParagraphAndNumberAlreadyExists" xml:space="preserve">
     <value>书籍{0}与卷序号{1}和章序号{2}和节序号{3}和序号{4}的已经存在。</value>
   </data>
+  <data name="GroupWithUserAlreadyExists" xml:space="preserve">
+    <value>群组{0}与成员{1}的已经存在。</value>
+  </data>
 </root>

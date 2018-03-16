@@ -31,6 +31,8 @@ using Sheep.Model.Friendship;
 using Sheep.Model.Friendship.Repositories;
 using Sheep.Model.Geo;
 using Sheep.Model.Geo.Repositories;
+using Sheep.Model.Membership;
+using Sheep.Model.Membership.Repositories;
 using Sheep.Model.Security;
 using Sheep.Model.Security.Providers;
 using Sheep.Model.Security.Repositories;
@@ -112,6 +114,8 @@ namespace Sheep.Job
             ConfigAuth(container);
             // 配置地理位置功能。
             ConfigGeo(container);
+            // 配置成员功能。
+            ConfigMembership(container);
             // 配置好友功能。
             ConfigFriendship(container);
             // 配置内容功能。
@@ -362,11 +366,21 @@ namespace Sheep.Job
         }
 
         /// <summary>
+        ///     配置成员功能。
+        /// </summary>
+        private void ConfigMembership(Container container)
+        {
+            container.Register<IGroupRepository>(c => new RethinkDbGroupRepository(c.Resolve<IConnection>(), AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true));
+            container.Register<IGroupMemberRepository>(c => new RethinkDbGroupMemberRepository(c.Resolve<IConnection>(), AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true));
+            container.Register<IGroupRankRepository>(c => new RethinkDbGroupRankRepository(c.Resolve<IConnection>(), AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true));
+            container.Register<IUserRankRepository>(c => new RethinkDbUserRankRepository(c.Resolve<IConnection>(), AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true));
+        }
+
+        /// <summary>
         ///     配置好友功能。
         /// </summary>
         private void ConfigFriendship(Container container)
         {
-            container.Register<IGroupRepository>(c => new RethinkDbGroupRepository(c.Resolve<IConnection>(), AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true));
             container.Register<IFollowRepository>(c => new RethinkDbFollowRepository(c.Resolve<IConnection>(), AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true));
         }
 
@@ -445,6 +459,8 @@ namespace Sheep.Job
             feature.RegisterJob<CalculateReplyJob>(triggerBuilder => triggerBuilder.WithIdentity("CalculateRepliesOfCommentCreatedIn1Months_DailyAtHour01AndMinute45", "Replies").WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(1, 45)).Build(), jobBuilder => jobBuilder.WithIdentity("CalculateRepliesOfCommentCreatedIn1Months", "Replies").UsingJobData("ParentType", "评论").UsingJobData("CreatedSinceDays", "30").Build());
             // 一天一次所有的用户。
             feature.RegisterJob<CalculateUserJob>(triggerBuilder => triggerBuilder.WithIdentity("CalculateUsersFull_DailyAtHour04AndMinute00", "Users").WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(4, 0)).Build(), jobBuilder => jobBuilder.WithIdentity("CalculateUsersFull", "Users").Build());
+            // 一天一次所有的群组。
+            feature.RegisterJob<CalculateUserJob>(triggerBuilder => triggerBuilder.WithIdentity("ImportGroupsFull_DailyAtHour00AndMinute00", "Users").WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(0, 0)).Build(), jobBuilder => jobBuilder.WithIdentity("ImportGroupsFull", "Users").Build());
             Plugins.Add(feature);
         }
 

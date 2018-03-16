@@ -123,6 +123,12 @@
   <data name="CommentsNotFound" xml:space="preserve">
     <value>无法找到指定的评论列表。</value>
   </data>
+  <data name="GroupNotFound" xml:space="preserve">
+    <value>无法找到指定的群组{0}。</value>
+  </data>
+  <data name="GroupsNotFound" xml:space="preserve">
+    <value>无法找到指定条件的群组列表。</value>
+  </data>
   <data name="PostNotFound" xml:space="preserve">
     <value>无法找到指定的帖子{0}。</value>
   </data>

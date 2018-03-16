@@ -3,7 +3,7 @@ using ServiceStack;
 using ServiceStack.DataAnnotations;
 using ServiceStack.Model;
 
-namespace Sheep.Model.Friendship.Entities
+namespace Sheep.Model.Membership.Entities
 {
     /// <summary>
     ///     群组成员。
@@ -26,11 +26,6 @@ namespace Sheep.Model.Friendship.Entities
         ///     用户编号。
         /// </summary>
         public int UserId { get; set; }
-
-        /// <summary>
-        ///     成员名称。
-        /// </summary>
-        public string MemberName { get; set; }
 
         /// <summary>
         ///     扩展属性。

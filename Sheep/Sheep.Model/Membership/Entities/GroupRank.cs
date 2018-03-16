@@ -4,12 +4,12 @@ using ServiceStack;
 using ServiceStack.DataAnnotations;
 using ServiceStack.Model;
 
-namespace Sheep.Model.Friendship.Entities
+namespace Sheep.Model.Membership.Entities
 {
     /// <summary>
-    ///     群组。
+    ///     群组排名。
     /// </summary>
-    public class Group : IHasStringId, IMeta
+    public class GroupRank : IHasStringId, IMeta
     {
         /// <summary>
         ///     编号。
@@ -19,34 +19,44 @@ namespace Sheep.Model.Friendship.Entities
         public string Id { get; set; }
 
         /// <summary>
-        ///     显示名称。
+        ///     上一次帖子查看次数。
         /// </summary>
-        public string DisplayName { get; set; }
+        public int LastPostViewsCount { get; set; }
 
         /// <summary>
-        ///     真实组织全称。
+        ///     上一次帖子查看次数排名。
         /// </summary>
-        public string FullName { get; set; }
+        public int LastPostViewsRank { get; set; }
 
         /// <summary>
-        ///     真实组织全称是否已通过认证。
+        ///     帖子查看次数。
         /// </summary>
-        public bool FullNameVerified { get; set; }
+        public int PostViewsCount { get; set; }
 
         /// <summary>
-        ///     简介。
+        ///     帖子查看次数排名。
         /// </summary>
-        public string Description { get; set; }
+        public int PostViewsRank { get; set; }
 
         /// <summary>
-        ///     图标地址。
+        ///     上一次节查看次数。
         /// </summary>
-        public string IconUrl { get; set; }
+        public int LastParagraphViewsCount { get; set; }
 
         /// <summary>
-        ///     封面图像地址。
+        ///     上一次节查看次数排名。
         /// </summary>
-        public string CoverPhotoUrl { get; set; }
+        public int LastParagraphViewsRank { get; set; }
+
+        /// <summary>
+        ///     节查看次数。
+        /// </summary>
+        public int ParagraphViewsCount { get; set; }
+
+        /// <summary>
+        ///     节查看次数排名。
+        /// </summary>
+        public int ParagraphViewsRank { get; set; }
 
         /// <summary>
         ///     创建日期。

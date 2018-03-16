@@ -11,9 +11,9 @@ using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Logging;
 using Sheep.Model.Properties;
-using Group = Sheep.Model.Friendship.Entities.Group;
+using Group = Sheep.Model.Membership.Entities.Group;
 
-namespace Sheep.Model.Friendship.Repositories
+namespace Sheep.Model.Membership.Repositories
 {
     /// <summary>
     ///     基于RethinkDb的群组的存储库。

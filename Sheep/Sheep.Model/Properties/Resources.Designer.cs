@@ -142,6 +142,15 @@ namespace Sheep.Model.Properties {
         }
         
         /// <summary>
+        ///   查找类似 群组{0}与成员{1}的已经存在。 的本地化字符串。
+        /// </summary>
+        internal static string GroupWithUserAlreadyExists {
+            get {
+                return ResourceManager.GetString("GroupWithUserAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 错误的平台用户编号。 的本地化字符串。
         /// </summary>
         internal static string InvalidOpenUserId {

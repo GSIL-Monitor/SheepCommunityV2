@@ -8,6 +8,8 @@ using ServiceStack.FluentValidation;
 using ServiceStack.Logging;
 using Sheep.Model.Friendship;
 using Sheep.Model.Friendship.Entities;
+using Sheep.Model.Membership;
+using Sheep.Model.Membership.Entities;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Groups;
 

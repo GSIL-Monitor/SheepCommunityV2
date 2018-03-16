@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Sheep.Model.Friendship.Entities;
+using Sheep.Model.Membership.Entities;
 
-namespace Sheep.Model.Friendship
+namespace Sheep.Model.Membership
 {
     /// <summary>
     ///     群组的存储库的接口定义。

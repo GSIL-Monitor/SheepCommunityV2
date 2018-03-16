@@ -25,6 +25,8 @@ using Sheep.Model.Friendship;
 using Sheep.Model.Friendship.Repositories;
 using Sheep.Model.Geo;
 using Sheep.Model.Geo.Repositories;
+using Sheep.Model.Membership;
+using Sheep.Model.Membership.Repositories;
 using Sheep.Model.Security;
 using Sheep.Model.Security.Providers;
 using Sheep.Model.Security.Repositories;
@@ -111,6 +113,8 @@ namespace Sheep
             ConfigAuth(container);
             // 配置地理位置功能。
             ConfigGeo(container);
+            // 配置成员功能。
+            ConfigMembership(container);
             // 配置好友功能。
             ConfigFriendship(container);
             // 配置内容功能。
@@ -363,11 +367,21 @@ namespace Sheep
         }
 
         /// <summary>
+        ///     配置成员功能。
+        /// </summary>
+        private void ConfigMembership(Container container)
+        {
+            container.Register<IGroupRepository>(c => new RethinkDbGroupRepository(c.Resolve<IConnection>(), AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true));
+            container.Register<IGroupMemberRepository>(c => new RethinkDbGroupMemberRepository(c.Resolve<IConnection>(), AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true));
+            container.Register<IGroupRankRepository>(c => new RethinkDbGroupRankRepository(c.Resolve<IConnection>(), AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true));
+            container.Register<IUserRankRepository>(c => new RethinkDbUserRankRepository(c.Resolve<IConnection>(), AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true));
+        }
+
+        /// <summary>
         ///     配置好友功能。
         /// </summary>
         private void ConfigFriendship(Container container)
         {
-            container.Register<IGroupRepository>(c => new RethinkDbGroupRepository(c.Resolve<IConnection>(), AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true));
             container.Register<IFollowRepository>(c => new RethinkDbFollowRepository(c.Resolve<IConnection>(), AppSettings.GetString(AppSettingsDbNames.RethinkDbShards).ToInt(), AppSettings.GetString(AppSettingsDbNames.RethinkDbReplicas).ToInt(), true));
         }
 
@@ -444,18 +458,18 @@ namespace Sheep
             Plugins.Add(feature);
         }
 
-        /// <summary>
-        ///     配置请求日志功能。
-        /// </summary>
-        private void ConfigureRequestLogs()
-        {
-            var feature = new RequestLogsFeature
-                          {
-                              EnableErrorTracking = false,
-                              EnableResponseTracking = false
-                          };
-            Plugins.Add(feature);
-        }
+        ///// <summary>
+        /////     配置请求日志功能。
+        ///// </summary>
+        //private void ConfigureRequestLogs()
+        //{
+        //    var feature = new RequestLogsFeature
+        //                  {
+        //                      EnableErrorTracking = false,
+        //                      EnableResponseTracking = false
+        //                  };
+        //    Plugins.Add(feature);
+        //}
 
         /// <summary>
         ///     配置 Swagger 功能。

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using ServiceStack.Text;
 using Sheep.Model.Friendship.Entities;
+using Sheep.Model.Membership.Entities;
 using Sheep.ServiceModel.Groups.Entities;
 
 namespace Sheep.ServiceInterface.Groups.Mappers
