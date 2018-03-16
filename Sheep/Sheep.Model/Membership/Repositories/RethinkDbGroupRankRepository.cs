@@ -189,7 +189,8 @@ namespace Sheep.Model.Membership.Repositories
             newGroupRank.CreatedDate = DateTime.UtcNow;
             newGroupRank.ModifiedDate = newGroupRank.CreatedDate;
             var result = R.Table(s_GroupRankTable).Get(newGroupRank.Id).Replace(newGroupRank).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<GroupRank>()[0].NewValue;
+            var changes = result.ChangesAs<GroupRank>();
+            return changes.Length != 0 ? changes[0].NewValue : null;
         }
 
         /// <inheritdoc />
@@ -199,7 +200,8 @@ namespace Sheep.Model.Membership.Repositories
             newGroupRank.CreatedDate = DateTime.UtcNow;
             newGroupRank.ModifiedDate = newGroupRank.CreatedDate;
             var result = (await R.Table(s_GroupRankTable).Get(newGroupRank.Id).Replace(newGroupRank).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<GroupRank>()[0].NewValue;
+            var changes = result.ChangesAs<GroupRank>();
+            return changes.Length != 0 ? changes[0].NewValue : null;
         }
 
         /// <inheritdoc />
@@ -211,7 +213,8 @@ namespace Sheep.Model.Membership.Repositories
             newGroupRank.CreatedDate = existingGroupRank.CreatedDate;
             newGroupRank.ModifiedDate = DateTime.UtcNow;
             var result = R.Table(s_GroupRankTable).Get(newGroupRank.Id).Replace(newGroupRank).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<GroupRank>()[0].NewValue;
+            var changes = result.ChangesAs<GroupRank>();
+            return changes.Length != 0 ? changes[0].NewValue : null;
         }
 
         /// <inheritdoc />
@@ -223,7 +226,8 @@ namespace Sheep.Model.Membership.Repositories
             newGroupRank.CreatedDate = existingGroupRank.CreatedDate;
             newGroupRank.ModifiedDate = DateTime.UtcNow;
             var result = (await R.Table(s_GroupRankTable).Get(newGroupRank.Id).Replace(newGroupRank).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<GroupRank>()[0].NewValue;
+            var changes = result.ChangesAs<GroupRank>();
+            return changes.Length != 0 ? changes[0].NewValue : null;
         }
 
         /// <inheritdoc />

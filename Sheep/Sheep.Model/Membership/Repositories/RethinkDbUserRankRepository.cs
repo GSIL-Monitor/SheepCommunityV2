@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Funcular.IdGenerators.Base36;
 using RethinkDb.Driver;
 using RethinkDb.Driver.Ast;
 using RethinkDb.Driver.Model;
@@ -190,7 +189,8 @@ namespace Sheep.Model.Membership.Repositories
             newUserRank.CreatedDate = DateTime.UtcNow;
             newUserRank.ModifiedDate = newUserRank.CreatedDate;
             var result = R.Table(s_UserRankTable).Get(newUserRank.Id).Replace(newUserRank).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<UserRank>()[0].NewValue;
+            var changes = result.ChangesAs<UserRank>();
+            return changes.Length != 0 ? changes[0].NewValue : null;
         }
 
         /// <inheritdoc />
@@ -200,7 +200,8 @@ namespace Sheep.Model.Membership.Repositories
             newUserRank.CreatedDate = DateTime.UtcNow;
             newUserRank.ModifiedDate = newUserRank.CreatedDate;
             var result = (await R.Table(s_UserRankTable).Get(newUserRank.Id).Replace(newUserRank).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<UserRank>()[0].NewValue;
+            var changes = result.ChangesAs<UserRank>();
+            return changes.Length != 0 ? changes[0].NewValue : null;
         }
 
         /// <inheritdoc />
@@ -212,7 +213,8 @@ namespace Sheep.Model.Membership.Repositories
             newUserRank.CreatedDate = existingUserRank.CreatedDate;
             newUserRank.ModifiedDate = DateTime.UtcNow;
             var result = R.Table(s_UserRankTable).Get(newUserRank.Id).Replace(newUserRank).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<UserRank>()[0].NewValue;
+            var changes = result.ChangesAs<UserRank>();
+            return changes.Length != 0 ? changes[0].NewValue : null;
         }
 
         /// <inheritdoc />
@@ -224,7 +226,8 @@ namespace Sheep.Model.Membership.Repositories
             newUserRank.CreatedDate = existingUserRank.CreatedDate;
             newUserRank.ModifiedDate = DateTime.UtcNow;
             var result = (await R.Table(s_UserRankTable).Get(newUserRank.Id).Replace(newUserRank).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<UserRank>()[0].NewValue;
+            var changes = result.ChangesAs<UserRank>();
+            return changes.Length != 0 ? changes[0].NewValue : null;
         }
 
         /// <inheritdoc />

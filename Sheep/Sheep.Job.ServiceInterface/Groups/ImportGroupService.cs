@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Netease.Nim;
@@ -73,40 +74,44 @@ namespace Sheep.Job.ServiceInterface.Groups
             {
                 throw HttpError.NotFound(string.Format(Resources.GroupsNotFound));
             }
-            var teamQueryResponse = await NimClient.PostAsync(new TeamQueryRequest
-                                                              {
-                                                                  TeamIds = existingGroups.Select(group => group.Id).ToList(),
-                                                                  Operation = 1
-                                                              });
-            if (teamQueryResponse.Code != 200)
-            {
-                throw new HttpError(HttpStatusCode.BadRequest, teamQueryResponse.Description.ToString());
-            }
             var groupsMap = existingGroups.ToDictionary(group => group.Id, group => group);
-            if (teamQueryResponse.TeamInfos != null)
+            var pages = (int) Math.Ceiling(existingGroups.Count / 1.0);
+            for (var page = 0; page < pages; page++)
             {
-                foreach (var teamInfo in teamQueryResponse.TeamInfos)
+                var pagedGroupIds = existingGroups.Select(group => group.Id).Skip(1 * page).Take(1).ToList();
+                var teamQueryResponse = await NimClient.PostAsync(new TeamQueryRequest
+                                                                  {
+                                                                      TeamIds = pagedGroupIds,
+                                                                      Operation = 1
+                                                                  });
+                if (teamQueryResponse.Code == 200)
                 {
-                    if (groupsMap.TryGetValue(teamInfo.TeamId, out var existingGroup))
+                    if (teamQueryResponse.TeamInfos != null)
                     {
-                        await GroupRepo.UpdateGroupAsync(existingGroup, new Group
-                                                                        {
-                                                                            DisplayName = teamInfo.TeamName,
-                                                                            Description = teamInfo.Intro,
-                                                                            FullName = existingGroup.FullName,
-                                                                            FullNameVerified = existingGroup.FullNameVerified,
-                                                                            IconUrl = existingGroup.IconUrl,
-                                                                            CoverPhotoUrl = existingGroup.CoverPhotoUrl
-                                                                        });
-                        if (teamInfo.MemberAccountIds != null)
+                        foreach (var teamInfo in teamQueryResponse.TeamInfos)
                         {
-                            foreach (var memberAccountId in teamInfo.MemberAccountIds)
+                            if (groupsMap.TryGetValue(teamInfo.TeamId, out var existingGroup))
                             {
-                                await GroupMemberRepo.CreateGroupMemberAsync(new GroupMember
-                                                                             {
-                                                                                 GroupId = teamInfo.TeamId,
-                                                                                 UserId = memberAccountId.ToInt()
-                                                                             });
+                                await GroupRepo.UpdateGroupAsync(existingGroup, new Group
+                                                                                {
+                                                                                    DisplayName = teamInfo.TeamName,
+                                                                                    Description = teamInfo.Intro,
+                                                                                    FullName = existingGroup.FullName,
+                                                                                    FullNameVerified = existingGroup.FullNameVerified,
+                                                                                    IconUrl = existingGroup.IconUrl,
+                                                                                    CoverPhotoUrl = existingGroup.CoverPhotoUrl
+                                                                                });
+                                if (teamInfo.MemberAccountIds != null)
+                                {
+                                    foreach (var memberAccountId in teamInfo.MemberAccountIds)
+                                    {
+                                        await GroupMemberRepo.CreateGroupMemberAsync(new GroupMember
+                                                                                     {
+                                                                                         GroupId = teamInfo.TeamId,
+                                                                                         UserId = memberAccountId.ToInt()
+                                                                                     });
+                                    }
+                                }
                             }
                         }
                     }

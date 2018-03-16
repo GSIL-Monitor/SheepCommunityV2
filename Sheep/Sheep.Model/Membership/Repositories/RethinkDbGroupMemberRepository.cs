@@ -224,20 +224,22 @@ namespace Sheep.Model.Membership.Repositories
         public GroupMember CreateGroupMember(GroupMember newGroupMember)
         {
             newGroupMember.ThrowIfNull(nameof(newGroupMember));
-            AssertNoExistingGroupMember(newGroupMember);
+            //AssertNoExistingGroupMember(newGroupMember);
             newGroupMember.Id = string.Format("{0}-{1}", newGroupMember.GroupId, newGroupMember.UserId);
             var result = R.Table(s_GroupMemberTable).Get(newGroupMember.Id).Replace(newGroupMember).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<GroupMember>()[0].NewValue;
+            var changes = result.ChangesAs<GroupMember>();
+            return changes.Length != 0 ? changes[0].NewValue : null;
         }
 
         /// <inheritdoc />
         public async Task<GroupMember> CreateGroupMemberAsync(GroupMember newGroupMember)
         {
             newGroupMember.ThrowIfNull(nameof(newGroupMember));
-            await AssertNoExistingGroupMemberAsync(newGroupMember);
+            //await AssertNoExistingGroupMemberAsync(newGroupMember);
             newGroupMember.Id = string.Format("{0}-{1}", newGroupMember.GroupId, newGroupMember.UserId);
             var result = (await R.Table(s_GroupMemberTable).Get(newGroupMember.Id).Replace(newGroupMember).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<GroupMember>()[0].NewValue;
+            var changes = result.ChangesAs<GroupMember>();
+            return changes.Length != 0 ? changes[0].NewValue : null;
         }
 
         /// <inheritdoc />

@@ -234,12 +234,13 @@ namespace Sheep.Model.Membership.Repositories
         {
             newGroup.ThrowIfNull(nameof(newGroup));
             newGroup.DisplayName.ThrowIfNullOrEmpty(nameof(newGroup.DisplayName));
-            AssertNoExistingGroup(newGroup);
+            //AssertNoExistingGroup(newGroup);
             newGroup.Id = newGroup.Id.IsNullOrEmpty() ? new Base36IdGenerator(10, 4, 4).NewId().ToLower() : newGroup.Id;
             newGroup.CreatedDate = DateTime.UtcNow;
             newGroup.ModifiedDate = newGroup.CreatedDate;
             var result = R.Table(s_GroupTable).Get(newGroup.Id).Replace(newGroup).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Group>()[0].NewValue;
+            var changes = result.ChangesAs<Group>();
+            return changes.Length != 0 ? changes[0].NewValue : null;
         }
 
         /// <inheritdoc />
@@ -247,12 +248,13 @@ namespace Sheep.Model.Membership.Repositories
         {
             newGroup.ThrowIfNull(nameof(newGroup));
             newGroup.DisplayName.ThrowIfNullOrEmpty(nameof(newGroup.DisplayName));
-            await AssertNoExistingGroupAsync(newGroup);
+            //await AssertNoExistingGroupAsync(newGroup);
             newGroup.Id = newGroup.Id.IsNullOrEmpty() ? new Base36IdGenerator(10, 4, 4).NewId().ToLower() : newGroup.Id;
             newGroup.CreatedDate = DateTime.UtcNow;
             newGroup.ModifiedDate = newGroup.CreatedDate;
             var result = (await R.Table(s_GroupTable).Get(newGroup.Id).Replace(newGroup).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Group>()[0].NewValue;
+            var changes = result.ChangesAs<Group>();
+            return changes.Length != 0 ? changes[0].NewValue : null;
         }
 
         /// <inheritdoc />
@@ -261,12 +263,13 @@ namespace Sheep.Model.Membership.Repositories
             existingGroup.ThrowIfNull(nameof(existingGroup));
             newGroup.ThrowIfNull(nameof(newGroup));
             newGroup.DisplayName.ThrowIfNullOrEmpty(nameof(newGroup.DisplayName));
-            AssertNoExistingGroup(newGroup, existingGroup);
+            //AssertNoExistingGroup(newGroup, existingGroup);
             newGroup.Id = existingGroup.Id;
             newGroup.CreatedDate = existingGroup.CreatedDate;
             newGroup.ModifiedDate = DateTime.UtcNow;
             var result = R.Table(s_GroupTable).Get(newGroup.Id).Replace(newGroup).OptArg("return_changes", true).RunResult(_conn).AssertNoErrors();
-            return result.ChangesAs<Group>()[0].NewValue;
+            var changes = result.ChangesAs<Group>();
+            return changes.Length != 0 ? changes[0].NewValue : null;
         }
 
         /// <inheritdoc />
@@ -275,12 +278,13 @@ namespace Sheep.Model.Membership.Repositories
             existingGroup.ThrowIfNull(nameof(existingGroup));
             newGroup.ThrowIfNull(nameof(newGroup));
             newGroup.DisplayName.ThrowIfNullOrEmpty(nameof(newGroup.DisplayName));
-            await AssertNoExistingGroupAsync(newGroup, existingGroup);
+            //await AssertNoExistingGroupAsync(newGroup, existingGroup);
             newGroup.Id = existingGroup.Id;
             newGroup.CreatedDate = existingGroup.CreatedDate;
             newGroup.ModifiedDate = DateTime.UtcNow;
             var result = (await R.Table(s_GroupTable).Get(newGroup.Id).Replace(newGroup).OptArg("return_changes", true).RunResultAsync(_conn)).AssertNoErrors();
-            return result.ChangesAs<Group>()[0].NewValue;
+            var changes = result.ChangesAs<Group>();
+            return changes.Length != 0 ? changes[0].NewValue : null;
         }
 
         /// <inheritdoc />
