@@ -104,6 +104,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Comments\CalculateCommentJob.cs" />
+    <Compile Include="Groups\CountGroupRankJob.cs" />
     <Compile Include="Groups\ImportGroupJob.cs" />
     <Compile Include="Posts\CalculatePostJob.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -114,6 +115,7 @@
     </Compile>
     <Compile Include="Replies\CalculateReplyJob.cs" />
     <Compile Include="ServiceJobAssembly.cs" />
+    <Compile Include="Users\CountUserRankJob.cs" />
     <Compile Include="Users\CalculateUserJob.cs" />
   </ItemGroup>
   <ItemGroup>

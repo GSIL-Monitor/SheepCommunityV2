@@ -294,6 +294,30 @@ namespace Sheep.Model.Content
         /// <returns>天数。</returns>
         Task<List<KeyValuePair<int, int>>> GetDaysCountByAllUsersAsync(string parentType, string parentIdPrefix, DateTime? createdSince);
 
+        /// <summary>
+        ///     根据所有群组列表获取帖子查看次数。
+        /// </summary>
+        /// <returns>查看次数。</returns>
+        List<KeyValuePair<string, int>> GetPostViewsCountByAllGroups();
+
+        /// <summary>
+        ///     异步根据所有群组列表获取帖子查看次数。
+        /// </summary>
+        /// <returns>查看次数。</returns>
+        Task<List<KeyValuePair<string, int>>> GetPostViewsCountByAllGroupsAsync();
+
+        /// <summary>
+        ///     根据所有群组列表获取节查看次数。
+        /// </summary>
+        /// <returns>查看次数。</returns>
+        List<KeyValuePair<string, int>> GetParagraphViewsCountByAllGroups();
+
+        /// <summary>
+        ///     异步根据所有群组列表获取节查看次数。
+        /// </summary>
+        /// <returns>查看次数。</returns>
+        Task<List<KeyValuePair<string, int>>> GetParagraphViewsCountByAllGroupsAsync();
+
         #endregion
 
         #region 写入

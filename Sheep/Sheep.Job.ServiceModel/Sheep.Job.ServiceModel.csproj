@@ -102,7 +102,9 @@
     <Compile Include="Comments\CommentCalculate.cs" />
     <Compile Include="Comments\Validators\CommentCalculateValidator.cs" />
     <Compile Include="Groups\GroupImport.cs" />
+    <Compile Include="Groups\GroupRankCount.cs" />
     <Compile Include="Groups\Validators\GroupImportValidator.cs" />
+    <Compile Include="Groups\Validators\GroupRankCountValidator.cs" />
     <Compile Include="Posts\PostCalculate.cs" />
     <Compile Include="Posts\Validators\PostCalculateValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -114,7 +116,9 @@
     <Compile Include="Replies\ReplyCalculate.cs" />
     <Compile Include="Replies\Validators\ReplyCalculateValidator.cs" />
     <Compile Include="ServiceModelAssembly.cs" />
+    <Compile Include="Users\UserRankCount.cs" />
     <Compile Include="Users\UserCalculate.cs" />
+    <Compile Include="Users\Validators\UserRankCountValidator.cs" />
     <Compile Include="Users\Validators\UserCalculateValidator.cs" />
   </ItemGroup>
   <ItemGroup>

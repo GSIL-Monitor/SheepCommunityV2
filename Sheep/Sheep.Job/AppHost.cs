@@ -19,6 +19,7 @@ using Sheep.Common.Settings;
 using Sheep.Job.ServiceInterface;
 using Sheep.Job.ServiceJob;
 using Sheep.Job.ServiceJob.Comments;
+using Sheep.Job.ServiceJob.Groups;
 using Sheep.Job.ServiceJob.Posts;
 using Sheep.Job.ServiceJob.Replies;
 using Sheep.Job.ServiceJob.Users;
@@ -459,8 +460,12 @@ namespace Sheep.Job
             feature.RegisterJob<CalculateReplyJob>(triggerBuilder => triggerBuilder.WithIdentity("CalculateRepliesOfCommentCreatedIn1Months_DailyAtHour01AndMinute45", "Replies").WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(1, 45)).Build(), jobBuilder => jobBuilder.WithIdentity("CalculateRepliesOfCommentCreatedIn1Months", "Replies").UsingJobData("ParentType", "评论").UsingJobData("CreatedSinceDays", "30").Build());
             // 一天一次所有的用户。
             feature.RegisterJob<CalculateUserJob>(triggerBuilder => triggerBuilder.WithIdentity("CalculateUsersFull_DailyAtHour04AndMinute00", "Users").WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(4, 0)).Build(), jobBuilder => jobBuilder.WithIdentity("CalculateUsersFull", "Users").Build());
+            // 一天一次所有的用户排行。
+            feature.RegisterJob<CountUserRankJob>(triggerBuilder => triggerBuilder.WithIdentity("CountUserRanksFull_DailyAtHour04AndMinute30", "Users").WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(4, 30)).Build(), jobBuilder => jobBuilder.WithIdentity("CountUserRanksFull", "Users").Build());
             // 一天一次所有的群组。
-            feature.RegisterJob<CalculateUserJob>(triggerBuilder => triggerBuilder.WithIdentity("ImportGroupsFull_DailyAtHour00AndMinute00", "Users").WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(0, 0)).Build(), jobBuilder => jobBuilder.WithIdentity("ImportGroupsFull", "Users").Build());
+            feature.RegisterJob<ImportGroupJob>(triggerBuilder => triggerBuilder.WithIdentity("ImportGroupsFull_DailyAtHour05AndMinute00", "Groups").WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(5, 0)).Build(), jobBuilder => jobBuilder.WithIdentity("ImportGroupsFull", "Groups").Build());
+            // 一天一次所有的群组排行。
+            feature.RegisterJob<CountGroupRankJob>(triggerBuilder => triggerBuilder.WithIdentity("CountGroupRanksFull_DailyAtHour05AndMinute30", "Groups").WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(5, 30)).Build(), jobBuilder => jobBuilder.WithIdentity("CountGroupRanksFull", "Groups").Build());
             Plugins.Add(feature);
         }
 

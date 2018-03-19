@@ -115,6 +115,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Comments\CalculateCommentService.cs" />
+    <Compile Include="Groups\CountGroupRankService.cs" />
     <Compile Include="Groups\ImportGroupService.cs" />
     <Compile Include="Posts\CalculatePostService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -125,6 +126,7 @@
     </Compile>
     <Compile Include="Replies\CalculateReplyService.cs" />
     <Compile Include="ServiceInterfaceAssembly.cs" />
+    <Compile Include="Users\CountUserRankService.cs" />
     <Compile Include="Users\CalculateUserService.cs" />
   </ItemGroup>
   <ItemGroup>

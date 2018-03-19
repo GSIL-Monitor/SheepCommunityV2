@@ -11,6 +11,7 @@ using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Logging;
 using Sheep.Model.Content.Entities;
+using Sheep.Model.Membership.Entities;
 
 namespace Sheep.Model.Content.Repositories
 {
@@ -35,6 +36,16 @@ namespace Sheep.Model.Content.Repositories
         ///     查看的数据表名。
         /// </summary>
         private static readonly string s_ViewTable = typeof(View).Name;
+
+        /// <summary>
+        ///     用户排行的数据表名。
+        /// </summary>
+        private static readonly string s_UserRankTable = typeof(UserRank).Name;
+
+        /// <summary>
+        ///     群主成员的数据表名。
+        /// </summary>
+        private static readonly string s_GroupMemberTable = typeof(GroupMember).Name;
 
         #endregion
 
@@ -642,6 +653,34 @@ namespace Sheep.Model.Content.Repositories
                 query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddSeconds(1)));
             }
             return query.Map(row => R.HashMap("UserId", row.G("UserId")).With("CreatedDate", row.G("CreatedDate").Date())).Distinct().Group(row => row.G("UserId")).Count().Ungroup().Map(row => R.HashMap("Key", row.G("group")).With("Value", row.G("reduction"))).RunResultAsync<List<KeyValuePair<int, int>>>(_conn);
+        }
+
+        /// <inheritdoc />
+        public List<KeyValuePair<string, int>> GetPostViewsCountByAllGroups()
+        {
+            var query = R.Table(s_GroupMemberTable).EqJoin("UserId", R.Table(s_UserRankTable)).OptArg("index", "Id").Without(R.HashMap("left", "Id"), R.HashMap("left", "Meta"), R.HashMap("right", "CreatedDate"), R.HashMap("right", "ModifiedDate"), R.HashMap("right", "Meta")).Zip();
+            return query.Group(row => row.G("GroupId")).Sum(row => row.G("PostViewsCount")).Ungroup().Map(row => R.HashMap("Key", row.G("group")).With("Value", row.G("reduction"))).RunResult<List<KeyValuePair<string, int>>>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<List<KeyValuePair<string, int>>> GetPostViewsCountByAllGroupsAsync()
+        {
+            var query = R.Table(s_GroupMemberTable).EqJoin("UserId", R.Table(s_UserRankTable)).OptArg("index", "Id").Without(R.HashMap("left", "Id"), R.HashMap("left", "Meta"), R.HashMap("right", "CreatedDate"), R.HashMap("right", "ModifiedDate"), R.HashMap("right", "Meta")).Zip();
+            return query.Group(row => row.G("GroupId")).Sum(row => row.G("PostViewsCount")).Ungroup().Map(row => R.HashMap("Key", row.G("group")).With("Value", row.G("reduction"))).RunResultAsync<List<KeyValuePair<string, int>>>(_conn);
+        }
+
+        /// <inheritdoc />
+        public List<KeyValuePair<string, int>> GetParagraphViewsCountByAllGroups()
+        {
+            var query = R.Table(s_GroupMemberTable).EqJoin("UserId", R.Table(s_UserRankTable)).OptArg("index", "Id").Without(R.HashMap("left", "Id"), R.HashMap("left", "Meta"), R.HashMap("right", "CreatedDate"), R.HashMap("right", "ModifiedDate"), R.HashMap("right", "Meta")).Zip();
+            return query.Group(row => row.G("GroupId")).Sum(row => row.G("ParagraphViewsCount")).Ungroup().Map(row => R.HashMap("Key", row.G("group")).With("Value", row.G("reduction"))).RunResult<List<KeyValuePair<string, int>>>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<List<KeyValuePair<string, int>>> GetParagraphViewsCountByAllGroupsAsync()
+        {
+            var query = R.Table(s_GroupMemberTable).EqJoin("UserId", R.Table(s_UserRankTable)).OptArg("index", "Id").Without(R.HashMap("left", "Id"), R.HashMap("left", "Meta"), R.HashMap("right", "CreatedDate"), R.HashMap("right", "ModifiedDate"), R.HashMap("right", "Meta")).Zip();
+            return query.Group(row => row.G("GroupId")).Sum(row => row.G("ParagraphViewsCount")).Ungroup().Map(row => R.HashMap("Key", row.G("group")).With("Value", row.G("reduction"))).RunResultAsync<List<KeyValuePair<string, int>>>(_conn);
         }
 
         /// <inheritdoc />
