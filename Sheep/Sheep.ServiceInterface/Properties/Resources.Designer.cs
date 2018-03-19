@@ -295,6 +295,24 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
+        ///   查找类似 无法找到指定的群组排行{0}。 的本地化字符串。
+        /// </summary>
+        internal static string GroupRankNotFound {
+            get {
+                return ResourceManager.GetString("GroupRankNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定条件的群组排行列表。 的本地化字符串。
+        /// </summary>
+        internal static string GroupRanksNotFound {
+            get {
+                return ResourceManager.GetString("GroupRanksNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 无法找到指定条件的群组列表。 的本地化字符串。
         /// </summary>
         internal static string GroupsNotFound {
@@ -543,6 +561,24 @@ namespace Sheep.ServiceInterface.Properties {
         internal static string UserNotUpdated {
             get {
                 return ResourceManager.GetString("UserNotUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定的用户排行{0}。 的本地化字符串。
+        /// </summary>
+        internal static string UserRankNotFound {
+            get {
+                return ResourceManager.GetString("UserRankNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定条件的用户排行列表。 的本地化字符串。
+        /// </summary>
+        internal static string UserRanksNotFound {
+            get {
+                return ResourceManager.GetString("UserRanksNotFound", resourceCulture);
             }
         }
         

@@ -230,6 +230,54 @@ namespace Sheep.Model.Membership.Repositories
         }
 
         /// <inheritdoc />
+        public List<Group> FindGroups(List<string> groupIds, DateTime? createdSince, DateTime? modifiedSince, string orderBy, bool? descending, int? skip, int? limit)
+        {
+            var query = R.Table(s_GroupTable).GetAll(R.Args(groupIds.ToArray())).OptArg("index", "Id").Filter(true);
+            if (createdSince.HasValue)
+            {
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddSeconds(1)));
+            }
+            if (modifiedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value.AddSeconds(1)));
+            }
+            OrderBy queryOrder;
+            if (!orderBy.IsNullOrEmpty())
+            {
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc(orderBy)) : query.OrderBy(orderBy);
+            }
+            else
+            {
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("CreatedDate")) : query.OrderBy("CreatedDate");
+            }
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 100000).RunResult<List<Group>>(_conn);
+        }
+
+        /// <inheritdoc />
+        public Task<List<Group>> FindGroupsAsync(List<string> groupIds, DateTime? createdSince, DateTime? modifiedSince, string orderBy, bool? descending, int? skip, int? limit)
+        {
+            var query = R.Table(s_GroupTable).GetAll(R.Args(groupIds.ToArray())).OptArg("index", "Id").Filter(true);
+            if (createdSince.HasValue)
+            {
+                query = query.Filter(row => row.G("CreatedDate").Gt(createdSince.Value.AddSeconds(1)));
+            }
+            if (modifiedSince.HasValue)
+            {
+                query = query.Filter(row => row.G("ModifiedDate").Gt(modifiedSince.Value.AddSeconds(1)));
+            }
+            OrderBy queryOrder;
+            if (!orderBy.IsNullOrEmpty())
+            {
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc(orderBy)) : query.OrderBy(orderBy);
+            }
+            else
+            {
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("CreatedDate")) : query.OrderBy("CreatedDate");
+            }
+            return queryOrder.Skip(skip ?? 0).Limit(limit ?? 100000).RunResultAsync<List<Group>>(_conn);
+        }
+
+        /// <inheritdoc />
         public Group CreateGroup(Group newGroup)
         {
             newGroup.ThrowIfNull(nameof(newGroup));

@@ -153,7 +153,7 @@ namespace Sheep.Model.Membership.Repositories
             }
             else
             {
-                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("CreatedDate")) : query.OrderBy("CreatedDate");
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("ParagraphViewsRank")) : query.OrderBy("ParagraphViewsRank");
             }
             return queryOrder.Skip(skip ?? 0).Limit(limit ?? 100000).RunResult<List<UserRank>>(_conn);
         }
@@ -177,7 +177,7 @@ namespace Sheep.Model.Membership.Repositories
             }
             else
             {
-                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("CreatedDate")) : query.OrderBy("CreatedDate");
+                queryOrder = descending.HasValue && descending == true ? query.OrderBy(R.Desc("ParagraphViewsRank")) : query.OrderBy("ParagraphViewsRank");
             }
             return queryOrder.Skip(skip ?? 0).Limit(limit ?? 100000).RunResultAsync<List<UserRank>>(_conn);
         }

@@ -240,6 +240,8 @@
     <Compile Include="Follows\Validators\FollowCreateValidator.cs" />
     <Compile Include="Follows\Validators\FollowDeleteValidator.cs" />
     <Compile Include="Follows\Validators\FollowShowValidator.cs" />
+    <Compile Include="Groups\Entities\BasicGroupDto.cs" />
+    <Compile Include="Groups\Entities\GroupRankDto.cs" />
     <Compile Include="Groups\GroupChangeIcon.cs" />
     <Compile Include="Groups\GroupChangeCoverPhoto.cs" />
     <Compile Include="Groups\GroupChangeDescription.cs" />
@@ -247,6 +249,7 @@
     <Compile Include="Groups\GroupChangeFullName.cs" />
     <Compile Include="Groups\GroupList.cs" />
     <Compile Include="Groups\GroupShow.cs" />
+    <Compile Include="Groups\GroupRankList.cs" />
     <Compile Include="Groups\Validators\GroupChangeIconValidator.cs" />
     <Compile Include="Groups\Validators\GroupChangeCoverPhotoValidator.cs" />
     <Compile Include="Groups\Validators\GroupChangeDescriptionValidator.cs" />
@@ -254,6 +257,7 @@
     <Compile Include="Groups\Validators\GroupChangeFullNameValidator.cs" />
     <Compile Include="Groups\Validators\GroupListValidator.cs" />
     <Compile Include="Groups\Validators\GroupShowValidator.cs" />
+    <Compile Include="Groups\Validators\GroupRankListValidator.cs" />
     <Compile Include="Likes\LikeCreate.cs" />
     <Compile Include="Likes\LikeDelete.cs" />
     <Compile Include="Likes\LikeList.cs" />
@@ -335,7 +339,8 @@
     <Compile Include="Subjects\SubjectShow.cs" />
     <Compile Include="Subjects\SubjectUpdate.cs" />
     <Compile Include="Users\BasicUserShow.cs" />
-    <Compile Include="Users\UserRank.cs" />
+    <Compile Include="Users\Entities\UserRankDto.cs" />
+    <Compile Include="Users\UserRankList.cs" />
     <Compile Include="Users\Validators\BasicUserShowValidator.cs" />
     <Compile Include="Bookmarks\Entities\BookmarkDto.cs" />
     <Compile Include="Cities\Entities\CityDto.cs" />
@@ -379,6 +384,7 @@
     <Compile Include="Accounts\Validators\AccountLoginValidator.cs" />
     <Compile Include="Users\UserList.cs" />
     <Compile Include="Users\UserShow.cs" />
+    <Compile Include="Users\Validators\UserRankListValidator.cs" />
     <Compile Include="Users\Validators\UserListValidator.cs" />
     <Compile Include="Users\Validators\UserShowValidator.cs" />
     <Compile Include="Views\Entities\ViewCountsDto.cs" />

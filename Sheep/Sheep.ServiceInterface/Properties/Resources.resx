@@ -306,4 +306,16 @@
   <data name="FeedbacksNotFound" xml:space="preserve">
     <value>无法找到指定条件的反馈列表。</value>
   </data>
+  <data name="UserRankNotFound" xml:space="preserve">
+    <value>无法找到指定的用户排行{0}。</value>
+  </data>
+  <data name="UserRanksNotFound" xml:space="preserve">
+    <value>无法找到指定条件的用户排行列表。</value>
+  </data>
+  <data name="GroupRankNotFound" xml:space="preserve">
+    <value>无法找到指定的群组排行{0}。</value>
+  </data>
+  <data name="GroupRanksNotFound" xml:space="preserve">
+    <value>无法找到指定条件的群组排行列表。</value>
+  </data>
 </root>

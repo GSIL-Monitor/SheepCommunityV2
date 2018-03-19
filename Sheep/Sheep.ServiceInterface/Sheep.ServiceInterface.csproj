@@ -233,7 +233,10 @@
     <Compile Include="Accounts\LoginAccountByMobileService.cs" />
     <Compile Include="Accounts\LoginAccountByCredentialsService.cs" />
     <Compile Include="Groups\ListGroupService.cs" />
+    <Compile Include="Groups\ListGroupRankService.cs" />
+    <Compile Include="Groups\Mappers\GroupToBasicGroupDtoMapper.cs" />
     <Compile Include="Groups\Mappers\GroupToGroupDtoMapper.cs" />
+    <Compile Include="Groups\Mappers\GroupRankToGroupRankDtoMapper.cs" />
     <Compile Include="Groups\ShowGroupByDisplayNameService.cs" />
     <Compile Include="Groups\ShowGroupService.cs" />
     <Compile Include="Likes\ChangeLikeService.cs" />
@@ -307,7 +310,9 @@
     <Compile Include="Subjects\ShowSubjectService.cs" />
     <Compile Include="Subjects\UpdateSubjectService.cs" />
     <Compile Include="Users\ListUserByIdsService.cs" />
+    <Compile Include="Users\ListUserRankService.cs" />
     <Compile Include="Users\ListUserService.cs" />
+    <Compile Include="Users\Mappers\UserRankToUserRankDtoMapper.cs" />
     <Compile Include="Users\Mappers\UserAuthToBasicUserDtoMapper.cs" />
     <Compile Include="Users\Mappers\UserAuthToUserDtoMapper.cs" />
     <Compile Include="Users\ShowBasicUserByDisplayNameService.cs" />
