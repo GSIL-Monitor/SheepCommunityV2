@@ -83,7 +83,7 @@ namespace Sheep.Job.ServiceInterface.Groups
             //{
             //    GroupRankCountValidator.ValidateAndThrow(request, ApplyTo.Put);
             //}
-            var existingGroups = await GroupRepo.FindGroupsAsync(null, null, null, null, null, null, null);
+            var existingGroups = await GroupRepo.FindGroupsAsync(string.Empty, null, null, null, null, null, null);
             if (existingGroups == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.GroupsNotFound));

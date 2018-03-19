@@ -68,7 +68,7 @@ namespace Sheep.Job.ServiceInterface.Groups
             //{
             //    GroupImportValidator.ValidateAndThrow(request, ApplyTo.Put);
             //}
-            var existingGroups = await GroupRepo.FindGroupsAsync(null, request.CreatedSince?.FromUnixTime(), request.ModifiedSince?.FromUnixTime(), request.OrderBy, request.Descending, request.Skip, request.Limit);
+            var existingGroups = await GroupRepo.FindGroupsAsync(string.Empty, request.CreatedSince?.FromUnixTime(), request.ModifiedSince?.FromUnixTime(), request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingGroups == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.GroupsNotFound));
