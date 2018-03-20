@@ -50,6 +50,32 @@ namespace Sheep.Model.Membership
         /// <returns>群组排行列表。</returns>
         Task<List<GroupRank>> FindGroupRanksAsync(DateTime? createdSince, DateTime? modifiedSince, string orderBy, bool? descending, int? skip, int? limit);
 
+        /// <summary>
+        ///     根据群组编号列表查找群组排行。
+        /// </summary>
+        /// <param name="groupIds">群组编号列表。</param>
+        /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
+        /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
+        /// <param name="orderBy">排序的字段。</param>
+        /// <param name="descending">是否按降序排序。</param>
+        /// <param name="skip">忽略的行数。</param>
+        /// <param name="limit">获取的行数。</param>
+        /// <returns>群组列表。</returns>
+        List<GroupRank> FindGroupRanks(List<string> groupIds, DateTime? createdSince, DateTime? modifiedSince, string orderBy, bool? descending, int? skip, int? limit);
+
+        /// <summary>
+        ///     异步根据群组编号列表查找群组排行。
+        /// </summary>
+        /// <param name="groupIds">群组编号列表。</param>
+        /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
+        /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
+        /// <param name="orderBy">排序的字段。</param>
+        /// <param name="descending">是否按降序排序。</param>
+        /// <param name="skip">忽略的行数。</param>
+        /// <param name="limit">获取的行数。</param>
+        /// <returns>群组列表。</returns>
+        Task<List<GroupRank>> FindGroupRanksAsync(List<string> groupIds, DateTime? createdSince, DateTime? modifiedSince, string orderBy, bool? descending, int? skip, int? limit);
+
         #endregion
 
         #region 写入

@@ -69,7 +69,7 @@ namespace Sheep.Model.Membership
         /// <summary>
         ///     根据群组编号列表查找群组。
         /// </summary>
-        /// <param name="groupIds"> 过滤显示名称及描述的表达式。</param>
+        /// <param name="groupIds">群组编号列表。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
         /// <param name="orderBy">排序的字段。</param>
@@ -82,7 +82,7 @@ namespace Sheep.Model.Membership
         /// <summary>
         ///     异步根据群组编号列表查找群组。
         /// </summary>
-        /// <param name="groupIds"> 过滤显示名称及描述的表达式。</param>
+        /// <param name="groupIds">群组编号列表。</param>
         /// <param name="createdSince">过滤创建日期在指定的时间之后。</param>
         /// <param name="modifiedSince">过滤修改日期在指定的时间之后。</param>
         /// <param name="orderBy">排序的字段。</param>

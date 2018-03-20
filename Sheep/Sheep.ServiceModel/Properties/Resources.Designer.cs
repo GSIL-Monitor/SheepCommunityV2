@@ -358,6 +358,15 @@ namespace Sheep.ServiceModel.Properties {
         }
         
         /// <summary>
+        ///   查找类似 群组编号列表必须输入。 的本地化字符串。
+        /// </summary>
+        internal static string GroupIdsRequired {
+            get {
+                return ResourceManager.GetString("GroupIdsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 所属教会的长度至少为{0}位并且最多为为{1}位。 的本地化字符串。
         /// </summary>
         internal static string GuildLengthMismatch {

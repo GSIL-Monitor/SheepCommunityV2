@@ -396,4 +396,7 @@
   <data name="FeedbackIdRequired" xml:space="preserve">
     <value>反馈编号必须输入。</value>
   </data>
+  <data name="GroupIdsRequired" xml:space="preserve">
+    <value>群组编号列表必须输入。</value>
+  </data>
 </root>

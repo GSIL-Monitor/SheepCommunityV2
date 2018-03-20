@@ -232,8 +232,10 @@
     <Compile Include="Accounts\LogoutAccountService.cs" />
     <Compile Include="Accounts\LoginAccountByMobileService.cs" />
     <Compile Include="Accounts\LoginAccountByCredentialsService.cs" />
+    <Compile Include="Groups\ListGroupRankByIdsService.cs" />
     <Compile Include="Groups\ListGroupService.cs" />
     <Compile Include="Groups\ListGroupRankService.cs" />
+    <Compile Include="Groups\ListGroupByIdsService.cs" />
     <Compile Include="Groups\Mappers\GroupToBasicGroupDtoMapper.cs" />
     <Compile Include="Groups\Mappers\GroupToGroupDtoMapper.cs" />
     <Compile Include="Groups\Mappers\GroupRankToGroupRankDtoMapper.cs" />
