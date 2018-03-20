@@ -105,6 +105,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Green\ClientInfo.cs" />
+    <Compile Include="Green\TextScanResultDetailContext.cs" />
+    <Compile Include="Green\TextScanData.cs" />
+    <Compile Include="Green\TextScanResultDetail.cs" />
+    <Compile Include="Green\TextScanRequest.cs" />
+    <Compile Include="Green\TextScanResponse.cs" />
+    <Compile Include="Green\ImageScanResponse.cs" />
+    <Compile Include="Green\TextScanResult.cs" />
+    <Compile Include="Green\ImageScanResult.cs" />
+    <Compile Include="Green\ImageScanData.cs" />
+    <Compile Include="Green\TextScanTask.cs" />
+    <Compile Include="Green\ImageScanTask.cs" />
+    <Compile Include="Green\ImageScanRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -117,6 +130,7 @@
       <Name>ServiceStack.Extensions</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

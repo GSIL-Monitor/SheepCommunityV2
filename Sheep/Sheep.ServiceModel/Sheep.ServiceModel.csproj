@@ -341,6 +341,7 @@
     <Compile Include="Users\BasicUserShow.cs" />
     <Compile Include="Users\Entities\UserRankDto.cs" />
     <Compile Include="Users\UserRankList.cs" />
+    <Compile Include="Users\UserRankShow.cs" />
     <Compile Include="Users\Validators\BasicUserShowValidator.cs" />
     <Compile Include="Bookmarks\Entities\BookmarkDto.cs" />
     <Compile Include="Cities\Entities\CityDto.cs" />
@@ -386,6 +387,7 @@
     <Compile Include="Users\UserShow.cs" />
     <Compile Include="Users\Validators\UserRankListValidator.cs" />
     <Compile Include="Users\Validators\UserListValidator.cs" />
+    <Compile Include="Users\Validators\UserRankShowValidator.cs" />
     <Compile Include="Users\Validators\UserShowValidator.cs" />
     <Compile Include="Views\Entities\ViewCountsDto.cs" />
     <Compile Include="Views\Entities\ViewDto.cs" />

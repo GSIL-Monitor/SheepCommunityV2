@@ -320,6 +320,7 @@
     <Compile Include="Users\ShowUserByDisplayNameService.cs" />
     <Compile Include="Users\ShowUserByUserNameOrEmailService.cs" />
     <Compile Include="Users\ShowBasicUserService.cs" />
+    <Compile Include="Users\ShowUserRankService.cs" />
     <Compile Include="Users\ShowUserService.cs" />
     <Compile Include="Views\ChangeViewService.cs" />
     <Compile Include="Views\BatchCreateViewForParagraphsService.cs" />
