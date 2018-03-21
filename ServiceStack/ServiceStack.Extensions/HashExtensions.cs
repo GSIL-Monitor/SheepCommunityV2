@@ -11,7 +11,7 @@ namespace ServiceStack.Extensions
     {
         #region SHA1 加密
 
-        public static string ToSha1Hash(this string value)
+        public static string ToSha1HashString(this string value)
         {
             var builder = StringBuilderCache.Allocate();
             using (var sha1 = SHA1.Create())
@@ -30,7 +30,7 @@ namespace ServiceStack.Extensions
             {
                 var hashBytes = sha1.ComputeHash(bytes);
                 var hashData = BitConverter.ToString(hashBytes);
-                return hashData.Replace("-", String.Empty).ToLower();
+                return hashData.Replace("-", string.Empty).ToLower();
             }
         }
 
@@ -46,7 +46,7 @@ namespace ServiceStack.Extensions
 
         #region MD5 加密
 
-        public static string ToMd5Hash(this string value)
+        public static string ToMd5HashString(this string value)
         {
             var builder = StringBuilderCache.Allocate();
             using (var md5 = MD5.Create())
@@ -59,11 +59,52 @@ namespace ServiceStack.Extensions
             return StringBuilderCache.ReturnAndFree(builder);
         }
 
+        public static byte[] ToMd5HashBytes(this string value)
+        {
+            using (var md5 = MD5.Create())
+            {
+                return md5.ComputeHash(value.ToUtf8Bytes());
+            }
+        }
+
         public static byte[] ToMd5HashBytes(this byte[] bytes)
         {
             using (var md5 = MD5.Create())
             {
                 return md5.ComputeHash(bytes);
+            }
+        }
+
+        #endregion
+
+        #region HMACSHA1 加密
+
+        public static string ToHmacSha1HashString(this string value, string key)
+        {
+            var builder = StringBuilderCache.Allocate();
+            using (var sha1 = new HMACSHA1(key.ToUtf8Bytes()))
+            {
+                foreach (var num in sha1.ComputeHash(value.ToUtf8Bytes()))
+                {
+                    builder.Append(num.ToString("x2"));
+                }
+            }
+            return StringBuilderCache.ReturnAndFree(builder);
+        }
+
+        public static byte[] ToHmacSha1HashBytes(this string value, string key)
+        {
+            using (var sha1 = new HMACSHA1(key.ToUtf8Bytes()))
+            {
+                return sha1.ComputeHash(value.ToUtf8Bytes());
+            }
+        }
+
+        public static byte[] ToHmacSha1HashBytes(this byte[] bytes, string key)
+        {
+            using (var sha1 = new HMACSHA1(key.ToUtf8Bytes()))
+            {
+                return sha1.ComputeHash(bytes);
             }
         }
 

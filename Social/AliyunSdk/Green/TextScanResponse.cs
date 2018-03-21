@@ -32,7 +32,7 @@ namespace Aliyun.Green
         ///     相关的返回数据。出错情况下，该字段可能为空。一般来说，该字段为一个json结构体或数组。
         /// </summary>
         [DataMember(Order = 4, Name = "data")]
-        public TextScanData Data { get; set; }
+        public TextScanData[] Data { get; set; }
 
         #endregion
     }

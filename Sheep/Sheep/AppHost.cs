@@ -1,4 +1,5 @@
 ﻿using System;
+using Aliyun.Green;
 using Aliyun.OSS;
 using Funq;
 using JPush.Push;
@@ -97,6 +98,8 @@ namespace Sheep
             ConfigAliyunTopClient(container);
             // 配置阿里云对象存储客户端。
             ConfigAliyunOssClient(container);
+            // 配置阿里云内容安全客户端。
+            ConfigAliyunGreenClient(container);
             // 配置新浪微博客户端。
             ConfigSinaWeiboClient(container);
             // 配置腾讯微信客户端。
@@ -203,6 +206,21 @@ namespace Sheep
         private void ConfigAliyunOssClient(Container container)
         {
             container.Register<IOss>(c => new OssClient(AppSettings.GetString(AppSettingsOssNames.OssEndpoint), AppSettings.GetString(AppSettingsOssNames.OssAccessKeyId), AppSettings.GetString(AppSettingsOssNames.OssAccessKeySecret)));
+        }
+
+        /// <summary>
+        ///     配置阿里云内容安全客户端。
+        /// </summary>
+        private void ConfigAliyunGreenClient(Container container)
+        {
+            container.Register<IGreenClient>(c => new GreenClient
+                                                  {
+                                                      AccessKeyId = AppSettings.GetString(AppSettingsGreenNames.GreenAccessKeyId),
+                                                      AccessKeySecret = AppSettings.GetString(AppSettingsGreenNames.GreenAccessKeySecret),
+                                                      BaseUrl = AppSettings.GetString(AppSettingsGreenNames.GreenBaseUrl),
+                                                      ImageScanPath = AppSettings.GetString(AppSettingsGreenNames.GreenImageScanPath),
+                                                      TextScanPath = AppSettings.GetString(AppSettingsGreenNames.GreenTextScanPath)
+                                                  });
         }
 
         /// <summary>

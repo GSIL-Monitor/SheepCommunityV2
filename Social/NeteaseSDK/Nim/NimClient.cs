@@ -1319,7 +1319,7 @@ namespace Netease.Nim
                               ["Nonce"] = Guid.NewGuid().ToString("N"),
                               ["CurTime"] = DateTime.UtcNow.ToUnixTime().ToString()
                           };
-            headers["CheckSum"] = string.Format("{0}{1}{2}", AppSecret, headers["Nonce"], headers["CurTime"]).ToSha1Hash();
+            headers["CheckSum"] = string.Format("{0}{1}{2}", AppSecret, headers["Nonce"], headers["CurTime"]).ToSha1HashString();
             return headers;
         }
 

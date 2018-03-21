@@ -61,7 +61,7 @@ namespace Sheep.Model.Auth.Events
                            {
                                AccountId = session.UserAuthId,
                                Name = session.DisplayName,
-                               Token = session.UserAuthId.ToMd5Hash()
+                               Token = session.UserAuthId.ToMd5HashString()
                            });
         }
 
