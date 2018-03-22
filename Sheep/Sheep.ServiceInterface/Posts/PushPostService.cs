@@ -61,7 +61,7 @@ namespace Sheep.ServiceInterface.Posts
         /// <summary>
         ///     推送一个帖子。
         /// </summary>
-        public async Task<object> Get(PostPush request)
+        public async Task<object> Post(PostPush request)
         {
             if (!IsAuthenticated)
             {
