@@ -267,6 +267,7 @@
     <Compile Include="Paragraphs\UpdateParagraphService.cs" />
     <Compile Include="Posts\ChangePostService.cs" />
     <Compile Include="Posts\CreatePostService.cs" />
+    <Compile Include="Posts\PushPostService.cs" />
     <Compile Include="Posts\DeletePostService.cs" />
     <Compile Include="Posts\ListBasicPostByFollowingOwnersService.cs" />
     <Compile Include="Posts\ListBasicPostByAuthorService.cs" />
@@ -367,6 +368,14 @@
     <ProjectReference Include="..\..\ServiceStack\ServiceStack.Extensions\ServiceStack.Extensions.csproj">
       <Project>{ab8b5cf2-45a4-4172-ab4b-827c421a494b}</Project>
       <Name>ServiceStack.Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Social\AliyunSdk\AliyunSdk.csproj">
+      <Project>{910aebb8-e482-424b-8df4-b8e94a585cc9}</Project>
+      <Name>AliyunSdk</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Social\JPushSdk\JPushSdk.csproj">
+      <Project>{a39e2cff-86c8-4811-a432-808b814da3db}</Project>
+      <Name>JPushSdk</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Social\NeteaseSDK\NeteaseSdk.csproj">
       <Project>{ddd5104a-5285-45b0-aa49-201e5fbed379}</Project>

@@ -7,7 +7,17 @@ namespace JPush.Push
     /// </summary>
     public interface IPushClient
     {
-        #region 授权
+        #region 推送
+
+        /// <summary>
+        ///     获取CID列表。
+        /// </summary>
+        CidResponse Get(CidRequest request);
+
+        /// <summary>
+        ///     异步获取CID列表。
+        /// </summary>
+        Task<CidResponse> GetAsync(CidRequest request);
 
         /// <summary>
         ///     推送消息。

@@ -36,6 +36,11 @@ namespace JPush.Push
         public string MasterSecret { get; set; }
 
         /// <summary>
+        ///     获取CID列表的地址。
+        /// </summary>
+        public string CidUrl { get; set; }
+
+        /// <summary>
         ///     获取接口推送的地址。
         /// </summary>
         public string PushUrl { get; set; }
@@ -43,6 +48,36 @@ namespace JPush.Push
         #endregion
 
         #region IPushClient 接口实现
+
+        /// <inheritdoc />
+        public CidResponse Get(CidRequest request)
+        {
+            return AsyncContext.Run(() => GetAsync(request));
+        }
+
+        /// <inheritdoc />
+        public async Task<CidResponse> GetAsync(CidRequest request)
+        {
+            try
+            {
+                var httpHandler = new HttpClientHandler();
+                using (var httpClient = new HttpClient(httpHandler))
+                {
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(string.Format("{0}:{1}", AppKey, MasterSecret).ToUtf8Bytes()));
+                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    var responseMessage = await httpClient.GetAsync(string.Format("{0}?{1}", CidUrl, request.ToQueryString()));
+                    var responseContent = responseMessage.Content == null ? string.Empty : await responseMessage.Content.ReadAsStringAsync();
+                    var response = responseContent.FromJson<CidResponse>();
+                    return response;
+                }
+            }
+            catch (Exception ex)
+            {
+                var errorMessage = ex.GetInnerMostException().Message;
+                Log.ErrorFormat("{0} {1} Error: {2}", GetType().Name, request.GetType().Name, errorMessage);
+                return new CidResponse();
+            }
+        }
 
         /// <summary>
         ///     推送消息。
@@ -62,9 +97,10 @@ namespace JPush.Push
                 var httpHandler = new HttpClientHandler();
                 using (var httpClient = new HttpClient(httpHandler))
                 {
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes($"{AppKey}:{MasterSecret}")));
+                    var requestContent = new StringContent(request.ToJson(), Encoding.UTF8);
+                    requestContent.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(string.Format("{0}:{1}", AppKey, MasterSecret).ToUtf8Bytes()));
                     httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    var requestContent = new StringContent(request.ToJson(), Encoding.UTF8, "application/json");
                     var responseMessage = await httpClient.PostAsync(PushUrl, requestContent);
                     var responseContent = responseMessage.Content == null ? string.Empty : await responseMessage.Content.ReadAsStringAsync();
                     var response = responseContent.FromJson<PushResponse>();

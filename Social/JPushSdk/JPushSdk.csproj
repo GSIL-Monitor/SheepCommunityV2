@@ -119,6 +119,8 @@
     <Compile Include="Push\PushRequest.cs" />
     <Compile Include="Push\PushResponse.cs" />
     <Compile Include="Push\SmsMessage.cs" />
+    <Compile Include="Push\CidRequest.cs" />
+    <Compile Include="Push\CidResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

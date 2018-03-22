@@ -295,12 +295,14 @@
     <Compile Include="Posts\Entities\PostDto.cs" />
     <Compile Include="Posts\BasicPostList.cs" />
     <Compile Include="Posts\PostList.cs" />
+    <Compile Include="Posts\PostPush.cs" />
     <Compile Include="Posts\PostShow.cs" />
     <Compile Include="Posts\PostUpdate.cs" />
     <Compile Include="Posts\PostDelete.cs" />
     <Compile Include="Posts\PostCreate.cs" />
     <Compile Include="Posts\Validators\PostDeleteValidator.cs" />
     <Compile Include="Posts\Validators\BasicPostListValidator.cs" />
+    <Compile Include="Posts\Validators\PostPushValidator.cs" />
     <Compile Include="Posts\Validators\PostUpdateValidator.cs" />
     <Compile Include="Posts\Validators\PostCreateValidator.cs" />
     <Compile Include="Posts\Validators\PostListValidator.cs" />

@@ -326,6 +326,7 @@ namespace Sheep.Job
                                                  {
                                                      AppKey = AppSettings.GetString(AppSettingsJPushNames.AppKey),
                                                      MasterSecret = AppSettings.GetString(AppSettingsJPushNames.MasterSecret),
+                                                     CidUrl = AppSettings.GetString(AppSettingsJPushNames.CidUrl),
                                                      PushUrl = AppSettings.GetString(AppSettingsJPushNames.PushUrl)
                                                  });
         }

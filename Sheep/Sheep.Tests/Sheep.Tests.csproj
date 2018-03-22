@@ -140,6 +140,8 @@
     <Compile Include="ServiceInterface\Files\FileClientTestBase.cs" />
     <Compile Include="Social\Aliyun\GreenClientTestBase.cs" />
     <Compile Include="Social\Aliyun\GreenClientTest.cs" />
+    <Compile Include="Social\JPush\PushClientTest.cs" />
+    <Compile Include="Social\JPush\PushClientTestBase.cs" />
     <Compile Include="Social\Nim\NimClientTestBase.cs" />
     <Compile Include="Social\Nim\NimClientTest.cs" />
     <Compile Include="Social\Sina\WeiboClientTest.cs" />

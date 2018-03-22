@@ -11,6 +11,9 @@
         // 申请应用时分配的应用程序密钥。
         public const string MasterSecret = "social.jpush.MasterSecret";
 
+        // CID列表的地址。
+        public const string CidUrl = "social.jpush.CidUrl";
+
         // 推送的地址。
         public const string PushUrl = "social.jpush.PushUrl";
     }
