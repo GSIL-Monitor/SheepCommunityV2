@@ -63,6 +63,17 @@ namespace Sheep.Model.Auth.Events
                                Name = session.DisplayName,
                                Token = session.UserAuthId.ToMd5HashString()
                            });
+            NimClient.Post(new TeamAddMemberRequest
+                           {
+                               TeamId = "400006157",
+                               OwnerAccountId = "1",
+                               MemberAccountIds = new List<string>
+                                                  {
+                                                      session.UserAuthId
+                                                  },
+                               MessageAgree = 0,
+                               Message = "欢迎加入羊群公社！"
+                           });
         }
 
         /// <summary>

@@ -4,9 +4,8 @@ using Netease.Nim;
 using NUnit.Framework;
 using ServiceStack;
 using ServiceStack.Text;
-using Sheep.Tests.Social.Nim;
 
-namespace Sheep.Tests.Social.Sina
+namespace Sheep.Tests.Social.Nim
 {
     [TestFixture]
     public class NimClientTest : NimClientTestBase
@@ -26,6 +25,28 @@ namespace Sheep.Tests.Social.Sina
                                                             "237227573"
                                                         },
                                               Operation = 1
+                                          });
+            if (response.Code != 200)
+            {
+                throw new HttpError(HttpStatusCode.BadRequest, response.Description.ToString());
+            }
+            response.PrintDump();
+        }
+
+        [Test]
+        public void TeamAdd()
+        {
+            var response = NimClient.Post(new TeamAddMemberRequest
+                                          {
+                                              TeamId = "400006157",
+                                              OwnerAccountId = "1",
+                                              MemberAccountIds = new List<string>
+                                                                 {
+                                                                     "2",
+                                                                     "3"
+                                                                 },
+                                              MessageAgree = 0,
+                                              Message = "欢迎加入羊群公社！"
                                           });
             if (response.Code != 200)
             {
