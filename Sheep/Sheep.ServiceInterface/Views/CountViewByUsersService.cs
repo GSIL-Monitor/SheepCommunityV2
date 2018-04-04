@@ -89,7 +89,7 @@ namespace Sheep.ServiceInterface.Views
                                                                                                                        ParentsCount = parentsCountsMap.GetValueOrDefault(userId),
                                                                                                                        DaysCount = daysCountsMap.GetValueOrDefault(userId)
                                                                                                                    }))
-                                            //.Where(kv => kv.Value.ViewsCount > 0 || kv.Value.ParentsCount > 0 || kv.Value.DaysCount > 0)
+                                            .Where(kv => kv.Value.ViewsCount > 0 || kv.Value.ParentsCount > 0 || kv.Value.DaysCount > 0)
                                             .ToDictionary(pair => pair.Key, pair => pair.Value);
             return new ViewCountByUsersResponse
                    {

@@ -174,13 +174,13 @@ namespace Sheep.Model.Bookstore.Repositories
         /// <inheritdoc />
         public List<Book> GetBooks(List<string> bookIds)
         {
-            return R.Table(s_BookTable).GetAll(R.Args(bookIds.ToArray())).RunResult<List<Book>>(_conn);
+            return R.Table(s_BookTable).GetAll(R.Args(bookIds.ToArray())).Skip(0).Limit(100000).RunResult<List<Book>>(_conn);
         }
 
         /// <inheritdoc />
         public Task<List<Book>> GetBooksAsync(List<string> bookIds)
         {
-            return R.Table(s_BookTable).GetAll(R.Args(bookIds.ToArray())).RunResultAsync<List<Book>>(_conn);
+            return R.Table(s_BookTable).GetAll(R.Args(bookIds.ToArray())).Skip(0).Limit(100000).RunResultAsync<List<Book>>(_conn);
         }
 
         /// <inheritdoc />

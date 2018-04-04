@@ -188,13 +188,13 @@ namespace Sheep.Model.Bookstore.Repositories
         /// <inheritdoc />
         public List<Volume> GetVolumes(List<string> volumeIds)
         {
-            return R.Table(s_VolumeTable).GetAll(R.Args(volumeIds.ToArray())).RunResult<List<Volume>>(_conn);
+            return R.Table(s_VolumeTable).GetAll(R.Args(volumeIds.ToArray())).Skip(0).Limit(100000).RunResult<List<Volume>>(_conn);
         }
 
         /// <inheritdoc />
         public Task<List<Volume>> GetVolumesAsync(List<string> volumeIds)
         {
-            return R.Table(s_VolumeTable).GetAll(R.Args(volumeIds.ToArray())).RunResultAsync<List<Volume>>(_conn);
+            return R.Table(s_VolumeTable).GetAll(R.Args(volumeIds.ToArray())).Skip(0).Limit(100000).RunResultAsync<List<Volume>>(_conn);
         }
 
         /// <inheritdoc />

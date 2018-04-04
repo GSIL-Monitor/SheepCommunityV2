@@ -146,13 +146,13 @@ namespace Sheep.Model.Content.Repositories
         /// <inheritdoc />
         public List<Comment> GetComments(List<string> commentIds)
         {
-            return R.Table(s_CommentTable).GetAll(R.Args(commentIds.ToArray())).RunResult<List<Comment>>(_conn);
+            return R.Table(s_CommentTable).GetAll(R.Args(commentIds.ToArray())).Skip(0).Limit(100000).RunResult<List<Comment>>(_conn);
         }
 
         /// <inheritdoc />
         public Task<List<Comment>> GetCommentsAsync(List<string> commentIds)
         {
-            return R.Table(s_CommentTable).GetAll(R.Args(commentIds.ToArray())).RunResultAsync<List<Comment>>(_conn);
+            return R.Table(s_CommentTable).GetAll(R.Args(commentIds.ToArray())).Skip(0).Limit(100000).RunResultAsync<List<Comment>>(_conn);
         }
 
         /// <inheritdoc />

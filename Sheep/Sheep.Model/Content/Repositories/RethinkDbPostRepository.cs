@@ -141,13 +141,13 @@ namespace Sheep.Model.Content.Repositories
         /// <inheritdoc />
         public List<Post> GetPosts(List<string> postIds)
         {
-            return R.Table(s_PostTable).GetAll(R.Args(postIds.ToArray())).RunResult<List<Post>>(_conn);
+            return R.Table(s_PostTable).GetAll(R.Args(postIds.ToArray())).Skip(0).Limit(100000).RunResult<List<Post>>(_conn);
         }
 
         /// <inheritdoc />
         public Task<List<Post>> GetPostsAsync(List<string> postIds)
         {
-            return R.Table(s_PostTable).GetAll(R.Args(postIds.ToArray())).RunResultAsync<List<Post>>(_conn);
+            return R.Table(s_PostTable).GetAll(R.Args(postIds.ToArray())).Skip(0).Limit(100000).RunResultAsync<List<Post>>(_conn);
         }
 
         /// <inheritdoc />
