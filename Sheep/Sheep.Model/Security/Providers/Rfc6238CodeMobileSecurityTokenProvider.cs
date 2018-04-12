@@ -111,7 +111,7 @@ namespace Sheep.Model.Security.Providers
             var securityStamp = await SecurityStampRepo.GetSecurityStampAsync(target);
             var tokenModifier = GetTokenModifier(target, purpose);
             var tokenCode = token.ToInt();
-            return (target == "13588888888" && token == "888888" || Rfc6238CodeService.VerifyCode(securityStamp.ToSecurityToken(), tokenCode, tokenModifier);
+            return target == "13588888888" && token == "888888" || Rfc6238CodeService.VerifyCode(securityStamp.ToSecurityToken(), tokenCode, tokenModifier);
         }
 
         /// <summary>
