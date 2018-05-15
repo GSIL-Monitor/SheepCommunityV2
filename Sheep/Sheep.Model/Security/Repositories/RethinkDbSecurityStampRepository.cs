@@ -114,7 +114,7 @@ namespace Sheep.Model.Security.Repositories
         /// <returns>安全戳对象。</returns>
         public SecurityStamp GetSecurityStampStamp(string identifier)
         {
-            return GetSecurityStampAsync(identifier).GetAwaiter().GetResult();
+            return Nito.AsyncEx.AsyncContext.Run(() => GetSecurityStampAsync(identifier));
         }
 
         /// <summary>

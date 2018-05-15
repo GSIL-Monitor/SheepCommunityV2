@@ -61,7 +61,7 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
-        ///   查找类似 无法找到指定的举报{0}。 的本地化字符串。
+        ///   查找类似 无法找到指定的举报“{0}”。 的本地化字符串。
         /// </summary>
         internal static string AbuseReportNotFound {
             get {
@@ -79,7 +79,7 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
-        ///   查找类似 无法找到指定的收藏{0}。 的本地化字符串。
+        ///   查找类似 无法找到指定的收藏“{0}”。 的本地化字符串。
         /// </summary>
         internal static string BookmarkNotFound {
             get {
@@ -97,7 +97,7 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
-        ///   查找类似 无法找到指定的书籍{0}。 的本地化字符串。
+        ///   查找类似 无法找到指定的书籍“{0}”。 的本地化字符串。
         /// </summary>
         internal static string BookNotFound {
             get {
@@ -115,7 +115,7 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
-        ///   查找类似 无法找到指定的章注释{0}。 的本地化字符串。
+        ///   查找类似 无法找到指定的章注释“{0}”。 的本地化字符串。
         /// </summary>
         internal static string ChapterAnnotationNotFound {
             get {
@@ -133,7 +133,7 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
-        ///   查找类似 无法找到指定的章{0}。 的本地化字符串。
+        ///   查找类似 无法找到指定的章“{0}”。 的本地化字符串。
         /// </summary>
         internal static string ChapterNotFound {
             get {
@@ -142,7 +142,7 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
-        ///   查找类似 无法找到指定的章阅读{0}。 的本地化字符串。
+        ///   查找类似 无法找到指定的章阅读“{0}”。 的本地化字符串。
         /// </summary>
         internal static string ChapterReadNotFound {
             get {
@@ -178,7 +178,7 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
-        ///   查找类似 无法找到指定的城市/区域{0}。 的本地化字符串。
+        ///   查找类似 无法找到指定的城市/区域“{0}”。 的本地化字符串。
         /// </summary>
         internal static string CityNotFound {
             get {
@@ -187,7 +187,7 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
-        ///   查找类似 无法找到指定的评论{0}。 的本地化字符串。
+        ///   查找类似 无法找到指定的评论“{0}”。 的本地化字符串。
         /// </summary>
         internal static string CommentNotFound {
             get {
@@ -214,7 +214,7 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
-        ///   查找类似 无法找到指定的国家/地区{0}。 的本地化字符串。
+        ///   查找类似 无法找到指定的国家/地区“{0}”。 的本地化字符串。
         /// </summary>
         internal static string CountryNotFound {
             get {
@@ -232,7 +232,7 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
-        ///   查找类似 无法找到指定的反馈{0}。 的本地化字符串。
+        ///   查找类似 无法找到指定的反馈“{0}”。 的本地化字符串。
         /// </summary>
         internal static string FeedbackNotFound {
             get {
@@ -250,7 +250,7 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
-        ///   查找类似 无法找到指定的关注{0}。 的本地化字符串。
+        ///   查找类似 无法找到指定的关注“{0}”。 的本地化字符串。
         /// </summary>
         internal static string FollowNotFound {
             get {
@@ -277,7 +277,7 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
-        ///   查找类似 无法找到指定的群组{0}。 的本地化字符串。
+        ///   查找类似 无法找到指定的群组“{0}”。 的本地化字符串。
         /// </summary>
         internal static string GroupNotFound {
             get {
@@ -295,7 +295,7 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
-        ///   查找类似 无法找到指定的群组排行{0}。 的本地化字符串。
+        ///   查找类似 无法找到指定的群组排行“{0}”。 的本地化字符串。
         /// </summary>
         internal static string GroupRankNotFound {
             get {
@@ -331,6 +331,15 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
+        ///   查找类似 正文内容“{0}”不符合政策规范。 的本地化字符串。
+        /// </summary>
+        internal static string InvalidContent {
+            get {
+                return ResourceManager.GetString("InvalidContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 错误的验证码。 的本地化字符串。
         /// </summary>
         internal static string InvalidSecurityToken {
@@ -340,7 +349,25 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
-        ///   查找类似 错误的用户编号{0}。 的本地化字符串。
+        ///   查找类似 概要“{0}”不符合政策规范。 的本地化字符串。
+        /// </summary>
+        internal static string InvalidSummary {
+            get {
+                return ResourceManager.GetString("InvalidSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 标题“{0}”不符合政策规范。 的本地化字符串。
+        /// </summary>
+        internal static string InvalidTitle {
+            get {
+                return ResourceManager.GetString("InvalidTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 错误的用户编号“{0}”。 的本地化字符串。
         /// </summary>
         internal static string InvalidUserId {
             get {
@@ -349,7 +376,7 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
-        ///   查找类似 无法找到指定的点赞{0}。 的本地化字符串。
+        ///   查找类似 无法找到指定的点赞“{0}”。 的本地化字符串。
         /// </summary>
         internal static string LikeNotFound {
             get {
@@ -385,7 +412,7 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
-        ///   查找类似 无法找到指定的节注释{0}。 的本地化字符串。
+        ///   查找类似 无法找到指定的节注释“{0}”。 的本地化字符串。
         /// </summary>
         internal static string ParagraphAnnotationNotFound {
             get {
@@ -403,7 +430,7 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
-        ///   查找类似 无法找到指定的节{0}。 的本地化字符串。
+        ///   查找类似 无法找到指定的节“{0}”。 的本地化字符串。
         /// </summary>
         internal static string ParagraphNotFound {
             get {
@@ -421,7 +448,7 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
-        ///   查找类似 无法找到指定的帖子{0}。 的本地化字符串。
+        ///   查找类似 无法找到指定的帖子“{0}”。 的本地化字符串。
         /// </summary>
         internal static string PostNotFound {
             get {
@@ -439,7 +466,7 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
-        ///   查找类似 无法找到指定的推荐{0}。 的本地化字符串。
+        ///   查找类似 无法找到指定的推荐“{0}”。 的本地化字符串。
         /// </summary>
         internal static string RecommendationNotFound {
             get {
@@ -475,7 +502,7 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
-        ///   查找类似 无法找到指定的回复{0}。 的本地化字符串。
+        ///   查找类似 无法找到指定的回复“{0}”。 的本地化字符串。
         /// </summary>
         internal static string ReplyNotFound {
             get {
@@ -502,7 +529,7 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
-        ///   查找类似 无法找到指定的省份/直辖市/州{0}。 的本地化字符串。
+        ///   查找类似 无法找到指定的省份/直辖市/州“{0}”。 的本地化字符串。
         /// </summary>
         internal static string StateNotFound {
             get {
@@ -520,7 +547,7 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
-        ///   查找类似 无法找到指定的主题{0}。 的本地化字符串。
+        ///   查找类似 无法找到指定的主题“{0}”。 的本地化字符串。
         /// </summary>
         internal static string SubjectNotFound {
             get {
@@ -538,7 +565,7 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
-        ///   查找类似 无法更新指定用户{0}的显示名称。 的本地化字符串。
+        ///   查找类似 无法更新指定用户“{0}”的显示名称。 的本地化字符串。
         /// </summary>
         internal static string UserDisplayNameNotUpdated {
             get {
@@ -547,7 +574,7 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
-        ///   查找类似 无法找到指定的用户{0}。 的本地化字符串。
+        ///   查找类似 无法找到指定的用户“{0}”。 的本地化字符串。
         /// </summary>
         internal static string UserNotFound {
             get {
@@ -556,7 +583,7 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
-        ///   查找类似 无法更新指定的用户{0}。 的本地化字符串。
+        ///   查找类似 无法更新指定的用户“{0}”。 的本地化字符串。
         /// </summary>
         internal static string UserNotUpdated {
             get {
@@ -565,7 +592,7 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
-        ///   查找类似 无法找到指定的用户排行{0}。 的本地化字符串。
+        ///   查找类似 无法找到指定的用户排行“{0}”。 的本地化字符串。
         /// </summary>
         internal static string UserRankNotFound {
             get {
@@ -592,7 +619,7 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
-        ///   查找类似 无法找到指定的查看{0}。 的本地化字符串。
+        ///   查找类似 无法找到指定的查看“{0}”。 的本地化字符串。
         /// </summary>
         internal static string ViewNotFound {
             get {
@@ -610,7 +637,7 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
-        ///   查找类似 无法找到指定的卷注释{0}。 的本地化字符串。
+        ///   查找类似 无法找到指定的卷注释“{0}”。 的本地化字符串。
         /// </summary>
         internal static string VolumeAnnotationNotFound {
             get {
@@ -628,7 +655,7 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
-        ///   查找类似 无法找到指定的卷{0}。 的本地化字符串。
+        ///   查找类似 无法找到指定的卷“{0}”。 的本地化字符串。
         /// </summary>
         internal static string VolumeNotFound {
             get {
@@ -646,7 +673,7 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
-        ///   查找类似 无法找到指定的投票{0}。 的本地化字符串。
+        ///   查找类似 无法找到指定的投票“{0}”。 的本地化字符串。
         /// </summary>
         internal static string VoteNotFound {
             get {

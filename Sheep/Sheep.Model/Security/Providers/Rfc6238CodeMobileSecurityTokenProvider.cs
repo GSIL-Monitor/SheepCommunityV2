@@ -62,7 +62,7 @@ namespace Sheep.Model.Security.Providers
         /// <returns>验证码。</returns>
         public string GenerateToken(string target, string purpose)
         {
-            return GenerateTokenAsync(target, purpose).GetAwaiter().GetResult();
+            return Nito.AsyncEx.AsyncContext.Run(() => GenerateTokenAsync(target, purpose));
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace Sheep.Model.Security.Providers
         /// <returns>true 表示校验成功，否则为 false。</returns>
         public bool VerifyToken(string target, string purpose, string token)
         {
-            return VerifyTokenAsync(target, purpose, token).GetAwaiter().GetResult();
+            return Nito.AsyncEx.AsyncContext.Run(() => VerifyTokenAsync(target, purpose, token));
         }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace Sheep.Model.Security.Providers
         /// <returns>true 表示发送成功，否则为 false。</returns>
         public bool SendToken(string target, string signature, string token, string template)
         {
-            return SendTokenAsync(target, signature, token, template).GetAwaiter().GetResult();
+            return Nito.AsyncEx.AsyncContext.Run(() => SendTokenAsync(target, signature, token, template));
         }
 
         /// <summary>

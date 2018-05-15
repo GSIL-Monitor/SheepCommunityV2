@@ -121,10 +121,10 @@
     <value>无法找到指定条件的城市/区域列表。</value>
   </data>
   <data name="CityNotFound" xml:space="preserve">
-    <value>无法找到指定的城市/区域{0}。</value>
+    <value>无法找到指定的城市/区域“{0}”。</value>
   </data>
   <data name="CommentNotFound" xml:space="preserve">
-    <value>无法找到指定的评论{0}。</value>
+    <value>无法找到指定的评论“{0}”。</value>
   </data>
   <data name="CommentsNotFound" xml:space="preserve">
     <value>无法找到指定的评论列表。</value>
@@ -133,13 +133,13 @@
     <value>无法找到指定条件的国家/地区列表。</value>
   </data>
   <data name="CountryNotFound" xml:space="preserve">
-    <value>无法找到指定的国家/地区{0}。</value>
+    <value>无法找到指定的国家/地区“{0}”。</value>
   </data>
   <data name="DisplayNameAlreadyExists" xml:space="preserve">
     <value>显示名称已经存在。</value>
   </data>
   <data name="FollowNotFound" xml:space="preserve">
-    <value>无法找到指定的关注{0}。</value>
+    <value>无法找到指定的关注“{0}”。</value>
   </data>
   <data name="FollowsNotFound" xml:space="preserve">
     <value>无法找到指定的关注列表。</value>
@@ -148,7 +148,7 @@
     <value>生成验证码时产生了错误。</value>
   </data>
   <data name="GroupNotFound" xml:space="preserve">
-    <value>无法找到指定的群组{0}。</value>
+    <value>无法找到指定的群组“{0}”。</value>
   </data>
   <data name="GroupOwnerRequired" xml:space="preserve">
     <value>操作的帐户必须为群组所有者。</value>
@@ -163,10 +163,10 @@
     <value>错误的验证码。</value>
   </data>
   <data name="InvalidUserId" xml:space="preserve">
-    <value>错误的用户编号{0}。</value>
+    <value>错误的用户编号“{0}”。</value>
   </data>
   <data name="LikeNotFound" xml:space="preserve">
-    <value>无法找到指定的点赞{0}。</value>
+    <value>无法找到指定的点赞“{0}”。</value>
   </data>
   <data name="LikesNotFound" xml:space="preserve">
     <value>无法找到指定条件的点赞列表。</value>
@@ -178,7 +178,7 @@
     <value>必须先登录。</value>
   </data>
   <data name="PostNotFound" xml:space="preserve">
-    <value>无法找到指定的帖子{0}。</value>
+    <value>无法找到指定的帖子“{0}”。</value>
   </data>
   <data name="PostsNotFound" xml:space="preserve">
     <value>无法找到指定条件的帖子列表。</value>
@@ -190,7 +190,7 @@
     <value>无法找到指定条件的回复列表。</value>
   </data>
   <data name="ReplyNotFound" xml:space="preserve">
-    <value>无法找到指定的回复{0}。</value>
+    <value>无法找到指定的回复“{0}”。</value>
   </data>
   <data name="ReRegisterNotAllowed" xml:space="preserve">
     <value>在已登录的状态下不允许进行注册，请先退出登录。</value>
@@ -199,123 +199,132 @@
     <value>发送验证码时产生了错误。</value>
   </data>
   <data name="StateNotFound" xml:space="preserve">
-    <value>无法找到指定的省份/直辖市/州{0}。</value>
+    <value>无法找到指定的省份/直辖市/州“{0}”。</value>
   </data>
   <data name="StatesNotFound" xml:space="preserve">
     <value>无法找到指定条件的省份/直辖市/州列表。</value>
   </data>
   <data name="UserDisplayNameNotUpdated" xml:space="preserve">
-    <value>无法更新指定用户{0}的显示名称。</value>
+    <value>无法更新指定用户“{0}”的显示名称。</value>
   </data>
   <data name="UserNotFound" xml:space="preserve">
-    <value>无法找到指定的用户{0}。</value>
+    <value>无法找到指定的用户“{0}”。</value>
   </data>
   <data name="UserNotUpdated" xml:space="preserve">
-    <value>无法更新指定的用户{0}。</value>
+    <value>无法更新指定的用户“{0}”。</value>
   </data>
   <data name="UsersNotFound" xml:space="preserve">
     <value>无法找到指定条件的用户列表。</value>
   </data>
   <data name="VoteNotFound" xml:space="preserve">
-    <value>无法找到指定的投票{0}。</value>
+    <value>无法找到指定的投票“{0}”。</value>
   </data>
   <data name="VotesNotFound" xml:space="preserve">
     <value>无法找到指定条件的投票列表。</value>
   </data>
   <data name="BookNotFound" xml:space="preserve">
-    <value>无法找到指定的书籍{0}。</value>
+    <value>无法找到指定的书籍“{0}”。</value>
   </data>
   <data name="BooksNotFound" xml:space="preserve">
     <value>无法找到指定条件的书籍列表。</value>
   </data>
   <data name="VolumeNotFound" xml:space="preserve">
-    <value>无法找到指定的卷{0}。</value>
+    <value>无法找到指定的卷“{0}”。</value>
   </data>
   <data name="VolumesNotFound" xml:space="preserve">
     <value>无法找到指定的卷列表。</value>
   </data>
   <data name="VolumeAnnotationNotFound" xml:space="preserve">
-    <value>无法找到指定的卷注释{0}。</value>
+    <value>无法找到指定的卷注释“{0}”。</value>
   </data>
   <data name="VolumeAnnotationsNotFound" xml:space="preserve">
     <value>无法找到指定的卷注释列表。</value>
   </data>
   <data name="SubjectNotFound" xml:space="preserve">
-    <value>无法找到指定的主题{0}。</value>
+    <value>无法找到指定的主题“{0}”。</value>
   </data>
   <data name="SubjectsNotFound" xml:space="preserve">
     <value>无法找到指定条件的主题列表。</value>
   </data>
   <data name="ChapterNotFound" xml:space="preserve">
-    <value>无法找到指定的章{0}。</value>
+    <value>无法找到指定的章“{0}”。</value>
   </data>
   <data name="ChaptersNotFound" xml:space="preserve">
     <value>无法找到指定条件的章列表。</value>
   </data>
   <data name="ChapterAnnotationNotFound" xml:space="preserve">
-    <value>无法找到指定的章注释{0}。</value>
+    <value>无法找到指定的章注释“{0}”。</value>
   </data>
   <data name="ChapterAnnotationsNotFound" xml:space="preserve">
     <value>无法找到指定的章注释列表。</value>
   </data>
   <data name="ParagraphAnnotationNotFound" xml:space="preserve">
-    <value>无法找到指定的节注释{0}。</value>
+    <value>无法找到指定的节注释“{0}”。</value>
   </data>
   <data name="ParagraphAnnotationsNotFound" xml:space="preserve">
     <value>无法找到指定的节注释列表。</value>
   </data>
   <data name="ParagraphNotFound" xml:space="preserve">
-    <value>无法找到指定的节{0}。</value>
+    <value>无法找到指定的节“{0}”。</value>
   </data>
   <data name="ParagraphsNotFound" xml:space="preserve">
     <value>无法找到指定条件的节列表。</value>
   </data>
   <data name="BookmarkNotFound" xml:space="preserve">
-    <value>无法找到指定的收藏{0}。</value>
+    <value>无法找到指定的收藏“{0}”。</value>
   </data>
   <data name="BookmarksNotFound" xml:space="preserve">
     <value>无法找到指定条件的收藏列表。</value>
   </data>
   <data name="ViewNotFound" xml:space="preserve">
-    <value>无法找到指定的查看{0}。</value>
+    <value>无法找到指定的查看“{0}”。</value>
   </data>
   <data name="ViewsNotFound" xml:space="preserve">
     <value>无法找到指定条件的查看列表。</value>
   </data>
   <data name="AbuseReportNotFound" xml:space="preserve">
-    <value>无法找到指定的举报{0}。</value>
+    <value>无法找到指定的举报“{0}”。</value>
   </data>
   <data name="AbuseReportsNotFound" xml:space="preserve">
     <value>无法找到指定的举报列表。</value>
   </data>
   <data name="ChapterReadNotFound" xml:space="preserve">
-    <value>无法找到指定的章阅读{0}。</value>
+    <value>无法找到指定的章阅读“{0}”。</value>
   </data>
   <data name="ChapterReadsNotFound" xml:space="preserve">
     <value>无法找到指定条件的章阅读列表。</value>
   </data>
   <data name="RecommendationNotFound" xml:space="preserve">
-    <value>无法找到指定的推荐{0}。</value>
+    <value>无法找到指定的推荐“{0}”。</value>
   </data>
   <data name="RecommendationsNotFound" xml:space="preserve">
     <value>无法找到指定条件的推荐列表。</value>
   </data>
   <data name="FeedbackNotFound" xml:space="preserve">
-    <value>无法找到指定的反馈{0}。</value>
+    <value>无法找到指定的反馈“{0}”。</value>
   </data>
   <data name="FeedbacksNotFound" xml:space="preserve">
     <value>无法找到指定条件的反馈列表。</value>
   </data>
   <data name="UserRankNotFound" xml:space="preserve">
-    <value>无法找到指定的用户排行{0}。</value>
+    <value>无法找到指定的用户排行“{0}”。</value>
   </data>
   <data name="UserRanksNotFound" xml:space="preserve">
     <value>无法找到指定条件的用户排行列表。</value>
   </data>
   <data name="GroupRankNotFound" xml:space="preserve">
-    <value>无法找到指定的群组排行{0}。</value>
+    <value>无法找到指定的群组排行“{0}”。</value>
   </data>
   <data name="GroupRanksNotFound" xml:space="preserve">
     <value>无法找到指定条件的群组排行列表。</value>
+  </data>
+  <data name="InvalidTitle" xml:space="preserve">
+    <value>标题“{0}”不符合政策规范。</value>
+  </data>
+  <data name="InvalidContent" xml:space="preserve">
+    <value>正文内容“{0}”不符合政策规范。</value>
+  </data>
+  <data name="InvalidSummary" xml:space="preserve">
+    <value>概要“{0}”不符合政策规范。</value>
   </data>
 </root>

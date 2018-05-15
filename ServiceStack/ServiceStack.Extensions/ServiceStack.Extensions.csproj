@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppSettingsExtensions.cs" />
+    <Compile Include="Arguments.cs" />
     <Compile Include="HashExtensions.cs" />
     <Compile Include="ImageExtensions.cs" />
     <Compile Include="Int32Extensions.cs" />

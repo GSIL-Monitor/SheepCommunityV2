@@ -62,7 +62,7 @@ namespace Tencent.Cos
         /// </summary>
         public CreateFolderResponse Post(string remotePath, CreateFolderRequest request)
         {
-            return PostAsync(remotePath, request).GetAwaiter().GetResult();
+            return Nito.AsyncEx.AsyncContext.Run(() => PostAsync(remotePath, request));
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace Tencent.Cos
         /// </summary>
         public GetFolderStatResponse Get(string remotePath, GetFolderStatRequest request)
         {
-            return GetAsync(remotePath, request).GetAwaiter().GetResult();
+            return Nito.AsyncEx.AsyncContext.Run(() => GetAsync(remotePath, request));
         }
 
         /// <summary>
@@ -162,7 +162,7 @@ namespace Tencent.Cos
         /// </summary>
         public DeleteFolderResponse Post(string remotePath, DeleteFolderRequest request)
         {
-            return PostAsync(remotePath, request).GetAwaiter().GetResult();
+            return Nito.AsyncEx.AsyncContext.Run(() => PostAsync(remotePath, request));
         }
 
         /// <summary>
@@ -212,7 +212,7 @@ namespace Tencent.Cos
         /// </summary>
         public UploadFileResponse Post(string remoteFilePath, UploadFileRequest request)
         {
-            return PostAsync(remoteFilePath, request).GetAwaiter().GetResult();
+            return Nito.AsyncEx.AsyncContext.Run(() => PostAsync(remoteFilePath, request));
         }
 
         /// <summary>

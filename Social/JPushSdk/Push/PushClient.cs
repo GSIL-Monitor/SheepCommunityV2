@@ -51,7 +51,7 @@ namespace JPush.Push
         /// <inheritdoc />
         public CidResponse Get(CidRequest request)
         {
-            return GetAsync(request).GetAwaiter().GetResult();
+            return Nito.AsyncEx.AsyncContext.Run(() => GetAsync(request));
         }
 
         /// <inheritdoc />
@@ -83,7 +83,7 @@ namespace JPush.Push
         /// </summary>
         public PushResponse Post(PushRequest request)
         {
-            return PostAsync(request).GetAwaiter().GetResult();
+            return Nito.AsyncEx.AsyncContext.Run(() => PostAsync(request));
         }
 
         /// <summary>

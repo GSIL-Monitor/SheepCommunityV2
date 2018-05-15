@@ -79,7 +79,7 @@ namespace Sina.Weibo
         /// </summary>
         public AccessTokenResponse Post(AccessTokenRequest request)
         {
-            return PostAsync(request).GetAwaiter().GetResult();
+            return Nito.AsyncEx.AsyncContext.Run(() => PostAsync(request));
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace Sina.Weibo
         /// </summary>
         public GetTokenResponse Post(GetTokenRequest request)
         {
-            return PostAsync(request).GetAwaiter().GetResult();
+            return Nito.AsyncEx.AsyncContext.Run(() => PostAsync(request));
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace Sina.Weibo
         /// </summary>
         public ShowUserResponse Get(ShowUserRequest request)
         {
-            return GetAsync(request).GetAwaiter().GetResult();
+            return Nito.AsyncEx.AsyncContext.Run(() => GetAsync(request));
         }
 
         /// <summary>
@@ -187,7 +187,7 @@ namespace Sina.Weibo
         /// </summary>
         public GetCountryResponse Get(GetCountryRequest request)
         {
-            return GetAsync(request).GetAwaiter().GetResult();
+            return Nito.AsyncEx.AsyncContext.Run(() => GetAsync(request));
         }
 
         /// <summary>
@@ -228,7 +228,7 @@ namespace Sina.Weibo
         /// </summary>
         public GetProvinceResponse Get(GetProvinceRequest request)
         {
-            return GetAsync(request).GetAwaiter().GetResult();
+            return Nito.AsyncEx.AsyncContext.Run(() => GetAsync(request));
         }
 
         /// <summary>
@@ -269,7 +269,7 @@ namespace Sina.Weibo
         /// </summary>
         public GetCityResponse Get(GetCityRequest request)
         {
-            return GetAsync(request).GetAwaiter().GetResult();
+            return Nito.AsyncEx.AsyncContext.Run(() => GetAsync(request));
         }
 
         /// <summary>

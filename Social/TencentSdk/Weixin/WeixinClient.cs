@@ -65,7 +65,7 @@ namespace Tencent.Weixin
         /// </summary>
         public AccessTokenResponse Get(AccessTokenRequest request)
         {
-            return GetAsync(request).GetAwaiter().GetResult();
+            return Nito.AsyncEx.AsyncContext.Run(() => GetAsync(request));
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace Tencent.Weixin
         /// </summary>
         public RefreshTokenResponse Get(RefreshTokenRequest request)
         {
-            return GetAsync(request).GetAwaiter().GetResult();
+            return Nito.AsyncEx.AsyncContext.Run(() => GetAsync(request));
         }
 
         /// <summary>
@@ -135,7 +135,7 @@ namespace Tencent.Weixin
         /// </summary>
         public AuthenticateTokenResponse Get(AuthenticateTokenRequest request)
         {
-            return GetAsync(request).GetAwaiter().GetResult();
+            return Nito.AsyncEx.AsyncContext.Run(() => GetAsync(request));
         }
 
         /// <summary>
@@ -170,7 +170,7 @@ namespace Tencent.Weixin
         /// </summary>
         public UserInfoResponse Get(UserInfoRequest request)
         {
-            return GetAsync(request).GetAwaiter().GetResult();
+            return Nito.AsyncEx.AsyncContext.Run(() => GetAsync(request));
         }
 
         /// <summary>
