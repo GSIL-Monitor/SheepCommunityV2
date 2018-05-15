@@ -327,4 +327,22 @@
   <data name="InvalidSummary" xml:space="preserve">
     <value>概要“{0}”不符合政策规范。</value>
   </data>
+  <data name="InvalidPicture" xml:space="preserve">
+    <value>图片“{0}”不符合政策规范。</value>
+  </data>
+  <data name="InvalidAvatar" xml:space="preserve">
+    <value>头像图片“{0}”不符合政策规范。</value>
+  </data>
+  <data name="InvalidCoverPhoto" xml:space="preserve">
+    <value>封面图片“{0}”不符合政策规范。</value>
+  </data>
+  <data name="InvalidDescription" xml:space="preserve">
+    <value>简介“{0}”不符合政策规范。</value>
+  </data>
+  <data name="InvalidDisplayName" xml:space="preserve">
+    <value>显示名称“{0}”不符合政策规范。</value>
+  </data>
+  <data name="InvalidSignature" xml:space="preserve">
+    <value>签名“{0}”不符合政策规范。</value>
+  </data>
 </root>

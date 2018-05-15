@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Aliyun.Green;
 using Aliyun.OSS;
 using Aliyun.OSS.Common;
 using Aliyun.OSS.Util;
@@ -41,6 +42,11 @@ namespace Sheep.ServiceInterface.Accounts
         ///     获取及设置相关的应用程序设置器。
         /// </summary>
         public IAppSettings AppSettings { get; set; }
+
+        /// <summary>
+        ///     获取及设置阿里云内容安全服务客户端。
+        /// </summary>
+        public IGreenClient GreenClient { get; set; }
 
         /// <summary>
         ///     获取及设置阿里云对象存储客户端。
@@ -158,6 +164,10 @@ namespace Sheep.ServiceInterface.Accounts
             newUserAuth.PopulateMissingExtended(existingUserAuth);
             newUserAuth.Meta = existingUserAuth.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingUserAuth.Meta);
             newUserAuth.Meta["AvatarUrl"] = avatarUrl;
+            if (!newUserAuth.Meta["AvatarUrl"].IsNullOrEmpty() && !await AliyunHelper.IsImageValidAsync(GreenClient, newUserAuth.Meta["AvatarUrl"]))
+            {
+                throw HttpError.Forbidden(string.Format(Resources.InvalidAvatar, newUserAuth.Meta["AvatarUrl"]));
+            }
             var userAuth = await ((IUserAuthRepositoryExtended) AuthRepo).UpdateUserAuthAsync(existingUserAuth, newUserAuth);
             ResetCache(userAuth);
             await NimClient.PostAsync(new UserUpdateInfoRequest

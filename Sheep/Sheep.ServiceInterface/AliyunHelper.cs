@@ -74,9 +74,11 @@ namespace Sheep.ServiceInterface
         /// </summary>
         /// <param name="greenClient">阿里云内容安全服务客户端</param>
         /// <param name="text">要检测的文本</param>
+        /// <param name="category">内容类别</param>
+        /// <param name="action">操作类型</param>
         /// <param name="cancellationToken">取消标识</param>
         /// <returns>True 表示已通过检测，False 表示未通过。</returns>
-        public static async Task<bool> IsTextValidAsync(IGreenClient greenClient, string text, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task<bool> IsTextValidAsync(IGreenClient greenClient, string text, string category = null, string action = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             Arguments.NotNull(greenClient, nameof(greenClient));
             Arguments.WithinLength(text, nameof(text), 1, 4000);
@@ -92,7 +94,9 @@ namespace Sheep.ServiceInterface
                                           {
                                               DataId = Guid.NewGuid().ToString("D"),
                                               Content = text,
-                                              Time = DateTimeOffset.Now.ToUnixTimeMilliseconds()
+                                              Time = DateTimeOffset.Now.ToUnixTimeMilliseconds(),
+                                              Category = category,
+                                              Action = action
                                           }
                                       }
                           };

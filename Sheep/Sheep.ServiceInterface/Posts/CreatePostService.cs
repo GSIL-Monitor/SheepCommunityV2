@@ -121,7 +121,13 @@ namespace Sheep.ServiceInterface.Posts
                               ContentType = request.ContentType,
                               Content = request.Content?.Replace("\"", "'"),
                               ContentUrl = request.ContentUrl,
-                              Tags = request.Tags.IsNullOrEmpty() ? new List<string>() : request.Tags.Replace(",", ";").Replace("，", ";").Replace("；", ";").Split(';').Select(x => x.Replace("”", string.Empty).Replace("“", string.Empty).Replace("\"", string.Empty).Trim()).ToList(),
+                              Tags = request.Tags.IsNullOrEmpty() ? new List<string>() :
+                                         request.Tags.Replace(",", ";")
+                                                .Replace("，", ";")
+                                                .Replace("；", ";")
+                                                .Split(';')
+                                                .Select(x => x.Replace("”", string.Empty).Replace("“", string.Empty).Replace("\"", string.Empty).Trim())
+                                                .ToList(),
                               IsPublished = request.AutoPublish ?? false
                           };
             string pictureUrl = null;
@@ -194,19 +200,22 @@ namespace Sheep.ServiceInterface.Posts
                 }
             }
             newPost.PictureUrl = pictureUrl;
-            if (!newPost.Title.IsNullOrEmpty() && !await AliyunHelper.IsTextValidAsync(GreenClient, newPost.Title))
+            if (!newPost.Title.IsNullOrEmpty() && !await AliyunHelper.IsTextValidAsync(GreenClient, newPost.Title, "post", "new"))
             {
                 throw HttpError.Forbidden(string.Format(Resources.InvalidTitle, newPost.Title));
             }
-            if (!newPost.Summary.IsNullOrEmpty() && !await AliyunHelper.IsTextValidAsync(GreenClient, newPost.Summary))
+            if (!newPost.Summary.IsNullOrEmpty() && !await AliyunHelper.IsTextValidAsync(GreenClient, newPost.Summary, "post", "new"))
             {
                 throw HttpError.Forbidden(string.Format(Resources.InvalidSummary, newPost.Summary));
             }
-            if (!newPost.Content.IsNullOrEmpty() && !await AliyunHelper.IsTextValidAsync(GreenClient, newPost.Content))
+            if (!newPost.Content.IsNullOrEmpty() && !await AliyunHelper.IsTextValidAsync(GreenClient, newPost.Content, "post", "new"))
             {
                 throw HttpError.Forbidden(string.Format(Resources.InvalidContent, newPost.Content));
             }
-
+            if (!newPost.PictureUrl.IsNullOrEmpty() && !await AliyunHelper.IsImageValidAsync(GreenClient, newPost.PictureUrl))
+            {
+                throw HttpError.Forbidden(string.Format(Resources.InvalidPicture, newPost.PictureUrl));
+            }
             var post = await PostRepo.CreatePostAsync(newPost);
             await PostRepo.UpdatePostContentQualityAsync(post.Id, PostRepo.CalculatePostContentQuality(post));
             ResetCache(post);

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Aliyun.Green;
 using Aliyun.OSS;
 using Aliyun.OSS.Common;
 using Aliyun.OSS.Util;
@@ -44,6 +45,11 @@ namespace Sheep.ServiceInterface.Posts
         ///     获取及设置相关的应用程序设置器。
         /// </summary>
         public IAppSettings AppSettings { get; set; }
+
+        /// <summary>
+        ///     获取及设置阿里云内容安全服务客户端。
+        /// </summary>
+        public IGreenClient GreenClient { get; set; }
 
         /// <summary>
         ///     获取及设置阿里云对象存储客户端。
@@ -122,7 +128,8 @@ namespace Sheep.ServiceInterface.Posts
             newPost.ContentType = request.ContentType;
             newPost.Content = request.Content?.Replace("\"", "'");
             newPost.ContentUrl = request.ContentUrl;
-            newPost.Tags = request.Tags.IsNullOrEmpty() ? new List<string>() : request.Tags.Replace(",", ";").Replace("，", ";").Replace("；", ";").Split(';').Select(x => x.Replace("”", string.Empty).Replace("“", string.Empty).Replace("\"", string.Empty).Trim()).ToList();
+            newPost.Tags = request.Tags.IsNullOrEmpty() ? new List<string>() :
+                               request.Tags.Replace(",", ";").Replace("，", ";").Replace("；", ";").Split(';').Select(x => x.Replace("”", string.Empty).Replace("“", string.Empty).Replace("\"", string.Empty).Trim()).ToList();
             newPost.IsPublished = request.AutoPublish ?? false;
             string pictureUrl = null;
             if (!request.SourcePictureUrl.IsNullOrEmpty())
@@ -194,6 +201,22 @@ namespace Sheep.ServiceInterface.Posts
                 }
             }
             newPost.PictureUrl = pictureUrl.IsNullOrEmpty() ? existingPost.PictureUrl : pictureUrl;
+            if (!newPost.Title.IsNullOrEmpty() && !await AliyunHelper.IsTextValidAsync(GreenClient, newPost.Title, "post", "edit"))
+            {
+                throw HttpError.Forbidden(string.Format(Resources.InvalidTitle, newPost.Title));
+            }
+            if (!newPost.Summary.IsNullOrEmpty() && !await AliyunHelper.IsTextValidAsync(GreenClient, newPost.Summary, "post", "edit"))
+            {
+                throw HttpError.Forbidden(string.Format(Resources.InvalidSummary, newPost.Summary));
+            }
+            if (!newPost.Content.IsNullOrEmpty() && !await AliyunHelper.IsTextValidAsync(GreenClient, newPost.Content, "post", "edit"))
+            {
+                throw HttpError.Forbidden(string.Format(Resources.InvalidContent, newPost.Content));
+            }
+            if (!newPost.PictureUrl.IsNullOrEmpty() && !await AliyunHelper.IsImageValidAsync(GreenClient, newPost.PictureUrl))
+            {
+                throw HttpError.Forbidden(string.Format(Resources.InvalidPicture, newPost.PictureUrl));
+            }
             var post = await PostRepo.UpdatePostAsync(existingPost, newPost);
             await PostRepo.UpdatePostContentQualityAsync(post.Id, PostRepo.CalculatePostContentQuality(post));
             var commentsCount = await CommentRepo.GetCommentsCountByParentAsync(post.Id, currentUserId, null, null, null, "审核通过");

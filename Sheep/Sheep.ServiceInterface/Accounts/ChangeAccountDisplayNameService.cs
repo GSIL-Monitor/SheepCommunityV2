@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Aliyun.Green;
 using Netease.Nim;
 using ServiceStack;
 using ServiceStack.Auth;
@@ -32,6 +33,11 @@ namespace Sheep.ServiceInterface.Accounts
         ///     获取及设置相关的应用程序设置器。
         /// </summary>
         public IAppSettings AppSettings { get; set; }
+
+        /// <summary>
+        ///     获取及设置阿里云内容安全服务客户端。
+        /// </summary>
+        public IGreenClient GreenClient { get; set; }
 
         /// <summary>
         ///     网易云通信服务客户端。
@@ -75,6 +81,10 @@ namespace Sheep.ServiceInterface.Accounts
             newUserAuth.PopulateMissingExtended(existingUserAuth);
             newUserAuth.Meta = existingUserAuth.Meta == null ? new Dictionary<string, string>() : new Dictionary<string, string>(existingUserAuth.Meta);
             newUserAuth.DisplayName = request.DisplayName?.Replace("\"", "'");
+            if (!newUserAuth.DisplayName.IsNullOrEmpty() && !await AliyunHelper.IsTextValidAsync(GreenClient, newUserAuth.DisplayName))
+            {
+                throw HttpError.Forbidden(string.Format(Resources.InvalidDisplayName, newUserAuth.DisplayName));
+            }
             var userAuth = await ((IUserAuthRepositoryExtended) AuthRepo).UpdateUserAuthAsync(existingUserAuth, newUserAuth);
             ResetCache(userAuth);
             await NimClient.PostAsync(new UserUpdateInfoRequest

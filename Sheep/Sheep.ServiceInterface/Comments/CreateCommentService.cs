@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using Aliyun.Green;
 using Netease.Nim;
 using ServiceStack;
 using ServiceStack.Auth;
@@ -36,6 +38,11 @@ namespace Sheep.ServiceInterface.Comments
         ///     获取及设置相关的应用程序设置器。
         /// </summary>
         public IAppSettings AppSettings { get; set; }
+
+        /// <summary>
+        ///     获取及设置阿里云内容安全服务客户端。
+        /// </summary>
+        public IGreenClient GreenClient { get; set; }
 
         /// <summary>
         ///     网易云通信服务客户端。
@@ -105,6 +112,10 @@ namespace Sheep.ServiceInterface.Comments
                                  UserId = currentUserId,
                                  Content = request.Content?.Replace("\"", "'")
                              };
+            if (!newComment.Content.IsNullOrEmpty() && !await AliyunHelper.IsTextValidAsync(GreenClient, newComment.Content, "comment", "new"))
+            {
+                throw HttpError.Forbidden(string.Format(Resources.InvalidContent, newComment.Content));
+            }
             var comment = await CommentRepo.CreateCommentAsync(newComment);
             await CommentRepo.UpdateCommentContentQualityAsync(comment.Id, CommentRepo.CalculateCommentContentQuality(comment));
             ResetCache(comment);

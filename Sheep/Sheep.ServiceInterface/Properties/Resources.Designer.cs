@@ -331,6 +331,15 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
+        ///   查找类似 头像图片“{0}”不符合政策规范。 的本地化字符串。
+        /// </summary>
+        internal static string InvalidAvatar {
+            get {
+                return ResourceManager.GetString("InvalidAvatar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 正文内容“{0}”不符合政策规范。 的本地化字符串。
         /// </summary>
         internal static string InvalidContent {
@@ -340,11 +349,56 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
+        ///   查找类似 封面图片“{0}”不符合政策规范。 的本地化字符串。
+        /// </summary>
+        internal static string InvalidCoverPhoto {
+            get {
+                return ResourceManager.GetString("InvalidCoverPhoto", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 简介“{0}”不符合政策规范。 的本地化字符串。
+        /// </summary>
+        internal static string InvalidDescription {
+            get {
+                return ResourceManager.GetString("InvalidDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 显示名称“{0}”不符合政策规范。 的本地化字符串。
+        /// </summary>
+        internal static string InvalidDisplayName {
+            get {
+                return ResourceManager.GetString("InvalidDisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 图片“{0}”不符合政策规范。 的本地化字符串。
+        /// </summary>
+        internal static string InvalidPicture {
+            get {
+                return ResourceManager.GetString("InvalidPicture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 错误的验证码。 的本地化字符串。
         /// </summary>
         internal static string InvalidSecurityToken {
             get {
                 return ResourceManager.GetString("InvalidSecurityToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 签名“{0}”不符合政策规范。 的本地化字符串。
+        /// </summary>
+        internal static string InvalidSignature {
+            get {
+                return ResourceManager.GetString("InvalidSignature", resourceCulture);
             }
         }
         
