@@ -12,7 +12,6 @@ using ServiceStack.Api.Swagger;
 using ServiceStack.Auth;
 using ServiceStack.Authentication.RethinkDb;
 using ServiceStack.Logging;
-using ServiceStack.ProtoBuf;
 using ServiceStack.Redis;
 using ServiceStack.Validation;
 using Sheep.Common.Settings;
@@ -128,8 +127,8 @@ namespace Sheep
             ConfigValidation(container);
             // 配置跨域访问功能。
             ConfigCors();
-            // 配置ProtoBuf序列化功能。
-            ConfigProtoBuf();
+            //// 配置ProtoBuf序列化功能。
+            //ConfigProtoBuf();
             // 配置Postman接口生成功能。
             ConfigPostman();
             // 配置 Swagger 功能。
@@ -459,14 +458,14 @@ namespace Sheep
             Plugins.Add(feature);
         }
 
-        /// <summary>
-        ///     配置ProtoBuf序列化功能。
-        /// </summary>
-        private void ConfigProtoBuf()
-        {
-            var format = new ProtoBufFormat();
-            Plugins.Add(format);
-        }
+        ///// <summary>
+        /////     配置ProtoBuf序列化功能。
+        ///// </summary>
+        //private void ConfigProtoBuf()
+        //{
+        //    var format = new ProtoBufFormat();
+        //    Plugins.Add(format);
+        //}
 
         /// <summary>
         ///     配置Postman接口生成功能。

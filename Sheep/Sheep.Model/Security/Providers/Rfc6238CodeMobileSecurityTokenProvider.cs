@@ -6,7 +6,6 @@ using ServiceStack.Extensions;
 using ServiceStack.Logging;
 using Top.Api;
 using Top.Api.Request;
-using AsyncContext = Nito.AsyncEx.AsyncContext;
 
 namespace Sheep.Model.Security.Providers
 {
@@ -63,7 +62,7 @@ namespace Sheep.Model.Security.Providers
         /// <returns>验证码。</returns>
         public string GenerateToken(string target, string purpose)
         {
-            return AsyncContext.Run(() => GenerateTokenAsync(target, purpose));
+            return GenerateTokenAsync(target, purpose).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -92,7 +91,7 @@ namespace Sheep.Model.Security.Providers
         /// <returns>true 表示校验成功，否则为 false。</returns>
         public bool VerifyToken(string target, string purpose, string token)
         {
-            return AsyncContext.Run(() => VerifyTokenAsync(target, purpose, token));
+            return VerifyTokenAsync(target, purpose, token).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -124,7 +123,7 @@ namespace Sheep.Model.Security.Providers
         /// <returns>true 表示发送成功，否则为 false。</returns>
         public bool SendToken(string target, string signature, string token, string template)
         {
-            return AsyncContext.Run(() => SendTokenAsync(target, signature, token, template));
+            return SendTokenAsync(target, signature, token, template).GetAwaiter().GetResult();
         }
 
         /// <summary>

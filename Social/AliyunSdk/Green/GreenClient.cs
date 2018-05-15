@@ -1,27 +1,22 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using ServiceStack;
+using Newtonsoft.Json;
 using ServiceStack.Extensions;
-using ServiceStack.Logging;
 using ServiceStack.Text;
-using AsyncContext = Nito.AsyncEx.AsyncContext;
 
 namespace Aliyun.Green
 {
     /// <summary>
-    ///     阿里内容安全服务客户端封装库。
+    ///     阿里云内容安全服务客户端封装库。
     /// </summary>
     public class GreenClient : IGreenClient
     {
         #region 静态变量
-
-        /// <summary>
-        ///     相关的日志记录器。
-        /// </summary>
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(GreenClient));
 
         private const string version = "2017-01-12";
         private const string signatureMethod = "HMAC-SHA1";
@@ -44,150 +39,174 @@ namespace Aliyun.Green
         /// <summary>
         ///     获取检测的基本地址。
         /// </summary>
-        public string BaseUrl { get; set; }
+        public string BaseUrl { get; set; } = "https://green.cn-shanghai.aliyuncs.com";
 
         /// <summary>
         ///     获取检测图片的地址路径。
         /// </summary>
-        public string ImageScanPath { get; set; }
+        public string ImageScanPath { get; set; } = "/green/image/scan";
+
+        /// <summary>
+        ///     获取异步检测图片的地址路径。
+        /// </summary>
+        public string ImageAsyncScanPath { get; set; } = "/green/image/asyncscan";
 
         /// <summary>
         ///     获取检测文本的地址路径。
         /// </summary>
-        public string TextScanPath { get; set; }
+        public string TextScanPath { get; set; } = "/green/text/scan";
 
         #endregion
 
         #region IGreenClient 接口实现
 
+        /// <inheritdoc />
         /// <summary>
         ///     检测图片。
         /// </summary>
-        public ImageScanResponse Post(ImageScanRequest request)
+        public async Task<ImageScanResponse> PostAsync(ImageScanRequest request, ClientInfo clientInfo, CancellationToken cancellationToken)
         {
-            return AsyncContext.Run(() => PostAsync(request));
+            if (request == null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+            var httpHandler = new HttpClientHandler
+                              {
+                                  AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
+                              };
+            using (var httpClient = new HttpClient(httpHandler, true))
+            {
+                var signatureTime = DateTimeOffset.Now;
+                var signatureVersionNonce = Guid.NewGuid().ToString("D");
+                var clientInfoJson = clientInfo == null ? string.Empty : JsonConvert.SerializeObject(clientInfo, Formatting.None);
+                var requestJson = JsonConvert.SerializeObject(request, Formatting.None);
+                var requestContent = new StringContent(requestJson, Encoding.UTF8);
+                requestContent.Headers.ContentType = MediaTypeHeaderValue.Parse(MediaTypes.Application.Json);
+                requestContent.Headers.ContentMD5 = requestJson.ToMd5HashBytes();
+                requestContent.Headers.Add("x-acs-signature-method", signatureMethod);
+                requestContent.Headers.Add("x-acs-signature-nonce", signatureVersionNonce);
+                requestContent.Headers.Add("x-acs-signature-version", signatureVersion);
+                requestContent.Headers.Add("x-acs-version", version);
+                var scanPath = clientInfo == null ? ImageScanPath : $"{ImageScanPath}?clientInfo={clientInfoJson}";
+                var signature = Signature(Convert.ToBase64String(requestContent.Headers.ContentMD5), signatureTime, signatureVersionNonce, scanPath);
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("acs", $"{AccessKeyId}:{signature}");
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypes.Application.Json));
+                httpClient.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
+                httpClient.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("deflate"));
+                httpClient.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("identity"));
+                httpClient.DefaultRequestHeaders.Date = signatureTime;
+                httpClient.Timeout = TimeSpan.FromSeconds(10);
+                var scanUrl = clientInfo == null ? $"{BaseUrl}{ImageScanPath}" : $"{BaseUrl}{ImageScanPath}?clientInfo={WebUtility.UrlEncode(clientInfoJson)}";
+                var responseMessage = await httpClient.PostAsync(scanUrl, requestContent, cancellationToken);
+                var responseContent = responseMessage.Content == null ? string.Empty : await responseMessage.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<ImageScanResponse>(responseContent);
+            }
         }
 
         /// <summary>
         ///     异步检测图片。
         /// </summary>
-        public async Task<ImageScanResponse> PostAsync(ImageScanRequest request)
+        public async Task<ImageScanResponse> PostAsync(ImageAsyncScanRequest request, ClientInfo clientInfo, CancellationToken cancellationToken)
         {
-            try
+            if (request == null)
             {
-                var httpHandler = new HttpClientHandler();
-                using (var httpClient = new HttpClient(httpHandler))
-                {
-                    var requestJson = request.ToJson();
-                    var signatureVersionNonce = Guid.NewGuid().ToString("D");
-                    var currentDateTime = DateTimeOffset.Now;
-                    var requestContent = new StringContent(requestJson, Encoding.UTF8);
-                    requestContent.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-                    requestContent.Headers.ContentMD5 = requestJson.ToMd5HashBytes();
-                    requestContent.Headers.Add("x-acs-signature-method", signatureMethod);
-                    requestContent.Headers.Add("x-acs-signature-nonce", signatureVersionNonce);
-                    requestContent.Headers.Add("x-acs-signature-version", signatureVersion);
-                    requestContent.Headers.Add("x-acs-version", version);
-                    var signatureBuilder = StringBuilderCache.Allocate();
-                    signatureBuilder.Append("POST\n");
-                    signatureBuilder.Append("application/json\n");
-                    signatureBuilder.Append($"{Convert.ToBase64String(requestContent.Headers.ContentMD5)}\n");
-                    signatureBuilder.Append("application/json\n");
-                    signatureBuilder.Append($"{currentDateTime.ToUniversalTime():R}\n");
-                    signatureBuilder.Append($"x-acs-signature-method:{signatureMethod}\n");
-                    signatureBuilder.Append($"x-acs-signature-nonce:{signatureVersionNonce}\n");
-                    signatureBuilder.Append($"x-acs-signature-version:{signatureVersion}\n");
-                    signatureBuilder.Append($"x-acs-version:{version}\n");
-                    signatureBuilder.Append(ImageScanPath);
-                    var signature = Convert.ToBase64String(StringBuilderCache.ReturnAndFree(signatureBuilder).ToHmacSha1HashBytes(AccessKeySecret));
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("acs", string.Format("{0}:{1}", AccessKeyId, signature));
-                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    httpClient.DefaultRequestHeaders.Date = currentDateTime;
-                    var responseMessage = await httpClient.PostAsync(string.Format("{0}{1}", BaseUrl, ImageScanPath), requestContent);
-                    var responseContent = responseMessage.Content == null ? string.Empty : await responseMessage.Content.ReadAsStringAsync();
-                    var response = responseContent.FromJson<ImageScanResponse>();
-                    if (response.Code != 200)
-                    {
-                        Log.ErrorFormat("{0} {1} Error: {2}-{3}", GetType().Name, request.GetType().Name, response.Message, response.RequestId);
-                    }
-                    return response;
-                }
+                throw new ArgumentNullException(nameof(request));
             }
-            catch (Exception ex)
+            var httpHandler = new HttpClientHandler
+                              {
+                                  AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
+                              };
+            using (var httpClient = new HttpClient(httpHandler, true))
             {
-                var errorMessage = ex.GetInnerMostException().Message;
-                Log.ErrorFormat("{0} {1} Error: {2}", GetType().Name, request.GetType().Name, errorMessage);
-                return new ImageScanResponse
-                       {
-                           Code = -1,
-                           Message = errorMessage
-                       };
+                var signatureTime = DateTimeOffset.Now;
+                var signatureVersionNonce = Guid.NewGuid().ToString("D");
+                var clientInfoJson = clientInfo == null ? string.Empty : JsonConvert.SerializeObject(clientInfo, Formatting.None);
+                var requestJson = JsonConvert.SerializeObject(request, Formatting.None);
+                var requestContent = new StringContent(requestJson, Encoding.UTF8);
+                requestContent.Headers.ContentType = MediaTypeHeaderValue.Parse(MediaTypes.Application.Json);
+                requestContent.Headers.ContentMD5 = requestJson.ToMd5HashBytes();
+                requestContent.Headers.Add("x-acs-signature-method", signatureMethod);
+                requestContent.Headers.Add("x-acs-signature-nonce", signatureVersionNonce);
+                requestContent.Headers.Add("x-acs-signature-version", signatureVersion);
+                requestContent.Headers.Add("x-acs-version", version);
+                var scanPath = clientInfo == null ? ImageAsyncScanPath : $"{ImageAsyncScanPath}?clientInfo={clientInfoJson}";
+                var signature = Signature(Convert.ToBase64String(requestContent.Headers.ContentMD5), signatureTime, signatureVersionNonce, scanPath);
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("acs", $"{AccessKeyId}:{signature}");
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypes.Application.Json));
+                httpClient.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
+                httpClient.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("deflate"));
+                httpClient.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("identity"));
+                httpClient.DefaultRequestHeaders.Date = signatureTime;
+                httpClient.Timeout = TimeSpan.FromSeconds(10);
+                var scanUrl = clientInfo == null ? $"{BaseUrl}{ImageAsyncScanPath}" : $"{BaseUrl}{ImageAsyncScanPath}?clientInfo={WebUtility.UrlEncode(clientInfoJson)}";
+                var responseMessage = await httpClient.PostAsync(scanUrl, requestContent, cancellationToken);
+                var responseContent = responseMessage.Content == null ? string.Empty : await responseMessage.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<ImageScanResponse>(responseContent);
             }
         }
 
         /// <summary>
         ///     检测文本。
         /// </summary>
-        public TextScanResponse Post(TextScanRequest request)
+        public async Task<TextScanResponse> PostAsync(TextScanRequest request, ClientInfo clientInfo, CancellationToken cancellationToken)
         {
-            return AsyncContext.Run(() => PostAsync(request));
+            if (request == null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+            var httpHandler = new HttpClientHandler
+                              {
+                                  AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
+                              };
+            using (var httpClient = new HttpClient(httpHandler, true))
+            {
+                var signatureTime = DateTimeOffset.Now;
+                var signatureVersionNonce = Guid.NewGuid().ToString("D");
+                var clientInfoJson = clientInfo == null ? string.Empty : JsonConvert.SerializeObject(clientInfo, Formatting.None);
+                var requestJson = JsonConvert.SerializeObject(request, Formatting.None);
+                var requestContent = new StringContent(requestJson, Encoding.UTF8);
+                requestContent.Headers.ContentType = MediaTypeHeaderValue.Parse(MediaTypes.Application.Json);
+                requestContent.Headers.ContentMD5 = requestJson.ToMd5HashBytes();
+                requestContent.Headers.Add("x-acs-signature-method", signatureMethod);
+                requestContent.Headers.Add("x-acs-signature-nonce", signatureVersionNonce);
+                requestContent.Headers.Add("x-acs-signature-version", signatureVersion);
+                requestContent.Headers.Add("x-acs-version", version);
+                var scanPath = clientInfo == null ? TextScanPath : $"{TextScanPath}?clientInfo={clientInfoJson}";
+                var signature = Signature(Convert.ToBase64String(requestContent.Headers.ContentMD5), signatureTime, signatureVersionNonce, scanPath);
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("acs", $"{AccessKeyId}:{signature}");
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypes.Application.Json));
+                httpClient.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
+                httpClient.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("deflate"));
+                httpClient.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("identity"));
+                httpClient.DefaultRequestHeaders.Date = signatureTime;
+                httpClient.Timeout = TimeSpan.FromSeconds(10);
+                var scanUrl = clientInfo == null ? $"{BaseUrl}{TextScanPath}" : $"{BaseUrl}{TextScanPath}?clientInfo={WebUtility.UrlEncode(clientInfoJson)}";
+                var responseMessage = await httpClient.PostAsync(scanUrl, requestContent, cancellationToken);
+                var responseContent = responseMessage.Content == null ? string.Empty : await responseMessage.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<TextScanResponse>(responseContent);
+            }
         }
 
-        /// <summary>
-        ///     异步检测文本。
-        /// </summary>
-        public async Task<TextScanResponse> PostAsync(TextScanRequest request)
+        #endregion
+
+        #region 签名
+
+        private string Signature(string contentMd5, DateTimeOffset signatureTime, string signatureVersionNonce, string scanPath)
         {
-            try
-            {
-                var httpHandler = new HttpClientHandler();
-                using (var httpClient = new HttpClient(httpHandler))
-                {
-                    var requestJson = request.ToJson();
-                    var signatureVersionNonce = Guid.NewGuid().ToString("D");
-                    var currentDateTime = DateTimeOffset.Now;
-                    var requestContent = new StringContent(requestJson, Encoding.UTF8);
-                    requestContent.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-                    requestContent.Headers.ContentMD5 = requestJson.ToMd5HashBytes();
-                    requestContent.Headers.Add("x-acs-signature-method", signatureMethod);
-                    requestContent.Headers.Add("x-acs-signature-nonce", signatureVersionNonce);
-                    requestContent.Headers.Add("x-acs-signature-version", signatureVersion);
-                    requestContent.Headers.Add("x-acs-version", version);
-                    var signatureBuilder = StringBuilderCache.Allocate();
-                    signatureBuilder.Append("POST\n");
-                    signatureBuilder.Append("application/json\n");
-                    signatureBuilder.Append($"{Convert.ToBase64String(requestContent.Headers.ContentMD5)}\n");
-                    signatureBuilder.Append("application/json\n");
-                    signatureBuilder.Append($"{currentDateTime.ToUniversalTime():R}\n");
-                    signatureBuilder.Append($"x-acs-signature-method:{signatureMethod}\n");
-                    signatureBuilder.Append($"x-acs-signature-nonce:{signatureVersionNonce}\n");
-                    signatureBuilder.Append($"x-acs-signature-version:{signatureVersion}\n");
-                    signatureBuilder.Append($"x-acs-version:{version}\n");
-                    signatureBuilder.Append(TextScanPath);
-                    var signature = Convert.ToBase64String(StringBuilderCache.ReturnAndFree(signatureBuilder).ToHmacSha1HashBytes(AccessKeySecret));
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("acs", string.Format("{0}:{1}", AccessKeyId, signature));
-                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    httpClient.DefaultRequestHeaders.Date = currentDateTime;
-                    var responseMessage = await httpClient.PostAsync(string.Format("{0}{1}", BaseUrl, TextScanPath), requestContent);
-                    var responseContent = responseMessage.Content == null ? string.Empty : await responseMessage.Content.ReadAsStringAsync();
-                    var response = responseContent.FromJson<TextScanResponse>();
-                    if (response.Code != 200)
-                    {
-                        Log.ErrorFormat("{0} {1} Error: {2}-{3}", GetType().Name, request.GetType().Name, response.Message, response.RequestId);
-                    }
-                    return response;
-                }
-            }
-            catch (Exception ex)
-            {
-                var errorMessage = ex.GetInnerMostException().Message;
-                Log.ErrorFormat("{0} {1} Error: {2}", GetType().Name, request.GetType().Name, errorMessage);
-                return new TextScanResponse
-                       {
-                           Code = -1,
-                           Message = errorMessage
-                       };
-            }
+            var builder = StringBuilderCache.Allocate();
+            builder.Append("POST\n");
+            builder.Append("application/json\n");
+            builder.Append($"{contentMd5}\n");
+            builder.Append("application/json\n");
+            builder.Append($"{signatureTime.ToUniversalTime():R}\n");
+            builder.Append($"x-acs-signature-method:{signatureMethod}\n");
+            builder.Append($"x-acs-signature-nonce:{signatureVersionNonce}\n");
+            builder.Append($"x-acs-signature-version:{signatureVersion}\n");
+            builder.Append($"x-acs-version:{version}\n");
+            builder.Append(scanPath);
+            var signatureString = StringBuilderCache.ReturnAndFree(builder);
+            var signature = signatureString.ToHmacSha1HashBytes(AccessKeySecret);
+            return Convert.ToBase64String(signature);
         }
 
         #endregion

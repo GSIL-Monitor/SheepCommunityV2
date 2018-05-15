@@ -5,7 +5,6 @@ using ServiceStack;
 using ServiceStack.Extensions;
 using ServiceStack.Logging;
 using ServiceStack.Text;
-using AsyncContext = Nito.AsyncEx.AsyncContext;
 
 namespace Tencent.Cos
 {
@@ -63,7 +62,7 @@ namespace Tencent.Cos
         /// </summary>
         public CreateFolderResponse Post(string remotePath, CreateFolderRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(remotePath, request));
+            return PostAsync(remotePath, request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -113,7 +112,7 @@ namespace Tencent.Cos
         /// </summary>
         public GetFolderStatResponse Get(string remotePath, GetFolderStatRequest request)
         {
-            return AsyncContext.Run(() => GetAsync(remotePath, request));
+            return GetAsync(remotePath, request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -163,7 +162,7 @@ namespace Tencent.Cos
         /// </summary>
         public DeleteFolderResponse Post(string remotePath, DeleteFolderRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(remotePath, request));
+            return PostAsync(remotePath, request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -213,7 +212,7 @@ namespace Tencent.Cos
         /// </summary>
         public UploadFileResponse Post(string remoteFilePath, UploadFileRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(remoteFilePath, request));
+            return PostAsync(remoteFilePath, request).GetAwaiter().GetResult();
         }
 
         /// <summary>

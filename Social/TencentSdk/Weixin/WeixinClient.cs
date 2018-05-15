@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using ServiceStack;
 using ServiceStack.Extensions;
 using ServiceStack.Logging;
-using AsyncContext = Nito.AsyncEx.AsyncContext;
 
 namespace Tencent.Weixin
 {
@@ -66,7 +65,7 @@ namespace Tencent.Weixin
         /// </summary>
         public AccessTokenResponse Get(AccessTokenRequest request)
         {
-            return AsyncContext.Run(() => GetAsync(request));
+            return GetAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -101,7 +100,7 @@ namespace Tencent.Weixin
         /// </summary>
         public RefreshTokenResponse Get(RefreshTokenRequest request)
         {
-            return AsyncContext.Run(() => GetAsync(request));
+            return GetAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -136,7 +135,7 @@ namespace Tencent.Weixin
         /// </summary>
         public AuthenticateTokenResponse Get(AuthenticateTokenRequest request)
         {
-            return AsyncContext.Run(() => GetAsync(request));
+            return GetAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -171,7 +170,7 @@ namespace Tencent.Weixin
         /// </summary>
         public UserInfoResponse Get(UserInfoRequest request)
         {
-            return AsyncContext.Run(() => GetAsync(request));
+            return GetAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>

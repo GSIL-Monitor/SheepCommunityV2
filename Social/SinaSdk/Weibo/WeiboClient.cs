@@ -6,7 +6,6 @@ using Newtonsoft.Json.Linq;
 using ServiceStack;
 using ServiceStack.Extensions;
 using ServiceStack.Logging;
-using AsyncContext = Nito.AsyncEx.AsyncContext;
 
 namespace Sina.Weibo
 {
@@ -80,7 +79,7 @@ namespace Sina.Weibo
         /// </summary>
         public AccessTokenResponse Post(AccessTokenRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(request));
+            return PostAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -116,7 +115,7 @@ namespace Sina.Weibo
         /// </summary>
         public GetTokenResponse Post(GetTokenRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(request));
+            return PostAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -152,7 +151,7 @@ namespace Sina.Weibo
         /// </summary>
         public ShowUserResponse Get(ShowUserRequest request)
         {
-            return AsyncContext.Run(() => GetAsync(request));
+            return GetAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -188,7 +187,7 @@ namespace Sina.Weibo
         /// </summary>
         public GetCountryResponse Get(GetCountryRequest request)
         {
-            return AsyncContext.Run(() => GetAsync(request));
+            return GetAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -229,7 +228,7 @@ namespace Sina.Weibo
         /// </summary>
         public GetProvinceResponse Get(GetProvinceRequest request)
         {
-            return AsyncContext.Run(() => GetAsync(request));
+            return GetAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -270,7 +269,7 @@ namespace Sina.Weibo
         /// </summary>
         public GetCityResponse Get(GetCityRequest request)
         {
-            return AsyncContext.Run(() => GetAsync(request));
+            return GetAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>

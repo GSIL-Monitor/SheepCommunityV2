@@ -6,7 +6,6 @@ using RethinkDb.Driver.Net;
 using ServiceStack;
 using ServiceStack.Logging;
 using Sheep.Model.Security.Entities;
-using AsyncContext = Nito.AsyncEx.AsyncContext;
 
 namespace Sheep.Model.Security.Repositories
 {
@@ -64,7 +63,8 @@ namespace Sheep.Model.Security.Repositories
             // 检测指定的数据表是否存在。
             if (!TablesExists())
             {
-                throw new InvalidOperationException(string.Format("One of the tables needed by {0} is missing. You can call {0} constructor with the parameter CreateMissingTables set to 'true'  to create the needed tables.", typeof(RethinkDbSecurityStampRepository).Name));
+                throw new InvalidOperationException(string.Format("One of the tables needed by {0} is missing. You can call {0} constructor with the parameter CreateMissingTables set to 'true'  to create the needed tables.",
+                                                                  typeof(RethinkDbSecurityStampRepository).Name));
             }
         }
 
@@ -114,7 +114,7 @@ namespace Sheep.Model.Security.Repositories
         /// <returns>安全戳对象。</returns>
         public SecurityStamp GetSecurityStampStamp(string identifier)
         {
-            return AsyncContext.Run(() => GetSecurityStampAsync(identifier));
+            return GetSecurityStampAsync(identifier).GetAwaiter().GetResult();
         }
 
         /// <summary>

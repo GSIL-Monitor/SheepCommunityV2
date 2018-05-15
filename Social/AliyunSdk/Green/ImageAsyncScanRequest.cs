@@ -3,10 +3,10 @@
 namespace Aliyun.Green
 {
     /// <summary>
-    ///     检测图片的请求，以 JSON 格式表达。
+    ///     异步检测图片的请求，以 JSON 格式表达。
     /// </summary>
     [JsonObject]
-    public class ImageScanRequest
+    public class ImageAsyncScanRequest
     {
         /// <summary>
         ///     业务类型，由调用方提供。根据配置，后端可根据该字段对请求做不同处理。属于高级用法。
@@ -22,9 +22,21 @@ namespace Aliyun.Green
         public string[] Scenes { get; set; }
 
         /// <summary>
+        ///     异步检测结果回调通知用户url；支持http/https。但该字段为空时，用户必须定时检索检测结果。
+        /// </summary>
+        [JsonProperty(Order = 3, PropertyName = "callback", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string CallbackUrl { set; get; }
+
+        /// <summary>
+        ///     随机字符串，该值会用于用户回调通知请求中签名；当含有callback时，该字段为必须。
+        /// </summary>
+        [JsonProperty(Order = 4, PropertyName = "seed", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string Seed { set; get; }
+
+        /// <summary>
         ///     JSON数组中的每个元素是一个图片检测任务结构体，最多支持100个，即100张图片的检测。
         /// </summary>
-        [JsonProperty(Order = 3, PropertyName = "tasks", Required = Required.Always, DefaultValueHandling = DefaultValueHandling.Include)]
-        public ImageScanRequestTask[] Tasks { get; set; }
+        [JsonProperty(Order = 5, PropertyName = "tasks", Required = Required.Always, DefaultValueHandling = DefaultValueHandling.Include)]
+        public ImageAsyncScanRequestTask[] Tasks { get; set; }
     }
 }

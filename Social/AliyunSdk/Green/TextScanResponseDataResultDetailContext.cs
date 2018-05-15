@@ -1,33 +1,29 @@
-﻿using System.Runtime.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace Aliyun.Green
 {
     /// <summary>
     ///     检测文本的命中风险的上下文信息。
     /// </summary>
-    [DataContract]
-    public class TextScanResultDetailContext
+    [JsonObject]
+    public class TextScanResponseDataResultDetailContext
     {
-        #region 属性
-
         /// <summary>
         ///     命中风险的内容。
         /// </summary>
-        [DataMember(Order = 1, Name = "context", IsRequired = true)]
+        [JsonProperty(Order = 1, PropertyName = "context", Required = Required.Always, DefaultValueHandling = DefaultValueHandling.Populate)]
         public string Context { get; set; }
 
         /// <summary>
         ///     命中自定义词库，才有本字段。值为创建词库时填写的词库名称。
         /// </summary>
-        [DataMember(Order = 2, Name = "libName")]
+        [JsonProperty(Order = 2, PropertyName = "libName", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string LibName { get; set; }
 
         /// <summary>
         ///     命中行为规则，才有该字段。可能取值user_id,ip,umid,content。
         /// </summary>
-        [DataMember(Order = 3, Name = "ruleType")]
+        [JsonProperty(Order = 3, PropertyName = "ruleType", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string RuleType { get; set; }
-
-        #endregion
     }
 }

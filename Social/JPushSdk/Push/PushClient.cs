@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using ServiceStack;
 using ServiceStack.Logging;
-using AsyncContext = Nito.AsyncEx.AsyncContext;
 
 namespace JPush.Push
 {
@@ -52,7 +51,7 @@ namespace JPush.Push
         /// <inheritdoc />
         public CidResponse Get(CidRequest request)
         {
-            return AsyncContext.Run(() => GetAsync(request));
+            return GetAsync(request).GetAwaiter().GetResult();
         }
 
         /// <inheritdoc />
@@ -84,7 +83,7 @@ namespace JPush.Push
         /// </summary>
         public PushResponse Post(PushRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(request));
+            return PostAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>

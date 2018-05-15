@@ -5,7 +5,6 @@ using ServiceStack;
 using ServiceStack.Extensions;
 using ServiceStack.Logging;
 using ServiceStack.Text;
-using AsyncContext = Nito.AsyncEx.AsyncContext;
 
 namespace Netease.Nim
 {
@@ -206,7 +205,7 @@ namespace Netease.Nim
         /// </summary>
         public UserCreateResponse Post(UserCreateRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(request));
+            return PostAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -240,7 +239,7 @@ namespace Netease.Nim
         /// </summary>
         public UserUpdateResponse Post(UserUpdateRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(request));
+            return PostAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -274,7 +273,7 @@ namespace Netease.Nim
         /// </summary>
         public UserBlockResponse Post(UserBlockRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(request));
+            return PostAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -308,7 +307,7 @@ namespace Netease.Nim
         /// </summary>
         public UserUnBlockResponse Post(UserUnBlockRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(request));
+            return PostAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -342,7 +341,7 @@ namespace Netease.Nim
         /// </summary>
         public UserUpdateInfoResponse Post(UserUpdateInfoRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(request));
+            return PostAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -376,7 +375,7 @@ namespace Netease.Nim
         /// </summary>
         public UserGetInfosResponse Post(UserGetInfosRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(request));
+            return PostAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -410,7 +409,7 @@ namespace Netease.Nim
         /// </summary>
         public UserSetSpecialRelationResponse Post(UserSetSpecialRelationRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(request));
+            return PostAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -448,7 +447,7 @@ namespace Netease.Nim
         /// </summary>
         public FriendAddResponse Post(FriendAddRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(request));
+            return PostAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -482,7 +481,7 @@ namespace Netease.Nim
         /// </summary>
         public FriendUpdateResponse Post(FriendUpdateRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(request));
+            return PostAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -516,7 +515,7 @@ namespace Netease.Nim
         /// </summary>
         public FriendDeleteResponse Post(FriendDeleteRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(request));
+            return PostAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -554,7 +553,7 @@ namespace Netease.Nim
         /// </summary>
         public MessageSendResponse Post(MessageSendRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(request));
+            return PostAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -588,7 +587,7 @@ namespace Netease.Nim
         /// </summary>
         public MessageSendBatchResponse Post(MessageSendBatchRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(request));
+            return PostAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -622,7 +621,7 @@ namespace Netease.Nim
         /// </summary>
         public MessageSendAttachResponse Post(MessageSendAttachRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(request));
+            return PostAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -656,7 +655,7 @@ namespace Netease.Nim
         /// </summary>
         public MessageSendBatchAttachResponse Post(MessageSendBatchAttachRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(request));
+            return PostAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -690,7 +689,7 @@ namespace Netease.Nim
         /// </summary>
         public MessageFileUploadResponse Post(MessageFileUploadRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(request));
+            return PostAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -724,7 +723,7 @@ namespace Netease.Nim
         /// </summary>
         public MessageRecallResponse Post(MessageRecallRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(request));
+            return PostAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -762,7 +761,7 @@ namespace Netease.Nim
         /// </summary>
         public TeamCreateResponse Post(TeamCreateRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(request));
+            return PostAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -796,7 +795,7 @@ namespace Netease.Nim
         /// </summary>
         public TeamAddMemberResponse Post(TeamAddMemberRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(request));
+            return PostAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -830,7 +829,7 @@ namespace Netease.Nim
         /// </summary>
         public TeamKickMemberResponse Post(TeamKickMemberRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(request));
+            return PostAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -864,7 +863,7 @@ namespace Netease.Nim
         /// </summary>
         public TeamRemoveResponse Post(TeamRemoveRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(request));
+            return PostAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -898,7 +897,7 @@ namespace Netease.Nim
         /// </summary>
         public TeamUpdateResponse Post(TeamUpdateRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(request));
+            return PostAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -932,7 +931,7 @@ namespace Netease.Nim
         /// </summary>
         public TeamQueryResponse Post(TeamQueryRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(request));
+            return PostAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -966,7 +965,7 @@ namespace Netease.Nim
         /// </summary>
         public TeamChangeOwnerResponse Post(TeamChangeOwnerRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(request));
+            return PostAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -1000,7 +999,7 @@ namespace Netease.Nim
         /// </summary>
         public TeamAddManagerResponse Post(TeamAddManagerRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(request));
+            return PostAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -1034,7 +1033,7 @@ namespace Netease.Nim
         /// </summary>
         public TeamRemoveManagerResponse Post(TeamRemoveManagerRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(request));
+            return PostAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -1068,7 +1067,7 @@ namespace Netease.Nim
         /// </summary>
         public TeamGetJoinedResponse Post(TeamGetJoinedRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(request));
+            return PostAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -1102,7 +1101,7 @@ namespace Netease.Nim
         /// </summary>
         public TeamUpdateMemberNickResponse Post(TeamUpdateMemberNickRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(request));
+            return PostAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -1136,7 +1135,7 @@ namespace Netease.Nim
         /// </summary>
         public TeamUpdateMemberMuteResponse Post(TeamUpdateMemberMuteRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(request));
+            return PostAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -1170,7 +1169,7 @@ namespace Netease.Nim
         /// </summary>
         public TeamMuteMemberResponse Post(TeamMuteMemberRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(request));
+            return PostAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -1204,7 +1203,7 @@ namespace Netease.Nim
         /// </summary>
         public TeamLeaveMemberResponse Post(TeamLeaveMemberRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(request));
+            return PostAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -1238,7 +1237,7 @@ namespace Netease.Nim
         /// </summary>
         public TeamMuteResponse Post(TeamMuteRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(request));
+            return PostAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -1272,7 +1271,7 @@ namespace Netease.Nim
         /// </summary>
         public TeamGetMutedMembersResponse Post(TeamGetMutedMembersRequest request)
         {
-            return AsyncContext.Run(() => PostAsync(request));
+            return PostAsync(request).GetAwaiter().GetResult();
         }
 
         /// <summary>
