@@ -155,8 +155,11 @@
     <Compile Include="Content\Repositories\RethinkDbVoteRepository.cs" />
     <Compile Include="Content\Repositories\RethinkDbLikeRepository.cs" />
     <Compile Include="Content\Repositories\RethinkDbPostRepository.cs" />
+    <Compile Include="Friendship\Entities\Block.cs" />
     <Compile Include="Friendship\Entities\Follow.cs" />
+    <Compile Include="Friendship\IBlockRepository.cs" />
     <Compile Include="Friendship\IFollowRepository.cs" />
+    <Compile Include="Friendship\Repositories\RethinkDbBlockRepository.cs" />
     <Compile Include="Friendship\Repositories\RethinkDbFollowRepository.cs" />
     <Compile Include="Geo\Entities\City.cs" />
     <Compile Include="Geo\Entities\State.cs" />
@@ -243,6 +246,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

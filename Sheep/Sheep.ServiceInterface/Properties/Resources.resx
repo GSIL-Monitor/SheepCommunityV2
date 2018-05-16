@@ -345,4 +345,10 @@
   <data name="InvalidSignature" xml:space="preserve">
     <value>签名“{0}”不符合政策规范。</value>
   </data>
+  <data name="BlockNotFound" xml:space="preserve">
+    <value>无法找到指定的屏蔽“{0}”。</value>
+  </data>
+  <data name="BlocksNotFound" xml:space="preserve">
+    <value>无法找到指定的屏蔽列表。</value>
+  </data>
 </root>

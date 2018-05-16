@@ -124,6 +124,17 @@
     <Compile Include="Achievements\AchievementCreate.cs" />
     <Compile Include="Achievements\AchievementDelete.cs" />
     <Compile Include="Achievements\AchievementUpdate.cs" />
+    <Compile Include="Blocks\Entities\BlockOfBlockerDto.cs" />
+    <Compile Include="Blocks\Entities\BlockOfBlockeeDto.cs" />
+    <Compile Include="Blocks\Entities\BlockDto.cs" />
+    <Compile Include="Blocks\BlockCreate.cs" />
+    <Compile Include="Blocks\BlockDelete.cs" />
+    <Compile Include="Blocks\BlockList.cs" />
+    <Compile Include="Blocks\BlockShow.cs" />
+    <Compile Include="Blocks\Validators\BlockCreateValidator.cs" />
+    <Compile Include="Blocks\Validators\BlockDeleteValidator.cs" />
+    <Compile Include="Blocks\Validators\BlockListValidator.cs" />
+    <Compile Include="Blocks\Validators\BlockShowValidator.cs" />
     <Compile Include="Bookmarks\BookmarkCreate.cs" />
     <Compile Include="Bookmarks\BookmarkDelete.cs" />
     <Compile Include="Bookmarks\BookmarkList.cs" />

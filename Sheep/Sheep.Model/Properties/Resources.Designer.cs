@@ -70,6 +70,15 @@ namespace Sheep.Model.Properties {
         }
         
         /// <summary>
+        ///   查找类似 被屏蔽用户{0}与屏蔽用户{1}的已经存在。 的本地化字符串。
+        /// </summary>
+        internal static string BlockeeWithBlockerAlreadyExists {
+            get {
+                return ResourceManager.GetString("BlockeeWithBlockerAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 书籍{0}与序号{1}的已经存在。 的本地化字符串。
         /// </summary>
         internal static string BookWithNumberAlreadyExists {

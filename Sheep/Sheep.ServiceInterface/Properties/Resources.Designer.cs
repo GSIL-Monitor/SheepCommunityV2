@@ -79,6 +79,24 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
+        ///   查找类似 无法找到指定的屏蔽“{0}”。 的本地化字符串。
+        /// </summary>
+        internal static string BlockNotFound {
+            get {
+                return ResourceManager.GetString("BlockNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定的屏蔽列表。 的本地化字符串。
+        /// </summary>
+        internal static string BlocksNotFound {
+            get {
+                return ResourceManager.GetString("BlocksNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 无法找到指定的收藏“{0}”。 的本地化字符串。
         /// </summary>
         internal static string BookmarkNotFound {

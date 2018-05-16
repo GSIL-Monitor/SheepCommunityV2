@@ -135,6 +135,13 @@
     <Compile Include="Accounts\BindAccountCredentialsService.cs" />
     <Compile Include="Accounts\LoginAccountByWeiboService.cs" />
     <Compile Include="AliyunHelper.cs" />
+    <Compile Include="Blocks\ChangeBlockService.cs" />
+    <Compile Include="Blocks\CreateBlockService.cs" />
+    <Compile Include="Blocks\DeleteBlockService.cs" />
+    <Compile Include="Blocks\ListBlockOfBlockerService.cs" />
+    <Compile Include="Blocks\ListBlockOfBlockeeService.cs" />
+    <Compile Include="Blocks\Mappers\BlockToBlockDtoMapper.cs" />
+    <Compile Include="Blocks\ShowBlockService.cs" />
     <Compile Include="Bookmarks\ChangeBookmarkService.cs" />
     <Compile Include="Bookmarks\BatchCreateBookmarkForParagraphsService.cs" />
     <Compile Include="Bookmarks\CreateBookmarkService.cs" />
