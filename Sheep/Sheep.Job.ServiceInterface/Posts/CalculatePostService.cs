@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Configuration;
@@ -8,6 +9,7 @@ using ServiceStack.Text;
 using Sheep.Job.ServiceInterface.Properties;
 using Sheep.Job.ServiceModel.Posts;
 using Sheep.Model.Content;
+using Sheep.Model.Friendship;
 
 namespace Sheep.Job.ServiceInterface.Posts
 {
@@ -43,6 +45,11 @@ namespace Sheep.Job.ServiceInterface.Posts
         public IUserAuthRepository AuthRepo { get; set; }
 
         /// <summary>
+        ///     获取及设置屏蔽的存储库。
+        /// </summary>
+        public IBlockRepository BlockRepo { get; set; }
+
+        /// <summary>
         ///     获取及设置帖子的存储库。
         /// </summary>
         public IPostRepository PostRepo { get; set; }
@@ -60,7 +67,10 @@ namespace Sheep.Job.ServiceInterface.Posts
             //{
             //    PostCalculateValidator.ValidateAndThrow(request, ApplyTo.Put);
             //}
-            var existingPosts = await PostRepo.FindPostsAsync(request.TitleFilter, request.Tag, request.ContentType, request.CreatedSince?.FromUnixTime(), request.ModifiedSince?.FromUnixTime(), request.PublishedSince?.FromUnixTime(), request.IsPublished ?? true, request.IsFeatured, "审核通过", request.OrderBy, request.Descending, request.Skip, request.Limit);
+            //var currentUserId = GetSession().UserAuthId.ToInt(0);
+            //var existingBlocks = await BlockRepo.FindBlocksByBlockerAsync(currentUserId, null, null, null, null, null, null);
+            //var blockedUserIds = existingBlocks.Select(block => block.BlockeeId).Distinct().ToList();
+            var existingPosts = await PostRepo.FindPostsAsync(request.TitleFilter, request.Tag, request.ContentType, request.CreatedSince?.FromUnixTime(), request.ModifiedSince?.FromUnixTime(), request.PublishedSince?.FromUnixTime(), request.IsPublished ?? true, request.IsFeatured, "审核通过", null, request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingPosts == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.PostsNotFound));

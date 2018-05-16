@@ -151,7 +151,7 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public List<Post> FindPosts(string titleFilter, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status, string orderBy, bool? descending, int? skip, int? limit)
+        public List<Post> FindPosts(string titleFilter, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status, List<int> excludedAuthorIds, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_PostTable).Filter(true);
             if (!tag.IsNullOrEmpty())
@@ -189,6 +189,10 @@ namespace Sheep.Model.Content.Repositories
             if (!status.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Status").Eq(status));
+            }
+            if (excludedAuthorIds != null && excludedAuthorIds.Count > 0)
+            {
+                query = query.Filter(row => R.Expr(excludedAuthorIds.ToArray()).Contains(row.G("AuthorId")));
             }
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
@@ -203,7 +207,7 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public Task<List<Post>> FindPostsAsync(string titleFilter, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status, string orderBy, bool? descending, int? skip, int? limit)
+        public Task<List<Post>> FindPostsAsync(string titleFilter, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status, List<int> excludedAuthorIds, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_PostTable).Filter(true);
             if (!tag.IsNullOrEmpty())
@@ -241,6 +245,10 @@ namespace Sheep.Model.Content.Repositories
             if (!status.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Status").Eq(status));
+            }
+            if (excludedAuthorIds != null && excludedAuthorIds.Count > 0)
+            {
+                query = query.Filter(row => R.Expr(excludedAuthorIds.ToArray()).Contains(row.G("AuthorId")));
             }
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
@@ -447,7 +455,7 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public List<Post> FindPostsByGroup(string groupId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status, string orderBy, bool? descending, int? skip, int? limit)
+        public List<Post> FindPostsByGroup(string groupId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status, List<int> excludedAuthorIds, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_PostTable).GetAll(groupId).OptArg("index", "GroupId").Filter(true);
             if (!contentType.IsNullOrEmpty())
@@ -481,6 +489,10 @@ namespace Sheep.Model.Content.Repositories
             if (!status.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Status").Eq(status));
+            }
+            if (excludedAuthorIds != null && excludedAuthorIds.Count > 0)
+            {
+                query = query.Filter(row => R.Expr(excludedAuthorIds.ToArray()).Contains(row.G("AuthorId")));
             }
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
@@ -495,7 +507,7 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public Task<List<Post>> FindPostsByGroupAsync(string groupId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status, string orderBy, bool? descending, int? skip, int? limit)
+        public Task<List<Post>> FindPostsByGroupAsync(string groupId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status, List<int> excludedAuthorIds, string orderBy, bool? descending, int? skip, int? limit)
         {
             var query = R.Table(s_PostTable).GetAll(groupId).OptArg("index", "GroupId").Filter(true);
             if (!contentType.IsNullOrEmpty())
@@ -530,6 +542,10 @@ namespace Sheep.Model.Content.Repositories
             {
                 query = query.Filter(row => row.G("Status").Eq(status));
             }
+            if (excludedAuthorIds != null && excludedAuthorIds.Count > 0)
+            {
+                query = query.Filter(row => R.Expr(excludedAuthorIds.ToArray()).Contains(row.G("AuthorId")));
+            }
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
             {
@@ -543,7 +559,7 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public int GetPostsCount(string titleFilter, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status)
+        public int GetPostsCount(string titleFilter, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status, List<int> excludedAuthorIds)
         {
             var query = R.Table(s_PostTable).Filter(true);
             if (!tag.IsNullOrEmpty())
@@ -581,12 +597,16 @@ namespace Sheep.Model.Content.Repositories
             if (!status.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Status").Eq(status));
+            }
+            if (excludedAuthorIds != null && excludedAuthorIds.Count > 0)
+            {
+                query = query.Filter(row => R.Expr(excludedAuthorIds.ToArray()).Contains(row.G("AuthorId")));
             }
             return query.Count().RunResult<int>(_conn);
         }
 
         /// <inheritdoc />
-        public Task<int> GetPostsCountAsync(string titleFilter, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status)
+        public Task<int> GetPostsCountAsync(string titleFilter, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status, List<int> excludedAuthorIds)
         {
             var query = R.Table(s_PostTable).Filter(true);
             if (!tag.IsNullOrEmpty())
@@ -624,6 +644,10 @@ namespace Sheep.Model.Content.Repositories
             if (!status.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Status").Eq(status));
+            }
+            if (excludedAuthorIds != null && excludedAuthorIds.Count > 0)
+            {
+                query = query.Filter(row => R.Expr(excludedAuthorIds.ToArray()).Contains(row.G("AuthorId")));
             }
             return query.Count().RunResultAsync<int>(_conn);
         }
@@ -863,7 +887,7 @@ namespace Sheep.Model.Content.Repositories
         }
 
         /// <inheritdoc />
-        public int GetPostsCountByGroup(string groupId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status)
+        public int GetPostsCountByGroup(string groupId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status, List<int> excludedAuthorIds)
         {
             var query = R.Table(s_PostTable).GetAll(groupId).OptArg("index", "GroupId").Filter(true);
             if (!contentType.IsNullOrEmpty())
@@ -897,12 +921,16 @@ namespace Sheep.Model.Content.Repositories
             if (!status.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Status").Eq(status));
+            }
+            if (excludedAuthorIds != null && excludedAuthorIds.Count > 0)
+            {
+                query = query.Filter(row => R.Expr(excludedAuthorIds.ToArray()).Contains(row.G("AuthorId")));
             }
             return query.Count().RunResult<int>(_conn);
         }
 
         /// <inheritdoc />
-        public Task<int> GetPostsCountByGroupAsync(string groupId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status)
+        public Task<int> GetPostsCountByGroupAsync(string groupId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status, List<int> excludedAuthorIds)
         {
             var query = R.Table(s_PostTable).GetAll(groupId).OptArg("index", "GroupId").Filter(true);
             if (!contentType.IsNullOrEmpty())
@@ -936,6 +964,10 @@ namespace Sheep.Model.Content.Repositories
             if (!status.IsNullOrEmpty())
             {
                 query = query.Filter(row => row.G("Status").Eq(status));
+            }
+            if (excludedAuthorIds != null && excludedAuthorIds.Count > 0)
+            {
+                query = query.Filter(row => R.Expr(excludedAuthorIds.ToArray()).Contains(row.G("AuthorId")));
             }
             return query.Count().RunResultAsync<int>(_conn);
         }

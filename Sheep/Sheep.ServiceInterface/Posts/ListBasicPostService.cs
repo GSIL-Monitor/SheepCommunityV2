@@ -8,6 +8,7 @@ using ServiceStack.Logging;
 using ServiceStack.Text;
 using Sheep.Common.Auth;
 using Sheep.Model.Content;
+using Sheep.Model.Friendship;
 using Sheep.ServiceInterface.Posts.Mappers;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Posts;
@@ -47,6 +48,11 @@ namespace Sheep.ServiceInterface.Posts
         public IUserAuthRepository AuthRepo { get; set; }
 
         /// <summary>
+        ///     获取及设置屏蔽的存储库。
+        /// </summary>
+        public IBlockRepository BlockRepo { get; set; }
+
+        /// <summary>
         ///     获取及设置帖子的存储库。
         /// </summary>
         public IPostRepository PostRepo { get; set; }
@@ -65,7 +71,10 @@ namespace Sheep.ServiceInterface.Posts
             //{
             //    BasicPostListValidator.ValidateAndThrow(request, ApplyTo.Get);
             //}
-            var existingPosts = await PostRepo.FindPostsAsync(request.TitleFilter, request.Tag, request.ContentType, request.CreatedSince?.FromUnixTime(), request.ModifiedSince?.FromUnixTime(), request.PublishedSince?.FromUnixTime(), request.IsPublished, request.IsFeatured, "审核通过", request.OrderBy, request.Descending, request.Skip, request.Limit);
+            var currentUserId = GetSession().UserAuthId.ToInt(0);
+            var existingBlocks = await BlockRepo.FindBlocksByBlockerAsync(currentUserId, null, null, null, null, null, null);
+            var blockedUserIds = existingBlocks.Select(block => block.BlockeeId).Distinct().ToList();
+            var existingPosts = await PostRepo.FindPostsAsync(request.TitleFilter, request.Tag, request.ContentType, request.CreatedSince?.FromUnixTime(), request.ModifiedSince?.FromUnixTime(), request.PublishedSince?.FromUnixTime(), request.IsPublished, request.IsFeatured, "审核通过", blockedUserIds, request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingPosts == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.PostsNotFound));
