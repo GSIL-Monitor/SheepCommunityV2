@@ -192,7 +192,7 @@ namespace Sheep.Model.Content.Repositories
             }
             if (excludedAuthorIds != null && excludedAuthorIds.Count > 0)
             {
-                query = query.Filter(row => R.Expr(excludedAuthorIds.ToArray()).Contains(row.G("AuthorId")));
+                query = query.Filter(row => R.Expr(excludedAuthorIds.ToArray()).Contains(row.G("AuthorId")).Not());
             }
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
@@ -248,7 +248,7 @@ namespace Sheep.Model.Content.Repositories
             }
             if (excludedAuthorIds != null && excludedAuthorIds.Count > 0)
             {
-                query = query.Filter(row => R.Expr(excludedAuthorIds.ToArray()).Contains(row.G("AuthorId")));
+                query = query.Filter(row => R.Expr(excludedAuthorIds.ToArray()).Contains(row.G("AuthorId")).Not());
             }
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
@@ -492,7 +492,7 @@ namespace Sheep.Model.Content.Repositories
             }
             if (excludedAuthorIds != null && excludedAuthorIds.Count > 0)
             {
-                query = query.Filter(row => R.Expr(excludedAuthorIds.ToArray()).Contains(row.G("AuthorId")));
+                query = query.Filter(row => R.Expr(excludedAuthorIds.ToArray()).Contains(row.G("AuthorId")).Not());
             }
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
@@ -544,7 +544,7 @@ namespace Sheep.Model.Content.Repositories
             }
             if (excludedAuthorIds != null && excludedAuthorIds.Count > 0)
             {
-                query = query.Filter(row => R.Expr(excludedAuthorIds.ToArray()).Contains(row.G("AuthorId")));
+                query = query.Filter(row => R.Expr(excludedAuthorIds.ToArray()).Contains(row.G("AuthorId")).Not());
             }
             OrderBy queryOrder;
             if (!orderBy.IsNullOrEmpty())
@@ -600,7 +600,7 @@ namespace Sheep.Model.Content.Repositories
             }
             if (excludedAuthorIds != null && excludedAuthorIds.Count > 0)
             {
-                query = query.Filter(row => R.Expr(excludedAuthorIds.ToArray()).Contains(row.G("AuthorId")));
+                query = query.Filter(row => R.Expr(excludedAuthorIds.ToArray()).Contains(row.G("AuthorId")).Not());
             }
             return query.Count().RunResult<int>(_conn);
         }
@@ -647,7 +647,7 @@ namespace Sheep.Model.Content.Repositories
             }
             if (excludedAuthorIds != null && excludedAuthorIds.Count > 0)
             {
-                query = query.Filter(row => R.Expr(excludedAuthorIds.ToArray()).Contains(row.G("AuthorId")));
+                query = query.Filter(row => R.Expr(excludedAuthorIds.ToArray()).Contains(row.G("AuthorId")).Not());
             }
             return query.Count().RunResultAsync<int>(_conn);
         }
@@ -924,7 +924,7 @@ namespace Sheep.Model.Content.Repositories
             }
             if (excludedAuthorIds != null && excludedAuthorIds.Count > 0)
             {
-                query = query.Filter(row => R.Expr(excludedAuthorIds.ToArray()).Contains(row.G("AuthorId")));
+                query = query.Filter(row => R.Expr(excludedAuthorIds.ToArray()).Contains(row.G("AuthorId")).Not());
             }
             return query.Count().RunResult<int>(_conn);
         }
@@ -967,7 +967,7 @@ namespace Sheep.Model.Content.Repositories
             }
             if (excludedAuthorIds != null && excludedAuthorIds.Count > 0)
             {
-                query = query.Filter(row => R.Expr(excludedAuthorIds.ToArray()).Contains(row.G("AuthorId")));
+                query = query.Filter(row => R.Expr(excludedAuthorIds.ToArray()).Contains(row.G("AuthorId")).Not());
             }
             return query.Count().RunResultAsync<int>(_conn);
         }
