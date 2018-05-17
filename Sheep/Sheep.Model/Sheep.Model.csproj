@@ -125,6 +125,7 @@
     <Compile Include="Bookstore\Entities\ChapterRead.cs" />
     <Compile Include="Bookstore\IChapterReadRepository.cs" />
     <Compile Include="Bookstore\Repositories\RethinkDbChapterReadRepository.cs" />
+    <Compile Include="Content\Entities\PostBlock.cs" />
     <Compile Include="Content\Entities\Feedback.cs" />
     <Compile Include="Content\Entities\Bookmark.cs" />
     <Compile Include="Content\Entities\AbuseReport.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="Content\Entities\Vote.cs" />
     <Compile Include="Content\Entities\Like.cs" />
     <Compile Include="Content\Entities\Post.cs" />
+    <Compile Include="Content\IPostBlockRepository.cs" />
     <Compile Include="Content\IFeedbackRepository.cs" />
     <Compile Include="Content\IBookmarkRepository.cs" />
     <Compile Include="Content\IAbuseReportRepository.cs" />
@@ -145,6 +147,7 @@
     <Compile Include="Content\IVoteRepository.cs" />
     <Compile Include="Content\ILikeRepository.cs" />
     <Compile Include="Content\IPostRepository.cs" />
+    <Compile Include="Content\Repositories\RethinkDbPostBlockRepository.cs" />
     <Compile Include="Content\Repositories\RethinkDbFeedbackRepository.cs" />
     <Compile Include="Content\Repositories\RethinkDbBookmarkRepository.cs" />
     <Compile Include="Content\Repositories\RethinkDbAbuseReportRepository.cs" />
@@ -221,7 +224,6 @@
     <Compile Include="Security\Repositories\RethinkDbSecurityStampRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

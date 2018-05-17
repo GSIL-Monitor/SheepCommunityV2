@@ -174,9 +174,6 @@
   <data name="UserNameOrEmailRequired" xml:space="preserve">
     <value>用户名称或电子邮件地址必须输入。</value>
   </data>
-  <data name="PostAlreadyExists" xml:space="preserve">
-    <value>用户名称已经存在。</value>
-  </data>
   <data name="ContentWithUserAlreadyExists" xml:space="preserve">
     <value>内容{0}与用户{1}的已经存在。</value>
   </data>
@@ -209,5 +206,8 @@
   </data>
   <data name="BlockeeWithBlockerAlreadyExists" xml:space="preserve">
     <value>被屏蔽用户{0}与屏蔽用户{1}的已经存在。</value>
+  </data>
+  <data name="PostWithBlockerAlreadyExists" xml:space="preserve">
+    <value>帖子{0}与屏蔽用户{1}的已经存在。</value>
   </data>
 </root>

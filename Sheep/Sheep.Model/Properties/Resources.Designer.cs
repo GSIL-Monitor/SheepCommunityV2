@@ -259,11 +259,11 @@ namespace Sheep.Model.Properties {
         }
         
         /// <summary>
-        ///   查找类似 用户名称已经存在。 的本地化字符串。
+        ///   查找类似 帖子{0}与屏蔽用户{1}的已经存在。 的本地化字符串。
         /// </summary>
-        internal static string PostAlreadyExists {
+        internal static string PostWithBlockerAlreadyExists {
             get {
-                return ResourceManager.GetString("PostAlreadyExists", resourceCulture);
+                return ResourceManager.GetString("PostWithBlockerAlreadyExists", resourceCulture);
             }
         }
         

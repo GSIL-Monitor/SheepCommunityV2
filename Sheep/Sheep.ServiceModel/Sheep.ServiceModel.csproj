@@ -434,7 +434,6 @@
     <Folder Include="UserAchievements\Validators\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
