@@ -520,6 +520,24 @@ namespace Sheep.ServiceInterface.Properties {
         }
         
         /// <summary>
+        ///   查找类似 无法找到指定的帖子屏蔽“{0}”。 的本地化字符串。
+        /// </summary>
+        internal static string PostBlockNotFound {
+            get {
+                return ResourceManager.GetString("PostBlockNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无法找到指定的帖子屏蔽列表。 的本地化字符串。
+        /// </summary>
+        internal static string PostBlocksNotFound {
+            get {
+                return ResourceManager.GetString("PostBlocksNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 无法找到指定的帖子“{0}”。 的本地化字符串。
         /// </summary>
         internal static string PostNotFound {

@@ -278,6 +278,15 @@
     <Compile Include="Paragraphs\Validators\ParagraphListValidator.cs" />
     <Compile Include="Paragraphs\Validators\ParagraphShowValidator.cs" />
     <Compile Include="Paragraphs\Validators\ParagraphUpdateValidator.cs" />
+    <Compile Include="PostBlocks\PostBlockCreate.cs" />
+    <Compile Include="PostBlocks\PostBlockDelete.cs" />
+    <Compile Include="PostBlocks\PostBlockList.cs" />
+    <Compile Include="PostBlocks\PostBlockShow.cs" />
+    <Compile Include="PostBlocks\Entities\PostBlockDto.cs" />
+    <Compile Include="PostBlocks\Validators\PostBlockCreateValidator.cs" />
+    <Compile Include="PostBlocks\Validators\PostBlockDeleteValidator.cs" />
+    <Compile Include="PostBlocks\Validators\PostBlockListValidator.cs" />
+    <Compile Include="PostBlocks\Validators\PostBlockShowValidator.cs" />
     <Compile Include="Posts\Entities\BasicPostDto.cs" />
     <Compile Include="Posts\Entities\PostDto.cs" />
     <Compile Include="Posts\BasicPostList.cs" />

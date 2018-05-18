@@ -261,6 +261,14 @@
     <Compile Include="Paragraphs\ShowParagraphService.cs" />
     <Compile Include="Paragraphs\UpdateParagraphAnnotationService.cs" />
     <Compile Include="Paragraphs\UpdateParagraphService.cs" />
+    <Compile Include="PostBlocks\ChangePostBlockService.cs" />
+    <Compile Include="PostBlocks\CreatePostBlockService.cs" />
+    <Compile Include="PostBlocks\DeletePostBlockService.cs" />
+    <Compile Include="PostBlocks\ListPostBlock.cs" />
+    <Compile Include="PostBlocks\ListPostBlockByPostService.cs" />
+    <Compile Include="PostBlocks\ListPostBlockByUserService.cs" />
+    <Compile Include="PostBlocks\Mappers\PostBlockToPostBlockDtoMapper.cs" />
+    <Compile Include="PostBlocks\ShowPostBlockService.cs" />
     <Compile Include="Posts\ChangePostService.cs" />
     <Compile Include="Posts\CreatePostService.cs" />
     <Compile Include="Posts\PushPostService.cs" />

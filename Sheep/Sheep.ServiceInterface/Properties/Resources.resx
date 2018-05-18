@@ -351,4 +351,10 @@
   <data name="BlocksNotFound" xml:space="preserve">
     <value>无法找到指定的屏蔽列表。</value>
   </data>
+  <data name="PostBlockNotFound" xml:space="preserve">
+    <value>无法找到指定的帖子屏蔽“{0}”。</value>
+  </data>
+  <data name="PostBlocksNotFound" xml:space="preserve">
+    <value>无法找到指定的帖子屏蔽列表。</value>
+  </data>
 </root>

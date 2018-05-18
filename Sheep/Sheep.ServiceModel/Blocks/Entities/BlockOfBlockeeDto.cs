@@ -18,13 +18,13 @@ namespace Sheep.ServiceModel.Blocks.Entities
         /// <summary>
         ///     创建日期。
         /// </summary>
-        [DataMember(Order = 3)]
+        [DataMember(Order = 2)]
         public long CreatedDate { get; set; }
 
         /// <summary>
         ///     更新日期。
         /// </summary>
-        [DataMember(Order = 4)]
+        [DataMember(Order = 3)]
         public long ModifiedDate { get; set; }
     }
 }
