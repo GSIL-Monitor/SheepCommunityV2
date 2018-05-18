@@ -57,6 +57,16 @@ namespace Sheep.ServiceInterface.Posts
         /// </summary>
         public IPostRepository PostRepo { get; set; }
 
+        /// <summary>
+        ///     获取及设置屏蔽的存储库。
+        /// </summary>
+        public IBlockRepository BlockRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置帖子屏蔽的存储库。
+        /// </summary>
+        public IPostBlockRepository PostBlockRepo { get; set; }
+
         #endregion
 
         #region 根据已关注的作者列表列举一组帖子基本信息
@@ -76,12 +86,18 @@ namespace Sheep.ServiceInterface.Posts
             //    BasicPostListByFollowingOwnersValidator.ValidateAndThrow(request, ApplyTo.Get);
             //}
             var currentUserId = GetSession().UserAuthId.ToInt(0);
+            var existingBlocks = await BlockRepo.FindBlocksByBlockerAsync(currentUserId, null, null, null, null, null, null);
+            var blockedUserIds = existingBlocks.Select(block => block.BlockeeId).Distinct().ToList();
+            var existingPostBlocks = await PostBlockRepo.FindPostBlocksByBlockerAsync(currentUserId, null, null, null, null, null, null);
+            var blockedPostIds = existingPostBlocks.Select(postBlock => postBlock.PostId).Distinct().ToList();
             var existingFollows = await FollowRepo.FindFollowsByFollowerAsync(currentUserId, null, null, null, null, null, null);
             if (existingFollows == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.FollowsNotFound));
             }
-            var existingPosts = await PostRepo.FindPostsByAuthorsAsync(existingFollows.Select(follow => follow.OwnerId).Distinct().ToList(), request.Tag, request.ContentType, request.CreatedSince?.FromUnixTime(), request.ModifiedSince?.FromUnixTime(), request.PublishedSince?.FromUnixTime(), request.IsPublished ?? true, request.IsFeatured, "审核通过", request.OrderBy, request.Descending, request.Skip, request.Limit);
+            var existingPosts = await PostRepo.FindPostsByAuthorsAsync(existingFollows.Select(follow => follow.OwnerId).Distinct().ToList(), request.Tag, request.ContentType, request.CreatedSince?.FromUnixTime(),
+                                                                       request.ModifiedSince?.FromUnixTime(), request.PublishedSince?.FromUnixTime(), request.IsPublished ?? true, request.IsFeatured, "审核通过", blockedUserIds, blockedPostIds,
+                                                                       request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingPosts == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.PostsNotFound));

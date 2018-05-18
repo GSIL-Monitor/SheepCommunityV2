@@ -96,13 +96,15 @@ namespace Sheep.Model.Content
         /// <param name="isPublished">是否已发布。</param>
         /// <param name="isFeatured">是否标记为精选。</param>
         /// <param name="status"> 过滤状态。</param>
+        /// <param name="excludedAuthorIds">排除的作者编号列表。</param>
+        /// <param name="excludedPostIds">排除的帖子编号列表。</param>
         /// <param name="orderBy">排序的字段。</param>
         /// <param name="descending">是否按降序排序。</param>
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>帖子列表。</returns>
-        List<Post> FindPostsByAuthor(int authorId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status, string orderBy,
-                                     bool? descending, int? skip, int? limit);
+        List<Post> FindPostsByAuthor(int authorId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status, List<int> excludedAuthorIds,
+                                     List<string> excludedPostIds, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
         ///     异步根据作者查找帖子列表。
@@ -116,13 +118,15 @@ namespace Sheep.Model.Content
         /// <param name="isPublished">是否已发布。</param>
         /// <param name="isFeatured">是否标记为精选。</param>
         /// <param name="status"> 过滤状态。</param>
+        /// <param name="excludedAuthorIds">排除的作者编号列表。</param>
+        /// <param name="excludedPostIds">排除的帖子编号列表。</param>
         /// <param name="orderBy">排序的字段。</param>
         /// <param name="descending">是否按降序排序。</param>
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>帖子列表。</returns>
-        Task<List<Post>> FindPostsByAuthorAsync(int authorId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status, string orderBy,
-                                                bool? descending, int? skip, int? limit);
+        Task<List<Post>> FindPostsByAuthorAsync(int authorId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status,
+                                                List<int> excludedAuthorIds, List<string> excludedPostIds, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
         ///     根据作者列表查找帖子列表。
@@ -136,13 +140,15 @@ namespace Sheep.Model.Content
         /// <param name="isPublished">是否已发布。</param>
         /// <param name="isFeatured">是否标记为精选。</param>
         /// <param name="status"> 过滤状态。</param>
+        /// <param name="excludedAuthorIds">排除的作者编号列表。</param>
+        /// <param name="excludedPostIds">排除的帖子编号列表。</param>
         /// <param name="orderBy">排序的字段。</param>
         /// <param name="descending">是否按降序排序。</param>
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>帖子列表。</returns>
-        List<Post> FindPostsByAuthors(List<int> authorIds, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status, string orderBy,
-                                      bool? descending, int? skip, int? limit);
+        List<Post> FindPostsByAuthors(List<int> authorIds, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status,
+                                      List<int> excludedAuthorIds, List<string> excludedPostIds, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
         ///     异步根据作者列表查找帖子列表。
@@ -156,13 +162,15 @@ namespace Sheep.Model.Content
         /// <param name="isPublished">是否已发布。</param>
         /// <param name="isFeatured">是否标记为精选。</param>
         /// <param name="status"> 过滤状态。</param>
+        /// <param name="excludedAuthorIds">排除的作者编号列表。</param>
+        /// <param name="excludedPostIds">排除的帖子编号列表。</param>
         /// <param name="orderBy">排序的字段。</param>
         /// <param name="descending">是否按降序排序。</param>
         /// <param name="skip">忽略的行数。</param>
         /// <param name="limit">获取的行数。</param>
         /// <returns>帖子列表。</returns>
         Task<List<Post>> FindPostsByAuthorsAsync(List<int> authorIds, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status,
-                                                 string orderBy, bool? descending, int? skip, int? limit);
+                                                 List<int> excludedAuthorIds, List<string> excludedPostIds, string orderBy, bool? descending, int? skip, int? limit);
 
         /// <summary>
         ///     根据群组查找帖子列表。
@@ -260,8 +268,11 @@ namespace Sheep.Model.Content
         /// <param name="isPublished">是否已发布。</param>
         /// <param name="isFeatured">是否标记为精选。</param>
         /// <param name="status"> 过滤状态。</param>
+        /// <param name="excludedAuthorIds">排除的作者编号列表。</param>
+        /// <param name="excludedPostIds">排除的帖子编号列表。</param>
         /// <returns>帖子数量。</returns>
-        int GetPostsCountByAuthor(int authorId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status);
+        int GetPostsCountByAuthor(int authorId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status, List<int> excludedAuthorIds,
+                                  List<string> excludedPostIds);
 
         /// <summary>
         ///     异步根据作者获取帖子数量。
@@ -275,8 +286,11 @@ namespace Sheep.Model.Content
         /// <param name="isPublished">是否已发布。</param>
         /// <param name="isFeatured">是否标记为精选。</param>
         /// <param name="status"> 过滤状态。</param>
+        /// <param name="excludedAuthorIds">排除的作者编号列表。</param>
+        /// <param name="excludedPostIds">排除的帖子编号列表。</param>
         /// <returns>帖子数量。</returns>
-        Task<int> GetPostsCountByAuthorAsync(int authorId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status);
+        Task<int> GetPostsCountByAuthorAsync(int authorId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status,
+                                             List<int> excludedAuthorIds, List<string> excludedPostIds);
 
         /// <summary>
         ///     根据作者查找帖子平均内容质量的得分。
@@ -290,8 +304,11 @@ namespace Sheep.Model.Content
         /// <param name="isPublished">是否已发布。</param>
         /// <param name="isFeatured">是否标记为精选。</param>
         /// <param name="status"> 过滤状态。</param>
+        /// <param name="excludedAuthorIds">排除的作者编号列表。</param>
+        /// <param name="excludedPostIds">排除的帖子编号列表。</param>
         /// <returns>帖子平均内容质量的得分。</returns>
-        float GetPostsAverageContentScoreByAuthor(int authorId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status);
+        float GetPostsAverageContentScoreByAuthor(int authorId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status,
+                                                  List<int> excludedAuthorIds, List<string> excludedPostIds);
 
         /// <summary>
         ///     异步根据作者获取帖子平均内容质量的得分。
@@ -305,8 +322,11 @@ namespace Sheep.Model.Content
         /// <param name="isPublished">是否已发布。</param>
         /// <param name="isFeatured">是否标记为精选。</param>
         /// <param name="status"> 过滤状态。</param>
+        /// <param name="excludedAuthorIds">排除的作者编号列表。</param>
+        /// <param name="excludedPostIds">排除的帖子编号列表。</param>
         /// <returns>帖子平均内容质量的得分。</returns>
-        Task<float> GetPostsAverageContentScoreByAuthorAsync(int authorId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status);
+        Task<float> GetPostsAverageContentScoreByAuthorAsync(int authorId, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status,
+                                                             List<int> excludedAuthorIds, List<string> excludedPostIds);
 
         /// <summary>
         ///     根据作者列表查找帖子数量。
@@ -320,8 +340,11 @@ namespace Sheep.Model.Content
         /// <param name="isPublished">是否已发布。</param>
         /// <param name="isFeatured">是否标记为精选。</param>
         /// <param name="status"> 过滤状态。</param>
+        /// <param name="excludedAuthorIds">排除的作者编号列表。</param>
+        /// <param name="excludedPostIds">排除的帖子编号列表。</param>
         /// <returns>帖子数量。</returns>
-        int GetPostsCountByAuthors(List<int> authorIds, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status);
+        int GetPostsCountByAuthors(List<int> authorIds, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status,
+                                   List<int> excludedAuthorIds, List<string> excludedPostIds);
 
         /// <summary>
         ///     异步根据作者获取帖子数量。
@@ -335,8 +358,11 @@ namespace Sheep.Model.Content
         /// <param name="isPublished">是否已发布。</param>
         /// <param name="isFeatured">是否标记为精选。</param>
         /// <param name="status"> 过滤状态。</param>
+        /// <param name="excludedAuthorIds">排除的作者编号列表。</param>
+        /// <param name="excludedPostIds">排除的帖子编号列表。</param>
         /// <returns>帖子数量。</returns>
-        Task<int> GetPostsCountByAuthorsAsync(List<int> authorIds, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status);
+        Task<int> GetPostsCountByAuthorsAsync(List<int> authorIds, string tag, string contentType, DateTime? createdSince, DateTime? modifiedSince, DateTime? publishedSince, bool? isPublished, bool? isFeatured, string status,
+                                              List<int> excludedAuthorIds, List<string> excludedPostIds);
 
         /// <summary>
         ///     根据群组获取帖子数量。

@@ -48,19 +48,9 @@ namespace Sheep.ServiceInterface.Posts
         public IUserAuthRepository AuthRepo { get; set; }
 
         /// <summary>
-        ///     获取及设置屏蔽的存储库。
-        /// </summary>
-        public IBlockRepository BlockRepo { get; set; }
-
-        /// <summary>
         ///     获取及设置帖子的存储库。
         /// </summary>
         public IPostRepository PostRepo { get; set; }
-
-        /// <summary>
-        ///     获取及设置帖子屏蔽的存储库。
-        /// </summary>
-        public IPostBlockRepository PostBlockRepo { get; set; }
 
         /// <summary>
         ///     获取及设置评论的存储库。
@@ -71,6 +61,16 @@ namespace Sheep.ServiceInterface.Posts
         ///     获取及设置点赞的存储库。
         /// </summary>
         public ILikeRepository LikeRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置屏蔽的存储库。
+        /// </summary>
+        public IBlockRepository BlockRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置帖子屏蔽的存储库。
+        /// </summary>
+        public IPostBlockRepository PostBlockRepo { get; set; }
 
         #endregion
 

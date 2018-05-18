@@ -8,6 +8,7 @@ using ServiceStack.Logging;
 using ServiceStack.Text;
 using Sheep.Common.Auth;
 using Sheep.Model.Content;
+using Sheep.Model.Friendship;
 using Sheep.ServiceInterface.Posts.Mappers;
 using Sheep.ServiceInterface.Properties;
 using Sheep.ServiceModel.Posts;
@@ -61,6 +62,16 @@ namespace Sheep.ServiceInterface.Posts
         /// </summary>
         public ILikeRepository LikeRepo { get; set; }
 
+        /// <summary>
+        ///     获取及设置屏蔽的存储库。
+        /// </summary>
+        public IBlockRepository BlockRepo { get; set; }
+
+        /// <summary>
+        ///     获取及设置帖子屏蔽的存储库。
+        /// </summary>
+        public IPostBlockRepository PostBlockRepo { get; set; }
+
         #endregion
 
         #region 根据作者列举一组帖子
@@ -75,13 +86,18 @@ namespace Sheep.ServiceInterface.Posts
             //{
             //    PostListByAuthorValidator.ValidateAndThrow(request, ApplyTo.Get);
             //}
-            var existingPosts = await PostRepo.FindPostsByAuthorAsync(request.AuthorId, request.Tag, request.ContentType, request.CreatedSince?.FromUnixTime(), request.ModifiedSince?.FromUnixTime(), request.PublishedSince?.FromUnixTime(), request.IsPublished, request.IsFeatured, "审核通过", request.OrderBy, request.Descending, request.Skip, request.Limit);
+            var currentUserId = GetSession().UserAuthId.ToInt(0);
+            var existingBlocks = await BlockRepo.FindBlocksByBlockerAsync(currentUserId, null, null, null, null, null, null);
+            var blockedUserIds = existingBlocks.Select(block => block.BlockeeId).Distinct().ToList();
+            var existingPostBlocks = await PostBlockRepo.FindPostBlocksByBlockerAsync(currentUserId, null, null, null, null, null, null);
+            var blockedPostIds = existingPostBlocks.Select(postBlock => postBlock.PostId).Distinct().ToList();
+            var existingPosts = await PostRepo.FindPostsByAuthorAsync(request.AuthorId, request.Tag, request.ContentType, request.CreatedSince?.FromUnixTime(), request.ModifiedSince?.FromUnixTime(), request.PublishedSince?.FromUnixTime(),
+                                                                      request.IsPublished, request.IsFeatured, "审核通过", blockedUserIds, blockedPostIds, request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingPosts == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.PostsNotFound));
             }
             var authorsMap = (await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthsAsync(existingPosts.Select(post => post.AuthorId.ToString()).Distinct().ToList())).ToDictionary(author => author.Id, author => author);
-            var currentUserId = GetSession().UserAuthId.ToInt(0);
             var commentsMap = (await CommentRepo.GetCommentsCountByParentsAsync(existingPosts.Select(post => post.Id).ToList(), currentUserId, null, null, null, "审核通过")).ToDictionary(pair => pair.Key, pair => pair.Value);
             var postsDto = existingPosts.Select(post => post.MapToPostDto(authorsMap.GetValueOrDefault(post.AuthorId), commentsMap.GetValueOrDefault(post.Id) > 0)).ToList();
             return new PostListResponse
