@@ -70,7 +70,7 @@ namespace Sheep.Job.ServiceInterface.Posts
             //var currentUserId = GetSession().UserAuthId.ToInt(0);
             //var existingBlocks = await BlockRepo.FindBlocksByBlockerAsync(currentUserId, null, null, null, null, null, null);
             //var blockedUserIds = existingBlocks.Select(block => block.BlockeeId).Distinct().ToList();
-            var existingPosts = await PostRepo.FindPostsAsync(request.TitleFilter, request.Tag, request.ContentType, request.CreatedSince?.FromUnixTime(), request.ModifiedSince?.FromUnixTime(), request.PublishedSince?.FromUnixTime(), request.IsPublished ?? true, request.IsFeatured, "审核通过", null, request.OrderBy, request.Descending, request.Skip, request.Limit);
+            var existingPosts = await PostRepo.FindPostsAsync(request.TitleFilter, request.Tag, request.ContentType, request.CreatedSince?.FromUnixTime(), request.ModifiedSince?.FromUnixTime(), request.PublishedSince?.FromUnixTime(), request.IsPublished ?? true, request.IsFeatured, "审核通过", null, null, request.OrderBy, request.Descending, request.Skip, request.Limit);
             if (existingPosts == null)
             {
                 throw HttpError.NotFound(string.Format(Resources.PostsNotFound));

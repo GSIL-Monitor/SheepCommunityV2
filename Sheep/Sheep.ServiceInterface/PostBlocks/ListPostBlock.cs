@@ -80,7 +80,7 @@ namespace Sheep.ServiceInterface.PostBlocks
                 throw HttpError.NotFound(string.Format(Resources.PostBlocksNotFound));
             }
             var postsMap = (await PostRepo.GetPostsAsync(existingPostBlocks.Select(postBlock => postBlock.PostId).Distinct().ToList())).ToDictionary(post => post.Id, post => post);
-            var postAuthorsMap = (await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthsAsync(postsMap.Select(postPair => postPair.Value.AuthorId.ToString()).Distinct().ToList())).ToDictionary(postAuthAuth => postAuthAuth.Id, postAuthAuth => postAuthAuth);
+            var postAuthorsMap = (await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthsAsync(postsMap.Select(postPair => postPair.Value.AuthorId.ToString()).Distinct().ToList())).ToDictionary(postAuthorAuth => postAuthorAuth.Id, postAuthorAuth => postAuthorAuth);
             var blockersMap =(await ((IUserAuthRepositoryExtended) AuthRepo).GetUserAuthsAsync(existingPostBlocks.Select(postBlock => postBlock.BlockerId.ToString()).Distinct().ToList())).ToDictionary(blockerAuth => blockerAuth.Id, blockerAuth => blockerAuth);
             var postBlocksDto = existingPostBlocks.Select(postBlock =>
                                                           {
