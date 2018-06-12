@@ -25,9 +25,16 @@ namespace Sheep.ServiceModel.Qiniu
     public class UploadTokenGenerateResponse
     {
         /// <summary>
-        ///     上传凭证。
+        ///     关键字。
         /// </summary>
         [DataMember(Order = 1)]
+        [ApiMember(Description = "关键字")]
+        public string Key { get; set; }
+
+        /// <summary>
+        ///     上传凭证。
+        /// </summary>
+        [DataMember(Order = 2)]
         [ApiMember(Description = "上传凭证")]
         public string UploadToken { get; set; }
     }

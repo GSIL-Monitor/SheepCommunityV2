@@ -1,4 +1,5 @@
-﻿using Qiniu.Storage;
+﻿using System;
+using Qiniu.Storage;
 using Qiniu.Util;
 using ServiceStack;
 using ServiceStack.Configuration;
@@ -81,6 +82,7 @@ namespace Sheep.ServiceInterface.Qiniu
             var uploadToken = Auth.CreateUploadToken(mac, putPolicy.ToJsonString());
             return new UploadTokenGenerateResponse
                    {
+                       Key = string.Format("{0:N}.jpg", Guid.NewGuid()),
                        UploadToken = uploadToken
                    };
         }
