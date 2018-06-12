@@ -88,6 +88,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\AppSettingsDbNames.cs" />
     <Compile Include="Settings\AppSettingsHostNames.cs" />
+    <Compile Include="Settings\AppSettingsQiniuNames.cs" />
     <Compile Include="Settings\AppSettingsNeteaseNimNames.cs" />
     <Compile Include="Settings\AppSettingsGreenNames.cs" />
     <Compile Include="Settings\AppSettingsOssNames.cs" />

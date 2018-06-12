@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="ServiceStack, Version=5.0.0.0, Culture=neutral, PublicKeyToken=02c12cbda47e6587, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ServiceStack.5.1.0\lib\net45\ServiceStack.dll</HintPath>
     </Reference>
@@ -303,6 +306,7 @@
     <Compile Include="Posts\Validators\PostCreateValidator.cs" />
     <Compile Include="Posts\Validators\PostListValidator.cs" />
     <Compile Include="Posts\Validators\PostShowValidator.cs" />
+    <Compile Include="Qiniu\UploadTokenGenerate.cs" />
     <Compile Include="Recommendations\RecommendationCreate.cs" />
     <Compile Include="Recommendations\RecommendationDelete.cs" />
     <Compile Include="Recommendations\RecommendationList.cs" />
@@ -443,6 +447,7 @@
     <Folder Include="UserAchievements\Validators\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
